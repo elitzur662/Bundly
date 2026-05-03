@@ -12,14 +12,22 @@ const stripePromise = getStripePromise();
 
 // iOS Safari 100vh fix — sets a CSS var to the actual visible viewport height,
 // so .h-screen-safe / .min-h-screen-safe (defined in index.css) won't be cut off
-// by the URL bar. Updates on every orientation/resize.
+// by the URL bar. Also reacts to keyboard open/close on mobile via the
+// visualViewport API, so chat input + modals stay above the on-screen keyboard.
 function _setVhVar() {
-  const vh = window.innerHeight * 0.01;
+  // visualViewport.height shrinks when iOS keyboard opens, window.innerHeight
+  // does not. Prefer visualViewport when available for accurate keyboard handling.
+  const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  const vh = h * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 _setVhVar();
 window.addEventListener('resize', _setVhVar);
 window.addEventListener('orientationchange', _setVhVar);
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', _setVhVar);
+  window.visualViewport.addEventListener('scroll', _setVhVar);
+}
 
 // Top-level error boundary so a single bad component can't blank the whole
 // page. React 18+ still falls back to white-screen on uncaught render errors;

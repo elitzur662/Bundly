@@ -19335,17 +19335,29 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
         </button>
       )}
 
-      {/* ── Chat Panel ── */}
+      {/* ── Chat Panel ──
+            On mobile (≤640px) it's fullscreen so the keyboard doesn't push the
+            input off-screen. On desktop it floats in the bottom-right corner.
+            Uses 100dvh (dynamic viewport height) so iOS Safari's URL bar
+            doesn't cut off the bottom — fallback to --vh CSS var on older
+            browsers (set in main.jsx). */}
       {isOpen && (
         <div
-          className="fixed z-50 flex flex-col bg-white shadow-2xl overflow-hidden"
+          className="fixed z-50 flex flex-col bg-white shadow-2xl overflow-hidden
+                     inset-0 sm:inset-auto sm:bottom-4 sm:right-4
+                     w-full sm:w-[400px] sm:max-w-[calc(100vw-32px)]
+                     rounded-none sm:rounded-3xl
+                     border-0 sm:border sm:border-black/10"
           style={{
-            bottom: 16, right: 16,
-            width: "min(400px, calc(100vw - 32px))",
-            height: "min(620px, calc(100vh - 100px))",
-            borderRadius: 24,
-            border: "1px solid rgba(0,0,0,0.08)",
+            // Fullscreen height on mobile (using --vh fallback, dvh on modern browsers).
+            // On sm+ the inline max-height keeps it floating.
+            height: typeof window !== "undefined" && window.innerWidth < 640
+              ? "calc(var(--vh, 1vh) * 100)"
+              : "min(620px, calc(var(--vh, 1vh) * 100 - 100px))",
             animation: "chatSlideUp 0.3s cubic-bezier(.22,.68,0,1.15) both",
+            paddingTop: typeof window !== "undefined" && window.innerWidth < 640
+              ? "env(safe-area-inset-top, 0px)"
+              : 0,
           }}
         >
           <style>{`
@@ -19458,8 +19470,16 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             </div>
           )}
 
-          {/* ── Input ── */}
-          <div className="flex-shrink-0 border-t border-gray-100 px-3 py-2.5 flex items-center gap-2" style={{ direction: "rtl" }}>
+          {/* ── Input ──
+                paddingBottom uses iOS safe-area to avoid the home indicator.
+                font-size:16px on mobile prevents iOS auto-zoom on focus.   */}
+          <div
+            className="flex-shrink-0 border-t border-gray-100 px-3 py-2.5 flex items-center gap-2 bg-white"
+            style={{
+              direction: "rtl",
+              paddingBottom: "max(10px, env(safe-area-inset-bottom, 8px))",
+            }}
+          >
             <input
               ref={inputRef}
               type="text"
@@ -19467,7 +19487,10 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="שאל אותי על כל מוצר..."
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition"
+              autoComplete="off"
+              autoCorrect="off"
+              enterKeyHint="send"
+              className="flex-1 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5 text-base sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 transition min-h-[40px]"
               disabled={loading}
             />
             <button
