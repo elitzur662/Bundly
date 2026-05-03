@@ -3647,18 +3647,21 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
         </div>
       </div>
 
-      {/* Mobile drawer — uses native CSS transform animation so it works
-            without the tailwindcss-animate plugin (which we don't ship). */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden" dir="rtl">
+      {/* Mobile drawer — rendered via portal to document.body so it escapes
+            the <nav> sticky/backdrop-blur containing block (which was clipping
+            it to navbar height). This way the drawer always covers the full
+            viewport regardless of where Navbar is in the JSX tree. */}
+      {mobileMenuOpen && typeof document !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[100] md:hidden" dir="rtl" style={{ pointerEvents: "auto" }}>
           <div className="absolute inset-0 bg-black/50" onClick={closeMenu} />
           <div
-            className="absolute top-0 right-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto flex flex-col"
+            className="absolute top-0 right-0 bottom-0 w-[85%] max-w-[320px] bg-white shadow-2xl overflow-y-auto flex flex-col"
             style={{
               animation: "drawerSlideIn 0.22s cubic-bezier(.22,.68,0,1.15) both",
               paddingTop: "env(safe-area-inset-top, 0px)",
               paddingBottom: "env(safe-area-inset-bottom, 0px)",
             }}
+            onClick={(e) => e.stopPropagation()}
           >
             <style>{`@keyframes drawerSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }`}</style>
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
@@ -3732,7 +3735,8 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </nav>
   );
