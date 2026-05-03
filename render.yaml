@@ -16,10 +16,39 @@ services:
     region: frankfurt        # closest Render region to Israel; lowest latency.
     branch: main
     autoDeploy: true
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    # `npm ci --include=dev` is ~2x faster than `npm install --legacy-peer-deps`:
+    # it uses package-lock.json deterministically without resolving peers, skips
+    # the slow tree-walking, and leverages Render's npm cache more efficiently.
+    # `--include=dev` is required because vite/tailwind are devDependencies and
+    # NODE_ENV=production env var would otherwise skip them.
+    buildCommand: npm ci --legacy-peer-deps --include=dev --no-audit --no-fund && npm run build
     # NODE_ENV=production triggers server.js to serve dist/ as static + SPA fallback.
     startCommand: npm run start:prod
     healthCheckPath: /api/stripe-public-key
+    # Skip rebuilds when only docs/markdown change — saves ~3min per cosmetic commit.
+    buildFilter:
+      paths:
+        - "src/**"
+        - "public/**"
+        - "*.js"
+        - "*.cjs"
+        - "*.mjs"
+        - "*.json"
+        - "*.html"
+        - "*.css"
+        - "scripts/**"
+        - "legal/**"
+        - "render.yaml"
+        - "vite.config.js"
+        - "tailwind.config.js"
+        - "postcss.config.js"
+      ignoredPaths:
+        - "**/*.md"
+        - "docs/**"
+        - ".env.example"
+        - ".gitignore"
+        - "DEPLOYMENT.md"
+        - "INSTRUCTIONS.md"
     disk:
       name: bundly-data
       mountPath: /var/data
