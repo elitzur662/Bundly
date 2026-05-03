@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo, Fragment } from "react";
+import { createPortal } from "react-dom";
 import {
   Users, Search, Globe, Sparkles, ChevronDown, Lock, Send,
   CheckCircle, Check, Settings, Heart, Share2, Phone, Mail, Building2,
@@ -20540,6 +20541,68 @@ export default function App() {
   }, [user]);
   const goHome = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setMode("home"); };
   const goToMyProducts = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setMode("myproducts"); };
+
+  // ── Universal "back" — peels off one navigation layer at a time.
+  //    Order matters: most-recently-opened state is unwound first.
+  const canGoBack = !!selectedDeal || !!searchResult || !!categoryQuery
+                  || !!disambigModal || !!joinPoolModal || !!showCategoryBrowse
+                  || !!showAuth || (mode !== "home");
+  const goBack = useCallback(() => {
+    if (showAuth)              { setShowAuth(false); return; }
+    if (showCategoryBrowse)    { setShowCategoryBrowse(false); return; }
+    if (joinPoolModal)         { setJoinPoolModal(null); return; }
+    if (disambigModal)         { setDisambigModal(null); return; }
+    if (selectedDeal)          { setSelectedDeal(null); return; }
+    if (searchResult)          { setSearchResult(null); return; }
+    if (categoryQuery)         { setCategoryQuery(null); setCategoryInitialFilters(null); return; }
+    if (mode !== "home")       { setMode("home"); return; }
+  }, [showAuth, showCategoryBrowse, joinPoolModal, disambigModal, selectedDeal, searchResult, categoryQuery, mode]);
+
+  // ── Browser back-button integration ──
+  // Pushes a sentinel state on every navigation change so the browser/phone
+  // back gesture triggers our goBack(). Without this, swipe-back on iOS
+  // would close the whole tab instead of returning to the previous screen.
+  useEffect(() => {
+    if (canGoBack) {
+      // Push only if we don't already have a "bundly-nav" marker on top
+      if (!window.history.state || window.history.state.bundlyNav !== true) {
+        window.history.pushState({ bundlyNav: true }, "");
+      }
+    }
+    const onPop = () => { if (canGoBack) goBack(); };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [canGoBack, goBack]);
+
+  // ── Universal floating "Back" button ──
+  // Rendered via portal so it sits above EVERY screen the App renders.
+  // Hidden on the home page (nowhere to go back to). Sits at top-left so it
+  // doesn't conflict with the FAB at bottom-right.
+  const universalBackBtn = canGoBack && typeof document !== "undefined"
+    ? createPortal(
+        <button
+          onClick={goBack}
+          aria-label="חזור"
+          className="fixed z-50 group transition-all duration-200 active:scale-90 hover:scale-105"
+          style={{
+            top: "max(70px, calc(env(safe-area-inset-top, 0px) + 70px))",
+            left: 12,
+          }}
+        >
+          <span
+            className="flex items-center gap-1.5 pl-2.5 pr-3 py-2 rounded-full text-white font-bold text-xs shadow-lg backdrop-blur-md"
+            style={{
+              background: "rgba(17, 24, 39, 0.78)",
+              border: "1px solid rgba(255,255,255,0.12)",
+            }}
+          >
+            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" strokeWidth={2.5} />
+            חזור
+          </span>
+        </button>,
+        document.body
+      )
+    : null;
   // Count unread supplier offers for the logged-in user (status="offered" = received but not acted on)
   const unreadOffersCount = user ? personalRequests.filter(r => r.userId === user.id && r.status === "offered" && r.offerPrice > 0).length : 0;
 
@@ -20684,6 +20747,7 @@ export default function App() {
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
+        {universalBackBtn}
       </div>
     );
   }
@@ -20784,6 +20848,7 @@ export default function App() {
         {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} />}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
+        {universalBackBtn}
       </div>
     );
   }
@@ -21430,6 +21495,7 @@ export default function App() {
         onNavigateToDeal={d => { openDeal(d); }}
         onSearchProduct={(q, filters) => { openCategory(q, { filters }); }}
       />
+      {universalBackBtn}
     </div>
   );
 }
