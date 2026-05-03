@@ -19112,33 +19112,36 @@ const _chatStore = {
 };
 
 // Compact circular FAB with auto-fading speech-bubble label.
-// Shows "התייעץ עם Bundly" for 5s on mount (first impression), then collapses
-// to just the "B" logo so it doesn't clutter the screen. Re-shows on hover.
+// Button is anchored hard to the right edge (right:16). Speech bubble is
+// positioned absolutely to the LEFT of the button so it can appear/disappear
+// without ever shifting the button itself. Visible for 5s on mount.
 function BundlyFab({ onOpen, showPulse }) {
   const [labelVisible, setLabelVisible] = useState(true);
 
   useEffect(() => {
-    // Hide the label after 5 seconds of inactivity
     const t = setTimeout(() => setLabelVisible(false), 5000);
     return () => clearTimeout(t);
   }, []);
 
+  // Round button — 56×56, anchored to bottom-right with safe-area padding.
+  const fabBottom = "max(80px, calc(env(safe-area-inset-bottom, 0px) + 80px))";
+  const fabSize = 56;
+  const gap = 12;
+
   return (
-    <div
-      className="fixed z-50 flex items-center gap-2 flex-row-reverse"
-      style={{
-        bottom: "max(80px, calc(env(safe-area-inset-bottom, 0px) + 80px))",
-        right: 16,
-      }}
-      onMouseEnter={() => setLabelVisible(true)}
-      onMouseLeave={() => setLabelVisible(false)}
-    >
-      {/* Round B-logo button — 56×56 (mobile-friendly tap target ≥44px) */}
+    <>
+      {/* The button itself — always at the same fixed position on the right edge */}
       <button
         onClick={onOpen}
+        onMouseEnter={() => setLabelVisible(true)}
+        onMouseLeave={() => setLabelVisible(false)}
         aria-label="התייעץ עם Bundly"
-        className="relative w-14 h-14 rounded-full shadow-2xl hover:shadow-indigo-300/50 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center flex-shrink-0"
+        className="fixed z-50 rounded-full shadow-2xl hover:shadow-indigo-300/50 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center"
         style={{
+          right: 16,
+          bottom: fabBottom,
+          width: fabSize,
+          height: fabSize,
           background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
           border: "2px solid rgba(255,255,255,0.25)",
         }}
@@ -19149,7 +19152,6 @@ function BundlyFab({ onOpen, showPulse }) {
             style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
           />
         )}
-        {/* Bundly "B" wordmark in Rubik */}
         <span
           className="relative text-white font-black text-2xl"
           style={{ fontFamily: "Rubik,sans-serif", letterSpacing: "-0.02em" }}
@@ -19158,12 +19160,15 @@ function BundlyFab({ onOpen, showPulse }) {
         </span>
       </button>
 
-      {/* Speech-bubble label — animated in/out */}
+      {/* Speech bubble — separate fixed element positioned to the LEFT of the
+           button. Doesn't affect the button's position; just slides in/out. */}
       <div
-        className="pointer-events-none transition-all duration-300 ease-out"
+        className="fixed z-50 pointer-events-none transition-all duration-300 ease-out"
         style={{
+          right: 16 + fabSize + gap,             // 16 + 56 + 12 = 84px from right
+          bottom: `calc(${fabBottom} + ${(fabSize / 2) - 18}px)`, // align bubble center with button center
           opacity: labelVisible ? 1 : 0,
-          transform: labelVisible ? "translateX(0) scale(1)" : "translateX(20px) scale(0.85)",
+          transform: labelVisible ? "translateX(0) scale(1)" : "translateX(8px) scale(0.85)",
         }}
       >
         <div
@@ -19174,23 +19179,23 @@ function BundlyFab({ onOpen, showPulse }) {
           }}
         >
           התייעץ עם Bundly 💬
-          {/* Tail pointing toward the FAB (left side, since flex-row-reverse) */}
+          {/* Tail pointing right (toward the FAB) */}
           <span
             className="absolute"
             style={{
-              left: -6,
+              right: -6,
               top: "50%",
               transform: "translateY(-50%) rotate(45deg)",
               width: 10,
               height: 10,
               background: "white",
-              borderLeft: "1px solid rgba(0,0,0,0.08)",
-              borderBottom: "1px solid rgba(0,0,0,0.08)",
+              borderTop: "1px solid rgba(0,0,0,0.08)",
+              borderRight: "1px solid rgba(0,0,0,0.08)",
             }}
           />
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
