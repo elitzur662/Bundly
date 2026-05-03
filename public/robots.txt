@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /product-img/
+Disallow: /product-db/
+Disallow: /invoices/
+
+Sitemap: https://bundly.co/sitemap.xml
