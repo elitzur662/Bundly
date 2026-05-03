@@ -1,0 +1,72 @@
+# Render.com Blueprint — one-click deploy for Bundly.
+# Apply via: render.com → New → Blueprint → connect GitHub repo.
+#
+# What this does:
+#   1. Provisions a single Web Service running `npm run start:prod`.
+#   2. Mounts a persistent disk at /var/data so JSON DB + SQLite cache
+#      survive deploys (without this, every deploy resets user data).
+#   3. Wires the disk path through DATA_DIR / DB_PATH env vars.
+#   4. Leaves all secret env vars (Stripe, OpenAI, JWT, etc.) for you
+#      to set in the Render dashboard — they MUST NOT live in git.
+services:
+  - type: web
+    name: bundly
+    runtime: node
+    plan: starter            # $7/mo. "free" plan sleeps after 15min idle.
+    region: frankfurt        # closest Render region to Israel; lowest latency.
+    branch: main
+    autoDeploy: true
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    # NODE_ENV=production triggers server.js to serve dist/ as static + SPA fallback.
+    startCommand: npm run start:prod
+    healthCheckPath: /api/stripe-public-key
+    disk:
+      name: bundly-data
+      mountPath: /var/data
+      sizeGB: 5              # 1GB barely fits product-db images; 5GB gives headroom.
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000          # Render's default. Internal only — public goes through 443.
+      - key: DATA_DIR
+        value: /var/data
+      # Generate strong secrets once on first deploy:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: URL_SIGN_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
+      # ── These must be set MANUALLY in Render dashboard (sync: false hides
+      #     them from blueprint sync so they aren't accidentally overwritten). ──
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: DATAFORSEO_LOGIN
+        sync: false
+      - key: DATAFORSEO_PASSWORD
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: TWILIO_SID
+        sync: false
+      - key: TWILIO_TOKEN
+        sync: false
+      - key: TWILIO_FROM
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
+      - key: HCAPTCHA_SECRET
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://bundly.co,https://www.bundly.co
+      - key: BUNDLY_SUPPORT_EMAIL
+        value: bundly.co@bundly.co

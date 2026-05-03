@@ -1,0 +1,136 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import basicSsl from '@vitejs/plugin-basic-ssl'
+import { spawn, execSync } from 'child_process'
+import { statSync } from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+// ── Plugin: auto-start and restart Express when Vite restarts ── v8
+// Runs on PORT 3002 so it doesn't conflict with any manually-started server on 3001
+// Uses POLLING to detect server.js changes (works across VM/sandbox boundaries)
+function expressPlugin() {
+  let child = null
+  let lastMtime = 0
+  let starting = false   // mutex — prevents concurrent startServer() calls
+
+  // Kill whatever process is holding port 3002 (only used AFTER the tracked child dies)
+  function freePort3002() {
+    if (process.platform !== 'win32') return
+    try {
+      const out = execSync('netstat -ano | findstr ":3002 "', { encoding: 'utf8', shell: true, timeout: 3000 })
+      const pids = [...new Set([...out.matchAll(/(?:LISTENING|ESTABLISHED|TIME_WAIT)\s+(\d+)/g)].map(m => m[1]))]
+      pids.forEach(pid => {
+        try { execSync(`taskkill /F /PID ${pid}`, { shell: true, stdio: 'ignore', timeout: 2000 }) } catch(_) {}
+      })
+      if (pids.length) console.log(`[bundly] freed port 3002 (PIDs: ${pids.join(',')})`)
+    } catch(_) {}
+  }
+
+  function startServer() {
+    if (starting) return          // already in a restart cycle — skip
+    starting = true
+
+    // 1. Kill the tracked child
+    const oldPid = child?.pid
+    child = null
+    if (oldPid) {
+      if (process.platform === 'win32') {
+        try { execSync(`taskkill /F /PID ${oldPid} /T`, { shell: true, stdio: 'ignore', timeout: 3000 }) } catch(_) {}
+      } else {
+        try { process.kill(oldPid, 'SIGKILL') } catch(_) {}
+      }
+    }
+
+    // 2. Wait for OS to release the port, then free any zombie, then spawn
+    setTimeout(() => {
+      freePort3002()         // kill zombie only after tracked child had time to die
+      setTimeout(() => {
+        starting = false
+        child = spawn('node', ['server.js'], {
+          cwd: __dirname, stdio: 'inherit', shell: false,
+          env: { ...process.env, PORT: '3002' },
+        })
+        child.on('exit', (code) => {
+          child = null
+          if (code !== 0 && code !== null && !starting) {
+            console.log(`[bundly] Express exited (${code}), restarting in 3s...`)
+            setTimeout(startServer, 3000)
+          }
+        })
+        console.log('[bundly] Express started on :3002')
+      }, 300)
+    }, 1500)
+  }
+
+  return {
+    name: 'express-manager',
+    configureServer() {
+      // Get initial mtime
+      try { lastMtime = statSync(path.join(__dirname, 'server.js')).mtimeMs } catch(e) {}
+      startServer()
+
+      // Poll every 1.5s for server.js changes (works when fs.watch doesn't fire)
+      const pollInterval = setInterval(() => {
+        try {
+          const mtime = statSync(path.join(__dirname, 'server.js')).mtimeMs
+          if (mtime !== lastMtime) {
+            lastMtime = mtime
+            console.log('[bundly] server.js changed (poll) — restarting Express...')
+            startServer()
+          }
+        } catch(e) {}
+      }, 1500)
+
+      process.on('exit', () => {
+        clearInterval(pollInterval)
+        if (child) { try { child.kill() } catch(e) {} }
+      })
+    },
+  }
+}
+
+export default defineConfig({
+  // basicSsl auto-generates a self-signed cert so the dev server runs on
+  // https://localhost:3000. Required so Chrome enables credit-card autofill
+  // on Stripe Elements (autofill is blocked on plain http even on localhost).
+  // First load shows a "not private" warning — click "Advanced → Proceed".
+  plugins: [react(), basicSsl(), expressPlugin()],
+  server: {
+    port: 3000,
+    https: true,
+    open: false,
+    proxy: {
+      // All /api/* calls go to the managed Express backend
+      '/api': {
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+      },
+      // Serve downloaded product images from Express
+      '/product-img': {
+        target: 'http://localhost:3002',
+        changeOrigin: true,
+      },
+      // Relay for Zap — Express calls http://localhost:3000/zap-proxy/...
+      // Vite (on user's machine) forwards to https://www.zap.co.il/
+      '/zap-proxy': {
+        target: 'https://www.zap.co.il',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/zap-proxy/, ''),
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36',
+          'Accept-Language': 'he-IL,he;q=0.9',
+          'Referer': 'https://www.zap.co.il/',
+        },
+      },
+      // Relay for DataForSEO
+      '/dfs-proxy': {
+        target: 'https://api.dataforseo.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/dfs-proxy/, ''),
+      },
+    },
+  },
+})

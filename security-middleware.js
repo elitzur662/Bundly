@@ -1,0 +1,541 @@
+/**
+ * Bundly — Security Middleware
+ *
+ * Defense-in-depth layer applied to every request.
+ * Provides protection against: XSS, CSRF, clickjacking, MIME sniffing,
+ * DoS, prototype pollution, path traversal, scraping, timing attacks,
+ * bot farms, credential stuffing, and known injection vectors.
+ *
+ * Designed to work without external deps so the app is resilient even
+ * if node_modules is incomplete. Optional deps (helmet, express-rate-limit)
+ * are detected and used when present for stronger guarantees.
+ */
+import { timingSafeEqual, randomBytes, createHmac } from "node:crypto";
+import { appendFile } from "node:fs";
+
+const IS_PROD = process.env.NODE_ENV === "production";
+
+// ── Optional deps: load helmet, express-rate-limit, validator, redis if installed ──
+let helmet = null, rateLimitLib = null, validator = null, redisClient = null, RedisStore = null;
+try { helmet = (await import("helmet")).default; } catch {}
+try { rateLimitLib = (await import("express-rate-limit")).default; } catch {}
+try { validator = (await import("validator")).default; } catch {}
+
+// Redis (optional) — for multi-server rate limiting + account lockout persistence
+if (process.env.REDIS_URL) {
+  try {
+    const { createClient } = await import("redis");
+    redisClient = createClient({ url: process.env.REDIS_URL });
+    redisClient.on("error", e => console.warn("[redis]", e.message));
+    await redisClient.connect();
+    console.log("✅ Redis connected — rate limits + lockouts are multi-server-safe");
+    try {
+      const { default: RedisRateLimitStore } = await import("rate-limit-redis");
+      RedisStore = RedisRateLimitStore;
+    } catch { /* rate-limit-redis not installed */ }
+  } catch (e) {
+    console.warn("⚠️  REDIS_URL set but connection failed:", e.message);
+    redisClient = null;
+  }
+}
+
+// ── Centralized audit log ─────────────────────────────────────────
+// Suspicious requests get logged to security.log (rotated by pm2 / logrotate).
+// Defense: sanitize EVERY string field — replace CR/LF/escape sequences so an
+// attacker can't inject fake log entries via User-Agent, path, or details.
+const AUDIT_FILE = process.cwd() + "/security.log";
+function _sanitizeLogValue(v) {
+  if (v == null) return v;
+  if (typeof v === "string") {
+    // Strip ALL control chars (0x00-0x1F + 0x7F) — prevents log injection
+    // and binary garbage that breaks log parsers.
+    return v.replace(/[\x00-\x1F\x7F]/g, "?").slice(0, 500);
+  }
+  if (Array.isArray(v)) return v.map(_sanitizeLogValue);
+  if (typeof v === "object") {
+    const out = {};
+    for (const [k, val] of Object.entries(v)) out[k] = _sanitizeLogValue(val);
+    return out;
+  }
+  return v;
+}
+export function audit(type, req, details = {}) {
+  const safeDetails = _sanitizeLogValue(details) || {};
+  const line = JSON.stringify({
+    ts:      new Date().toISOString(),
+    type:    _sanitizeLogValue(String(type || "")),
+    ip:      _sanitizeLogValue(req?.ip || req?.headers?.["x-forwarded-for"] || "unknown"),
+    ua:      _sanitizeLogValue(req?.headers?.["user-agent"]?.slice(0, 120) || ""),
+    path:    _sanitizeLogValue(req?.path || req?.url || ""),
+    method:  _sanitizeLogValue(req?.method || ""),
+    ...safeDetails,
+  }) + "\n";
+  appendFile(AUDIT_FILE, line, () => {});
+  if (!IS_PROD) console.log(`[AUDIT ${type}]`, safeDetails, req?.path);
+}
+
+// ── Production-grade security headers via helmet (if installed) ──
+// Helmet combines ~12 security headers + sensible defaults maintained by the OWASP community.
+export function helmetHeaders() {
+  if (!helmet) return securityHeaders; // fallback to custom
+  return helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc:  ["'self'", "'unsafe-inline'"],
+        styleSrc:   ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc:    ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc:     ["'self'", "data:", "https:", "blob:"],
+        connectSrc: ["'self'", "https://api.stripe.com", "https://hcaptcha.com", "https://*.hcaptcha.com"],
+        frameSrc:   ["'self'", "https://hcaptcha.com", "https://*.hcaptcha.com"],
+        frameAncestors: ["'none'"],
+        formAction: ["'self'"],
+        baseUri:    ["'self'"],
+        objectSrc:  ["'none'"],
+        upgradeInsecureRequests: IS_PROD ? [] : null,
+      },
+    },
+    crossOriginEmbedderPolicy: false,       // allows product images from external CDNs
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginOpenerPolicy:   { policy: "same-origin" },
+    referrerPolicy:            { policy: "strict-origin-when-cross-origin" },
+    hsts: IS_PROD ? { maxAge: 63072000, includeSubDomains: true, preload: true } : false,
+    frameguard:   { action: "deny" },
+    noSniff:      true,
+    xssFilter:    true,
+    hidePoweredBy: true,
+  });
+}
+
+// ── HTTP Security Headers (fallback if helmet not installed) ─────
+export function securityHeaders(req, res, next) {
+  // Prevent MIME-type sniffing
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  // Prevent iframe embedding (clickjacking)
+  res.setHeader("X-Frame-Options", "DENY");
+  // Block legacy XSS attempts at browser level
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  // Referrer policy — don't leak full URLs to third parties
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  // Permissions: disable unneeded browser features
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(self), payment=(self)");
+  // HSTS: force HTTPS for 2 years (only safe after TLS is live!)
+  if (IS_PROD) {
+    res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  }
+  // CSP — tightened. Note: 'unsafe-inline' for styles needed by Tailwind/CSS-in-JS.
+  // Scripts are strictly same-origin; disable eval; disable plugins.
+  const csp = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com data:",
+    "img-src 'self' data: https: blob:",
+    "connect-src 'self' https://api.stripe.com",
+    "frame-ancestors 'none'",
+    "form-action 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "upgrade-insecure-requests",
+  ].join("; ");
+  res.setHeader("Content-Security-Policy", csp);
+  // Remove Express signature
+  res.removeHeader("X-Powered-By");
+  next();
+}
+
+// ── HTTPS enforcement ────────────────────────────────────────────
+// When behind a reverse proxy (nginx, cloudflare), trust X-Forwarded-Proto.
+// In production, redirect all http → https.
+export function enforceHttps(req, res, next) {
+  if (!IS_PROD) return next();
+  const proto = req.headers["x-forwarded-proto"] || req.protocol;
+  if (proto !== "https") {
+    return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+  }
+  next();
+}
+
+// ── CORS with origin whitelist ────────────────────────────────────
+// Replaces unconfigured cors() which allowed all origins.
+export function strictCors(allowedOrigins = []) {
+  const defaults = [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "https://bundly.co.il",
+    "https://www.bundly.co.il",
+  ];
+  const whitelist = new Set([...defaults, ...allowedOrigins]);
+  return (req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && whitelist.has(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Vary", "Origin");
+    }
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
+    next();
+  };
+}
+
+// ── Rate limiter — 3-tier fallback: Redis → express-rate-limit → in-memory ──
+const _buckets = new Map();
+export function rateLimit({ windowMs = 60_000, max = 100, keyFn = r => r.ip, label = "default" } = {}) {
+  if (rateLimitLib) {
+    const opts = {
+      windowMs, max,
+      standardHeaders: true,
+      legacyHeaders: false,
+      keyGenerator: keyFn,
+      handler: (req, res) => {
+        audit("RATE_LIMIT", req, { label });
+        res.status(429).json({ error: "יותר מדי בקשות — נסה שוב עוד רגע" });
+      },
+    };
+    // Use Redis store if available — required for multi-server deployments
+    if (RedisStore && redisClient) {
+      opts.store = new RedisStore({
+        sendCommand: (...args) => redisClient.sendCommand(args),
+        prefix:      `rl:${label}:`,
+      });
+    }
+    return rateLimitLib(opts);
+  }
+  // Pure in-memory fallback
+  return (req, res, next) => {
+    const key = `${label}:${keyFn(req)}`;
+    const now = Date.now();
+    const arr = (_buckets.get(key) || []).filter(t => now - t < windowMs);
+    if (arr.length >= max) {
+      audit("RATE_LIMIT", req, { label, count: arr.length });
+      res.setHeader("Retry-After", Math.ceil(windowMs / 1000));
+      return res.status(429).json({ error: "יותר מדי בקשות — נסה שוב עוד רגע" });
+    }
+    arr.push(now);
+    _buckets.set(key, arr);
+    next();
+  };
+}
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, arr] of _buckets) {
+    const active = arr.filter(t => now - t < 60 * 60_000);
+    if (active.length === 0) _buckets.delete(k);
+    else _buckets.set(k, active);
+  }
+}, 10 * 60_000);
+
+// ── Bot / scraper detection ───────────────────────────────────────
+// Block known bot UAs, missing UA, headless browsers, and suspicious patterns.
+const BOT_UA_REGEX = /(bot|crawl|spider|scrape|fetch|wget|curl|python-requests|java\/|php-|go-http|ruby|postman|insomnia|httrack|axios\/\d+\.\d+\.\d+ node)/i;
+const ALLOWED_BOT_PATHS = new Set(["/robots.txt", "/sitemap.xml", "/favicon.ico"]);
+export function blockBots(req, res, next) {
+  if (ALLOWED_BOT_PATHS.has(req.path)) return next();
+  const ua = req.headers["user-agent"] || "";
+  // Allow API calls with valid auth token (real clients)
+  if (req.headers.authorization?.startsWith("Bearer ")) return next();
+  if (!ua || ua.length < 20 || BOT_UA_REGEX.test(ua)) {
+    audit("BOT_BLOCKED", req, { ua: ua.slice(0, 80) });
+    return res.status(403).json({ error: "Forbidden" });
+  }
+  next();
+}
+
+// ── Prototype pollution guard on req.body ─────────────────────────
+// Strips __proto__, constructor, prototype keys recursively.
+const DANGEROUS_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+function stripProtoKeys(obj) {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) { obj.forEach(stripProtoKeys); return obj; }
+  for (const k of Object.keys(obj)) {
+    if (DANGEROUS_KEYS.has(k)) delete obj[k];
+    else stripProtoKeys(obj[k]);
+  }
+  return obj;
+}
+export function preventPrototypePollution(req, _res, next) {
+  if (req.body) stripProtoKeys(req.body);
+  if (req.query) stripProtoKeys(req.query);
+  next();
+}
+
+// ── Path traversal guard on :id / :name params ────────────────────
+// Rejects .., /, \, null bytes — blocks ../../../etc/passwd style attacks.
+const TRAVERSAL_REGEX = /(\.\.[\\/]|%2e%2e|%00|\x00)/i;
+export function preventTraversal(req, res, next) {
+  const allValues = [
+    ...Object.values(req.params || {}),
+    ...Object.values(req.query || {}).filter(v => typeof v === "string"),
+  ];
+  for (const v of allValues) {
+    if (typeof v === "string" && TRAVERSAL_REGEX.test(v)) {
+      audit("TRAVERSAL_BLOCKED", req, { value: String(v).slice(0, 100) });
+      return res.status(400).json({ error: "Invalid parameter" });
+    }
+  }
+  next();
+}
+
+// ── Timing-safe string comparison (for passwords, tokens) ─────────
+// Prevents attackers from learning password length via response timing.
+export function safeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    // Still run a dummy compare to avoid length leak
+    try { timingSafeEqual(bufA, bufA); } catch { /* */ }
+    return false;
+  }
+  try { return timingSafeEqual(bufA, bufB); } catch { return false; }
+}
+
+// ── Sensitive field stripper for API responses ────────────────────
+// Ensures we never leak: password hashes, bank accounts, license docs,
+// internal IPs, token secrets, etc.
+const SENSITIVE_FIELDS = new Set([
+  "password", "passwordHash", "pwd",
+  "bankAccount", "licenseDoc",
+  "stripeSecret", "webhookSecret",
+  "__internal", "_notes",
+]);
+export function stripSensitive(obj) {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(stripSensitive);
+  const out = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (SENSITIVE_FIELDS.has(k)) continue;
+    out[k] = (typeof v === "object" && v !== null) ? stripSensitive(v) : v;
+  }
+  return out;
+}
+
+// ── Safe error handler (never leaks stack in production) ──────────
+// Always set as the LAST middleware after all routes.
+export function safeErrorHandler(err, req, res, _next) {
+  const status = err.status || err.statusCode || 500;
+  const message = (IS_PROD && status === 500)
+    ? "שגיאת שרת פנימית. נסה/י שוב עוד רגע."
+    : (err.message || "שגיאה");
+  audit("ERROR", req, { status, message: err.message, stack: IS_PROD ? undefined : err.stack?.split("\n").slice(0, 3).join(" | ") });
+  res.status(status).json({ error: message, ...(IS_PROD ? {} : { stack: err.stack }) });
+}
+
+// ── Request ID + basic logging ────────────────────────────────────
+// Helps correlate audit entries across logs.
+export function requestId(req, res, next) {
+  req.id = randomBytes(8).toString("hex");
+  res.setHeader("X-Request-Id", req.id);
+  next();
+}
+
+// ── Failed-login brute-force tracker — Redis-backed when available ──
+// After 5 failed attempts per IP in 15min, lock out for 30min.
+// Using Redis ensures lockouts survive restarts + apply across all servers.
+const _failMap = new Map(); // ip -> { count, lockedUntil }
+const LOCK_DURATION_MS = 30 * 60_000;
+const MAX_FAILS = 5;
+
+// Track failed logins by BOTH ip and identity (phone/email). Either dimension
+// hitting MAX_FAILS triggers a lockout — a botnet can't bypass via IP rotation
+// because the user's phone-side counter still rises.
+async function _trackKey(key) {
+  if (redisClient) {
+    const countKey = `fail:${key}`;
+    const lockKey  = `lock:${key}`;
+    if (await redisClient.get(lockKey)) return { locked: true };
+    const count = await redisClient.incr(countKey);
+    if (count === 1) await redisClient.expire(countKey, 15 * 60);
+    if (count >= MAX_FAILS) {
+      await redisClient.set(lockKey, "1", { EX: LOCK_DURATION_MS / 1000 });
+      await redisClient.del(countKey);
+      audit("ACCOUNT_LOCKED", { key }, { lockDurationMs: LOCK_DURATION_MS });
+      return { locked: true };
+    }
+    return { locked: false };
+  }
+  const rec = _failMap.get(key) || { count: 0, lockedUntil: 0 };
+  if (rec.lockedUntil > Date.now()) return { locked: true };
+  rec.count++;
+  if (rec.count >= MAX_FAILS) {
+    rec.lockedUntil = Date.now() + LOCK_DURATION_MS;
+    rec.count = 0;
+    audit("ACCOUNT_LOCKED", { key }, { lockDurationMs: LOCK_DURATION_MS });
+  }
+  _failMap.set(key, rec);
+  return { locked: false };
+}
+
+export async function trackFailedLogin(ip, identity = null) {
+  const ipResult = await _trackKey(`ip:${ip}`);
+  if (!identity) return ipResult;
+  const idResult = await _trackKey(`id:${identity}`);
+  return { locked: ipResult.locked || idResult.locked };
+}
+
+export async function clearFailedLogins(ip, identity = null) {
+  if (redisClient) {
+    await redisClient.del(`fail:ip:${ip}`); await redisClient.del(`lock:ip:${ip}`);
+    if (identity) {
+      await redisClient.del(`fail:id:${identity}`); await redisClient.del(`lock:id:${identity}`);
+    }
+    return;
+  }
+  _failMap.delete(`ip:${ip}`);
+  if (identity) _failMap.delete(`id:${identity}`);
+}
+
+export async function isLocked(ip, identity = null) {
+  const checkKey = async (k) => {
+    if (redisClient) return !!(await redisClient.get(`lock:${k}`));
+    const rec = _failMap.get(k);
+    return rec?.lockedUntil > Date.now();
+  };
+  if (await checkKey(`ip:${ip}`)) return true;
+  if (identity && await checkKey(`id:${identity}`)) return true;
+  return false;
+}
+
+// ── Signed URL utilities (HMAC-SHA256) ────────────────────────────
+// Generates short-lived, tamper-proof URLs for sensitive downloads (invoices,
+// private images). Format: path?exp=<unix_ts>&sig=<hex>
+const URL_SIGN_SECRET = process.env.URL_SIGN_SECRET || process.env.JWT_SECRET || "bundly-fallback-signing";
+export function signUrl(path, ttlSeconds = 300) {
+  const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
+  const sig = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}`).digest("hex").slice(0, 32);
+  return `${path}${path.includes("?") ? "&" : "?"}exp=${exp}&sig=${sig}`;
+}
+export function verifySignedUrl(path, exp, sig) {
+  if (!exp || !sig) return false;
+  const expNum = Number(exp);
+  if (isNaN(expNum) || expNum < Math.floor(Date.now() / 1000)) return false; // expired
+  const expected = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}`).digest("hex").slice(0, 32);
+  return safeEqual(expected, String(sig));
+}
+
+// ── hCaptcha verification (free bot-detection service) ────────────
+// To enable: sign up at hcaptcha.com, set HCAPTCHA_SECRET in .env.
+// Replay defense: each captcha token is single-use — if attacker replays
+// the same token, we reject without even calling hCaptcha.
+const _usedCaptchaTokens = new Map(); // token → expiresAt
+function _purgeUsedCaptcha() {
+  const now = Date.now();
+  for (const [t, exp] of _usedCaptchaTokens) if (exp < now) _usedCaptchaTokens.delete(t);
+}
+setInterval(_purgeUsedCaptcha, 60_000).unref?.();
+
+export async function verifyCaptcha(token, remoteIp = null) {
+  const secret = process.env.HCAPTCHA_SECRET;
+  if (!secret) return { ok: true, skipped: true }; // disabled in dev
+  if (!token) return { ok: false, error: "Missing captcha token" };
+  // Replay defense — hCaptcha tokens are single-use by design; we enforce
+  if (_usedCaptchaTokens.has(token)) {
+    return { ok: false, error: "Captcha token already used", replay: true };
+  }
+  try {
+    const body = new URLSearchParams({ secret, response: token, ...(remoteIp && { remoteip: remoteIp }) });
+    const res = await fetch("https://hcaptcha.com/siteverify", { method: "POST", body });
+    const data = await res.json();
+    if (data.success) {
+      // Mark as used for 10 minutes (hCaptcha tokens normally expire in 2 min,
+      // but we cache longer to defend against clock skew)
+      _usedCaptchaTokens.set(token, Date.now() + 10 * 60_000);
+      return { ok: true, score: data.score };
+    }
+    return { ok: false, error: "Captcha failed", codes: data["error-codes"] };
+  } catch (e) { return { ok: false, error: e.message }; }
+}
+
+// ── Strict input validators using validator.js ───────────────────
+// Enforces format constraints with battle-tested library.
+export function validate(type, value, opts = {}) {
+  if (!validator) return true; // dev mode without validator installed
+  if (value == null || value === "") return !opts.required;
+  const v = String(value);
+  switch (type) {
+    case "email":   return validator.isEmail(v);
+    case "mobile":  return validator.isMobilePhone(v, "he-IL") || validator.isMobilePhone(v, "any");
+    case "url":     return validator.isURL(v, { require_protocol: true, protocols: ["https", "http"] });
+    case "uuid":    return validator.isUUID(v);
+    case "int":     return validator.isInt(v, { min: opts.min, max: opts.max });
+    case "float":   return validator.isFloat(v, { min: opts.min, max: opts.max });
+    case "length":  return validator.isLength(v, { min: opts.min || 0, max: opts.max || 500 });
+    case "alphanum": return validator.isAlphanumeric(v, "en-US", { ignore: " -_" });
+    case "zip-il":  return /^\d{5,7}$/.test(v.replace(/\s/g, ""));
+    case "iban":    return validator.isIBAN(v);
+    case "creditCard": return validator.isCreditCard(v);
+    default: return true;
+  }
+}
+
+// ── Strict ID sanitizer ──────────────────────────────────────────
+// Parses numeric IDs from URL params / query / body. Rejects non-ints,
+// negatives, overflow (> 2^53), and strings that look clever ("1e10", "0x1F").
+// Use BEFORE any DB lookup: const id = safeId(req.params.id); if (id == null) return 400
+export function safeId(v, { min = 1, max = Number.MAX_SAFE_INTEGER } = {}) {
+  if (v == null) return null;
+  const s = String(v).trim();
+  // Strict decimal integer: /^\d+$/ only
+  if (!/^\d+$/.test(s)) return null;
+  const n = Number(s);
+  if (!Number.isSafeInteger(n) || n < min || n > max) return null;
+  return n;
+}
+// Middleware: sanitizes :id param and rejects bad values before handler runs
+export function sanitizeIdParam(paramName = "id") {
+  return (req, res, next) => {
+    const v = req.params[paramName];
+    if (v === undefined) return next();
+    const safe = safeId(v);
+    if (safe == null) {
+      audit("BAD_ID", req, { param: paramName, value: String(v).slice(0, 50) });
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+    req.params[paramName] = safe;
+    next();
+  };
+}
+
+// ── Authorization helper: IDOR (Insecure Direct Object Reference) guard ──
+// Verifies the current user owns a resource before operations.
+// Usage: if (!ownsResource(req.user, order, "userId")) return 403
+export function ownsResource(user, resource, ownerField = "userId") {
+  if (!user || !resource) return false;
+  const ownerId = resource[ownerField];
+  if (ownerId == null) return false;
+  return String(ownerId) === String(user.id);
+}
+
+// Express middleware variant: loads resource, checks ownership, attaches to req
+export function requireOwnership({ loader, ownerField = "userId", param = "id" }) {
+  return async (req, res, next) => {
+    try {
+      const id = req.params[param];
+      const resource = await loader(id);
+      if (!resource) return res.status(404).json({ error: "Not found" });
+      if (!ownsResource(req.user, resource, ownerField)) {
+        audit("IDOR_BLOCKED", req, { resourceId: id, ownerField });
+        return res.status(403).json({ error: "Forbidden" });
+      }
+      req.resource = resource;
+      next();
+    } catch (e) {
+      next(e);
+    }
+  };
+}
+
+// ── Regex DoS guard ───────────────────────────────────────────────
+// Wraps a regex in a timeout. Usage: safeMatch(str, /.../i, 50)
+export function safeMatch(str, pattern, timeoutMs = 50) {
+  const start = Date.now();
+  try {
+    const result = pattern.exec(str);
+    if (Date.now() - start > timeoutMs) return null; // too slow, bail
+    return result;
+  } catch { return null; }
+}

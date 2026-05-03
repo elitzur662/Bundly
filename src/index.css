@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Hide scrollbars on horizontally-scrollable tab bars */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Safe-area padding for iOS notch/home-indicator */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top    { padding-top: env(safe-area-inset-top); }
+
+/* Prevent iOS Safari zoom on input focus — font must be ≥16px */
+@media (max-width: 640px) {
+  input[type="text"], input[type="email"], input[type="tel"],
+  input[type="number"], input[type="password"], input[type="search"],
+  textarea, select {
+    font-size: 16px !important;
+  }
+}
+
+/* Prevent horizontal body overflow on mobile from wide elements */
+html, body { overflow-x: hidden; max-width: 100vw; }
+
+/* Nicer modal slide-up animation on mobile */
+@keyframes slideUpMobile {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+@media (max-width: 640px) {
+  .modal-mobile-slide { animation: slideUpMobile 0.25s cubic-bezier(0.22, 0.68, 0, 1.2) both; }
+}

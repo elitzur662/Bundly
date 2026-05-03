@@ -1,0 +1,62 @@
+{
+  "name": "groupbuy-app",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server.js",
+    "start": "concurrently \"npm run dev\" \"npm run server\"",
+    "start:prod": "NODE_ENV=production node server.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "export-excel": "node excel-export.mjs",
+    "export-excel:fast": "node excel-export.mjs --no-images",
+    "sync-and-export": "node db-sync.js --force && node excel-export.mjs",
+    "audit": "npm audit --audit-level=moderate",
+    "audit:fix": "npm audit fix",
+    "audit:full": "npm audit --json | node -e \"const a=require('fs').readFileSync(0,'utf8');const d=JSON.parse(a);console.log('Vulns:',d.metadata?.vulnerabilities);process.exit(d.metadata?.vulnerabilities?.high+d.metadata?.vulnerabilities?.critical>0?1:0)\"",
+    "security:check": "npm run audit && node -e \"const r=['.env','security-middleware.js'].map(f=>require('fs').existsSync(f));if(r.every(Boolean)) console.log('✅ Security files present'); else process.exit(1)\"",
+    "security:lint": "node -e \"try{const s=require('fs').readFileSync('.env','utf8');const bad=['bundly-super-secret-2024','admin123','change-me'];const hits=bad.filter(b=>s.includes(b));if(hits.length){console.error('❌ Weak secrets in .env:',hits);process.exit(1)}else{console.log('✅ No default secrets in .env')}}catch(e){if(e.code==='ENOENT'){console.log('ℹ️  .env not present (env vars from host) — skipping lint')}else{throw e}}\"",
+    "preproduction": "npm run audit && npm run security:lint",
+    "prestart": "node -e \"require('child_process').spawnSync('npm',['run','preproduction'],{stdio:'inherit',shell:true})\""
+  },
+  "dependencies": {
+    "@stripe/react-stripe-js": "^6.3.0",
+    "@stripe/stripe-js": "^9.4.0",
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "exceljs": "^4.4.0",
+    "express": "^4.22.1",
+    "express-rate-limit": "^8.3.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.383.0",
+    "nodemailer": "^8.0.5",
+    "openai": "^4.47.1",
+    "puppeteer-core": "^24.40.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "twilio": "^5.3.0",
+    "validator": "^13.15.35"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^8.0.9"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.60.0"
+  },
+  "description": "",
+  "main": "db.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
