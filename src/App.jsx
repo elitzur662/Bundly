@@ -3804,7 +3804,11 @@ function TrustStrip({ t }) {
   ];
   return (
     <div className="bg-gradient-to-r from-indigo-50/60 via-white to-violet-50/60 border-b border-indigo-100/40">
-      <div className="max-w-6xl mx-auto px-4 h-10 flex items-center justify-center gap-8 overflow-x-auto">
+      {/* Horizontal scroll on mobile so all 4 badges remain readable without
+            getting cropped at the screen edge. justify-start on mobile (so the
+            first badge is fully visible at the right edge in RTL), centered
+            on sm+. */}
+      <div className="max-w-6xl mx-auto px-4 h-10 flex items-center gap-5 sm:gap-8 overflow-x-auto scrollbar-none justify-start sm:justify-center">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-1.5 flex-shrink-0">
             {item.icon}
@@ -16387,8 +16391,9 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
 
   return (
     <div className="space-y-2 w-full" ref={containerRef}>
-      <div className={`relative flex gap-2 ${isHero ? "shadow-2xl shadow-indigo-900/30" : ""}`}>
-        <div className="relative flex-1">
+      {/* Stack vertically on mobile so the placeholder isn't cut off; row on sm+ */}
+      <div className={`relative flex flex-col sm:flex-row gap-2 ${isHero ? "shadow-2xl shadow-indigo-900/30" : ""}`}>
+        <div className="relative flex-1 min-w-0">
           {/* Search icon */}
           <Search className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 z-10 ${isHero ? "text-indigo-400 left-4" : "text-gray-300 w-4 h-4 left-3.5"}`} />
           <input
@@ -16435,15 +16440,15 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
           )}
         </div>
 
-        {/* Search button */}
+        {/* Search button — full-width below the input on mobile, side-by-side on sm+ */}
         <button
           onMouseDown={() => clearSug()}
           onClick={() => handleSearch(query)}
           disabled={loading || query.trim().length < 2}
-          className={`flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-bold transition flex items-center gap-2 ${
+          className={`flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white font-bold transition flex items-center justify-center gap-2 ${
             isHero
-              ? "px-7 py-4 rounded-2xl text-sm shadow-lg active:scale-95"
-              : "px-5 py-3 rounded-2xl text-sm"
+              ? "px-7 py-3.5 sm:py-4 rounded-2xl text-sm shadow-lg active:scale-95 w-full sm:w-auto"
+              : "px-5 py-3 rounded-2xl text-sm w-full sm:w-auto"
           }`}
         >
           {loading
