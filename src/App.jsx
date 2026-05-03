@@ -5,7 +5,7 @@ import {
   MapPin, X, Eye, EyeOff, Shield, ArrowLeft, Clock, TrendingDown, TrendingUp,
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
   BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, User,
-  SlidersHorizontal, ChevronRight, RotateCcw, ShoppingCart, Menu
+  SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
@@ -5596,7 +5596,9 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         </div>
 
-        {/* ══ GPT PRODUCT REVIEW — right below product image ══ */}
+        {/* ══ GPT PRODUCT REVIEW — right below product image ══
+              States: null = loading skeleton, "" = failed (show fallback so user
+              isn't left with a missing section), string = real GPT-generated review. */}
         {gptDesc ? (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
             <h3 className="text-sm font-black text-gray-900 mb-3 flex items-center gap-2">
@@ -5604,12 +5606,39 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             </h3>
             <p className="text-[13px] text-gray-700 leading-relaxed whitespace-pre-line">{gptDesc}</p>
           </div>
-        ) : gptDesc === null && (
-          <div className="bg-gray-50 rounded-2xl p-5 animate-pulse">
-            <div className="h-3 bg-gray-200 rounded w-1/3 mb-3" />
-            <div className="h-3 bg-gray-200 rounded w-3/4 mb-2" />
-            <div className="h-3 bg-gray-200 rounded w-1/2" />
+        ) : gptDesc === null ? (
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
+            <h3 className="text-sm font-black text-gray-900 mb-3 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-violet-500 animate-pulse" /> מכין סקירה אישית...
+            </h3>
+            <div className="space-y-2 animate-pulse">
+              <div className="h-3 bg-gray-100 rounded w-3/4" />
+              <div className="h-3 bg-gray-100 rounded w-full" />
+              <div className="h-3 bg-gray-100 rounded w-5/6" />
+            </div>
           </div>
+        ) : (
+          /* Fallback when GPT failed — show what we know from the product itself */
+          (deal.specs?.length || deal.description) ? (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
+              <h3 className="text-sm font-black text-gray-900 mb-3 flex items-center gap-2">
+                <Package className="w-4 h-4 text-indigo-500" /> פרטי המוצר
+              </h3>
+              {deal.description && (
+                <p className="text-[13px] text-gray-700 leading-relaxed mb-3">{deal.description}</p>
+              )}
+              {deal.specs?.length > 0 && (
+                <ul className="space-y-1.5 text-[12px] text-gray-700">
+                  {deal.specs.slice(0, 6).map((s, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <Check className="w-3.5 h-3.5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <span>{s}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ) : null
         )}
 
         {/* ══ 1. PRICE COMPARISON — "המחיר בשוק vs מחיר Bundly" ══ */}
@@ -11267,18 +11296,59 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
 
         {/* ── STICKY BOTTOM CTA — always the same button ── */}
         <div className="flex-shrink-0 border-t border-gray-100 bg-white px-5 py-4">
-          <button onClick={() => {
-            // Pass the already-loaded image so DealDetailsPage shows it instantly
-            const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
-            if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
-            else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
-          }}
-            className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black rounded-2xl text-sm shadow-lg shadow-indigo-200/50 active:scale-[0.98] transition flex items-center justify-center gap-2">
-            <ChevronRight className="w-4 h-4" />
-            פרטים נוספים והצטרפות לקבוצה
-            {existingDeal && (
-              <span className="bg-white/20 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">{existingDeal.participants} משתתפים</span>
-            )}
+          {/* ── Luxurious primary CTA — two-line layout on mobile, premium gradient,
+                  shimmer animation, right-aligned chevron for RTL flow.       */}
+          <button
+            onClick={() => {
+              const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
+              if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
+              else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
+            }}
+            className="group relative w-full py-4 sm:py-3.5 px-4 rounded-2xl overflow-hidden active:scale-[0.985] transition-transform"
+            style={{
+              background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 35%, #7c3aed 70%, #a855f7 100%)",
+              boxShadow: "0 10px 30px -8px rgba(79,70,229,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+            }}
+          >
+            {/* Animated diagonal shimmer */}
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none opacity-50"
+              style={{
+                background: "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
+                animation: "ctaShimmer 2.6s ease-in-out infinite",
+                backgroundSize: "200% 100%",
+              }}
+            />
+            <style>{`
+              @keyframes ctaShimmer {
+                0%, 100% { background-position: 200% 0; }
+                50%      { background-position: -50% 0; }
+              }
+            `}</style>
+
+            {/* Content row — RTL */}
+            <div className="relative flex items-center justify-between gap-3" dir="rtl">
+              <div className="flex items-center gap-2.5 min-w-0">
+                {/* Icon badge */}
+                <span className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 ring-1 ring-white/25">
+                  <Users className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
+                </span>
+                <div className="text-right min-w-0">
+                  <div className="text-white font-black text-base sm:text-sm leading-tight tracking-tight">
+                    {existingDeal ? "הצטרף לקבוצה" : "הצטרף לקבוצת רכישה"}
+                  </div>
+                  <div className="text-white/85 text-[11px] sm:text-[11px] font-semibold leading-tight mt-0.5">
+                    {existingDeal
+                      ? <>👥 {existingDeal.participants} משתתפים · חיסכון משותף</>
+                      : <>הראשונים בקבוצה — הראשונים לחסוך</>
+                    }
+                  </div>
+                </div>
+              </div>
+              {/* Arrow — points LEFT in RTL = "forward" direction */}
+              <ChevronLeft className="w-5 h-5 text-white/95 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
+            </div>
           </button>
         </div>
 
@@ -21027,9 +21097,58 @@ export default function App() {
               onResult={(r) => setSearchResult(r)}
               onWizard={(q, opts) => openCategory(q, opts)}
             />
-            <button onClick={() => setShowCategoryBrowse(true)}
-              className="mt-2 w-full flex items-center justify-center gap-2 py-2.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-sm font-semibold rounded-xl transition">
-              <span>🗂️</span> חיפוש לפי קטגוריה
+            {/* ── Premium "Browse by category" CTA — sits right under the
+                  search bar so it's the first thing users see on mobile.    */}
+            <button
+              onClick={() => setShowCategoryBrowse(true)}
+              className="group relative mt-3 w-full overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
+              style={{
+                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)",
+                boxShadow: "0 12px 28px -8px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.2)",
+              }}
+            >
+              {/* Animated glow */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "radial-gradient(circle at 20% 0%, rgba(255,255,255,0.25), transparent 60%)",
+                }}
+              />
+              {/* Shimmer sweep */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.25) 50%, transparent 65%)",
+                  animation: "categoryCtaShimmer 3s ease-in-out infinite",
+                  backgroundSize: "250% 100%",
+                }}
+              />
+              <style>{`@keyframes categoryCtaShimmer{0%,100%{background-position:200% 0}50%{background-position:-30% 0}}`}</style>
+
+              <div className="relative flex items-center justify-between gap-3 px-4 py-3.5" dir="rtl">
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* Animated grid icon — represents categories */}
+                  <span className="w-10 h-10 rounded-xl bg-white/22 backdrop-blur-sm flex items-center justify-center flex-shrink-0 ring-1 ring-white/30 group-hover:rotate-6 transition-transform duration-300">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                      <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                      <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    </svg>
+                  </span>
+                  <div className="text-right min-w-0">
+                    <div className="text-white font-black text-base sm:text-[15px] leading-tight tracking-tight">
+                      חיפוש לפי קטגוריה
+                    </div>
+                    <div className="text-white/85 text-[11px] font-semibold leading-tight mt-0.5">
+                      גלה אלפי מוצרים מסווגים — מקררים, סמארטפונים, ועוד
+                    </div>
+                  </div>
+                </div>
+                <ChevronLeft className="w-5 h-5 text-white/95 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
+              </div>
             </button>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
