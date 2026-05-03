@@ -5405,21 +5405,36 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   }, [resolvedImg, extraImages, deal.image, deal._preloadedImage]);
 
   // ── GPT description (cached in localStorage) ──────────
+  // gptDesc states:
+  //   null          → still loading (shows skeleton)
+  //   ""  (empty)   → load failed / no description (skeleton hidden, no review block)
+  //   "..." string  → loaded, render review
   useEffect(() => {
     const n = deal.name.en || deal.name.he || "";
-    if (!n) return;
+    if (!n) { setGptDesc(""); return; }
     const cacheKey = `bundly_desc_${n.trim().toLowerCase()}`;
     try { const c = localStorage.getItem(cacheKey); if (c) { setGptDesc(c); return; } } catch {}
     let alive = true;
     const specStr = (deal.specs || []).slice(0, 8).join(", ");
-    fetch(`/api/product-description?name=${encodeURIComponent(n)}&specs=${encodeURIComponent(specStr)}&price=${bestBid?.amount || deal.groupOffer || ""}`)
+    // 12s timeout — on slow mobile networks GPT calls can hang. Without this
+    // the skeleton spins forever and the user thinks the page is broken.
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 12000);
+    fetch(`/api/product-description?name=${encodeURIComponent(n)}&specs=${encodeURIComponent(specStr)}&price=${bestBid?.amount || deal.groupOffer || ""}`, { signal: ac.signal })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (!alive || !data?.ok || !data.description) return;
-        setGptDesc(data.description);
-        try { localStorage.setItem(cacheKey, data.description); } catch {}
-      }).catch(() => {});
-    return () => { alive = false; };
+        if (!alive) return;
+        if (data?.ok && data.description) {
+          setGptDesc(data.description);
+          try { localStorage.setItem(cacheKey, data.description); } catch {}
+        } else {
+          // Non-200 or {ok:false} — clear skeleton, hide the block
+          setGptDesc("");
+        }
+      })
+      .catch(() => { if (alive) setGptDesc(""); })   // timeout / network error → hide skeleton
+      .finally(() => clearTimeout(timer));
+    return () => { alive = false; clearTimeout(timer); ac.abort(); };
   }, [deal.name.en, deal.name.he]);
 
   // ── Sticky tier selector on scroll ─────────────────────
@@ -10973,6 +10988,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   }, [result._zapModelId, result.productNameEn, result.productName]);
 
   // ── Fetch GPT product description (localStorage + server cache — never calls GPT twice) ──
+  // States: null = loading, "" = failed/empty, string = loaded.
   useEffect(() => {
     const name = result.productName || result.productNameEn || "";
     if (!name || specsLoading) return;
@@ -10989,15 +11005,23 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
     if (allSpecs.length === 0 && result.specs) result.specs.slice(0, 8).forEach(s => allSpecs.push(s));
     const specStr = allSpecs.slice(0, 10).join(", ");
     const price = sortedSuppliers[0]?.price || "";
-    fetch(`/api/product-description?name=${encodeURIComponent(name)}&specs=${encodeURIComponent(specStr)}&price=${price}`)
+    // 12s timeout — slow mobile networks + GPT cold-start can hang otherwise.
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 12000);
+    fetch(`/api/product-description?name=${encodeURIComponent(name)}&specs=${encodeURIComponent(specStr)}&price=${price}`, { signal: ac.signal })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (!alive || !data?.ok || !data.description) return;
-        setGptDesc(data.description);
-        try { localStorage.setItem(cacheKey, data.description); } catch {}
+        if (!alive) return;
+        if (data?.ok && data.description) {
+          setGptDesc(data.description);
+          try { localStorage.setItem(cacheKey, data.description); } catch {}
+        } else {
+          setGptDesc("");
+        }
       })
-      .catch(() => {});
-    return () => { alive = false; };
+      .catch(() => { if (alive) setGptDesc(""); })
+      .finally(() => clearTimeout(timer));
+    return () => { alive = false; clearTimeout(timer); ac.abort(); };
   }, [result.productName, result.productNameEn, specsLoading]);
 
   // ── Derived values ─────────────────────────────────────────────
