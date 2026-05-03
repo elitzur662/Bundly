@@ -83,12 +83,17 @@ export function helmetHeaders() {
       useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc:  ["'self'", "'unsafe-inline'"],
+        // Stripe.js loads from js.stripe.com (and may load helper scripts from
+        // m.stripe.com). Without these the credit-card iframe never appears.
+        scriptSrc:  ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network"],
+        scriptSrcElem: ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network"],
         styleSrc:   ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:    ["'self'", "https://fonts.gstatic.com", "data:"],
         imgSrc:     ["'self'", "data:", "https:", "blob:"],
-        connectSrc: ["'self'", "https://api.stripe.com", "https://hcaptcha.com", "https://*.hcaptcha.com"],
-        frameSrc:   ["'self'", "https://hcaptcha.com", "https://*.hcaptcha.com"],
+        // Stripe issues fetch/xhr to js.stripe.com, m.stripe.network, q.stripe.com (telemetry)
+        connectSrc: ["'self'", "https://api.stripe.com", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network", "https://q.stripe.com", "https://hcaptcha.com", "https://*.hcaptcha.com"],
+        // The CardElement renders inside an iframe served from js.stripe.com / hooks.stripe.com
+        frameSrc:   ["'self'", "https://js.stripe.com", "https://hooks.stripe.com", "https://m.stripe.network", "https://hcaptcha.com", "https://*.hcaptcha.com"],
         frameAncestors: ["'none'"],
         formAction: ["'self'"],
         baseUri:    ["'self'"],
@@ -125,14 +130,16 @@ export function securityHeaders(req, res, next) {
     res.setHeader("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
   }
   // CSP — tightened. Note: 'unsafe-inline' for styles needed by Tailwind/CSS-in-JS.
-  // Scripts are strictly same-origin; disable eval; disable plugins.
+  // Scripts are strictly same-origin + Stripe.js domains; disable eval; disable plugins.
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network",
+    "script-src-elem 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: https: blob:",
-    "connect-src 'self' https://api.stripe.com",
+    "connect-src 'self' https://api.stripe.com https://js.stripe.com https://m.stripe.com https://m.stripe.network https://q.stripe.com",
+    "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://m.stripe.network",
     "frame-ancestors 'none'",
     "form-action 'self'",
     "base-uri 'self'",
