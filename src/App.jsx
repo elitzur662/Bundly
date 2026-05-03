@@ -19111,6 +19111,89 @@ const _chatStore = {
   showPulse: true,
 };
 
+// Compact circular FAB with auto-fading speech-bubble label.
+// Shows "התייעץ עם Bundly" for 5s on mount (first impression), then collapses
+// to just the "B" logo so it doesn't clutter the screen. Re-shows on hover.
+function BundlyFab({ onOpen, showPulse }) {
+  const [labelVisible, setLabelVisible] = useState(true);
+
+  useEffect(() => {
+    // Hide the label after 5 seconds of inactivity
+    const t = setTimeout(() => setLabelVisible(false), 5000);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <div
+      className="fixed z-50 flex items-center gap-2 flex-row-reverse"
+      style={{
+        bottom: "max(80px, calc(env(safe-area-inset-bottom, 0px) + 80px))",
+        right: 16,
+      }}
+      onMouseEnter={() => setLabelVisible(true)}
+      onMouseLeave={() => setLabelVisible(false)}
+    >
+      {/* Round B-logo button — 56×56 (mobile-friendly tap target ≥44px) */}
+      <button
+        onClick={onOpen}
+        aria-label="התייעץ עם Bundly"
+        className="relative w-14 h-14 rounded-full shadow-2xl hover:shadow-indigo-300/50 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center flex-shrink-0"
+        style={{
+          background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+          border: "2px solid rgba(255,255,255,0.25)",
+        }}
+      >
+        {showPulse && (
+          <span
+            className="absolute inset-0 rounded-full animate-ping opacity-30"
+            style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
+          />
+        )}
+        {/* Bundly "B" wordmark in Rubik */}
+        <span
+          className="relative text-white font-black text-2xl"
+          style={{ fontFamily: "Rubik,sans-serif", letterSpacing: "-0.02em" }}
+        >
+          B
+        </span>
+      </button>
+
+      {/* Speech-bubble label — animated in/out */}
+      <div
+        className="pointer-events-none transition-all duration-300 ease-out"
+        style={{
+          opacity: labelVisible ? 1 : 0,
+          transform: labelVisible ? "translateX(0) scale(1)" : "translateX(20px) scale(0.85)",
+        }}
+      >
+        <div
+          className="bg-white text-gray-900 text-xs sm:text-sm font-bold px-3.5 py-2 rounded-2xl shadow-xl whitespace-nowrap relative"
+          style={{
+            border: "1px solid rgba(0,0,0,0.08)",
+            direction: "rtl",
+          }}
+        >
+          התייעץ עם Bundly 💬
+          {/* Tail pointing toward the FAB (left side, since flex-row-reverse) */}
+          <span
+            className="absolute"
+            style={{
+              left: -6,
+              top: "50%",
+              transform: "translateY(-50%) rotate(45deg)",
+              width: 10,
+              height: 10,
+              background: "white",
+              borderLeft: "1px solid rgba(0,0,0,0.08)",
+              borderBottom: "1px solid rgba(0,0,0,0.08)",
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supplierMode = false, supplier = null }) {
 
   const [isOpen, setIsOpen] = useState(_chatStore.isOpen);
@@ -19336,27 +19419,14 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
 
   return (
     <>
-      {/* ── FAB Button ── */}
+      {/* ── FAB Button — round B-logo + auto-fading tooltip ──
+            Compact circular button with the Bundly "B" mark. The "התייעץ עם
+            Bundly" label appears as a speech bubble for ~5s after first render,
+            then fades out so it doesn't clutter the screen. Re-appears on hover
+            (desktop) or on tap-and-release without click (mobile long-press feel
+            handled implicitly via the auto-show). */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed z-50 flex items-center gap-2 shadow-2xl hover:shadow-indigo-300/50 transition-all duration-300 hover:scale-105 active:scale-95 group"
-          style={{
-            bottom: 80, right: 16,
-            background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
-            borderRadius: 50,
-            padding: "12px 20px",
-            border: "2px solid rgba(255,255,255,0.2)",
-          }}
-        >
-          {showPulse && (
-            <span className="absolute inset-0 rounded-full animate-ping opacity-30" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }} />
-          )}
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-          <span className="text-white font-bold text-sm whitespace-nowrap">התייעץ עם Bundly</span>
-        </button>
+        <BundlyFab onOpen={() => setIsOpen(true)} showPulse={showPulse} />
       )}
 
       {/* ── Chat Panel ──
