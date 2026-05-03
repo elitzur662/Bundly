@@ -1,15 +1,13 @@
-# ──────────────────────────────────────────────────────────────────
-#  Bundly — bulk-upload local cache files to the Render persistent disk.
-#  Run from anywhere; bootstraps the production server with hours of
-#  enrichment data so users get instant search results from day one.
+# Bundly - bulk-upload local cache files to the Render persistent disk.
+# Run from anywhere; bootstraps the production server with hours of
+# enrichment data so users get instant search results from day one.
 #
-#  Usage:
-#    .\scripts\upload-cache-to-render.ps1 `
-#       -Url https://bundly.co `
-#       -AdminPassword 'YourAdminPassword'
+# Usage:
+#   .\scripts\upload-cache-to-render.ps1 -Url https://bundly.co -AdminPassword 'YourPwd'
 #
-#  Optional: -DryRun shows what would be uploaded without sending.
-# ──────────────────────────────────────────────────────────────────
+# Optional: -DryRun shows what would be uploaded without sending.
+#
+# Compatible with Windows PowerShell 5.1+ (no PS7-only syntax).
 
 param(
     [Parameter(Mandatory=$true)] [string] $Url,
@@ -19,19 +17,20 @@ param(
 
 $ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.Web   # for UrlEncode
+
 $Url = $Url.TrimEnd("/")
 $projectDir = (Get-Item $PSScriptRoot).Parent.FullName
 
-Write-Host "═══════════════════════════════════════════════════════"
-Write-Host " Bundly — Cache Bootstrap"
+Write-Host "======================================================="
+Write-Host " Bundly - Cache Bootstrap"
 Write-Host "  source : $projectDir"
 Write-Host "  target : $Url"
 Write-Host "  dryrun : $DryRun"
-Write-Host "═══════════════════════════════════════════════════════"
+Write-Host "======================================================="
 Write-Host ""
 
-# ── Step 1: log in to admin to get a JWT ─────────────────────────
-Write-Host "→ Authenticating as admin..."
+# Step 1: log in to admin to get a JWT
+Write-Host "-> Authenticating as admin..."
 try {
     $loginResp = Invoke-RestMethod `
         -Uri "$Url/api/admin/login" `
@@ -40,23 +39,23 @@ try {
         -ContentType "application/json"
     $token = $loginResp.token
     if (-not $token) { throw "Login response missing token" }
-    Write-Host "✓ Logged in. Token expires in $($loginResp.expiresIn ?? '?')"
+    $expiresIn = if ($loginResp.expiresIn) { $loginResp.expiresIn } else { "?" }
+    Write-Host "OK Logged in. Token expires in $expiresIn"
 } catch {
     Write-Error "Admin login failed: $_"
     exit 1
 }
 
-# ── Step 2: build list of files to upload ───────────────────────
-# Order matters: small JSON caches first, then product-db (large),
-# so search works as soon as core caches arrive.
+# Step 2: build list of files to upload
+# Order matters: small JSON caches first, then product-db (large).
 $patterns = @(
-    @{ rel = "bundly-db.json";                 path = (Join-Path $projectDir "bundly-db.json") },
-    @{ rel = "zap-categories.json";            path = (Join-Path $projectDir "zap-categories.json") },
-    @{ rel = "zap-prices.json";                path = (Join-Path $projectDir "zap-prices.json") },
-    @{ rel = "ksp-cache.json";                 path = (Join-Path $projectDir "ksp-cache.json") },
-    @{ rel = "zap-wizard.json";                path = (Join-Path $projectDir "zap-wizard.json") },
-    @{ rel = "zap-filters-cache.json";         path = (Join-Path $projectDir "zap-filters-cache.json") },
-    @{ rel = "product-images-cache.json";      path = (Join-Path $projectDir "product-images-cache.json") },
+    @{ rel = "bundly-db.json";                  path = (Join-Path $projectDir "bundly-db.json") },
+    @{ rel = "zap-categories.json";             path = (Join-Path $projectDir "zap-categories.json") },
+    @{ rel = "zap-prices.json";                 path = (Join-Path $projectDir "zap-prices.json") },
+    @{ rel = "ksp-cache.json";                  path = (Join-Path $projectDir "ksp-cache.json") },
+    @{ rel = "zap-wizard.json";                 path = (Join-Path $projectDir "zap-wizard.json") },
+    @{ rel = "zap-filters-cache.json";          path = (Join-Path $projectDir "zap-filters-cache.json") },
+    @{ rel = "product-images-cache.json";       path = (Join-Path $projectDir "product-images-cache.json") },
     @{ rel = "product-descriptions-cache.json"; path = (Join-Path $projectDir "product-descriptions-cache.json") }
 )
 
@@ -65,7 +64,7 @@ foreach ($p in $patterns) {
     if (Test-Path $p.path) {
         $files += $p
     } else {
-        Write-Host "  (skip — missing: $($p.rel))" -ForegroundColor DarkGray
+        Write-Host "  (skip - missing: $($p.rel))" -ForegroundColor DarkGray
     }
 }
 
@@ -107,19 +106,19 @@ foreach ($f in $files) {
 }
 $totalMB = [math]::Round($totalBytes / 1MB, 1)
 Write-Host ""
-Write-Host "→ $($files.Count) file(s), $totalMB MB total to upload."
+Write-Host "-> $($files.Count) file(s), $totalMB MB total to upload."
 Write-Host ""
 
 if ($DryRun) {
     Write-Host "[DRY-RUN] Would upload:"
     $files | ForEach-Object {
-        $mb = [math]::Round((Get-Item $_.path).Length / 1KB, 1)
-        Write-Host ("    {0,8} KB  {1}" -f $mb, $_.rel)
+        $kb = [math]::Round((Get-Item $_.path).Length / 1KB, 1)
+        Write-Host ("    {0,8} KB  {1}" -f $kb, $_.rel)
     }
     exit 0
 }
 
-# ── Step 3: upload each file via raw POST ───────────────────────
+# Step 3: upload each file via raw POST
 $success = 0; $failed = 0; $i = 0
 $startTime = Get-Date
 
@@ -139,22 +138,22 @@ foreach ($f in $files) {
             -ContentType "application/octet-stream" `
             -Body $bytes
         if ($resp.ok) {
-            Write-Host "✓" -ForegroundColor Green
+            Write-Host "OK" -ForegroundColor Green
             $success++
         } else {
-            Write-Host "✗ $($resp.error)" -ForegroundColor Red
+            Write-Host ("FAIL " + $resp.error) -ForegroundColor Red
             $failed++
         }
     } catch {
-        Write-Host "✗ $_" -ForegroundColor Red
+        Write-Host ("FAIL " + $_) -ForegroundColor Red
         $failed++
     }
 }
 
 $elapsed = (Get-Date) - $startTime
 Write-Host ""
-Write-Host "═══════════════════════════════════════════════════════"
-Write-Host (" Done in {0:F1}s — uploaded {1}, failed {2}." -f $elapsed.TotalSeconds, $success, $failed)
+Write-Host "======================================================="
+Write-Host (" Done in {0:F1}s - uploaded {1}, failed {2}." -f $elapsed.TotalSeconds, $success, $failed)
 Write-Host " Tip: trigger /api/admin/reload-product-db to make"
 Write-Host " the server pick up the new product-db data immediately."
-Write-Host "═══════════════════════════════════════════════════════"
+Write-Host "======================================================="
