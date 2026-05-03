@@ -10,6 +10,17 @@ import { getStripePromise } from './stripe.js'
 // which the card form gracefully detects and falls back to demo flow.
 const stripePromise = getStripePromise();
 
+// iOS Safari 100vh fix — sets a CSS var to the actual visible viewport height,
+// so .h-screen-safe / .min-h-screen-safe (defined in index.css) won't be cut off
+// by the URL bar. Updates on every orientation/resize.
+function _setVhVar() {
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+_setVhVar();
+window.addEventListener('resize', _setVhVar);
+window.addEventListener('orientationchange', _setVhVar);
+
 // Top-level error boundary so a single bad component can't blank the whole
 // page. React 18+ still falls back to white-screen on uncaught render errors;
 // this catches them and shows a recoverable UI instead of a silent crash.
