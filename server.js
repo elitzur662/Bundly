@@ -8587,6 +8587,49 @@ app.post("/api/auth/verify-otp",
   res.json({ ok: true, token, user: { id: user.id, name: user.name, firstName: user.firstName, lastName: user.lastName, phone: user.phone, email: user.email, city: user.city, street: user.street, buildingNum: user.buildingNum, apartmentNum: user.apartmentNum }, isNew });
 } : notReady);
 
+// POST /api/auth/test-login — quick demo login that bypasses OTP.
+// Creates (or returns) a fixed test user so the team can iterate on features
+// end-to-end without waiting for SMS. Rate-limited per IP to prevent abuse.
+// Disabled in production unless ALLOW_TEST_LOGIN=true is explicitly set —
+// staging/prod environments shouldn't expose this without intent.
+app.post("/api/auth/test-login",
+  rateLimit({ windowMs: 60_000, max: 10, label: "auth-test-login" }),
+  AUTH_READY ? (req, res) => {
+    const allowed = process.env.NODE_ENV !== "production"
+                 || process.env.ALLOW_TEST_LOGIN === "true";
+    if (!allowed) {
+      return res.status(403).json({ error: "Test login disabled in production" });
+    }
+    try {
+      // Synthetic phone in the +972-555 range (won't collide with real users)
+      const testPhone = "+972555000000";
+      const user = upsertUser({
+        phone: testPhone,
+        name: "Demo User",
+        email: "demo@bundly.co",
+      });
+      const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "7d", algorithm: "HS256" });
+      audit("TEST_LOGIN", req, { userId: user.id });
+      res.json({
+        ok: true,
+        token,
+        user: {
+          id: user.id, name: user.name || "Demo User",
+          firstName: user.firstName || "Demo",
+          lastName: user.lastName || "User",
+          phone: user.phone, email: user.email,
+          city: user.city, street: user.street,
+          buildingNum: user.buildingNum, apartmentNum: user.apartmentNum,
+        },
+        isNew: false,
+        testLogin: true,
+      });
+    } catch (e) {
+      console.error("[test-login] error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  } : notReady);
+
 // GET /api/auth/me
 app.get("/api/auth/me", authMiddleware, AUTH_READY ? (req, res) => {
   const user = getUserByPhone(req.user.phone);

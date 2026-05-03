@@ -2886,6 +2886,43 @@ function AuthModal({ t, onSuccess, onClose }) {
                 <p className="text-xs text-gray-400">אני רוצה להירשם ולהצטרף</p>
               </div>
             </button>
+
+            {/* ── Quick test login — bypasses OTP, creates a temporary demo user.
+                  Useful while iterating: lets the team try features end-to-end
+                  without waiting for SMS/email. The created user is real but
+                  flagged in the DB so it's easy to clean up later.            */}
+            <div className="pt-2 mt-2 border-t border-dashed border-gray-200">
+              <p className="text-[10px] text-gray-400 text-center mb-2 font-medium uppercase tracking-wide">
+                למפתחים / בדיקה מהירה
+              </p>
+              <button
+                onClick={async () => {
+                  if (loading) return;
+                  setError(""); setLoading(true);
+                  try {
+                    const res = await fetch("/api/auth/test-login", { method: "POST", headers: { "Content-Type": "application/json" } });
+                    const data = await res.json();
+                    if (!res.ok || !data.ok) throw new Error(data.error || "התחברות בדיקה נכשלה");
+                    localStorage.setItem("bundly_token", data.token);
+                    onSuccess(data.user);
+                  } catch (e) {
+                    setError(e.message);
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                disabled={loading}
+                className="w-full flex items-center gap-3 p-3 border border-dashed border-gray-300 rounded-xl hover:border-amber-400 hover:bg-amber-50 transition-all group"
+              >
+                <div className="w-9 h-9 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                  <Zap className="w-4 h-4 text-amber-600" />
+                </div>
+                <div className="text-right flex-1">
+                  <p className="font-bold text-gray-700 text-sm">כניסה לבדיקה (ללא OTP)</p>
+                  <p className="text-[11px] text-gray-400">התחבר כמשתמש דמה — לא נשלח SMS</p>
+                </div>
+              </button>
+            </div>
           </div>
         )}
 
@@ -3577,11 +3614,20 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
         </div>
       </div>
 
-      {/* Mobile drawer */}
+      {/* Mobile drawer — uses native CSS transform animation so it works
+            without the tailwindcss-animate plugin (which we don't ship). */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 md:hidden" dir="rtl">
           <div className="absolute inset-0 bg-black/50" onClick={closeMenu} />
-          <div className="absolute top-0 right-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto flex flex-col animate-in slide-in-from-right duration-200">
+          <div
+            className="absolute top-0 right-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto flex flex-col"
+            style={{
+              animation: "drawerSlideIn 0.22s cubic-bezier(.22,.68,0,1.15) both",
+              paddingTop: "env(safe-area-inset-top, 0px)",
+              paddingBottom: "env(safe-area-inset-bottom, 0px)",
+            }}
+          >
+            <style>{`@keyframes drawerSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }`}</style>
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <span className="font-black text-xl bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">{BRAND_NAME}</span>
               <button onClick={closeMenu} className="p-2 rounded-xl hover:bg-gray-100">
