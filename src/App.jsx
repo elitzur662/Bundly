@@ -3832,18 +3832,62 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         </div>
 
         {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6 w-full max-w-xl">
+        <div className="flex flex-col sm:flex-row gap-3 mb-3 w-full max-w-xl">
           <button onClick={onDeals} className="flex-1 min-h-[48px] bg-white text-indigo-700 font-bold px-6 py-3.5 rounded-xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-xl shadow-indigo-900/30 text-sm">
             {t.heroCta}
           </button>
           <button onClick={onPersonal} className="flex-1 min-h-[48px] bg-white/10 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl hover:bg-white/20 transition-all text-sm backdrop-blur-sm">
             {t.heroCta2}
           </button>
-          {/* 3rd CTA — hidden on mobile (available via drawer/category browser) */}
-          <button onClick={onCategoryBrowse} className="hidden sm:flex flex-1 min-h-[48px] bg-white/10 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl hover:bg-white/20 transition-all text-sm backdrop-blur-sm items-center gap-2 justify-center">
-            <span>🗂️</span> חיפוש לפי קטגוריה
-          </button>
         </div>
+
+        {/* ── Premium "Browse by category" CTA — full-width, prominent,
+              visible on EVERY screen size including mobile.  */}
+        <button
+          onClick={onCategoryBrowse}
+          className="group relative mb-6 w-full max-w-xl overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
+          style={{
+            background: "linear-gradient(135deg, #ffffff 0%, #fef3c7 50%, #fde68a 100%)",
+            boxShadow: "0 14px 36px -10px rgba(251,191,36,0.55), inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
+        >
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "radial-gradient(circle at 18% 0%, rgba(255,255,255,0.6), transparent 60%)" }}
+          />
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%)",
+              animation: "homeCategoryShimmer 3.2s ease-in-out infinite",
+              backgroundSize: "250% 100%",
+            }}
+          />
+          <style>{`@keyframes homeCategoryShimmer{0%,100%{background-position:200% 0}50%{background-position:-30% 0}}`}</style>
+          <div className="relative flex items-center justify-between gap-3 px-4 py-3.5" dir="rtl">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md group-hover:rotate-6 transition-transform duration-300">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+              </span>
+              <div className="text-right min-w-0">
+                <div className="text-gray-900 font-black text-base sm:text-[15px] leading-tight tracking-tight">
+                  חיפוש לפי קטגוריה
+                </div>
+                <div className="text-gray-700 text-[11px] font-semibold leading-tight mt-0.5">
+                  גלה אלפי מוצרים מסווגים — מקררים, סמארטפונים, ועוד
+                </div>
+              </div>
+            </div>
+            <ChevronLeft className="w-5 h-5 text-gray-700 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
+          </div>
+        </button>
 
 
         {/* FOMO line */}
