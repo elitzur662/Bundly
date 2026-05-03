@@ -10164,6 +10164,69 @@ app.patch("/api/admin/disputes/:id", adminMiddleware, AUTH_READY ? async (req, r
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
+// ─────────────────────────────────────────────────────────────────
+//  ADMIN — bulk file upload (one-time bootstrap of Render disk)
+//  Writes raw bytes to DATA_DIR / cwd. Path is validated against a
+//  whitelist of expected cache/data files; arbitrary writes are rejected.
+//  Designed to be called from a local PowerShell/bash script that walks
+//  the local data dir and POSTs each file individually.
+// ─────────────────────────────────────────────────────────────────
+const _UPLOAD_DATA_DIR = process.env.DATA_DIR || process.cwd();
+const _UPLOAD_ALLOWED = [
+  /^bundly-db\.json$/,
+  /^zap-categories\.json$/,
+  /^zap-prices\.json$/,
+  /^ksp-cache\.json$/,
+  /^zap-wizard\.json$/,
+  /^zap-filters-cache\.json$/,
+  /^product-images-cache\.json$/,
+  /^product-descriptions-cache\.json$/,
+  /^product-db\/[a-z0-9_-]+\/(products|meta)\.json$/i,
+  /^product-db\/[a-z0-9_-]+\/images\/[a-z0-9_.-]+\.(jpg|jpeg|png|webp|gif)$/i,
+  /^product-img\/[a-z0-9_-]+\/[a-z0-9_.-]+\.(jpg|jpeg|png|webp|gif)$/i,
+  /^invoices\/\d{4}-\d{6}\.(json|html)$/,
+];
+
+app.post(
+  "/api/admin/upload-file",
+  adminMiddleware,
+  // 100MB cap per request — large enough for product-db zap dumps, tight enough to limit blast radius.
+  express.raw({ type: () => true, limit: "100mb" }),
+  async (req, res) => {
+    try {
+      const rel = String(req.query.path || "").trim().replace(/\\/g, "/");
+      if (!rel || rel.startsWith("/") || rel.includes("..") || rel.includes("\0")) {
+        return res.status(400).json({ error: "Invalid path" });
+      }
+      if (!_UPLOAD_ALLOWED.some(re => re.test(rel))) {
+        audit("ADMIN_UPLOAD_REJECTED", req, { rel });
+        return res.status(403).json({ error: "Path not in whitelist" });
+      }
+      if (!Buffer.isBuffer(req.body) || req.body.length === 0) {
+        return res.status(400).json({ error: "Empty body" });
+      }
+
+      const { join: _j, dirname: _d } = await import("node:path");
+      const { mkdirSync: _mk, writeFileSync: _wf, renameSync: _rn, existsSync: _ex } = await import("node:fs");
+
+      const target = _j(_UPLOAD_DATA_DIR, rel);
+      const targetDir = _d(target);
+      if (!_ex(targetDir)) _mk(targetDir, { recursive: true });
+
+      // Atomic write: tmp → rename. Prevents partial files if the connection drops.
+      const tmp = target + ".upload.tmp";
+      _wf(tmp, req.body);
+      _rn(tmp, target);
+
+      console.log(`[admin-upload] wrote ${req.body.length}B → ${rel}`);
+      res.json({ ok: true, path: rel, bytes: req.body.length });
+    } catch (e) {
+      console.error("[admin-upload] error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  }
+);
+
 // ── Reviews ─────────────────────────────────────────────────────
 app.post("/api/reviews", authMiddleware, AUTH_READY ? (req, res) => {
   try {
