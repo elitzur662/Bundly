@@ -18942,11 +18942,17 @@ function CategoryBrowseModal({ onWizard, onClose }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {CATEGORY_TREE.map((cat) => (
                 <button key={cat.id} onClick={() => handleMainCat(cat)}
-                  className={`flex flex-col items-center gap-3 p-5 ${cat.bg} ${cat.border} border-2 rounded-2xl hover:shadow-md transition-all group hover:scale-105 active:scale-95`}>
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow`}>
+                  className={`flex flex-col items-center gap-2.5 p-4 ${cat.bg} ${cat.border} border-2 rounded-2xl hover:shadow-md transition-all group active:scale-95 min-h-[140px]`}>
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow flex-shrink-0`}>
                     <span className="text-2xl">{cat.icon}</span>
                   </div>
-                  <span className="text-sm font-bold text-gray-800 text-center leading-tight">{cat.name}</span>
+                  {/* Allow up to 2 lines so long Hebrew category names show fully */}
+                  <span
+                    className="text-[13px] sm:text-sm font-bold text-gray-800 text-center leading-tight px-0.5"
+                    style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}
+                  >
+                    {cat.name}
+                  </span>
                   <span className="text-[10px] text-gray-400">{cat.sub.length} תת-קטגוריות</span>
                 </button>
               ))}
@@ -18955,16 +18961,21 @@ function CategoryBrowseModal({ onWizard, onClose }) {
 
           {/* Level 1 — Sub-categories */}
           {!flatSearch && level === 1 && selectedCat && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {selectedCat.sub.map((sub, i) => (
                 <button key={i} onClick={() => handleSub(sub)}
-                  className={`flex items-center gap-3 p-4 ${selectedCat.bg} ${selectedCat.border} border rounded-2xl hover:shadow-md transition-all group hover:scale-105 active:scale-95 text-right`}>
+                  className={`flex items-center gap-3 p-4 ${selectedCat.bg} ${selectedCat.border} border rounded-2xl hover:shadow-md transition-all group active:scale-95 text-right min-h-[64px]`}>
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${selectedCat.color} flex items-center justify-center flex-shrink-0 shadow-sm`}>
                     <span className="text-lg">{sub.icon}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-bold text-gray-800 group-hover:text-indigo-700 truncate">{sub.name}</div>
-                    <div className="text-[10px] text-gray-400">{sub.items.length} מוצרים</div>
+                    {/* line-clamp-2 lets long category names wrap to a 2nd line
+                          instead of being cut off mid-word with truncate. */}
+                    <div className="text-sm font-bold text-gray-800 group-hover:text-indigo-700 leading-tight"
+                         style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>
+                      {sub.name}
+                    </div>
+                    <div className="text-[10px] text-gray-400 mt-0.5">{sub.items.length} מוצרים</div>
                   </div>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-300 group-hover:text-indigo-400 flex-shrink-0 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                 </button>
@@ -18976,14 +18987,17 @@ function CategoryBrowseModal({ onWizard, onClose }) {
           {!flatSearch && level === 2 && selectedSub && (
             <div>
               <p className="text-xs text-gray-400 mb-4">בחר מוצר כדי לפתוח את אשף הבחירה המודרך</p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {selectedSub.items.map((item, i) => (
                   <button key={i} onClick={() => handleItem(item)}
-                    className={`flex items-center gap-2.5 p-3.5 ${selectedCat?.bg || "bg-gray-50"} ${selectedCat?.border || "border-gray-100"} border rounded-xl hover:shadow-md transition-all group hover:scale-105 active:scale-95 text-right`}>
+                    className={`flex items-center gap-2.5 p-3.5 ${selectedCat?.bg || "bg-gray-50"} ${selectedCat?.border || "border-gray-100"} border rounded-xl hover:shadow-md transition-all group active:scale-95 text-right min-h-[56px]`}>
                     <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${selectedCat?.color || "from-gray-400 to-gray-500"} flex items-center justify-center flex-shrink-0 shadow-sm`}>
                       <span className="text-sm">{selectedSub.icon}</span>
                     </div>
-                    <span className="text-sm font-semibold text-gray-800 group-hover:text-indigo-700 flex-1 text-right">{item}</span>
+                    <span className="text-sm font-semibold text-gray-800 group-hover:text-indigo-700 flex-1 text-right leading-tight"
+                          style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>
+                      {item}
+                    </span>
                   </button>
                 ))}
               </div>
