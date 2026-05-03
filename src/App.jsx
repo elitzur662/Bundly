@@ -3247,7 +3247,7 @@ function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
 // ─────────────────────────────────────────────────────────────────
 //  PROFILE MODAL — personal info + address + notification settings
 // ─────────────────────────────────────────────────────────────────
-function ProfileModal({ user, token, onClose, onUpdate, onNotify }) {
+function ProfileModal({ user, token, onClose, onUpdate, onNotify, onLogout }) {
   const [tab, setTab] = useState("profile"); // "profile" | "settings"
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -3475,6 +3475,28 @@ function ProfileModal({ user, token, onClose, onUpdate, onNotify }) {
             <Btn onClick={savePrefs} disabled={saving} className="w-full mt-3" size="lg">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "שמור הגדרות"}
             </Btn>
+
+            {/* ── Logout — separated from settings by a divider so it's a
+                  deliberate action, not an accidental click. */}
+            {onLogout && (
+              <div className="pt-4 mt-4 border-t border-gray-100">
+                <button
+                  onClick={() => {
+                    if (confirm("האם להתנתק מהחשבון?")) {
+                      onLogout();
+                      onClose();
+                    }
+                  }}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold text-red-600 hover:bg-red-50 active:bg-red-100 transition border border-red-200 hover:border-red-300 min-h-[44px]"
+                >
+                  <LogOut className="w-4 h-4" />
+                  התנתק מהחשבון
+                </button>
+                <p className="text-[10px] text-gray-400 text-center mt-2 leading-relaxed">
+                  לחיצה תחזיר אותך למסך כניסה. הנתונים שלך נשמרים בשרת.
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -3607,9 +3629,20 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </Btn>
             </>
           )}
-          {/* Mobile hamburger — always last */}
-          <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 rounded-xl hover:bg-gray-100 transition" aria-label="תפריט">
-            <Menu className="w-5 h-5 text-gray-600" />
+          {/* Mobile hamburger — always last. Wrapped in event-stop to ensure
+                clicks aren't swallowed by accidental parent handlers. */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMobileMenuOpen(true);
+            }}
+            className="md:hidden p-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 active:bg-gray-200 transition relative z-[60]"
+            aria-label="תפריט"
+            aria-expanded={mobileMenuOpen}
+          >
+            <Menu className="w-5 h-5 text-gray-700" strokeWidth={2.5} />
           </button>
         </div>
       </div>
@@ -3634,23 +3667,31 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                 <X className="w-5 h-5 text-gray-600" />
               </button>
             </div>
-            <nav className="flex-1 p-3 space-y-1">
+            <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+              {/* Primary navigation */}
               {[
-                { m: "search",   icon: <Search className="w-5 h-5" />, label: t.navSearch },
-                { m: "deals",    icon: <Tag className="w-5 h-5" />, label: t.activeGroups },
-                { m: "personal", icon: <Send className="w-5 h-5" />, label: t.personalRequest },
-                { m: "suppliers", icon: <Building2 className="w-5 h-5" />, label: "לספקים" },
-              ].map(({ m, icon, label }) => (
+                { m: "search",    icon: <Search className="w-5 h-5" />,     label: t.navSearch },
+                { m: "deals",     icon: <Tag className="w-5 h-5" />,        label: t.activeGroups },
+                { m: "personal",  icon: <Send className="w-5 h-5" />,       label: t.personalRequest },
+                { m: "suppliers", icon: <Building2 className="w-5 h-5" />,  label: "לספקים", highlight: true },
+              ].map(({ m, icon, label, highlight }) => (
                 <button key={m} onClick={() => { closeMenu(); setMode(m); }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition min-h-[44px] ${
-                    mode === m ? "bg-indigo-50 text-indigo-700" : "text-gray-600 hover:bg-gray-50"
+                    mode === m
+                      ? "bg-indigo-50 text-indigo-700"
+                      : highlight
+                        ? "text-emerald-700 bg-emerald-50/50 hover:bg-emerald-50 border border-emerald-100"
+                        : "text-gray-600 hover:bg-gray-50"
                   }`}>
                   {icon}{label}
                 </button>
               ))}
+
+              {/* User-specific links */}
               {user && (
                 <>
-                  <div className="border-t border-gray-100 my-2" />
+                  <div className="border-t border-gray-100 my-3" />
+                  <p className="text-[11px] font-bold text-gray-400 px-4 mb-1 uppercase tracking-wider">החשבון שלי</p>
                   <button onClick={() => { closeMenu(); onProfileClick?.(); }}
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
                     <User className="w-5 h-5" />הפרופיל שלי
@@ -3661,6 +3702,26 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                   </button>
                 </>
               )}
+
+              {/* Language selector — RTL/LTR + Hebrew/English/Arabic/Russian */}
+              <div className="border-t border-gray-100 my-3" />
+              <p className="text-[11px] font-bold text-gray-400 px-4 mb-1 uppercase tracking-wider">שפה</p>
+              <div className="px-2 grid grid-cols-2 gap-1.5">
+                {LANGS.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => { setLang(l.code); }}
+                    className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold transition min-h-[44px] ${
+                      lang === l.code
+                        ? "bg-indigo-100 text-indigo-700 border border-indigo-200"
+                        : "text-gray-600 bg-gray-50 hover:bg-gray-100"
+                    }`}
+                  >
+                    <Globe className="w-4 h-4" />
+                    {l.full}
+                  </button>
+                ))}
+              </div>
             </nav>
             {user && (
               <div className="p-3 border-t border-gray-100">
@@ -20849,7 +20910,7 @@ export default function App() {
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} />
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
         {universalBackBtn}
       </div>
@@ -20949,7 +21010,7 @@ export default function App() {
           />
         )}
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
         {universalBackBtn}
@@ -20982,7 +21043,7 @@ export default function App() {
       )}
 
       {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
       {showSupplier && <SupplierModal t={t} categories={cats}
         onSubmit={s=>{setPendingSuppliers(p=>[s,...p]);setShowSupplier(false);notify(t.supplierSent);}}
         onClose={()=>setShowSupplier(false)}
