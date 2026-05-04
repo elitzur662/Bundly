@@ -5877,15 +5877,17 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 ))}
               </div>
             )}
-            {/* Badges */}
-            <div className="absolute top-4 left-4">
-              <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-md">
+            {/* Badges — positioned at the BOTTOM of the image (with safe
+                  margin) so they never overlap the product title below.   */}
+            <div className="absolute bottom-3 left-3 z-10">
+              <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg ring-2 ring-white/50">
                 -{deal.discount}% מחיר קבוצה
               </span>
             </div>
-            <div className="absolute top-4 right-4 flex gap-2">
+            <div className="absolute bottom-3 right-3 z-10 flex gap-2">
               <button onClick={(e) => { e.stopPropagation(); handleWhatsApp(); }}
-                className="bg-[#25D366] text-white px-3 py-2 rounded-xl shadow-sm hover:bg-[#20bb58] active:scale-95 transition flex items-center gap-1.5 text-xs font-bold">
+                aria-label="שתף בוואטסאפ"
+                className="bg-[#25D366] text-white px-3 py-2 rounded-xl shadow-lg hover:bg-[#20bb58] active:scale-95 transition flex items-center gap-1.5 text-xs font-bold ring-2 ring-white/50">
                 <Share2 className="w-3.5 h-3.5" /> שתף
               </button>
             </div>
@@ -21115,6 +21117,11 @@ export default function App() {
   const canGoBack = !!selectedDeal || !!searchResult || !!categoryQuery
                   || !!disambigModal || !!joinPoolModal || !!showCategoryBrowse
                   || !!showAuth || (mode !== "home");
+  // Pages that ALREADY render their own native back button — don't show the
+  // floating universal one on top of them (it overlaps tier cards / share
+  // buttons / shopping content).
+  const hideUniversalBack = !!selectedDeal || !!categoryQuery || !!disambigModal
+                          || !!searchResult;
   const goBack = useCallback(() => {
     if (showAuth)              { setShowAuth(false); return; }
     if (showCategoryBrowse)    { setShowCategoryBrowse(false); return; }
@@ -21146,7 +21153,7 @@ export default function App() {
   // Rendered via portal so it sits above EVERY screen the App renders.
   // Hidden on the home page (nowhere to go back to). Sits at top-left so it
   // doesn't conflict with the FAB at bottom-right.
-  const universalBackBtn = canGoBack && typeof document !== "undefined"
+  const universalBackBtn = canGoBack && !hideUniversalBack && typeof document !== "undefined"
     ? createPortal(
         <button
           onClick={goBack}
