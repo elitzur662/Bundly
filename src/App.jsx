@@ -10,6 +10,36 @@ import {
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
+// Map Stripe error codes / common English messages to Hebrew so users in our
+// RTL Hebrew app aren't confronted with English errors. Falls back to a
+// generic Hebrew message if the code/text is unrecognized.
+const STRIPE_ERROR_HE = {
+  card_declined:           "הכרטיס נדחה. נסה כרטיס אחר או צור קשר עם הבנק.",
+  insufficient_funds:      "אין כיסוי בכרטיס. נסה כרטיס אחר.",
+  expired_card:            "תוקף הכרטיס פג. עדכן פרטים או נסה כרטיס אחר.",
+  incorrect_cvc:           "ה-CVC שגוי. בדוק את שלוש הספרות בגב הכרטיס.",
+  incorrect_number:        "מספר הכרטיס לא תקין.",
+  invalid_expiry_month:    "חודש התוקף לא תקין.",
+  invalid_expiry_year:     "שנת התוקף לא תקינה.",
+  invalid_cvc:             "ה-CVC לא תקין.",
+  processing_error:        "תקלה זמנית בעיבוד. נסה שוב בעוד כמה שניות.",
+  authentication_required: "הבנק שלך דורש אימות נוסף. בדוק את הסמ\"ס/אפליקציה.",
+};
+function localizeStripeError(err) {
+  if (!err) return "תשלום נכשל — נסה שוב";
+  const code = err.code || err.decline_code;
+  if (code && STRIPE_ERROR_HE[code]) return STRIPE_ERROR_HE[code];
+  // Fallback: try to match common English text patterns
+  const msg = String(err.message || err);
+  if (/declined/i.test(msg))           return STRIPE_ERROR_HE.card_declined;
+  if (/insufficient/i.test(msg))       return STRIPE_ERROR_HE.insufficient_funds;
+  if (/expired/i.test(msg))            return STRIPE_ERROR_HE.expired_card;
+  if (/cvc|security code/i.test(msg))  return STRIPE_ERROR_HE.incorrect_cvc;
+  if (/number/i.test(msg))             return STRIPE_ERROR_HE.incorrect_number;
+  // Last resort — show the original text but with a Hebrew prefix
+  return `תשלום נכשל: ${msg.slice(0, 100)}`;
+}
+
 // ─────────────────────────────────────────────────────────────────
 //  STRIPE CARD SECTION — shared by DepositModal and OfferAcceptModal
 //  Renders Stripe's hosted CardElement iframe (PCI-scope SAQ-A) with a
@@ -46,7 +76,7 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
             billing_details: { name: name.trim() },
           },
         });
-        if (result.error) return { ok: false, error: result.error.message || "תשלום נכשל" };
+        if (result.error) return { ok: false, error: localizeStripeError(result.error) };
         return { ok: true, paymentIntent: result.paymentIntent };
       },
       ready: !!stripe && !!elements,
@@ -2739,6 +2769,10 @@ function AuthModal({ t, onSuccess, onClose }) {
   // ── Existing user: check phone+email then send OTP ───────────
   const handleExistingLogin = async () => {
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
+    // Email format validation — only when an email is supplied (it's optional)
+    if (loginEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail.trim())) {
+      setError("פורמט אימייל לא תקין"); return;
+    }
     setError(""); setLoading(true);
     try {
       // First verify the phone+email match an existing user
@@ -2911,42 +2945,49 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </button>
 
-            {/* ── Quick test login — bypasses OTP, creates a temporary demo user.
-                  Useful while iterating: lets the team try features end-to-end
-                  without waiting for SMS/email. The created user is real but
-                  flagged in the DB so it's easy to clean up later.            */}
-            <div className="pt-2 mt-2 border-t border-dashed border-gray-200">
-              <p className="text-[10px] text-gray-400 text-center mb-2 font-medium uppercase tracking-wide">
-                למפתחים / בדיקה מהירה
-              </p>
-              <button
-                onClick={async () => {
-                  if (loading) return;
-                  setError(""); setLoading(true);
-                  try {
-                    const res = await fetch("/api/auth/test-login", { method: "POST", headers: { "Content-Type": "application/json" } });
-                    const data = await res.json();
-                    if (!res.ok || !data.ok) throw new Error(data.error || "התחברות בדיקה נכשלה");
-                    localStorage.setItem("bundly_token", data.token);
-                    onSuccess(data.user);
-                  } catch (e) {
-                    setError(e.message);
-                  } finally {
-                    setLoading(false);
-                  }
-                }}
-                disabled={loading}
-                className="w-full flex items-center gap-3 p-3 border border-dashed border-gray-300 rounded-xl hover:border-amber-400 hover:bg-amber-50 transition-all group"
-              >
-                <div className="w-9 h-9 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                  <Zap className="w-4 h-4 text-amber-600" />
+            {/* ── Quick test login — bypasses OTP. Hidden in production unless
+                  the page is loaded from localhost (preserves dev access).   */}
+            {(() => {
+              const isLocalhost = typeof window !== "undefined" &&
+                /^(localhost|127\.0\.0\.1|192\.168\.|10\.)/.test(window.location.hostname);
+              const showTestLogin = !import.meta.env.PROD || isLocalhost
+                                 || import.meta.env.VITE_ALLOW_TEST_LOGIN === "true";
+              if (!showTestLogin) return null;
+              return (
+                <div className="pt-2 mt-2 border-t border-dashed border-gray-200">
+                  <p className="text-[10px] text-gray-400 text-center mb-2 font-medium uppercase tracking-wide">
+                    למפתחים / בדיקה מהירה
+                  </p>
+                  <button
+                    onClick={async () => {
+                      if (loading) return;
+                      setError(""); setLoading(true);
+                      try {
+                        const res = await fetch("/api/auth/test-login", { method: "POST", headers: { "Content-Type": "application/json" } });
+                        const data = await res.json();
+                        if (!res.ok || !data.ok) throw new Error(data.error || "התחברות בדיקה נכשלה");
+                        localStorage.setItem("bundly_token", data.token);
+                        onSuccess(data.user);
+                      } catch (e) {
+                        setError(e.message);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    disabled={loading}
+                    className="w-full flex items-center gap-3 p-3 border border-dashed border-gray-300 rounded-xl hover:border-amber-400 hover:bg-amber-50 transition-all group"
+                  >
+                    <div className="w-9 h-9 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                      <Zap className="w-4 h-4 text-amber-600" />
+                    </div>
+                    <div className="text-right flex-1">
+                      <p className="font-bold text-gray-700 text-sm">כניסה לבדיקה (ללא OTP)</p>
+                      <p className="text-[11px] text-gray-400">התחבר כמשתמש דמה — לא נשלח SMS</p>
+                    </div>
+                  </button>
                 </div>
-                <div className="text-right flex-1">
-                  <p className="font-bold text-gray-700 text-sm">כניסה לבדיקה (ללא OTP)</p>
-                  <p className="text-[11px] text-gray-400">התחבר כמשתמש דמה — לא נשלח SMS</p>
-                </div>
-              </button>
-            </div>
+              );
+            })()}
           </div>
         )}
 
@@ -10017,9 +10058,20 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בעיבוד התשלום");
       // 2) Stripe.js confirms the card directly against Stripe (we never see the PAN).
       //    In stub mode the helper short-circuits to { ok: true, stub: true }.
-      const confirm = await cardRef.current?.confirm(data.clientSecret, { stub: data.stub });
+      // Defensive: validate that Stripe Elements actually loaded AND that the
+      // server returned a usable client secret (or stub flag) before proceeding.
+      if (!data.stub && !data.clientSecret) {
+        throw new Error("שרת התשלום לא החזיר מזהה תשלום — נסה שוב");
+      }
+      if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
+        throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
+      }
+      const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub });
       if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
       setDone({ paymentIntentId: data.paymentIntentId, status: data.status });
+      // Reset submitting BEFORE the success-redirect so the modal isn't stuck
+      // disabled if the user closes it during the 1.2s animation.
+      setSubmitting(false);
       setTimeout(() => onSuccess(tier, data), 1200);
     } catch (e) {
       setError(e.message); setSubmitting(false);
@@ -10119,7 +10171,14 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה");
       // 2) Confirm card against Stripe (or short-circuit in stub mode)
-      const confirm = await cardRef.current?.confirm(data.payment?.clientSecret, { stub: data.payment?.stub });
+      const isStub = !!data.payment?.stub;
+      if (!isStub && !data.payment?.clientSecret) {
+        throw new Error("שרת התשלום לא החזיר מזהה — נסה שוב");
+      }
+      if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
+        throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
+      }
+      const confirm = await cardRef.current.confirm(data.payment?.clientSecret, { stub: isStub });
       if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
       setLockInfo({ lockedInPrice: data.lockedInPrice, lockedUntil: data.lockedUntil, order: data.order });
       setMode("locked");
@@ -10131,9 +10190,13 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
     if (submitting) return;
     setSubmitting(true);
     try {
-      await fetch(`/api/user/offers/${offer.id}/reject`, { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+      const res = await fetch(`/api/user/offers/${offer.id}/reject`, { method: "POST", headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error("שגיאה בדחיית ההצעה — נסה שוב");
       onRejected?.();
-    } catch { setSubmitting(false); }
+    } catch (e) {
+      setError(e.message || "שגיאה בדחיית ההצעה");
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -20459,7 +20522,12 @@ export default function App() {
       });
     } catch { /* ignore — local state already updated */ }
   };
-  const [notification, setNotification] = useState(null);
+  // Stack of notifications instead of single overwrite — each notify() pushes
+  // a new toast that auto-dismisses individually after 3.5s. Up to 3 visible.
+  const [toastStack, setToastStack] = useState([]); // [{ id, msg }]
+  // Keep the old single-value `notification` state name available (some code
+  // paths read it directly — we mirror the latest toast for backwards-compat).
+  const notification = toastStack[toastStack.length - 1]?.msg || null;
   const [searchResult, setSearchResult] = useState(null);
   const [productList, setProductList] = useState(null); // { products, query } — legacy direct product list
   const [finderQuery, setFinderQuery] = useState(null); // string — triggers ProductFinderModal (wizard flow)
@@ -20474,8 +20542,20 @@ export default function App() {
   useEffect(() => { if (categoryQuery) window.scrollTo({ top: 0 }); }, [categoryQuery]);
   useEffect(() => { if (searchResult) window.scrollTo({ top: 0 }); }, [searchResult]);
   useEffect(() => { document.documentElement.dir = t.dir; document.documentElement.lang = lang; }, [lang, t.dir]);
-  useEffect(() => { if (!notification) return; const timer = setTimeout(() => setNotification(null), 3000); return () => clearTimeout(timer); }, [notification]);
-  const notify = msg => setNotification(msg);
+  // Push toast onto stack with a unique id; auto-dismiss after 3.5s.
+  // De-dupe: if the same message is already on the stack, don't add it again.
+  const notify = useCallback((msg) => {
+    if (!msg) return;
+    const id = Date.now() + Math.random();
+    setToastStack(prev => {
+      if (prev.some(t => t.msg === msg)) return prev;   // dedupe
+      const next = [...prev, { id, msg }];
+      return next.slice(-3);                            // cap at 3 visible
+    });
+    setTimeout(() => {
+      setToastStack(prev => prev.filter(t => t.id !== id));
+    }, 3500);
+  }, []);
 
   const filteredDeals = deals.filter(d => {
     const name = (d.name[lang] || d.name.en).toLowerCase();
@@ -20751,7 +20831,29 @@ export default function App() {
   };
   const handleSupplierDashClick = () => currentSupplier ? setMode("supplier-dashboard") : setShowSupplierLogin(true);
 
-  const handleLogout = () => { localStorage.removeItem("bundly_token"); setUser(null); setMode("home"); };
+  const handleLogout = () => {
+    // Clear ALL user-specific state so the next user on this device doesn't
+    // inherit the previous user's data (wishlist, products, search history).
+    localStorage.removeItem("bundly_token");
+    localStorage.removeItem("bundly_searches");
+    // Also clear any cached profile drafts
+    try {
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const k = localStorage.key(i);
+        if (k && (k.startsWith("bundly_profile_draft") || k.startsWith("bundly_desc_"))) {
+          localStorage.removeItem(k);
+        }
+      }
+    } catch {}
+    setUser(null);
+    setWishlist([]);
+    setMyProducts([]);
+    setPersonalRequests([]);
+    setSavedBundles([]);
+    setMode("home");
+    // Force a soft reload via state changes — user-specific fetches will re-run
+    // when a new user logs in.
+  };
 
   // Auto-logout when any fetchWithAuth detects expired token
   useEffect(() => {
@@ -21035,9 +21137,15 @@ export default function App() {
     return (
       <div dir={t.dir} className="min-h-screen bg-gray-50">
         <Navbar {...navProps} setMode={m => { closeCategory(); setMode(m); }} />
-        {notification && (
-          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] bg-gray-900 text-white text-sm px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 pointer-events-none">
-            <CheckCircle className="w-4 h-4 text-emerald-400" />{notification}
+        {toastStack.length > 0 && (
+          <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[110] flex flex-col items-center gap-2" style={{ pointerEvents: "none" }}>
+            {toastStack.map(t => (
+              <div key={t.id} className="bg-gray-900 text-white text-sm px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 max-w-[90vw] pointer-events-auto">
+                <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span className="flex-1">{t.msg}</span>
+                <button onClick={() => setToastStack(prev => prev.filter(x => x.id !== t.id))} aria-label="סגור" className="text-white/60 hover:text-white"><X className="w-3.5 h-3.5" /></button>
+              </div>
+            ))}
           </div>
         )}
         <CategoryResultsPage
@@ -21098,9 +21206,30 @@ export default function App() {
         </>
       )}
 
-      {notification && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-sm px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-emerald-400" />{notification}
+      {/* Stacked toasts — newest on top, dismissable */}
+      {toastStack.length > 0 && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[110] flex flex-col items-center gap-2" style={{ pointerEvents: "none" }}>
+          {toastStack.map(t => (
+            <div
+              key={t.id}
+              className="bg-gray-900 text-white text-sm px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 max-w-[90vw]"
+              style={{
+                animation: "toastIn 0.22s cubic-bezier(.22,.68,0,1.15) both",
+                pointerEvents: "auto",
+              }}
+            >
+              <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+              <span className="flex-1">{t.msg}</span>
+              <button
+                onClick={() => setToastStack(prev => prev.filter(x => x.id !== t.id))}
+                aria-label="סגור"
+                className="text-white/60 hover:text-white flex-shrink-0"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ))}
+          <style>{`@keyframes toastIn{from{opacity:0;transform:translateY(-20px) scale(0.95)}to{opacity:1;transform:none}}`}</style>
         </div>
       )}
 
