@@ -2242,7 +2242,11 @@ app.get("/api/debug-zap", async (req, res) => {
     res.json({ query: q, searchHtmlLen: searchHtml.length, allIdsCount: allIds.length,
                redirectFollowed, candidates: cands.slice(0, 5), modelDebug,
                resultCount: results.length, results });
-  } catch(e) { res.status(500).json({ error: e.message, stack: e.stack?.slice(0, 600) }); }
+  } catch(e) {
+    // Don't leak stack traces — log server-side, return generic message.
+    console.error("[debug zap-search] error:", e.message);
+    res.status(500).json({ error: "Internal error" });
+  }
 });
 
 // ─────────────────────────────────────────────────────────────────
@@ -2272,7 +2276,10 @@ app.get("/api/test-zap-redirect", async (req, res) => {
       allScriptsCount: allScripts.length,
       allScripts,
     });
-  } catch(e) { res.status(500).json({ error: e.message, stack: e.stack?.slice(0,300) }); }
+  } catch(e) {
+    console.error("[debug zap-redirect] error:", e.message);
+    res.status(500).json({ error: "Internal error" });
+  }
 });
 
 //  DEBUG: test JSON-LD parsing for a specific Zap model page
@@ -6299,6 +6306,29 @@ function parseZapSpecs(html) {
 const SEARCH_PRODUCTS_CACHE = new Map(); // key → { data, ts }
 const SEARCH_PRODUCTS_TTL   = 60 * 60 * 1000; // 1 hour
 const SEARCH_PRODUCTS_INFLIGHT = new Map(); // key → Promise (dedup)
+const SEARCH_PRODUCTS_MAX_KEYS = 500;        // hard cap on entry count
+// Periodic cleanup — without this the cache grows unboundedly across all
+// unique query+filter combos. Runs every 15 min and evicts both expired
+// entries and oldest entries if we're over the cap.
+setInterval(() => {
+  const now = Date.now();
+  let expired = 0;
+  for (const [k, v] of SEARCH_PRODUCTS_CACHE) {
+    if (now - v.ts > SEARCH_PRODUCTS_TTL) { SEARCH_PRODUCTS_CACHE.delete(k); expired++; }
+  }
+  if (SEARCH_PRODUCTS_CACHE.size > SEARCH_PRODUCTS_MAX_KEYS) {
+    // LRU eviction: Maps preserve insertion order, so first keys are oldest.
+    const overflow = SEARCH_PRODUCTS_CACHE.size - SEARCH_PRODUCTS_MAX_KEYS;
+    let dropped = 0;
+    for (const k of SEARCH_PRODUCTS_CACHE.keys()) {
+      if (dropped >= overflow) break;
+      SEARCH_PRODUCTS_CACHE.delete(k);
+      dropped++;
+    }
+    console.log(`[search-cache] LRU evicted ${dropped} entries (cap=${SEARCH_PRODUCTS_MAX_KEYS})`);
+  }
+  if (expired > 0) console.log(`[search-cache] expired ${expired} entries`);
+}, 15 * 60 * 1000).unref?.();
 
 // ── Category candidates cache ─────────────────────────────────────────────
 // L1: in-memory Map (instant reads during a session)
@@ -7069,6 +7099,7 @@ function loadAllProductsToMem() {
 // If disk is newer: reload into RAM and log new products + price changes.
 function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
   setInterval(() => {
+    try {
     for (const slug of Object.keys(_PRODUCT_DB_SOG_MAP)) {
       const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
       if (!existsSync(pFile)) continue;
@@ -7116,6 +7147,11 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
       } catch(e) {
         console.warn(`[ProductMem] refresh error ${slug}: ${e.message}`);
       }
+    }
+    } catch (outerErr) {
+      // Defensive — outer try ensures the setInterval keeps firing even if
+      // the iteration itself blows up (corrupt _PRODUCT_DB_SOG_MAP, etc.).
+      console.error(`[ProductMem] outer refresh error: ${outerErr.message}`);
     }
   }, intervalMs);
   console.log(`📦 ProductMem: background refresh every ${intervalMs/60000}min`);

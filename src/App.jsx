@@ -1470,7 +1470,7 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
         {/* Content */}
         <div className="flex gap-4 items-center">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-black mb-1 leading-tight truncate">{name}</h3>
+            <h3 className="text-lg font-black mb-1 leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{name}</h3>
             <div className="flex items-baseline gap-2 mb-3 flex-wrap">
               <span className="text-3xl font-black">₪{bestPrice.toLocaleString()}</span>
               <span className="text-sm line-through opacity-60">₪{deal.marketMax.toLocaleString()}</span>
@@ -2852,7 +2852,7 @@ function AuthModal({ t, onSuccess, onClose }) {
               {step==="choose"&&"כניסה / הרשמה"}{step==="login-phone"&&"כניסה למשתמש קיים"}{step==="phone"&&"הרשמה"}{step==="welcome"&&"ברוכים הבאים!"}{step==="otp"&&"אימות נייד"}{step==="profile"&&"פרטים אישיים"}{step==="prefs"&&"העדפות התראות"}{step==="done"&&""}
             </p>
           </div>
-          <button aria-label="סגור" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl"><X className="w-4 h-4 text-gray-400" /></button>
+          <button aria-label="סגור" onClick={onClose} className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-xl active:bg-gray-200"><X className="w-5 h-5 text-gray-500" /></button>
         </div>
 
         {error && <div className="bg-red-50 text-red-600 rounded-xl p-3 text-sm mb-4">{error}</div>}
@@ -3188,7 +3188,7 @@ function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div><h2 className="text-xl font-bold text-gray-900">{t.supplierTitle}</h2><p className="text-sm text-gray-400 mt-0.5">{t.supplierSub}</p></div>
-          <button aria-label="סגור" onClick={onClose} className="p-2 hover:bg-gray-100 rounded-xl"><X className="w-4 h-4 text-gray-400" /></button>
+          <button aria-label="סגור" onClick={onClose} className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-xl active:bg-gray-200"><X className="w-5 h-5 text-gray-500" /></button>
         </div>
         {sent ? (
           <div className="text-center py-10">
@@ -4355,10 +4355,10 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="flex-1 min-w-0">
-            <h3 className="font-black text-gray-900 text-sm truncate">{modelName}</h3>
-            <p className="text-xs text-indigo-500">{poolIcon} {poolName}</p>
+            <h3 className="font-black text-gray-900 text-sm leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{modelName}</h3>
+            <p className="text-xs text-indigo-500 mt-0.5">{poolIcon} {poolName}</p>
           </div>
-          <button aria-label="סגור" onClick={onClose} className="text-gray-300 hover:text-gray-500 flex-shrink-0"><X className="w-5 h-5" /></button>
+          <button aria-label="סגור" onClick={onClose} className="text-gray-400 hover:text-gray-600 flex-shrink-0 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
 
         <div className="p-5">
@@ -17783,14 +17783,14 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
         <div className="bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
             {showBack && (
-              <button onClick={goBack} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              <button onClick={goBack} aria-label="חזור" className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 active:bg-white/40 transition text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
               </button>
             )}
             <h2 className="font-black text-base text-white">{headerTitle}</h2>
           </div>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 transition text-white">
-            <X className="w-3.5 h-3.5" />
+          <button onClick={onClose} aria-label="סגור" className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg bg-white/20 hover:bg-white/30 active:bg-white/40 transition text-white">
+            <X className="w-4 h-4" strokeWidth={2.5} />
           </button>
         </div>
 
@@ -18658,18 +18658,29 @@ function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onL
     { id: "wishlist",   icon: <Heart className="w-5 h-5" />,     label: t.navWishlist, badge: wishlistCount },
   ];
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-200 shadow-lg safe-bottom">
-      <div className="flex items-center justify-around h-16">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-200 shadow-lg"
+      // Inline safe-area padding — `safe-bottom` Tailwind class isn't reliable
+      // across all builds, so we add the env() padding directly.
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+    >
+      <div className="flex items-stretch justify-around min-h-[60px]">
         {items.map(item => (
           <button
             key={item.id}
             onClick={() => setMode(item.id)}
-            className={`relative flex flex-col items-center gap-0.5 px-3 py-1 transition ${mode === item.id ? "text-indigo-600" : "text-gray-400"}`}
+            className={`relative flex flex-col items-center justify-center gap-0.5 px-2 py-2 flex-1 min-w-[44px] transition ${mode === item.id ? "text-indigo-600" : "text-gray-500"}`}
+            aria-label={item.label}
           >
             {item.icon}
-            <span className="text-[10px] font-medium">{item.label}</span>
+            <span className="text-[11px] font-semibold leading-tight whitespace-nowrap">{item.label}</span>
             {item.badge > 0 && (
-              <span className="absolute -top-0.5 right-1 bg-red-500 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">{item.badge}</span>
+              <span
+                className="absolute top-0.5 bg-red-500 text-white text-[10px] font-black rounded-full px-1 min-w-[18px] h-[18px] flex items-center justify-center shadow-sm ring-2 ring-white"
+                style={{ right: "calc(50% - 22px)" }}
+              >
+                {item.badge > 99 ? "99+" : item.badge}
+              </span>
             )}
           </button>
         ))}
