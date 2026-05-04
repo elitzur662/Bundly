@@ -18843,10 +18843,13 @@ function CreateBundleModal({ onClose, onCreate, onViewFullDetails }) {
 // ─────────────────────────────────────────────────────────────────
 //  MOBILE BOTTOM NAV
 // ─────────────────────────────────────────────────────────────────
-function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onLoginClick }) {
+function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onLoginClick, onCategoryBrowse }) {
   const items = [
     { id: "home",       icon: <Sparkles className="w-5 h-5" />,  label: t.navHome },
-    { id: "search",     icon: <Search className="w-5 h-5" />,    label: t.navSearch },
+    // Tap on "Search" opens the visual category browser (not the legacy
+    // "search" mode page with 8 grey squares). Falls back to setMode if no
+    // handler was passed (older callers).
+    { id: "search",     icon: <Search className="w-5 h-5" />,    label: t.navSearch, action: () => onCategoryBrowse ? onCategoryBrowse() : setMode("search") },
     { id: "deals",      icon: <Tag className="w-5 h-5" />,       label: t.navDeals },
     { id: "myproducts", icon: <Package className="w-5 h-5" />,   label: "המוצרים שלי", badge: myProductsCount },
     { id: "wishlist",   icon: <Heart className="w-5 h-5" />,     label: t.navWishlist, badge: wishlistCount },
@@ -18862,7 +18865,7 @@ function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onL
         {items.map(item => (
           <button
             key={item.id}
-            onClick={() => setMode(item.id)}
+            onClick={() => item.action ? item.action() : setMode(item.id)}
             className={`relative flex flex-col items-center justify-center gap-0.5 px-2 py-2 flex-1 min-w-[44px] transition ${mode === item.id ? "text-indigo-600" : "text-gray-500"}`}
             aria-label={item.label}
           >
@@ -18882,6 +18885,72 @@ function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onL
     </nav>
   );
 }
+
+// ─────────────────────────────────────────────────────────────────
+//  CATEGORY IMAGES — Unsplash CDN, sized for cards (400x260, q=75).
+//  Each Hebrew category/subcategory name maps to a specific photo ID.
+//  The component falls back to the emoji icon when a name isn't in the map.
+//  All photos are Unsplash-licensed (free for commercial use, no attribution
+//  required but appreciated in production).
+// ─────────────────────────────────────────────────────────────────
+const _UNSPLASH = (id) => `https://images.unsplash.com/photo-${id}?w=400&h=260&q=75&auto=format&fit=crop`;
+const CATEGORY_IMAGES = {
+  // ── Main categories (7) ──
+  "חשמל ואלקטרוניקה":    _UNSPLASH("1565538810643-b5bdb714032a"), // modern kitchen
+  "מחשבים ותוכנות":      _UNSPLASH("1517336714731-489689fd1ca8"), // laptop setup
+  "אופניים ואביזרים":    _UNSPLASH("1485965120184-e220f721d03e"), // road bike
+  "טיפוח ויופי":         _UNSPLASH("1522335789203-aabd1fc54bc9"), // beauty
+  "פנאי וספורט":         _UNSPLASH("1517836357463-d25dfeac3438"), // gym
+  "בית וגן":             _UNSPLASH("1558618666-fcd25c85cd64"),    // living room
+  "רכב ואביזרים":        _UNSPLASH("1492144534655-ae79c964c9d7"), // car
+
+  // ── Electronics subs ──
+  "מטבח וחשמל ביתי":     _UNSPLASH("1556909114-f6e7ad7d3136"),    // kitchen counter w/ appliances
+  "ניקיון וכביסה":       _UNSPLASH("1604335399105-a0c585fd81a1"), // washing machine
+  "טלוויזיות ושמע":      _UNSPLASH("1593359677879-a4bb92f829d1"), // TV in living room
+  "קונסולות משחק":       _UNSPLASH("1538481199705-c710c4e965fc"), // gaming console
+  "חימום וקירור":        _UNSPLASH("1605725657590-b3c1956f5a41"), // air conditioner
+  "צילום":               _UNSPLASH("1542867175-8a89b0c70d4e"),    // camera
+  "תקשורת וסלולר":       _UNSPLASH("1511707171634-5f897ff02aa9"), // smartphone
+
+  // ── Computers subs ──
+  "מחשבים ניידים":       _UNSPLASH("1496181133206-c3a9b2dba8a8"), // laptops
+  "מחשבים נייחים":       _UNSPLASH("1593305842226-79de6cf4cc4f"), // PC desktop
+  "טאבלטים":             _UNSPLASH("1561154464-82e9adf32764"),    // tablet
+  "מסכי מחשב":           _UNSPLASH("1547119957-637f8679db1e"),    // monitor
+  "חומרה ורכיבים":       _UNSPLASH("1591488320449-011701bb6704"), // computer parts
+  "ציוד היקפי":          _UNSPLASH("1587829741301-dc798b83add3"), // keyboard + mouse
+  "רשתות ואחסון":        _UNSPLASH("1518770660439-4636190af475"), // network/router
+
+  // ── Bikes subs ──
+  "אופניים חשמליים":     _UNSPLASH("1571068316344-75bc76f77890"), // e-bike
+  "אופניים רגילים":      _UNSPLASH("1532298229144-0ec0c57515c7"), // mountain bike
+  "מוצרי חשמל לאופניים": _UNSPLASH("1571333250630-f0230c320b6d"), // battery / motor
+  "אביזרי אופניים":      _UNSPLASH("1485965127670-3eb29b8e2a9a"), // helmet / accessories
+
+  // ── Beauty subs ──
+  "שיער":                _UNSPLASH("1559599101-f09722fb4948"),    // hair styling
+  "הסרת שיער":           _UNSPLASH("1522338242992-e1a54906a8da"), // beauty tools
+  "גילוח":               _UNSPLASH("1559599101-f09722fb4948"),    // razor
+  "טיפוח פנים":          _UNSPLASH("1570172619644-dfd03ed5d881"), // skincare
+  "עיסוי ורלקסציה":      _UNSPLASH("1544161515-4ab6ce6db874"),    // massage
+
+  // ── Sport subs ──
+  "ציוד כושר חשמלי":     _UNSPLASH("1571902943202-507ec2618e8f"), // home gym
+  "ניידות חשמלית":       _UNSPLASH("1626356024016-30f37f7a6a89"), // electric scooter
+  "בריאות ורפואה":       _UNSPLASH("1576091160550-2173dba999ef"), // health/medical
+
+  // ── Home & Garden subs ──
+  "כלי עבודה חשמליים":   _UNSPLASH("1504917595217-d4dc5ebe6122"), // power tools
+  "גינון חשמלי":         _UNSPLASH("1416879595882-3373a0480b5b"), // garden tools
+  "בית חכם":             _UNSPLASH("1558002038-1055907df827"),    // smart home
+
+  // ── Car subs ──
+  "מצלמות ואלקטרוניקה לרכב": _UNSPLASH("1556800572-1b8aedf82db6"), // car interior
+  "מולטימדיה לרכב":      _UNSPLASH("1502877338535-766e1452684a"), // car dashboard
+  "חשמל ומצברים":        _UNSPLASH("1545262810-77515befe149"),    // car battery / hood open
+  "רכבים חשמליים":       _UNSPLASH("1593941707882-a5bba14938c7"), // EV/Tesla
+};
 
 // ─────────────────────────────────────────────────────────────────
 //  CATEGORY TREE DATA (from Zap.co.il + Israeli shopping sites)
@@ -19213,48 +19282,88 @@ function CategoryBrowseModal({ onWizard, onClose }) {
           )}
 
           {/* Level 0 — Main categories */}
+          {/* Level 0 — Main categories with cover images.
+                Mobile: 2 per row (image cards are visual; need width).
+                Tablet+ : 3-4 per row.   */}
           {!flatSearch && level === 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {CATEGORY_TREE.map((cat) => (
-                <button key={cat.id} onClick={() => handleMainCat(cat)}
-                  className={`flex flex-col items-center gap-2.5 p-4 ${cat.bg} ${cat.border} border-2 rounded-2xl hover:shadow-md transition-all group active:scale-95 min-h-[140px]`}>
-                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow flex-shrink-0`}>
-                    <span className="text-2xl">{cat.icon}</span>
-                  </div>
-                  {/* Allow up to 2 lines so long Hebrew category names show fully */}
-                  <span
-                    className="text-[13px] sm:text-sm font-bold text-gray-800 text-center leading-tight px-0.5"
-                    style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}
+              {CATEGORY_TREE.map((cat) => {
+                const img = CATEGORY_IMAGES[cat.name];
+                return (
+                  <button key={cat.id} onClick={() => handleMainCat(cat)}
+                    className={`relative overflow-hidden rounded-2xl border ${cat.border} hover:shadow-lg active:scale-[0.97] transition-all group bg-white flex flex-col`}
                   >
-                    {cat.name}
-                  </span>
-                  <span className="text-[10px] text-gray-400">{cat.sub.length} תת-קטגוריות</span>
-                </button>
-              ))}
+                    {/* Cover image (or gradient fallback if not in map) */}
+                    <div className="relative h-28 sm:h-32 overflow-hidden">
+                      {img ? (
+                        <img
+                          loading="lazy" src={img} alt={cat.name}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          onError={e => { e.currentTarget.style.display = "none"; }}
+                        />
+                      ) : (
+                        <div className={`w-full h-full bg-gradient-to-br ${cat.color} flex items-center justify-center`}>
+                          <span className="text-5xl">{cat.icon}</span>
+                        </div>
+                      )}
+                      {/* Dark gradient at bottom for text legibility */}
+                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+                      {/* Emoji badge on top-right corner */}
+                      <span className="absolute top-2 right-2 w-8 h-8 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-base shadow-md">
+                        {cat.icon}
+                      </span>
+                    </div>
+                    {/* Body */}
+                    <div className="p-2.5 text-right">
+                      <div className="text-[13px] sm:text-sm font-black text-gray-900 leading-tight"
+                           style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}>
+                        {cat.name}
+                      </div>
+                      <div className="text-[10px] text-gray-400 mt-0.5">{cat.sub.length} תת-קטגוריות</div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
 
-          {/* Level 1 — Sub-categories */}
+          {/* Level 1 — Sub-categories with cover images.
+                Layout: image on top, name + count below — clean visual grid. */}
           {!flatSearch && level === 1 && selectedCat && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {selectedCat.sub.map((sub, i) => (
-                <button key={i} onClick={() => handleSub(sub)}
-                  className={`flex items-center gap-3 p-4 ${selectedCat.bg} ${selectedCat.border} border rounded-2xl hover:shadow-md transition-all group active:scale-95 text-right min-h-[64px]`}>
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${selectedCat.color} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                    <span className="text-lg">{sub.icon}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    {/* line-clamp-2 lets long category names wrap to a 2nd line
-                          instead of being cut off mid-word with truncate. */}
-                    <div className="text-sm font-bold text-gray-800 group-hover:text-indigo-700 leading-tight"
-                         style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>
-                      {sub.name}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
+              {selectedCat.sub.map((sub, i) => {
+                const img = CATEGORY_IMAGES[sub.name];
+                return (
+                  <button key={i} onClick={() => handleSub(sub)}
+                    className={`relative overflow-hidden rounded-2xl border ${selectedCat.border} hover:shadow-lg active:scale-[0.97] transition-all group bg-white flex flex-col text-right`}
+                  >
+                    <div className="relative h-24 sm:h-28 overflow-hidden">
+                      {img ? (
+                        <img
+                          loading="lazy" src={img} alt={sub.name}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          onError={e => { e.currentTarget.style.display = "none"; }}
+                        />
+                      ) : (
+                        <div className={`w-full h-full bg-gradient-to-br ${selectedCat.color} flex items-center justify-center`}>
+                          <span className="text-4xl">{sub.icon}</span>
+                        </div>
+                      )}
+                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                      <span className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-white/90 backdrop-blur flex items-center justify-center text-sm shadow">
+                        {sub.icon}
+                      </span>
                     </div>
-                    <div className="text-[10px] text-gray-400 mt-0.5">{sub.items.length} מוצרים</div>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-300 group-hover:text-indigo-400 flex-shrink-0 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                </button>
-              ))}
+                    <div className="p-2.5">
+                      <div className="text-[13px] sm:text-sm font-bold text-gray-800 group-hover:text-indigo-700 leading-tight"
+                           style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}>
+                        {sub.name}
+                      </div>
+                      <div className="text-[10px] text-gray-400 mt-0.5">{sub.items.length} מוצרים</div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -21172,7 +21281,7 @@ export default function App() {
           <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
-        <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} />
+        <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
@@ -21281,7 +21390,7 @@ export default function App() {
         )}
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
-        <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} />
+        <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} onCategoryBrowse={() => { closeCategory(); setShowCategoryBrowse(true); }} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
         {universalBackBtn}
       </div>
@@ -21959,7 +22068,7 @@ export default function App() {
       )}
 
       <Footer t={t} setMode={setMode} />
-      <MobileBottomNav t={t} mode={mode} setMode={setMode} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} />
+      <MobileBottomNav t={t} mode={mode} setMode={setMode} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => setShowCategoryBrowse(true)} />
       <BundlyAdvisor
         deals={deals} lang={lang} t={t}
         onNavigateToDeal={d => { openDeal(d); }}
