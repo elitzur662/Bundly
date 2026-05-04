@@ -110,39 +110,63 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
 }
 
 // Clean product names: strip HTML entities, RTL/LTR marks, extra spaces
-// ── Auth-aware fetch: auto-refreshes token on TOKEN_EXPIRED, logs out on failure ──
+// ── Auth-aware fetch: auto-refreshes token on TOKEN_EXPIRED, logs out on failure.
+//      Also enforces a default 20s timeout so mobile users on slow 3G don't hang
+//      forever — pass `timeout: <ms>` in options to override per-call.            ──
 async function fetchWithAuth(url, options = {}) {
   const token = localStorage.getItem("bundly_token");
+  const timeoutMs = options.timeout || 20_000;
+
+  // Set up timeout via AbortController if no signal was passed
+  let timeoutId = null;
+  let signal = options.signal;
+  if (!signal) {
+    const ac = new AbortController();
+    timeoutId = setTimeout(() => ac.abort(), timeoutMs);
+    signal = ac.signal;
+  }
+
   const withAuth = {
     ...options,
+    signal,
     headers: {
       ...(options.headers || {}),
       ...(token && { Authorization: `Bearer ${token}` }),
     },
   };
-  let res = await fetch(url, withAuth);
-  // If token expired, try refreshing once
-  if (res.status === 401 && token) {
-    try {
-      const data = await res.clone().json().catch(() => null);
-      if (data?.code === "TOKEN_EXPIRED") {
-        const refreshRes = await fetch("/api/auth/refresh", {
-          method: "POST",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (refreshRes.ok) {
-          const refreshData = await refreshRes.json();
-          localStorage.setItem("bundly_token", refreshData.token);
-          // Retry original request with new token
-          return fetch(url, { ...options, headers: { ...(options.headers || {}), Authorization: `Bearer ${refreshData.token}` } });
+  // Strip the custom `timeout` key — fetch() doesn't recognize it and
+  // some browsers warn about unknown options.
+  delete withAuth.timeout;
+
+  try {
+    let res = await fetch(url, withAuth);
+    if (timeoutId) clearTimeout(timeoutId);
+    // If token expired, try refreshing once
+    if (res.status === 401 && token) {
+      try {
+        const data = await res.clone().json().catch(() => null);
+        if (data?.code === "TOKEN_EXPIRED") {
+          const refreshRes = await fetch("/api/auth/refresh", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (refreshRes.ok) {
+            const refreshData = await refreshRes.json();
+            localStorage.setItem("bundly_token", refreshData.token);
+            return fetch(url, { ...options, headers: { ...(options.headers || {}), Authorization: `Bearer ${refreshData.token}` } });
+          }
         }
-      }
-      // Refresh failed — force logout
-      localStorage.removeItem("bundly_token");
-      window.dispatchEvent(new CustomEvent("bundly:auth-expired"));
-    } catch { /* ignore */ }
+        localStorage.removeItem("bundly_token");
+        window.dispatchEvent(new CustomEvent("bundly:auth-expired"));
+      } catch { /* ignore */ }
+    }
+    return res;
+  } catch (e) {
+    if (timeoutId) clearTimeout(timeoutId);
+    // Re-throw with a clearer message; callers should display this when caught
+    if (e.name === "AbortError") throw new Error("בקשה ארכה מדי — בדוק את החיבור לאינטרנט");
+    throw e;
   }
-  return res;
 }
 
 function cleanName(s) {
@@ -5651,7 +5675,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       {/* ── Fullscreen image carousel lightbox ── */}
       {imgZoomed && allDealImages.length > 0 && (
         <div className="fixed inset-0 z-[60] bg-black/95 flex flex-col" onClick={() => setImgZoomed(false)}>
-          <button onClick={() => setImgZoomed(false)} className="absolute top-4 left-4 z-10 w-10 h-10 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition"><X className="w-5 h-5" /></button>
+          <button onClick={() => setImgZoomed(false)} aria-label="סגור תמונה" className="absolute top-4 left-4 z-10 w-12 h-12 bg-white/15 hover:bg-white/25 rounded-full flex items-center justify-center text-white transition"><X className="w-5 h-5" /></button>
           <div className="absolute top-4 right-4 z-10 text-white/60 text-sm font-bold">{imgIdx + 1} / {allDealImages.length}</div>
           <div className="flex-1 flex items-center justify-center relative overflow-hidden"
             onClick={e => e.stopPropagation()}
@@ -6587,7 +6611,7 @@ function OwnerLoginModal({ t, onSuccess, onClose }) {
       <div className="p-6 space-y-4">
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-bold text-gray-900 flex items-center gap-2"><Lock className="w-4 h-4 text-indigo-600" />Admin</h3>
-          <button onClick={onClose}><X className="w-4 h-4 text-gray-400" /></button>
+          <button onClick={onClose} aria-label="סגור" className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-lg"><X className="w-4 h-4 text-gray-400" /></button>
         </div>
         {err && <p className="text-red-500 text-sm text-center">{err}</p>}
         <input type="password" placeholder="סיסמה" value={pw} onChange={e=>setPw(e.target.value)} onKeyDown={e=>e.key==="Enter"&&tryLogin()}
@@ -6628,7 +6652,7 @@ function SupplierLoginModal({ onSuccess, onClose }) {
           <h3 className="font-bold text-gray-900 flex items-center gap-2">
             <Building2 className="w-4 h-4 text-indigo-600" />כניסת ספקים
           </h3>
-          <button onClick={onClose}><X className="w-4 h-4 text-gray-400" /></button>
+          <button onClick={onClose} aria-label="סגור" className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-lg"><X className="w-4 h-4 text-gray-400" /></button>
         </div>
         <p className="text-xs text-gray-400">הזן את קוד הגישה שקיבלת מ-Bundly</p>
         {err && <p className="text-red-500 text-sm text-center">קוד שגוי</p>}
@@ -8314,7 +8338,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
         {/* Header */}
         <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-5 py-4 flex items-center justify-between rounded-t-3xl">
           <h3 className="font-black text-gray-900 text-base">הגש הצעה</h3>
-          <button onClick={onClose} className="text-gray-300 hover:text-gray-500"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
 
         <div className="p-5 space-y-4">
@@ -8513,7 +8537,7 @@ function CancelBidModal({ dealName, bid, onConfirm, onClose }) {
         onClick={e => e.stopPropagation()}>
         <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-5 py-4 flex items-center justify-between rounded-t-3xl">
           <h3 className="font-black text-gray-900 text-base">ביטול הצעה</h3>
-          <button onClick={onClose} className="text-gray-300 hover:text-gray-500"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-5 space-y-4">
           <div className="bg-red-50 border border-red-200 rounded-2xl p-3">
@@ -9886,12 +9910,21 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
       <p className="text-sm text-gray-500 mb-6">הצעות מספקים על הבקשות שלך — לחץ כדי לראות פרטים ולאשר/לדחות</p>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-400">טוען...</div>
+        <div className="flex flex-col items-center justify-center py-16 text-gray-400 gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-indigo-400" />
+          <p className="text-sm font-semibold">טוען הצעות...</p>
+        </div>
       ) : offers.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
-          <Mail className="w-12 h-12 mx-auto mb-3 opacity-30" />
-          <p className="font-bold mb-1">אין עדיין הצעות</p>
-          <p className="text-sm">כשתשלח בקשה לספק, ההצעות יופיעו כאן</p>
+        <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-3xl p-8 text-center my-4">
+          <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <Mail className="w-8 h-8 text-indigo-400" />
+          </div>
+          <p className="font-black text-gray-900 text-base mb-2">אין עדיין הצעות</p>
+          <p className="text-sm text-gray-600 leading-relaxed mb-4">
+            ספקים רואים את הבקשות שלך ומגישים הצעות תוך כמה שעות.<br />
+            ההצעות יופיעו כאן ברגע שיתקבלו.
+          </p>
+          <p className="text-xs text-gray-400">💡 נסה ליצור בקשה חדשה ולקבל הצעות תחרותיות</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -10108,7 +10141,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
       <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden max-h-[90vh] overflow-y-auto" dir="rtl">
         <div className="sticky top-0 bg-white border-b border-gray-100 px-5 py-4 flex items-center justify-between">
           <h3 className="font-black text-gray-900">{mode === "accept" ? "פרטי משלוח" : "הצעת ספק"}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
         <div className="p-5 space-y-4">
           {offer.productImage && <img src={offer.productImage} alt="" className="w-full max-h-48 object-contain rounded-xl bg-gray-50" onError={e=>e.target.style.display="none"} />}
@@ -10249,11 +10282,20 @@ function OrdersPage({ token, onBack, onLoginClick }) {
       </h2>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-400">טוען...</div>
+        <div className="flex flex-col items-center justify-center py-16 text-gray-400 gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-indigo-400" />
+          <p className="text-sm font-semibold">טוען הזמנות...</p>
+        </div>
       ) : orders.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
-          <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
-          <p className="font-bold mb-1">אין עדיין הזמנות</p>
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-3xl p-8 text-center my-4">
+          <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <Package className="w-8 h-8 text-emerald-400" />
+          </div>
+          <p className="font-black text-gray-900 text-base mb-2">אין עדיין הזמנות</p>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            ההזמנות שלך יופיעו כאן ברגע שתצטרף לקבוצת רכישה<br />
+            ותסגור עסקה עם ספק.
+          </p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -10473,7 +10515,7 @@ function SupplierKYCModal({ onClose, onSuccess }) {
       <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden max-h-[90vh] flex flex-col">
         <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
           <h3 className="font-black text-gray-900">רישום ספק חדש</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
         </div>
         <div className="flex-1 overflow-y-auto p-5 space-y-3">
           <div>
