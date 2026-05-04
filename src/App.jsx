@@ -1413,21 +1413,40 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
   const isPersonalized = recos.source === "personalized";
   const profile        = recos.profile;
   return (
-    <section className="mb-10">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-fuchsia-600 flex items-center justify-center shadow-md">
+    <section className="mb-10 relative">
+      <div className="flex items-center gap-3 mb-4 px-0.5">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-fuchsia-600 flex items-center justify-center shadow-md flex-shrink-0">
           <span className="text-lg">✨</span>
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-xl font-bold text-gray-900">{isPersonalized ? "מותאם בשבילך" : "החמות ביותר עכשיו"}</h2>
-          <p className="text-xs text-gray-500">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{isPersonalized ? "מותאם בשבילך" : "החמות ביותר עכשיו"}</h2>
+          <p className="text-xs text-gray-500 line-clamp-1">
             {isPersonalized
               ? `דירגנו את הקבוצות לפי ההתנהגות שלך באתר${profile?.topBrands?.length ? ` · אוהב ${profile.topBrands.slice(0, 2).join(", ")}` : ""}${profile?.topCategories?.length ? ` · קטגוריות ${profile.topCategories.slice(0, 2).join(", ")}` : ""}`
               : "התחל לעיין ולשמור פריטים — והמלצות אישיות יופיעו פה"}
           </p>
         </div>
+        <span className="text-[10px] text-pink-500 font-bold whitespace-nowrap hidden sm:inline">
+          ←  גלול
+        </span>
       </div>
-      <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-none">
+
+      {/*
+        Horizontal snap-scroll carousel.
+        - `snap-x snap-mandatory` makes each card snap to the start of the
+          viewport when the user releases — feels native, not laggy.
+        - `pl-4 pr-[20%]` (or rtl-equivalent) leaves the next card peeking
+          ~20% of the screen width to make swipeability obvious.
+        - Cards: w-[60%] sm:w-56 — ~1.5 cards visible on mobile.
+      */}
+      <div
+        className="flex gap-3 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory"
+        style={{
+          scrollPaddingInline: "8px",
+          // Right peek (in RTL): show next card edge through extra padding-end
+          paddingInlineEnd: "18%",
+        }}
+      >
         {items.map(({ deal, score, reason }) => {
           const name  = deal.name?.[lang] || deal.name?.he || deal.productName || "";
           const price = deal.groupOffer || deal.marketMin || 0;
@@ -1435,8 +1454,9 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
             <button
               key={deal.id}
               onClick={() => onDealClick?.(deal)}
-              className="flex-shrink-0 w-56 text-right bg-white rounded-2xl border-2 border-pink-100 hover:border-pink-300 hover:shadow-lg transition overflow-hidden">
-              <div className="h-32 bg-gray-50 flex items-center justify-center overflow-hidden relative">
+              className="snap-start flex-shrink-0 w-[62%] sm:w-56 text-right bg-white rounded-2xl border-2 border-pink-100 hover:border-pink-300 hover:shadow-lg transition overflow-hidden active:scale-[0.98]"
+            >
+              <div className="h-28 sm:h-32 bg-gray-50 flex items-center justify-center overflow-hidden relative">
                 {deal.image
                   ? <img loading="lazy" src={deal.image} alt={name} className="max-h-full max-w-full object-contain p-2" onError={e => { e.target.style.display = "none"; }} />
                   : <span className="text-3xl">📦</span>}
@@ -1447,7 +1467,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
                 )}
               </div>
               <div className="p-3">
-                <p className="text-sm font-black text-gray-900 line-clamp-2 leading-tight mb-1">{name}</p>
+                <p className="text-sm font-black text-gray-900 line-clamp-2 leading-tight mb-1 min-h-[2.5em]">{name}</p>
                 <p className="text-base font-black text-pink-700">₪{price.toLocaleString()}</p>
                 <p className="text-[10px] text-gray-500 mt-1 line-clamp-1">{reason}</p>
                 <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
@@ -1498,21 +1518,22 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
   const toNext = next ? next.people - deal.participants : 0;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl mb-8 shadow-xl"
+    <div className="relative overflow-hidden rounded-2xl mb-6 sm:mb-8 shadow-xl"
       style={{ background: "linear-gradient(135deg, #c2410c 0%, #ea580c 45%, #f97316 100%)" }}>
       {/* Decorative circles */}
-      <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full pointer-events-none" />
-      <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/10 rounded-full pointer-events-none" />
+      <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-white/10 rounded-full pointer-events-none" />
+      <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full pointer-events-none" />
 
-      <div className="relative z-10 p-5 text-white">
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-2xl">🔥</span>
-          <span className="text-xs font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">
+      <div className="relative z-10 p-3.5 sm:p-5 text-white">
+        {/* Header — flex-wrap so the digital clock drops below the title row on
+              small phones instead of cropping. */}
+        <div className="flex items-center gap-2 mb-2.5 sm:mb-3 flex-wrap">
+          <span className="text-xl sm:text-2xl">🔥</span>
+          <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest bg-white/20 px-2.5 py-1 rounded-full">
             דיל היום
           </span>
-          <span className="text-xs opacity-75 mr-auto">נסגר בעוד:</span>
-          <div className="flex items-center gap-1 bg-black/30 rounded-xl px-3 py-1.5 tabular-nums font-black text-base">
+          <span className="text-[10px] sm:text-xs opacity-75 mr-auto">נסגר בעוד:</span>
+          <div className="flex items-center gap-1 bg-black/30 rounded-xl px-2.5 py-1 tabular-nums font-black text-sm sm:text-base" style={{ fontFamily: "ui-monospace, 'SF Mono', Menlo, monospace" }}>
             <span>{pad(countdown.h)}</span>
             <span className="opacity-60">:</span>
             <span>{pad(countdown.m)}</span>
@@ -1522,13 +1543,13 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
         </div>
 
         {/* Content */}
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-3 sm:gap-4 items-center">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-black mb-1 leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{name}</h3>
-            <div className="flex items-baseline gap-2 mb-3 flex-wrap">
-              <span className="text-3xl font-black">₪{bestPrice.toLocaleString()}</span>
-              <span className="text-sm line-through opacity-60">₪{deal.marketMax.toLocaleString()}</span>
-              <span className="bg-white/25 text-xs font-bold px-2 py-0.5 rounded-full">
+            <h3 className="text-base sm:text-lg font-black mb-1 leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{name}</h3>
+            <div className="flex items-baseline gap-2 mb-2.5 sm:mb-3 flex-wrap">
+              <span className="text-2xl sm:text-3xl font-black">₪{bestPrice.toLocaleString()}</span>
+              <span className="text-xs sm:text-sm line-through opacity-60">₪{deal.marketMax.toLocaleString()}</span>
+              <span className="bg-white/25 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
                 חיסכון {deal.discount}%
               </span>
             </div>
@@ -4199,6 +4220,71 @@ function CountdownTimer({ closingDate, compact = false, className = "" }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  DIGITAL CLOCK TIMER — compact HH:MM:SS display, updates every second.
+//  When >24h remain, shows D:HH:MM:SS (days prefix). Always tabular-nums
+//  so the digits don't shift width as they tick.
+// ─────────────────────────────────────────────────────────────────
+function DigitalClockTimer({ closingDate, label = "נסגר בעוד" }) {
+  const calc = () => {
+    const closing = new Date(closingDate);
+    if (isNaN(closing.getTime())) return { expired: true, d: 0, h: 0, m: 0, s: 0 };
+    const diff = closing - new Date();
+    if (diff <= 0) return { expired: true, d: 0, h: 0, m: 0, s: 0 };
+    return {
+      expired: false,
+      d: Math.floor(diff / 86400000),
+      h: Math.floor((diff % 86400000) / 3600000),
+      m: Math.floor((diff % 3600000) / 60000),
+      s: Math.floor((diff % 60000) / 1000),
+    };
+  };
+  const [t, setT] = useState(calc);
+  useEffect(() => {
+    const id = setInterval(() => setT(calc()), 1000);
+    return () => clearInterval(id);
+  }, [closingDate]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const urgent  = !t.expired && t.d === 0 && t.h < 6;
+  const warning = !t.expired && t.d < 1;
+  const colorBg = t.expired ? "bg-gray-100"
+                : urgent    ? "bg-red-50"
+                : warning   ? "bg-amber-50"
+                              : "bg-gray-900";
+  const colorText = t.expired ? "text-gray-400"
+                  : urgent    ? "text-red-600"
+                  : warning   ? "text-amber-700"
+                                : "text-emerald-300";
+  const colorBorder = t.expired ? "border-gray-200"
+                    : urgent    ? "border-red-200"
+                    : warning   ? "border-amber-200"
+                                  : "border-gray-800";
+
+  if (t.expired) {
+    return (
+      <div className={`flex items-center justify-center gap-1.5 ${colorBg} border ${colorBorder} rounded-lg px-3 py-1.5`}>
+        <Clock className="w-3.5 h-3.5 text-gray-400" />
+        <span className="text-[11px] font-bold text-gray-400">הזמן נגמר</span>
+      </div>
+    );
+  }
+
+  const pad = (n) => String(n).padStart(2, "0");
+  // When days > 0, show D:HH:MM:SS. Otherwise HH:MM:SS.
+  const display = t.d > 0
+    ? `${t.d}:${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`
+    : `${pad(t.h)}:${pad(t.m)}:${pad(t.s)}`;
+
+  return (
+    <div className={`flex items-center justify-center gap-2 ${colorBg} border ${colorBorder} rounded-lg px-2.5 py-1.5`}>
+      <Clock className={`w-3.5 h-3.5 flex-shrink-0 ${urgent ? "text-red-500 animate-pulse" : warning ? "text-amber-500" : "text-emerald-400"}`} />
+      <span className={`text-sm font-black ${colorText} tabular-nums tracking-wider leading-none`} style={{ fontFamily: "ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace" }}>
+        {display}
+      </span>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  ANALOG CLOCK TIMER — 7-day countdown with ring + digit boxes
 // ─────────────────────────────────────────────────────────────────
 function AnalogClockTimer({ closingDate, size = 80 }) {
@@ -5512,10 +5598,13 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
           )}
         </div>
 
-        {/* Analog clock timer */}
+        {/* Timer — compact digital HH:MM:SS in compact mode (used on mobile
+              home grid), full analog ring elsewhere. */}
         {dealStatus === "active" && deal.participants >= 2 && (
           <div className="flex justify-center mb-3 mt-auto">
-            <AnalogClockTimer closingDate={deal.closingDate} size={56} />
+            {compact
+              ? <DigitalClockTimer closingDate={deal.closingDate} />
+              : <AnalogClockTimer closingDate={deal.closingDate} size={56} />}
           </div>
         )}
 
