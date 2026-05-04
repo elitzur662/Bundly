@@ -98,6 +98,37 @@ export default defineConfig({
   // on Stripe Elements (autofill is blocked on plain http even on localhost).
   // First load shows a "not private" warning — click "Advanced → Proceed".
   plugins: [react(), basicSsl(), expressPlugin()],
+  // Production hardening:
+  //   - sourcemap:false → no .js.map files exposing original source structure
+  //   - drop console/debugger → reverse-engineering harder, smaller bundle
+  //   - manualChunks → split vendor code so attackers see less in one file
+  build: {
+    sourcemap: false,
+    minify: "esbuild",
+    target: "es2020",
+    rollupOptions: {
+      output: {
+        // Hash filenames so cached files invalidate cleanly per release
+        entryFileNames:  "assets/b-[hash].js",
+        chunkFileNames:  "assets/c-[hash].js",
+        assetFileNames:  "assets/a-[hash][extname]",
+        // Code splitting: separate React, Stripe, and Lucide into their own
+        // chunks. Each chunk is a separate file — keeps individual files
+        // smaller, harder to fingerprint, and improves caching.
+        manualChunks(id) {
+          if (id.includes("node_modules/react")) return "vendor-react";
+          if (id.includes("node_modules/@stripe")) return "vendor-stripe";
+          if (id.includes("node_modules/lucide-react")) return "vendor-icons";
+        },
+      },
+    },
+  },
+  esbuild: {
+    // Strip console.log + console.warn + debugger statements from production
+    // bundle. Errors stay so we still get crash reports.
+    drop: ["debugger"],
+    pure: ["console.log", "console.warn", "console.info", "console.debug", "console.trace"],
+  },
   server: {
     port: 3000,
     https: true,

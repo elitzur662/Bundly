@@ -189,7 +189,7 @@ setInterval(() => {
 // ── SECURITY LAYERS ───────────────────────────────────────────────
 // Defense in depth: every request passes through multiple filters.
 import {
-  helmetHeaders, enforceHttps, strictCors, rateLimit, blockBots,
+  helmetHeaders, extraSecurityHeaders, enforceHttps, strictCors, rateLimit, blockBots,
   preventPrototypePollution, preventTraversal, safeEqual, stripSensitive,
   safeErrorHandler, requestId, audit, trackFailedLogin, clearFailedLogins, isLocked,
   verifyCaptcha, validate, signUrl, verifySignedUrl,
@@ -221,6 +221,9 @@ app.use(wafFilter(audit));
 app.use(requestTimeout(30_000));
 // 6. Strict HTTP security headers via helmet (production-grade CSP, HSTS, etc.)
 app.use(helmetHeaders());
+// 6b. Headers helmet doesn't set: X-Robots-Tag on /api/*, Permissions-Policy,
+//     server-name strip, DNS prefetch off.
+app.use(extraSecurityHeaders);
 // 7. Strict CORS (replaces cors() which was allow-all)
 app.use(strictCors(process.env.ALLOWED_ORIGINS?.split(",") || []));
 // 8. Body size limit + parser (1MB hard cap)
@@ -350,6 +353,19 @@ app.use(originGuard(audit));
 app.use(honeypot("fax_number"));
 // 13. Global rate limit: 300 requests/minute per IP (prevents DoS)
 app.use(rateLimit({ windowMs: 60_000, max: 300, label: "global" }));
+
+// 13b. Block debug/test endpoints in production. These reveal internal
+//      structure: scraping internals, proxy IPs, raw HTML responses, JSON-LD
+//      probes — useful in dev, dangerous in prod. Returns the same 404 the
+//      Express default handler would for an unknown route, so attackers
+//      can't even tell the routes exist.
+const _IS_PROD = process.env.NODE_ENV === "production";
+app.use((req, res, next) => {
+  if (_IS_PROD && /^\/api\/(test-|debug-|debug\/)/i.test(req.path)) {
+    return res.status(404).json({ error: "Not found" });
+  }
+  next();
+});
 // 9. Global :id param sanitizer — any endpoint with :id gets a strict integer or 400
 app.param("id", (req, res, next, val) => {
   const safe = safeId(val);

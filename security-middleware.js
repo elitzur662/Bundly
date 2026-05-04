@@ -113,6 +113,38 @@ export function helmetHeaders() {
   });
 }
 
+// ── Extra security headers that helmet doesn't set ──────────────
+// Mounted right after helmetHeaders(). Adds:
+//  • X-Robots-Tag on /api/* — keep API surface out of Google
+//  • Permissions-Policy — helmet 7 doesn't set this; tightly scoped
+//  • Server header strip — replaces Express's "Server: …" with neutral value
+//  • X-DNS-Prefetch-Control off — fewer outbound lookups leaked
+export function extraSecurityHeaders(req, res, next) {
+  // Block search engine indexing of API responses entirely.
+  // Static frontend pages are still indexable since they don't match /api.
+  if (req.path.startsWith("/api/")) {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, nosnippet, noarchive");
+  }
+  // Disable browser features we never use. payment=(self) and geolocation=(self)
+  // are kept open because Stripe and any future store-locator may need them.
+  res.setHeader(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(self), payment=(self), " +
+    "usb=(), magnetometer=(), gyroscope=(), accelerometer=(), " +
+    "ambient-light-sensor=(), autoplay=(), encrypted-media=(self), " +
+    "midi=(), picture-in-picture=(), screen-wake-lock=(), xr-spatial-tracking=(), " +
+    "fullscreen=(self), serial=(), hid=(), bluetooth=(), idle-detection=()"
+  );
+  // Mask server signature
+  res.setHeader("Server", "bundly");
+  // Disable speculative DNS prefetch from response context
+  res.setHeader("X-DNS-Prefetch-Control", "off");
+  // Permanent removal of the "X-Powered-By: Express" header.
+  // helmet.hidePoweredBy already does this but defense-in-depth.
+  res.removeHeader("X-Powered-By");
+  next();
+}
+
 // ── HTTP Security Headers (fallback if helmet not installed) ─────
 export function securityHeaders(req, res, next) {
   // Prevent MIME-type sniffing
@@ -325,10 +357,23 @@ export function stripSensitive(obj) {
 // Always set as the LAST middleware after all routes.
 export function safeErrorHandler(err, req, res, _next) {
   const status = err.status || err.statusCode || 500;
-  const message = (IS_PROD && status === 500)
-    ? "שגיאת שרת פנימית. נסה/י שוב עוד רגע."
-    : (err.message || "שגיאה");
+  // In production, NEVER leak `err.message` for 5xx errors — could expose
+  // file paths, stack hints, library names, DB column names, etc. Generic
+  // Hebrew message is shown instead. 4xx errors keep their text since they're
+  // validation/auth feedback the user needs to act on.
+  let message;
+  if (IS_PROD) {
+    if (status >= 500) message = "שגיאת שרת פנימית. נסה/י שוב עוד רגע.";
+    else if (status === 404) message = "המשאב לא נמצא";
+    else if (status === 403) message = "הגישה אסורה";
+    else if (status === 401) message = "נדרשת התחברות";
+    else if (status === 429) message = "יותר מדי בקשות — נסה/י שוב בעוד רגע";
+    else message = err.message || "שגיאה";
+  } else {
+    message = err.message || "שגיאה";
+  }
   audit("ERROR", req, { status, message: err.message, stack: IS_PROD ? undefined : err.stack?.split("\n").slice(0, 3).join(" | ") });
+  // Strip stack traces and any non-message fields from prod responses.
   res.status(status).json({ error: message, ...(IS_PROD ? {} : { stack: err.stack }) });
 }
 
