@@ -5406,7 +5406,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
 // ─────────────────────────────────────────────────────────────────
 //  DEAL CARD
 // ─────────────────────────────────────────────────────────────────
-function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddToPool, demandPools }) {
+function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddToPool, demandPools, compact = false }) {
   const name = cleanName(deal.name[lang] || deal.name.en);
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
@@ -5421,8 +5421,8 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
       onClick={onClick}
       className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-indigo-100 transition-all duration-200 cursor-pointer overflow-hidden group flex flex-col"
     >
-      {/* Image area */}
-      <div className="relative overflow-hidden h-48 bg-gradient-to-br from-slate-50 to-indigo-50/40">
+      {/* Image area — h-32 on mobile compact, h-48 default. */}
+      <div className={`relative overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50/40 ${compact ? "h-28 sm:h-36 lg:h-40" : "h-48"}`}>
         <ProductImage
           query={deal.name.en}
           fallback={deal.image}
@@ -17191,7 +17191,7 @@ function Footer({ t, setMode }) {
 // ─────────────────────────────────────────────────────────────────
 //  BUNDLE CARD — compact card for smart bundle display
 // ─────────────────────────────────────────────────────────────────
-function BundleCard({ bundle, onClick, isSaved }) {
+function BundleCard({ bundle, onClick, isSaved, compact = false }) {
   const savePct = Math.round(((bundle.totalMarket - bundle.bundlePrice) / bundle.totalMarket) * 100);
   const progress = Math.round((bundle.participants / bundle.maxParticipants) * 100);
   return (
@@ -17201,10 +17201,10 @@ function BundleCard({ bundle, onClick, isSaved }) {
     >
       {/* Product image strip — show max 4 images, +N overflow */}
       {(() => {
-        const shown = bundle.products.slice(0, 4);
-        const extra = bundle.products.length - 4;
+        const shown = bundle.products.slice(0, compact ? 3 : 4);
+        const extra = bundle.products.length - shown.length;
         return (
-          <div className="relative h-28 flex overflow-hidden">
+          <div className={`relative ${compact ? "h-20 sm:h-24" : "h-28"} flex overflow-hidden`}>
             {shown.map((p, i) => (
               <div key={i} className="flex-1 relative border-l first:border-l-0 border-white/30">
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -21451,8 +21451,20 @@ export default function App() {
             })()}
 
             <h2 className="text-xl font-bold text-gray-900 mb-5">{t.activeGroups}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {deals.slice(0,6).map(d=><DealCard key={d.id} deal={d} lang={lang} t={t} onClick={()=>openDeal(d)} wishlisted={wishlist.includes(d.id)} onWishlist={handleWishlist} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} demandPools={demandPools} />)}
+            {/* Mobile: 2 per row (4 felt cramped for product cards with images +
+                  Hebrew names). Tablet 3, desktop 4 — denser than before.    */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+              {deals.slice(0, 8).map(d => (
+                <DealCard
+                  key={d.id} deal={d} lang={lang} t={t}
+                  onClick={() => openDeal(d)}
+                  wishlisted={wishlist.includes(d.id)}
+                  onWishlist={handleWishlist}
+                  onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
+                  demandPools={demandPools}
+                  compact={true}
+                />
+              ))}
             </div>
 
             {/* ── DEMAND POOLS — "קבוצות ביקוש פעילות" ── */}
@@ -21503,8 +21515,10 @@ export default function App() {
                     <Plus className="w-3.5 h-3.5" /> צור חבילה
                   </button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {bundles.map(b => <BundleCard key={b.id} bundle={b} onClick={setSelectedBundle} isSaved={savedBundles.includes(b.id)} />)}
+                {/* Mobile: 2 per row (was 1) — bundles are summary cards so
+                      they fit comfortably side-by-side at small widths.   */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                  {bundles.map(b => <BundleCard key={b.id} bundle={b} onClick={setSelectedBundle} isSaved={savedBundles.includes(b.id)} compact={true} />)}
                 </div>
               </div>
             )}
