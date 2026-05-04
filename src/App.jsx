@@ -5770,7 +5770,13 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   }, [user]);
 
   const handleSelectTier = (tier) => {
-    if (!user) { pendingTierRef.current = tier; if (notify) notify("יש להתחבר קודם — לחץ על 'התחבר' בתפריט"); return; }
+    if (!user) {
+      pendingTierRef.current = tier;
+      if (notify) notify("עליך להתחבר קודם");
+      // Open the auth modal directly so the user doesn't have to find the menu
+      onLoginPrompt?.();
+      return;
+    }
     if (tier === "interested") {
       onJoin(deal.id, tier);
       setJoinedTier(tier);
@@ -20000,31 +20006,55 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             doesn't cut off the bottom — fallback to --vh CSS var on older
             browsers (set in main.jsx). */}
       {isOpen && (
-        <div
-          className="fixed z-50 flex flex-col bg-white shadow-2xl overflow-hidden
-                     inset-0 sm:inset-auto sm:bottom-4 sm:right-4
-                     w-full sm:w-[400px] sm:max-w-[calc(100vw-32px)]
-                     rounded-none sm:rounded-3xl
-                     border-0 sm:border sm:border-black/10"
-          style={{
-            // Fullscreen height on mobile (using --vh fallback, dvh on modern browsers).
-            // On sm+ the inline max-height keeps it floating.
-            height: typeof window !== "undefined" && window.innerWidth < 640
-              ? "calc(var(--vh, 1vh) * 100)"
-              : "min(620px, calc(var(--vh, 1vh) * 100 - 100px))",
-            animation: "chatSlideUp 0.3s cubic-bezier(.22,.68,0,1.15) both",
-            paddingTop: typeof window !== "undefined" && window.innerWidth < 640
-              ? "env(safe-area-inset-top, 0px)"
-              : 0,
-          }}
-        >
+        <>
+          {/* Backdrop — light tint so the rest of the page is still visible
+                behind the half-height sheet. Click to close.   */}
+          <div
+            className="fixed inset-0 z-40 sm:hidden"
+            style={{ background: "rgba(0,0,0,0.25)", animation: "chatBackdrop 0.2s ease-out both" }}
+            onClick={() => setIsOpen(false)}
+          />
+          <div
+            // Mobile: half-height bottom sheet docked to the bottom of the
+            // viewport. Desktop: floating window in bottom-right corner.
+            className="fixed z-50 flex flex-col bg-white shadow-2xl overflow-hidden
+                       sm:bottom-4 sm:right-4
+                       sm:w-[400px] sm:max-w-[calc(100vw-32px)]
+                       sm:rounded-3xl rounded-t-3xl
+                       sm:border sm:border-black/10
+                       border-t border-x border-gray-200"
+            style={{
+              // Mobile: anchored to bottom, ~60% viewport height
+              ...(typeof window !== "undefined" && window.innerWidth < 640
+                ? {
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: "62%",
+                    maxHeight: "calc(var(--vh, 1vh) * 80)",
+                    paddingBottom: "env(safe-area-inset-bottom, 0px)",
+                    boxShadow: "0 -10px 40px rgba(0,0,0,0.18)",
+                  }
+                : { height: "min(620px, calc(var(--vh, 1vh) * 100 - 100px))" }),
+              animation: typeof window !== "undefined" && window.innerWidth < 640
+                ? "chatSheetUp 0.3s cubic-bezier(.22,.68,0,1.15) both"
+                : "chatSlideUp 0.3s cubic-bezier(.22,.68,0,1.15) both",
+            }}
+          >
           <style>{`
             @keyframes chatSlideUp { from { opacity:0; transform:translateY(20px) scale(0.95); } to { opacity:1; transform:none; } }
+            @keyframes chatSheetUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+            @keyframes chatBackdrop { from { opacity: 0; } to { opacity: 1; } }
             @keyframes chatDots { 0%,80%,100%{transform:scale(0)} 40%{transform:scale(1)} }
             @keyframes chatBtnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)} 50%{box-shadow:0 0 0 8px rgba(99,102,241,0)} }
             .chat-results-btn { animation: chatBtnPulse 2s ease-out 3; }
             .chat-results-btn:hover { animation: none; }
           `}</style>
+
+          {/* Drag handle — visual cue that the sheet can be dismissed */}
+          <div className="sm:hidden flex justify-center pt-2 pb-1 flex-shrink-0">
+            <span className="w-10 h-1 bg-gray-300 rounded-full" />
+          </div>
 
           {/* ── Header ── */}
           <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
@@ -20161,6 +20191,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             </button>
           </div>
         </div>
+        </>
       )}
     </>
   );
@@ -20776,12 +20807,11 @@ export default function App() {
     if (d) trackEvent({ type: "wishlist", dealId: d.id, productName: d.name?.he || d.productName, category: d.catName || d.category, brand: d.brand, price: d.groupOffer || d.marketMin });
   };
   const handleJoin = (id, tier = "committed") => {
-    // Login gate for committed tier — actual paid commitments must be tied
-    // to an authenticated user (otherwise we can't materialize an order on
-    // deal close). Watching/interested tiers are still allowed anonymous so
-    // demand-pool signal can be captured early.
-    if (tier === "committed" && !user) {
-      notify("התחבר/י כדי לשמור מקום בקבוצה");
+    // Login gate for ALL tiers — even "interested"/"watching" need a user
+    // identity so we can notify them when the deal moves, and so the count
+    // we show isn't gameable by anonymous spam clicks.
+    if (!user) {
+      notify("עליך להתחבר קודם");
       setShowAuth(true);
       return;
     }
