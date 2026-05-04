@@ -14075,7 +14075,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
                       ) : p.image ? (
                         <img src={p.image} alt={p.nameHe || p.nameEn}
                           className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-                          onError={e => { e.currentTarget.style.display = "none"; e.currentTarget.parentElement.innerHTML += `<div class="flex items-center justify-center w-full h-full"><svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" style="color:#e5e7eb" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8l-2 4h12l-2-4z"/></svg></div>`; }} />
+                          onError={e => { e.currentTarget.style.display = "none"; }} />
                       ) : (
                         <Package className="w-10 h-10 text-gray-200" />
                       )}
@@ -16080,7 +16080,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
                             src={p.image}
                             alt={p.nameHe || p.nameEn}
                             className="w-full h-full object-contain p-2"
-                            onError={e => { e.target.style.display = "none"; e.target.parentElement.innerHTML = '<div style="font-size:34px;display:flex;align-items:center;justify-content:center;width:100%;height:100%">📦</div>'; }}
+                            onError={e => { e.target.style.display = "none"; }}
                           />
                         ) : (
                           <span style={{ fontSize: 34 }}>
@@ -20486,7 +20486,12 @@ export default function App() {
   }, [mode, fetchPersonalRequests]);
 
   const [pendingSuppliers, setPendingSuppliers] = useState(INITIAL_PENDING_SUPPLIERS);
-  const [wishlist, setWishlist] = useState([]);
+  // Wishlist persists in localStorage so users don't lose saves on refresh.
+  // Cleared on logout via handleLogout's localStorage.removeItem chain.
+  const [wishlist, setWishlist] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("bundly_wishlist") || "[]"); }
+    catch { return []; }
+  });
   // ── "המוצרים שלי" — personal cart of joined/saved products ──
   // Each entry: { id, name, image, tier, action, catIdx, price, addedAt }
   const [myProducts, setMyProducts] = useState([]);
@@ -20563,7 +20568,12 @@ export default function App() {
   });
 
   const handleWishlist = id => {
-    setWishlist(p => p.includes(id) ? p.filter(x=>x!==id) : [...p, id]);
+    setWishlist(p => {
+      const next = p.includes(id) ? p.filter(x => x !== id) : [...p, id];
+      // Persist locally so the wishlist survives page refresh
+      try { localStorage.setItem("bundly_wishlist", JSON.stringify(next)); } catch {}
+      return next;
+    });
     const d = deals.find(x => x.id === id);
     if (d) trackEvent({ type: "wishlist", dealId: d.id, productName: d.name?.he || d.productName, category: d.catName || d.category, brand: d.brand, price: d.groupOffer || d.marketMin });
   };
@@ -20836,6 +20846,7 @@ export default function App() {
     // inherit the previous user's data (wishlist, products, search history).
     localStorage.removeItem("bundly_token");
     localStorage.removeItem("bundly_searches");
+    localStorage.removeItem("bundly_wishlist");
     // Also clear any cached profile drafts
     try {
       for (let i = localStorage.length - 1; i >= 0; i--) {
