@@ -1457,9 +1457,19 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
               className="snap-start flex-shrink-0 w-[62%] sm:w-56 text-right bg-white rounded-2xl border-2 border-pink-100 hover:border-pink-300 hover:shadow-lg transition overflow-hidden active:scale-[0.98]"
             >
               <div className="h-28 sm:h-32 bg-gray-50 flex items-center justify-center overflow-hidden relative">
-                {deal.image
-                  ? <img loading="lazy" src={deal.image} alt={name} className="max-h-full max-w-full object-contain p-2" onError={e => { e.target.style.display = "none"; }} />
-                  : <span className="text-3xl">📦</span>}
+                {/* Always show an image — falls back to a category-matched
+                      stock photo if the deal has no specific image yet. */}
+                <img
+                  loading="lazy"
+                  src={deal.image || smartCategoryFallback(name, deal.category, deal.catName)}
+                  alt={name}
+                  className="max-h-full max-w-full object-contain p-2"
+                  onError={e => {
+                    const fb = smartCategoryFallback(name, deal.category, deal.catName);
+                    if (e.currentTarget.src !== fb) e.currentTarget.src = fb;
+                    else e.currentTarget.style.display = "none";
+                  }}
+                />
                 {isPersonalized && (
                   <span className="absolute top-2 right-2 text-[10px] font-black bg-pink-500 text-white px-2 py-0.5 rounded-full shadow">
                     {score}% התאמה
@@ -4127,68 +4137,96 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
 //  Falls back to `fallback` (Unsplash) when SerpAPI not available.
 //  Module-level cache so each model is fetched only once per session.
 // ─────────────────────────────────────────────────────────────────
-const _imgCache = new Map(); // query → url | null (shared across all instances)
+// (Module-level _imgCache moved below ProductImage to be shared with smartCategoryFallback)
 
-function ProductImage({ query, fallback, alt, className, imgClassName }) {
-  const [src, setSrc]         = useState(null);   // null = still loading
-  const [loaded, setLoaded]   = useState(false);  // false = show skeleton
+// Smart fallback image picker — chooses an Unsplash image from the IMG map
+// based on keywords in the product/deal name. Ensures every product has SOME
+// visual representation even when the dynamic /api/product-image search fails.
+function smartCategoryFallback(name = "", category = "", catName = "") {
+  const t = (String(name) + " " + String(category) + " " + String(catName)).toLowerCase();
+  // Hebrew + English keywords → IMG slot
+  if (/iphone|אייפון|galaxy|גלקסי|samsung.*phone|פיקסל|pixel|smartphone|טלפון|סלולר|smartphone/i.test(t)) return IMG.phone;
+  if (/macbook|מקבוק|laptop|לפטופ|chromebook|מחשב נייד|notebook/i.test(t)) return IMG.laptop;
+  if (/ipad|tablet|טאבלט|galaxy tab/i.test(t)) return IMG.tablet;
+  if (/airpods|אוזניות אלחוט|earbuds|tws/i.test(t)) return IMG.earbuds;
+  if (/headphone|אוזניות|sony wh|bose|sennheiser/i.test(t)) return IMG.headphones;
+  if (/oled|qled|tv|טלוויז|television|טלויז/i.test(t)) return IMG.tv;
+  if (/refrigerator|מקרר|fridge/i.test(t)) return IMG.fridge;
+  if (/freezer|מקפיא/i.test(t)) return IMG.fridge;
+  if (/washer|washing machine|מכונת כביסה|פתח חזית|פתח עליון/i.test(t)) return IMG.wash;
+  if (/dryer|מייבש כביסה/i.test(t)) return IMG.dryer;
+  if (/dishwasher|מדיח כלים/i.test(t)) return IMG.dishwasher;
+  if (/microwave|מיקרוגל/i.test(t)) return IMG.microwave;
+  if (/blender|בלנדר|מיקסר|food processor|מעבד מזון/i.test(t)) return IMG.blender;
+  if (/toaster|טוסטר/i.test(t)) return IMG.toaster;
+  if (/oven|תנור/i.test(t)) return IMG.oven;
+  if (/coffee|מכונת קפה|אספרסו|nespresso|delonghi/i.test(t)) return IMG.coffee;
+  if (/aircond|מזגן|airconditioner|conditioner/i.test(t)) return IMG.ac;
+  if (/vacuum|שואב|robot.*clean|roomba|roborock|dyson/i.test(t)) return IMG.vacuum;
+  if (/robot.*vacuum|שואב רובוט/i.test(t)) return IMG.robot;
+  if (/camera|מצלמה|dslr|mirrorless|gopro|sony alpha/i.test(t)) return IMG.camera;
+  if (/drone|רחפן|רחפ|dji/i.test(t)) return IMG.drone;
+  if (/playstation|ps5|ps4|xbox|nintendo|switch|gaming console|קונסולה/i.test(t)) return IMG.gaming;
+  if (/bike|אופניים|ebike|אופני/i.test(t)) return IMG.bike;
+  if (/watch|שעון חכם|smartwatch|apple watch/i.test(t)) return IMG.watch;
+  if (/sofa|ספה|couch|כורסא/i.test(t)) return IMG.couch;
+  // Last-resort generic — TV photo works for most home electronics
+  return IMG.tv;
+}
+
+// Module-level cache for fetched product images (in addition to IMG map).
+// We keep this outside the component so all instances share it across mounts.
+const _imgCache = (typeof window !== "undefined" && window._bundlyImgCache) || new Map();
+if (typeof window !== "undefined") window._bundlyImgCache = _imgCache;
+
+function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
+  // ALWAYS resolve to a usable image immediately — no more "loading skeleton
+  // → no result → broken icon" UX. The smart fallback gives every product a
+  // category-matched stock photo on first paint, then we upgrade asynchronously
+  // if a more specific image becomes available.
+  const initialFallback = fallback || smartCategoryFallback(productName || query, category, catName);
+  const [src, setSrc] = useState(() => {
+    if (query) {
+      const k = query.trim().toLowerCase();
+      if (_imgCache.has(k)) {
+        const cached = _imgCache.get(k);
+        if (cached) return cached;
+      }
+    }
+    return initialFallback;
+  });
 
   useEffect(() => {
-    if (!query) { setSrc(fallback || null); setLoaded(true); return; }
+    if (!query) return;
     const key = query.trim().toLowerCase();
-
-    // Already cached — apply immediately, no skeleton flash
     if (_imgCache.has(key)) {
-      setSrc(_imgCache.get(key) || fallback || null);
-      setLoaded(true);
+      const cached = _imgCache.get(key);
+      if (cached) setSrc(cached);
       return;
     }
-
-    // Not cached — keep skeleton while fetching
-    setLoaded(false);
-    setSrc(null);
-
+    let alive = true;
     fetch(`/api/product-image?q=${encodeURIComponent(query.trim())}`)
       .then(r => r.ok ? r.json() : { image: null })
       .then(d => {
+        if (!alive) return;
         const url = d.image || null;
-        _imgCache.set(key, url);            // cache for next render
-        setSrc(url || fallback || null);
-        setLoaded(true);
+        _imgCache.set(key, url);
+        // Only swap if we got a real result. Otherwise stick with the fallback.
+        if (url) setSrc(url);
       })
-      .catch(() => {
-        setSrc(fallback || null);
-        setLoaded(true);
-      });
-  }, [query, fallback]);
-
-  // Skeleton while API is in flight
-  if (!loaded) {
-    return (
-      <div className={className} aria-hidden="true">
-        <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />
-      </div>
-    );
-  }
-
-  // No image at all — neutral placeholder
-  if (!src) {
-    return (
-      <div className={`${className} bg-gray-50 flex items-center justify-center`}>
-        <Package className="w-10 h-10 text-gray-200" />
-      </div>
-    );
-  }
+      .catch(() => { /* keep fallback */ });
+    return () => { alive = false; };
+  }, [query]);
 
   return (
     <img
       src={src}
       alt={alt}
+      loading="lazy"
       className={`${className} ${imgClassName || ""}`}
       onError={() => {
-        // Try fallback once; if fallback also fails, clear
-        if (fallback && src !== fallback) setSrc(fallback);
-        else { setSrc(null); setLoaded(true); }
+        // If the dynamic image broke, drop back to the smart fallback
+        if (src !== initialFallback) setSrc(initialFallback);
       }}
     />
   );
@@ -5511,6 +5549,9 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
       <div className={`relative overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50/40 ${compact ? "h-28 sm:h-36 lg:h-40" : "h-48"}`}>
         <ProductImage
           query={deal.name.en}
+          productName={deal.name.he || deal.name.en}
+          category={deal.category}
+          catName={deal.catName || deal.subCat}
           fallback={deal.image}
           alt={name}
           className="w-full h-full object-contain p-4"
