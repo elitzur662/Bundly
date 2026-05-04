@@ -4174,49 +4174,92 @@ function smartCategoryFallback(name = "", category = "", catName = "") {
   return IMG.tv;
 }
 
-// Module-level cache for fetched product images (in addition to IMG map).
-// We keep this outside the component so all instances share it across mounts.
+// ── Persistent product-image cache ─────────────────────────────────────
+//   Memory cache (per page-load) + localStorage cache (survives reloads).
+//   Once we successfully fetch a specific image for a product, it sticks
+//   forever — no more shuffling between fallbacks each session.
 const _imgCache = (typeof window !== "undefined" && window._bundlyImgCache) || new Map();
 if (typeof window !== "undefined") window._bundlyImgCache = _imgCache;
 
-function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
-  // ALWAYS resolve to a usable image immediately — no more "loading skeleton
-  // → no result → broken icon" UX. The smart fallback gives every product a
-  // category-matched stock photo on first paint, then we upgrade asynchronously
-  // if a more specific image becomes available.
-  const initialFallback = fallback || smartCategoryFallback(productName || query, category, catName);
-  const [src, setSrc] = useState(() => {
-    if (query) {
-      const k = query.trim().toLowerCase();
-      if (_imgCache.has(k)) {
-        const cached = _imgCache.get(k);
-        if (cached) return cached;
-      }
+const _IMG_LS_KEY = "bundly_img_cache_v1";
+function _imgLsGet(key) {
+  try {
+    const raw = localStorage.getItem(_IMG_LS_KEY);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    return obj?.[key] || null;
+  } catch { return null; }
+}
+function _imgLsSet(key, url) {
+  try {
+    const raw = localStorage.getItem(_IMG_LS_KEY);
+    const obj = raw ? JSON.parse(raw) : {};
+    obj[key] = url;
+    // Cap at 500 entries to bound localStorage growth
+    const keys = Object.keys(obj);
+    if (keys.length > 500) {
+      // Drop the oldest 50 (insertion order — Object.keys preserves it on
+      // modern engines). Removes ~10% to avoid frequent capping.
+      keys.slice(0, 50).forEach(k => delete obj[k]);
     }
-    return initialFallback;
-  });
+    localStorage.setItem(_IMG_LS_KEY, JSON.stringify(obj));
+  } catch { /* localStorage full / disabled — no-op */ }
+}
+
+function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
+  // PRIORITY ORDER for the image src:
+  //   1. fallback prop (e.g. deal.image scraped from ZAP)        — instant
+  //   2. localStorage cached image for this query                — instant
+  //   3. memory cache (set by another component this session)    — instant
+  //   4. smart category fallback (generic Unsplash, by keyword)  — instant placeholder while fetching
+  //   5. Dynamic fetch from /api/product-image (DataForSEO)      — async, locked to localStorage when found
+  // Once a specific image is fetched, we LOCK it in localStorage so the
+  // same product always shows the same image — no flickering between
+  // requests, no different picture on the next page-load.
+  const fallbackImage = fallback || null;
+  const queryKey = query ? query.trim().toLowerCase() : null;
+  const lsCached = queryKey ? _imgLsGet(queryKey) : null;
+  const memCached = queryKey && _imgCache.has(queryKey) ? _imgCache.get(queryKey) : null;
+  const smartFb = !fallbackImage && !lsCached && !memCached
+    ? smartCategoryFallback(productName || query, category, catName)
+    : null;
+  const initial = fallbackImage || lsCached || memCached || smartFb;
+
+  const [src, setSrc] = useState(initial);
+  // Track whether we've locked a specific image (from API). Once locked,
+  // we never downgrade.
+  const lockedRef = useRef(!!(fallbackImage || lsCached || memCached));
 
   useEffect(() => {
-    if (!query) return;
-    const key = query.trim().toLowerCase();
-    if (_imgCache.has(key)) {
-      const cached = _imgCache.get(key);
-      if (cached) setSrc(cached);
-      return;
-    }
+    if (!queryKey) return;
+    // Already locked (have a specific image) — don't refetch
+    if (lockedRef.current) return;
     let alive = true;
     fetch(`/api/product-image?q=${encodeURIComponent(query.trim())}`)
       .then(r => r.ok ? r.json() : { image: null })
       .then(d => {
         if (!alive) return;
-        const url = d.image || null;
-        _imgCache.set(key, url);
-        // Only swap if we got a real result. Otherwise stick with the fallback.
-        if (url) setSrc(url);
+        const url = d?.image || null;
+        if (url) {
+          _imgCache.set(queryKey, url);
+          _imgLsSet(queryKey, url);
+          lockedRef.current = true;
+          setSrc(url);
+        }
+        // No result → stay on the smart fallback. Don't cache null
+        // permanently — leave room for a retry on a later page-load.
       })
       .catch(() => { /* keep fallback */ });
     return () => { alive = false; };
-  }, [query]);
+  }, [queryKey, query]);
+
+  if (!src) {
+    return (
+      <div className={`${className} bg-gray-50 flex items-center justify-center`}>
+        <Package className="w-10 h-10 text-gray-200" />
+      </div>
+    );
+  }
 
   return (
     <img
@@ -4225,8 +4268,11 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
       loading="lazy"
       className={`${className} ${imgClassName || ""}`}
       onError={() => {
-        // If the dynamic image broke, drop back to the smart fallback
-        if (src !== initialFallback) setSrc(initialFallback);
+        // Image URL broke — try smart fallback once. If that also breaks,
+        // give up and let the wrapper show the empty state.
+        const fb = smartCategoryFallback(productName || query, category, catName);
+        if (src !== fb) setSrc(fb);
+        else setSrc(null);
       }}
     />
   );
@@ -19331,88 +19377,57 @@ function CategoryBrowseModal({ onWizard, onClose }) {
           )}
 
           {/* Level 0 — Main categories */}
-          {/* Level 0 — Main categories with cover images.
-                Mobile: 2 per row (image cards are visual; need width).
-                Tablet+ : 3-4 per row.   */}
+          {/* Level 0 — Main categories with bold gradient icons (no images,
+                user feedback: images were inconsistent + ZAP-style icons feel
+                cleaner). Each card: gradient circle with emoji + name. */}
           {!flatSearch && level === 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {CATEGORY_TREE.map((cat) => {
-                const img = CATEGORY_IMAGES[cat.name];
-                return (
-                  <button key={cat.id} onClick={() => handleMainCat(cat)}
-                    className={`relative overflow-hidden rounded-2xl border ${cat.border} hover:shadow-lg active:scale-[0.97] transition-all group bg-white flex flex-col`}
-                  >
-                    {/* Cover image (or gradient fallback if not in map) */}
-                    <div className="relative h-28 sm:h-32 overflow-hidden">
-                      {img ? (
-                        <img
-                          loading="lazy" src={img} alt={cat.name}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          onError={e => { e.currentTarget.style.display = "none"; }}
-                        />
-                      ) : (
-                        <div className={`w-full h-full bg-gradient-to-br ${cat.color} flex items-center justify-center`}>
-                          <span className="text-5xl">{cat.icon}</span>
-                        </div>
-                      )}
-                      {/* Dark gradient at bottom for text legibility */}
-                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
-                      {/* Emoji badge on top-right corner */}
-                      <span className="absolute top-2 right-2 w-8 h-8 rounded-xl bg-white/90 backdrop-blur flex items-center justify-center text-base shadow-md">
-                        {cat.icon}
-                      </span>
+              {CATEGORY_TREE.map((cat) => (
+                <button key={cat.id} onClick={() => handleMainCat(cat)}
+                  className={`relative overflow-hidden flex flex-col items-center gap-3 p-5 ${cat.bg} border-2 ${cat.border} rounded-2xl hover:shadow-lg active:scale-[0.97] transition-all group min-h-[150px]`}
+                >
+                  {/* Decorative top-right blob */}
+                  <span aria-hidden="true"
+                    className={`absolute -top-6 -left-6 w-16 h-16 rounded-full bg-gradient-to-br ${cat.color} opacity-20 blur-xl group-hover:opacity-40 transition-opacity`} />
+                  {/* Big gradient icon disc */}
+                  <div className={`relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300 flex-shrink-0`}>
+                    <span className="text-3xl sm:text-4xl drop-shadow-sm">{cat.icon}</span>
+                  </div>
+                  <div className="text-center w-full px-1">
+                    <div className="text-[13px] sm:text-sm font-black text-gray-900 leading-tight"
+                         style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}>
+                      {cat.name}
                     </div>
-                    {/* Body */}
-                    <div className="p-2.5 text-right">
-                      <div className="text-[13px] sm:text-sm font-black text-gray-900 leading-tight"
-                           style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}>
-                        {cat.name}
-                      </div>
-                      <div className="text-[10px] text-gray-400 mt-0.5">{cat.sub.length} תת-קטגוריות</div>
+                    <div className="text-[10px] text-gray-500 mt-1 font-semibold">
+                      {cat.sub.length} תת-קטגוריות
                     </div>
-                  </button>
-                );
-              })}
+                  </div>
+                </button>
+              ))}
             </div>
           )}
 
-          {/* Level 1 — Sub-categories with cover images.
-                Layout: image on top, name + count below — clean visual grid. */}
+          {/* Level 1 — Sub-categories: icon-first list-style cards (cleaner
+                than image cards now that we removed photos).               */}
           {!flatSearch && level === 1 && selectedCat && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
-              {selectedCat.sub.map((sub, i) => {
-                const img = CATEGORY_IMAGES[sub.name];
-                return (
-                  <button key={i} onClick={() => handleSub(sub)}
-                    className={`relative overflow-hidden rounded-2xl border ${selectedCat.border} hover:shadow-lg active:scale-[0.97] transition-all group bg-white flex flex-col text-right`}
-                  >
-                    <div className="relative h-24 sm:h-28 overflow-hidden">
-                      {img ? (
-                        <img
-                          loading="lazy" src={img} alt={sub.name}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          onError={e => { e.currentTarget.style.display = "none"; }}
-                        />
-                      ) : (
-                        <div className={`w-full h-full bg-gradient-to-br ${selectedCat.color} flex items-center justify-center`}>
-                          <span className="text-4xl">{sub.icon}</span>
-                        </div>
-                      )}
-                      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-                      <span className="absolute top-2 right-2 w-7 h-7 rounded-lg bg-white/90 backdrop-blur flex items-center justify-center text-sm shadow">
-                        {sub.icon}
-                      </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {selectedCat.sub.map((sub, i) => (
+                <button key={i} onClick={() => handleSub(sub)}
+                  className={`relative flex items-center gap-3 p-4 ${selectedCat.bg} border ${selectedCat.border} rounded-2xl hover:shadow-md hover:border-indigo-300 active:scale-[0.97] transition-all group text-right min-h-[72px]`}
+                >
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${selectedCat.color} flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform`}>
+                    <span className="text-xl drop-shadow-sm">{sub.icon}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-bold text-gray-800 group-hover:text-indigo-700 leading-tight"
+                         style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>
+                      {sub.name}
                     </div>
-                    <div className="p-2.5">
-                      <div className="text-[13px] sm:text-sm font-bold text-gray-800 group-hover:text-indigo-700 leading-tight"
-                           style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word", minHeight: "2.4em" }}>
-                        {sub.name}
-                      </div>
-                      <div className="text-[10px] text-gray-400 mt-0.5">{sub.items.length} מוצרים</div>
-                    </div>
-                  </button>
-                );
-              })}
+                    <div className="text-[11px] text-gray-500 mt-0.5 font-semibold">{sub.items.length} מוצרים</div>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-300 group-hover:text-indigo-500 group-hover:-translate-x-1 flex-shrink-0 rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                </button>
+              ))}
             </div>
           )}
 
