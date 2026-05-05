@@ -20164,7 +20164,14 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
                           // doesn't remount the advisor with stale isOpen=true.
                           _chatStore.isOpen = false;
                           setIsOpen(false);
-                          onSearchProduct(msg.searchQuery, msg.searchFilters);
+                          // Pass only the searchQuery — let the category page run
+                          // its standard search. Forwarding GPT-extracted filters
+                          // (priceMax, brands, screenSize) reliably over-narrowed
+                          // results to 0 because the strict client-side regex /
+                          // brand-alias matchers rarely lined up with raw ZAP
+                          // titles. The user can refine via the on-page filter
+                          // chips if they want.
+                          onSearchProduct(msg.searchQuery, null);
                         }}
                         className="chat-results-btn w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-l from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl transition text-sm font-bold shadow-md hover:shadow-lg"
                       >
