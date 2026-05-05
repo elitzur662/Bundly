@@ -5959,38 +5959,51 @@ async function initZapSession() {
 // ── Webshare proxy pool ──────────────────────────────────────────────────────
 // 10 datacenter proxies rotate across all Zap requests.
 // Each proxy is marked "bad" for 25 min after a WAF response.
-const _WS_CREDS = "mjatbryw:nkn44bh3vel9";
-const _WS_PROXIES = [
-  "31.59.20.176:6754",
-  "23.95.150.145:6114",
-  "198.23.239.134:6540",
-  "45.38.107.97:6014",
-  "107.172.163.27:6543",
-  "198.105.121.200:6462",
-  "216.10.27.159:6837",
-  "142.111.67.146:5611",
-  "191.96.254.138:6185",
-  "31.58.9.4:6077",
-];
+// Proxy credentials and IP list now come from env vars. Hard-coding them
+// in source meant they were exposed if the repo was public — and once
+// exposed, the bandwidth quota burns out from third-party use. Format:
+//   WEBSHARE_CREDS=username:password
+//   WEBSHARE_PROXIES=ip1:port,ip2:port,ip3:port
+// If either var is missing, ZAP fetches go direct (no proxy) — which on
+// Render's static IP is often fine, and locally degrades gracefully when
+// the proxy account is exhausted.
+const _WS_CREDS = process.env.WEBSHARE_CREDS || "";
+const _WS_PROXIES = (process.env.WEBSHARE_PROXIES || "")
+  .split(",").map(s => s.trim()).filter(Boolean);
 let _wsProxyIdx = 0;
 const _wsProxyBadUntil = {};
+// When the upstream proxy account hits its bandwidth cap, every proxy in
+// the pool will fail with the same 402 / "Bandwidth limit reached" message.
+// Use a single account-wide flag with longer TTL (1h) instead of cycling
+// through proxies that all share the same exhausted quota.
+let _wsAccountExhaustedUntil = 0;
 
 function _nextWsProxy() {
+  // Account-wide bandwidth lock — fall back to direct fetch
+  if (Date.now() < _wsAccountExhaustedUntil) return null;
+  if (!_WS_CREDS || _WS_PROXIES.length === 0) return null; // creds missing → direct fetch
   const now = Date.now();
   for (let i = 0; i < _WS_PROXIES.length; i++) {
     const p = _WS_PROXIES[_wsProxyIdx % _WS_PROXIES.length];
     _wsProxyIdx++;
     if (!_wsProxyBadUntil[p] || now > _wsProxyBadUntil[p]) return p;
   }
-  _WS_PROXIES.forEach(p => delete _wsProxyBadUntil[p]);
-  console.warn("🔄 All proxies cooled-down — resetting bad list");
-  _wsProxyIdx = 0;
-  return _WS_PROXIES[0];
+  // All proxies bad — return null instead of resetting and re-hitting the
+  // upstream limit. Caller falls back to direct fetch.
+  return null;
 }
 
-function _markWsProxyBad(proxy) {
+function _markWsProxyBad(proxy, reason = "") {
   _wsProxyBadUntil[proxy] = Date.now() + 25 * 60 * 1000;
-  console.warn(`🔄 Proxy ${proxy} marked bad for 25 min`);
+  console.warn(`🔄 Proxy ${proxy} marked bad for 25 min${reason ? ` (${reason})` : ""}`);
+  // Detect upstream account-wide bandwidth exhaustion (Webshare returns
+  // "Bandwidth limit reached. Please upgrade..." on 402). When this
+  // happens for any proxy, the rest of the pool shares the same quota
+  // and will fail the same way — short-circuit to direct for 1 hour.
+  if (/bandwidth\s*limit/i.test(reason)) {
+    _wsAccountExhaustedUntil = Date.now() + 60 * 60 * 1000;
+    console.warn(`🔄 Proxy account bandwidth exhausted — falling back to direct fetch for 1h`);
+  }
 }
 
 // Proxy enabled flag — set false to disable for debugging
@@ -6007,6 +6020,12 @@ function zapAxiosConfig(extra = {}) {
     return { ...extra, headers: { ...headers, ...(extra.headers || {}) } };
   }
   const proxy = _nextWsProxy();
+  if (!proxy) {
+    // No usable proxy (creds missing, all bad, or account exhausted) →
+    // fall back to direct fetch. On Render this is often fine since the
+    // static IP isn't on ZAP's blocklist for casual traffic.
+    return { ...extra, headers: { ...headers, ...(extra.headers || {}) } };
+  }
   const agent = new HttpsProxyAgent(`http://${_WS_CREDS}@${proxy}`);
   return {
     ...extra,
@@ -7515,10 +7534,15 @@ async function fetchZapSearchPage(makeSearchUrl, pageIdx) {
     }
   }
 
-  // WAF detection — tiny body = Cloudflare block
+  // WAF detection — tiny body = Cloudflare block (or proxy bandwidth cap).
+  // Webshare returns 402 + "Bandwidth limit reached" when the account quota
+  // is exhausted; detecting that here lets _markWsProxyBad short-circuit
+  // the entire pool to direct fetch instead of cycling through 10 proxies
+  // that all share the same dead quota.
   if (html.length > 0 && html.length < 500) {
-    console.warn(`⚠️  Tiny response (${html.length}B) — WAF block for ${url}${usedProxy ? ` via ${usedProxy}` : ""}`);
-    if (usedProxy) _markWsProxyBad(usedProxy);
+    const isBandwidth = resp.status === 402 || /bandwidth\s*limit/i.test(html);
+    console.warn(`⚠️  Tiny response (${html.length}B) — ${isBandwidth ? "proxy bandwidth exhausted" : "WAF block"} for ${url}${usedProxy ? ` via ${usedProxy}` : ""}`);
+    if (usedProxy) _markWsProxyBad(usedProxy, isBandwidth ? "bandwidth limit" : "");
   }
   // Log status for page 1 of every sog fetch (helps diagnose redirect issues)
   if (pageIdx === 1 && url.includes("sog=")) {
