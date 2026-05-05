@@ -12056,7 +12056,17 @@ const server = app.listen(PORT, () => {
   console.log(`   SerpAPI key:  ${process.env.SERP_API_KEY   ? "✅" : "❌ missing"}`);
   console.log(`   OpenAI key:   ${process.env.OPENAI_API_KEY ? "✅" : "❌ missing"}`);
   console.log(`   Twilio SMS:   ${process.env.TWILIO_SID     ? "✅" : "⚠️  not configured (OTP shown in console)"}`);
-  console.log(`   Email (Gmail):${process.env.EMAIL_USER     ? "✅" : "⚠️  not configured (emails disabled)"}\n`);
+  console.log(`   Email (Gmail):${process.env.EMAIL_USER     ? "✅" : "⚠️  not configured (emails disabled)"}`);
+  // ZAP scraping mode — visible at-a-glance so you know if proxies are
+  // configured. Direct mode often works on Render's static IP; locally it
+  // tends to get CF-rate-limited but is the only fallback when the Webshare
+  // account is exhausted.
+  if (_WS_CREDS && _WS_PROXIES.length > 0) {
+    console.log(`   ZAP scraping: ✅ rotating ${_WS_PROXIES.length} proxies (Webshare)`);
+  } else {
+    console.log(`   ZAP scraping: ⚠️  direct fetch (no WEBSHARE_CREDS / WEBSHARE_PROXIES)`);
+  }
+  console.log("");
 
   // ── Seed personal_requests on first boot (DEV ONLY — skip in production) ───
   if (AUTH_READY && seedPersonalRequestsIfEmpty && process.env.NODE_ENV !== "production") {
