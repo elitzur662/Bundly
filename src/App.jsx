@@ -648,7 +648,7 @@ const T = {
     psTitle: "חיפוש מוצר חכם", psSub: "בחר קטגוריה ← דגם ← ראה מחירים אמיתיים מהרשת",
     psPickCat: "באיזה תחום מחפש?", psPickBrand: "בחר מותג או הקלד דגם",
     psSearchModel: "הקלד שם דגם ספציפי...", psSearch: "חפש מחירים", psSearching: "מחפש...",
-    psCurrentPrice: "מחירים בחנויות", psCheapest: "השוואת מחירים",
+    psCurrentPrice: "מחיר בשוק", psCheapest: "מחיר Bundly לעומת השוק",
     psAddGroup: "הוסף לרכישה קבוצתית", psAddNote: "הוסף המלצה לקהילה",
     psNotePlaceholder: "ספר לקהילה למה הדגם הזה שווה לקנות ביחד...",
     psNoteSubmit: "פרסם המלצה", psNoteCancel: "ביטול",
@@ -1621,9 +1621,9 @@ const INITIAL_DEALS = [
     specs:['65" Neo QLED','4K 120Hz','Dolby Atmos','Smart TV 2024'],
     desc:{ he:"פאנל Neo QLED עם תאורה אחורית Mini LED, קצב רענון 120Hz ומערכת שמע Dolby Atmos מובנית.", en:"Neo QLED panel with Mini LED backlight, 120Hz refresh rate and built-in Dolby Atmos audio.", ar:"لوحة Neo QLED مع إضاءة خلفية Mini LED.", ru:"Neo QLED панель с Mini LED подсветкой и Dolby Atmos." },
     bids:[
-      { id:"b1", code:"KSP", amount:4200, time:"לפני 4 שעות" },
-      { id:"b2", code:"ZAP", amount:3950, time:"לפני שעתיים" },
-      { id:"b3", code:"iDigital", amount:3890, time:"לפני 25 דקות" },
+      { id:"b1", code:"BL01", amount:4200, time:"לפני 4 שעות" },
+      { id:"b2", code:"BL02", amount:3950, time:"לפני שעתיים" },
+      { id:"b3", code:"BL03", amount:3890, time:"לפני 25 דקות" },
     ]
   },
   {
@@ -1636,8 +1636,8 @@ const INITIAL_DEALS = [
     desc:{ he:"שבב M3 עם ביצועים יוצאי דופן ומסך Liquid Retina XDR.", en:"M3 chip with exceptional performance and Liquid Retina XDR display.", ar:"شريحة M3 بأداء استثنائي وشاشة Liquid Retina XDR.", ru:"Чип M3, дисплей Liquid Retina XDR." },
     bids:[
       { id:"b1", code:"Bug", amount:7500, time:"לפני 6 שעות" },
-      { id:"b2", code:"TMS", amount:7100, time:"לפני 3 שעות" },
-      { id:"b3", code:"KSP", amount:6490, time:"לפני שעה" },
+      { id:"b2", code:"BL04", amount:7100, time:"לפני 3 שעות" },
+      { id:"b3", code:"BL01", amount:6490, time:"לפני שעה" },
     ]
   },
   {
@@ -1649,10 +1649,10 @@ const INITIAL_DEALS = [
     specs:["A18 Pro","כפתור Action","מצלמה 48MP","Titanium"],
     desc:{ he:"הדגל של אפל עם שבב A18 Pro, מצלמת Ultra Wide משודרגת ומסגרת טיטניום.", en:"Apple's flagship with A18 Pro chip and titanium frame.", ar:"أجهزة أبل الرائدة مع شريحة A18 Pro.", ru:"Флагман Apple с чипом A18 Pro." },
     bids:[
-      { id:"b1", code:"Ivory", amount:4500, time:"לפני 8 שעות" },
-      { id:"b2", code:"iDigital", amount:4100, time:"לפני 4 שעות" },
+      { id:"b1", code:"BL05", amount:4500, time:"לפני 8 שעות" },
+      { id:"b2", code:"BL03", amount:4100, time:"לפני 4 שעות" },
       { id:"b3", code:"Bug", amount:3900, time:"לפני 2 שעות" },
-      { id:"b4", code:"ZAP", amount:3790, time:"לפני 30 דקות" },
+      { id:"b4", code:"BL02", amount:3790, time:"לפני 30 דקות" },
     ]
   },
   {
@@ -1664,8 +1664,8 @@ const INITIAL_DEALS = [
     specs:['9 ק"ג','1400 RPM','Eco Program','A+++ Energy'],
     desc:{ he:"מכונת כביסה חסכונית עם תוכנית Eco ומנוע EcoSilence.", en:"Energy efficient washing machine with Eco program.", ar:"غسالة موفرة للطاقة مع برنامج Eco.", ru:"Экономичная машина с программой Eco." },
     bids:[
-      { id:"b1", code:"KSP", amount:2900, time:"לפני 5 שעות" },
-      { id:"b2", code:"TMS", amount:2390, time:"לפני 2 שעות" },
+      { id:"b1", code:"BL01", amount:2900, time:"לפני 5 שעות" },
+      { id:"b2", code:"BL04", amount:2390, time:"לפני 2 שעות" },
     ]
   },
   {
@@ -1678,8 +1678,8 @@ const INITIAL_DEALS = [
     desc:{ he:"מזגן עם טכנולוגיית Inverter לחיסכון בחשמל ופילטר PM2.5.", en:"Inverter technology AC for energy savings and PM2.5 filter.", ar:"مكيف بتقنية الإنفرتر وفلتر PM2.5.", ru:"Кондиционер с инвертором и фильтром PM2.5." },
     bids:[
       { id:"b1", code:"Bug", amount:2500, time:"לפני 6 שעות" },
-      { id:"b2", code:"iDigital", amount:2200, time:"לפני 3 שעות" },
-      { id:"b3", code:"Ivory", amount:1890, time:"לפני שעה" },
+      { id:"b2", code:"BL03", amount:2200, time:"לפני 3 שעות" },
+      { id:"b3", code:"BL05", amount:1890, time:"לפני שעה" },
     ]
   },
   {
@@ -1691,7 +1691,7 @@ const INITIAL_DEALS = [
     specs:["Bosch 250W","סוללה 625Wh","~130 ק\"מ","Shimano 12sp"],
     desc:{ he:"מנוע Bosch Performance 250W עם סוללה 625Wh לטווח של עד 130 ק\"מ.", en:"Bosch Performance 250W motor with 625Wh battery for up to 130km range.", ar:"محرك Bosch 250 واط وبطارية 625 واط ساعة.", ru:"Мотор Bosch 250Вт, батарея 625Вт*ч, до 130 км." },
     bids:[
-      { id:"b1", code:"TMS", amount:5900, time:"לפני 10 שעות" },
+      { id:"b1", code:"BL04", amount:5900, time:"לפני 10 שעות" },
       { id:"b2", code:"Bug", amount:5190, time:"לפני 3 שעות" },
     ]
   },
@@ -1704,10 +1704,10 @@ const INITIAL_DEALS = [
     specs:["PS5 Slim","825GB SSD","4K 120fps","2× DualSense"],
     desc:{ he:"קונסולת ה-PS5 Slim עם שני בקרי DualSense וחיבור 4K.", en:"PS5 Slim console with two DualSense controllers and 4K support.", ar:"وحدة PS5 Slim مع وحدتي تحكم DualSense.", ru:"PS5 Slim с двумя геймпадами DualSense." },
     bids:[
-      { id:"b1", code:"KSP", amount:2300, time:"לפני 12 שעות" },
+      { id:"b1", code:"BL01", amount:2300, time:"לפני 12 שעות" },
       { id:"b2", code:"Bug", amount:2050, time:"לפני 6 שעות" },
-      { id:"b3", code:"iDigital", amount:1900, time:"לפני 2 שעות" },
-      { id:"b4", code:"Ivory", amount:1790, time:"לפני 20 דקות" },
+      { id:"b3", code:"BL03", amount:1900, time:"לפני 2 שעות" },
+      { id:"b4", code:"BL05", amount:1790, time:"לפני 20 דקות" },
     ]
   },
   {
@@ -1719,8 +1719,8 @@ const INITIAL_DEALS = [
     specs:["33MP Full Frame","4K 60fps","Real-time Tracking","5-axis IBIS"],
     desc:{ he:"מצלמת Full Frame מקצועית עם 33 מגה-פיקסל, 4K 60fps וייצוב 5 צירים.", en:"Professional full-frame camera with 33MP, 4K 60fps and 5-axis stabilization.", ar:"كاميرا احترافية كاملة الإطار 33 ميجابكسل.", ru:"Профессиональная полнокадровая камера 33МП, 4K 60 кадр/с." },
     bids:[
-      { id:"b1", code:"TMS", amount:9500, time:"לפני 24 שעות" },
-      { id:"b2", code:"ZAP", amount:8800, time:"לפני 10 שעות" },
+      { id:"b1", code:"BL04", amount:9500, time:"לפני 24 שעות" },
+      { id:"b2", code:"BL02", amount:8800, time:"לפני 10 שעות" },
       { id:"b3", code:"Bug", amount:7490, time:"לפני 4 שעות" },
     ]
   },
@@ -1733,9 +1733,9 @@ const INITIAL_DEALS = [
     specs:["Auto Empty Base","Smart Mapping","PrecisionVision Nav","Rubber Brushes"],
     desc:{ he:"שואב רובוטי חכם עם AI Navigation, ריקון אוטומטי ומיפוי חכם.", en:"Smart robot vacuum with AI navigation and auto-empty base.", ar:"مكنسة روبوتية ذكية بملاحة AI وقاعدة تفريغ تلقائي.", ru:"Умный робот-пылесос с ИИ-навигацией и автоматическим опустошением." },
     bids:[
-      { id:"b1", code:"KSP", amount:3100, time:"לפני 8 שעות" },
-      { id:"b2", code:"iDigital", amount:2700, time:"לפני 3 שעות" },
-      { id:"b3", code:"TMS", amount:2390, time:"לפני שעה" },
+      { id:"b1", code:"BL01", amount:3100, time:"לפני 8 שעות" },
+      { id:"b2", code:"BL03", amount:2700, time:"לפני 3 שעות" },
+      { id:"b3", code:"BL04", amount:2390, time:"לפני שעה" },
     ]
   },
   {
@@ -1748,7 +1748,7 @@ const INITIAL_DEALS = [
     desc:{ he:"ספת תלת מושבית עם ריפוד ניתן לכביסה ואחריות יצרן של 10 שנים.", en:"3-seat sofa with washable cover and 10-year warranty.", ar:"أريكة 3 مقاعد بغطاء قابل للغسيل وضمان 10 سنوات.", ru:"Трёхместный диван со съёмным чехлом и гарантией 10 лет." },
     bids:[
       { id:"b1", code:"Bug", amount:2200, time:"לפני 15 שעות" },
-      { id:"b2", code:"TMS", amount:1690, time:"לפני 5 שעות" },
+      { id:"b2", code:"BL04", amount:1690, time:"לפני 5 שעות" },
     ]
   },
   {
@@ -1760,9 +1760,9 @@ const INITIAL_DEALS = [
     specs:['55" OLED','4K XR','Dolby Vision IQ','Google TV'],
     desc:{ he:"מסך OLED עם מעבד XR של סוני, Dolby Vision IQ ומערכת Google TV.", en:"OLED display with Sony XR processor and Google TV.", ar:"شاشة OLED مع معالج XR وGoogle TV.", ru:"OLED дисплей с процессором XR и Google TV." },
     bids:[
-      { id:"b1", code:"ZAP", amount:6100, time:"לפני 7 שעות" },
-      { id:"b2", code:"KSP", amount:5300, time:"לפני 3 שעות" },
-      { id:"b3", code:"Ivory", amount:4590, time:"לפני שעתיים" },
+      { id:"b1", code:"BL02", amount:6100, time:"לפני 7 שעות" },
+      { id:"b2", code:"BL01", amount:5300, time:"לפני 3 שעות" },
+      { id:"b3", code:"BL05", amount:4590, time:"לפני שעתיים" },
     ]
   },
   {
@@ -1775,8 +1775,8 @@ const INITIAL_DEALS = [
     desc:{ he:"מכונת אספרסו מלאה-אוטומטית עם מערכת LatteCrema ו-3 פרופילים אישיים.", en:"Fully automatic espresso machine with LatteCrema system.", ar:"ماكينة إسبريسو أوتوماتيكية مع نظام LatteCrema.", ru:"Автоматическая кофемашина с системой LatteCrema." },
     bids:[
       { id:"b1", code:"Bug", amount:2800, time:"לפני 9 שעות" },
-      { id:"b2", code:"KSP", amount:2400, time:"לפני 4 שעות" },
-      { id:"b3", code:"TMS", amount:1990, time:"לפני 45 דקות" },
+      { id:"b2", code:"BL01", amount:2400, time:"לפני 4 שעות" },
+      { id:"b3", code:"BL04", amount:1990, time:"לפני 45 דקות" },
     ]
   },
   {
@@ -1788,9 +1788,9 @@ const INITIAL_DEALS = [
     specs:["Snapdragon 8 Elite","12GB RAM","200MP Camera","S Pen"],
     desc:{ he:"המכשיר הכי חזק של סמסונג עם עט S Pen, מצלמה ראשית 200MP ומסך Dynamic AMOLED 6.9 אינץ'.", en:"Samsung's most powerful device with S Pen and 200MP camera.", ar:"أقوى هاتف من سامسونج مع قلم S Pen وكاميرا 200 ميجابكسل.", ru:"Самый мощный Samsung с S Pen и камерой 200МП." },
     bids:[
-      { id:"b1", code:"Ivory", amount:5800, time:"לפני 10 שעות" },
-      { id:"b2", code:"iDigital", amount:5100, time:"לפני 5 שעות" },
-      { id:"b3", code:"KSP", amount:4800, time:"לפני 2 שעות" },
+      { id:"b1", code:"BL05", amount:5800, time:"לפני 10 שעות" },
+      { id:"b2", code:"BL03", amount:5100, time:"לפני 5 שעות" },
+      { id:"b3", code:"BL01", amount:4800, time:"לפני 2 שעות" },
       { id:"b4", code:"Bug", amount:4490, time:"לפני 40 דקות" },
     ]
   },
@@ -1803,8 +1803,8 @@ const INITIAL_DEALS = [
     specs:["ANC Industry-Leading","30h Battery","Multipoint BT","LDAC Hi-Res"],
     desc:{ he:"האוזניות הטובות בעולם עם ביטול רעשים מוביל בתעשייה, 30 שעות סוללה וחיבור לשני מכשירים בו-זמנית.", en:"World's best ANC headphones with 30h battery and multipoint connection.", ar:"أفضل سماعات في العالم بإلغاء الضوضاء الرائد وبطارية 30 ساعة.", ru:"Лучшие в мире наушники с ANC и 30 часами автономности." },
     bids:[
-      { id:"b1", code:"KSP", amount:1300, time:"לפני 6 שעות" },
-      { id:"b2", code:"ZAP", amount:1050, time:"לפני 3 שעות" },
+      { id:"b1", code:"BL01", amount:1300, time:"לפני 6 שעות" },
+      { id:"b2", code:"BL02", amount:1050, time:"לפני 3 שעות" },
       { id:"b3", code:"Bug", amount:890, time:"לפני שעה" },
     ]
   },
@@ -1817,9 +1817,9 @@ const INITIAL_DEALS = [
     specs:["4K/60fps","48MP","Omnidirectional Obstacle","34 min Flight"],
     desc:{ he:"רחפן קל משקל מתחת ל-249 גרם עם מצלמה 4K/60fps, 48MP ומניעת מחסום רב-כיווני.", en:"Lightweight drone under 249g with 4K/60fps camera and omnidirectional obstacle avoidance.", ar:"طائرة بدون طيار خفيفة الوزن مع كاميرا 4K/60fps.", ru:"Лёгкий дрон до 249г с камерой 4K/60fps." },
     bids:[
-      { id:"b1", code:"TMS", amount:3200, time:"לפני 12 שעות" },
+      { id:"b1", code:"BL04", amount:3200, time:"לפני 12 שעות" },
       { id:"b2", code:"Bug", amount:2700, time:"לפני 5 שעות" },
-      { id:"b3", code:"KSP", amount:2290, time:"לפני שעתיים" },
+      { id:"b3", code:"BL01", amount:2290, time:"לפני שעתיים" },
     ]
   },
   {
@@ -1831,9 +1831,9 @@ const INITIAL_DEALS = [
     specs:["RTX 4080","Intel i9-14900HX","32GB DDR5","240Hz OLED"],
     desc:{ he:"לפטופ גיימינג פרמיום עם RTX 4080, מסך OLED 240Hz ו-32GB DDR5 לביצועים מקסימליים.", en:"Premium gaming laptop with RTX 4080, 240Hz OLED display and 32GB DDR5.", ar:"لابتوب العاب بريميوم مع RTX 4080 وشاشة OLED 240Hz.", ru:"Игровой ноутбук RTX 4080, OLED 240Hz, 32GB DDR5." },
     bids:[
-      { id:"b1", code:"KSP", amount:7200, time:"לפני 8 שעות" },
+      { id:"b1", code:"BL01", amount:7200, time:"לפני 8 שעות" },
       { id:"b2", code:"Bug", amount:6300, time:"לפני 4 שעות" },
-      { id:"b3", code:"Ivory", amount:5490, time:"לפני שעה" },
+      { id:"b3", code:"BL05", amount:5490, time:"לפני שעה" },
     ]
   },
   {
@@ -1845,9 +1845,9 @@ const INITIAL_DEALS = [
     specs:["Laser Dust Detection","HEPA Filter","60 min Runtime","LCD Screen"],
     desc:{ he:"שואב אבק אלחוטי עם לייזר לזיהוי אבק, מסנן HEPA ועד 60 דקות פעולה רציפה.", en:"Cordless vacuum with laser dust detection, HEPA filter and 60 min runtime.", ar:"مكنسة لاسلكية بليزر لاكتشاف الغبار وفلتر HEPA ومدة 60 دقيقة.", ru:"Беспроводной пылесос с лазером и фильтром HEPA, 60 минут работы." },
     bids:[
-      { id:"b1", code:"ZAP", amount:2600, time:"לפני 7 שעות" },
-      { id:"b2", code:"KSP", amount:2200, time:"לפני 3 שעות" },
-      { id:"b3", code:"TMS", amount:1790, time:"לפני 50 דקות" },
+      { id:"b1", code:"BL02", amount:2600, time:"לפני 7 שעות" },
+      { id:"b2", code:"BL01", amount:2200, time:"לפני 3 שעות" },
+      { id:"b3", code:"BL04", amount:1790, time:"לפני 50 דקות" },
     ]
   },
   {
@@ -1859,9 +1859,9 @@ const INITIAL_DEALS = [
     specs:["ANC + Transparency","H2 Chip","6h + 30h Battery","MagSafe + USB-C"],
     desc:{ he:"האוזניות האלחוטיות הטובות של אפל עם ביטול רעשים H2, שקע USB-C ומסנן אקטיבי.", en:"Apple's best wireless earbuds with H2 ANC and USB-C charging.", ar:"أفضل سماعات آبل اللاسلكية مع إلغاء الضوضاء H2 وشحن USB-C.", ru:"Лучшие беспроводные наушники Apple с ANC H2 и USB-C." },
     bids:[
-      { id:"b1", code:"iDigital", amount:950, time:"לפני 5 שעות" },
+      { id:"b1", code:"BL03", amount:950, time:"לפני 5 שעות" },
       { id:"b2", code:"Bug", amount:820, time:"לפני 2 שעות" },
-      { id:"b3", code:"Ivory", amount:690, time:"לפני 20 דקות" },
+      { id:"b3", code:"BL05", amount:690, time:"לפני 20 דקות" },
     ]
   },
 ];
@@ -1879,8 +1879,8 @@ const INITIAL_DEALS = [
     10:"sup6",14:"sup6",18:"sup6",
   };
   const SUP_NAMES = {
-    sup1:"KSP Group", sup2:"iDigital", sup3:"TMS Appliances",
-    sup4:"Ivory Electronics", sup5:"SportBikes IL", sup6:"Ivory Home",
+    sup1:"ספק רשמי 01", sup2:"ספק רשמי 02", sup3:"ספק רשמי 03",
+    sup4:"ספק רשמי 04", sup5:"ספק רשמי 05", sup6:"ספק רשמי 06",
   };
   // BASE is "today" — relative dates so demo never goes stale.
   // Each deal's closingDate is set to today + d.daysLeft, so deals stay "active"
@@ -6054,11 +6054,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         {!priceHidden && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
             <h3 className="text-sm font-black text-gray-800 mb-4 flex items-center gap-2">
-              <TrendingDown className="w-4 h-4 text-emerald-500" /> השוואת מחירים
+              <TrendingDown className="w-4 h-4 text-emerald-500" /> מחיר Bundly לעומת השוק
             </h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
-                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">מחיר בחנויות</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">מחיר בשוק</p>
                 <p className="text-xl font-black text-gray-400 line-through">₪{deal.marketMax.toLocaleString()}</p>
                 <p className="text-[11px] text-gray-400 mt-1">₪{deal.marketMin.toLocaleString()} – ₪{deal.marketMax.toLocaleString()}</p>
               </div>
@@ -6854,8 +6854,8 @@ function OwnerLoginModal({ t, onSuccess, onClose }) {
 //  SUPPLIER LOGIN MODAL
 // ─────────────────────────────────────────────────────────────────
 const SUPPLIER_ACCOUNTS = {
-  "ספק": { id:"sup1", name:"KSP Group" },
-  "demo": { id:"sup1", name:"KSP Group" },
+  "ספק": { id:"sup1", name:"ספק רשמי 01" },
+  "demo": { id:"sup1", name:"ספק רשמי 01" },
 };
 
 function SupplierLoginModal({ onSuccess, onClose }) {
@@ -9303,7 +9303,7 @@ function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDele
           }`}>
           <div className="text-3xl mb-2">🔎</div>
           <p className="text-sm font-black text-gray-900">חיפוש דגם מדויק</p>
-          <p className="text-[11px] text-gray-500 mt-1">מצא דגם במאגר ZAP — תמונה ושם רשמי</p>
+          <p className="text-[11px] text-gray-500 mt-1">מצא דגם במאגר בנדלי — תמונה ושם רשמי</p>
         </button>
       </div>
 
@@ -9332,7 +9332,7 @@ function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDele
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{l.name}</p>
                     <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 flex-shrink-0">
-                      {l.source === "zap" ? "🔎 ZAP" : l.source === "inventory" ? "📦 מלאי" : "✏️ חופשי"}
+                      {l.source === "zap" ? "🔎 מאגר Bundly" : l.source === "inventory" ? "📦 מלאי" : "✏️ חופשי"}
                     </span>
                   </div>
                   <p className="text-base font-black text-fuchsia-700 mt-1">₪{l.basePrice.toLocaleString()}</p>
@@ -20639,7 +20639,7 @@ export default function App() {
         const max = d.marketMax || min;
         const suppliers = (d.suppliers || []).map(s => ({ name: s.name, price: s.price }));
         if (min > 0) {
-          if (apply(min, max, suppliers, d.image || catalogImage, "ZAP/חיפוש")) return;
+          if (apply(min, max, suppliers, d.image || catalogImage, "Bundly/חיפוש")) return;
         }
       }
     } catch {}
