@@ -20430,7 +20430,22 @@ export default function App() {
   // (further auto-bid action happens on each undercut). The Set is capped at
   // 1000 entries with LRU eviction so it can't grow unbounded.
   const _autoBidScannedRef = useRef(new Set());
+  // Track whether we've completed the initial deal-list mount. The very first
+  // pass over `deals` should NOT fire scans — those deals already exist
+  // server-side and their auto-bid rules were already evaluated in earlier
+  // sessions / nightly refresh. Firing 18 simultaneous POSTs on every page
+  // load was exhausting the global 300/min rate limit (causing /api/auto-bid/scan
+  // 429s alongside other endpoints' 429s like /api/product-image).
+  const _autoBidInitialDoneRef = useRef(false);
   useEffect(() => {
+    if (!_autoBidInitialDoneRef.current) {
+      // First mount: mark every existing deal as already-scanned and bail.
+      // Subsequent runs (when deals array changes via add/edit) fire normally
+      // for the new entries only.
+      (deals || []).forEach(d => _autoBidScannedRef.current.add(d.id));
+      _autoBidInitialDoneRef.current = true;
+      return;
+    }
     (deals || []).forEach(d => {
       if (_autoBidScannedRef.current.has(d.id)) return;
       _autoBidScannedRef.current.add(d.id);
