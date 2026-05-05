@@ -20739,10 +20739,12 @@ export default function App() {
   // empty response (server cold-started before seeding) should not wipe the
   // visual category grid that the local INITIAL_* seed provides.
   const fetchPersonalRequests = useCallback(async () => {
+    // Skip entirely for non-suppliers — the endpoint requires supplier auth
+    // (PII protection: phones/emails). Calling it without a supplier produces
+    // a 401, a red console error, and a PII_BLOCKED audit entry on every page
+    // load. Customers don't need this list anyway.
+    if (!currentSupplier?.email && !currentSupplier?.id) return;
     try {
-      // The /api/personal-requests endpoint now requires supplier identity
-      // (PII protection — phones/emails of customers). Send headers so the
-      // supplier dashboard can keep loading the list. Skipped for non-suppliers.
       const headers = {};
       if (currentSupplier?.email) headers["x-supplier-email"] = currentSupplier.email.toLowerCase();
       if (currentSupplier?.id)    headers["x-supplier-id"]    = String(currentSupplier.id).toLowerCase();
