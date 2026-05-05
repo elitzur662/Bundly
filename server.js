@@ -1498,8 +1498,27 @@ app.get("/api/search", async (req, res) => {
     if (raw.length === 0)
       return res.status(404).json({ error: "לא נמצאו מוצרים. נסה לחפש עם שם דגם ספציפי יותר." });
 
+    // ── Relevance filter — title must contain a query keyword ────────────────
+    // Google Shopping and DFS Organic confidently return off-topic items when
+    // the query is unfamiliar. e.g. "qrevo max" was returning iPhones because
+    // Google reads "max" as iPhone Pro Max. Reject any result whose title
+    // doesn't share at least one ≥3-char token with the user's query (case-
+    // insensitive). If nothing survives, fall back to the raw list — better
+    // to show partial matches than nothing.
+    const _qTokens = q.toLowerCase().split(/\s+/).filter(t => t.length >= 3);
+    const _relevant = _qTokens.length > 0
+      ? raw.filter(r => {
+          const t = (r.title || "").toLowerCase();
+          return _qTokens.some(tok => t.includes(tok));
+        })
+      : raw;
+    const _kept = _relevant.length > 0 ? _relevant : raw;
+    if (_relevant.length !== raw.length) {
+      console.log(`  ↳ Relevance filter: ${raw.length} → ${_relevant.length} (using ${_kept === raw ? "fallback" : "filtered"})`);
+    }
+
     // ── Median-based outlier rejection ───────────────────────────────────────
-    const allPrices = raw.map(r => r.price).filter(p => p >= 200).sort((a, b) => a - b);
+    const allPrices = _kept.map(r => r.price).filter(p => p >= 200).sort((a, b) => a - b);
     if (allPrices.length === 0)
       return res.status(404).json({ error: "לא נמצאו מחירים תקינים" });
 
@@ -1507,8 +1526,8 @@ app.get("/api/search", async (req, res) => {
     const minValid = Math.max(200, median * 0.4);
     const maxValid = median * 2.8;
 
-    const clean = raw.filter(r => r.price >= minValid && r.price <= maxValid);
-    console.log(`  ↳ After outlier filter (median ₪${median}): ${raw.length} → ${clean.length}`);
+    const clean = _kept.filter(r => r.price >= minValid && r.price <= maxValid);
+    console.log(`  ↳ After outlier filter (median ₪${median}): ${_kept.length} → ${clean.length}`);
 
     if (clean.length === 0)
       return res.status(404).json({ error: "לא נמצאו מחירים ריאליים" });
@@ -1531,8 +1550,11 @@ app.get("/api/search", async (req, res) => {
     const marketMax = top5[top5.length - 1].price;
     const marketAvg = Math.round(top40.reduce((s, r) => s + r.price, 0) / top40.length);
 
-    // Product image — prefer Zap model page og:image, then og:image from cheapest store
-    const thumbnail = raw.find(r => r.thumbnail)?.thumbnail
+    // Product image — prefer Zap model page og:image, then og:image from cheapest store.
+    // Pulled from `_kept` (post-relevance) instead of raw, so an irrelevant
+    // result with a thumbnail (e.g. iPhone for "qrevo max") doesn't poison
+    // the displayed image.
+    const thumbnail = _kept.find(r => r.thumbnail)?.thumbnail
       || await fetchOgImage(top5[0]?.link).catch(() => null)
       || null;
 
@@ -1540,7 +1562,9 @@ app.get("/api/search", async (req, res) => {
     // Using the actual product title (e.g. "Apple iPhone 17 256GB 8GB RAM Black")
     // gives far richer specs than just the user's query ("אייפון 17").
     // Pick the longest title across all raw results (most likely to contain detailed specs).
-    const productName = raw
+    // Pick title from _kept (post-relevance) so an off-topic Google Shopping
+    // result with a verbose title doesn't override the actual product name.
+    const productName = _kept
       .filter(r => r.title && r.title.length > 3)
       .sort((a, b) => b.title.length - a.title.length)[0]?.title || q;
     const specsSource = productName.length > q.length ? productName : q; // prefer richer source
