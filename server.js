@@ -3200,6 +3200,7 @@ ${resultsSummary}
     // ── Save to L0 response cache ────────────────────────────────────────
     if (products.length > 0) {
       SEARCH_PRODUCTS_CACHE.set(cacheKey, { data: responseData, ts: Date.now() });
+      markSearchProductsCacheDirty();
     }
     SEARCH_PRODUCTS_INFLIGHT.delete(cacheKey);
     resolveInflight(responseData);
@@ -6469,6 +6470,196 @@ const PREWARM_CATEGORIES = [
   ["h-livingroomset",   null],  // ספות
   ["h-bed",             null],  // מיטות
 ];
+
+// ── Flat list of every CATEGORY_TREE item the user can click in the mobile
+// "חפש" browser (mirrors src/App.jsx CATEGORY_TREE.sub[].items). When prewarmed,
+// the full search-products response is persisted to disk so the user gets an
+// instant cache hit on click. Source of truth lives in App.jsx; this list must
+// be kept in sync manually (one-time copy — only changes when categories evolve).
+const CATEGORY_TREE_ITEMS = [
+  // electronics — מטבח וחשמל ביתי
+  "מקררים","מקפיאים","מדיחי כלים","תנורי אפייה","כיריים","קולטי אדים","מיקרוגלים",
+  "טוסטרים","בלנדרים","מיקסרים","מעבדי מזון","מכונות קפה","קומקומים ומיחמים","מסחטות",
+  "מתקני מים","סירי בישול וטיגון","פלטות חשמליות",
+  // electronics — ניקיון וכביסה
+  "שואבי אבק","מכונות כביסה","מייבשי כביסה","ערכות ניקוי בקיטור","מגהצים","מכונות שטיפה וטאטוא",
+  // electronics — טלוויזיות ושמע
+  "טלויזיות","אוזניות","סאונד בר","רמקולים ניידים","מקרנים","סטרימרים","רמקולים",
+  "מיקרופונים","קולנוע ביתי","מציאות מדומה",
+  // electronics — קונסולות
+  "PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק",
+  "משחקי PS5","משחקי Nintendo",
+  // electronics — חימום וקירור
+  "מזגנים","מאווררים","מפזרי חום","תנורי חשמל","מטהרי אוויר","מכשירי לחות","משאבות חום",
+  // electronics — צילום
+  "מצלמות מירורלס","מצלמות DSLR","מצלמות אקסטרים","מצלמות קומפקטיות","עדשות","חצובות",
+  "תיקי מצלמה","מצלמות אבטחה","מזל\"טים",
+  // electronics — תקשורת וסלולר
+  "סמארטפונים","טלפונים סלולריים בסיסיים","שעונים חכמים","אביזרי סלולר","מטענים","מעמדים לסלולר",
+  // computers
+  "מחשבים ניידים","מחשבים ניידים לגיימינג","MacBook Air","MacBook Pro","Chromebook",
+  "מחשבים ניידים לעסקים","מחשבים נייחים","מחשבי All-in-One","Mac Mini","iMac",
+  "מחשבי גיימינג","שרתים","מחשבי מיני","iPad Pro","iPad Air","iPad","Samsung Galaxy Tab",
+  "Lenovo Tab","טאבלטים לילדים","מסכי מחשב","כרטיסי מסך","מעבדים","לוחות אם","זיכרון RAM",
+  "כוננים SSD","ספקי כוח","מארזי מחשב","מאווררים וקירור","מקלדות","עכברים","מדפסות",
+  "סורקים","מצלמות רשת","רמקולים למחשב","אוזניות גיימינג","כסאות גיימינג","שולחנות גיימינג",
+  "ראוטרים","מגדילי טווח WiFi","מתגי רשת","כוננים קשיחים","זיכרונות USB","כרטיסי זיכרון",
+  "NAS שרתי אחסון","כוננים חיצוניים",
+  // bikes
+  "אופניים חשמליים עירוניים","אופניים חשמליים הרריים","אופניים חשמליים מתקפלים",
+  "אופניים חשמליים לילדים","אופניים חשמליים לנשים","אופניים חשמליים 250W",
+  "אופניים חשמליים 500W","Fat Bike חשמלי","אופני כביש","אופני הרים","אופני עיר",
+  "אופני ילדים","אופניים מתקפלים","BMX","אופני גרוויטי","אופניים היברידיים",
+  "סוללות לאופניים חשמליים","מטענים לאופניים חשמליים","בקרים (Controller) לאופניים",
+  "מנועי גלגל אחורי","מנועי Mid-Drive","ערכות המרה חשמלית","תצוגות LCD לאופניים",
+  "מד מהירות חשמלי","קסדות אופניים","מנעולי אופניים","תאורה לאופניים",
+  "מחזיקי טלפון לאופניים","בגדי רכיבה","כפפות רכיבה","פעמוני אופניים","משאבות אוויר","תיקי אופניים",
+  // beauty
+  "מייבשי שיער","מחליקי שיער","תלתלנים חשמליים","מסרקים חשמליים","מכשירי קרליות",
+  "מברשות מסלסלות","מייבשי נסיעה","אפילטורים חשמליים","מכשירי IPL ביתי",
+  "מכשירי לייזר ביתי","מכשירי הסרת שיער","מכשירי שעווה חשמלית","מכשירי גילוח חשמליים לגברים",
+  "מכשירי גילוח לנשים","מגזמי זקן","מכשירי גילוח פנים לנשים","מגזמי שיער ביתיים",
+  "מכשירי ניקוי פנים חשמליים","מכשירי RF ביתי","מסכות LED לפנים","מכשירי אולטרסאונד לפנים",
+  "מכשירי מיקרוקרנט","מכשירי ניקוי פנים סוניק","מכשירי עיסוי חשמליים",
+  "אקדחי עיסוי (Massage Gun)","מוצרי עיסוי לרגליים","כרית עיסוי","חגורות עיסוי",
+  // sport
+  "הליכונים חשמליים","אופניים נייחים חשמליים","אליפטיקל","מכשירי חתירה","ספסלי כושר",
+  "מכשירי כפיפות ישיבה","קורקינטים חשמליים","קלנועיות","מונופד חשמלי","Hoverboard","סגוויי",
+  "מדי לחץ דם","מד חמצן (Pulse Oximeter)","נבולייזרים","מכשירי TENS לשיכוך כאבים",
+  "מד חום חשמלי","מכשירי EMS","שמיכות חשמליות",
+  // home
+  "מברגות חשמליות","מקדחות חשמליות","מסורי דיסק","מסורי ג'יגסאו","מטחנות זווית",
+  "מכשירי שיוף","נעצות חשמליות","מפוחים חשמליים","מכסחות עשב חשמליות","גדרניות חשמליות",
+  "מפוחי עלים","משאבות מים","מכשירי עיצוב דשא","מכסחות סוללה","ריסוס חשמלי",
+  "נורות LED חכמות","שקעים חכמים","מצלמות אבטחה","פעמוני דלת חכמים (Video Doorbell)",
+  "בקרי תאורה חכמים","רובוטי ניקיון","מנעולים חכמים","חיישני תנועה",
+  // car
+  "מצלמות דרך (Dash Cam)","מצלמות 360 לרכב","מטעני USB לרכב","מטעני אלחוטיים לרכב",
+  "ממירי חשמל לרכב (Inverter)","מדחסי אוויר ניידים","מסכי רכב אנדרואיד","מולטימדיה לרכב",
+  "רמקולים לרכב","מגברים לרכב","דיבוריות Bluetooth","ניווט GPS","מצברים לרכב",
+  "בוסטרים חשמליים להתנעה","עמדות טעינה לרכב חשמלי","מד מתח לרכב","מטענים לרכב חשמלי",
+  "ממסרי רכב","רכבים חשמליים","רכבים היברידיים","קלנועיות חשמליות",
+];
+
+// Persistence for SEARCH_PRODUCTS_CACHE (in-memory by default; without this,
+// every server restart wipes prewarmed query results and the user sees the
+// full ZAP fetch latency again). Saves to /var/data when DATA_DIR is set
+// (Render persistent disk), else to repo root.
+const SEARCH_PRODUCTS_CACHE_FILE = process.env.DATA_DIR
+  ? join(process.env.DATA_DIR, "search-products-cache.json")
+  : join(__dirname_here, "search-products-cache.json");
+
+function loadSearchProductsCacheFromDisk() {
+  try {
+    if (!existsSync(SEARCH_PRODUCTS_CACHE_FILE)) return;
+    const raw = readFileSync(SEARCH_PRODUCTS_CACHE_FILE, "utf8");
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return;
+    let loaded = 0;
+    const now = Date.now();
+    for (const [k, v] of arr) {
+      if (v && v.ts && (now - v.ts) < SEARCH_PRODUCTS_TTL) {
+        SEARCH_PRODUCTS_CACHE.set(k, v);
+        loaded++;
+      }
+    }
+    console.log(`📦 SEARCH_PRODUCTS_CACHE: loaded ${loaded} fresh entries from disk`);
+  } catch (e) {
+    console.warn(`[search-products-cache] load error: ${e.message}`);
+  }
+}
+
+let _searchProductsCacheDirty = false;
+function markSearchProductsCacheDirty() { _searchProductsCacheDirty = true; }
+
+function saveSearchProductsCacheToDisk() {
+  if (!_searchProductsCacheDirty) return;
+  try {
+    const arr = Array.from(SEARCH_PRODUCTS_CACHE.entries());
+    const tmp = SEARCH_PRODUCTS_CACHE_FILE + ".tmp";
+    writeFileSync(tmp, JSON.stringify(arr), "utf8");
+    renameSync(tmp, SEARCH_PRODUCTS_CACHE_FILE);
+    _searchProductsCacheDirty = false;
+    console.log(`💾 SEARCH_PRODUCTS_CACHE: persisted ${arr.length} entries to disk`);
+  } catch (e) {
+    console.warn(`[search-products-cache] save error: ${e.message}`);
+  }
+}
+// Auto-save every 5 minutes if dirty
+setInterval(saveSearchProductsCacheToDisk, 5 * 60 * 1000).unref?.();
+
+// Resume index for prewarmCategoryItems — survives restart so a CF-aborted
+// run doesn't restart from item 0.
+const CATEGORY_PREWARM_PROGRESS_FILE = process.env.DATA_DIR
+  ? join(process.env.DATA_DIR, ".category-prewarm-progress")
+  : join(__dirname_here, ".category-prewarm-progress");
+
+function readCategoryPrewarmProgress() {
+  try {
+    if (!existsSync(CATEGORY_PREWARM_PROGRESS_FILE)) return 0;
+    const n = parseInt(readFileSync(CATEGORY_PREWARM_PROGRESS_FILE, "utf8"), 10);
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+  } catch { return 0; }
+}
+function writeCategoryPrewarmProgress(n) {
+  try { writeFileSync(CATEGORY_PREWARM_PROGRESS_FILE, String(n), "utf8"); } catch {}
+}
+
+// Prewarm all CATEGORY_TREE items. For each item, we hit our own
+// /api/search-products endpoint over loopback — this populates
+// SEARCH_PRODUCTS_CACHE (response cache) AND the underlying ZAP_CAT_CACHE
+// (sog candidates) AND ZAP_PRICES_CACHE (model prices). Subsequent user
+// clicks land in the response cache and return instantly.
+async function prewarmCategoryItems() {
+  const startIdx = readCategoryPrewarmProgress();
+  if (startIdx >= CATEGORY_TREE_ITEMS.length) {
+    console.log(`🌳 CategoryItems prewarm: already complete (resetting for next pass)`);
+    writeCategoryPrewarmProgress(0);
+    return;
+  }
+  console.log(`🌳 CategoryItems prewarm: starting from index ${startIdx}/${CATEGORY_TREE_ITEMS.length}`);
+  let warmed = 0;
+  for (let i = startIdx; i < CATEGORY_TREE_ITEMS.length; i++) {
+    const query = CATEGORY_TREE_ITEMS[i];
+    if (Date.now() < ZAP_CF_BLOCK_UNTIL) {
+      const minsLeft = Math.ceil((ZAP_CF_BLOCK_UNTIL - Date.now()) / 60000);
+      console.warn(`🌳 CategoryItems prewarm: CF ban active (${minsLeft}min) — pausing at ${i}`);
+      writeCategoryPrewarmProgress(i);
+      return;
+    }
+    // Skip if already warm (response cache fresh)
+    const cacheKey = [query.toLowerCase(), "", "", "", ""].join("|");
+    const existing = SEARCH_PRODUCTS_CACHE.get(cacheKey);
+    if (existing && (Date.now() - existing.ts) < SEARCH_PRODUCTS_TTL) {
+      writeCategoryPrewarmProgress(i + 1);
+      continue;
+    }
+    try {
+      const url = `http://127.0.0.1:${PORT}/api/search-products?q=${encodeURIComponent(query)}`;
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 60000);
+      const r = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(timer);
+      if (r.ok) {
+        const data = await r.json();
+        const count = (data?.suppliers?.length || 0) + (data?.products?.length || 0);
+        console.log(`  🌳 [${i+1}/${CATEGORY_TREE_ITEMS.length}] "${query}" → ${count} results ✓`);
+        markSearchProductsCacheDirty();
+        warmed++;
+      } else {
+        console.warn(`  🌳 [${i+1}/${CATEGORY_TREE_ITEMS.length}] "${query}" → HTTP ${r.status}`);
+      }
+    } catch (e) {
+      console.warn(`  🌳 [${i+1}/${CATEGORY_TREE_ITEMS.length}] "${query}" failed: ${e.message}`);
+    }
+    writeCategoryPrewarmProgress(i + 1);
+    // 60s jitter — slow but keeps us under CF rate limits
+    await _jitter(45000, 75000);
+  }
+  console.log(`🌳 CategoryItems prewarm: done (${warmed} warmed this pass, full cycle completed)`);
+  writeCategoryPrewarmProgress(0); // reset for next refresh cycle
+  saveSearchProductsCacheToDisk();
+}
 
 // Global flag: true while pre-warm is running (used to throttle live search concurrency)
 let isPrewarming = false;
@@ -11867,8 +12058,22 @@ const server = app.listen(PORT, () => {
     .then(r => console.log(`   KSP source:   ${r.ok ? `✅ (${r.count} results)` : `⚠️  ${r.error || "no results"}`}`))
     .catch(() => {});
 
+  // ── Load persisted SEARCH_PRODUCTS_CACHE so prewarmed query results survive restart ──
+  loadSearchProductsCacheFromDisk();
+
   // ── Startup prewarm (60s delay — server stabilise + avoid restart hammering) ──
   setTimeout(() => prewarmZapCache().catch(e => console.warn("Pre-warm error:", e.message)), 60000);
+
+  // ── CATEGORY_TREE items prewarm — runs continuously after main prewarm,
+  // populates SEARCH_PRODUCTS_CACHE for every clickable item in the mobile
+  // category browser. Resumes from saved progress index after CF blocks /
+  // restarts. Re-runs every 6 hours to refresh stale entries. ──
+  setTimeout(() => {
+    const runItems = () => prewarmCategoryItems()
+      .catch(e => console.warn("CategoryItems prewarm error:", e.message));
+    runItems();
+    setInterval(runItems, 6 * 60 * 60 * 1000).unref?.();
+  }, 10 * 60 * 1000); // 10 min after start — let main prewarm have head start
 
   // ── ZAP filter taxonomy prewarm (90s delay — after category cache settles) ──
   setTimeout(() => prewarmZapFilters().catch(e => console.warn("Filter prewarm error:", e.message)), 90000);
