@@ -127,11 +127,13 @@ export function extraSecurityHeaders(req, res, next) {
   }
   // Disable browser features we never use. payment=(self) and geolocation=(self)
   // are kept open because Stripe and any future store-locator may need them.
+  // NOTE: 'ambient-light-sensor' was removed — Chrome 110+ rejects it as an
+  // unrecognized feature (logs a console warning on every page load).
   res.setHeader(
     "Permissions-Policy",
     "camera=(), microphone=(), geolocation=(self), payment=(self), " +
     "usb=(), magnetometer=(), gyroscope=(), accelerometer=(), " +
-    "ambient-light-sensor=(), autoplay=(), encrypted-media=(self), " +
+    "autoplay=(), encrypted-media=(self), " +
     "midi=(), picture-in-picture=(), screen-wake-lock=(), xr-spatial-tracking=(), " +
     "fullscreen=(self), serial=(), hid=(), bluetooth=(), idle-detection=()"
   );
