@@ -13172,16 +13172,25 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     );
     const mergeZapOpts = (dim, zapParamKeys) => {
       if (!dim || !zapFilterGroups.length) return;
-      const existingVals = new Set(dim.options.map(o => o.value.toLowerCase()));
+      const existingVals = new Set(
+        dim.options
+          .filter(o => typeof o?.value === "string")
+          .map(o => o.value.toLowerCase())
+      );
       for (const pk of zapParamKeys) {
         const grp = zapFilterGroups.find(g => g.paramKey === pk);
         if (!grp) continue;
         for (const v of grp.options) {
-          if (!existingVals.has(v.toLowerCase())) {
+          // ZAP taxonomy occasionally returns null / non-string entries for
+          // certain filter groups — skip those to avoid `v.toLowerCase()`
+          // throwing "Cannot read properties of undefined".
+          if (typeof v !== "string" || !v) continue;
+          const vLower = v.toLowerCase();
+          if (!existingVals.has(vLower)) {
             // Only add if it actually matches some product name
-            if (productNames.some(n => n.includes(v.toLowerCase()))) {
+            if (productNames.some(n => typeof n === "string" && n.includes(vLower))) {
               dim.options.push({ value: v, label: v });
-              existingVals.add(v.toLowerCase());
+              existingVals.add(vLower);
             }
           }
         }
@@ -13192,7 +13201,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     const makeZapDim = ({ id, icon, label, zapGrp, setter, selected }) => {
       if (!zapGrp?.options?.length) return null;
       const validOpts = zapGrp.options
-        .filter(v => productNames.some(n => n.includes(v.toLowerCase())))
+        .filter(v => typeof v === "string" && v && productNames.some(n => typeof n === "string" && n.includes(v.toLowerCase())))
         .map(v => ({ value: v, label: v }));
       if (validOpts.length < 2) return null;
       return {
