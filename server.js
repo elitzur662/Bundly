@@ -6984,6 +6984,77 @@ async function fetchAndCacheModelPrices(modelId, fallbackName) {
   }
 }
 
+// ── Continuous price trickle (closes the price-coverage gap over time) ─────
+// PRODUCT_MEM holds ~28k products, but only ~30% have a ZAP model price
+// because each price requires a separate /model.aspx?modelid=X fetch and
+// ZAP rate-limits aggressively. The trickle runs one fetch every PRICE_TRICKLE_INTERVAL_MS,
+// indefinitely — at 20s/fetch that's 4,320/day, so a 19k backlog clears in ~5 days.
+// Queue is rebuilt every PRICE_TRICKLE_REFRESH_MS to pick up new products
+// added by DBSync and re-attempt anything that failed last pass.
+const PRICE_TRICKLE_INTERVAL_MS = 20_000;
+const PRICE_TRICKLE_REFRESH_MS  = 60 * 60_000; // 1h
+let _priceTrickleQueue = [];      // [{ modelId, name, slug }]
+let _priceTrickleTs    = 0;
+let _priceTrickleStats = { fetched: 0, success: 0, skipped: 0 };
+
+function buildPriceTrickleQueue() {
+  const queue = [];
+  for (const [slug, mem] of PRODUCT_MEM.entries()) {
+    if (!mem?.products) continue;
+    for (const p of mem.products) {
+      if (!p.id) continue;
+      const id = String(p.id);
+      // Skip if we already have a ZAP price (L1 OR L2)
+      const l1 = ZAP_PRICES_CACHE.get(id);
+      if (l1?.stores?.length > 0) continue;
+      const l2 = getModelPricesFromDB(id);
+      if (l2?.stores?.length > 0) {
+        ZAP_PRICES_CACHE.set(id, l2); // promote L2→L1 while we're scanning
+        continue;
+      }
+      // Skip if Ivory/KSP/Bug already supplied a price — those are valid
+      // alternative sources and the trickle is for ZAP gap-filling only.
+      if (p.prices?.ivory > 0 || p.prices?.ksp > 0 || p.prices?.bug > 0) continue;
+      queue.push({ modelId: id, name: p.name || "", slug });
+    }
+  }
+  // Shuffle so a single slow slug doesn't block coverage of others.
+  for (let i = queue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
+  _priceTrickleQueue = queue;
+  _priceTrickleTs = Date.now();
+  console.log(`💧 Price trickle: queue rebuilt — ${queue.length} models missing ZAP price`);
+}
+
+async function priceTrickleStep() {
+  // Rebuild queue if empty or stale
+  if (_priceTrickleQueue.length === 0 || Date.now() - _priceTrickleTs > PRICE_TRICKLE_REFRESH_MS) {
+    buildPriceTrickleQueue();
+  }
+  if (_priceTrickleQueue.length === 0) return;
+
+  // Skip during CF ban — fetches would just fail and waste proxy bandwidth.
+  if (Date.now() < ZAP_CF_BLOCK_UNTIL) {
+    _priceTrickleStats.skipped++;
+    return;
+  }
+
+  const item = _priceTrickleQueue.shift();
+  if (!item) return;
+
+  _priceTrickleStats.fetched++;
+  const entry = await fetchAndCacheModelPrices(item.modelId, item.name).catch(() => null);
+  if (entry?.stores?.length > 0) {
+    _priceTrickleStats.success++;
+    const pricedStore = entry.stores.find(s => s.price > 0);
+    if (pricedStore) {
+      console.log(`💧 [${_priceTrickleQueue.length} left | ${_priceTrickleStats.success}/${_priceTrickleStats.fetched} hit-rate] ✓ ${item.name?.slice(0, 50)} → ₪${pricedStore.price}`);
+    }
+  }
+}
+
 async function prewarmZapPrices() {
   // Collect all unique candidates across all warmed categories
   const allModels = []; // { id, name }
@@ -12132,6 +12203,15 @@ const server = app.listen(PORT, () => {
     runItems();
     setInterval(runItems, 6 * 60 * 60 * 1000).unref?.();
   }, 10 * 60 * 1000); // 10 min after start — let main prewarm have head start
+
+  // ── Continuous price trickle — closes the ~70% price-coverage gap one
+  // model at a time. Starts 5 min after boot (so PRODUCT_MEM is fully
+  // loaded and the heavier prewarms have started). At 20s/fetch this
+  // fetches ~4,300 prices/day. ──
+  setTimeout(() => {
+    setInterval(() => priceTrickleStep().catch(() => {}), PRICE_TRICKLE_INTERVAL_MS);
+    console.log(`💧 Price trickle: starting — 1 fetch every ${PRICE_TRICKLE_INTERVAL_MS/1000}s`);
+  }, 5 * 60 * 1000);
 
   // ── ZAP filter taxonomy prewarm (90s delay — after category cache settles) ──
   setTimeout(() => prewarmZapFilters().catch(e => console.warn("Filter prewarm error:", e.message)), 90000);
