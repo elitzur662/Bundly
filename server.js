@@ -6997,6 +6997,23 @@ let _priceTrickleQueue = [];      // [{ modelId, name, slug }]
 let _priceTrickleTs    = 0;
 let _priceTrickleStats = { fetched: 0, success: 0, skipped: 0 };
 
+// Tier weights for the price trickle queue. Lower number = higher priority.
+// Tier 1 categories drain first so a fresh deploy reaches "homepage-ready"
+// price coverage in hours, not days. Anything not listed defaults to tier 3.
+const PRICE_TRICKLE_TIER = {
+  // ── Tier 1 — homepage staples + highest customer traffic ──
+  phones: 1, laptops: 1, tvs: 1, fridges: 1, headphones: 1, tablets: 1,
+  "air-conditioners": 1, "washing-machines": 1, "gaming-consoles": 1,
+  monitors: 1,
+  // ── Tier 2 — common but less-clicked appliances/peripherals ──
+  ovens: 2, microwaves: 2, dishwashers: 2, dryers: 2, cameras: 2,
+  "coffee-machines": 2, "robot-vacuums": 2, vacuums: 2, soundbars: 2,
+  speakers: 2, "portable-speakers": 2, "media-players": 2,
+  "graphics-cards": 2, desktops: 2, freezers: 2, "smartphones-basic": 2,
+  printers: 2, keyboards: 2, mice: 2, "smart-watches": 2,
+  // ── Tier 3 (default) — long tail: everything else ──
+};
+
 function buildPriceTrickleQueue() {
   const queue = [];
   for (const [slug, mem] of PRODUCT_MEM.entries()) {
@@ -7015,17 +7032,24 @@ function buildPriceTrickleQueue() {
       // Skip if Ivory/KSP/Bug already supplied a price — those are valid
       // alternative sources and the trickle is for ZAP gap-filling only.
       if (p.prices?.ivory > 0 || p.prices?.ksp > 0 || p.prices?.bug > 0) continue;
-      queue.push({ modelId: id, name: p.name || "", slug });
+      queue.push({ modelId: id, name: p.name || "", slug, tier: PRICE_TRICKLE_TIER[slug] || 3 });
     }
   }
-  // Shuffle so a single slow slug doesn't block coverage of others.
+  // Step 1: shuffle for fairness within a tier so slow/fast slugs intermix
   for (let i = queue.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [queue[i], queue[j]] = [queue[j], queue[i]];
   }
+  // Step 2: stable-sort by tier ascending — tier-1 items drain first, then 2, then 3.
+  // V8's Array.sort is stable since 2018, so the within-tier shuffle is preserved.
+  queue.sort((a, b) => a.tier - b.tier);
+
   _priceTrickleQueue = queue;
   _priceTrickleTs = Date.now();
-  console.log(`💧 Price trickle: queue rebuilt — ${queue.length} models missing ZAP price`);
+  const t1 = queue.filter(q => q.tier === 1).length;
+  const t2 = queue.filter(q => q.tier === 2).length;
+  const t3 = queue.filter(q => q.tier === 3).length;
+  console.log(`💧 Price trickle: queue rebuilt — ${queue.length} models missing ZAP price (T1=${t1}, T2=${t2}, T3=${t3})`);
 }
 
 // KSP fuzzy-match fallback. Called when ZAP returns nothing for a model:
