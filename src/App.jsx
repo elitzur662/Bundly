@@ -5404,169 +5404,154 @@ function DemandForecast({ deal, compact = false }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SILENT JOIN SELECTOR
+//  TENDER-STYLE JOIN SELECTOR
+//  Replaces the old 3-tier grid (שומר מקום / מתעניין / מחויב). Now
+//  presents the deal as a formal "סבב הזמנות" with one primary action
+//  (commit + 25% deposit) and one small secondary action (updates only).
 // ─────────────────────────────────────────────────────────────────
 function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false }) {
-  const [hovered, setHovered] = useState(null);
-
-  // ── Deposit math ────────────────────────────────────────────────
-  // - "interested": no deposit
-  // - "watching":   ₪25 flat hold (refundable if group fails)
-  // - "committed":  25% of group price (deducted from final purchase)
+  // Group price = lowest current bid OR group offer OR market min.
   const groupPrice = (deal.bids && deal.bids.length > 0)
     ? Math.min(...deal.bids.map(b => b.amount))
     : (deal.groupOffer || deal.marketMin || 0);
-  const WATCHING_DEPOSIT  = 25;
   const COMMITTED_DEPOSIT = Math.round(groupPrice * 0.25);
+  const participants     = deal.participants || 0;
+  const maxParticipants  = deal.maxParticipants || 0;
+  const interestedCount  = (deal.interested || 0) + (deal.watching || 0);
+  const daysLeft         = deal.daysLeft ?? 0;
 
-  const TIERS = [
-    {
-      id: "interested",
-      emoji: "🔔",
-      label: "מתעניין",
-      sublabel: "ללא תשלום",
-      depositAmount: 0,
-      depositLabel: "חינם",
-      desc: "התראות על שינויי מחיר ועדכוני קבוצה — ללא תשלום וללא התחייבות",
-      count: deal.interested || 0,
-      bg: "bg-gradient-to-br from-slate-50 to-gray-100",
-      border: "border-gray-200",
-      activeBg: "bg-gradient-to-br from-gray-100 to-gray-200",
-      activeBorder: "border-gray-400",
-      labelColor: "text-gray-700",
-      countColor: "text-gray-500",
-      ringColor: "ring-gray-300",
-      checkColor: "bg-gray-400",
-    },
-    {
-      id: "watching",
-      emoji: "📍",
-      label: "שומר מקום",
-      sublabel: `פיקדון ₪${WATCHING_DEPOSIT}`,
-      depositAmount: WATCHING_DEPOSIT,
-      depositLabel: `₪${WATCHING_DEPOSIT}`,
-      desc: `פיקדון ₪${WATCHING_DEPOSIT} שומר את מקומך בקבוצה. מקוזז במחיר הסופי או מוחזר במלואו אם הקבוצה לא נסגרת.`,
-      count: deal.watching || 0,
-      bg: "bg-gradient-to-br from-amber-50 to-orange-50",
-      border: "border-amber-200",
-      activeBg: "bg-gradient-to-br from-amber-100 to-orange-100",
-      activeBorder: "border-amber-400",
-      labelColor: "text-amber-800",
-      countColor: "text-amber-600",
-      ringColor: "ring-amber-300",
-      checkColor: "bg-amber-400",
-    },
-    {
-      id: "committed",
-      emoji: "✅",
-      label: "בפנים",
-      sublabel: `25% מקדמה (₪${COMMITTED_DEPOSIT.toLocaleString()})`,
-      depositAmount: COMMITTED_DEPOSIT,
-      depositLabel: `₪${COMMITTED_DEPOSIT.toLocaleString()}`,
-      desc: `מקדמה של 25% מהמחיר הקבוצתי (₪${COMMITTED_DEPOSIT.toLocaleString()}) — נעילת מחיר מובטחת. היתרה גובה רק כשהקבוצה נסגרת.`,
-      count: deal.participants || 0,
-      bg: "bg-gradient-to-br from-indigo-50 to-violet-50",
-      border: "border-indigo-200",
-      activeBg: "bg-gradient-to-br from-indigo-100 to-violet-100",
-      activeBorder: "border-indigo-500",
-      labelColor: "text-indigo-800",
-      countColor: "text-indigo-600",
-      ringColor: "ring-indigo-300",
-      checkColor: "bg-indigo-500",
-    },
-  ];
-
-  // ── Compact mode: thin horizontal bar for sticky header ──
+  // ── Compact mode (sticky header) — minimal indicator ──
   if (compact) {
-    if (joinedTier) {
-      const tier = TIERS.find(t => t.id === joinedTier);
+    if (joinedTier === "committed") {
       return (
-        <div className={`flex items-center gap-2 rounded-xl ${tier.activeBg} border ${tier.activeBorder} px-3 py-1.5`}>
+        <div className="flex items-center gap-2 rounded-xl bg-indigo-50 border border-indigo-300 px-3 py-1.5">
           <span className="text-sm">✓</span>
-          <span className={`text-xs font-bold ${tier.labelColor}`}>הצטרפת כ"{tier.label}" {tier.emoji}</span>
+          <span className="text-xs font-bold text-indigo-800">הזמנתך הוגשה לסבב</span>
+        </div>
+      );
+    }
+    if (joinedTier) {
+      return (
+        <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-200 px-3 py-1.5">
+          <span className="text-sm">📬</span>
+          <span className="text-xs font-bold text-gray-700">רשום/ה לעדכוני סבב</span>
         </div>
       );
     }
     return (
       <div className="flex items-center gap-2">
-        {TIERS.map(tier => (
-          <button key={tier.id} onClick={() => onSelectTier(tier.id)}
-            className={`flex-1 flex flex-col items-center gap-0.5 px-2 py-2 rounded-xl border text-center transition-all ${tier.border} ${tier.bg} ${tier.labelColor} hover:shadow-md active:scale-95`}>
-            <span className="text-base">{tier.emoji}</span>
-            <span className="text-[11px] font-black">{tier.label}</span>
-            <span className="text-[9px] text-gray-400 font-medium leading-tight">{tier.sublabel}</span>
-          </button>
-        ))}
+        <button onClick={() => onSelectTier("committed")}
+          className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
+          הגשת הזמנה לסבב
+        </button>
+        <button onClick={() => onSelectTier("interested")}
+          className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
+          עדכונים
+        </button>
       </div>
     );
   }
 
-  if (joinedTier) {
-    const tier = TIERS.find(t => t.id === joinedTier);
-    const nextTierIdx = TIERS.findIndex(t => t.id === joinedTier) + 1;
-    const nextTier = TIERS[nextTierIdx];
+  // ── Already joined ──
+  if (joinedTier === "committed") {
     return (
       <div className="space-y-3">
-        {/* Joined state card */}
-        <div className={`rounded-2xl border-2 ${tier.activeBorder} ${tier.activeBg} p-4`}>
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-full ${tier.checkColor} flex items-center justify-center flex-shrink-0 shadow-sm`}>
-              <span className="text-white text-lg">✓</span>
+        <div className="rounded-2xl border-2 border-indigo-300 bg-gradient-to-br from-indigo-50 to-violet-50 p-5">
+          <div className="flex items-start gap-3">
+            <div className="w-11 h-11 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-md">
+              <span className="text-white text-xl">✓</span>
             </div>
-            <div>
-              <p className={`font-black text-sm ${tier.labelColor}`}>הצטרפת כ"{tier.label}" {tier.emoji}</p>
-              <p className="text-gray-500 text-[11px] mt-0.5">{tier.desc}</p>
+            <div className="flex-1 min-w-0">
+              <p className="font-black text-sm text-indigo-900">הזמנתך הוגשה לסבב הנוכחי</p>
+              <p className="text-gray-600 text-[12px] mt-1 leading-relaxed">
+                סכום של ₪{COMMITTED_DEPOSIT.toLocaleString()} שמור על שמך. היתרה תיגבה רק כשהסבב ייסגר במחיר הסופי.
+              </p>
+              <p className="text-gray-400 text-[10px] mt-2 font-medium">
+                סטטוס: ממתין לסגירת הסבב
+              </p>
             </div>
           </div>
         </div>
-        {/* Upgrade nudge */}
-        {nextTier && (
-          <button
-            onClick={() => onSelectTier(nextTier.id)}
-            className={`w-full rounded-xl border-2 border-dashed ${nextTier.border} ${nextTier.bg} py-2.5 px-4 flex items-center justify-center gap-2 text-xs font-bold ${nextTier.labelColor} hover:shadow-sm transition-all group`}
-          >
-            <span className="text-base">{nextTier.emoji}</span>
-            שדרג/י ל"{nextTier.label}"
-            <span className="text-[10px] text-gray-400 font-normal mr-1">({nextTier.count.toLocaleString()} כבר שם)</span>
-            <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
-          </button>
-        )}
+        <DemandForecast deal={deal} />
+      </div>
+    );
+  }
+  if (joinedTier) {
+    // interested / watching → both render as "registered for updates"
+    return (
+      <div className="space-y-3">
+        <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-slate-50 to-gray-100 p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <span className="text-white text-lg">📬</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-black text-sm text-gray-800">רישומך לעדכוני הסבב אושר</p>
+              <p className="text-gray-500 text-[11px] mt-1">תקבל/י הודעה כשהסבב נסגר או כשהמחיר משתנה.</p>
+            </div>
+          </div>
+        </div>
+        {/* Upgrade to formal order */}
+        <button onClick={() => onSelectTier("committed")}
+          className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
+          <span>הגשת הזמנה רשמית לסבב</span>
+          <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
+          <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
+        </button>
         <DemandForecast deal={deal} />
       </div>
     );
   }
 
+  // ── Default: tender header + primary submit + small updates link ──
   return (
-    <div className="space-y-3">
-      <p className="text-[11px] font-bold text-gray-400 text-center tracking-widest uppercase">⚡ בחר/י את רמת ההצטרפות</p>
-      <div className="grid grid-cols-3 gap-2">
-        {TIERS.map(tier => (
-          <button
-            key={tier.id}
-            onClick={() => onSelectTier(tier.id)}
-            onMouseEnter={() => setHovered(tier.id)}
-            onMouseLeave={() => setHovered(null)}
-            className={`relative rounded-2xl border-2 transition-all duration-200 p-3 flex flex-col items-center gap-1 text-center
-              ${hovered === tier.id
-                ? `${tier.activeBg} ${tier.activeBorder} -translate-y-1 shadow-lg scale-[1.03] ring-2 ${tier.ringColor}`
-                : `${tier.bg} ${tier.border} shadow-sm`}
-            `}
-          >
-            <span className="text-2xl leading-none">{tier.emoji}</span>
-            <span className={`text-[11px] font-black ${tier.labelColor} leading-tight mt-0.5`}>{tier.label}</span>
-            {/* Deposit price — prominent */}
-            <div className={`my-0.5 rounded-lg px-2 py-1 ${tier.depositAmount === 0 ? "bg-emerald-100 text-emerald-700" : "bg-white text-gray-900"} font-black text-[13px] shadow-sm`}>
-              {tier.depositLabel}
-            </div>
-            <span className="text-[9px] text-gray-500 leading-tight">{tier.sublabel}</span>
-            <div className={`mt-1 rounded-full px-2 py-0.5 text-[9px] font-bold ${tier.countColor} bg-white/70`}>
-              {tier.count.toLocaleString()} עכשיו
-            </div>
-          </button>
-        ))}
+    <div className="space-y-4">
+      {/* Tender header */}
+      <div className="rounded-2xl border border-gray-200 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <p className="text-[11px] font-black text-gray-500 tracking-widest uppercase">סבב הזמנות פעיל</p>
+          {daysLeft > 0 && (
+            <span className="ml-auto text-[10px] font-bold text-gray-400">
+              סגירה בעוד {daysLeft} ימים
+            </span>
+          )}
+        </div>
+        <div className="grid grid-cols-2 gap-3 text-center">
+          <div className="rounded-xl bg-white border border-gray-100 p-2.5">
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">שלב הסבב</p>
+            <p className="text-base font-black text-gray-900 mt-0.5">{participants}{maxParticipants ? ` / ${maxParticipants}` : ""}</p>
+          </div>
+          <div className="rounded-xl bg-white border border-gray-100 p-2.5">
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">מחיר נוכחי</p>
+            <p className="text-base font-black text-indigo-700 mt-0.5">₪{groupPrice.toLocaleString()}</p>
+          </div>
+        </div>
       </div>
-      <p className="text-center text-[10px] text-gray-400">
-        ✓ פיקדון "שומר מקום" מקוזז במחיר הסופי או מוחזר אם הקבוצה לא נסגרת
+
+      {/* Primary action — formal submission */}
+      <button
+        onClick={() => onSelectTier("committed")}
+        className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
+      >
+        <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
+        <span className="text-[11px] font-medium text-white/85">
+          נעילת מחיר • פיקדון ₪{COMMITTED_DEPOSIT.toLocaleString()} (25% מהסכום)
+        </span>
+      </button>
+
+      {/* Secondary action — updates only */}
+      <button
+        onClick={() => onSelectTier("interested")}
+        className="w-full text-center text-[12px] font-medium text-gray-500 hover:text-gray-700 py-2 transition-colors"
+      >
+        או — <span className="underline decoration-dotted underline-offset-2">קבלת עדכונים על הסבב בלבד</span>
+        {interestedCount > 0 && <span className="text-gray-400"> ({interestedCount} רשומים)</span>}
+      </button>
+
+      {/* Footnote */}
+      <p className="text-center text-[10px] text-gray-400 leading-relaxed">
+        הפיקדון מקוזז מהמחיר הסופי בסגירת הסבב, או מוחזר במלואו אם המינימום לא הושג.
       </p>
       <DemandForecast deal={deal} />
     </div>
@@ -6167,23 +6152,23 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           );
         })()}
 
-        {/* ══ WATCHING — Spot-saved banner ══ */}
+        {/* ══ WATCHING — Pre-registered banner ══ */}
         {joinedTier === "watching" && !priceHidden && (
-          <div className="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl shadow-lg p-5 text-white relative overflow-hidden">
-            <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/15 rounded-full blur-2xl" />
-            <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <span className="text-xl">📍</span>
+          <div className="bg-gradient-to-br from-slate-600 to-gray-700 rounded-2xl shadow-lg p-5 text-white relative overflow-hidden">
+            <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
+            <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center">
+              <span className="text-xl">📋</span>
             </div>
             <div className="relative pr-14">
-              <p className="text-xs text-amber-50 font-bold mb-1">📍 המקום שלך שמור</p>
+              <p className="text-xs text-slate-200 font-bold mb-1">רישום מקדים לסבב</p>
               <p className="text-2xl font-black tracking-tight">פיקדון ₪25 הוקפא</p>
-              <p className="text-xs text-amber-50 mt-2 leading-relaxed">
-                הסכום מקוזז במחיר הסופי כשתשדרג ל"בפנים", או מוחזר במלואו אם הקבוצה לא נסגרת.
+              <p className="text-xs text-slate-200 mt-2 leading-relaxed">
+                הסכום מקוזז מהמחיר הסופי בהגשת הזמנה רשמית, או מוחזר במלואו אם הסבב לא ייסגר.
               </p>
               <button
                 onClick={() => handleSelectTier("committed")}
-                className="mt-3 w-full py-2.5 bg-white text-orange-600 hover:bg-amber-50 font-black rounded-xl text-xs shadow active:scale-[0.98] transition flex items-center justify-center gap-1.5">
-                ✅ שדרג ל"בפנים" — נעל מחיר ב-₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}
+                className="mt-3 w-full py-2.5 bg-white text-indigo-700 hover:bg-indigo-50 font-black rounded-xl text-xs shadow active:scale-[0.98] transition flex items-center justify-center gap-1.5">
+                הגשת הזמנה רשמית — נעילת מחיר ₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}
               </button>
             </div>
           </div>
@@ -10008,9 +9993,9 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
   const TIER_META = {
-    committed:  { emoji: "✅", label: "בפנים",       color: "bg-emerald-100 text-emerald-700 border-emerald-200" },
-    watching:   { emoji: "📍", label: "שומר מקום",   color: "bg-amber-100 text-amber-700 border-amber-200" },
-    interested: { emoji: "🔔", label: "מתעניין",     color: "bg-blue-100 text-blue-700 border-blue-200" },
+    committed:  { emoji: "📝", label: "הזמנה הוגשה",   color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
+    watching:   { emoji: "📋", label: "רישום מקדים",   color: "bg-slate-100 text-slate-700 border-slate-200" },
+    interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
   };
   const ACTION_LABEL = {
     joined_deal:  "הצטרפת לקבוצה",
@@ -10200,25 +10185,25 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 
   const TIER_INFO = {
     watching: {
-      title: "שומר מקום",
-      emoji: "📍",
-      gradient: "from-amber-500 to-orange-600",
-      explainer: `פיקדון ₪${depositAmount} שומר את מקומך בקבוצה. הסכום יוקפא בכרטיס בלבד — לא יחויב כעת.`,
+      title: "רישום מקדים לסבב",
+      emoji: "📋",
+      gradient: "from-slate-500 to-gray-600",
+      explainer: `פיקדון ₪${depositAmount} שומר את מקומך בסבב הנוכחי. הסכום יוקפא בכרטיס בלבד — לא יחויב כעת.`,
       bullets: [
-        `✓ הסכום מקוזז במחיר הסופי (חיסכון בפועל)`,
-        `✓ אם הקבוצה לא נסגרת — מוחזר במלואו תוך 7 ימים`,
-        `✓ ניתן לשדרג ל"בפנים" בכל שלב`,
+        `✓ הסכום מקוזז מהמחיר הסופי בסגירת הסבב`,
+        `✓ אם הסבב לא ייסגר — מוחזר במלואו תוך 7 ימים`,
+        `✓ ניתן לשדרג להגשת הזמנה רשמית בכל שלב`,
       ],
     },
     committed: {
-      title: "בפנים — נעילת מחיר",
-      emoji: "✅",
+      title: "הגשת הזמנה לסבב",
+      emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `מקדמה של 25% (₪${depositAmount.toLocaleString()}) — נעילת מחיר מובטחת. היתרה גובה רק כשהקבוצה נסגרת.`,
+      explainer: `פיקדון של 25% (₪${depositAmount.toLocaleString()}) על הזמנה רשמית. נועל את המחיר הנוכחי. היתרה תיגבה רק בסגירת הסבב.`,
       bullets: [
-        `✓ נעילת מחיר מובטחת — לא תשלם יותר גם אם המחיר עולה`,
-        `✓ אם המחיר הקבוצתי יורד עוד — תקבל את המחיר הנמוך`,
-        `✓ אם הקבוצה לא תתמלא — המקדמה משוחררת אוטומטית`,
+        `✓ נעילת מחיר — לא תשלם/י יותר גם אם המחיר עולה`,
+        `✓ אם המחיר בסבב יורד — תקבל/י את המחיר הנמוך יותר`,
+        `✓ אם הסבב לא ייסגר — הפיקדון משוחרר אוטומטית`,
       ],
     },
   };
