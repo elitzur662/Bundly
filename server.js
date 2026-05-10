@@ -7028,6 +7028,51 @@ function buildPriceTrickleQueue() {
   console.log(`💧 Price trickle: queue rebuilt — ${queue.length} models missing ZAP price`);
 }
 
+// KSP fuzzy-match fallback. Called when ZAP returns nothing for a model:
+// search KSP by the product's name and accept the best title overlap if it
+// passes a 50% similarity bar. Returns a synthetic price entry that's saved
+// under the ZAP modelId so subsequent price lookups hit the L1/L2 cache and
+// never have to repeat this work. Source attribution is hidden from the UI
+// (store name = generic "ספק") per the brand-cleanup rule.
+async function trickleFallbackKsp(item) {
+  if (!item.name || item.name.length < 3) return null;
+  const queryTokens = item.name.split(/\s+/).filter(w => w.length >= 2).slice(0, 5);
+  if (queryTokens.length === 0) return null;
+  const query = queryTokens.join(" ");
+  let kspResults;
+  try {
+    kspResults = await searchKsp(query, { limit: 5, timeout: 8000 });
+  } catch (_) {
+    return null;
+  }
+  if (!Array.isArray(kspResults) || kspResults.length === 0) return null;
+
+  // Score each by token overlap with the original product name.
+  const targetWords = item.name.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
+  if (targetWords.length === 0) return null;
+  let best = null, bestScore = 0;
+  for (const k of kspResults) {
+    if (!(k.price > 0)) continue;
+    const hay = (k.title || k.name || "").toLowerCase();
+    const overlap = targetWords.filter(w => hay.includes(w)).length;
+    const score = overlap / targetWords.length;
+    if (score > bestScore && score >= 0.5) { bestScore = score; best = k; }
+  }
+  if (!best) return null;
+
+  const pubUrl = `https://www.zap.co.il/model.aspx?modelid=${item.modelId}`;
+  const entry = {
+    title:     best.title || best.name || item.name,
+    thumbnail: best.image || best.thumbnail || "",
+    stores:    [{ name: "ספק", price: best.price, link: best.link || pubUrl }],
+    ts:        Date.now(),
+    _trickleSource: "ksp-fuzzy", // for telemetry only — frontend never reads this
+  };
+  ZAP_PRICES_CACHE.set(item.modelId, entry);
+  saveModelPricesToDB(item.modelId, entry);
+  return entry;
+}
+
 async function priceTrickleStep() {
   // Rebuild queue if empty or stale
   if (_priceTrickleQueue.length === 0 || Date.now() - _priceTrickleTs > PRICE_TRICKLE_REFRESH_MS) {
@@ -7035,7 +7080,8 @@ async function priceTrickleStep() {
   }
   if (_priceTrickleQueue.length === 0) return;
 
-  // Skip during CF ban — fetches would just fail and waste proxy bandwidth.
+  // Skip during CF ban — ZAP fetch would fail. KSP still works, but spamming
+  // it during ban would burn through KSP's tolerance too. Better to wait.
   if (Date.now() < ZAP_CF_BLOCK_UNTIL) {
     _priceTrickleStats.skipped++;
     return;
@@ -7045,12 +7091,19 @@ async function priceTrickleStep() {
   if (!item) return;
 
   _priceTrickleStats.fetched++;
-  const entry = await fetchAndCacheModelPrices(item.modelId, item.name).catch(() => null);
+  // Try ZAP first (richest data — multi-store comparison)
+  let entry = await fetchAndCacheModelPrices(item.modelId, item.name).catch(() => null);
+  let source = "zap";
+  // Fall back to KSP fuzzy match if ZAP returned nothing
+  if (!entry?.stores?.length) {
+    entry = await trickleFallbackKsp(item).catch(() => null);
+    source = "ksp";
+  }
   if (entry?.stores?.length > 0) {
     _priceTrickleStats.success++;
     const pricedStore = entry.stores.find(s => s.price > 0);
     if (pricedStore) {
-      console.log(`💧 [${_priceTrickleQueue.length} left | ${_priceTrickleStats.success}/${_priceTrickleStats.fetched} hit-rate] ✓ ${item.name?.slice(0, 50)} → ₪${pricedStore.price}`);
+      console.log(`💧 [${_priceTrickleQueue.length} left | ${_priceTrickleStats.success}/${_priceTrickleStats.fetched} hit-rate | src=${source}] ✓ ${item.name?.slice(0, 50)} → ₪${pricedStore.price}`);
     }
   }
 }
