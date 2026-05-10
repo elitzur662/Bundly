@@ -5386,25 +5386,25 @@ function DemandForecast({ deal, compact = false }) {
   return (
     <div className="bg-gray-50/80 border border-gray-100 rounded-xl p-3">
       <p className="text-[10px] font-bold text-gray-400 mb-2 flex items-center gap-1 uppercase tracking-wide">
-        📊 תחזית ביקוש
+        📊 פעילות בסבב
       </p>
       <div className="w-full h-2 rounded-full overflow-hidden flex mb-2.5 gap-px">
         <div className="bg-indigo-500 transition-all rounded-l-full" style={{ width: `${committedPct}%` }} />
-        <div className="bg-amber-400 transition-all" style={{ width: `${watchingPct}%` }} />
+        <div className="bg-slate-400 transition-all" style={{ width: `${watchingPct}%` }} />
         <div className="bg-gray-200 transition-all flex-1 rounded-r-full" />
       </div>
       <div className="flex items-center justify-between text-[10px] font-semibold">
         <span className="flex items-center gap-1 text-indigo-600">
           <span className="w-2 h-2 rounded-full bg-indigo-500 inline-block" />
-          {deal.participants} בפנים
+          {deal.participants} הזמנות
         </span>
-        <span className="flex items-center gap-1 text-amber-600">
-          <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
-          {deal.watching} שומרי מקום
+        <span className="flex items-center gap-1 text-slate-600">
+          <span className="w-2 h-2 rounded-full bg-slate-400 inline-block" />
+          {deal.watching} רישומים מקדימים
         </span>
         <span className="flex items-center gap-1 text-gray-400">
           <span className="w-2 h-2 rounded-full bg-gray-300 inline-block" />
-          {deal.interested} מתעניינים
+          {deal.interested} עוקבים
         </span>
       </div>
     </div>
@@ -5844,8 +5844,20 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (user && pendingTierRef.current) {
       const tier = pendingTierRef.current;
       pendingTierRef.current = null;
-      onJoin(deal.id, tier);
-      setJoinedTier(tier);
+      // For "interested" — no deposit, mark joined immediately.
+      // For "watching" / "committed" — must collect a deposit via Stripe;
+      // skipping straight to setJoinedTier would falsely confirm an order
+      // without any payment ever happening (the original bug).
+      if (tier === "interested") {
+        onJoin(deal.id, tier);
+        setJoinedTier(tier);
+        return;
+      }
+      const groupPrice = (deal.bids && deal.bids.length > 0)
+        ? Math.min(...deal.bids.map(b => b.amount))
+        : (deal.groupOffer || deal.marketMin || 0);
+      const amount = tier === "watching" ? 25 : Math.round(groupPrice * 0.25);
+      setDepositInfo({ tier, amount });
     }
   }, [user]);
 
@@ -6096,39 +6108,39 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           )}
         </div>
 
-        {/* ══ 4. LIVE DEMAND — "כמה אנשים כבר בקבוצה" ══ */}
+        {/* ══ 4. SUBMISSION ACTIVITY — "כמה הזמנות הוגשו לסבב" ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               <span className="text-[11px] text-red-500 font-bold">LIVE</span>
             </div>
-            <h3 className="text-sm font-black text-gray-800">ביקוש נוכחי לקבוצה</h3>
+            <h3 className="text-sm font-black text-gray-800">פעילות הסבב</h3>
           </div>
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="bg-indigo-50 rounded-xl p-3 text-center">
               <p className="text-xl font-black text-indigo-700">{deal.participants}</p>
-              <p className="text-[10px] text-indigo-500 font-semibold">בפנים ✅</p>
+              <p className="text-[10px] text-indigo-500 font-semibold">הזמנות הוגשו</p>
             </div>
-            <div className="bg-amber-50 rounded-xl p-3 text-center">
-              <p className="text-xl font-black text-amber-700">{deal.watching || 0}</p>
-              <p className="text-[10px] text-amber-500 font-semibold">שומרים מקום 📍</p>
+            <div className="bg-slate-50 rounded-xl p-3 text-center">
+              <p className="text-xl font-black text-slate-700">{deal.watching || 0}</p>
+              <p className="text-[10px] text-slate-500 font-semibold">רישומים מקדימים</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-3 text-center">
               <p className="text-xl font-black text-gray-600">{deal.interested || 0}</p>
-              <p className="text-[10px] text-gray-400 font-semibold">מתעניינים 🔔</p>
+              <p className="text-[10px] text-gray-400 font-semibold">עוקבים אחרי הסבב</p>
             </div>
           </div>
           {/* Progress bar */}
           <div>
             <div className="flex justify-between text-xs text-gray-400 mb-1.5 font-medium">
-              <span>מינימום: {deal.minParticipants} קונים</span>
+              <span>מינימום לסגירת סבב: {deal.minParticipants}</span>
               <span>{deal.participants} / {deal.maxParticipants}</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
               <div className={`h-full rounded-full transition-all ${criticalMass ? "bg-emerald-500" : "bg-gradient-to-r from-indigo-400 to-indigo-600"}`} style={{ width: `${pct}%` }} />
             </div>
-            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✅ הגענו למינימום — הקבוצה פעילה!</p>}
+            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✓ הסבב הגיע למינימום — הסגירה מאושרת</p>}
           </div>
         </div>
 
@@ -20920,8 +20932,10 @@ export default function App() {
         price:       dt.groupOffer || dt.marketMin,
       });
     }
-    const tierLabel = tier === "committed" ? "בפנים ✅" : tier === "watching" ? "שומר מקום 📍" : "מתעניין 🔔";
-    notify(`הצטרפת כ${tierLabel}`);
+    const tierMsg = tier === "committed" ? "✓ הזמנתך הוגשה לסבב"
+                   : tier === "watching"  ? "✓ נרשמת לסבב — פיקדון הוקפא"
+                   : "✓ נרשמת לעדכוני הסבב";
+    notify(tierMsg);
     // Save to "המוצרים שלי"
     const deal = deals.find(d => d.id === id);
     if (deal) addToMyProducts({ name: deal.name?.he || deal.name?.en, image: deal.image, tier, action: "joined_deal", catIdx: deal.catIdx, price: deal.groupOffer || deal.marketMin });
