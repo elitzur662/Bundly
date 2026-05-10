@@ -4208,39 +4208,47 @@ function _imgLsSet(key, url) {
 
 function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
   // PRIORITY ORDER for the image src:
-  //   1. localStorage cached image for this query (locked from prior fetch)  — instant + correct
-  //   2. memory cache (set by another component this session)                — instant + correct
-  //   3. fallback prop (e.g. deal.image scraped from ZAP, OR generic IMG.tv) — instant
-  //   4. smart category fallback (Unsplash by keyword)                       — instant placeholder
-  //   5. Dynamic fetch from /api/product-image (DataForSEO)                  — async, locked when found
+  //   1. localStorage cached image for THIS query (verified — locked from prior API hit)
+  //   2. memory cache for THIS query (verified — set by another component this session)
+  //   3. local product-db image (/product-db/...) — bound to modelId, trusted
+  //   4. fallback prop (e.g. deal.image scraped from ZAP/Unsplash/elsewhere) — display only
+  //   5. smart category fallback (Unsplash by keyword) — display only
+  //   6. Dynamic fetch from /api/product-image (DataForSEO) — async, verified, locks on success
   //
-  // CRITICAL: fallback is NOT always a real product image. For demo deals it
-  // is a generic IMG.tv / IMG.phone stock photo from Unsplash that's the same
-  // for every TV / every phone. If we lock to that, every Sony Bravia /
-  // Samsung Neo QLED / LG OLED shows the SAME picture forever. So we detect
-  // "generic" fallbacks (Unsplash, SVG icons) and don't lock to them — the
-  // API call still runs and replaces with the per-product image.
+  // CORRECTNESS RULE: only LOCK to images we trust 100% to match the query.
+  // Trusted sources:
+  //   - Previously API-fetched + cached for this exact query (lsCached/memCached)
+  //   - /product-db/ paths (server-built, bound to modelId)
+  // Untrusted sources (display only, but still let API verify in background):
+  //   - External scraped URLs (ZAP CDN, KSP) that may have product/image mismatches
+  //   - Unsplash / IMG.* generic stock photos
+  //   - SVG icons
+  // Untrusted fallbacks display instantly for UX but always get replaced by
+  // the API result if it returns. This avoids the "wrong oven image" bug
+  // where a generic-but-specific fallback locked permanently.
   const fallbackImage = fallback || null;
   const queryKey = query ? query.trim().toLowerCase() : null;
   const lsCached = queryKey ? _imgLsGet(queryKey) : null;
   const memCached = queryKey && _imgCache.has(queryKey) ? _imgCache.get(queryKey) : null;
-  const isGenericFallback = !fallbackImage || /unsplash\.com|\.svg(?:\?|$)/i.test(fallbackImage);
+  // Trusted = produced by our server scraper, tightly bound to modelId.
+  const isTrustedFallback = !!fallbackImage && /^\/product-db\//.test(fallbackImage);
   const smartFb = !fallbackImage && !lsCached && !memCached
     ? smartCategoryFallback(productName || query, category, catName)
     : null;
-  // Priority: cached (always correct) > fallback (might be generic) > smart fallback.
+  // Display priority: per-query cache > trusted local > untrusted fallback > smart.
   const initial = lsCached || memCached || fallbackImage || smartFb;
 
   const [src, setSrc] = useState(initial);
-  // Lock only when we have a specific image:
-  //   - lsCached/memCached came from a successful prior API fetch → specific
-  //   - fallback is specific only if it's NOT from a known generic source
-  // Generic fallbacks let the API call run and override with the right image.
-  const lockedRef = useRef(!!(lsCached || memCached) || (!!fallbackImage && !isGenericFallback));
+  // Lock only when source is trusted for this exact query:
+  //   - lsCached / memCached: prior API success for THIS query
+  //   - product-db path: server-bound to modelId
+  // Everything else (external URLs, Unsplash, smart fallback) → unlocked,
+  // API verifies and replaces if a better match is found.
+  const lockedRef = useRef(!!(lsCached || memCached) || isTrustedFallback);
 
   useEffect(() => {
     if (!queryKey) return;
-    // Already locked (have a specific image) — don't refetch
+    // Already locked (we know this image is correct) — don't refetch
     if (lockedRef.current) return;
     let alive = true;
     fetch(`/api/product-image?q=${encodeURIComponent(query.trim())}`)
@@ -4254,8 +4262,8 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
           lockedRef.current = true;
           setSrc(url);
         }
-        // No result → stay on the smart fallback. Don't cache null
-        // permanently — leave room for a retry on a later page-load.
+        // No result → keep the untrusted fallback as best-effort. Don't
+        // cache null permanently so a later page-load can retry.
       })
       .catch(() => { /* keep fallback */ });
     return () => { alive = false; };
