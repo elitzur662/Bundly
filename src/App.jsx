@@ -4208,27 +4208,35 @@ function _imgLsSet(key, url) {
 
 function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
   // PRIORITY ORDER for the image src:
-  //   1. fallback prop (e.g. deal.image scraped from ZAP)        — instant
-  //   2. localStorage cached image for this query                — instant
-  //   3. memory cache (set by another component this session)    — instant
-  //   4. smart category fallback (generic Unsplash, by keyword)  — instant placeholder while fetching
-  //   5. Dynamic fetch from /api/product-image (DataForSEO)      — async, locked to localStorage when found
-  // Once a specific image is fetched, we LOCK it in localStorage so the
-  // same product always shows the same image — no flickering between
-  // requests, no different picture on the next page-load.
+  //   1. localStorage cached image for this query (locked from prior fetch)  — instant + correct
+  //   2. memory cache (set by another component this session)                — instant + correct
+  //   3. fallback prop (e.g. deal.image scraped from ZAP, OR generic IMG.tv) — instant
+  //   4. smart category fallback (Unsplash by keyword)                       — instant placeholder
+  //   5. Dynamic fetch from /api/product-image (DataForSEO)                  — async, locked when found
+  //
+  // CRITICAL: fallback is NOT always a real product image. For demo deals it
+  // is a generic IMG.tv / IMG.phone stock photo from Unsplash that's the same
+  // for every TV / every phone. If we lock to that, every Sony Bravia /
+  // Samsung Neo QLED / LG OLED shows the SAME picture forever. So we detect
+  // "generic" fallbacks (Unsplash, SVG icons) and don't lock to them — the
+  // API call still runs and replaces with the per-product image.
   const fallbackImage = fallback || null;
   const queryKey = query ? query.trim().toLowerCase() : null;
   const lsCached = queryKey ? _imgLsGet(queryKey) : null;
   const memCached = queryKey && _imgCache.has(queryKey) ? _imgCache.get(queryKey) : null;
+  const isGenericFallback = !fallbackImage || /unsplash\.com|\.svg(?:\?|$)/i.test(fallbackImage);
   const smartFb = !fallbackImage && !lsCached && !memCached
     ? smartCategoryFallback(productName || query, category, catName)
     : null;
-  const initial = fallbackImage || lsCached || memCached || smartFb;
+  // Priority: cached (always correct) > fallback (might be generic) > smart fallback.
+  const initial = lsCached || memCached || fallbackImage || smartFb;
 
   const [src, setSrc] = useState(initial);
-  // Track whether we've locked a specific image (from API). Once locked,
-  // we never downgrade.
-  const lockedRef = useRef(!!(fallbackImage || lsCached || memCached));
+  // Lock only when we have a specific image:
+  //   - lsCached/memCached came from a successful prior API fetch → specific
+  //   - fallback is specific only if it's NOT from a known generic source
+  // Generic fallbacks let the API call run and override with the right image.
+  const lockedRef = useRef(!!(lsCached || memCached) || (!!fallbackImage && !isGenericFallback));
 
   useEffect(() => {
     if (!queryKey) return;
