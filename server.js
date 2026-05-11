@@ -1670,6 +1670,28 @@ app.get("/api/zap-model", async (req, res) => {
     }
     let listings = null;
 
+    // Cross-validate: if the caller passed a `name`, verify the cached title
+    // shares meaningful tokens with it. This catches the case where the cache
+    // got poisoned (different product's title stored under this modelId) —
+    // we discard the cache and re-fetch from ZAP so the user sees the right
+    // product. Without this guard, even after the migration cleanup we'd
+    // keep serving any leftover poisoned entry until its TTL expired.
+    if (cached && cached.stores?.length > 0 && cached.title && name) {
+      const norm = s => String(s).toLowerCase().replace(/[^֐-׿a-z0-9\s]/g, " ").split(/\s+/).filter(w => w.length >= 3);
+      const cachedTokens = new Set(norm(cached.title));
+      const queryTokens  = norm(name);
+      if (queryTokens.length > 0) {
+        const overlap = queryTokens.filter(w => cachedTokens.has(w)).length;
+        const score = overlap / queryTokens.length;
+        if (score < 0.3) {
+          console.warn(`  ⚠️ Cache title mismatch for modelId=${modelId}: cache="${cached.title.slice(0,60)}" vs query="${name.slice(0,60)}" (${Math.round(score*100)}% overlap) — discarding cache, refetching`);
+          try { deleteModelPriceFromDB(modelId); } catch (_) {}
+          ZAP_PRICES_CACHE.delete(modelId);
+          cached = null;
+        }
+      }
+    }
+
     if (cached && cached.stores?.length > 0) {
       console.log(`  ↳ Cache hit for modelId=${modelId}`);
       listings = cached.stores.map(s => ({
