@@ -120,6 +120,18 @@ export function saveModelPricesToDB(modelId, entry) {
   saveJson(PRICES_FILE, _prices);
 }
 
+// Delete a single model price entry by modelId. Used by the trickle
+// migration to purge poisoned entries (ksp-fuzzy match with wrong title).
+export function deleteModelPriceFromDB(modelId) {
+  const key = String(modelId);
+  if (key in _prices) {
+    delete _prices[key];
+    saveJson(PRICES_FILE, _prices);
+    return true;
+  }
+  return false;
+}
+
 export function purgeOldPrices(maxAgeMs = 48 * 3600 * 1000) {
   const cutoff = Date.now() - maxAgeMs;
   let removed = 0;

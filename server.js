@@ -22,7 +22,7 @@ const { HttpsProxyAgent } = _httpsProxyAgentPkg;
 // ── SQLite persistent cache (replaces zap-cache.json / zap-prices-cache.json)
 import {
   getCategoryFromDB, saveCategoryToDB, getAllCachedCategories,
-  getModelPricesFromDB, saveModelPricesToDB, getModelPricesCount, getAllModelPriceIds,
+  getModelPricesFromDB, saveModelPricesToDB, deleteModelPriceFromDB, getModelPricesCount, getAllModelPriceIds,
   purgeOldCategories, purgeOldPrices,
   getKspCacheFromDB, saveKspCacheToDB,
   migrateJsonCaches,
@@ -6888,16 +6888,33 @@ const ZAP_PRICES_TTL_MS   = 12 * 60 * 60 * 1000; // 12 hours (nightly refresh ke
 const PREWARM_PRICES_PER_CAT = 200;
 
 // Populate ZAP_PRICES_CACHE (L1) from JSON store on startup so prewarm can skip fresh models.
+// ONE-TIME MIGRATION: purge poisoned entries from the trickle KSP fuzzy
+// fallback (pre-0.8-threshold). Those were saved with `title` copied from a
+// KSP listing that was often the WRONG product (e.g. iPhone 16 Pro mapped
+// onto an iPhone 15 modelId). Detection heuristic: trickle-KSP entries are
+// the only ones with EXACTLY 1 store whose name is "ספק" (the generic label
+// we use to hide source attribution). Real ZAP scrapes have multi-store
+// entries with concrete store names.
 function loadZapPricesFromDisk() {
   let loaded = 0;
+  let purged = 0;
   for (const id of getAllModelPriceIds()) {
     const entry = getModelPricesFromDB(id);
-    if (entry?.stores?.length > 0 && (Date.now() - (entry.ts || 0)) < ZAP_PRICES_TTL_MS) {
+    if (!entry?.stores?.length) continue;
+    const isTricklePoisoned = entry.stores.length === 1
+      && (entry.stores[0]?.name || "").trim() === "ספק";
+    if (isTricklePoisoned) {
+      try { deleteModelPriceFromDB(id); } catch (_) {}
+      purged++;
+      continue;
+    }
+    if ((Date.now() - (entry.ts || 0)) < ZAP_PRICES_TTL_MS) {
       ZAP_PRICES_CACHE.set(id, entry);
       loaded++;
     }
   }
   if (loaded > 0) console.log(`💰 ZapPrices: loaded ${loaded} fresh model prices from JSON store`);
+  if (purged > 0) console.log(`💰 ZapPrices: PURGED ${purged} poisoned trickle entries (one-time cleanup)`);
 }
 function saveZapPricesToDisk() { /* writes happen synchronously in saveModelPricesToDB */ }
 
@@ -7076,21 +7093,32 @@ async function trickleFallbackKsp(item) {
   // Score each by token overlap with the original product name.
   const targetWords = item.name.toLowerCase().split(/\s+/).filter(w => w.length >= 3);
   if (targetWords.length === 0) return null;
+  // Require a STRONG match — bumped from 0.5 to 0.8 because fuzzy matches like
+  // "iPhone 15 128GB" → "iPhone 16 Pro 256GB" were poisoning the ZAP price
+  // cache. With 0.8 the KSP listing must contain at least 80% of the target
+  // product's significant words — e.g. "iPhone 15 256GB" stays an iPhone 15.
   let best = null, bestScore = 0;
   for (const k of kspResults) {
     if (!(k.price > 0)) continue;
     const hay = (k.title || k.name || "").toLowerCase();
     const overlap = targetWords.filter(w => hay.includes(w)).length;
     const score = overlap / targetWords.length;
-    if (score > bestScore && score >= 0.5) { bestScore = score; best = k; }
+    if (score > bestScore && score >= 0.8) { bestScore = score; best = k; }
   }
   if (!best) return null;
 
   const pubUrl = `https://www.zap.co.il/model.aspx?modelid=${item.modelId}`;
+  // CRITICAL: keep the ORIGINAL product name (item.name) as the entry title.
+  // Earlier we stored best.title — meaning a fuzzy-matched "iPhone 16 Pro" KSP
+  // listing would overwrite the title for the iPhone 15 model. Subsequent
+  // lookups on the iPhone 15 modelId returned iPhone 16 Pro to the UI.
+  // Title MUST come from our source-of-truth (product-db catalog name).
+  // Thumbnail is also discarded — let ProductImage fetch the right image via
+  // the verified path.
   const entry = {
-    title:     best.title || best.name || item.name,
-    thumbnail: best.image || best.thumbnail || "",
-    stores:    [{ name: "ספק", price: best.price, link: best.link || pubUrl }],
+    title:     item.name,
+    thumbnail: "",
+    stores:    [{ name: "ספק", price: best.price, link: pubUrl }],
     ts:        Date.now(),
     _trickleSource: "ksp-fuzzy", // for telemetry only — frontend never reads this
   };
