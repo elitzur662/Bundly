@@ -9556,6 +9556,26 @@ app.patch("/api/orders/:id/status", AUTH_READY ? async (req, res) => {
       if (customer?.phone) globalThis._notif?.sendOrderStatusSms?.(customer.phone, payload).catch(() => {});
     }
 
+    // Admin activity feed entry for shipped/delivered transitions
+    if (status === "shipped") {
+      try {
+        logActivity("order_shipped", {
+          order_id: order.id,
+          product:  order.productName,
+          supplier: order.supplierName,
+        });
+      } catch (_) {}
+    } else if (status === "delivered") {
+      try {
+        logActivity("order_delivered", {
+          order_id: order.id,
+          product:  order.productName,
+          supplier: order.supplierName,
+          via:      "supplier",
+        });
+      } catch (_) {}
+    }
+
     // Generate invoice when marked delivered
     if (status === "delivered" && _invoiceSvc) {
       try {
@@ -9564,6 +9584,37 @@ app.patch("/api/orders/:id/status", AUTH_READY ? async (req, res) => {
         _invoiceSvc.generateInvoice({ order, user, supplier });
       } catch (iErr) { console.warn("[invoice] gen failed:", iErr.message); }
     }
+    res.json({ ok: true, order });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/orders/:id/confirm-receipt — customer confirms they received the product
+// Only the owner of the order can call this. Transitions status → "delivered".
+// Pairs with the 7-day auto-deliver cron (below) so the loop closes even if
+// the customer never confirms manually.
+app.post("/api/orders/:id/confirm-receipt", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const existing = _prodDb.getOrder(req.params.id);
+    if (!existing) return res.status(404).json({ error: "Order not found" });
+    if (existing.userId !== req.user.id && req.user.role !== "admin") {
+      audit("IDOR_BLOCKED", req, { endpoint: "confirm-receipt", orderId: req.params.id });
+      return res.status(403).json({ error: "Forbidden — not your order" });
+    }
+    if (existing.status === "delivered") {
+      return res.json({ ok: true, order: existing, alreadyDelivered: true });
+    }
+    if (!["shipped", "confirmed"].includes(existing.status)) {
+      return res.status(400).json({ error: "המוצר עדיין לא נשלח. ניתן לאשר קבלה רק אחרי שהספק שולח." });
+    }
+    const order = _prodDb.updateOrder(req.params.id, { status: "delivered" });
+    try {
+      logActivity("order_delivered", {
+        order_id: order.id,
+        product:  order.productName,
+        supplier: order.supplierName,
+        via:      "customer",
+      });
+    } catch (_) {}
     res.json({ ok: true, order });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
@@ -10802,11 +10853,39 @@ app.post(
 );
 
 // ── Reviews ─────────────────────────────────────────────────────
+// Rating is only allowed AFTER the order is delivered. Without this gate,
+// users could rate a supplier the moment they place an order — defeating
+// the purpose of "rate after you actually receive the product".
 app.post("/api/reviews", authMiddleware, AUTH_READY ? (req, res) => {
   try {
     const { supplierId, orderId, rating, comment } = req.body || {};
     if (!supplierId || !rating) return res.status(400).json({ error: "supplierId and rating required" });
+    if (!orderId) return res.status(400).json({ error: "orderId required — לא ניתן לדרג בלי הזמנה קשורה" });
+    // Validate the order exists, is delivered, and belongs to this user
+    const order = _prodDb.getOrder(orderId);
+    if (!order) return res.status(404).json({ error: "Order not found" });
+    if (order.userId !== req.user.id) {
+      audit("IDOR_BLOCKED", req, { endpoint: "review-create", orderId });
+      return res.status(403).json({ error: "Forbidden — לא ההזמנה שלך" });
+    }
+    if (order.status !== "delivered") {
+      return res.status(400).json({ error: "ניתן לדרג רק אחרי קבלת המוצר. אשר/י קבלה תחילה." });
+    }
+    // Block double-rating: one rating per order
+    const existing = (_prodDb.listReviews(supplierId) || []).find(r => r.orderId === Number(orderId));
+    if (existing) {
+      return res.status(409).json({ error: "כבר דירגת את ההזמנה הזו", review: existing });
+    }
     const review = _prodDb.createReview({ supplierId, userId: req.user.id, orderId, rating, comment });
+    try {
+      logActivity("rating_submitted", {
+        order_id: orderId,
+        supplier: order.supplierName || supplierId,
+        product:  order.productName,
+        rating:   review.rating + "/5",
+        comment:  (review.comment || "").slice(0, 100),
+      });
+    } catch (_) {}
     res.json({ ok: true, review });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
@@ -12540,24 +12619,50 @@ function _automationMinThresholdAndDigest() {
   }
 }
 
-// Order reminders: shipped orders that haven't been marked delivered after 7
-// days nudge the supplier to confirm.
+// Order automation: shipped orders progress through reminders → auto-deliver.
+//   day 5 from shipped: nudge customer ("did your order arrive? confirm/rate")
+//   day 7 from shipped: auto-mark delivered so the rating flow can open
+// Customers who manually confirm via /api/orders/:id/confirm-receipt skip both.
 function _automationOrderReminders() {
   if (!_prodDb?.listOrders) return;
   let orders = [];
   try { orders = _prodDb.listOrders() || []; } catch { return; }
   const now = Date.now();
+  const DAY = 86_400_000;
   for (const o of orders) {
     if (o.status !== "shipped") continue;
     const shippedAt = Date.parse(o.shippedAt || o.updatedAt || o.createdAt || 0);
-    if (!shippedAt || now - shippedAt < 7 * 86_400_000) continue;
-    if (_alreadyFired("ship-reminder", o.id, 3 * 86_400_000)) continue;
-    pushSupplierNotification?.(o.supplierId, {
-      type:    "ship-reminder",
-      title:   "📦 הזמנה נשלחה לפני 7 ימים — האם הגיעה?",
-      message: `הזמנה #${o.id} (${o.productName || ""}) במצב "נשלח" כבר שבוע. סמן כ"הגיעה" אם נמסרה.`,
-      dealId:  o.dealId || null,
-    });
+    if (!shippedAt) continue;
+    const ageMs = now - shippedAt;
+
+    // Auto-deliver after 7 days
+    if (ageMs >= 7 * DAY) {
+      try {
+        const updated = _prodDb.updateOrder(o.id, { status: "delivered" });
+        if (updated) {
+          logActivity("order_delivered", {
+            order_id: o.id,
+            product:  o.productName,
+            supplier: o.supplierName,
+            via:      "auto-7d",
+          });
+        }
+      } catch (e) {
+        console.warn(`[auto-deliver] order #${o.id} failed: ${e.message}`);
+      }
+      continue;
+    }
+
+    // Day 5 nudge — supplier reminder (kept for visibility) + customer reminder
+    if (ageMs >= 5 * DAY) {
+      if (_alreadyFired("ship-reminder", o.id, 3 * DAY)) continue;
+      pushSupplierNotification?.(o.supplierId, {
+        type:    "ship-reminder",
+        title:   "📦 הזמנה נשלחה לפני 5 ימים — האם הגיעה?",
+        message: `הזמנה #${o.id} (${o.productName || ""}) במצב "נשלח" כבר 5 ימים. סמן כ"הגיעה" אם נמסרה.`,
+        dealId:  o.dealId || null,
+      });
+    }
   }
 }
 
