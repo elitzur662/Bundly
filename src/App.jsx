@@ -11590,12 +11590,30 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   }, [result.productName, result.productNameEn, specsLoading]);
 
   // ── Derived values ─────────────────────────────────────────────
-  const rWords = (result.productName || result.productNameEn || "").toLowerCase().split(" ").filter(w => w.length > 3);
+  const rWords = (result.productName || result.productNameEn || "").toLowerCase().split(/\s+/).filter(w => w.length > 3);
   const resultSog = result._pageSog || null;
+  // Match against an existing deal — STRICT. Earlier this only required 2
+  // overlapping words, which made "iPhone 15 256GB" match "iPhone 16 Pro
+  // 256GB" (both share "iphone" + "256gb"), routing the join button to the
+  // wrong deal. Now we require:
+  //   - sog match (same category)
+  //   - ≥80% overlap of all ≥4-char tokens
+  //   - any model-version token (standalone 2-3 digit number, or 256GB-like
+  //     spec) in the search result MUST appear verbatim in the deal name
+  //     — so iPhone 15 / iPhone 16 stay distinct even when other tokens align
+  const _versionToken = /^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i;
+  const rVersionTokens = (result.productName || result.productNameEn || "")
+    .toLowerCase().split(/\s+/).filter(w => _versionToken.test(w));
   const existingDeal = deals?.find(d => {
     if (resultSog && d.sog && d.sog !== resultSog) return false;
-    const dName = (d.name.he || d.name.en || "").toLowerCase();
-    return rWords.filter(w => dName.includes(w)).length >= 2;
+    const dName = (d.name?.he || d.name?.en || "").toLowerCase();
+    const dTokens = dName.split(/\s+/);
+    // Every model-version token from the search result must appear in deal
+    if (rVersionTokens.length > 0 && !rVersionTokens.every(t => dTokens.includes(t))) return false;
+    // ≥80% of the significant words in the search result must be in the deal name
+    if (rWords.length === 0) return false;
+    const overlap = rWords.filter(w => dName.includes(w)).length;
+    return overlap / rWords.length >= 0.8;
   });
   const pricedSup = sortedSuppliers.filter(s => s.price > 0);
   const cheapest  = pricedSup[0];
@@ -14537,12 +14555,20 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {products.map((p, i) => {
-              // Check if there's already an active deal for this product (only within matching sog)
-              const pWords = (p.nameEn || p.nameHe || "").toLowerCase().split(" ").filter(w => w.length > 3);
+              // Check if there's already an active deal for this product (only within matching sog).
+              // Strict matching — see SearchResultModal for full rationale. Mirrors the same
+              // logic to prevent iPhone 15 / iPhone 16 cross-matching here too.
+              const _vRe = /^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i;
+              const pWords      = (p.nameEn || p.nameHe || "").toLowerCase().split(/\s+/).filter(w => w.length > 3);
+              const pVersionTok = (p.nameEn || p.nameHe || "").toLowerCase().split(/\s+/).filter(w => _vRe.test(w));
               const existingDeal = deals?.find(d => {
                 if (pageSog && d.sog && d.sog !== pageSog) return false;
-                const dName = (d.name.en || d.name.he || "").toLowerCase();
-                return pWords.filter(w => dName.includes(w)).length >= 2;
+                const dName = (d.name?.en || d.name?.he || "").toLowerCase();
+                const dTokens = dName.split(/\s+/);
+                if (pVersionTok.length > 0 && !pVersionTok.every(t => dTokens.includes(t))) return false;
+                if (pWords.length === 0) return false;
+                const overlap = pWords.filter(w => dName.includes(w)).length;
+                return overlap / pWords.length >= 0.8;
               });
               const isLoading = loadingIdx === i;
               const isDisabled = loadingIdx !== null;
