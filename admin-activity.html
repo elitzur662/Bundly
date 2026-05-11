@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Bundly — Admin Activity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Rubik',sans-serif; background:linear-gradient(160deg,#f8f7ff,#eef2ff); min-height:100vh; color:#111827; }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px 16px 60px; }
+  header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+  h1 { margin:0; font-size:24px; font-weight:900; letter-spacing:-0.02em; }
+  .badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:#10b981; color:white; font-size:11px; font-weight:700; }
+  .badge .dot { width:6px; height:6px; border-radius:999px; background:white; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+  .filter-row { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+  .filter-row button { padding:8px 14px; border-radius:999px; border:1.5px solid #d1d5db; background:white; cursor:pointer; font-size:12px; font-weight:700; transition:all .15s; }
+  .filter-row button:hover { border-color:#4f46e5; }
+  .filter-row button.active { background:#4f46e5; color:white; border-color:#4f46e5; }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:20px; }
+  .stat { background:white; border-radius:14px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+  .stat .num { font-size:22px; font-weight:900; color:#111827; }
+  .stat .label { font-size:10px; color:#6b7280; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-top:2px; }
+  .feed { display:flex; flex-direction:column; gap:8px; }
+  .event { background:white; border-radius:14px; padding:14px 16px; box-shadow:0 1px 3px rgba(0,0,0,0.04); display:flex; gap:12px; align-items:flex-start; }
+  .event .icon { font-size:22px; flex-shrink:0; width:36px; text-align:center; }
+  .event .body { flex:1; min-width:0; }
+  .event .title { font-weight:800; font-size:14px; color:#111827; margin-bottom:4px; }
+  .event .meta { font-size:11px; color:#6b7280; }
+  .event .details { font-size:12px; color:#4b5563; margin-top:6px; line-height:1.6; word-break:break-word; }
+  .empty { text-align:center; padding:80px 20px; color:#9ca3af; }
+  .login-card { max-width:380px; margin:80px auto; background:white; border-radius:20px; padding:32px; box-shadow:0 10px 40px rgba(0,0,0,0.08); text-align:center; }
+  .login-card h2 { margin:0 0 8px; font-size:20px; font-weight:900; }
+  .login-card p { font-size:13px; color:#6b7280; margin:0 0 20px; }
+  .login-card input { width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d1d5db; font-size:14px; font-family:inherit; outline:none; }
+  .login-card input:focus { border-color:#4f46e5; }
+  .login-card button { width:100%; margin-top:12px; padding:12px; background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; border:none; border-radius:10px; font-size:14px; font-weight:800; cursor:pointer; }
+  .login-card .err { color:#dc2626; font-size:12px; margin-top:10px; min-height:18px; }
+  .refresh-btn { padding:8px 14px; background:#4f46e5; color:white; border:none; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer; }
+  .refresh-btn:hover { background:#4338ca; }
+</style>
+</head>
+<body>
+<div class="wrap" id="root">
+  <!-- mounted by JS -->
+</div>
+<script>
+const ROOT = document.getElementById("root");
+const TOKEN_KEY = "bundly_admin_token";
+
+const TYPE_LABELS = {
+  supplier_register:   { he: "ספק חדש נרשם" },
+  customer_register:   { he: "לקוח חדש נרשם" },
+  customer_login:      { he: "לקוח התחבר" },
+  personal_request:    { he: "בקשה אישית" },
+  supplier_offer:      { he: "הצעה מספק" },
+  offer_accepted:      { he: "הצעה התקבלה" },
+  offer_rejected:      { he: "הצעה נדחתה" },
+  deal_join:           { he: "הצטרפות לסבב" },
+  deal_commit:         { he: "הזמנה הוגשה" },
+  order_placed:        { he: "הזמנה נוצרה" },
+  order_shipped:       { he: "ספק סימן כנשלח" },
+  order_delivered:     { he: "לקוח אישר קבלה" },
+  rating_submitted:    { he: "דירוג ספק" },
+  bid_placed:          { he: "הצעה במכרז" },
+  email_conflict:      { he: "ניסיון רישום עם אימייל קיים" },
+};
+const FILTER_BTNS = [
+  { type: null,                  label: "הכל" },
+  { type: "customer_register",   label: "לקוחות חדשים" },
+  { type: "supplier_register",   label: "ספקים חדשים" },
+  { type: "personal_request",    label: "בקשות אישיות" },
+  { type: "supplier_offer",      label: "הצעות מספקים" },
+  { type: "order_placed",        label: "הזמנות" },
+  { type: "rating_submitted",    label: "דירוגים" },
+  { type: "email_conflict",      label: "התנגשויות" },
+];
+
+let _state = {
+  view:     "login",       // "login" | "feed"
+  filter:   null,
+  events:   [],
+  stats:    null,
+  loading:  false,
+  loginErr: "",
+};
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" })[c]);
+}
+
+function formatTime(ts) {
+  const d = new Date(ts);
+  const now = Date.now();
+  const diff = now - ts;
+  if (diff < 60000) return "עכשיו";
+  if (diff < 3600000) return Math.floor(diff/60000) + " דקות";
+  if (diff < 86400000) return Math.floor(diff/3600000) + " שעות";
+  if (diff < 7*86400000) return Math.floor(diff/86400000) + " ימים";
+  return d.toLocaleDateString("he-IL");
+}
+
+async function fetchActivities(filter) {
+  const tok = localStorage.getItem(TOKEN_KEY);
+  if (!tok) { _state.view = "login"; render(); return; }
+  _state.loading = true; render();
+  try {
+    const url = "/api/admin/activity?limit=200" + (filter ? "&type=" + encodeURIComponent(filter) : "");
+    const r = await fetch(url, { headers: { Authorization: "Bearer " + tok } });
+    if (r.status === 401 || r.status === 403) {
+      localStorage.removeItem(TOKEN_KEY);
+      _state.view = "login";
+      _state.loginErr = "ה־token פג. התחבר/י שוב.";
+      render();
+      return;
+    }
+    const data = await r.json();
+    _state.events = data.events || [];
+    _state.stats  = data.stats  || { total: 0, byType: {} };
+  } catch (e) {
+    console.error(e);
+  } finally {
+    _state.loading = false;
+    render();
+  }
+}
+
+async function login() {
+  const pw = document.getElementById("admin-pw").value;
+  if (!pw) return;
+  _state.loginErr = "";
+  try {
+    const r = await fetch("/api/admin/login", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ password: pw }),
+    });
+    const data = await r.json();
+    if (!r.ok || !data.ok) throw new Error(data.error || "סיסמה שגויה");
+    localStorage.setItem(TOKEN_KEY, data.token);
+    _state.view = "feed";
+    fetchActivities(_state.filter);
+  } catch (e) {
+    _state.loginErr = e.message;
+    render();
+  }
+}
+
+function setFilter(filter) {
+  _state.filter = filter;
+  fetchActivities(filter);
+}
+
+function logout() {
+  localStorage.removeItem(TOKEN_KEY);
+  _state.view = "login";
+  render();
+}
+
+function renderLogin() {
+  return `
+    <div class="login-card">
+      <h2>Admin — Bundly</h2>
+      <p>הזן/י את סיסמת המנהל לצפייה ב־activity feed</p>
+      <input id="admin-pw" type="password" placeholder="סיסמה" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()" />
+      <button onclick="login()">התחברות</button>
+      <div class="err">${escapeHtml(_state.loginErr)}</div>
+    </div>
+  `;
+}
+
+function renderEvent(e) {
+  const label = TYPE_LABELS[e.type]?.he || e.type;
+  const details = e.details ? Object.entries(e.details)
+    .filter(([k,v]) => v != null && v !== "")
+    .map(([k,v]) => `<strong>${escapeHtml(k)}:</strong> ${escapeHtml(String(v).slice(0,200))}`)
+    .join(" · ") : "";
+  return `
+    <div class="event">
+      <div class="icon">${e.emoji || "ℹ️"}</div>
+      <div class="body">
+        <div class="title">${escapeHtml(label)}</div>
+        <div class="meta">${formatTime(e.ts)} · ${new Date(e.ts).toLocaleString("he-IL")}</div>
+        ${details ? `<div class="details">${details}</div>` : ""}
+      </div>
+    </div>
+  `;
+}
+
+function renderFeed() {
+  const stats = _state.stats || { total: 0, byType: {} };
+  const filterHtml = FILTER_BTNS.map(b =>
+    `<button class="${_state.filter === b.type ? "active" : ""}" onclick="setFilter(${b.type ? `'${b.type}'` : "null"})">${escapeHtml(b.label)}${b.type && stats.byType[b.type] ? " · " + stats.byType[b.type] : ""}</button>`
+  ).join("");
+  const eventsHtml = _state.events.length
+    ? _state.events.map(renderEvent).join("")
+    : `<div class="empty">${_state.loading ? "טוען..." : "אין אירועים להציג"}</div>`;
+  return `
+    <header>
+      <div>
+        <h1>Activity — Bundly</h1>
+        <div style="font-size:12px;color:#6b7280;margin-top:4px">${stats.total} אירועים סה"כ בזיכרון</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="badge"><span class="dot"></span> LIVE</span>
+        <button class="refresh-btn" onclick="fetchActivities(_state.filter)">${_state.loading ? "טוען..." : "רענון"}</button>
+        <button class="refresh-btn" style="background:#6b7280" onclick="logout()">יציאה</button>
+      </div>
+    </header>
+    <div class="filter-row">${filterHtml}</div>
+    <div class="feed">${eventsHtml}</div>
+  `;
+}
+
+function render() {
+  ROOT.innerHTML = _state.view === "login" ? renderLogin() : renderFeed();
+}
+
+// Boot
+if (localStorage.getItem(TOKEN_KEY)) {
+  _state.view = "feed";
+  fetchActivities(null);
+  // Auto-refresh every 30s
+  setInterval(() => { if (_state.view === "feed") fetchActivities(_state.filter); }, 30000);
+} else {
+  render();
+}
+</script>
+</body>
+</html>

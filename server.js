@@ -196,6 +196,8 @@ import {
   safeId, sanitizeIdParam, ownsResource,
 } from "./security-middleware.js";
 
+import { logActivity, getRecentActivities, getActivityStats } from "./activity-log.js";
+
 import {
   wafFilter, bodyLimit, requestTimeout, originGuard, honeypot,
   revokeJwt, isJwtRevoked, suspiciousIpGuard, recordSuspicious,
@@ -9028,12 +9030,22 @@ app.post("/api/auth/verify-otp",
     const existingByEmail = getUserByEmail(email);
     if (existingByEmail && existingByEmail.phone !== normalized) {
       audit("EMAIL_CONFLICT", req, { phone: normalized, email });
+      logActivity("email_conflict", { phone: normalized, attempted_email: email });
       return res.status(409).json({
         error: "האימייל הזה כבר רשום במערכת תחת מספר טלפון אחר. אנא התחבר עם הטלפון של החשבון הקיים, או השתמש בכתובת אימייל אחרת.",
       });
     }
   }
   const user  = upsertUser({ phone: normalized, name, email });
+  // Notify admin of new customer registration / returning login
+  try {
+    logActivity(isNew ? "customer_register" : "customer_login", {
+      phone:      normalized,
+      name:       name || "",
+      email:      email || "",
+      ip:         req.ip,
+    });
+  } catch (_) {}
   if (isNew && email) sendWelcomeEmail(email, name).catch(e => console.warn("Email error:", e.message));
   const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "30d", algorithm: "HS256" });
   res.json({ ok: true, token, user: { id: user.id, name: user.name, firstName: user.firstName, lastName: user.lastName, phone: user.phone, email: user.email, city: user.city, street: user.street, buildingNum: user.buildingNum, apartmentNum: user.apartmentNum }, isNew });
@@ -9229,6 +9241,14 @@ app.post("/api/personal-requests", AUTH_READY ? (req, res) => {
       productImage:       b.productImage || null,
       userId:             b.userId || null,
     });
+    try {
+      logActivity("personal_request", {
+        product:  row.product,
+        category: row.category,
+        budget:   row.budget,
+        name:     row.name,
+      });
+    } catch (_) {}
     res.json({ ok: true, request: row });
   } catch (e) {
     console.error("[personal-requests] create error:", e.message);
@@ -9276,6 +9296,22 @@ app.patch("/api/personal-requests/:id", AUTH_READY ? async (req, res) => {
         sendSupplierOfferEmail(updated.email, payload)
           .catch(e => console.warn("[Email offer] failed:", e.message));
       }
+      try {
+        logActivity("supplier_offer", {
+          product:  updated.product,
+          price:    updated.offerPrice,
+          supplier: updated.offerSupplier,
+          customer: updated.name,
+        });
+      } catch (_) {}
+    } else if (status) {
+      try {
+        logActivity(status === "accepted" ? "offer_accepted" : "offer_rejected", {
+          product:  updated.product,
+          supplier: updated.offerSupplier,
+          customer: updated.name,
+        });
+      } catch (_) {}
     }
 
     res.json({ ok: true, request: updated });
@@ -9289,6 +9325,36 @@ app.patch("/api/personal-requests/:id", AUTH_READY ? async (req, res) => {
 //  PRODUCTION API — joined deals, orders, offers, disputes, reviews,
 //  suppliers registry, transactions. All gated by AUTH_READY.
 // ─────────────────────────────────────────────────────────────────
+
+// Standalone admin activity HTML — served before the SPA catch-all.
+// Reads the admin JWT from localStorage; no React build required to use it.
+app.get("/admin/activity", (_req, res) => {
+  res.sendFile(path.join(__dirname_here, "admin-activity.html"));
+});
+
+// ── Admin activity feed ─────────────────────────────────────────
+// GET /api/admin/activity?limit=100&type=customer_register&since=<ts>
+// Returns the most recent platform events for the admin dashboard.
+// Same auth scheme as other admin endpoints — Bearer JWT with role:"admin".
+app.get("/api/admin/activity", AUTH_READY ? (req, res) => {
+  const tok = req.headers.authorization?.replace("Bearer ", "");
+  if (!tok) return res.status(401).json({ error: "Admin token required" });
+  try {
+    const payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS);
+    if (payload?.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  } catch {
+    return res.status(401).json({ error: "Invalid admin token" });
+  }
+  const limit = Math.min(500, Math.max(1, parseInt(req.query.limit || "100", 10)));
+  const type  = req.query.type ? String(req.query.type) : null;
+  const since = req.query.since ? parseInt(req.query.since, 10) : null;
+  res.json({
+    ok:    true,
+    stats: getActivityStats(),
+    events: getRecentActivities({ limit, type, since }),
+  });
+} : notReady);
+
 let _prodDb = null;
 let _paySvc = null;
 let _invoiceSvc = null;
@@ -9948,7 +10014,20 @@ app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.js
     "primaryCategories","shippingZones","logoUrl","payoutDay","website","contactEmail"];
   const fields = {};
   for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
+  const existing = getSupplierProfile ? getSupplierProfile(req.params.supplierId) : null;
   const profile = upsertSupplierProfile(req.params.supplierId, fields);
+  // First time we ever see a businessName for this supplier → fire register event
+  if (!existing?.businessName && profile.businessName) {
+    try {
+      logActivity("supplier_register", {
+        supplier_id: req.params.supplierId,
+        business:    profile.businessName,
+        category:    Array.isArray(profile.primaryCategories) ? profile.primaryCategories.join(", ") : "",
+        email:       profile.contactEmail || "",
+        phone:       profile.phone || "",
+      });
+    } catch (_) {}
+  }
   res.json({ ok: true, profile });
 });
 
