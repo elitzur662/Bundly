@@ -9527,6 +9527,16 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
     _prodDb.updatePersonalRequest(req.params.id, { status: "accepted" });
     _prodDb.updateOrder(order.id, { paymentStatus: "preauthorized" });
 
+    // Admin alert — order placed and price locked
+    try {
+      logActivity("order_placed", {
+        order_id: order.id,
+        product:  order.productName,
+        supplier: order.supplierName,
+        amount:   `₪${order.totalAmount}`,
+      });
+    } catch (_) {}
+
     res.json({
       ok: true,
       order,
@@ -10584,6 +10594,18 @@ app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
       notes: `Hold-spot deposit ₪${amount} for deal ${dealId} — refunded if group fails, applied to final price otherwise`,
     });
 
+    // Admin alert — customer just made a pre-registration deposit
+    try {
+      const user = _prodDb.load().users.find(u => u.id === userId);
+      logActivity("deal_join", {
+        deal_id:  dealId,
+        tier:     "watching (רישום מקדים)",
+        amount:   `₪${amount}`,
+        customer: user?.name || `user#${userId}`,
+        phone:    user?.phone || "",
+      });
+    } catch (_) {}
+
     res.json({
       ok: true,
       tier: "watching",
@@ -10637,6 +10659,17 @@ app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
       paymentIntentId: payment.paymentIntentId,
       notes: `25% commit deposit ₪${amount} for deal ${dealId} — locks in group price. Captured on group close, released on group failure.`,
     });
+
+    // Admin alert — customer just committed to a deal with a real deposit
+    try {
+      const user = _prodDb.load().users.find(u => u.id === userId);
+      logActivity("deal_commit", {
+        deal_id:  dealId,
+        amount:   `₪${amount}`,
+        customer: user?.name || `user#${userId}`,
+        phone:    user?.phone || "",
+      });
+    } catch (_) {}
 
     res.json({
       ok: true,
