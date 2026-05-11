@@ -2850,11 +2850,16 @@ function AuthModal({ t, onSuccess, onClose }) {
       setToken(data.token);
       setIsNew(data.isNew);
 
-      if (authMode === "existing") {
-        // Existing user — profile must already be complete, go straight in
-        const profileComplete = data.user?.firstName && data.user?.lastName;
+      // If the user clicked "Register" but the phone is already in the system,
+      // they ARE an existing user — log them straight in instead of routing
+      // through the profile-filling flow (which would overwrite their saved
+      // first/last name, email, address fields with empty defaults).
+      const phoneAlreadyExists = data.isNew === false;
+      const profileComplete = data.user?.firstName && data.user?.lastName;
+
+      if (authMode === "existing" || phoneAlreadyExists) {
         if (!profileComplete) {
-          // Edge case: old user with no profile — send to fill
+          // Edge case: old user with no profile — send to fill, pre-populated
           if (data.user?.firstName) setFirstName(data.user.firstName);
           if (data.user?.lastName) setLastName(data.user.lastName);
           if (data.user?.email) setEmail(data.user.email);
@@ -2864,10 +2869,17 @@ function AuthModal({ t, onSuccess, onClose }) {
           if (data.user?.apartmentNum) setApartmentNum(data.user.apartmentNum);
           setStep("profile");
         } else {
-          onSuccess({ ...data.user, token: data.token });
+          // Returning user — clicking "Register" by mistake should not
+          // re-prompt for profile data. Just log them in.
+          if (authMode === "new" && phoneAlreadyExists) {
+            setError("הטלפון הזה כבר רשום. מחבר אותך לחשבון הקיים…");
+            setTimeout(() => onSuccess({ ...data.user, token: data.token }), 800);
+          } else {
+            onSuccess({ ...data.user, token: data.token });
+          }
         }
       } else {
-        // New user — go to profile step
+        // Genuinely new user — go to profile step
         setStep("profile");
       }
     } catch(e) { setError(e.message); setOtp(""); }
