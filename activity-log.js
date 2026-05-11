@@ -63,6 +63,12 @@ loadFromDisk();
 const TG_TOKEN   = process.env.TELEGRAM_BOT_TOKEN || "";
 const TG_CHAT_ID = process.env.TELEGRAM_CHAT_ID   || "";
 let _tgWarnedDisabled = false;
+let _tgFirstSuccessLogged = false;
+
+// Confirm bot config at startup with a single log line.
+if (TG_TOKEN && TG_CHAT_ID) {
+  console.log(`📢 ActivityLog: Telegram configured (chat=${TG_CHAT_ID.slice(0,4)}...) — will dispatch events`);
+}
 
 function tgSendMessage(text) {
   if (!TG_TOKEN || !TG_CHAT_ID) {
@@ -86,9 +92,27 @@ function tgSendMessage(text) {
     headers:  { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) },
     timeout:  10000,
   }, res => {
-    // Drain response to free socket; ignore body
-    res.on("data", () => {});
-    res.on("end",  () => {});
+    // Collect response body so we can surface Telegram API errors (e.g.
+    // "chat not found", "Forbidden: bot can't initiate conversation").
+    // Without this, only socket-level errors were logged — silent failures
+    // when the API itself rejected the message.
+    let chunks = "";
+    res.on("data", d => { if (chunks.length < 2000) chunks += d.toString(); });
+    res.on("end",  () => {
+      if (res.statusCode === 200) {
+        if (!_tgFirstSuccessLogged) {
+          console.log("📢 ActivityLog: Telegram dispatch OK — first message delivered");
+          _tgFirstSuccessLogged = true;
+        }
+        return;
+      }
+      try {
+        const parsed = JSON.parse(chunks);
+        console.warn(`[telegram] HTTP ${res.statusCode} ${parsed.error_code || ""}: ${parsed.description || chunks.slice(0,200)}`);
+      } catch {
+        console.warn(`[telegram] HTTP ${res.statusCode}: ${chunks.slice(0,200)}`);
+      }
+    });
   });
   req.on("error", e => console.warn(`[telegram] send error: ${e.message}`));
   req.on("timeout", () => req.destroy());
