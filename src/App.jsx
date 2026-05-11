@@ -10622,7 +10622,11 @@ function OrdersPage({ token, onBack, onLoginClick }) {
                   </p>
                 )}
                 {/* Action buttons based on status */}
-                <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
+                <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-100">
+                  {order.status === "shipped" && (
+                    <ConfirmReceiptButton order={order} token={token}
+                      onConfirmed={(updated) => setOrders(prev => prev.map(o => o.id === updated.id ? updated : o))} />
+                  )}
                   {order.status === "delivered" && (
                     <OrderReviewButton order={order} token={token} />
                   )}
@@ -10639,21 +10643,64 @@ function OrdersPage({ token, onBack, onLoginClick }) {
   );
 }
 
+// ── Confirm-receipt button — shipped → delivered, customer-driven ──
+function ConfirmReceiptButton({ order, token, onConfirmed }) {
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState("");
+  const submit = async () => {
+    if (loading) return;
+    setLoading(true); setErr("");
+    try {
+      const r = await fetch(`/api/orders/${order.id}/confirm-receipt`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(d?.error || "שגיאה");
+      if (onConfirmed && d.order) onConfirmed(d.order);
+    } catch (e) {
+      setErr(e.message);
+      setLoading(false);
+    }
+  };
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={submit}
+        disabled={loading}
+        className="text-xs font-bold text-white bg-gradient-to-l from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 rounded-lg px-3 py-1.5 shadow-sm disabled:opacity-60"
+      >
+        {loading ? "מאשר..." : "✓ קיבלתי את המוצר"}
+      </button>
+      {err && <span className="text-[11px] text-red-500 font-bold">{err}</span>}
+    </div>
+  );
+}
+
 // ── Star rating + review form for delivered orders ──
 function OrderReviewButton({ order, token }) {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [sent, setSent] = useState(false);
+  const [err, setErr] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const submit = async () => {
-    if (!order.supplierId) return;
+    if (!order.supplierId || submitting) return;
+    setSubmitting(true); setErr("");
     try {
-      await fetch("/api/reviews", {
+      const r = await fetch("/api/reviews", {
         method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ supplierId: order.supplierId, orderId: order.id, rating, comment }),
       });
+      const d = await r.json().catch(() => ({}));
+      if (r.status === 409) { setErr("כבר דירגת את ההזמנה הזו"); setSubmitting(false); return; }
+      if (!r.ok) { setErr(d?.error || "שגיאה — נסה/י שוב"); setSubmitting(false); return; }
       setSent(true); setTimeout(() => setOpen(false), 1500);
-    } catch {}
+    } catch (e) {
+      setErr(e.message || "שגיאת רשת");
+      setSubmitting(false);
+    }
   };
   if (sent) return <span className="text-xs text-emerald-600 font-bold">✓ תודה על הביקורת!</span>;
   return (
@@ -10672,9 +10719,12 @@ function OrderReviewButton({ order, token }) {
             </div>
             <textarea value={comment} onChange={e=>setComment(e.target.value)} placeholder="השאר/י ביקורת (אופציונלי)" rows={3}
               className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            {err && <p className="text-xs text-red-600 font-bold mt-2 text-center">{err}</p>}
             <div className="flex gap-2 mt-3">
               <button onClick={() => setOpen(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-bold text-gray-500">ביטול</button>
-              <button onClick={submit} className="flex-1 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black rounded-xl text-sm">שלח</button>
+              <button onClick={submit} disabled={submitting} className="flex-1 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black rounded-xl text-sm disabled:opacity-60">
+                {submitting ? "שולח..." : "שלח"}
+              </button>
             </div>
           </div>
         </div>
