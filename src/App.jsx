@@ -2339,16 +2339,26 @@ const SOG_TO_CAT_IDX = {
 };
 
 // Check if a product already has demand in the given pool
-// Returns { model, count } if match found, null otherwise
+// Returns { model, count } if match found, null otherwise.
+// Match is strict — version-tokens (15, 16, 256GB, M3) must match exactly,
+// and 80% of significant words must overlap. Without this, iPhone 15 would
+// match an iPhone 16 Pro pool entry and aggregate distinct products as one.
 function findPoolForProduct(productName, catIdx, demandPools) {
   const pool = demandPools?.[catIdx];
   if (!pool || !productName) return null;
+  const _vRe = /^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i;
   const needle = productName.toLowerCase();
+  const needleTokens = needle.split(/\s+/);
+  const needleWords  = needleTokens.filter(w => w.length > 3);
+  const needleVTok   = needleTokens.filter(w => _vRe.test(w));
+  if (needleWords.length === 0) return null;
   for (const [model, count] of Object.entries(pool)) {
     const haystack = model.toLowerCase();
-    const modelWords = haystack.split(/\s+/).filter(w => w.length > 2);
-    const matchCount = modelWords.filter(w => needle.includes(w)).length;
-    if (matchCount >= Math.min(2, modelWords.length)) return { model, count };
+    const haystackTokens = haystack.split(/\s+/);
+    // All version-tokens in either side must appear in the other to count as same product
+    if (needleVTok.length > 0 && !needleVTok.every(t => haystackTokens.includes(t))) continue;
+    const overlap = needleWords.filter(w => haystack.includes(w)).length;
+    if (overlap / needleWords.length >= 0.8) return { model, count };
   }
   return null;
 }
@@ -12559,14 +12569,24 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   ];
 
   // ── Annotate each product with matching group buy ──────────────
+  // Strict matching (mirrors SearchResultModal + variant-picker logic) — see
+  // the explanation at SearchResultModal#existingDeal. Without this, iPhone 15
+  // cards were getting tagged with the iPhone 16 Pro deal because the old
+  // ≥2-word match was too loose.
   const withGroupBuy = useMemo(() => {
+    const _vRe = /^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i;
     return allProducts.map(p => {
-      const pWords = (p.nameEn || p.nameHe || "").toLowerCase().split(/\s+/).filter(w => w.length > 3);
+      const raw = (p.nameEn || p.nameHe || "").toLowerCase();
+      const pWords      = raw.split(/\s+/).filter(w => w.length > 3);
+      const pVersionTok = raw.split(/\s+/).filter(w => _vRe.test(w));
       const deal = deals?.find(d => {
-        // Only match deals whose sog matches this page's sog (if both are known)
         if (pageSog && d.sog && d.sog !== pageSog) return false;
         const dName = (d.name?.en || d.name?.he || "").toLowerCase();
-        return pWords.filter(w => dName.includes(w)).length >= 2;
+        const dTokens = dName.split(/\s+/);
+        if (pVersionTok.length > 0 && !pVersionTok.every(t => dTokens.includes(t))) return false;
+        if (pWords.length === 0) return false;
+        const overlap = pWords.filter(w => dName.includes(w)).length;
+        return overlap / pWords.length >= 0.8;
       });
       return { ...p, activeDeal: deal || null };
     });
