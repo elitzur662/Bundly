@@ -113,6 +113,17 @@ export function getUserByPhone(phone) {
   return _db.users.find(u => u.phone === phone) || null;
 }
 
+// Lookup by email — used to prevent a second account being created with an
+// email that's already attached to a different phone. Case-insensitive
+// because emails are case-insensitive per RFC 5321.
+export function getUserByEmail(email) {
+  if (!email) return null;
+  const norm = String(email).trim().toLowerCase();
+  if (!norm) return null;
+  _db = load();
+  return _db.users.find(u => (u.email || "").trim().toLowerCase() === norm) || null;
+}
+
 export function updateUser(id, fields) {
   _db = load();
   const user = _db.users.find(u => u.id === id);

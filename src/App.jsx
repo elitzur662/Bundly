@@ -4181,7 +4181,19 @@ function smartCategoryFallback(name = "", category = "", catName = "") {
 const _imgCache = (typeof window !== "undefined" && window._bundlyImgCache) || new Map();
 if (typeof window !== "undefined") window._bundlyImgCache = _imgCache;
 
-const _IMG_LS_KEY = "bundly_img_cache_v1";
+// Cache key bumped from v1 → v2 after the image-trust fix (commit 2723e92).
+// v1 entries were locked from any non-Unsplash fallback, including external
+// ZAP/KSP URLs that weren't always for the right model. Anyone with the v1
+// cache would keep seeing those wrong images. v2 starts fresh and only
+// stores API-verified or product-db images.
+const _IMG_LS_KEY = "bundly_img_cache_v2";
+// One-time migration: nuke v1 so the browser doesn't keep dragging it around.
+try {
+  if (typeof localStorage !== "undefined" && localStorage.getItem("bundly_img_cache_v1")) {
+    localStorage.removeItem("bundly_img_cache_v1");
+  }
+} catch { /* private mode / storage disabled — no-op */ }
+
 function _imgLsGet(key) {
   try {
     const raw = localStorage.getItem(_IMG_LS_KEY);
@@ -21414,7 +21426,13 @@ export default function App() {
   const closeCategory = () => { setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); };
 
   if (selectedDeal) {
-    const live = deals.find(d=>d.id===selectedDeal.id)||selectedDeal;
+    // Prefer reference match first (handles the case where two deals briefly
+    // share an id, e.g. during a setDeals insertion race). Falls back to
+    // id-match for live updates (new bids, participant count) on the deal we
+    // actually clicked. Final fallback is the snapshot from click time.
+    const live = deals.find(d => d === selectedDeal)
+              || deals.find(d => d.id === selectedDeal.id && d.name?.en === selectedDeal.name?.en)
+              || selectedDeal;
     return (
       <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />

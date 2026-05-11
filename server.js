@@ -72,7 +72,7 @@ function cfWrap(zapUrl) {
 const DFS_BASE = BEHIND_VITE ? "http://localhost:3000/dfs-proxy" : "https://api.dataforseo.com";
 
 // ── Optional packages — load gracefully so server starts even before npm install ──
-let jwt, upsertUser, getUserByPhone, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
+let jwt, upsertUser, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
 let listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest, seedPersonalRequestsIfEmpty;
 let listDealBids, getDealBids, addDealBid, cancelDealBid;
 let getSupplierProfile, upsertSupplierProfile;
@@ -93,7 +93,7 @@ try {
   jwt = jwtMod.default;
   const db        = await import("./db.js");
   ({
-    upsertUser, getUserByPhone, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
+    upsertUser, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
     listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest,
     seedPersonalRequestsIfEmpty,
     listDealBids, getDealBids, addDealBid, cancelDealBid,
@@ -9020,6 +9020,19 @@ app.post("/api/auth/verify-otp",
   }
   _clearOtpFailures(normalized);
   const isNew = !getUserByPhone(normalized);
+  // Reject if the supplied email is already attached to a DIFFERENT phone.
+  // Without this, two accounts could share an email — confusing for support,
+  // ambiguous for notifications, and a vector for impersonation of users
+  // who registered with email but not phone yet.
+  if (isNew && email && typeof email === "string" && email.trim() && getUserByEmail) {
+    const existingByEmail = getUserByEmail(email);
+    if (existingByEmail && existingByEmail.phone !== normalized) {
+      audit("EMAIL_CONFLICT", req, { phone: normalized, email });
+      return res.status(409).json({
+        error: "האימייל הזה כבר רשום במערכת תחת מספר טלפון אחר. אנא התחבר עם הטלפון של החשבון הקיים, או השתמש בכתובת אימייל אחרת.",
+      });
+    }
+  }
   const user  = upsertUser({ phone: normalized, name, email });
   if (isNew && email) sendWelcomeEmail(email, name).catch(e => console.warn("Email error:", e.message));
   const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "30d", algorithm: "HS256" });
