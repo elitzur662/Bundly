@@ -12361,8 +12361,13 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           // Zap model page loaded — upgrade skeleton cards with real prices
           mergeProducts(msg.products);
         } else if (msg.type === "final") {
-          // OpenAI-structured products — replace everything with clean data
-          if (!cancelled) { setAllProducts(msg.products); setStreamPhase("done"); }
+          // OpenAI-structured products — these are richer/cleaner versions
+          // of a subset (often just the top 5-10) of the existing cards.
+          // Earlier we REPLACED the whole list with msg.products, which made
+          // "סמארטפון" go from 400 visible cards → 5 once the AI step
+          // finished. Now we MERGE: products with matching _streamKey get
+          // upgraded in place, the remaining cards stay as they were.
+          if (!cancelled) { mergeProducts(msg.products); setStreamPhase("done"); }
         } else if (msg.type === "done") {
           if (!cancelled) { setLoading(false); setStreamPhase("done"); }
         } else if (msg.type === "error") {
