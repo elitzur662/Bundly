@@ -16,36 +16,10 @@ import { CATEGORIES, CAT_ICONS, SEARCH_CATEGORIES } from "./data/categories.js";
 import { INITIAL_PENDING_SUPPLIERS, INITIAL_DEALS } from "./data/initial-deals.js";
 import { CATEGORY_VISUAL_MAP } from "./data/category-visuals.js";
 import { CATEGORY_TREE, CATEGORY_VARIANT_CHIPS } from "./data/category-tree.js";
+import { localizeStripeError } from "./lib/stripeError.js";
+import { cleanName, sugText, sugIsProduct } from "./lib/format.js";
+import { makeTiers, activeTier, nextTier, getDealStatus, getAlternatives } from "./lib/deals.js";
 
-// Map Stripe error codes / common English messages to Hebrew so users in our
-// RTL Hebrew app aren't confronted with English errors. Falls back to a
-// generic Hebrew message if the code/text is unrecognized.
-const STRIPE_ERROR_HE = {
-  card_declined:           "הכרטיס נדחה. נסה כרטיס אחר או צור קשר עם הבנק.",
-  insufficient_funds:      "אין כיסוי בכרטיס. נסה כרטיס אחר.",
-  expired_card:            "תוקף הכרטיס פג. עדכן פרטים או נסה כרטיס אחר.",
-  incorrect_cvc:           "ה-CVC שגוי. בדוק את שלוש הספרות בגב הכרטיס.",
-  incorrect_number:        "מספר הכרטיס לא תקין.",
-  invalid_expiry_month:    "חודש התוקף לא תקין.",
-  invalid_expiry_year:     "שנת התוקף לא תקינה.",
-  invalid_cvc:             "ה-CVC לא תקין.",
-  processing_error:        "תקלה זמנית בעיבוד. נסה שוב בעוד כמה שניות.",
-  authentication_required: "הבנק שלך דורש אימות נוסף. בדוק את הסמ\"ס/אפליקציה.",
-};
-function localizeStripeError(err) {
-  if (!err) return "תשלום נכשל — נסה שוב";
-  const code = err.code || err.decline_code;
-  if (code && STRIPE_ERROR_HE[code]) return STRIPE_ERROR_HE[code];
-  // Fallback: try to match common English text patterns
-  const msg = String(err.message || err);
-  if (/declined/i.test(msg))           return STRIPE_ERROR_HE.card_declined;
-  if (/insufficient/i.test(msg))       return STRIPE_ERROR_HE.insufficient_funds;
-  if (/expired/i.test(msg))            return STRIPE_ERROR_HE.expired_card;
-  if (/cvc|security code/i.test(msg))  return STRIPE_ERROR_HE.incorrect_cvc;
-  if (/number/i.test(msg))             return STRIPE_ERROR_HE.incorrect_number;
-  // Last resort — show the original text but with a Hebrew prefix
-  return `תשלום נכשל: ${msg.slice(0, 100)}`;
-}
 
 // ─────────────────────────────────────────────────────────────────
 //  STRIPE CARD SECTION — shared by DepositModal and OfferAcceptModal
@@ -206,19 +180,7 @@ async function fetchWithAuth(url, options = {}) {
   }
 }
 
-function cleanName(s) {
-  if (!s || typeof s !== "string") return s || "";
-  return s
-    .replace(/&rlm;|&lrm;|&amp;rlm;|&amp;lrm;/gi, "")
-    .replace(/[\u200E\u200F\u200B\u200C\u200D\u202A-\u202E\u2066-\u2069\uFEFF]/g, "")
-    .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"')
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
 
-// Suggestion item helpers: { text: string, isProduct: bool, slug?: string } or plain string (backward compat)
-const sugText = (s) => typeof s === "string" ? s : (s?.text || s?.name || "");
-const sugIsProduct = (s) => s != null && typeof s === "object" && (s.type === "product" || !!s.isProduct);
 
 // ─────────────────────────────────────────────────────────────────
 //  BUNDLY SPINNER — branded animated loader (replaces generic Loader2)
@@ -699,35 +661,6 @@ function getCompetitors(productName, modelQuery) {
     if (search.includes(key)) return rivals;
   }
   return [];
-}
-
-
-// ─────────────────────────────────────────────────────────────────
-//  TIERED PRICING — generates price tiers from a base market price
-// ─────────────────────────────────────────────────────────────────
-function makeTiers(marketMin) {
-  const r = Math.round;
-  return [
-    { people: 5,   price: r(marketMin * 0.97), label: "כניסה לקבוצה" },
-    { people: 10,  price: r(marketMin * 0.91), label: "הנחה ראשונה" },
-    { people: 20,  price: r(marketMin * 0.83), label: "מחיר טוב" },
-    { people: 40,  price: r(marketMin * 0.74), label: "מחיר מצוין" },
-    { people: 75,  price: r(marketMin * 0.63), label: "מחיר סיטונאי" },
-  ];
-}
-
-// Which tier is active given current participant count
-function activeTier(tiers, participants) {
-  let active = null;
-  for (const tier of tiers) {
-    if (participants >= tier.people) active = tier;
-  }
-  return active; // null = not even first tier yet
-}
-
-// Next tier to unlock
-function nextTier(tiers, participants) {
-  return tiers.find(t => participants < t.people) || null;
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -1782,27 +1715,6 @@ function RequestSupplierPriceButton({ productName, category, currentLowestPrice,
       <span>הגש בקשה למחיר טוב יותר</span>
     </button>
   );
-}
-
-// ─────────────────────────────────────────────────────────────────
-//  SIMILARITY ENGINE
-// ─────────────────────────────────────────────────────────────────
-// ── Category-aware alternatives ────────────────────────────────
-// Returns same-catIdx products with similar price (±45%), ranked by price closeness
-function getAlternatives(deal, allDeals) {
-  const refPrice = deal.groupOffer || deal.marketMin || 0;
-  return allDeals
-    .filter(d => d.id !== deal.id && d.catIdx === deal.catIdx)
-    .map(d => {
-      const dPrice = d.groupOffer || d.marketMin || 0;
-      const priceDiff = refPrice > 0 ? Math.abs(dPrice - refPrice) / refPrice : 1;
-      // score: 100 = identical price, 0 = 45% away
-      const priceScore = Math.max(0, Math.round((1 - priceDiff / 0.45) * 100));
-      return { ...d, score: priceScore };
-    })
-    .filter(d => d.score > 0)           // within ±45% price range, same category
-    .sort((a, b) => b.score - a.score)  // closest price first
-    .slice(0, 3);
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -3664,16 +3576,6 @@ function AnalogClockTimer({ closingDate, size = 80 }) {
       </p>
     </div>
   );
-}
-
-// ─────────────────────────────────────────────────────────────────
-//  DEAL STATUS — "active" | "filled" | "cancelled"
-// ─────────────────────────────────────────────────────────────────
-function getDealStatus(deal) {
-  const closed = new Date() > new Date(deal.closingDate);
-  if (!closed) return "active";
-  if (deal.participants >= deal.minParticipants) return "filled";
-  return "cancelled";
 }
 
 function DealStatusBadge({ deal, className = "" }) {
