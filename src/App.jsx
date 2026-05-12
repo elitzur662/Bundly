@@ -5081,11 +5081,20 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
 
   const brandChips = POOL_BRAND_CHIPS[catIdx] || [];
 
+  const [confirmDeposit, setConfirmDeposit] = useState(null); // { modelName } — shows deposit confirmation step
+
+  const startJoin = (modelName) => {
+    if (!modelName.trim()) return;
+    setConfirmDeposit({ modelName: modelName.trim() });
+    clearSug();
+  };
+
   const confirmJoin = (modelName) => {
     if (!modelName.trim()) return;
     onJoin(catIdx, modelName.trim());
     setJoined(modelName.trim());
     setPendingDetail(null);
+    setConfirmDeposit(null);
     clearSug();
   };
 
@@ -5105,6 +5114,42 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
 
+        {/* ── DEPOSIT CONFIRMATION STEP ──
+              Required before joining a demand pool. Free joins create
+              noise — anyone can register interest without commitment.
+              ₪25 deposit filters serious buyers and gives suppliers
+              a clearer demand signal. Refundable in full if no group
+              forms within 30 days. */}
+        {confirmDeposit && !joined && (
+          <div className="py-4">
+            <div className="flex items-center justify-between mb-3">
+              <button onClick={() => setConfirmDeposit(null)}
+                className="text-gray-400 hover:text-gray-600 transition flex items-center gap-1 text-sm">
+                <ChevronRight className="w-4 h-4" /> חזרה
+              </button>
+              <div className="text-xs font-bold text-gray-400 tracking-wide uppercase">שריון מקום</div>
+            </div>
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border-2 border-indigo-100 rounded-2xl p-5 mb-4">
+              <div className="text-3xl mb-2 text-center">🔒</div>
+              <h3 className="text-lg font-black text-gray-900 text-center mb-1">פיקדון ₪25 — מקום שמור</h3>
+              <p className="text-sm text-indigo-700 font-semibold text-center mb-3">{confirmDeposit.modelName}</p>
+              <ul className="space-y-1.5 text-xs text-gray-600 leading-relaxed">
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> הסכום מוקפא בכרטיס בלבד — לא יחויב כעת</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מקוזז מהמחיר הסופי כשהקבוצה נסגרת</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מוחזר במלואו אם הקבוצה לא נפתחה תוך 30 יום</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מסמן ספקים על ביקוש <strong>אמיתי</strong> — לא רעש</li>
+              </ul>
+            </div>
+            <button onClick={() => confirmJoin(confirmDeposit.modelName)}
+              className="w-full bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black py-3.5 rounded-2xl shadow-md transition active:scale-[0.98]">
+              אישור פיקדון ₪25 והרשמה
+            </button>
+            <p className="text-[10px] text-gray-400 text-center mt-2 leading-relaxed">
+              לחיצה על "אישור" שומרת את מקומך. תופיע בקשת אישור בכרטיס שלך ברגע שאליו תיגש.
+            </p>
+          </div>
+        )}
+
         {/* ── SUCCESS STATE ── */}
         {joined && (
           <div className="text-center py-4">
@@ -5117,7 +5162,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
         )}
 
         {/* ── HEADER (always shown when not success) ── */}
-        {!joined && (
+        {!joined && !confirmDeposit && (
           <>
             <div className="flex items-center gap-3 mb-1">
               {mode && (
@@ -5191,7 +5236,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
                 .map(([model, count]) => (
                   <button
                     key={model}
-                    onClick={() => confirmJoin(model)}
+                    onClick={() => startJoin(model)}
                     className="w-full flex items-center justify-between bg-gray-50 hover:bg-indigo-50 hover:border-indigo-200 border border-gray-100 rounded-2xl px-4 py-3 transition group"
                   >
                     <div className="flex items-center gap-3">
@@ -5312,7 +5357,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
             interestedCount={existingModels[pendingDetail.name] || 0}
             poolName={catName}
             poolIcon={catIcon}
-            onJoin={(name) => confirmJoin(name)}
+            onJoin={(name) => startJoin(name)}
             onBack={() => setPendingDetail(null)}
             onClose={onClose}
           />
@@ -18951,16 +18996,39 @@ function CreateBundleModal({ onClose, onCreate, onViewFullDetails }) {
                 <button onClick={() => setShowPicker(true)}
                   className="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-bold rounded-xl text-sm hover:from-indigo-600 hover:to-violet-600 transition flex items-center justify-center gap-2 mb-2">
                   <Search className="w-3.5 h-3.5" />
-                  בחר מוצר מהאתר
+                  בחר מוצר ספציפי מהאתר
                 </button>
-                <p className="text-[10px] text-gray-400 text-center mb-2">— או הוסף ידנית —</p>
+                <p className="text-[10px] text-gray-400 text-center mb-2">— או דרישה כללית "מקרר עד ₪1,500" —</p>
+                {/* Quick category templates — tap to pre-fill the input below */}
+                <div className="grid grid-cols-4 gap-1.5 mb-2">
+                  {[
+                    { label: "מקרר",     icon: "🧊", price: 4500 },
+                    { label: "מזגן",      icon: "❄️", price: 3000 },
+                    { label: "טלוויזיה",  icon: "📺", price: 2500 },
+                    { label: "מכונת כביסה", icon: "👕", price: 2200 },
+                    { label: "תנור",      icon: "🍳", price: 2000 },
+                    { label: "מקפיא",     icon: "🥶", price: 2000 },
+                    { label: "שואב אבק",  icon: "🤖", price: 1500 },
+                    { label: "מייבש",     icon: "💨", price: 2500 },
+                  ].map(tpl => (
+                    <button
+                      key={tpl.label}
+                      type="button"
+                      onClick={() => { setInputName(`${tpl.label} עד ₪${tpl.price.toLocaleString()}`); setInputPrice(String(tpl.price)); }}
+                      className="flex flex-col items-center gap-0.5 px-1.5 py-2 bg-gradient-to-br from-slate-50 to-indigo-50 hover:from-indigo-50 hover:to-violet-50 border border-gray-100 hover:border-indigo-200 rounded-lg transition text-center"
+                    >
+                      <span className="text-lg leading-none">{tpl.icon}</span>
+                      <span className="text-[10px] font-bold text-gray-700 leading-tight">{tpl.label}</span>
+                    </button>
+                  ))}
+                </div>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={inputName}
                     onChange={e => setInputName(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && handleAddProduct()}
-                    placeholder="שם מוצר"
+                    placeholder="לדוגמה: מקרר עד ₪1,500"
                     className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-300"
                   />
                   <input
@@ -18968,7 +19036,7 @@ function CreateBundleModal({ onClose, onCreate, onViewFullDetails }) {
                     value={inputPrice}
                     onChange={e => setInputPrice(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && handleAddProduct()}
-                    placeholder="מחיר ₪"
+                    placeholder="תקציב ₪"
                     className="w-24 px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-indigo-300"
                   />
                   <button onClick={handleAddProduct}
