@@ -19,7 +19,9 @@
     "security:check": "npm run audit && node -e \"const r=['.env','security-middleware.js'].map(f=>require('fs').existsSync(f));if(r.every(Boolean)) console.log('✅ Security files present'); else process.exit(1)\"",
     "security:lint": "node -e \"try{const s=require('fs').readFileSync('.env','utf8');const bad=['bundly-super-secret-2024','admin123','change-me'];const hits=bad.filter(b=>s.includes(b));if(hits.length){console.error('❌ Weak secrets in .env:',hits);process.exit(1)}else{console.log('✅ No default secrets in .env')}}catch(e){if(e.code==='ENOENT'){console.log('ℹ️  .env not present (env vars from host) — skipping lint')}else{throw e}}\"",
     "preproduction": "npm run audit && npm run security:lint",
-    "prestart": "node -e \"require('child_process').spawnSync('npm',['run','preproduction'],{stdio:'inherit',shell:true})\""
+    "prestart": "node -e \"require('child_process').spawnSync('npm',['run','preproduction'],{stdio:'inherit',shell:true})\"",
+    "smoke": "node scripts/smoke-test.mjs",
+    "verify": "npm run build && npm run smoke"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^6.3.0",

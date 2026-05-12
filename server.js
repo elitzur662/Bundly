@@ -9416,7 +9416,10 @@ app.patch("/api/personal-requests/:id", AUTH_READY ? async (req, res) => {
 // Standalone admin activity HTML — served before the SPA catch-all.
 // Reads the admin JWT from localStorage; no React build required to use it.
 app.get("/admin/activity", (_req, res) => {
-  res.sendFile(path.join(__dirname_here, "admin-activity.html"));
+  // Use the named `join` import (path module is imported as named bindings,
+  // not as a namespace) — `path.join` here was throwing 500 because `path`
+  // isn't in scope. Caught by smoke-test.mjs.
+  res.sendFile(join(__dirname_here, "admin-activity.html"));
 });
 
 // ── Admin activity feed ─────────────────────────────────────────
