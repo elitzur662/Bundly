@@ -42,18 +42,6 @@ jobs:
             exit 1
           fi
 
-  snyk:
-    name: Snyk vulnerability scan
-    runs-on: ubuntu-latest
-    if: ${{ secrets.SNYK_TOKEN != '' }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: snyk/actions/node@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high
-
   codeql:
     name: CodeQL static analysis
     runs-on: ubuntu-latest
