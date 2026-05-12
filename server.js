@@ -3907,23 +3907,38 @@ app.get("/api/search-products-stream",
       }
     }
 
-    // Stream skeleton cards with just names — user sees the product list immediately
+    // Stream initial cards — populate from product-db cache (price + image + per-store
+    // links if we have them, name-only fallback otherwise). The first paint is what the
+    // user perceives as "page loaded", so surfacing cached data here turns thousands of
+    // products from product-db into instant content instead of empty skeletons that wait
+    // for the live ZAP fetch (which is often CF-blocked anyway).
     if (toFetch.length > 0) {
-      const skeletons = toFetch.map((c, i) => ({
-        _streamKey: c.id,
-        nameEn: c.name || null,
-        nameHe: null,
-        model: null,
-        priceMin: 0, priceMax: 0,
-        image: null,
-        storeCount: 0,
-        stores: [],
-        _zapRank: i + 1,
-        _phase: "skeleton",
-        filterTags: c.filterTags || null,
-      }));
+      const skeletons = toFetch.map((c, i) => {
+        const stores = [];
+        if (c.ivoryPrice > 0) stores.push({ name: "Ivory", price: c.ivoryPrice, link: c.ivoryUrl || "" });
+        if (c.kspPrice   > 0) stores.push({ name: "KSP",   price: c.kspPrice,   link: c.kspUrl   || "" });
+        if (c.bugPrice   > 0) stores.push({ name: "Bug",   price: c.bugPrice,   link: c.bugUrl   || "" });
+        const cachedSingle = c.price || c.listingPrice || 0;
+        const hasCachedPrice = cachedSingle > 0 || stores.length > 0;
+        const priceMin = stores.length > 0 ? Math.min(...stores.map(s => s.price)) : cachedSingle;
+        const priceMax = stores.length > 0 ? Math.max(...stores.map(s => s.price)) : cachedSingle;
+        return {
+          _streamKey: c.id,
+          nameEn: c.name || null,
+          nameHe: null,
+          model: null,
+          priceMin, priceMax,
+          image: c.image || null,
+          storeCount: stores.length,
+          stores,
+          _zapRank: i + 1,
+          _phase: hasCachedPrice ? "cached" : "skeleton",
+          filterTags: c.filterTags || null,
+        };
+      });
+      const cachedCount = skeletons.filter(s => s._phase === "cached").length;
       send({ type: "candidates", products: skeletons, sog: detectedSog || null, nearbySizes });
-      console.log(`  ↳ Stream: sent ${skeletons.length} candidate skeletons (sog=${detectedSog})`);
+      console.log(`  ↳ Stream: sent ${skeletons.length} initial cards (${cachedCount} with cached price+image, sog=${detectedSog})`);
     }
     // When ZAP is blocked and KSP fallback is in flight, send a minimal placeholder
     // so the client transitions from "loading" to "streaming" immediately.
