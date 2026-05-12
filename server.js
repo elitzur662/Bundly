@@ -9299,6 +9299,43 @@ app.post("/api/personal-requests", AUTH_READY ? (req, res) => {
         name:     row.name,
       });
     } catch (_) {}
+
+    // NEW — push a notification to every active supplier in the request's
+    // category. Without this, the request just sits in the DB and suppliers
+    // have no way to know about it unless they happen to open their dashboard.
+    // Result: customer submits request → silence → no offers → drop-off.
+    try {
+      if (_prodDb?.listSuppliers && pushSupplierNotification) {
+        const allSuppliers = _prodDb.listSuppliers();
+        const cat = (row.category || "").trim();
+        // Match by primary categories overlap OR exact category match OR fallback to all approved suppliers
+        const matched = allSuppliers.filter(s => {
+          if (s.kycStatus && s.kycStatus !== "approved") return false;
+          const primary = Array.isArray(s.primaryCategories) ? s.primaryCategories : [];
+          if (primary.length > 0 && cat) {
+            return primary.some(c => c && (c.includes(cat) || cat.includes(c)));
+          }
+          // No category preferences set → notify all approved suppliers
+          return true;
+        });
+        for (const s of matched) {
+          try {
+            pushSupplierNotification(s.id, {
+              type:    "new-request",
+              title:   `📝 בקשה חדשה: ${row.product}`,
+              message: `קטגוריה: ${cat}${row.budget ? ` · תקציב: ₪${row.budget}` : ""}${row.desc ? ` · ${row.desc.slice(0,80)}` : ""}`,
+              requestId: row.id,
+            });
+          } catch (_) {}
+        }
+        if (matched.length > 0) {
+          console.log(`[personal-requests] notified ${matched.length} suppliers about request #${row.id} (${row.product})`);
+        }
+      }
+    } catch (e) {
+      console.warn(`[personal-requests] supplier-notify failed: ${e.message}`);
+    }
+
     res.json({ ok: true, request: row });
   } catch (e) {
     console.error("[personal-requests] create error:", e.message);
