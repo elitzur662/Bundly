@@ -41,6 +41,15 @@ function strictNameMatch(productName, dealName) {
   const pTokens = p.split(/\s+/);
   const dTokens = d.split(/\s+/);
 
+  // Rule 0: reject single-significant-token product names. A product called
+  // just "Samsung" or "Sony" (brand-only — common in scraped product-db
+  // entries) would trivially pass the 80% overlap rule against EVERY deal
+  // containing that brand, routing every card on a TV listing to the same
+  // demo deal. Require at least 2 long tokens before matching, so brand-
+  // only entries never link to a deal.
+  const pWords = pTokens.filter(w => w.length > 3);
+  if (pWords.length < 2) return false;
+
   // Rule 1: every version-token in the product MUST appear in the deal.
   const pVersions = pTokens.filter(w => VERSION_TOKEN_RE.test(w));
   if (pVersions.length > 0 && !pVersions.every(t => dTokens.includes(t))) {
@@ -48,8 +57,6 @@ function strictNameMatch(productName, dealName) {
   }
 
   // Rule 2: ≥80% overlap of significant words.
-  const pWords = pTokens.filter(w => w.length > 3);
-  if (pWords.length === 0) return false;
   const overlap = pWords.filter(w => d.includes(w)).length;
   return overlap / pWords.length >= 0.8;
 }

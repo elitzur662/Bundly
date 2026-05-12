@@ -3978,9 +3978,21 @@ app.get("/api/search-products-stream",
         const priceMin = stores.length > 0 ? Math.min(...stores.map(s => s.price)) : cachedSingle;
         const priceMax = stores.length > 0 ? Math.max(...stores.map(s => s.price)) : cachedSingle;
         const hasCachedData = priceMin > 0 || !!image;
+        // Many product-db entries store ONLY the brand as the name ("Samsung", "Sony").
+        // This used to cascade into two bugs: (a) dealMatch's 80% overlap rule passed
+        // trivially against any deal containing the brand → all 1100+ cards routed
+        // to the same demo deal; (b) UX showed identical "Samsung" / "Sony" labels
+        // for every card. Reconstruct a meaningful display name from filterTags when
+        // the source name has fewer than 2 significant tokens.
+        let nameEn = c.name || null;
+        const rawTokens = (nameEn || "").trim().split(/\s+/).filter(w => w.length >= 3);
+        if (rawTokens.length < 2 && c.filterTags && Object.keys(c.filterTags).length > 0) {
+          const tagBits = Object.values(c.filterTags).filter(v => v && String(v).trim());
+          if (tagBits.length > 0) nameEn = `${nameEn || ""} ${tagBits.join(" ")}`.trim();
+        }
         return {
           _streamKey: c.id,
-          nameEn: c.name || null,
+          nameEn,
           nameHe: null,
           model: null,
           priceMin, priceMax,
