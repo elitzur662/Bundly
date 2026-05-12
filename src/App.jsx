@@ -19220,30 +19220,76 @@ export default function App() {
       });
     }
     setSelectedDeal(d);
+    // Reflect the open deal in the URL so:
+    //   1. Refresh keeps you on the same product page (URL is the source of truth)
+    //   2. Browser back/forward works naturally
+    //   3. The URL is shareable — paste it and the recipient lands on the same page
+    // Skip the push when this open was itself triggered by a popstate (history
+    // navigation already updated the URL) or when the URL already matches.
+    try {
+      if (d?.id != null && typeof window !== "undefined") {
+        const targetUrl = `${window.location.pathname}?deal=${encodeURIComponent(d.id)}${window.location.hash}`;
+        if (window.location.search !== `?deal=${encodeURIComponent(d.id)}`) {
+          window.history.pushState({ dealId: d.id }, "", targetUrl);
+        }
+      }
+    } catch { /* history API blocked — fail silent */ }
   }, [trackEvent]);
 
-  // Deep-link handler: ?deal=<id> in the URL opens that exact deal on
-  // first load. Without this, shared links landed on the home page and
-  // most recipients didn't bother to navigate. Runs once after deals
-  // are loaded; cleans the URL after opening so back-button works normally.
-  const _deepLinkProcessedRef = useRef(false);
+  // Deep-link handler: ?deal=<id> in the URL opens that exact deal on first
+  // load AND on every refresh. The URL is the source of truth — when present,
+  // we restore the deal; when absent, we close any open deal. Combined with
+  // popstate below, this gives natural browser navigation on every product.
   useEffect(() => {
-    if (_deepLinkProcessedRef.current) return;
     if (!Array.isArray(deals) || deals.length === 0) return;
     try {
       const params = new URLSearchParams(window.location.search);
       const dealParam = params.get("deal");
-      if (!dealParam) { _deepLinkProcessedRef.current = true; return; }
+      if (!dealParam) return;
+      // Only restore if we're not already showing this deal
+      if (selectedDeal && String(selectedDeal.id) === String(dealParam)) return;
       const target = deals.find(d => String(d.id) === String(dealParam));
-      if (target) {
-        setSelectedDeal(target);
-        // Clean the URL so back doesn't replay this deep link
-        const cleanUrl = window.location.pathname + window.location.hash;
-        window.history.replaceState({}, "", cleanUrl);
-      }
-      _deepLinkProcessedRef.current = true;
-    } catch { _deepLinkProcessedRef.current = true; }
+      if (target) setSelectedDeal(target);
+    } catch { /* URL parse errors — ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deals]);
+
+  // Browser back/forward — keep selectedDeal in sync with the URL. Without
+  // this, pressing Back after opening a deal would change the URL but leave
+  // the deal page visible (state desync). When the URL no longer has ?deal=,
+  // close whatever deal is open.
+  useEffect(() => {
+    const onPopState = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const dealParam = params.get("deal");
+        if (!dealParam) {
+          setSelectedDeal(null);
+          return;
+        }
+        const target = deals.find(d => String(d.id) === String(dealParam));
+        if (target) setSelectedDeal(target);
+      } catch { /* */ }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [deals]);
+
+  // Strip ?deal= from URL whenever we close the deal page through in-app
+  // navigation (clicking Back, switching tabs, going home, etc). Without
+  // this the URL would still show ?deal=X after closing → confusing if the
+  // user then refreshes (would re-open the closed deal).
+  useEffect(() => {
+    try {
+      if (typeof window === "undefined") return;
+      const params = new URLSearchParams(window.location.search);
+      const hasDeal = params.has("deal");
+      if (!selectedDeal && hasDeal) {
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.pushState({}, "", cleanUrl);
+      }
+    } catch { /* */ }
+  }, [selectedDeal]);
 
   // Restore session from localStorage on first load
   useEffect(() => {
