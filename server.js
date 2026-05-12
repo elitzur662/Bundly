@@ -1729,19 +1729,57 @@ app.get("/api/zap-model", async (req, res) => {
         .then(r => (typeof r.data === "string" ? r.data : ""))
         .catch(e => { console.warn(`  ↳ model fetch failed: ${e.message}`); return ""; });
 
-      if (!html) return res.status(502).json({ error: "השרת עמוס כרגע, נסה שוב" });
+      // Live fetch failed (CF block / network / timeout) — try product-db fallback.
+      if (!html) {
+        const dbHit = findProductById(modelId);
+        if (dbHit) {
+          const { slug, product: p } = dbHit;
+          const stores = [];
+          if (p.prices?.ivory > 0) stores.push({ name: "Ivory", price: p.prices.ivory, link: p.prices.ivoryUrl || pubUrl });
+          if (p.prices?.ksp   > 0) stores.push({ name: "KSP",   price: p.prices.ksp,   link: p.prices.kspUrl   || pubUrl });
+          if (p.prices?.bug   > 0) stores.push({ name: "Bug",   price: p.prices.bug,   link: p.prices.bugUrl   || pubUrl });
+          if (stores.length > 0) {
+            console.log(`  ↳ Live failed — serving from product-db (${slug}/${modelId})`);
+            listings = stores.map(s => ({
+              title: p.name, price: s.price, source: s.name, link: s.link,
+              thumbnail: p.imageUrl || (p.image?.startsWith("http") ? p.image : (p.image ? `/product-db/${slug}/${p.image}` : "")),
+            }));
+          }
+        }
+      } else {
+        listings = parseZapModelPage(html, pubUrl, name || "");
+        if (listings.length > 0) {
+          const priceEntry = {
+            title:     listings[0].title || name || modelId,
+            thumbnail: listings[0].thumbnail || "",
+            description: "",
+            stores:    listings.map(l => ({ name: l.source, price: l.price, link: pubUrl })),
+            ts:        Date.now(),
+          };
+          ZAP_PRICES_CACHE.set(modelId, priceEntry);
+          saveModelPricesToDB(modelId, priceEntry);
+        }
+      }
+    }
 
-      listings = parseZapModelPage(html, pubUrl, name || "");
-      if (listings.length > 0) {
-        const priceEntry = {
-          title:     listings[0].title || name || modelId,
-          thumbnail: listings[0].thumbnail || "",
-          description: "",
-          stores:    listings.map(l => ({ name: l.source, price: l.price, link: pubUrl })),
-          ts:        Date.now(),
-        };
-        ZAP_PRICES_CACHE.set(modelId, priceEntry);
-        saveModelPricesToDB(modelId, priceEntry);
+    // Final fallback — if all live + cache paths gave us nothing, try product-db once more
+    // (covers the case where ZAP_PRICES_CACHE was empty AND the live fetch returned an
+    // empty page, e.g. CF block returns 200 with a sentinel HTML).
+    if (!listings || listings.length === 0) {
+      const dbHit = findProductById(modelId);
+      if (dbHit) {
+        const { slug, product: p } = dbHit;
+        const stores = [];
+        if (p.prices?.ivory > 0) stores.push({ name: "Ivory", price: p.prices.ivory, link: p.prices.ivoryUrl || pubUrl });
+        if (p.prices?.ksp   > 0) stores.push({ name: "KSP",   price: p.prices.ksp,   link: p.prices.kspUrl   || pubUrl });
+        if (p.prices?.bug   > 0) stores.push({ name: "Bug",   price: p.prices.bug,   link: p.prices.bugUrl   || pubUrl });
+        if (stores.length > 0) {
+          console.log(`  ↳ Empty listings — serving from product-db (${slug}/${modelId})`);
+          listings = stores.map(s => ({
+            title: p.name, price: s.price, source: s.name, link: s.link,
+            thumbnail: p.imageUrl || (p.image?.startsWith("http") ? p.image : (p.image ? `/product-db/${slug}/${p.image}` : "")),
+          }));
+        }
       }
     }
 
@@ -7600,6 +7638,19 @@ function loadAllProductsToMem() {
     if (n != null) { total += n; cats++; }
   }
   console.log(`📦 ProductMem: ${total.toLocaleString()} products across ${cats} categories loaded into RAM`);
+}
+
+// Find a product by its model id across all categories. O(n) scan of 16K products —
+// fast enough for fallback paths but caches the slug-of-last-hit so repeat lookups
+// from the same category bail out early.
+function findProductById(modelId) {
+  if (!modelId) return null;
+  const idStr = String(modelId);
+  for (const [slug, mem] of PRODUCT_MEM) {
+    const found = mem.products.find(p => String(p.id) === idStr);
+    if (found) return { slug, product: found };
+  }
+  return null;
 }
 
 // ── Background refresh — detect db-sync changes without server restart ─────
