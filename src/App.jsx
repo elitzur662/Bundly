@@ -5658,7 +5658,12 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           {/* Image — full width */}
           <div className="relative bg-white">
             <div className="cursor-zoom-in" onClick={() => setImgZoomed(true)}>
-              {extraImages.length > 0 || resolvedImg ? (
+              {/* Single image — extraImages multi-carousel was reverted in
+                  commit e076377 because the multi-image API returned
+                  wrong-product photos for many queries. Show the single
+                  verified image if we have one (deal.image or resolvedImg),
+                  otherwise let ProductImage handle the full fetch chain. */}
+              {(deal.image || resolvedImg) ? (
                 <img src={allDealImages[imgIdx] || deal.image} alt={name}
                   className="w-full object-contain bg-gradient-to-b from-gray-50 to-white"
                   style={{ maxHeight: "340px", minHeight: "260px" }}
