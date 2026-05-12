@@ -11138,28 +11138,46 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
     const es = new EventSource(`/api/search-products-stream?q=${encodeURIComponent(query)}`);
 
-    // Merge incoming products into state, replacing by _streamKey when available
+    // Smart-merge incoming products into state. The "candidates" phase delivers
+    // cached price+image from product-db; later "batch" / "final" phases stream
+    // fresher live data. A naive replace-by-_streamKey would wipe a cached card
+    // back to empty whenever the live fetch returned listings with parsed price
+    // 0 / no thumbnail (which happens when ZAP HTML structure varies). Preserve
+    // every populated field by taking max-of-(prev, next) on price/image/stores.
+    const smartMerge = (prev, next) => {
+      if (!prev) return next;
+      const prevPrice = prev.priceMin || 0;
+      const nextPrice = next.priceMin || 0;
+      const prevStores = Array.isArray(prev.stores) ? prev.stores : [];
+      const nextStores = Array.isArray(next.stores) ? next.stores : [];
+      return {
+        ...prev, ...next,
+        image:      next.image || prev.image || null,
+        priceMin:   nextPrice > 0 ? nextPrice : prevPrice,
+        priceMax:   (next.priceMax || 0) > 0 ? next.priceMax : (prev.priceMax || 0),
+        stores:     nextStores.length > 0 ? nextStores : prevStores,
+        storeCount: Math.max(next.storeCount || 0, prev.storeCount || 0),
+        nameEn:     next.nameEn || prev.nameEn,
+        nameHe:     next.nameHe || prev.nameHe,
+        filterTags: next.filterTags || prev.filterTags,
+        // _phase: keep the higher-quality marker. Order: skeleton < cached < zap < final
+        _phase:     next._phase && next._phase !== "skeleton" ? next._phase : (prev._phase || next._phase),
+      };
+    };
     const mergeProducts = (incoming) => {
-      if (cancelled) return; // guard against stale callbacks from previous searches
+      if (cancelled) return;
       setAllProducts(prev => {
-        // Inner guard: React 18 may defer/batch the updater so cancelled could
-        // have flipped true between the outer check and this execution.
-        // Returning prev (no-op) prevents stale batches from injecting old results
-        // (e.g. headphones appearing after switching to a desktop-PC search).
         if (cancelled) return prev;
-        // Build a map of existing products by _streamKey
         const byKey = new Map(prev.map(p => [p._streamKey, p]));
-        // Phase "final" replaces matching entries; others update/add
         for (const p of incoming) {
           if (p._streamKey) {
-            byKey.set(p._streamKey, p);
+            byKey.set(p._streamKey, smartMerge(byKey.get(p._streamKey), p));
           } else {
-            // No streamKey — use a title-based key
             const titleKey = (p.nameEn || p.nameHe || "").replace(/\s+/g,"").toLowerCase().slice(0,40);
-            byKey.set(titleKey || Math.random().toString(36), p);
+            const k = titleKey || Math.random().toString(36);
+            byKey.set(k, smartMerge(byKey.get(k), p));
           }
         }
-        // Sort by _zapRank, then by storeCount desc
         return [...byKey.values()].sort((a, b) => {
           const ar = a._zapRank || 999, br = b._zapRank || 999;
           if (ar !== br) return ar - br;
