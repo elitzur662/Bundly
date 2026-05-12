@@ -186,7 +186,6 @@ async function fetchWithAuth(url, options = {}) {
 //  BRAND & CONFIG
 // ─────────────────────────────────────────────────────────────────
 const BRAND_NAME = "Bundly";
-const OWNER_PASSWORD = "admin123";
 const OWNER_EMAIL = "bundly.co@bundly.co";
 
 // ─── Israeli store link guard ──────────────────────────────────────
