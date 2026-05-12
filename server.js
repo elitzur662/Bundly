@@ -3986,7 +3986,23 @@ app.get("/api/search-products-stream",
     // a real, clickable product instead of an animated shimmer.
     // We emit ALL candidates (not just the first ZAP_MAX_MODELS) so the grid fills
     // immediately with everything we know about, then phase-2 upgrades the top slice.
+    // Sort: products with cached prices first, then with image+name, then bare. This
+    // surfaces populated cards immediately so the user doesn't scroll past 700 empty
+    // shells to find priced TVs.
     if (candidates.length > 0) {
+      const _scoreCandidate = (c) => {
+        let s = 0;
+        if (c.price > 0 || c.ivoryPrice > 0 || c.kspPrice > 0 || c.bugPrice > 0) s += 100;
+        if (ZAP_PRICES_CACHE.get(c.id)?.stores?.length > 0) s += 100;
+        if (c.image) s += 10;
+        if ((c.name || "").split(/\s+/).filter(w => w.length >= 3).length >= 2) s += 1;
+        return s;
+      };
+      // Stable-sort: keep original order within the same score bucket
+      candidates = candidates
+        .map((c, i) => ({ c, i, score: _scoreCandidate(c) }))
+        .sort((a, b) => b.score - a.score || a.i - b.i)
+        .map(x => x.c);
       const skeletons = candidates.map((c, i) => {
         const stores = [];
         if (c.ivoryPrice > 0) stores.push({ name: "Ivory", price: c.ivoryPrice, link: c.ivoryUrl || "" });
