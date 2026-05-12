@@ -7350,7 +7350,11 @@ function loadProductDbIntoCache() {
             const u = p.imageUrl;
             // Reject SVG placeholder/icon URLs — they're ZAP nav icons, not product photos
             if (u && /\.svg(?:\?|$)/i.test(u)) return "";
-            return u || (p.image && !p.image.startsWith("images/") ? p.image : "");
+            if (u) return u;
+            if (!p.image) return "";
+            // Local product-db image (e.g. "images/12345.gif") — serve via /product-db static route
+            if (p.image.startsWith("images/")) return `/product-db/${slug}/${p.image}`;
+            return p.image;
           })(),
           // Stash per-store prices for pool-product-quick / price lookup
           ivoryPrice:   p.prices?.ivory  || 0,
