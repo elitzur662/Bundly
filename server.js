@@ -1710,7 +1710,7 @@ app.get("/api/zap-model", async (req, res) => {
         .then(r => (typeof r.data === "string" ? r.data : ""))
         .catch(e => { console.warn(`  ↳ model fetch failed: ${e.message}`); return ""; });
 
-      if (!html) return res.status(502).json({ error: "לא הצלחנו להגיע לדף המוצר בזאפ" });
+      if (!html) return res.status(502).json({ error: "השרת עמוס כרגע, נסה שוב" });
 
       listings = parseZapModelPage(html, pubUrl, name || "");
       if (listings.length > 0) {

@@ -12348,14 +12348,14 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       let res;
       const searchQ = product.searchQuery || product.nameEn || product.nameHe || query;
       if (product._streamKey) {
-        // Direct Zap model lookup — guaranteed correct product when ZAP knows
-        // about the modelId. If it doesn't (model removed, never indexed, or
-        // synthetic id from a non-ZAP source), the endpoint returns 404 —
-        // we silently fall through to the keyword-search path below so the
-        // user always sees a result instead of an error.
+        // Direct model lookup — guaranteed correct product when the catalog
+        // knows about this modelId. If anything goes wrong (404 = not indexed,
+        // 502/503 = upstream CF block, 5xx = transient network), silently fall
+        // through to a keyword search so the user always lands on a results
+        // page instead of seeing a backend error.
         const modelName = encodeURIComponent(product.nameEn || product.nameHe || "");
         res = await fetch(`/api/zap-model?modelId=${encodeURIComponent(product._streamKey)}&name=${modelName}`);
-        if (res.status === 404) {
+        if (!res.ok) {
           res = await fetch(`/api/search?q=${encodeURIComponent(searchQ)}`);
         }
       } else {

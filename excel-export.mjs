@@ -166,7 +166,7 @@ function priceAgent(product) {
 
   const all   = [zap, ksp, ivory, bug].filter(Boolean);
   const best  = all.length ? Math.min(...all) : null;
-  const bestSource = best === zap   ? "זאפ"
+  const bestSource = best === zap   ? "Bundly"
                    : best === ksp   ? "KSP"
                    : best === ivory ? "Ivory"
                    : best === bug   ? "Bug"
@@ -194,13 +194,13 @@ async function excelAgent(workbook, slug, catLabel, products, images) {
     { key: "img",    header: "תמונה",            width: NO_IMAGES ? 0 : 13 },
     { key: "brand",  header: "יצרן",             width: 14 },
     { key: "name",   header: "שם המוצר",         width: 46 },
-    { key: "zap",    header: "זאפ ₪",            width: 13 },
+    { key: "zap",    header: "Bundly ₪",         width: 13 },
     { key: "ksp",    header: "KSP ₪",            width: 13 },
     { key: "ivory",  header: "Ivory ₪",          width: 13 },
     { key: "bug",    header: "Bug ₪",            width: 13 },
     { key: "best",   header: "מחיר הטוב ביותר",  width: 18 },
     { key: "src",    header: "מקור",             width: 10 },
-    { key: "id",     header: "מזהה זאפ",         width: 12 },
+    { key: "id",     header: "מזהה דגם",         width: 12 },
   ];
 
   // ── Header row ────────────────────────────────────────────────────────────
