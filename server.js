@@ -16,6 +16,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import https from "https";
 import _httpsProxyAgentPkg from "https-proxy-agent";
 const { HttpsProxyAgent } = _httpsProxyAgentPkg;
 
@@ -59,17 +60,35 @@ function stripHtmlEntities(s) {
 //  When running standalone (node server.js): PORT=3001, direct URLs
 // ─────────────────────────────────────────────────────────────────
 const BEHIND_VITE = (process.env.PORT || "3001") === "3002";
-const ZAP_BASE = BEHIND_VITE ? "http://localhost:3000/zap-proxy" : "https://www.zap.co.il";
+// Vite serves on https://localhost:3000 (basicSsl plugin, self-signed cert) —
+// required for Stripe credit-card autofill on Chrome. Server-side axios calls
+// to the local proxy must therefore use https + accept the self-signed cert.
+// This is dev-only — production talks directly to the real upstream URLs.
+const ZAP_BASE = BEHIND_VITE ? "https://localhost:3000/zap-proxy" : "https://www.zap.co.il";
 
 // Cloudflare Worker proxy — routes Zap requests through CF edge IPs to bypass IP blocks
 const CF_WORKER = "https://bundly-zap-proxy.bundly-co-shop.workers.dev";
 /** Wrap a Zap URL to route through the Cloudflare Worker proxy.
- *  Normalises Vite proxy base (http://localhost:3000/zap-proxy) → real Zap domain. */
+ *  Normalises Vite proxy base (https://localhost:3000/zap-proxy) → real Zap domain. */
 function cfWrap(zapUrl) {
-  const realUrl = zapUrl.replace("http://localhost:3000/zap-proxy", "https://www.zap.co.il");
+  const realUrl = zapUrl.replace(/^https?:\/\/localhost:3000\/zap-proxy/, "https://www.zap.co.il");
   return `${CF_WORKER}/?url=${encodeURIComponent(realUrl)}`;
 }
-const DFS_BASE = BEHIND_VITE ? "http://localhost:3000/dfs-proxy" : "https://api.dataforseo.com";
+const DFS_BASE = BEHIND_VITE ? "https://localhost:3000/dfs-proxy" : "https://api.dataforseo.com";
+
+// Accept Vite's self-signed cert ONLY when axios talks to the local proxy.
+// Scoped via an axios interceptor — production-bound calls keep full cert
+// validation. Without this, every BEHIND_VITE outbound HTTPS request to
+// https://localhost:3000 would throw self-signed-cert errors.
+if (BEHIND_VITE) {
+  const _localProxyAgent = new https.Agent({ rejectUnauthorized: false });
+  axios.interceptors.request.use((config) => {
+    const u = String(config.url || config.baseURL || "");
+    if (u.includes("localhost:3000")) config.httpsAgent = _localProxyAgent;
+    return config;
+  });
+  console.warn("⚠️  BEHIND_VITE: accepting self-signed cert for localhost:3000 proxy only (dev only)");
+}
 
 // ── Optional packages — load gracefully so server starts even before npm install ──
 let jwt, upsertUser, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
