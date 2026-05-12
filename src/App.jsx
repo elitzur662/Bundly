@@ -4293,9 +4293,17 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
   }, [queryKey, query]);
 
   if (!src) {
+    // Last-resort empty state — branded, never blank. Shows the Package icon
+    // with the product name beneath so the user always sees SOMETHING and
+    // doesn't think the card is broken.
     return (
-      <div className={`${className} bg-gray-50 flex items-center justify-center`}>
-        <Package className="w-10 h-10 text-gray-200" />
+      <div className={`${className} bg-gradient-to-br from-slate-50 to-indigo-50 flex flex-col items-center justify-center gap-2 p-3`}>
+        <Package className="w-10 h-10 text-indigo-200" />
+        {(productName || query) && (
+          <p className="text-[10px] text-indigo-400 font-bold text-center leading-tight line-clamp-2">
+            {productName || query}
+          </p>
+        )}
       </div>
     );
   }
@@ -7255,6 +7263,18 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   const [requestOffers, setRequestOffers] = useState({});
   // Which category card is currently expanded (null = none, only grid shown)
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const categoryDetailRef = useRef(null);
+  // Auto-scroll to the detail panel when a supplier picks a category — without
+  // this, on mobile the detail appears below the fold and the supplier has
+  // to manually scroll to find their requests.
+  useEffect(() => {
+    if (selectedCategory && categoryDetailRef.current) {
+      // requestAnimationFrame so the panel has rendered before we scroll
+      requestAnimationFrame(() => {
+        categoryDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, [selectedCategory]);
 
   const sendRequestOffer = (req) => {
     const price = parseFloat(requestOffers[req.id]);
@@ -8230,7 +8250,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
           {/* Selected category — detail view */}
           {selectedCategory && requestsByCategory[selectedCategory] && (
-            <div className="bg-white rounded-2xl border-2 border-indigo-100 shadow-lg overflow-hidden">
+            <div ref={categoryDetailRef} className="bg-white rounded-2xl border-2 border-indigo-100 shadow-lg overflow-hidden">
               <div className="px-5 py-4 bg-gradient-to-br from-indigo-50 to-violet-50 border-b border-indigo-100 flex items-center gap-3">
                 <span className="text-2xl">{(CATEGORY_VISUAL_MAP[selectedCategory] || CATEGORY_VISUAL_MAP._default).icon}</span>
                 <div className="flex-1">
