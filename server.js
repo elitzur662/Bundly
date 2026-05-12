@@ -1765,6 +1765,10 @@ app.get("/api/zap-model", async (req, res) => {
     // Final fallback — if all live + cache paths gave us nothing, try product-db once more
     // (covers the case where ZAP_PRICES_CACHE was empty AND the live fetch returned an
     // empty page, e.g. CF block returns 200 with a sentinel HTML).
+    // Crucially: serve the product even when product-db has NO prices. The user clicked
+    // a specific modelId — they deserve the right product (name + image), not a 404 that
+    // routes the frontend to /api/search (which can return a different but similar model).
+    let dbFallbackProduct = null;
     if (!listings || listings.length === 0) {
       const dbHit = findProductById(modelId);
       if (dbHit) {
@@ -1773,18 +1777,45 @@ app.get("/api/zap-model", async (req, res) => {
         if (p.prices?.ivory > 0) stores.push({ name: "Ivory", price: p.prices.ivory, link: p.prices.ivoryUrl || pubUrl });
         if (p.prices?.ksp   > 0) stores.push({ name: "KSP",   price: p.prices.ksp,   link: p.prices.kspUrl   || pubUrl });
         if (p.prices?.bug   > 0) stores.push({ name: "Bug",   price: p.prices.bug,   link: p.prices.bugUrl   || pubUrl });
+        const thumbnail = p.imageUrl
+          || (p.image?.startsWith("http") ? p.image : (p.image ? `/product-db/${slug}/${p.image}` : ""));
         if (stores.length > 0) {
           console.log(`  ↳ Empty listings — serving from product-db (${slug}/${modelId})`);
           listings = stores.map(s => ({
-            title: p.name, price: s.price, source: s.name, link: s.link,
-            thumbnail: p.imageUrl || (p.image?.startsWith("http") ? p.image : (p.image ? `/product-db/${slug}/${p.image}` : "")),
+            title: p.name, price: s.price, source: s.name, link: s.link, thumbnail,
           }));
+        } else {
+          // No prices in product-db either, but we know the product exists.
+          // Build a price-less response so the modal opens the RIGHT product
+          // (name + image + filterTags) instead of falling back to /api/search.
+          console.log(`  ↳ product-db has product but no prices (${slug}/${modelId}) — returning price-less product`);
+          dbFallbackProduct = { product: p, thumbnail };
         }
       }
     }
 
-    if (!listings || listings.length === 0)
+    if (!listings || listings.length === 0) {
+      if (dbFallbackProduct) {
+        const { product: p, thumbnail } = dbFallbackProduct;
+        return res.json({
+          productName:   p.name,
+          productNameEn: p.name,
+          description:   "המחיר אינו זמין כרגע, ננסה למשוך בפעם הבאה.",
+          image:         thumbnail || null,
+          marketMin:     0,
+          marketMax:     0,
+          specs:         p.filterTags ? Object.values(p.filterTags).filter(Boolean) : [],
+          suppliers:     [],
+          category:      "אלקטרוניקה",
+          confidence:    80,
+          groupPrice:    0,
+          discount:      0,
+          _zapModelId:   modelId,
+          _priceUnavailable: true,
+        });
+      }
       return res.status(404).json({ error: "לא נמצאו מחירים לדגם זה" });
+    }
 
     const pricedListings = listings.filter(l => l.price > 0).sort((a, b) => a.price - b.price);
     if (pricedListings.length === 0)
