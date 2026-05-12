@@ -12356,31 +12356,38 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     setSelectedBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]);
 
   // ── Select product → full price search ───────────────────────
-  // If product has a Zap model ID (_streamKey), go directly to that model page
-  // instead of doing a keyword search (which can return wrong products).
+  // Strategy by available identifiers:
+  //   1. _streamKey present → /api/zap-model (direct, never wrong product)
+  //   2. _streamKey lookup failed AND we have a SPECIFIC name (≥3 tokens,
+  //      not just a brand) → /api/search?q=<full name>
+  //   3. Otherwise → show error. Falling back to a generic-brand search
+  //      ("Sony") returns whatever comes first across the entire catalog,
+  //      which is how we previously routed a TV click to a microwave page.
   const handleSelectProduct = async (product) => {
     const key = product.nameHe || product.nameEn;
     setLoadingProduct(key);
     setError(null);
     try {
-      let res;
-      const searchQ = product.searchQuery || product.nameEn || product.nameHe || query;
+      let res = null;
+      const fullName = product.searchQuery || product.nameEn || product.nameHe || "";
+      const tokenCount = fullName.trim().split(/\s+/).filter(w => w.length >= 2).length;
+      const isSpecificName = tokenCount >= 3; // brand-only names are 1–2 tokens
       if (product._streamKey) {
-        // Direct model lookup — guaranteed correct product when the catalog
-        // knows about this modelId. If anything goes wrong (404 = not indexed,
-        // 502/503 = upstream CF block, 5xx = transient network), silently fall
-        // through to a keyword search so the user always lands on a results
-        // page instead of seeing a backend error.
-        const modelName = encodeURIComponent(product.nameEn || product.nameHe || "");
+        const modelName = encodeURIComponent(fullName);
         res = await fetch(`/api/zap-model?modelId=${encodeURIComponent(product._streamKey)}&name=${modelName}`);
-        if (!res.ok) {
-          res = await fetch(`/api/search?q=${encodeURIComponent(searchQ)}`);
+        if (!res.ok && isSpecificName) {
+          // Only fall back to keyword search if we have enough name signal
+          // to land on the right product. Otherwise abort and surface an error.
+          res = await fetch(`/api/search?q=${encodeURIComponent(fullName)}`);
         }
-      } else {
-        // Fallback: keyword search (e.g. for manually entered products)
-        res = await fetch(`/api/search?q=${encodeURIComponent(searchQ)}`);
+      } else if (isSpecificName) {
+        res = await fetch(`/api/search?q=${encodeURIComponent(fullName)}`);
       }
-      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "שגיאה בחיפוש");
+      if (!res) {
+        setError("המוצר הזה לא זמין כרגע — נסה אחר או חפש בשורת החיפוש");
+        return;
+      }
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "המוצר אינו זמין");
       const data = await res.json();
       onResult({ ...data, _pageSog: pageSog });
     } catch (e) {
