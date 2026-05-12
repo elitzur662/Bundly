@@ -19,6 +19,7 @@ import { CATEGORY_TREE, CATEGORY_VARIANT_CHIPS } from "./data/category-tree.js";
 import { localizeStripeError } from "./lib/stripeError.js";
 import { cleanName, sugText, sugIsProduct } from "./lib/format.js";
 import { makeTiers, activeTier, nextTier, getDealStatus, getAlternatives } from "./lib/deals.js";
+import BundlySpinner from "./components/common/BundlySpinner.jsx";
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -178,40 +179,6 @@ async function fetchWithAuth(url, options = {}) {
     if (e.name === "AbortError") throw new Error("בקשה ארכה מדי — בדוק את החיבור לאינטרנט");
     throw e;
   }
-}
-
-
-
-// ─────────────────────────────────────────────────────────────────
-//  BUNDLY SPINNER — branded animated loader (replaces generic Loader2)
-// ─────────────────────────────────────────────────────────────────
-function BundlySpinner({ size = 24, className = "" }) {
-  return (
-    <svg
-      width={size} height={size}
-      viewBox="0 0 32 32"
-      className={`flex-shrink-0 ${className}`}
-      style={{ animation: "spin 0.85s linear infinite" }}
-      aria-label="טוען..."
-    >
-      {/* Outer track */}
-      <circle cx="16" cy="16" r="12.5" fill="none" stroke="#e0e7ff" strokeWidth="3.5" />
-      {/* Spinning arc — indigo */}
-      <path
-        d="M 16 3.5 A 12.5 12.5 0 0 1 28.5 16"
-        fill="none" stroke="#4f46e5" strokeWidth="3.5" strokeLinecap="round"
-      />
-      {/* Bundly "B" in center */}
-      <text
-        x="16" y="21"
-        textAnchor="middle"
-        fontSize="13" fontWeight="900"
-        fill="#4f46e5"
-        fontFamily="Rubik, system-ui, sans-serif"
-        style={{ userSelect: "none" }}
-      >B</text>
-    </svg>
-  );
 }
 
 // ─────────────────────────────────────────────────────────────────
