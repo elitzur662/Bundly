@@ -5795,39 +5795,21 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   const rating = (4.2 + (deal.id % 7) * 0.1).toFixed(1);
   const ratingCount = 120 + (deal.id % 13) * 43;
 
-  // ── Fetch multiple product images ──────────────────────
-  const [extraImages, setExtraImages] = useState([]);
-  useEffect(() => {
-    const q = deal.name.en || deal.name.he || "";
-    if (!q) return;
-    const cacheKey = `bundly_imgs_${q.trim().toLowerCase()}`;
-    try { const c = localStorage.getItem(cacheKey); if (c) { setExtraImages(JSON.parse(c)); return; } } catch {}
-    let alive = true;
-    fetch(`/api/product-images?q=${encodeURIComponent(q.trim())}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (!alive || !data?.ok || !Array.isArray(data.images)) return;
-        setExtraImages(data.images);
-        try { localStorage.setItem(cacheKey, JSON.stringify(data.images)); } catch {}
-      }).catch(() => {});
-    return () => { alive = false; };
-  }, [deal.name.en, deal.name.he]);
-
+  // ── Single product image (reverted from multi-image carousel) ──
+  // The multi-image gallery pulled extra images via /api/product-images,
+  // which often returned wrong-product photos (mixed Google Image Search
+  // results without strict relevance filtering). User feedback: prefer
+  // ONE correct image over a carousel of partially-wrong ones.
+  // ProductImage already handles the cache → API → fallback chain and
+  // locks the verified result; we just consume its output here.
   const resolvedImg = _imgCache.get((deal.name.en || "").trim().toLowerCase()) || null;
   const allDealImages = useMemo(() => {
-    const imgs = [];
-    // 1. Preloaded image from SearchResultModal (instant — no fetch needed)
-    if (deal._preloadedImage) imgs.push(deal._preloadedImage);
-    // 2. Resolved ProductImage (accurate, fetched via DFS)
-    if (resolvedImg && !imgs.includes(resolvedImg)) imgs.push(resolvedImg);
-    // 3. Extra images from multi-image API
-    for (const url of extraImages) {
-      if (url && !imgs.includes(url)) imgs.push(url);
-    }
-    // 4. Fallback: deal.image — always include so something shows
-    if (deal.image && !imgs.includes(deal.image)) imgs.push(deal.image);
-    return imgs;
-  }, [resolvedImg, extraImages, deal.image, deal._preloadedImage]);
+    // Priority: preloaded (from SearchResult) > resolved (locked from API)
+    // > deal.image (scraped fallback). Take the FIRST that's non-empty —
+    // no carousel, no extras.
+    const single = deal._preloadedImage || resolvedImg || deal.image || null;
+    return single ? [single] : [];
+  }, [resolvedImg, deal.image, deal._preloadedImage]);
 
   // ── GPT description (cached in localStorage) ──────────
   // gptDesc states:
@@ -5919,7 +5901,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (notify) notify(tier === "committed" ? "✅ נעלת את המחיר! המקדמה הוקפאה." : "📍 המקום שלך שמור! פיקדון ₪25 הוקפא.");
   };
   const handleWhatsApp = () => {
-    const msg = encodeURIComponent(`🛒 ${name}\n💰 ₪${(bestBid?.amount||deal.groupOffer).toLocaleString()}\n👥 ${deal.participants} קונים\n🔗 ${window.location.href}`);
+    // Deep-link URL: ?deal=<id> opens this exact deal on load instead of
+    // the home page. Previously shared links went to bundly.co/ and the
+    // recipient had to navigate manually — losing 90% of incoming traffic.
+    const baseUrl = `${window.location.origin}/?deal=${deal.id}`;
+    const msg = encodeURIComponent(`🛒 ${name}\n💰 ₪${(bestBid?.amount||deal.groupOffer).toLocaleString()}\n👥 ${deal.participants} קונים\n🔗 ${baseUrl}`);
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
 
@@ -5930,6 +5916,22 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         <div className="w-7 h-7 rounded-full bg-indigo-50 group-hover:bg-indigo-100 flex items-center justify-center transition"><ArrowLeft className="w-3.5 h-3.5" /></div>
         {t.backToDeals}
       </button>
+
+      {/* ── DEMO BANNER — prominent so customers don't mistake demo deals
+              for real active rounds with real discounts ── */}
+      {deal._demo && (
+        <div className="mb-4 rounded-2xl border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-orange-50 p-3 flex items-center gap-3 shadow-sm">
+          <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+            <span className="text-xl">⚠️</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-black text-amber-900">סבב לדוגמה</p>
+            <p className="text-[11px] text-amber-700 leading-tight mt-0.5">
+              זהו מוצר תצוגה — המחירים והקבוצה אינם מסבב פעיל אמיתי. ה־UI כאן הוא הדמיה של חוויית קנייה קבוצתית.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ── Fullscreen image carousel lightbox ── */}
       {imgZoomed && allDealImages.length > 0 && (
@@ -20579,6 +20581,29 @@ export default function App() {
     }
     setSelectedDeal(d);
   }, [trackEvent]);
+
+  // Deep-link handler: ?deal=<id> in the URL opens that exact deal on
+  // first load. Without this, shared links landed on the home page and
+  // most recipients didn't bother to navigate. Runs once after deals
+  // are loaded; cleans the URL after opening so back-button works normally.
+  const _deepLinkProcessedRef = useRef(false);
+  useEffect(() => {
+    if (_deepLinkProcessedRef.current) return;
+    if (!Array.isArray(deals) || deals.length === 0) return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const dealParam = params.get("deal");
+      if (!dealParam) { _deepLinkProcessedRef.current = true; return; }
+      const target = deals.find(d => String(d.id) === String(dealParam));
+      if (target) {
+        setSelectedDeal(target);
+        // Clean the URL so back doesn't replay this deep link
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, "", cleanUrl);
+      }
+      _deepLinkProcessedRef.current = true;
+    } catch { _deepLinkProcessedRef.current = true; }
+  }, [deals]);
 
   // Restore session from localStorage on first load
   useEffect(() => {
