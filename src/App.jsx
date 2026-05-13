@@ -2832,10 +2832,10 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
             them as one tool: "search OR pick a category, same destination." */}
         <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl shadow-indigo-900/30 ring-1 ring-white/40 backdrop-blur-sm overflow-hidden">
 
-          {/* Top: search bar + "all categories" companion button.
-              The button opens the full CategoryBrowseModal (every category
-              + drill-down), complementing the curated 8-card grid below
-              which only shows the demand-sorted top picks. */}
+          {/* Top: search bar with a paired "browse all categories" button
+              that visually extends the search input. Same height + rounded
+              corners → the two read as one combined control on desktop,
+              and as a stacked pair on mobile. */}
           <div className="px-4 sm:px-6 pt-5 pb-4">
             <div className="flex items-stretch gap-2">
               <div className="flex-1 min-w-0">
@@ -2847,35 +2847,38 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
                   onWizard={onWizard}
                 />
               </div>
+              {/* Desktop: pill-shaped indigo button that matches the search
+                  bar's height + roundness. Sits directly to the left of the
+                  input (RTL) so the eye reads "search OR all-categories" as
+                  one decision. */}
               <button
                 type="button"
                 onClick={onCategoryBrowse}
-                className="hidden sm:flex flex-shrink-0 flex-col items-center justify-center gap-0.5 px-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 ring-1 ring-amber-200 hover:ring-amber-300 text-amber-700 hover:text-amber-800 transition-all active:scale-[0.97] shadow-sm hover:shadow"
-                style={{ minWidth: "112px" }}
+                className="hidden sm:inline-flex flex-shrink-0 items-center gap-2 px-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-lg shadow-indigo-900/20 hover:shadow-xl hover:shadow-indigo-900/30 active:scale-[0.97] transition-all"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                   <rect x="3" y="3" width="7" height="7" rx="1.5" />
                   <rect x="14" y="3" width="7" height="7" rx="1.5" />
                   <rect x="3" y="14" width="7" height="7" rx="1.5" />
                   <rect x="14" y="14" width="7" height="7" rx="1.5" />
                 </svg>
-                <span className="text-[11px] font-black leading-tight whitespace-nowrap">חיפוש לפי קטגוריה</span>
+                <span className="whitespace-nowrap">חיפוש לפי קטגוריה</span>
               </button>
             </div>
-            {/* Mobile-only inline button — keeps the search input full-width
-                on small screens where there's no room to host it sidebar-style. */}
+            {/* Mobile: full-width row under the input so the search field
+                keeps its full breathing room. */}
             <button
               type="button"
               onClick={onCategoryBrowse}
-              className="sm:hidden mt-2.5 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 ring-1 ring-amber-200 text-amber-700 font-black text-xs active:scale-[0.98] transition"
+              className="sm:hidden mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-md active:scale-[0.98] transition-all"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="7" height="7" rx="1.5" />
                 <rect x="14" y="3" width="7" height="7" rx="1.5" />
                 <rect x="3" y="14" width="7" height="7" rx="1.5" />
                 <rect x="14" y="14" width="7" height="7" rx="1.5" />
               </svg>
-              חיפוש לפי קטגוריה — כל הקטגוריות
+              חיפוש לפי קטגוריה
             </button>
             <p className="text-gray-500 text-[11px] mt-2.5 flex items-center justify-center gap-1.5">
               <Zap className="w-3 h-3 text-amber-500" />
