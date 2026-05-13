@@ -15,16 +15,15 @@ export default {
         "indigo": "0 4px 24px -4px rgba(147,51,234,0.25)",
       },
       colors: {
-        // ── Brand palette: purple + cream ───────────────────────────────
-        // We REDEFINE `indigo` (Tailwind's default blue-violet) so all 600+
-        // existing `indigo-XXX` classes in the codebase shift to true purple
-        // without touching their call sites. The very-light shades (50/100)
-        // tilt toward cream/warm off-white instead of pure pastel-purple, so
-        // `indigo-50` backgrounds read as the "cream" the user asked for.
+        // ── Brand palette: pure purple ───────────────────────────────────
+        // REDEFINE `indigo` (Tailwind's default blue-violet) so all 600+
+        // existing `indigo-XXX` classes in the codebase read as true purple
+        // without touching their call sites. Light shades stay clean pastel
+        // purple — no cream tint.
         indigo: {
-          50:  "#fdfaf2",   // warm cream
-          100: "#f8efe1",   // cream with a hint of purple
-          200: "#e9d5ff",   // very soft purple
+          50:  "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
           300: "#d8b4fe",
           400: "#c084fc",
           500: "#a855f7",
@@ -33,8 +32,8 @@ export default {
           800: "#6b21a8",
           900: "#581c87",
         },
-        // Violet kept as a magenta-leaning complement so gradient pairings
-        // like `from-indigo-600 to-violet-600` still have two distinct hues.
+        // Violet stays magenta-leaning so gradient pairings like
+        // `from-indigo-600 to-violet-600` keep two distinct hues.
         violet: {
           50:  "#fdf4ff",
           100: "#fae8ff",
@@ -46,15 +45,6 @@ export default {
           700: "#a21caf",
           800: "#86198f",
           900: "#701a75",
-        },
-        // Explicit cream scale — usable as `bg-cream-50`, `text-cream-700` etc.
-        cream: {
-          50:  "#fdfaf2",
-          100: "#fbf6e8",
-          200: "#f7eed0",
-          300: "#f0deb3",
-          400: "#e9c98c",
-          500: "#dcae5e",
         },
       },
     },

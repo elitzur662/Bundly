@@ -852,9 +852,9 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
       { name: "מכונת כביסה LG 9 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 3200 },
-      { name: "מייבש כביסה LG 8 ק\"ג", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 3600 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2900 },
+      { name: "מייבש כביסה LG 8 ק\"ג", image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400&q=80&fit=crop", marketPrice: 3600 },
+      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
+      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
       { name: "מזגן Electra 1.5 כ\"ס", image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80&fit=crop", marketPrice: 3500 },
     ],
     totalMarket: 22200,
@@ -876,9 +876,9 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "מקרר LG 425L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 3800 },
       { name: "מכונת כביסה Samsung 8 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 2600 },
-      { name: "תנור בנוי Electra", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 2200 },
-      { name: 'טלוויזיה Samsung 55" 4K', image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=400&q=80&fit=crop", marketPrice: 2800 },
-      { name: "מדיח כלים צר Bosch", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2400 },
+      { name: "תנור בנוי Electra", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 2200 },
+      { name: 'טלוויזיה Samsung 55" 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 2800 },
+      { name: "מדיח כלים צר Bosch", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2400 },
     ],
     totalMarket: 13800,
     bundlePrice: 10490,
@@ -898,8 +898,8 @@ const INITIAL_BUNDLES = [
     border: "border-orange-200",
     products: [
       { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2900 },
+      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
+      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
     ],
     totalMarket: 11900,
     bundlePrice: 9490,
@@ -918,7 +918,7 @@ const INITIAL_BUNDLES = [
     bg: "bg-violet-50",
     border: "border-violet-200",
     products: [
-      { name: 'Samsung 65" QLED 4K', image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=400&q=80&fit=crop", marketPrice: 4800 },
+      { name: 'Samsung 65" QLED 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 4800 },
       { name: "Samsung Soundbar Q600", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&q=80&fit=crop", marketPrice: 1900 },
       { name: "Apple TV 4K", image: "https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?w=400&q=80&fit=crop", marketPrice: 750 },
     ],
@@ -962,7 +962,7 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "PlayStation 5 Slim", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80&fit=crop", marketPrice: 2200 },
       { name: 'LG 27" Gaming 165Hz', image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80&fit=crop", marketPrice: 1800 },
-      { name: "SteelSeries Arctis Nova", image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80&fit=crop", marketPrice: 850 },
+      { name: "SteelSeries Arctis Nova", image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&q=80&fit=crop", marketPrice: 850 },
       { name: "DualSense Edge Controller", image: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=400&q=80&fit=crop", marketPrice: 750 },
     ],
     totalMarket: 5600,
@@ -985,7 +985,7 @@ const INITIAL_BUNDLES = [
       { name: "עגלת תינוק Bugaboo Fox", image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?w=400&q=80&fit=crop", marketPrice: 4200 },
       { name: "כסא בטיחות Cybex Sirona", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80&fit=crop", marketPrice: 2200 },
       { name: "מוניטור Nanit Pro", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80&fit=crop", marketPrice: 1100 },
-      { name: "אמבטיה Stokke Flexi", image: "https://images.unsplash.com/photo-1590412200988-a436970781c5?w=400&q=80&fit=crop", marketPrice: 350 },
+      { name: "אמבטיה Stokke Flexi", image: "https://images.unsplash.com/photo-1582142306909-195724d33ffc?w=400&q=80&fit=crop", marketPrice: 350 },
       { name: "ערסל 4Moms mamaRoo", image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80&fit=crop", marketPrice: 1600 },
     ],
     totalMarket: 9450,
@@ -2788,19 +2788,23 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         }}
       />
 
-      {/* ── Overlay: purple gradient on top of photo (matches new brand) ── */}
+      {/* ── Radial overlay — soft purple "spotlight" centered behind the
+            search/categories block, fading to neutral dark at the edges.
+            No frames, no card, no ring — just light density. */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, rgba(107,33,168,0.88) 0%, rgba(147,51,234,0.80) 40%, rgba(168,85,247,0.72) 100%)",
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 62%, rgba(147,51,234,0.55) 0%, rgba(147,51,234,0.35) 25%, rgba(107,33,168,0.22) 55%, rgba(0,0,0,0.30) 85%, rgba(0,0,0,0.40) 100%)",
         }}
       />
 
-      {/* ── Soft vignette at bottom ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-24"
-        style={{ background: "linear-gradient(to bottom, transparent, rgba(88,28,135,0.55))" }} />
+      {/* ── Soft vignette at bottom (very subtle now — radial gradient
+            already darkens the edges; vignette just adds a touch of depth). */}
+      <div className="absolute bottom-0 left-0 right-0 h-20"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.25))" }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-8 flex flex-col items-center text-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-20 flex flex-col items-center text-center">
 
         {/* Trust badge */}
         <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-5 backdrop-blur-sm shadow-sm">
@@ -2825,81 +2829,60 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           {t.heroSub}
         </p>
 
-        {/* ── Unified SEARCH + BROWSE card ───────────────────────────────────
-            Single white container holds the big search bar at the top and
-            the demand-sorted category grid below — separated by a soft hr.
-            This visually fuses the two interaction modes so the user reads
-            them as one tool: "search OR pick a category, same destination." */}
-        <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl shadow-indigo-900/30 ring-1 ring-white/40 backdrop-blur-sm overflow-hidden">
+        {/* Search + categories sit directly on the radial purple glow that
+            comes from the hero overlay. No card, no ring — just the content. */}
+        <div className="w-full max-w-3xl">
 
-          {/* Top: search bar with a paired "browse all categories" button
-              that visually extends the search input. Same height + rounded
-              corners → the two read as one combined control on desktop,
-              and as a stacked pair on mobile. */}
-          <div className="px-4 sm:px-6 pt-5 pb-4">
-            <div className="flex items-stretch gap-2">
-              <div className="flex-1 min-w-0">
-                <SmartSearchBar
-                  t={t}
-                  variant="hero"
-                  placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
-                  onResult={onSearchResult}
-                  onWizard={onWizard}
-                />
-              </div>
-              {/* Desktop: pill-shaped indigo button that matches the search
-                  bar's height + roundness. Sits directly to the left of the
-                  input (RTL) so the eye reads "search OR all-categories" as
-                  one decision. */}
-              <button
-                type="button"
-                onClick={onCategoryBrowse}
-                className="hidden sm:inline-flex flex-shrink-0 items-center gap-2 px-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-lg shadow-indigo-900/20 hover:shadow-xl hover:shadow-indigo-900/30 active:scale-[0.97] transition-all"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
-                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-                <span className="whitespace-nowrap">חיפוש לפי קטגוריה</span>
-              </button>
+          {/* Search + paired browse-by-category button. */}
+          <div className="flex items-stretch gap-2">
+            <div className="flex-1 min-w-0">
+              <SmartSearchBar
+                t={t}
+                variant="hero"
+                placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
+                onResult={onSearchResult}
+                onWizard={onWizard}
+              />
             </div>
-            {/* Mobile: full-width row under the input so the search field
-                keeps its full breathing room. */}
             <button
               type="button"
               onClick={onCategoryBrowse}
-              className="sm:hidden mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-md active:scale-[0.98] transition-all"
+              className="hidden sm:inline-flex flex-shrink-0 items-center gap-2 px-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-lg shadow-indigo-900/20 hover:shadow-xl hover:shadow-indigo-900/30 active:scale-[0.97] transition-all"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
                 <rect x="3" y="3" width="7" height="7" rx="1.5" />
                 <rect x="14" y="3" width="7" height="7" rx="1.5" />
                 <rect x="3" y="14" width="7" height="7" rx="1.5" />
                 <rect x="14" y="14" width="7" height="7" rx="1.5" />
               </svg>
-              חיפוש לפי קטגוריה
+              <span className="whitespace-nowrap">חיפוש לפי קטגוריה</span>
             </button>
-            <p className="text-gray-500 text-[11px] mt-2.5 flex items-center justify-center gap-1.5">
-              <Zap className="w-3 h-3 text-amber-500" />
-              Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
-            </p>
           </div>
+          {/* Mobile-only stacked button (under the search input). */}
+          <button
+            type="button"
+            onClick={onCategoryBrowse}
+            className="sm:hidden mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-md active:scale-[0.98] transition-all"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            </svg>
+            חיפוש לפי קטגוריה
+          </button>
+          <p className="text-white/85 text-[11px] mt-2.5 flex items-center justify-center gap-1.5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+            <Zap className="w-3 h-3 text-yellow-300" />
+            Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
+          </p>
 
-          {/* Divider with label */}
-          <div className="relative px-6">
-            <div className="border-t border-gray-200" />
-            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-white px-3 text-[11px] font-bold text-gray-500 tracking-wide">
-              קטגוריות חמות לפי ביקוש
-            </span>
-          </div>
-
-          {/* Bottom: demand-sorted category grid */}
-          <div className="px-4 sm:px-6 py-5">
-            <div className="flex items-center gap-2 mb-3" dir="rtl">
-              <TrendingUp className="w-4 h-4 text-amber-500 flex-shrink-0" />
-              <p className="text-[11px] font-bold text-gray-600">
-                סדורות לפי ביקוש בזמן אמת — ככל שיותר מצטרפים, המחיר יורד
+          {/* Demand-sorted category grid — sits on the hero photo directly. */}
+          <div className="mt-7">
+            <div className="flex items-center gap-2 mb-3 justify-center" dir="rtl">
+              <TrendingUp className="w-4 h-4 text-yellow-300 flex-shrink-0 drop-shadow-sm" />
+              <p className="text-white/90 text-[12px] font-bold" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                קטגוריות חמות לפי ביקוש בזמן אמת — ככל שיותר מצטרפים, המחיר יורד
               </p>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
@@ -2909,7 +2892,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
                   <button
                     key={name}
                     onClick={() => onOpenCategory && onOpenCategory(query)}
-                    className="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] cursor-pointer aspect-[4/3]"
+                    className="group relative rounded-xl overflow-hidden shadow-lg shadow-indigo-900/30 ring-1 ring-white/20 hover:ring-white/40 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] cursor-pointer aspect-[4/3]"
                   >
                     <img src={visual.image} alt={name} loading="lazy"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -2952,6 +2935,28 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           <span className="text-white/30 mx-1">·</span>
           {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}
         </p>
+      </div>
+
+      {/* ── Scroll affordance — gentle bouncing chevron at the bottom of the
+            hero so the user knows there's more content below the fold. */}
+      <div
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none flex flex-col items-center gap-1"
+        aria-hidden="true"
+      >
+        <span className="text-white/70 text-[10px] font-semibold tracking-wide" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+          גלול למטה
+        </span>
+        <ChevronDown
+          className="w-5 h-5 text-white/80"
+          strokeWidth={2.5}
+          style={{ animation: "heroScrollHint 1.6s ease-in-out infinite", filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.35))" }}
+        />
+        <style>{`
+          @keyframes heroScrollHint {
+            0%, 100% { transform: translateY(0); opacity: 0.75; }
+            50%      { transform: translateY(6px); opacity: 1; }
+          }
+        `}</style>
       </div>
     </div>
   );
@@ -16043,7 +16048,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
       </section>
 
       {/* ── DEMAND CHECKER ──────────────────────────────── */}
-      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 100%)" }}>
+      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-4 py-1.5 text-sm font-bold mb-6">
             <Sparkles className="w-3.5 h-3.5" /> בדיקת ביקוש — חינם
@@ -16239,7 +16244,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
       </section>
 
       {/* ── TESTIMONIALS ────────────────────────────────── */}
-      <section className="py-16 px-4" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 100%)" }}>
+      <section className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-black text-gray-900 text-center mb-10">מה ספקים אומרים</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -20282,7 +20287,7 @@ export default function App() {
               || deals.find(d => d.id === selectedDeal.id && d.name?.en === selectedDeal.name?.en)
               || selectedDeal;
     return (
-      <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 50%, #f5edff 100%)" }}>
+      <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />

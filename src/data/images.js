@@ -27,7 +27,7 @@ export const IMG = {
   drone:     "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=700&q=85&fit=crop",
   vacuum:    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=700&q=85&fit=crop",
   watch:     "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&q=85&fit=crop",
-  earbuds:   "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=700&q=85&fit=crop",
+  earbuds:   "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=700&q=85&fit=crop",
   fridge:    "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=700&q=85&fit=crop",
   oven:      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=85&fit=crop",
   dishwasher:"https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=700&q=85&fit=crop",
