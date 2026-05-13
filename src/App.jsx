@@ -2767,7 +2767,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
     { t1: t.heroStep4, t2: t.heroStep4s },
   ];
   return (
-    <div className="relative overflow-hidden text-white" style={{ minHeight: "520px" }}>
+    <div className="relative overflow-hidden text-white" style={{ minHeight: "420px" }}>
 
       {/* ── Background photo ── */}
       <div
@@ -2790,7 +2790,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
       <div className="absolute bottom-0 left-0 right-0 h-24"
         style={{ background: "linear-gradient(to bottom, transparent, rgba(49,46,129,0.4))" }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-14 flex flex-col items-center text-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-10 flex flex-col items-center text-center">
 
         {/* Badge */}
         <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
@@ -2857,55 +2857,6 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
             {t.heroCta2}
           </button>
         </div>
-
-        {/* ── Premium "Browse by category" CTA — full-width, prominent,
-              visible on EVERY screen size including mobile.  */}
-        <button
-          onClick={onCategoryBrowse}
-          className="group relative mb-6 w-full max-w-xl overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
-          style={{
-            background: "linear-gradient(135deg, #ffffff 0%, #fef3c7 50%, #fde68a 100%)",
-            boxShadow: "0 14px 36px -10px rgba(251,191,36,0.55), inset 0 1px 0 rgba(255,255,255,0.6)",
-          }}
-        >
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(circle at 18% 0%, rgba(255,255,255,0.6), transparent 60%)" }}
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%)",
-              animation: "homeCategoryShimmer 3.2s ease-in-out infinite",
-              backgroundSize: "250% 100%",
-            }}
-          />
-          <style>{`@keyframes homeCategoryShimmer{0%,100%{background-position:200% 0}50%{background-position:-30% 0}}`}</style>
-          <div className="relative flex items-center justify-between gap-3 px-4 py-3.5" dir="rtl">
-            <div className="flex items-center gap-3 min-w-0">
-              <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md group-hover:rotate-6 transition-transform duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-              </span>
-              <div className="text-right min-w-0">
-                <div className="text-gray-900 font-black text-base sm:text-[15px] leading-tight tracking-tight">
-                  חיפוש לפי קטגוריה
-                </div>
-                <div className="text-gray-700 text-[11px] font-semibold leading-tight mt-0.5">
-                  גלה אלפי מוצרים מסווגים — מקררים, סמארטפונים, ועוד
-                </div>
-              </div>
-            </div>
-            <ChevronLeft className="w-5 h-5 text-gray-700 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
-          </div>
-        </button>
-
 
         {/* FOMO line */}
         <p className="text-indigo-300 text-sm mb-12">⚡ 12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"} &nbsp;•&nbsp; {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}</p>
@@ -20558,27 +20509,10 @@ export default function App() {
       {mode === "home" && (
         <>
           <HeroSection t={t} onDeals={()=>setMode("deals")} onPersonal={()=>setMode("personal")} onSearchResult={r=>{setSearchResult(r);setMode("deals");}} onWizard={(q,opts)=>{openCategory(q,opts);}} onCategoryBrowse={()=>setShowCategoryBrowse(true)} onMyProducts={goToMyProducts} savedCount={myProducts.length + wishlist.length} />
-          <main className="max-w-6xl mx-auto px-4 py-10 pb-24 md:pb-10">
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
-              <button onClick={()=>{setCatFilter(null);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-indigo-600 text-white">{t.allCategories}</button>
-              {cats.map((c,i)=>(
-                <button key={i} onClick={()=>{setCatFilter(i);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 whitespace-nowrap transition">
-                  <span>{CAT_ICONS[i]}</span>{c}
-                </button>
-              ))}
-            </div>
-            {/* Deal of the Day */}
-            <DealOfTheDayBanner deals={deals} lang={lang} t={t} onDealClick={openDeal} />
-
-            {/* ── PERSONAL RECOMMENDATIONS — "מותאם בשבילך" ── */}
-            <PersonalRecommendations
-              recos={personalRecos}
-              deals={deals}
-              onDealClick={openDeal}
-              lang={lang}
-            />
-
-            {/* ── BROAD CATEGORIES BY DEMAND — visual category grid ── */}
+          <main className="max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-10">
+            {/* ── BROAD CATEGORIES BY DEMAND — moved up so it's the first thing the user
+                sees after the search bar. Sorted by # of personal requests so popular
+                categories rise. */}
             {(() => {
               const broadCounts = {};
               personalRequests.forEach(r => {
@@ -20589,8 +20523,8 @@ export default function App() {
                 .map(hc => ({ ...hc, count: broadCounts[hc.name] || 0 }))
                 .sort((a, b) => b.count - a.count);
               return (
-                <div className="mb-10">
-                  <div className="flex items-center gap-3 mb-5">
+                <div className="mb-8">
+                  <div className="flex items-center gap-3 mb-4">
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-md">
                       <TrendingUp className="w-5 h-5 text-white" />
                     </div>
@@ -20635,6 +20569,25 @@ export default function App() {
                 </div>
               );
             })()}
+
+            <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+              <button onClick={()=>{setCatFilter(null);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-indigo-600 text-white">{t.allCategories}</button>
+              {cats.map((c,i)=>(
+                <button key={i} onClick={()=>{setCatFilter(i);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 whitespace-nowrap transition">
+                  <span>{CAT_ICONS[i]}</span>{c}
+                </button>
+              ))}
+            </div>
+            {/* Deal of the Day */}
+            <DealOfTheDayBanner deals={deals} lang={lang} t={t} onDealClick={openDeal} />
+
+            {/* ── PERSONAL RECOMMENDATIONS — "מותאם בשבילך" ── */}
+            <PersonalRecommendations
+              recos={personalRecos}
+              deals={deals}
+              onDealClick={openDeal}
+              lang={lang}
+            />
 
             <h2 className="text-xl font-bold text-gray-900 mb-5">{t.activeGroups}</h2>
             {/* Mobile: 2 per row (4 felt cramped for product cards with images +
