@@ -2779,11 +2779,11 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
   return (
     <div className="relative overflow-hidden text-white">
 
-      {/* ── Background photo ── */}
+      {/* ── Background photo — luxurious modern living room w/ home goods ── */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1800&q=90&fit=crop')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=1800&q=90&fit=crop')",
           transform: "scale(1.03)",
         }}
       />
