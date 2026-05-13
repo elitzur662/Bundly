@@ -2832,15 +2832,51 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
             them as one tool: "search OR pick a category, same destination." */}
         <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl shadow-indigo-900/30 ring-1 ring-white/40 backdrop-blur-sm overflow-hidden">
 
-          {/* Top: search bar */}
+          {/* Top: search bar + "all categories" companion button.
+              The button opens the full CategoryBrowseModal (every category
+              + drill-down), complementing the curated 8-card grid below
+              which only shows the demand-sorted top picks. */}
           <div className="px-4 sm:px-6 pt-5 pb-4">
-            <SmartSearchBar
-              t={t}
-              variant="hero"
-              placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
-              onResult={onSearchResult}
-              onWizard={onWizard}
-            />
+            <div className="flex items-stretch gap-2">
+              <div className="flex-1 min-w-0">
+                <SmartSearchBar
+                  t={t}
+                  variant="hero"
+                  placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
+                  onResult={onSearchResult}
+                  onWizard={onWizard}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={onCategoryBrowse}
+                className="hidden sm:flex flex-shrink-0 flex-col items-center justify-center gap-0.5 px-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 ring-1 ring-amber-200 hover:ring-amber-300 text-amber-700 hover:text-amber-800 transition-all active:scale-[0.97] shadow-sm hover:shadow"
+                style={{ minWidth: "112px" }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                </svg>
+                <span className="text-[11px] font-black leading-tight whitespace-nowrap">חיפוש לפי קטגוריה</span>
+              </button>
+            </div>
+            {/* Mobile-only inline button — keeps the search input full-width
+                on small screens where there's no room to host it sidebar-style. */}
+            <button
+              type="button"
+              onClick={onCategoryBrowse}
+              className="sm:hidden mt-2.5 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 ring-1 ring-amber-200 text-amber-700 font-black text-xs active:scale-[0.98] transition"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              </svg>
+              חיפוש לפי קטגוריה — כל הקטגוריות
+            </button>
             <p className="text-gray-500 text-[11px] mt-2.5 flex items-center justify-center gap-1.5">
               <Zap className="w-3 h-3 text-amber-500" />
               Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
@@ -2851,7 +2887,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           <div className="relative px-6">
             <div className="border-t border-gray-200" />
             <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-white px-3 text-[11px] font-bold text-gray-500 tracking-wide">
-              או דפדף לפי קטגוריה
+              קטגוריות חמות לפי ביקוש
             </span>
           </div>
 
