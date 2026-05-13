@@ -1,0 +1,2156 @@
+[
+  {
+    "id": "1255361",
+    "name": "קורקינט חשמלי Xiaomi Electric Scooter 5",
+    "image": "images/1255361.gif",
+    "manufacturer": "Xiaomi",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/1/4/98064159c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230209",
+    "name": "קורקינט חשמלי Xiaomi Electric Scooter 4 Lite 2nd Gen",
+    "image": "images/1230209.gif",
+    "manufacturer": "Xiaomi",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/4/88904773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1246553",
+    "name": "קורקינט חשמלי Xiaomi Electric Scooter 4 Lite 1nd Gen",
+    "image": "images/1246553.gif",
+    "manufacturer": "Xiaomi",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/5/1/94431561c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255894",
+    "name": "קורקינט פעלולים מקצועי Grow Pro G7",
+    "image": "images/1255894.gif",
+    "manufacturer": "Grow Pro",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/6/2/94962646c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "944227",
+    "name": "קורקינט RAZOR A125",
+    "image": "images/944227.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/4/6/95156488b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255893",
+    "name": "קורקינט פעלולים מקצועי Grow Pro G9",
+    "image": "images/1255893.gif",
+    "manufacturer": "Grow Pro",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/6/2/94962645c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261495",
+    "name": "קורקינט חשמלי Teverun Fighter Q",
+    "image": "images/1261495.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/new/152171433660c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1189422",
+    "name": "קורקינט חשמלי Rider X G3",
+    "image": "images/1189422.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/9/3/76613911c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255400",
+    "name": "קורקינט חשמלי Navee ST3 Pro",
+    "image": "images/1255400.gif",
+    "manufacturer": "Navee",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/3/6/96226317c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212006",
+    "name": "קורקינט פעלולים מקצועי Leo pro S5",
+    "image": "images/1212006.gif",
+    "manufacturer": "Leo pro",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/4/4/94294464c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1144175",
+    "name": "קורקינט חשמלי Kaabo Mantis 8",
+    "image": "images/1144175.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/7/5/68605774c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1158208",
+    "name": "קורקינט חשמלי Okai ES20",
+    "image": "images/1158208.gif",
+    "manufacturer": "Okai",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/4/8/69928406c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "944231",
+    "name": "קורקינט RAZOR A5 LUX",
+    "image": "images/944231.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/4/5/82835496c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255401",
+    "name": "קורקינט חשמלי Navee GT3",
+    "image": "images/1255401.gif",
+    "manufacturer": "Navee",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/2/5/96225203c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205335",
+    "name": "קורקינט חשמלי Teverun Fighter Mini",
+    "image": "images/1205335.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/8/4/78884839c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230223",
+    "name": "קורקינט חשמלי Navee V25i Pro",
+    "image": "images/1230223.gif",
+    "manufacturer": "Navee",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/9/0/88720980c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {
+      "wheelSize": "25\""
+    }
+  },
+  {
+    "id": "944228",
+    "name": "קורקינט פעלולים מקצועי RAZOR Beast",
+    "image": "images/944228.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/4/4/98204470b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128982",
+    "name": "קורקינט פעלולים מקצועי RAZOR PRO XXX",
+    "image": "images/1128982.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/0/8/66198082c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1196222",
+    "name": "קורקינט פעלולים מקצועי Leo pro S8",
+    "image": "images/1196222.gif",
+    "manufacturer": "Leo pro",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/4/6/77756460c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1023683",
+    "name": "קורקינט Micro Maxi Micro Deluxe",
+    "image": "images/1023683.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/5/3/49673536c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255895",
+    "name": "קורקינט פעלולים מקצועי Grow Pro G10",
+    "image": "images/1255895.gif",
+    "manufacturer": "Grow Pro",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/4/6/97426448c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255402",
+    "name": "קורקינט חשמלי Navee GT3 Pro",
+    "image": "images/1255402.gif",
+    "manufacturer": "Navee",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/9/6/96226992c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "954567",
+    "name": "קורקינט RAZOR Razor A",
+    "image": "images/954567.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/1/6/40006174c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1043812",
+    "name": "קורקינט Globber Primo Lights",
+    "image": "images/1043812.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/0/8/52038060b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1023681",
+    "name": "קורקינט Micro Mini Micro Deluxe",
+    "image": "images/1023681.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/1/2/45912160c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1196220",
+    "name": "קורקינט פעלולים Leo pro S7",
+    "image": "images/1196220.gif",
+    "manufacturer": "Leo pro",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/7/0/77110768c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255403",
+    "name": "קורקינט חשמלי Navee ST3",
+    "image": "images/1255403.gif",
+    "manufacturer": "Navee",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/5/96225204c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "978603",
+    "name": "קורקינט JD BUG MS105",
+    "image": "images/978603.gif",
+    "manufacturer": "Jd Bug",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/4/9/56219482c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170412",
+    "name": "קורקינט חשמלי CityRunner Runner Sport",
+    "image": "images/1170412.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/5/73905836b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "999507",
+    "name": "קורקינט Globber Elite",
+    "image": "images/999507.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/5/6/45776504c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "996024",
+    "name": "קורקינט פעלולים מקצועי Globber Flow 125",
+    "image": "images/996024.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/5/6/45776508c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1066847",
+    "name": "קורקינט פעלולים מקצועי Mgp MGX S1 Shredder",
+    "image": "images/1066847.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/6/55016720c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237191",
+    "name": "קורקינט חשמלי Inokim OX White",
+    "image": "images/1237191.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/9/6/90496979c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1023680",
+    "name": "קורקינט Globber ULTIMUM",
+    "image": "images/1023680.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/5/1/49431564b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218896",
+    "name": "קורקינט Micro Mini Micro Deluxe Led",
+    "image": "images/1218896.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/7/7/86947758c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067057",
+    "name": "קורקינט JD BUG MS201",
+    "image": "images/1067057.gif",
+    "manufacturer": "Jd Bug",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/0/1/55521096c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976388",
+    "name": "קורקינט פעלולים Grit Scooters GRIT ATOM",
+    "image": "images/976388.gif",
+    "manufacturer": "Grit Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/0/5/47035076c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1148255",
+    "name": "קורקינט Globber Junior Foldable Lights",
+    "image": "images/1148255.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/8/6/68936872c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992753",
+    "name": "קורקינט Scoot And Ride Highwaykick 3",
+    "image": "images/992753.gif",
+    "manufacturer": "Scoot And Ride",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/4/4/48804449c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1181641",
+    "name": "קורקינט חשמלי GoWheels X9",
+    "image": "images/1181641.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/9/0/75210987c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230233",
+    "name": "קורקינט חשמלי Rider 10X Pro 693493254137",
+    "image": "images/1230233.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/5/6/89116528c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072465",
+    "name": "קורקינט Globber GO UP Sporty",
+    "image": "images/1072465.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/2/2/56012272c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218879",
+    "name": "קורקינט Micro Mini Micro Original",
+    "image": "images/1218879.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/3/7/86947321c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992754",
+    "name": "קורקינט Scoot And Ride Highwaykick 1",
+    "image": "images/992754.gif",
+    "manufacturer": "Scoot And Ride",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/5/2/48802598c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230276",
+    "name": "קורקינט חשמלי Xiaomi Electric Scooter 4",
+    "image": "images/1230276.gif",
+    "manufacturer": "Xiaomi",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/2/2/91492249b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067056",
+    "name": "קורקינט פעלולים JD BUG MS119TC",
+    "image": "images/1067056.gif",
+    "manufacturer": "Jd Bug",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/0/1/55521098c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1233054",
+    "name": "קורקינט חשמלי Ducati City Cross-E X",
+    "image": "images/1233054.gif",
+    "manufacturer": "Ducati ",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/4/9/87139408c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1258692",
+    "name": "קורקינט חשמלי CityRunner Jet",
+    "image": "images/1258692.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/9/5/96845981c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1182909",
+    "name": "קורקינט פעלולים מקצועי Mgp MGP Origin Team",
+    "image": "images/1182909.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/0/8/73668036c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128981",
+    "name": "קורקינט פעלולים מקצועי RAZOR Pro X",
+    "image": "images/1128981.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/6/6/66486609c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1188896",
+    "name": "קורקינט פעלולים מקצועי Chozen קורקינט פעלולים Viper",
+    "image": "images/1188896.gif",
+    "manufacturer": "Viper",
+    "imageUrl": "https://img.zap.co.il/pics/new/213103517244c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237698",
+    "name": "קורקינט חשמלי GoWheels Razor 48V",
+    "image": "images/1237698.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/0/2/88962039c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170411",
+    "name": "קורקינט חשמלי CityRunner Runner-Z",
+    "image": "images/1170411.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/5/2/54862512c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237436",
+    "name": "קורקינט חשמלי Nami Stellar",
+    "image": "images/1237436.gif",
+    "manufacturer": "Nami",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/9/0/89150937c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075110",
+    "name": "קורקינט Globber Primo Foldable",
+    "image": "images/1075110.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/9/0/56230984c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212001",
+    "name": "קורקינט QPlay Mika",
+    "image": "images/1212001.gif",
+    "manufacturer": "QPlay",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/7/4/84694739c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212012",
+    "name": "קורקינט QPlay Honeycomb ST-002",
+    "image": "images/1212012.gif",
+    "manufacturer": "QPlay",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/9/7/84167951c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218886",
+    "name": "קורקינט פעלולים מקצועי Micro Micro Mx Trixx",
+    "image": "images/1218886.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/7/86947522c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "944233",
+    "name": "קורקינט חשמלי RAZOR Power Core E90",
+    "image": "images/944233.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/8/1/45541843c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1165610",
+    "name": "קורקינט Globber Primo Foldable Lights",
+    "image": "images/1165610.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/2/9/70599234b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170408",
+    "name": "קורקינט חשמלי CityRunner Runner-X2",
+    "image": "images/1170408.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/5/6/57946561b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1100007",
+    "name": "קורקינט חשמלי Smart Bike Superb Plus 10",
+    "image": "images/1100007.gif",
+    "manufacturer": "Smart Bike",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/3/4/59424335c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1164400",
+    "name": "קורקינט חשמלי Smart Bike Ninja EX",
+    "image": "images/1164400.gif",
+    "manufacturer": "Smart Bike",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/8/2/70382867c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1167277",
+    "name": "קורקינט Globber NL 205 Deluxe NL 205 DLX",
+    "image": "images/1167277.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/new/891145208c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1152720",
+    "name": "קורקינט Globber NL 205 NL 500-205",
+    "image": "images/1152720.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/3/3/69663390b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {
+      "wheelSize": "05\""
+    }
+  },
+  {
+    "id": "1251834",
+    "name": "קורקינט חשמלי Rider X Race Mini 13AH",
+    "image": "images/1251834.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/2/7/95117251c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255414",
+    "name": "קורקינט חשמלי Falcon Glide 48V 13AH",
+    "image": "images/1255414.gif",
+    "manufacturer": "Falcon",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/1/96521200c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212009",
+    "name": "קורקינט חשמלי Rider 10X",
+    "image": "images/1212009.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/8/86198773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117317",
+    "name": "קורקינט Slamm Mischief V6",
+    "image": "images/1117317.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/3/2/62372367c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255405",
+    "name": "קורקינט Globber Ace Lights",
+    "image": "images/1255405.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/2/6/96186299c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247322",
+    "name": "קורקינט פעלולים מקצועי Slamm Classic",
+    "image": "images/1247322.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/4/1/94401426c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1199430",
+    "name": "קורקינט חשמלי Smart Bike XT-800S",
+    "image": "images/1199430.gif",
+    "manufacturer": "Smart Bike",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/8/6/78166803c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "954590",
+    "name": "קורקינט פעלולים מקצועי Chilli Pro Scooter Chill Pro",
+    "image": "images/954590.gif",
+    "manufacturer": "Chilli Pro Scooter",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/4/7/45117452c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1182913",
+    "name": "קורקינט פעלולים מקצועי Mgp MGP Origin Extreme",
+    "image": "images/1182913.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/2/9/73299220c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255364",
+    "name": "קורקינט פעלולים מקצועי Mgp MGX Charley Dyson",
+    "image": "images/1255364.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/8/3/95393899c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1115255",
+    "name": "קורקינט פעלולים מקצועי Slamm Strobe V4",
+    "image": "images/1115255.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/4/0/62240432c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1131648",
+    "name": "קורקינט פעלולים מקצועי Mgp MGX P2 Pro",
+    "image": "images/1131648.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/2/5/66835293c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123969",
+    "name": "קורקינט פעלולים מקצועי Slamm Treason",
+    "image": "images/1123969.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/0/8/63468027c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261659",
+    "name": "קורקינט חשמלי GoWheels A1 48V",
+    "image": "images/1261659.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/9/6/96756997c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247179",
+    "name": "קורקינט פעלולים מקצועי Crisp Scooters Crisp Blitz",
+    "image": "images/1247179.gif",
+    "manufacturer": "Crisp Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/6/5/91455695c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220586",
+    "name": "קורקינט חשמלי Ducati CITY CROSS-E UP",
+    "image": "images/1220586.gif",
+    "manufacturer": "Ducati ",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/4/9/87139408c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1216444",
+    "name": "קורקינט Globber Flow 125 Premium",
+    "image": "images/1216444.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/8/6/86756856c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1193691",
+    "name": "קורקינט Scoot And Ride 96528 Highwaykick 2 Lifestyle reflective rose",
+    "image": "images/1193691.gif",
+    "manufacturer": "Scoot And Ride",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/3/5/77235398c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {
+      "wheelSize": "28\""
+    }
+  },
+  {
+    "id": "1236204",
+    "name": "קורקינט Raptor K3 1300008822",
+    "image": "images/1236204.gif",
+    "manufacturer": "Raptor",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/6/0/89580679c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118441",
+    "name": "קורקינט Globber Primo Junior",
+    "image": "images/1118441.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/4/0/61210414c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1050574",
+    "name": "קורקינט RAZOR Wild Ones",
+    "image": "images/1050574.gif",
+    "manufacturer": "Razor",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/0/9/52749033c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212795",
+    "name": "קורקינט McLaren MCS01",
+    "image": "images/1212795.gif",
+    "manufacturer": "McLaren",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/5/9/82829579c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072237",
+    "name": "קורקינט Globber Master",
+    "image": "images/1072237.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/5/1/55661501b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1079613",
+    "name": "קורקינט חשמלי CityRunner Runner-2",
+    "image": "images/1079613.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/9/7/56457959b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186413",
+    "name": "קורקינט Globber Flow Element",
+    "image": "images/1186413.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/3/5/76365387c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123995",
+    "name": "קורקינט Globber Primo",
+    "image": "images/1123995.gif",
+    "manufacturer": "Globber",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/1/1/62851192b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123968",
+    "name": "קורקינט פעלולים Slamm Tantrum V9",
+    "image": "images/1123968.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/2/6/62226295c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237199",
+    "name": "קורקינט חשמלי Kaabo Mantis 10 R",
+    "image": "images/1237199.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/6/87636430c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1050216",
+    "name": "קורקינט SmarTrike T1",
+    "image": "images/1050216.gif",
+    "manufacturer": "SmarTrike",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/9/2/52302952c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255644",
+    "name": "קורקינט חשמלי Falcon Glide 48V 18AH",
+    "image": "images/1255644.gif",
+    "manufacturer": "Falcon",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/4/94134836c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1243199",
+    "name": "קורקינט פעלולים Micro Mx Ramp",
+    "image": "images/1243199.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/3/5/92515375c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114581",
+    "name": "קורקינט פעלולים מקצועי Slamm Classic V9",
+    "image": "images/1114581.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/9/6/62226953c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242899",
+    "name": "קורקינט SmarTrike Xtend",
+    "image": "images/1242899.gif",
+    "manufacturer": "SmarTrike",
+    "imageUrl": "https://img.zap.co.il/pics/new/152172912847c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237439",
+    "name": "קורקינט חשמלי Kaabo Mantis X",
+    "image": "images/1237439.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/3/5/89595367b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251219",
+    "name": "קורקינט חשמלי Rider Orca Scooter",
+    "image": "images/1251219.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/4/94734183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117318",
+    "name": "קורקינט פעלולים Slamm Assault V6",
+    "image": "images/1117318.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/5/1/62371594c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097592",
+    "name": "קורקינט פעלולים מקצועי Grit Scooters Angel",
+    "image": "images/1097592.gif",
+    "manufacturer": "Grit Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/8/5/59045871c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1066848",
+    "name": "קורקינט פעלולים מקצועי Mgp MGX E1 Extreme",
+    "image": "images/1066848.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/5/8/54638504c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212014",
+    "name": "קורקינט חשמלי Mukuta 8 Plus",
+    "image": "images/1212014.gif",
+    "manufacturer": "Mukuta",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/9/1/84561980c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097589",
+    "name": "קורקינט פעלולים מקצועי Crisp Scooters Surge",
+    "image": "images/1097589.gif",
+    "manufacturer": "Crisp Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/1/9/59209162c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1182477",
+    "name": "קורקינט פעלולים מקצועי Mgp MGX E2 Extreme",
+    "image": "images/1182477.gif",
+    "manufacturer": "Mgp",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/4/2/72682480c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1132615",
+    "name": "קורקינט חשמלי Rider M2 Pro",
+    "image": "images/1132615.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/6/4/62984609c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1233056",
+    "name": "קורקינט חשמלי Ducati Cross-E Sport",
+    "image": "images/1233056.gif",
+    "manufacturer": "Ducati ",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/4/7/88237462c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1199431",
+    "name": "קורקינט חשמלי Nami Klima",
+    "image": "images/1199431.gif",
+    "manufacturer": "Nami",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/1/8/78158175c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976401",
+    "name": "קורקינט פעלולים מקצועי Crisp Scooters CRISP INCEPTION",
+    "image": "images/976401.gif",
+    "manufacturer": "Crisp Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/8/4/45934890c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1193683",
+    "name": "קורקינט Scoot And Ride 96523 Highwaykick 2 Lifestyle zebra",
+    "image": "images/1193683.gif",
+    "manufacturer": "Scoot And Ride",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/3/5/77235396c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {
+      "wheelSize": "23\""
+    }
+  },
+  {
+    "id": "1159981",
+    "name": "קורקינט Skater Alpha",
+    "image": "images/1159981.gif",
+    "manufacturer": "Skater",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/5/0/68670565c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170410",
+    "name": "קורקינט חשמלי CityRunner Runner-X3",
+    "image": "images/1170410.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/5/6/57946561b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1168543",
+    "name": "קורקינט חשמלי 8Tev A12 Classic",
+    "image": "images/1168543.gif",
+    "manufacturer": "8Tev",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/6/2/74162608c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {
+      "wheelSize": "12\""
+    }
+  },
+  {
+    "id": "1212017",
+    "name": "קורקינט חשמלי Mukuta 9 Plus",
+    "image": "images/1212017.gif",
+    "manufacturer": "Mukuta",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/9/5/84735950b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237341",
+    "name": "קורקינט חשמלי Inokim OX Carbon 60V 21AH",
+    "image": "images/1237341.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/new/1011172030954c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261660",
+    "name": "קורקינט חשמלי GoWheels Tiger Max",
+    "image": "images/1261660.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/7/2/94952766c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1191464",
+    "name": "קורקינט חשמלי MII2 YOO2",
+    "image": "images/1191464.gif",
+    "manufacturer": "MII2",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/1/3/76693173c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976392",
+    "name": "קורקינט פעלולים מקצועי Grit Scooters GRIT ELITE",
+    "image": "images/976392.gif",
+    "manufacturer": "Grit Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/5/2/46452569c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212008",
+    "name": "קורקינט חשמלי Teverun Blade Mini",
+    "image": "images/1212008.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/3/2/84782340c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255411",
+    "name": "קורקינט פעלולים מקצועי Core Core CG1",
+    "image": "images/1255411.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/6/0/96230613c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1257382",
+    "name": "קורקינט חשמלי Cortez X Max 48",
+    "image": "images/1257382.gif",
+    "manufacturer": "Cortez",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/0/6/95396044c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255412",
+    "name": "קורקינט פעלולים מקצועי Core Core SL3",
+    "image": "images/1255412.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/5/6/96196581c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163327",
+    "name": "קורקינט חשמלי CityRunner Runner Phoenix",
+    "image": "images/1163327.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/7/5/70045708b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1176934",
+    "name": "קורקינט חשמלי CityRunner Apollo",
+    "image": "images/1176934.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/7/0/75140753c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1213195",
+    "name": "קורקינט חשמלי GoWheels Clap",
+    "image": "images/1213195.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/5/7/81267569c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976394",
+    "name": "קורקינט פעלולים מקצועי Grit Scooters GRIT INVADER",
+    "image": "images/976394.gif",
+    "manufacturer": "Grit Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/4/7/44777448c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1199435",
+    "name": "קורקינט חשמלי Teverun Fighter Eleven",
+    "image": "images/1199435.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/1/8/78158172c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1145933",
+    "name": "קורקינט חשמלי Inokim Light Max 2.0",
+    "image": "images/1145933.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/0/7/69307049c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1144173",
+    "name": "קורקינט חשמלי Emuze GO 2",
+    "image": "images/1144173.gif",
+    "manufacturer": "Emuze",
+    "imageUrl": "https://img.zap.co.il/pics/new/28215434408b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247753",
+    "name": "קורקינט פעלולים מקצועי Core Core CL1",
+    "image": "images/1247753.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/4/2/94122427c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255413",
+    "name": "קורקינט פעלולים מקצועי Core Core ST3",
+    "image": "images/1255413.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/6/6/96186623c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237340",
+    "name": "קורקינט חשמלי Inokim OX Carbon 48V 21AH",
+    "image": "images/1237340.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/new/101117210256c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1191458",
+    "name": "קורקינט חשמלי Hero S-10",
+    "image": "images/1191458.gif",
+    "manufacturer": "Hero",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/7/5/75755747b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255914",
+    "name": "קורקינט חשמלי Rider X Race Mini 16AH",
+    "image": "images/1255914.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/1/1/96351190c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247755",
+    "name": "קורקינט פעלולים מקצועי Core Core ST2",
+    "image": "images/1247755.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/5/3/94123505c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214143",
+    "name": "קורקינט חשמלי Cortez 48 mini",
+    "image": "images/1214143.gif",
+    "manufacturer": "Cortez",
+    "imageUrl": "https://img.zap.co.il/pics/new/29128303634c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1080951",
+    "name": "קורקינט חשמלי GoWheels EX8S",
+    "image": "images/1080951.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/4/6/55516415c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1213194",
+    "name": "קורקינט חשמלי GoWheels Blade GT",
+    "image": "images/1213194.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/7/84097366c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205336",
+    "name": "קורקינט חשמלי Teverun Fighter Ten",
+    "image": "images/1205336.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/4/4/78894457c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1193756",
+    "name": "קורקינט חשמלי Rider A6 PRO",
+    "image": "images/1193756.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/2/77262205c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1119168",
+    "name": "קורקינט חשמלי Zero 10X",
+    "image": "images/1119168.gif",
+    "manufacturer": "Zero",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/2/5/58445211b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1168547",
+    "name": "קורקינט חשמלי Dualtron Spider 2",
+    "image": "images/1168547.gif",
+    "manufacturer": "Dualtron",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/7/5/74165785c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212015",
+    "name": "קורקינט חשמלי Mukuta Mukuta 9",
+    "image": "images/1212015.gif",
+    "manufacturer": "Mukuta",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/0/1/84151020c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212016",
+    "name": "קורקינט חשמלי Mukuta 10 Plus",
+    "image": "images/1212016.gif",
+    "manufacturer": "Mukuta",
+    "imageUrl": "https://img.zap.co.il/pics/new/51217350930c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1191457",
+    "name": "קורקינט חשמלי Hero S-9",
+    "image": "images/1191457.gif",
+    "manufacturer": "Hero",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/6/0/76900682b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1240443",
+    "name": "קורקינט חשמלי Inokim Quick 4 2025",
+    "image": "images/1240443.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/5/3/89993519c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1144174",
+    "name": "קורקינט חשמלי Kaabo Mantis 10",
+    "image": "images/1144174.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/5/68605773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251220",
+    "name": "קורקינט חשמלי Rider Electron",
+    "image": "images/1251220.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/1/3/98463162c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261707",
+    "name": "קורקינט חשמלי Easybike G16",
+    "image": "images/1261707.gif",
+    "manufacturer": "Easybike",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/0/8/96948099c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1172628",
+    "name": "קורקינט חשמלי Dualtron Victor",
+    "image": "images/1172628.gif",
+    "manufacturer": "Dualtron",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/1/1/74731171c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1168545",
+    "name": "קורקינט חשמלי GoWheels Tiger 10",
+    "image": "images/1168545.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/1/8/68638180b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1157602",
+    "name": "קורקינט חשמלי Eagle T-Rex",
+    "image": "images/1157602.gif",
+    "manufacturer": "Eagle",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/4/1/73911447c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1135672",
+    "name": "קורקינט חשמלי GoWheels Blade X 48V",
+    "image": "images/1135672.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/2/5/67325243c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230234",
+    "name": "קורקינט חשמלי Rider X Race 21AH",
+    "image": "images/1230234.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/7/8/88528787c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1258691",
+    "name": "קורקינט חשמלי CityRunner Apollo Evo",
+    "image": "images/1258691.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/6/96596949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097597",
+    "name": "קורקינט חשמלי Inokim Quick 4",
+    "image": "images/1097597.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/6/6/58946682c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092150",
+    "name": "קורקינט חשמלי TIL Krypton K11",
+    "image": "images/1092150.gif",
+    "manufacturer": "TIL",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/6/0/58410631c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1208479",
+    "name": "קורקינט חשמלי Rider TRX 693493232142",
+    "image": "images/1208479.gif",
+    "manufacturer": "Rider",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/8/4/78884833c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1157604",
+    "name": "קורקינט חשמלי Eagle Junior",
+    "image": "images/1157604.gif",
+    "manufacturer": "Eagle",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/4/1/73911448b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1213570",
+    "name": "קורקינט חשמלי GreenBike Blade Mini 48/21A",
+    "image": "images/1213570.gif",
+    "manufacturer": "GreenBike",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/6/5/86375602c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1194410",
+    "name": "קורקינט חשמלי Kaabo Mantis King GT",
+    "image": "images/1194410.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/0/8/77458005c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1223935",
+    "name": "קורקינט חשמלי Nami Blast",
+    "image": "images/1223935.gif",
+    "manufacturer": "Nami",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/1/3/87333157c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211850",
+    "name": "קורקינט חשמלי Nami Klima Max",
+    "image": "images/1211850.gif",
+    "manufacturer": "Nami",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/0/0/81980002c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237190",
+    "name": "קורקינט חשמלי Kaabo Wolf Warrior X",
+    "image": "images/1237190.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/1/8/90068130c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1169585",
+    "name": "קורקינט חשמלי Dualtron Victor Luxury Pro",
+    "image": "images/1169585.gif",
+    "manufacturer": "Dualtron",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/7/5/74165786c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1199432",
+    "name": "קורקינט חשמלי Nami Burn-E",
+    "image": "images/1199432.gif",
+    "manufacturer": "Nami",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/1/8/78158174c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261496",
+    "name": "קורקינט חשמלי Teverun Fighter Supreme",
+    "image": "images/1261496.gif",
+    "manufacturer": "Teverun",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/0/4/94384007c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072676322",
+    "name": "קורקינט חשמלי CityRunner Runner-X3",
+    "image": "images/1072676322.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/7/0/75140753c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237440",
+    "name": "קורקינט חשמלי Kaabo Mantis X Plus",
+    "image": "images/1237440.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/4/3/89323443c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247830",
+    "name": "קורקינט פעלולים מקצועי Slamm Classic Mini",
+    "image": "images/1247830.gif",
+    "manufacturer": "Slamm",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/4/1/94401427c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072676325",
+    "name": "קורקינט חשמלי GoWheels Tiger 10",
+    "image": "images/1072676325.gif",
+    "manufacturer": "CityRunner",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/6/96596949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1247756",
+    "name": "קורקינט פעלולים מקצועי Core Core CD1",
+    "image": "images/1247756.gif",
+    "manufacturer": "Core",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/6/4/94164639c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056538079",
+    "name": "קורקינט חשמלי GoWheels Tiger 10",
+    "image": "images/1056538079.gif",
+    "manufacturer": "GoWheels",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/2/5/67325243c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1149340709",
+    "name": "קורקינט חשמלי Cortez X Max 48",
+    "image": "images/1149340709.gif",
+    "manufacturer": "Inokim",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/0/7/69307049c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976399",
+    "name": "קורקינט פעלולים מקצועי Crisp Scooters CRISP BLASTER",
+    "image": "images/976399.gif",
+    "manufacturer": "Crisp Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/4/9/45859421c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    }
+  },
+  {
+    "id": "1218894",
+    "name": "קורקינט Micro Micro Sprite Led",
+    "image": "images/1218894.gif",
+    "manufacturer": "Micro",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/1/7/88867186c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    }
+  },
+  {
+    "id": "976398",
+    "name": "קורקינט פעלולים מקצועי Crisp Scooters CRISP SWITCH",
+    "image": "images/976398.gif",
+    "manufacturer": "Crisp Scooters",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/0/2/45862022c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    }
+  },
+  {
+    "id": "1132339976",
+    "name": "קורקינט חשמלי Eagle Junior",
+    "image": "images/1132339976.gif",
+    "manufacturer": "Kaabo",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/0/8/77458005c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636528088
+    }
+  }
+]

@@ -1,0 +1,2776 @@
+[
+  {
+    "id": "1208125",
+    "name": "רמקול נייד Sonos Move 2",
+    "image": "images/1208125.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/0/6/95146054b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509267
+    },
+    "manufacturer": "Sonos",
+    "filterTags": {}
+  },
+  {
+    "id": "1110105",
+    "name": "רמקול נייד Sonos Roam",
+    "image": "images/1110105.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/0/5/61875096c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Sonos",
+    "filterTags": {}
+  },
+  {
+    "id": "1221421",
+    "name": "רמקול נייד Klipsch Austin",
+    "image": "images/1221421.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/3/2/87312382c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Klipsch",
+    "filterTags": {}
+  },
+  {
+    "id": "1255390",
+    "name": "רמקול נייד FiiO Snowsky Anywhere",
+    "image": "images/1255390.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/9/95149101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "FiiO",
+    "filterTags": {}
+  },
+  {
+    "id": "1221422",
+    "name": "רמקול נייד Klipsch Nashville",
+    "image": "images/1221422.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/7/0/87070715c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Klipsch",
+    "filterTags": {}
+  },
+  {
+    "id": "883832",
+    "name": "רמקול נייד Cambridge Audio GO",
+    "image": "images/883832.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/9/7/41637992c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Cambridge Audio",
+    "filterTags": {}
+  },
+  {
+    "id": "1248623",
+    "name": "רמקול נייד Klipsch Detroit",
+    "image": "images/1248623.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/9/0/93230973c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Klipsch",
+    "filterTags": {}
+  },
+  {
+    "id": "1255278",
+    "name": "רמקול נייד JBL Boombox 4",
+    "image": "images/1255278.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/5/3/95943511c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1222044",
+    "name": "רמקול נייד Anker SoundCore Motion X600 A3130",
+    "image": "images/1222044.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/8/2/87362827c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509268
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1198871",
+    "name": "רמקול נייד Marshall Middleton שחור",
+    "image": "images/1198871.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/0/5/81905093c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509269
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1222706",
+    "name": "Harman Kardon רמקול נייד אלחוטי HARMAN KARDON GO + PLAY 3 שחור",
+    "image": "images/1222706.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/8/7/87447812c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509269
+    },
+    "manufacturer": "Harman Kardon",
+    "filterTags": {}
+  },
+  {
+    "id": "1247330",
+    "name": "רמקול נייד JBL Flip 7",
+    "image": "images/1247330.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/1/7/94777166c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271,
+      "ksp": 349,
+      "kspUrl": "https://ksp.co.il/web/item/406097"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1247331",
+    "name": "רמקול נייד JBL Charge 6",
+    "image": "images/1247331.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/1/2/94552128c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271,
+      "ksp": 469,
+      "kspUrl": "https://ksp.co.il/web/item/406116"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1228485",
+    "name": "רמקול נייד JBL GO 4",
+    "image": "images/1228485.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/8/3/88713881c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271,
+      "ksp": 138,
+      "kspUrl": "https://ksp.co.il/web/item/419085"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1170914",
+    "name": "רמקול נייד JBL BoomBox 3",
+    "image": "images/1170914.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/2/6/74226245c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1232801",
+    "name": "רמקול נייד JBL Xtreme 4",
+    "image": "images/1232801.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/5/3/88783567c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/407180"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1113566",
+    "name": "רמקול נייד JBL Charge 5",
+    "image": "images/1113566.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/5/5/61815595c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509271,
+      "ksp": 469,
+      "kspUrl": "https://ksp.co.il/web/item/406116"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1226291",
+    "name": "רמקול נייד JBL Clip 5",
+    "image": "images/1226291.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/6/3/88113603c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509272
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1138065",
+    "name": "רמקול נייד JBL Flip 6",
+    "image": "images/1138065.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/4/3/67963451c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509272,
+      "ksp": 349,
+      "kspUrl": "https://ksp.co.il/web/item/406097"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1105539",
+    "name": "רמקול נייד JBL Xtreme 3",
+    "image": "images/1105539.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/6/2/60162605c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509272,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/407180"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1255294",
+    "name": "רמקול נייד JBL Grip",
+    "image": "images/1255294.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/9/5/96155978c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509272
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1233772",
+    "name": "רמקול נייד Xiaomi Sound Pocket 81098",
+    "image": "images/1233772.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/9/89829183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509273
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1215818",
+    "name": "רמקול נייד Anker Soundcore Rave Neo 2",
+    "image": "images/1215818.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/5/6/86336540c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509274
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1190339",
+    "name": "רמקול נייד JBL Go Essential",
+    "image": "images/1190339.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/1/2/74922117c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509274,
+      "ksp": 138,
+      "kspUrl": "https://ksp.co.il/web/item/419085"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1224197",
+    "name": "רמקול נייד Anker SoundCore Select Pro",
+    "image": "images/1224197.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/8/2/87362828c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509274
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "903813",
+    "name": "רמקול אלחוטי JBL Horizon",
+    "image": "images/903813.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/1/4/95704178b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1103411",
+    "name": "רמקול נייד JBL Clip 4",
+    "image": "images/1103411.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/1/0/67780155c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1185826",
+    "name": "רמקול נייד Marshall Willen",
+    "image": "images/1185826.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/9/8/76288922c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1098448",
+    "name": "רמקול נייד JBL Go 3",
+    "image": "images/1098448.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/7/76187101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275,
+      "ksp": 138,
+      "kspUrl": "https://ksp.co.il/web/item/419085"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1226308",
+    "name": "רמקול נייד Xiaomi Sound Outdoor 30W",
+    "image": "images/1226308.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/0/8/88128085c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {
+      "speakerPower": "30W"
+    }
+  },
+  {
+    "id": "1196859",
+    "name": "רמקול נייד Noa Retro",
+    "image": "images/1196859.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/4/7/76507449c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "Noa",
+    "filterTags": {}
+  },
+  {
+    "id": "1221417",
+    "name": "רמקול נייד Anker Soundcore Glow A3166",
+    "image": "images/1221417.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/3/1/87371387c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1245823",
+    "name": "רמקול נייד Anker SoundCore Select 4 Go",
+    "image": "images/1245823.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/2/9/93179263c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509275
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1221418",
+    "name": "רמקול נייד Anker Soundcore Glow Mini A3136",
+    "image": "images/1221418.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/2/4/87334281c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1226617",
+    "name": "רמקול נייד JBL Charge Essential 2",
+    "image": "images/1226617.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/7/1/88041742c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276,
+      "ksp": 469,
+      "kspUrl": "https://ksp.co.il/web/item/406116"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1258424",
+    "name": "רמקול נייד JBL Tuner 3",
+    "image": "images/1258424.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/96779721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1142887",
+    "name": "רמקול נייד Bose SoundLink Flex",
+    "image": "images/1142887.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/8/2/68252867c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276,
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/421831"
+    },
+    "manufacturer": "Bose",
+    "filterTags": {}
+  },
+  {
+    "id": "1215953",
+    "name": "רמקול נייד Miracase MTWS400",
+    "image": "images/1215953.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/7/2/86232748c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1195791",
+    "name": "רמקול נייד Edifier MP230",
+    "image": "images/1195791.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/315151720571c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509276
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1215828",
+    "name": "רמקול נייד W-king D120",
+    "image": "images/1215828.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/5/2/86712586c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509277
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1254416",
+    "name": "רמקול נייד Marshall Kilburn 3",
+    "image": "images/1254416.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/35124376c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509277
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1060828",
+    "name": "רמקול נייד JBL Flip Essential",
+    "image": "images/1060828.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/3/9/53649333c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509277,
+      "ksp": 349,
+      "kspUrl": "https://ksp.co.il/web/item/406097"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1069740",
+    "name": "רמקול נייד Audio Pro A10",
+    "image": "images/1069740.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/23217645860c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509277
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1215947",
+    "name": "רמקול נייד Miracase MTWS360",
+    "image": "images/1215947.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/5/9/86339585c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509277
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1215952",
+    "name": "רמקול נייד Miracase MTWS420",
+    "image": "images/1215952.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/5/9/86339592c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1237631",
+    "name": "רמקול נייד Marshall Emberton III",
+    "image": "images/1237631.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/8/3/90233848c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1096748",
+    "name": "רמקול נייד Audio Pro Addon T3 Plus",
+    "image": "images/1096748.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/23217234541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1215949",
+    "name": "רמקול נייד Miracase MTWS370",
+    "image": "images/1215949.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/5/9/86339586c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1215838",
+    "name": "רמקול נייד W-king D320",
+    "image": "images/1215838.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/5/2/86712585c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1215951",
+    "name": "רמקול נייד Miracase MBTS702",
+    "image": "images/1215951.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/8/1/86741815c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509278
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1180760",
+    "name": "רמקול חכם Amazon Echo Dot 5th Generation",
+    "image": "images/1180760.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142164731486c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "Amazon",
+    "filterTags": {}
+  },
+  {
+    "id": "1215840",
+    "name": "רמקול נייד W-king S7",
+    "image": "images/1215840.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/5/2/86712588c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1196862",
+    "name": "רמקול נייד JLAB JBuds Frames",
+    "image": "images/1196862.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/2/1/69611282c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "JLAB",
+    "filterTags": {}
+  },
+  {
+    "id": "1238742",
+    "name": "רמקול נייד Edifier D32",
+    "image": "images/1238742.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/9/4/88684960c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1162756",
+    "name": "רמקול נייד JBL Tuner 2",
+    "image": "images/1162756.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/4/4/70514480c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1116299",
+    "name": "רמקול נייד JBL Tuner XL",
+    "image": "images/1116299.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/7/9/60969706c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509279
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1062034",
+    "name": "רמקול נייד Morel Hogtalare",
+    "image": "images/1062034.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/4/62944043c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Morel",
+    "filterTags": {}
+  },
+  {
+    "id": "1222705",
+    "name": "רמקול נייד Harman Kardon Luna 1200130006968",
+    "image": "images/1222705.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/8/7/87447813c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Harman Kardon",
+    "filterTags": {}
+  },
+  {
+    "id": "1248629",
+    "name": "רמקול נייד Anker Soundcore Boom 2 SE",
+    "image": "images/1248629.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/0/5/94735040c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1255277",
+    "name": "רמקול אלחוטי Samsung Music Frame HW-LS60D/SQ",
+    "image": "images/1255277.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/1/95991693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Samsung",
+    "filterTags": {}
+  },
+  {
+    "id": "1241222",
+    "name": "רמקול נייד Miracase MBTS490",
+    "image": "images/1241222.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/6/4/90904649c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1238738",
+    "name": "רמקול אלחוטי Audio Pro C5 MkII",
+    "image": "images/1238738.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/1/9/86389169c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1215948",
+    "name": "רמקול נייד Miracase MTWS380",
+    "image": "images/1215948.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/5/9/86339587c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509280
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1238750",
+    "name": "רמקול נייד Edifier MP85",
+    "image": "images/1238750.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/14116457565c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1215827",
+    "name": "רמקול נייד W-king S20",
+    "image": "images/1215827.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/5/2/86712587c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1215954",
+    "name": "רמקול נייד Miracase MTWS430",
+    "image": "images/1215954.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/4/6/86316499c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1206710",
+    "name": "רמקול נייד JBL Wind 3",
+    "image": "images/1206710.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/6/9/78949631c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281,
+      "ksp": 239,
+      "kspUrl": "https://ksp.co.il/web/item/411267"
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1168856",
+    "name": "רמקול נייד Sony SRS-XE300",
+    "image": "images/1168856.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/8/5/71895851c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1141087",
+    "name": "Addon C10 MKII Audio Pro",
+    "image": "images/1141087.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142165517973c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509281
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1086811",
+    "name": "רמקול נייד Denon HOME 350",
+    "image": "images/1086811.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/3/5/86105371c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Denon",
+    "filterTags": {}
+  },
+  {
+    "id": "1080474",
+    "name": "רמקול נייד JBL BoomBox 2",
+    "image": "images/1080474.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/6/8/70358687c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1156233",
+    "name": "רמקול נייד W-king T8",
+    "image": "images/1156233.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/9/9/69969975c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1100106",
+    "name": "רמקול נייד Anker SoundCore Rave",
+    "image": "images/1100106.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/23217142916c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1241226",
+    "name": "רמקול נייד Bugani Brief Plus",
+    "image": "images/1241226.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/8/6/91046877c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Bugani",
+    "filterTags": {}
+  },
+  {
+    "id": "1122518",
+    "name": "רמקול נייד Noa Air Beats",
+    "image": "images/1122518.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/14217311669c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Noa",
+    "filterTags": {}
+  },
+  {
+    "id": "1092055",
+    "name": "רמקול נייד Sony SRS-XB23",
+    "image": "images/1092055.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/1/58561361c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1241283",
+    "name": "רמקול נייד Sony SRS-ULT10",
+    "image": "images/1241283.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/0/1/93321035c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1140621",
+    "name": "רמקול אלחוטי Audio Pro Addon C5",
+    "image": "images/1140621.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/14216562301c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509282
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1199648",
+    "name": "רמקול נייד Aiwa BST-650",
+    "image": "images/1199648.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/4/5/78095463c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509283
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "1069743",
+    "name": "רמקול נייד Audio Pro Addon C3",
+    "image": "images/1069743.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/4/4/59064434c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509283
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1218219",
+    "name": "רמקול נייד Next Maverick MV3",
+    "image": "images/1218219.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/205142939278c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509283
+    },
+    "manufacturer": "Next",
+    "filterTags": {}
+  },
+  {
+    "id": "1140620",
+    "name": "רמקול חכם Audio Pro Addon C5A",
+    "image": "images/1140620.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142165632531c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509283
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1242428",
+    "name": "רמקול נייד Bugani Boost Max",
+    "image": "images/1242428.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/8/3/92353823c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Bugani",
+    "filterTags": {}
+  },
+  {
+    "id": "1157560",
+    "name": "רמקול נייד Miracase MBTS1100",
+    "image": "images/1157560.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/8/9/70059879c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1241227",
+    "name": "רמקול נייד Bugani Brief Pro",
+    "image": "images/1241227.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/7/91057311c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Bugani",
+    "filterTags": {}
+  },
+  {
+    "id": "1255355",
+    "name": "רמקול נייד Energy Vintage P80",
+    "image": "images/1255355.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/2/8/94838201c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1202338",
+    "name": "רמקול נייד Aiwa NARA-1",
+    "image": "images/1202338.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/7/8/78428783c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "1087976",
+    "name": "רמקול נייד Logitech Z207",
+    "image": "images/1087976.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/1/1/49691118c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "1086807",
+    "name": "רמקול חכם Denon HOME 150",
+    "image": "images/1086807.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/4/7/84137455c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Denon",
+    "filterTags": {}
+  },
+  {
+    "id": "1221415",
+    "name": "רמקול חכם Amazon Echo Pop",
+    "image": "images/1221415.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/4/2/87282464c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509284
+    },
+    "manufacturer": "Amazon",
+    "filterTags": {}
+  },
+  {
+    "id": "1226623",
+    "name": "רמקול נייד PiZZi 9500 LuminoBeat",
+    "image": "images/1226623.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/3/2/87672365c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509285
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "997477",
+    "name": "רמקול נייד Miracase MBTS601",
+    "image": "images/997477.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/1/48101773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509285
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1136094",
+    "name": "רמקול נייד Makita DMR203",
+    "image": "images/1136094.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/9/7/67757929c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509285
+    },
+    "manufacturer": "Makita",
+    "filterTags": {}
+  },
+  {
+    "id": "1084138",
+    "name": "רמקול אלחוטי Audio Pro BT5",
+    "image": "images/1084138.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/9/4/56914952c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509285
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1136092",
+    "name": "רמקול נייד Audio Pro P5",
+    "image": "images/1136092.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142165740515c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1219718",
+    "name": "רמקול נייד Aiwa BST-330",
+    "image": "images/1219718.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/1/87221949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "1143213",
+    "name": "רמקול נייד Miracase MBTS322",
+    "image": "images/1143213.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/1/0/68460185c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1180119",
+    "name": "רמקול נייד Audio Pro A15",
+    "image": "images/1180119.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/9/2/76012965c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1086809",
+    "name": "רמקול נייד Denon HOME 250",
+    "image": "images/1086809.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/4/0/86120415c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Denon",
+    "filterTags": {}
+  },
+  {
+    "id": "1238743",
+    "name": "רמקול נייד JVC Party Speaker XS-N3123PB",
+    "image": "images/1238743.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/1/3/89603117c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "JVC",
+    "filterTags": {}
+  },
+  {
+    "id": "1117915",
+    "name": "רמקול נייד Bang&Olufsen Beosound Explore",
+    "image": "images/1117915.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/2969561880c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509286
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "1106727",
+    "name": "רמקול נייד Creative Muvo Play",
+    "image": "images/1106727.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/2/3/62873244c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509287
+    },
+    "manufacturer": "Creative",
+    "filterTags": {}
+  },
+  {
+    "id": "1117351",
+    "name": "רמקול נייד Xiaomi Mi Portable Bluetooth Speaker 81003",
+    "image": "images/1117351.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/2/7/62587230c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509287
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1143214",
+    "name": "רמקול נייד Miracase MBTS919",
+    "image": "images/1143214.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/1/0/68460189c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509287
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1255299",
+    "name": "רמקול נייד Edifier ES60",
+    "image": "images/1255299.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/5/7/95477532c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509287
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1152265",
+    "name": "רמקול חכם LG XBOOMGo PL2",
+    "image": "images/1152265.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/2/8/69608229c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "LG",
+    "filterTags": {}
+  },
+  {
+    "id": "1218203",
+    "name": "רמקול נייד Miracase MBTS701 99700-701-00",
+    "image": "images/1218203.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/0/6/86826088c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1108845",
+    "name": "רמקול חכם Audio Pro G10",
+    "image": "images/1108845.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/286113126578c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "870821",
+    "name": "רמקול נייד Beats by Dre Beats Pill",
+    "image": "images/870821.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/9/6/48796995c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Beats by Dre",
+    "filterTags": {}
+  },
+  {
+    "id": "1248613",
+    "name": "רמקול נייד Sony SRS-ULT30 ULT FIELD 3",
+    "image": "images/1248613.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/5/94775541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1255359",
+    "name": "רמקול נייד Energy Pulse L10",
+    "image": "images/1255359.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/3/4/95854305c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1241225",
+    "name": "רמקול נייד Miracase MBTS470",
+    "image": "images/1241225.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/2/6/93466261c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509288
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1255316",
+    "name": "רמקול נייד Edifier ES20",
+    "image": "images/1255316.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/3/5/96545377c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1133995",
+    "name": "רמקול נייד Makita XRM08",
+    "image": "images/1133995.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/2/1/67121212c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "Makita",
+    "filterTags": {}
+  },
+  {
+    "id": "986284",
+    "name": "רמקול נייד Soul WavePower",
+    "image": "images/986284.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/6/3/47283669c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "Soul",
+    "filterTags": {}
+  },
+  {
+    "id": "1084650",
+    "name": "רמקול נייד Noa V1200W",
+    "image": "images/1084650.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/2/5/69975237c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "Noa",
+    "filterTags": {
+      "speakerPower": "1200W"
+    }
+  },
+  {
+    "id": "1040068",
+    "name": "רמקול אלחוטי JBL Flip 5",
+    "image": "images/1040068.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/8/0/51600858c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "1249391",
+    "name": "רמקול נייד Energizer BTS163",
+    "image": "images/1249391.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/4/2/94982457c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509289
+    },
+    "manufacturer": "Energizer",
+    "filterTags": {}
+  },
+  {
+    "id": "1057679",
+    "name": "רמקול נייד Noa Sound Box V900",
+    "image": "images/1057679.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/1/0/81110114c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509290
+    },
+    "manufacturer": "Noa",
+    "filterTags": {}
+  },
+  {
+    "id": "1151938",
+    "name": "רמקול נייד PiZZi 9000 Splash",
+    "image": "images/1151938.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/4/7/66747467c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509290
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "1255301",
+    "name": "רמקול נייד Edifier MP330",
+    "image": "images/1255301.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/5/7/95657506c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509290
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1122515",
+    "name": "רמקול נייד Noa V1400W",
+    "image": "images/1122515.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/1/62861205c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509290
+    },
+    "manufacturer": "Noa",
+    "filterTags": {
+      "speakerPower": "1400W"
+    }
+  },
+  {
+    "id": "1255357",
+    "name": "רמקול נייד Energy Vox X5",
+    "image": "images/1255357.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/0/95340720c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509290
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1255356",
+    "name": "רמקול נייד Energy Vintage P40",
+    "image": "images/1255356.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/8/94838200c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1121306",
+    "name": "רמקול נייד LG XBOOM Go PL7",
+    "image": "images/1121306.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/7/4/64574701c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "LG",
+    "filterTags": {}
+  },
+  {
+    "id": "1098449",
+    "name": "רמקול נייד Bang&Olufsen Beolit 20",
+    "image": "images/1098449.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/9/5/47725965c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "1241282",
+    "name": "רמקול נייד Morel Biggie",
+    "image": "images/1241282.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/3/4/90564375c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Morel",
+    "filterTags": {}
+  },
+  {
+    "id": "1196842",
+    "name": "רמקול נייד Next Trend BT Portable IPX6 Speaker",
+    "image": "images/1196842.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/7/5/76095796c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Next",
+    "filterTags": {}
+  },
+  {
+    "id": "1117228",
+    "name": "רמקול נייד Anker Soundcore Rave PartyCast",
+    "image": "images/1117228.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/1/5/62725104c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1248614",
+    "name": "רמקול נייד Sony SRS-ULT50 ULT FIELD 5",
+    "image": "images/1248614.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/7/94807361c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509291
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1195790",
+    "name": "רמקול נייד Edifier D12",
+    "image": "images/1195790.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/5/3/70523549c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509292
+    },
+    "manufacturer": "Edifier",
+    "filterTags": {}
+  },
+  {
+    "id": "1230220",
+    "name": "רמקול נייד Bose SoundLink Max Portable Speaker",
+    "image": "images/1230220.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/2/7/89147266c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509292
+    },
+    "manufacturer": "Bose",
+    "filterTags": {}
+  },
+  {
+    "id": "1067038",
+    "name": "רמקול נייד JBL Pulse 4",
+    "image": "images/1067038.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/0/8/57248061c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509292
+    },
+    "manufacturer": "JBL",
+    "filterTags": {}
+  },
+  {
+    "id": "963424",
+    "name": "רמקול נייד Bose Soundlink Micro",
+    "image": "images/963424.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/7/3/47373768c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509292,
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/421831"
+    },
+    "manufacturer": "Bose",
+    "filterTags": {}
+  },
+  {
+    "id": "1087704",
+    "name": "רמקול אלחוטי Anker SoundCore Flare 2",
+    "image": "images/1087704.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/7/6/70646731c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509292
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1112577",
+    "name": "רמקול נייד LG XBOOMGo PL5",
+    "image": "images/1112577.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/2/9/61679229c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "LG",
+    "filterTags": {}
+  },
+  {
+    "id": "1242425",
+    "name": "רמקול נייד Genius SP-915BT",
+    "image": "images/1242425.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/5/5/95135539c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "Genius",
+    "filterTags": {}
+  },
+  {
+    "id": "1255295",
+    "name": "רמקול נייד Energy Echo K16 BT",
+    "image": "images/1255295.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/4/9/95529439c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1152264",
+    "name": "רמקול נייד LG XBOOM Go PN1",
+    "image": "images/1152264.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/1/69611361c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "LG",
+    "filterTags": {}
+  },
+  {
+    "id": "948820",
+    "name": "רמקול נייד Bose SoundLink Revolve",
+    "image": "images/948820.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/1/9/44679154c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293,
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/421831"
+    },
+    "manufacturer": "Bose",
+    "filterTags": {}
+  },
+  {
+    "id": "1238741",
+    "name": "רמקול נייד Sony ULT Field 1",
+    "image": "images/1238741.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/9/5/89565917c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1117518",
+    "name": "רמקול נייד Xiaomi Mi Compact Bluetooth Speaker 2 QBH4141EU",
+    "image": "images/1117518.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/232165648870c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509293
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1133991",
+    "name": "רמקול נייד Miracase MBTS923",
+    "image": "images/1133991.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/1/1/66951138c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509294
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1151935",
+    "name": "רמקול אלחוטי PiZZi 8000 Boom - Single",
+    "image": "images/1151935.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/6/6/60756660c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509294
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "887212",
+    "name": "רמקול נייד Miracase MBT100",
+    "image": "images/887212.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/8/4/70734878c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509294
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1249392",
+    "name": "רמקול נייד Energizer BTS081",
+    "image": "images/1249392.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/4/2/94982455c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509294
+    },
+    "manufacturer": "Energizer",
+    "filterTags": {}
+  },
+  {
+    "id": "1215950",
+    "name": "רמקול נייד Miracase MBTS703",
+    "image": "images/1215950.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/0/5/86695052c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Miracase",
+    "filterTags": {}
+  },
+  {
+    "id": "1151930",
+    "name": "רמקול נייד PiZZi 4700 Mini - Single",
+    "image": "images/1151930.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/6/6/60756661c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "1255360",
+    "name": "HT1 Marquis Hoco",
+    "image": "images/1255360.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/7/7/95237711c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Hoco",
+    "filterTags": {}
+  },
+  {
+    "id": "1255362",
+    "name": "רמקול נייד Genius SP-916BT",
+    "image": "images/1255362.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/2/9/96059213c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Genius",
+    "filterTags": {}
+  },
+  {
+    "id": "1151937",
+    "name": "רמקול נייד PiZZi 5700 Mini Duo - Twin",
+    "image": "images/1151937.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/6/5/75385612c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "1202339",
+    "name": "רמקול נייד Aiwa NARA-2",
+    "image": "images/1202339.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/7/8/78428780c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "1246336",
+    "name": "רמקול נייד Creative Muvo Free",
+    "image": "images/1246336.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/8/0/94450884c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Creative",
+    "filterTags": {}
+  },
+  {
+    "id": "931479",
+    "name": "רמקול אלחוטי HP S6500",
+    "image": "images/931479.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/2/3/45443260c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "HP ",
+    "filterTags": {}
+  },
+  {
+    "id": "1123344",
+    "name": "רמקול נייד Marshall Emberton",
+    "image": "images/1123344.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/2/0/75000288c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1248630",
+    "name": "רמקול נייד Tribit StormBox Mini",
+    "image": "images/1248630.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/1/5/95195116c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509295
+    },
+    "manufacturer": "Tribit",
+    "filterTags": {}
+  },
+  {
+    "id": "1096789",
+    "name": "רמקול נייד Tribit XSound Go",
+    "image": "images/1096789.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/0/9/61109049c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509296
+    },
+    "manufacturer": "Tribit",
+    "filterTags": {}
+  },
+  {
+    "id": "1030533",
+    "name": "רמקול נייד Pure Acoustics Edgewater",
+    "image": "images/1030533.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/9/7/50777961c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509296
+    },
+    "manufacturer": "Pure Acoustics",
+    "filterTags": {}
+  },
+  {
+    "id": "929666",
+    "name": "רמקול אלחוטי Xiaomi Mi Square Box Speaker",
+    "image": "images/929666.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/9392234194c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509296
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1249390",
+    "name": "רמקול נייד Energizer BTS206",
+    "image": "images/1249390.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/4/2/94982458c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297,
+      "ksp": 169,
+      "kspUrl": "https://ksp.co.il/web/item/341968"
+    },
+    "manufacturer": "Energizer",
+    "filterTags": {}
+  },
+  {
+    "id": "1183491",
+    "name": "רמקול נייד Blaupunkt Smart1000",
+    "image": "images/1183491.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/14216478829c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Blaupunkt",
+    "filterTags": {}
+  },
+  {
+    "id": "1199644",
+    "name": "רמקול נייד Aiwa BS-200",
+    "image": "images/1199644.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/2/5/78105289c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "1238735",
+    "name": "רמקול נייד JVC XS-N3133PB",
+    "image": "images/1238735.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/1/1/90491145c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "JVC",
+    "filterTags": {}
+  },
+  {
+    "id": "1040159",
+    "name": "רמקול נייד Sound Crush HR701",
+    "image": "images/1040159.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/0/7/44517033c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Sound Crush",
+    "filterTags": {}
+  },
+  {
+    "id": "1042146",
+    "name": "רמקול נייד Sonos Move",
+    "image": "images/1042146.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/5/1/57801548c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Sonos",
+    "filterTags": {}
+  },
+  {
+    "id": "1161903",
+    "name": "רמקול נייד W-king D8",
+    "image": "images/1161903.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/9/9/69969990c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "W-king",
+    "filterTags": {}
+  },
+  {
+    "id": "1202340",
+    "name": "רמקול נייד Aiwa NARA-3",
+    "image": "images/1202340.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/7/8/78428786c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Aiwa",
+    "filterTags": {}
+  },
+  {
+    "id": "902923",
+    "name": "רמקול נייד Logitech P710E",
+    "image": "images/902923.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/3/2/40682371c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509297
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "1199149",
+    "name": "רמקול נייד Nexvoo N710",
+    "image": "images/1199149.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/1/84791619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "Nexvoo",
+    "filterTags": {}
+  },
+  {
+    "id": "1063230",
+    "name": "רמקול נייד Tannoy Live Mini",
+    "image": "images/1063230.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/2/0/70080247c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "Tannoy",
+    "filterTags": {}
+  },
+  {
+    "id": "1255297",
+    "name": "רמקול אלחוטי Energy Echo K12 BT",
+    "image": "images/1255297.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/6/7/95337667c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "837643",
+    "name": "רמקול אלחוטי Creative D200",
+    "image": "images/837643.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/9393450822c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "Creative",
+    "filterTags": {}
+  },
+  {
+    "id": "1226896",
+    "name": "רמקול נייד PiZZi 9800 ThunderBass",
+    "image": "images/1226896.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/2/87672366c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "PiZZi",
+    "filterTags": {}
+  },
+  {
+    "id": "1195558",
+    "name": "רמקול נייד UB Plus Eupho E2",
+    "image": "images/1195558.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/7/2/77632743c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "UB Plus",
+    "filterTags": {}
+  },
+  {
+    "id": "1195492",
+    "name": "רמקול נייד Anker SoundCore Wakey BT 5.0",
+    "image": "images/1195492.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/1/8/76458175c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509298
+    },
+    "manufacturer": "Anker",
+    "filterTags": {}
+  },
+  {
+    "id": "1043914",
+    "name": "רמקול נייד Marshall Tufton",
+    "image": "images/1043914.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/8/0/76210860c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "1232761",
+    "name": "רמקול נייד Marshall Emberton II",
+    "image": "images/1232761.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/39125719997c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "Marshall",
+    "filterTags": {}
+  },
+  {
+    "id": "975097",
+    "name": "רמקול נייד Noa Sound Box V800w",
+    "image": "images/975097.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/13111845364c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "Noa",
+    "filterTags": {
+      "speakerPower": "800W"
+    }
+  },
+  {
+    "id": "1143322",
+    "name": "רמקול נייד DeWalt DCR010",
+    "image": "images/1143322.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/9/5/68535977c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "DeWalt",
+    "filterTags": {}
+  },
+  {
+    "id": "1166959",
+    "name": "Home Small Defunc",
+    "image": "images/1166959.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/2/70662265c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "Defunc",
+    "filterTags": {}
+  },
+  {
+    "id": "1248634",
+    "name": "רמקול נייד Tribit StormBox Blast 2",
+    "image": "images/1248634.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/9/2/94302907c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509299
+    },
+    "manufacturer": "Tribit",
+    "filterTags": {}
+  },
+  {
+    "id": "1095466",
+    "name": "רמקול נייד Bang&Olufsen Beosound A1 2nd Gen",
+    "image": "images/1095466.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/8/0/58360830c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "955660",
+    "name": "רמקול אלחוטי Klipsch GiG",
+    "image": "images/955660.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/9/1/42761954c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Klipsch",
+    "filterTags": {}
+  },
+  {
+    "id": "1248633",
+    "name": "רמקול נייד Tribit StormBox Blast",
+    "image": "images/1248633.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/9/2/94302911c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Tribit",
+    "filterTags": {}
+  },
+  {
+    "id": "969065",
+    "name": "רמקול אלחוטי Soul Storm",
+    "image": "images/969065.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/8/1/45921834c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Soul",
+    "filterTags": {}
+  },
+  {
+    "id": "1222700",
+    "name": "רמקול נייד Coby CSBT-313",
+    "image": "images/1222700.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/5/9/87229598c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Coby",
+    "filterTags": {}
+  },
+  {
+    "id": "1211763",
+    "name": "רמקול אלחוטי Sony SRS-XV800",
+    "image": "images/1211763.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/0/4/84794029c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "933120",
+    "name": "NR904 UNIVERSE",
+    "image": "images/933120.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/6/42576153c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "UNIVERSE",
+    "filterTags": {}
+  },
+  {
+    "id": "1166960",
+    "name": "רמקול חכם Defunc Home Large",
+    "image": "images/1166960.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142164944642c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Defunc",
+    "filterTags": {}
+  },
+  {
+    "id": "1001935",
+    "name": "רמקול נייד UNIVERSE NR908",
+    "image": "images/1001935.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/1/2/48512125c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "UNIVERSE",
+    "filterTags": {}
+  },
+  {
+    "id": "1156018",
+    "name": "רמקול נייד Pure Acoustics Rasta BOX-10 BK",
+    "image": "images/1156018.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/241161642776c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509300
+    },
+    "manufacturer": "Pure Acoustics",
+    "filterTags": {}
+  },
+  {
+    "id": "1255363",
+    "name": "רמקול נייד Germaine BT-Q3",
+    "image": "images/1255363.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/1/1/94401161c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509301
+    },
+    "manufacturer": "Germaine",
+    "filterTags": {}
+  },
+  {
+    "id": "1255296",
+    "name": "רמקול נייד Energy Echo K30 BT",
+    "image": "images/1255296.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/7/0/95340719c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509301
+    },
+    "manufacturer": "Energy",
+    "filterTags": {}
+  },
+  {
+    "id": "1241284",
+    "name": "רמקול נייד Sony SRS-ULT70 ULT FIELD 7",
+    "image": "images/1241284.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/7/1/92341771c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509301
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1141108",
+    "name": "רמקול נייד Lexon PowerSound",
+    "image": "images/1141108.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/4/0/67440494c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509301
+    },
+    "manufacturer": "Lexon",
+    "filterTags": {}
+  },
+  {
+    "id": "1119124",
+    "name": "רמקול נייד House of Marley No Bounds",
+    "image": "images/1119124.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/3/5/57885352c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509301
+    },
+    "manufacturer": "House of Marley",
+    "filterTags": {}
+  },
+  {
+    "id": "1126714",
+    "name": "רמקול נייד Bose SoundLink Revolve Plus II",
+    "image": "images/1126714.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/3/9/64849385c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "Bose",
+    "filterTags": {}
+  },
+  {
+    "id": "1111856",
+    "name": "רמקול נייד Noa V950W",
+    "image": "images/1111856.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/7/8/61738763c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "Noa",
+    "filterTags": {
+      "speakerPower": "950W"
+    }
+  },
+  {
+    "id": "1096750",
+    "name": "רמקול נייד Audio Pro D-1",
+    "image": "images/1096750.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/23217217963c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1248626",
+    "name": "רמקול נייד EarFun Uboom X",
+    "image": "images/1248626.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/9/0/93730978c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "EarFun",
+    "filterTags": {}
+  },
+  {
+    "id": "1092057",
+    "name": "רמקול נייד Bluesound Pulse Flex 2i",
+    "image": "images/1092057.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/9/8/77188963c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "Bluesound",
+    "filterTags": {}
+  },
+  {
+    "id": "1238739",
+    "name": "רמקול נייד Audio Pro D-2",
+    "image": "images/1238739.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/2/7/89167269c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509302
+    },
+    "manufacturer": "Audio Pro",
+    "filterTags": {}
+  },
+  {
+    "id": "1156491",
+    "name": "רמקול נייד Dali Katch G2",
+    "image": "images/1156491.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/6/1/62261682c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Dali",
+    "filterTags": {}
+  },
+  {
+    "id": "1248867",
+    "name": "רמקול נייד Makita DMR108N",
+    "image": "images/1248867.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/1/8/93528102c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Makita",
+    "filterTags": {}
+  },
+  {
+    "id": "945995",
+    "name": "רמקול נייד Klipsch The Three",
+    "image": "images/945995.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/2/2/66252237c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Klipsch",
+    "filterTags": {}
+  },
+  {
+    "id": "1211758",
+    "name": "רמקול אלחוטי Bowers and Wilkins Formation Flex",
+    "image": "images/1211758.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/4/1/81831488c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bowers and Wilkins",
+    "filterTags": {}
+  },
+  {
+    "id": "1092058",
+    "name": "רמקול חכם Bluesound Pulse Mini 2i",
+    "image": "images/1092058.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/3/0/58090340c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bluesound",
+    "filterTags": {}
+  },
+  {
+    "id": "1206677",
+    "name": "רמקול נייד Bang&Olufsen Beosound A5",
+    "image": "images/1206677.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/8/79018063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "1092060",
+    "name": "רמקול אלחוטי Bluesound Pulse 2i",
+    "image": "images/1092060.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/3/0/58090341c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bluesound",
+    "filterTags": {}
+  },
+  {
+    "id": "1054495",
+    "name": "רמקול נייד Bowers and Wilkins Formation Wedge",
+    "image": "images/1054495.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/9/6/55836966c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bowers and Wilkins",
+    "filterTags": {}
+  },
+  {
+    "id": "1103882",
+    "name": "רמקול נייד Bang&Olufsen Beosound Level",
+    "image": "images/1103882.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/6/6/69616609c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509303
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "1206709",
+    "name": "רמקול נייד Devialet Mania",
+    "image": "images/1206709.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/201116828695c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "manufacturer": "Devialet",
+    "filterTags": {}
+  },
+  {
+    "id": "1255274",
+    "name": "רמקול אלחוטי Pantheone Obsidian",
+    "image": "images/1255274.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/9/5/94775922c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "manufacturer": "Pantheone",
+    "filterTags": {}
+  },
+  {
+    "id": "1123025",
+    "name": "רמקול נייד Devialet Phantom II 98 DB Opera De Paris",
+    "image": "images/1123025.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/14217130962c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "manufacturer": "Devialet",
+    "filterTags": {}
+  },
+  {
+    "id": "1069009",
+    "name": "רמקול נייד Bang&Olufsen Beosound Balance",
+    "image": "images/1069009.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/0/6/55676024c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "manufacturer": "Bang&amp;Olufsen",
+    "filterTags": {}
+  },
+  {
+    "id": "1255275",
+    "name": "רמקול אלחוטי Pantheone I",
+    "image": "images/1255275.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/9/6/94776950c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "manufacturer": "Pantheone",
+    "filterTags": {}
+  },
+  {
+    "id": "1200678",
+    "name": "רמקול נייד Cycle Noise",
+    "image": "images/1200678.gif",
+    "manufacturer": "Cycle",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/5/5/77705570c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117471",
+    "name": "רמקול נייד Huawei CM51",
+    "image": "images/1117471.gif",
+    "manufacturer": "Huawei",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/3/5/62585314b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263645",
+    "name": "רמקול נייד JBL Flip Essential 2",
+    "image": "images/1263645.gif",
+    "manufacturer": "JBL",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/2/8/97048253c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509305,
+      "ksp": 349,
+      "kspUrl": "https://ksp.co.il/web/item/406097"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211759",
+    "name": "רמקול נייד Baseline SP06",
+    "image": "images/1211759.gif",
+    "manufacturer": "Baseline",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/6/3/85593648c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1034322",
+    "name": "רמקול נייד Marshall Stockwell 2",
+    "image": "images/1034322.gif",
+    "manufacturer": "Marshall",
+    "imageUrl": "https://img.zap.co.il/pics/new/1311052826c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123027",
+    "name": "רמקול נייד Devialet Phantom I 108 DB",
+    "image": "images/1123027.gif",
+    "manufacturer": "Devialet",
+    "imageUrl": "https://img.zap.co.il/pics/new/248152831242c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509306
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1260448",
+    "name": "רמקול נייד JLAB JBuds Party",
+    "image": "images/1260448.gif",
+    "manufacturer": "JLAB",
+    "imageUrl": "https://img.zap.co.il/pics/new/191163533946c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509306
+    }
+  },
+  {
+    "id": "1264227",
+    "name": "רמקול נייד Anker Soundcore Boom 3i",
+    "image": "images/1264227.gif",
+    "manufacturer": "Anker",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/7/98417522c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509306
+    }
+  },
+  {
+    "id": "1264484",
+    "name": "רמקול נייד Sonos Roam 2",
+    "image": "images/1264484.gif",
+    "manufacturer": "Sonos",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/3/8/96508313c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509306
+    }
+  },
+  {
+    "id": "1211761",
+    "name": "רמקול נייד Sony SRS-XB100",
+    "image": "images/1211761.gif",
+    "manufacturer": "Sony",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/6/5/86185696c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509306
+    }
+  },
+  {
+    "id": "1264342",
+    "name": "רמקול נייד Sonos Play",
+    "image": "images/1264342.gif",
+    "manufacturer": "Sonos",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/6/9/98499652c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509307
+    }
+  },
+  {
+    "id": "1264431",
+    "name": "רמקול נייד Sonos Five",
+    "image": "images/1264431.gif",
+    "manufacturer": "Sonos",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/4/0/98540499c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635509307
+    }
+  }
+]

@@ -48,7 +48,13 @@ tasks/
 node_modules
 
 # Generated/cached data (server-side enrichment, regenerated on demand)
-product-db/
+# Track the JSON catalogs (products.json + meta.json) so Render gets a
+# seed copy on deploy, but exclude the ~1.4GB of downloaded images and
+# transient backup files.
+product-db/*/images/
+product-db/*/multi-img/
+product-db/*/*.bak
+product-db/*/zap_filters.json
 product-db-suppliers/
 zap-categories.json
 zap-prices.json
