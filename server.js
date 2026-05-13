@@ -9543,6 +9543,11 @@ app.get("/admin/activity", (_req, res) => {
   res.sendFile(join(__dirname_here, "admin-activity.html"));
 });
 
+// Support-tickets admin dashboard (separate HTML, no React build needed).
+app.get("/admin/tickets", (_req, res) => {
+  res.sendFile(join(__dirname_here, "admin-tickets.html"));
+});
+
 // ── Admin activity feed ─────────────────────────────────────────
 // GET /api/admin/activity?limit=100&type=customer_register&since=<ts>
 // Returns the most recent platform events for the admin dashboard.
@@ -10975,15 +10980,194 @@ app.get("/api/admin/transactions", adminMiddleware, AUTH_READY ? (req, res) => {
   catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
-// ── Disputes ────────────────────────────────────────────────────
+// ── Disputes / Support tickets ─────────────────────────────────
+// Order-tied dispute (legacy endpoint, kept). Customer must own the order.
 app.post("/api/disputes", authMiddleware, AUTH_READY ? (req, res) => {
   try {
     const { orderId, reason, description } = req.body || {};
     if (!orderId || !reason) return res.status(400).json({ error: "Order ID and reason required" });
     const order = _prodDb.getOrder(orderId);
     if (!order || order.userId !== req.user.id) return res.status(403).json({ error: "Not your order" });
-    const dispute = _prodDb.createDispute({ orderId, userId: req.user.id, reason, description });
+    const dispute = _prodDb.createDispute({
+      orderId, userId: req.user.id, reason, description,
+      type: "order_dispute", subject: `הזמנה #${orderId}`,
+    });
+    try {
+      logActivity("ticket_new", { ticketId: dispute.id, type: "order_dispute", reason, orderId, userId: req.user.id });
+    } catch (_) {}
     res.json({ ok: true, dispute });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── General support tickets ────────────────────────────────────
+// Anyone can open a support ticket — authenticated users get their userId
+// auto-attached. Guests must provide contactEmail.
+app.post("/api/support/tickets", AUTH_READY ? (req, res) => {
+  try {
+    const {
+      subject, description, category = "other", priority = "normal",
+      contactEmail = "", contactPhone = "", type = "general_support", reason = "support",
+    } = req.body || {};
+    if (!description || description.length < 5) return res.status(400).json({ error: "צריך לכתוב הסבר קצר" });
+
+    // Identify the user — auth header takes priority, else fall back to email
+    let userId = null;
+    try {
+      const auth = req.headers.authorization || "";
+      if (auth.startsWith("Bearer ") && jwt) {
+        const decoded = jwt.verify(auth.slice(7), JWT_SECRET);
+        userId = decoded?.id || null;
+      }
+    } catch (_) {}
+    if (!userId && !contactEmail) {
+      return res.status(400).json({ error: "צריך התחברות או כתובת אימייל ליצירת קשר" });
+    }
+    const dispute = _prodDb.createDispute({
+      orderId: null, userId, reason, description,
+      type, subject, category, priority,
+      contactEmail, contactPhone,
+    });
+    try {
+      logActivity("ticket_new", {
+        ticketId: dispute.id, type, subject, priority,
+        userId, contactEmail: contactEmail || undefined,
+      });
+    } catch (_) {}
+    res.json({ ok: true, ticket: dispute });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── User-side ticket read + thread reply ──────────────────────
+app.get("/api/support/tickets/:id", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    res.json({ ok: true, ticket: t });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/support/tickets/:id/messages", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    if (t.status === "resolved" || t.status === "rejected") {
+      return res.status(400).json({ error: "התיק נסגר — לא ניתן להוסיף הודעות" });
+    }
+    const { text } = req.body || {};
+    if (!text || text.length < 1) return res.status(400).json({ error: "הודעה ריקה" });
+    const msg = _prodDb.addDisputeMessage(t.id, { role: "user", text, authorId: req.user.id });
+    try {
+      logActivity("ticket_user_reply", { ticketId: t.id, userId: req.user.id, preview: String(text).slice(0, 80) });
+    } catch (_) {}
+    res.json({ ok: true, message: msg });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/support/tickets/:id/csat", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    const { rating, comment = "" } = req.body || {};
+    const csat = _prodDb.submitCsat(t.id, { rating, comment });
+    if (!csat) return res.status(400).json({ error: "Invalid rating" });
+    try { logActivity("ticket_csat", { ticketId: t.id, rating: csat.rating, userId: req.user.id }); } catch (_) {}
+    res.json({ ok: true, csat });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// Alias for /api/user/disputes that returns the same data via the new name.
+app.get("/api/user/tickets", authMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, tickets: _prodDb.listDisputes({ userId: req.user.id }) }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin tickets: list / reply / stats / canned-responses ─────
+app.get("/api/admin/tickets", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const { status, type, priority } = req.query;
+    const tickets = _prodDb.listDisputes({
+      status: status || undefined,
+      type:   type   || undefined,
+      priority: priority || undefined,
+    });
+    res.json({ ok: true, tickets });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.get("/api/admin/tickets/stats", adminMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, stats: _prodDb.getDisputeStats() }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.patch("/api/admin/tickets/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const fields = req.body || {};
+    const allowed = {};
+    for (const k of ["status", "priority", "tags", "category", "subject", "resolution", "adminNotes", "resolvedAt"]) {
+      if (fields[k] !== undefined) allowed[k] = fields[k];
+    }
+    if (allowed.status === "resolved" && !allowed.resolvedAt) allowed.resolvedAt = new Date().toISOString();
+    const t = _prodDb.updateDispute(req.params.id, allowed);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    try { logActivity("ticket_admin_update", { ticketId: t.id, changes: Object.keys(allowed) }); } catch (_) {}
+    res.json({ ok: true, ticket: t });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/admin/tickets/:id/reply", adminMiddleware, AUTH_READY ? async (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    const { text, cannedId } = req.body || {};
+    let body = text;
+    let isCanned = false;
+    if (!body && cannedId) {
+      const canned = _prodDb.listCannedResponses().find(c => c.id === Number(cannedId));
+      if (canned) { body = canned.body; isCanned = true; }
+    }
+    if (!body) return res.status(400).json({ error: "Reply text required" });
+    const msg = _prodDb.addDisputeMessage(t.id, { role: "admin", text: body, authorId: req.user.id, isCanned });
+    // Email the customer if we have an address
+    const recipientEmail = t.contactEmail || (t.userId ? _prodDb.load().users.find(u => u.id === t.userId)?.email : null);
+    if (recipientEmail) {
+      try {
+        globalThis._notif?.sendDisputeResolutionEmail?.(recipientEmail, {
+          disputeId: t.id, orderId: t.orderId, resolution: "admin_reply", body: body.slice(0, 500),
+        }).catch(() => {});
+      } catch (_) {}
+    }
+    try { logActivity("ticket_admin_reply", { ticketId: t.id, adminId: req.user.id, isCanned }); } catch (_) {}
+    res.json({ ok: true, message: msg, ticket: _prodDb.getDispute(t.id) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// Canned responses CRUD
+app.get("/api/admin/canned-responses", adminMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, items: _prodDb.listCannedResponses() }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.post("/api/admin/canned-responses", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const { title, body, category } = req.body || {};
+    if (!title || !body) return res.status(400).json({ error: "title + body required" });
+    res.json({ ok: true, item: _prodDb.createCannedResponse({ title, body, category }) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.patch("/api/admin/canned-responses/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const item = _prodDb.updateCannedResponse(req.params.id, req.body || {});
+    if (!item) return res.status(404).json({ error: "Canned response not found" });
+    res.json({ ok: true, item });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.delete("/api/admin/canned-responses/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const ok = _prodDb.deleteCannedResponse(req.params.id);
+    if (!ok) return res.status(404).json({ error: "Canned response not found" });
+    res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
