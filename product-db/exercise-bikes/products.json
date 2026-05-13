@@ -1,0 +1,803 @@
+[
+  {
+    "id": "731327",
+    "name": "אופני כושר York 686",
+    "image": "images/731327.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/3/0/92130340c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1234577",
+    "name": "אופני כושר York Mobile Plus",
+    "image": "images/1234577.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/7/92817720c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "856334",
+    "name": "אופני כושר York NOVO 850",
+    "image": "images/856334.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/1/7/92507192c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030509",
+    "name": "אופני כושר York CX630",
+    "image": "images/1030509.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/7/8/50848716c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222501",
+    "name": "אופני כושר Vo2 SC130",
+    "image": "images/1222501.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/9/0/92570990c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124958",
+    "name": "אופני כושר Vo2 FORMA360",
+    "image": "images/1124958.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/7/9/92639768c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1112967",
+    "name": "אופני כושר York PEAK",
+    "image": "images/1112967.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/1/3/92763124c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "862900",
+    "name": "אופני כושר York Total Body",
+    "image": "images/862900.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/9/0/93010930c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1104819",
+    "name": "אופני כושר SCHWINN 510U",
+    "image": "images/1104819.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/4/7/93047487c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224114",
+    "name": "אופני כושר Tritur UB5013",
+    "image": "images/1224114.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/5/4/87454574c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1104818",
+    "name": "אופני כושר SCHWINN 510R",
+    "image": "images/1104818.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/3/3/93223393c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1209970",
+    "name": "אופני כושר Snailcle S1",
+    "image": "images/1209970.gif",
+    "manufacturer": "Snailcle",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/0/6/92716086c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "911468",
+    "name": "אופני כושר York STYLE PRO",
+    "image": "images/911468.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/8/0/41440885c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1041320",
+    "name": "אופני כושר Pacifix Exdo 150",
+    "image": "images/1041320.gif",
+    "manufacturer": "Pacifix",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/3/8/93228330c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097397",
+    "name": "אופני כושר Kettler KB90",
+    "image": "images/1097397.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/2/91462555b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1028962",
+    "name": "אופני כושר SCHWINN IC7",
+    "image": "images/1028962.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/2/2/92892290b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226273",
+    "name": "אופני כושר Snailcle R1 601002H",
+    "image": "images/1226273.gif",
+    "manufacturer": "Snailcle",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/9/9/91579916c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030516",
+    "name": "אופני כושר Vo2 ZOOM 120",
+    "image": "images/1030516.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/7/2/50872707c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "851557",
+    "name": "אופני כושר Vo2 ROYAL 225",
+    "image": "images/851557.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/9/1/91621904c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222506",
+    "name": "אופני כושר York FB300",
+    "image": "images/1222506.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/6/9/86839648c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "768853",
+    "name": "אופני כושר York 19090",
+    "image": "images/768853.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/6/2/92972672b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1125955",
+    "name": "אופני כושר Vo2 Focus90",
+    "image": "images/1125955.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/4/3/93223401c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155578",
+    "name": "אופני כושר Pacifix Fitness 8533",
+    "image": "images/1155578.gif",
+    "manufacturer": "Pacifix",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/5/4/93174539c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226271",
+    "name": "אופני כושר Euroleap 549302",
+    "image": "images/1226271.gif",
+    "manufacturer": "Euroleap",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/1/5/87305194c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "949468",
+    "name": "אופני כושר Sportime DS6300",
+    "image": "images/949468.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/3/7/44637340c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "731350",
+    "name": "אופני כושר Vo2 Royal 250",
+    "image": "images/731350.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/9/4/93214951c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1131199",
+    "name": "אופני כושר LifeGear 20075",
+    "image": "images/1131199.gif",
+    "manufacturer": "LifeGear",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/3/8/93228331c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1140473",
+    "name": "אופני כושר Sportime fly",
+    "image": "images/1140473.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/6/0/92910613c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "579830",
+    "name": "אופני כושר Vo2 S-Cardio 120",
+    "image": "images/579830.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/3/1/92461327c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107335",
+    "name": "אופני כושר Citysport 65224",
+    "image": "images/1107335.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/4/1/91501487b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "828549",
+    "name": "אופני כושר Kettler CYCLE M",
+    "image": "images/828549.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/7/9/93009772c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222504",
+    "name": "אופני כושר Sportime Spid",
+    "image": "images/1222504.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/4/9/85569412c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992144",
+    "name": "אופני כושר Inspire CB1",
+    "image": "images/992144.gif",
+    "manufacturer": "Inspire",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/2/5/47015242c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1131212",
+    "name": "אופני כושר Sportime DS6000",
+    "image": "images/1131212.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/1/4/79624171c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "411991",
+    "name": "אופני כושר Tritur UB501",
+    "image": "images/411991.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/2/1/36841280c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1091485",
+    "name": "אופני כושר SCHWINN IC8",
+    "image": "images/1091485.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/0/1/58331054b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222503",
+    "name": "אופני כושר Kettler S300",
+    "image": "images/1222503.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/9/6/87346970c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1007336",
+    "name": "אופני כושר York NOVO",
+    "image": "images/1007336.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/9/2/44972911b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "962011",
+    "name": "אופני כושר SCHWINN Airdyne AD2",
+    "image": "images/962011.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/4/4/45534493c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1104815",
+    "name": "אופני כושר Sportime Q200",
+    "image": "images/1104815.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/0/1/86081061c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107336",
+    "name": "אופני כושר Citysport 808522",
+    "image": "images/1107336.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/3/7/60587399c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "859279",
+    "name": "אופני כושר Tritur 703",
+    "image": "images/859279.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/8/8/92398856c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107343",
+    "name": "אופני כושר York Activo Pro 360",
+    "image": "images/1107343.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/6/2/60792648c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107341",
+    "name": "אופני כושר Horizon GR3",
+    "image": "images/1107341.gif",
+    "manufacturer": "Horizon",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/5/5/60185521c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1007331",
+    "name": "אופני כושר Tritur TRITUR-800",
+    "image": "images/1007331.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/new/5612245610c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1007317",
+    "name": "אופני כושר Impulse PS300E",
+    "image": "images/1007317.gif",
+    "manufacturer": "Impulse",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/0/6/48756000b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "987941",
+    "name": "אופני כושר SCHWINN 570U Upright Bike",
+    "image": "images/987941.gif",
+    "manufacturer": "SCHWINN",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/4/5/46935412c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1145764",
+    "name": "אופני כושר Spirit XBR95",
+    "image": "images/1145764.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/1/1/68561198b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1058069523",
+    "name": "אופני כושר Spirit CR800",
+    "image": "images/1058069523.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/9/86959621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "811396",
+    "name": "אופני כושר Spirit CR800",
+    "image": "images/811396.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/6/5/36825653c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "825748",
+    "name": "אופני כושר Spirit CU800",
+    "image": "images/825748.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/2/7/40947211c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "907236",
+    "name": "אופני כושר Life Fitness C1 Lifecycle",
+    "image": "images/907236.gif",
+    "manufacturer": "Life Fitness",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/2/7/40947203c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222507",
+    "name": "אופני כושר Kettler GYM80",
+    "image": "images/1222507.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/9/86959621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1137355",
+    "name": "אופני כושר concept2 BikeErg",
+    "image": "images/1137355.gif",
+    "manufacturer": "concept2",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/1/5/66975188c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "981498",
+    "name": "אופני כושר Life Fitness RS1 Lifecycle",
+    "image": "images/981498.gif",
+    "manufacturer": "Life Fitness",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/6/2/46742691c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1046319",
+    "name": "אופני כושר Vo2 R200",
+    "image": "images/1046319.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/7/7/52627757c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072887",
+    "name": "אופני כושר Life Fitness IC6",
+    "image": "images/1072887.gif",
+    "manufacturer": "Life Fitness",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/3/5/55755322c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1046320",
+    "name": "אופני כושר Vo2 B22",
+    "image": "images/1046320.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/7/7/52627758c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1131207",
+    "name": "Citysport אופני ספינינג מקצועיות 419030 מבית CITYSPORT",
+    "image": "images/1131207.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/2/1/69391259c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226272",
+    "name": "אופני כושר Euroleap GL38",
+    "image": "images/1226272.gif",
+    "manufacturer": "Euroleap",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/7/2/88172708c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1174788",
+    "name": "Citysport מיני אופני כושר ביתיים 100281 מבית CITYSPORT",
+    "image": "images/1174788.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/8/7/74977860c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163197",
+    "name": "Citysport אופני כושר מתקפלות עם משענת 548067 מבית CITYSPORT",
+    "image": "images/1163197.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/9/2/70432964c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1166721",
+    "name": "אופני כושר Pacifix 4741",
+    "image": "images/1166721.gif",
+    "manufacturer": "Pacifix",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/4/6/91496489c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107338",
+    "name": "אופני כושר Citysport 489891",
+    "image": "images/1107338.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/3/7/60587379c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1177987",
+    "name": "Citysport אופני כושר מתקפלים 01091 מבית CITYSPORT",
+    "image": "images/1177987.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/3/0/75000397c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    }
+  },
+  {
+    "id": "1222505",
+    "name": "אופני כושר Sportime Matrik",
+    "image": "images/1222505.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/3/5/98555391b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    }
+  },
+  {
+    "id": "1222508",
+    "name": "אופני כושר Sportime YZ",
+    "image": "images/1222508.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/2/7/87047266c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636555078
+    }
+  }
+]

@@ -1,0 +1,5374 @@
+[
+  {
+    "id": "1226172",
+    "name": "מכונת אספרסו Delonghi Rivelia EXAM440.55",
+    "image": "images/1226172.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/9/92749510b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350215,
+      "ksp": 3499,
+      "kspUrl": "https://ksp.co.il/web/item/357485"
+    },
+    "manufacturer": "Delonghi",
+    "filterTags": {}
+  },
+  {
+    "id": "1225992",
+    "name": "מכונת אספרסו Delonghi Magnifica Start ECAM220.60.B",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350216
+    },
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/6/88236200b.gif",
+    "image": "images/1225992.gif",
+    "manufacturer": "Delonghi",
+    "filterTags": {}
+  },
+  {
+    "id": "130794",
+    "name": "מקינטה Bialetti Moka Express 3",
+    "image": "images/130794.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/8/3/39343850b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350217
+    },
+    "manufacturer": "Bialetti",
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "680076",
+    "name": "מקינטה Bialetti Venus 6",
+    "image": "images/680076.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/3/0/38250388b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350218
+    },
+    "manufacturer": "Bialetti",
+    "filterTags": {}
+  },
+  {
+    "id": "1098387",
+    "name": "מכונת אספרסו Rocket Appartamento Black White/Copper",
+    "image": "images/1098387.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/0/4/57404038b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350219
+    },
+    "manufacturer": "Rocket",
+    "filterTags": {}
+  },
+  {
+    "id": "1225180",
+    "name": "מכונת אספרסו Delonghi Eletta Explore ECAM450.65.S",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350219
+    },
+    "imageUrl": "https://img.zap.co.il/pics/7/4/7/7/88057747c.gif",
+    "image": "images/1225180.gif",
+    "manufacturer": "Delonghi",
+    "filterTags": {}
+  },
+  {
+    "id": "1126858",
+    "name": "מקציף חלב Latte Whip Supremo",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350220
+    },
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/7/57247265c.gif",
+    "image": "images/1126858.gif",
+    "manufacturer": "Latte Whip",
+    "filterTags": {}
+  },
+  {
+    "id": "1154862",
+    "name": "מכונת אספרסו Nivona NICR 796",
+    "image": "images/1154862.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/4/6/68786473b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350220
+    },
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "1245921",
+    "name": "מכונת אספרסו Jura C8",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350220
+    },
+    "imageUrl": "https://img.zap.co.il/pics/0/5/5/2/94292550b.gif",
+    "image": "images/1245921.gif",
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1130748",
+    "name": "מכונת אספרסו Nivona NICR 795",
+    "image": "images/1130748.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/2/1/66651281b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350221
+    },
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "895200",
+    "name": "מכונת אספרסו LeLit Anna PL41EM",
+    "image": "images/895200.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/1/1/40291162b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350221,
+      "ksp": 2099,
+      "kspUrl": "https://ksp.co.il/web/item/392635"
+    },
+    "manufacturer": "LeLit",
+    "filterTags": {}
+  },
+  {
+    "id": "1155286",
+    "name": "מכונת אספרסו Nivona NICR 790",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350221
+    },
+    "imageUrl": "https://img.zap.co.il/pics/0/8/8/1/66641880b.gif",
+    "image": "images/1155286.gif",
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "1079165",
+    "name": "מכונת אספרסו LeLit MaraX",
+    "image": "images/1079165.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/7/3/56593745b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350221
+    },
+    "manufacturer": "LeLit",
+    "filterTags": {}
+  },
+  {
+    "id": "1092205",
+    "name": "מכונת אספרסו Nivona NICR 825",
+    "image": "images/1092205.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/3/4/58374315c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350222
+    },
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "1177260",
+    "name": "מכונת אספרסו Profitec PRO400",
+    "image": "images/1177260.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/7/1/74741750c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350222
+    },
+    "manufacturer": "Profitec",
+    "filterTags": {}
+  },
+  {
+    "id": "1124945",
+    "name": "מכונת אספרסו Jura Z10",
+    "image": "images/1124945.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/8/6/65446814b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350222
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1180259",
+    "name": "מכונת אספרסו La Marzocco Linea Micra",
+    "image": "images/1180259.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/41174725594b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350222
+    },
+    "manufacturer": "La Marzocco",
+    "filterTags": {}
+  },
+  {
+    "id": "1008452",
+    "name": "מכונת אספרסו La Marzocco Linea Mini",
+    "image": "images/1008452.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/1/1/57991105b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350222
+    },
+    "manufacturer": "La Marzocco",
+    "filterTags": {}
+  },
+  {
+    "id": "1263085",
+    "name": "מכונת אספרסו ECM Synchronika II",
+    "image": "images/1263085.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/2/4/95134201b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350223
+    },
+    "manufacturer": "ECM",
+    "filterTags": {}
+  },
+  {
+    "id": "1224918",
+    "name": "מכונת אספרסו Nuova Simonelli Appia Life 3 Groups",
+    "image": "images/1224918.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/4/9/88009441b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350223
+    },
+    "manufacturer": "Nuova Simonelli",
+    "filterTags": {}
+  },
+  {
+    "id": "922568508",
+    "name": "מכונת אספרסו Victoria Arduino White Eagle 2GR",
+    "image": "images/922568508.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/3/3/92543350c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350223
+    },
+    "manufacturer": "La Marzocco",
+    "filterTags": {}
+  },
+  {
+    "id": "961499",
+    "name": "Nespresso מכונת קפה NESPRESSO CREATISTA PLUS נספרסו דגם J520-IL-ME-NE פלוס",
+    "image": "images/961499.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/0/9/93199070c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350223
+    },
+    "manufacturer": "Nespresso",
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1079166",
+    "name": "מכונת אספרסו Philips EP1200/00",
+    "image": "images/1079166.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/8/3/56603841c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350224,
+      "ksp": 1159,
+      "kspUrl": "https://ksp.co.il/web/item/126420"
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1224102",
+    "name": "מכונת אספרסו Delonghi EC9865",
+    "image": "images/1224102.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/8/2/87532839c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350224
+    },
+    "manufacturer": "Delonghi",
+    "filterTags": {}
+  },
+  {
+    "id": "1086673",
+    "name": "מקינטה Bialetti Moka Induction 6",
+    "image": "images/1086673.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/4/9/53619449b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350224
+    },
+    "manufacturer": "Bialetti",
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "966447",
+    "name": "מכונת אספרסו ECM Casa V",
+    "image": "images/966447.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/7/6/46056724b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350224
+    },
+    "manufacturer": "ECM",
+    "filterTags": {}
+  },
+  {
+    "id": "1237403",
+    "name": "מכונת אספרסו LeLit PL91T",
+    "image": "images/1237403.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/2/89962720b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350224
+    },
+    "manufacturer": "LeLit",
+    "filterTags": {}
+  },
+  {
+    "id": "939800",
+    "name": "מכונת אספרסו Melitta Caffeo Passione OT",
+    "image": "images/939800.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/6/8/45278694c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350225
+    },
+    "manufacturer": "Melitta",
+    "filterTags": {}
+  },
+  {
+    "id": "1192820",
+    "name": "מכונת אספרסו Jura J8",
+    "image": "images/1192820.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/1/8/77058100b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350225
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1224919",
+    "name": "מכונת אספרסו Nuova Simonelli Appia Life 2 Groups",
+    "image": "images/1224919.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/4/9/88009439c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350225
+    },
+    "manufacturer": "Nuova Simonelli",
+    "filterTags": {}
+  },
+  {
+    "id": "1241976",
+    "name": "מכונת אספרסו La Marzocco Linea Classic 2GR",
+    "image": "images/1241976.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/3/3/92543350c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350225
+    },
+    "manufacturer": "La Marzocco",
+    "filterTags": {}
+  },
+  {
+    "id": "1196729",
+    "name": "מכונת אספרסו Breville BES876BSS BES876",
+    "image": "images/1196729.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/1/4/92984116b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350226
+    },
+    "manufacturer": "Breville",
+    "filterTags": {}
+  },
+  {
+    "id": "927875",
+    "name": "מכונת אספרסו Jura E8",
+    "image": "images/927875.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/1/91481522b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350226
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1243315",
+    "name": "מכונת אספרסו Philips PSA3218",
+    "image": "images/1243315.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/0/7/93777092c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350226
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "151638",
+    "name": "מכונת אספרסו Rancilio Silvia",
+    "image": "images/151638.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/5/0/38250552c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350226
+    },
+    "manufacturer": "Rancilio",
+    "filterTags": {}
+  },
+  {
+    "id": "1083554",
+    "name": "מכונת אספרסו Jura Ena 8 Touch",
+    "image": "images/1083554.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/4/7/55557476c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350227
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1165046",
+    "name": "מכונת אספרסו Jura E6",
+    "image": "images/1165046.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/4/0/74440468c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350227
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "1157434",
+    "name": "מכונת אספרסו Flair Espresso 58X",
+    "image": "images/1157434.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/4/4/69894403b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350227
+    },
+    "manufacturer": "Flair Espresso",
+    "filterTags": {}
+  },
+  {
+    "id": "1096964",
+    "name": "מכונת אספרסו Philips EP5447/90",
+    "image": "images/1096964.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/4/2/59102496c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350227
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1157453",
+    "name": "מכונת אספרסו Saeco GranAroma SM6580/00",
+    "image": "images/1157453.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/9/1/68411975b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350227
+    },
+    "manufacturer": "Saeco",
+    "filterTags": {}
+  },
+  {
+    "id": "1188810",
+    "name": "מכונת אספרסו ECM Mechanica VI Slim",
+    "image": "images/1188810.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/8/6/76566808b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350228
+    },
+    "manufacturer": "ECM",
+    "filterTags": {}
+  },
+  {
+    "id": "1188811",
+    "name": "מכונת אספרסו Jura E4",
+    "image": "images/1188811.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/5/8/76538559c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350228
+    },
+    "manufacturer": "Jura",
+    "filterTags": {}
+  },
+  {
+    "id": "946760",
+    "name": "מכונת אספרסו ECM Classika PID",
+    "image": "images/946760.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/3/0/44520357b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350228
+    },
+    "manufacturer": "ECM",
+    "filterTags": {}
+  },
+  {
+    "id": "1025800",
+    "name": "מכונת אספרסו Nivona NICR 970",
+    "image": "images/1025800.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/7/6/69436752c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350228
+    },
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "882279",
+    "name": "מכונת אספרסו ECM Mechanika IV Profi",
+    "image": "images/882279.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/3/39343311c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350229
+    },
+    "manufacturer": "ECM",
+    "filterTags": {}
+  },
+  {
+    "id": "1140250",
+    "name": "מכונת אספרסו Nivona NICR 1040",
+    "image": "images/1140250.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/6/7/74707671c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350229
+    },
+    "manufacturer": "Nivona",
+    "filterTags": {}
+  },
+  {
+    "id": "1068717",
+    "name": "מכונת אספרסו LeLit PL162T",
+    "image": "images/1068717.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/0/5/55815081c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350229
+    },
+    "manufacturer": "LeLit",
+    "filterTags": {}
+  },
+  {
+    "id": "1092966",
+    "name": "מכונת אספרסו Rocket R Cinquantotto",
+    "image": "images/1092966.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/5/58255063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350229
+    },
+    "manufacturer": "Rocket",
+    "filterTags": {}
+  },
+  {
+    "id": "933732",
+    "name": "מכונת אספרסו Rocket R 60V",
+    "image": "images/933732.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/1/2/42802154c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350229
+    },
+    "manufacturer": "Rocket",
+    "filterTags": {}
+  },
+  {
+    "id": "1214762",
+    "name": "מכונת אספרסו Victoria Arduino White Eagle 3GR",
+    "image": "images/1214762.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/6/8/86368671c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350230
+    },
+    "manufacturer": "Victoria Arduino",
+    "filterTags": {}
+  },
+  {
+    "id": "1254285",
+    "name": "מכונת אספרסו Ninja Luxe Pro ES701EU",
+    "image": "images/1254285.gif",
+    "manufacturer": "Ninja",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/4/6/95936412c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350230,
+      "ksp": 1949,
+      "kspUrl": "https://ksp.co.il/web/item/416940"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155620",
+    "name": "מכונת אספרסו Delonghi La Specialista Arte EC9155",
+    "image": "images/1155620.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/2/4/91744234c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350230
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1248076",
+    "name": "מכונת אספרסו Ninja Luxe Essential ES601EU",
+    "image": "images/1248076.gif",
+    "manufacturer": "Ninja",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/9/7/94897967c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350230
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "951399",
+    "name": "מכונת אספרסו Nespresso Delonghi Essenza Mini D30 EN85",
+    "image": "images/951399.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/6/3/93353641c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350231
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1126869",
+    "name": "מכונת אספרסו Breville BES875BSS",
+    "image": "images/1126869.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/9/9/92499919b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350231
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1200012",
+    "name": "מכונת אספרסו Delonghi Dedica Arte EC885",
+    "image": "images/1200012.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/0/9/92629018c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350231
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1068710",
+    "name": "מכונת אספרסו Breville BES878",
+    "image": "images/1068710.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/5/93015555c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350231
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "951669",
+    "name": "מכונת אספרסו Nespresso Essenza Mini C30",
+    "image": "images/951669.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/2/9/92519285c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350232
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "992748",
+    "name": "מכונת אספרסו Delonghi ECAM21.117",
+    "image": "images/992748.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/0/6/93116000c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350232
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1087191",
+    "name": "מכונת אספרסו Nespresso Inissia EN 80",
+    "image": "images/1087191.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/0/8/97068047c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350232
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1262788",
+    "name": "מכונת אספרסו Ninja Luxe Cafe ES603",
+    "image": "images/1262788.gif",
+    "manufacturer": "Ninja",
+    "imageUrl": "https://img.zap.co.il/pics/new/262194232615c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350232,
+      "ksp": 1949,
+      "kspUrl": "https://ksp.co.il/web/item/416940"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127066",
+    "name": "מכונת אספרסו Nespresso Citiz&Milk EN267",
+    "image": "images/1127066.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/4/4/59314491c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350232
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1030241",
+    "name": "מכונת אספרסו Gaggia Besana",
+    "image": "images/1030241.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/2/1/57661246c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350233
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1121265",
+    "name": "מקציף חלב Hemilton HEM-243",
+    "image": "images/1121265.gif",
+    "manufacturer": "Hemilton",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/4/8/63038462c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350233
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207103",
+    "name": "מקציף חלב Hemilton HEM-265/HEM-264",
+    "image": "images/1207103.gif",
+    "manufacturer": "Hemilton",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/0/8/78888011c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350233
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224100",
+    "name": "מכונת אספרסו Gaggia EG2109",
+    "image": "images/1224100.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/5/8/87508542c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350234,
+      "ksp": 785,
+      "kspUrl": "https://ksp.co.il/web/item/379548"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "976624",
+    "name": "מכונת אספרסו Nespresso Lattissima One EN510",
+    "image": "images/976624.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/5/7/98487578b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350234
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1218026",
+    "name": "מכונת אספרסו Smeg ECF02",
+    "image": "images/1218026.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/1/86911840c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350234
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1154861",
+    "name": "מכונת אספרסו Delonghi Specialista Prestigio EC 9355.M",
+    "image": "images/1154861.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/7/1/69781731c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350234
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "921618",
+    "name": "מכונת אספרסו Inissia C40 ללא מקציף Nespresso",
+    "image": "images/921618.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/4/7/81817482c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350235
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1105069",
+    "name": "מכונת אספרסו Delonghi ECAM350.15.B",
+    "image": "images/1105069.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/0/9/95389096b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350235
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114609",
+    "name": "מכונת אספרסו Breville Barista Express with Milk Jug Thermal BES875",
+    "image": "images/1114609.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/5/0/92350594c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350235
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092195",
+    "name": "מכונת אספרסו Espresso Club Piccola",
+    "image": "images/1092195.gif",
+    "manufacturer": "Espresso Club",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/3/0/92790394c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350236
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1229083",
+    "name": "פרקולטור 162527 Morphy Richards",
+    "image": "images/1229083.gif",
+    "manufacturer": "Morphy Richards",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/3/3/91653315c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350236
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155614",
+    "name": "מכונת אספרסו Delonghi ECAM290.61.B",
+    "image": "images/1155614.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/3/93173063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350236
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1139700",
+    "name": "מקציף חלב Hyundai HYKM-800",
+    "image": "images/1139700.gif",
+    "manufacturer": "Hyundai",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/4/6/93236420c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350236
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "37395",
+    "name": "מקינטה Bialetti Brika 4",
+    "image": "images/37395.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/5/85535366b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350236
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1129686",
+    "name": "מקציף חלב Gold Line ATL-8844",
+    "image": "images/1129686.gif",
+    "manufacturer": "Gold Line",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/4/8/86188460c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350237
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "744183",
+    "name": "מכונת אספרסו Evolution כסוף Gaggia",
+    "image": "images/744183.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/5/1/94171534c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350237
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207092",
+    "name": "מכונת אספרסו Siemens TF301E09",
+    "image": "images/1207092.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/7/0/78430763c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350237
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1122271",
+    "name": "מכונת אספרסו Gaggia Magenta Plus",
+    "image": "images/1122271.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/new/168121944972c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350237
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123233",
+    "name": "מכונת אספרסו Gaggia Magenta Prestige",
+    "image": "images/1123233.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/3/7/61857392c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350238
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242728",
+    "name": "מכונת אספרסו Krups EA910E10",
+    "image": "images/1242728.gif",
+    "manufacturer": "Krups",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/1/2/91442166c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350238
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241809",
+    "name": "מכונת אספרסו Ninja Luxe Essential ES501EU",
+    "image": "images/1241809.gif",
+    "manufacturer": "Ninja",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/9/4/92304979c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350238
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "870974",
+    "name": "מכונת אספרסו Melitta Caffeo Solo and Milk E953",
+    "image": "images/870974.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/6/92896619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350238
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "872924",
+    "name": "מקציף חלב Melitta Cremio",
+    "image": "images/872924.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/5/7/77517546c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350239
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118265",
+    "name": "מכונת אספרסו Delonghi Magnifica S Smart ECAM250.23.SB",
+    "image": "images/1118265.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/4/3/62543477c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350239
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214764",
+    "name": "מכונת אספרסו Delonghi Magnifica Start ECAM220.22.GB",
+    "image": "images/1214764.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/1/7/86057178c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350239
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1140225",
+    "name": "מקציף חלב Hemilton HEM249",
+    "image": "images/1140225.gif",
+    "manufacturer": "Hemilton",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/5/9/93059594c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350239
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1246012",
+    "name": "מכונת אספרסו Mira Genuaroma MCM1000",
+    "image": "images/1246012.gif",
+    "manufacturer": "Mira",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/1/3/93963129c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350240
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1243392",
+    "name": "מקציף חלב Sauter SMF600",
+    "image": "images/1243392.gif",
+    "manufacturer": "Sauter",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/4/5/93825474c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350240
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232357",
+    "name": "מכונת אספרסו Gold Line ATL5015",
+    "image": "images/1232357.gif",
+    "manufacturer": "Gold Line",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/8/4/89084823c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350240
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107178",
+    "name": "מקציף חלב Severin SM 3585",
+    "image": "images/1107178.gif",
+    "manufacturer": "Severin",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/0/2/81892022c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350240
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123232",
+    "name": "מכונת אספרסו Gaggia Magenta Milk",
+    "image": "images/1123232.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/4/2/60662469c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350240
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249566",
+    "name": "מכונת אספרסו Dr.Coffee H3",
+    "image": "images/1249566.gif",
+    "manufacturer": "Dr.Coffee",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/9/4/94474905c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350241
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263080",
+    "name": "מכונת אספרסו Xiaomi Semi-Automatic Espresso Machine",
+    "image": "images/1263080.gif",
+    "manufacturer": "Xiaomi",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/9/0/97450986c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350241
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "130795",
+    "name": "מקינטה Bialetti Moka Express 6",
+    "image": "images/130795.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/7/2/20332798c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350241
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "927023",
+    "name": "מקציף חלב Nespresso Aeroccino 3",
+    "image": "images/927023.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/9/1/42291948c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350241
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1032480",
+    "name": "מכונת אספרסו Philips EP2220/10",
+    "image": "images/1032480.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/3/9/92719301b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350242
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214773",
+    "name": "מקציף חלב Caso Fomini Crema",
+    "image": "images/1214773.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/2/86542183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350242
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "754645",
+    "name": "מכונת אספרסו Gaggia Brera Silver",
+    "image": "images/754645.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/1/3/34123179c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350242
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1257368",
+    "name": "מכונת אספרסו Delonghi Rivelia EXAM440.35",
+    "image": "images/1257368.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/8/8/95448805b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350243
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "130466",
+    "name": "מקינטה Bialetti Brika 2",
+    "image": "images/130466.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/7/2/92952788c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350243
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218027",
+    "name": "מכונת אספרסו Smeg EGF03",
+    "image": "images/1218027.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/8/1/86911849c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350243
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "854635",
+    "name": "מקציף חלב DAVO DAV230",
+    "image": "images/854635.gif",
+    "manufacturer": "DAVO",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/4/2/37642460c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350243
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "963520",
+    "name": "מכונת אספרסו Delonghi DEDICA STYLE EC685",
+    "image": "images/963520.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/1/4/97654161c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350244
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232353",
+    "name": "מכונת אספרסו Siemens TP511R09 EQ.500 Classic",
+    "image": "images/1232353.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/9/89459985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350244
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "738544",
+    "name": "מקינטה Bialetti Venus 4",
+    "image": "images/738544.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/7/41757619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350244
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "680478",
+    "name": "מקינטה Bialetti Moka Express 4",
+    "image": "images/680478.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/2/2/84762297c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350244
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1162615",
+    "name": "מכונת אספרסו Philips EP2224/10",
+    "image": "images/1162615.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/5/1/70281535c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350245,
+      "ksp": 1319,
+      "kspUrl": "https://ksp.co.il/web/item/225823"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156393",
+    "name": "מכונת אספרסו Melitta Latticia OT",
+    "image": "images/1156393.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/2/68562616c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350245
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226804",
+    "name": "מכונת אספרסו Philips EP3321/40",
+    "image": "images/1226804.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/2/9/88419247c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350245
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232359",
+    "name": "מכונת אספרסו Breville BES881BSS",
+    "image": "images/1232359.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/0/6/88236075c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350245
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225175",
+    "name": "מקציף חלב Smeg MFF11",
+    "image": "images/1225175.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/6/9/87409601c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350246
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214765",
+    "name": "מקציף חלב Krups XL100810",
+    "image": "images/1214765.gif",
+    "manufacturer": "Krups",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/0/2/84772073c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350246
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207090",
+    "name": "מכונת אספרסו L’agolde Del Caffe ATL-5009 Gold Line",
+    "image": "images/1207090.gif",
+    "manufacturer": "Gold Line",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/5/5/79125593c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350246
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1069452",
+    "name": "מכונת אספרסו Gaggia Anima Deluxe",
+    "image": "images/1069452.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/7/8/56118789c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350246
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211672",
+    "name": "מכונת אספרסו Sauter SCM1000",
+    "image": "images/1211672.gif",
+    "manufacturer": "Sauter",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/7/0/86080746c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350247
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "680077",
+    "name": "מקינטה Bialetti Venus 2",
+    "image": "images/680077.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/4/6/51906486c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350247
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "903960",
+    "name": "מקציף חלב DAVO DAV240",
+    "image": "images/903960.gif",
+    "manufacturer": "DAVO",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/0/7/42937014c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350247
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170426",
+    "name": "מכונת אספרסו Delonghi Magnifica Evo ECAM290.21.B",
+    "image": "images/1170426.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/2/7/91487258c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350247,
+      "ksp": 2299,
+      "kspUrl": "https://ksp.co.il/web/item/409573"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "933760",
+    "name": "מקציף חלב Topson TP808",
+    "image": "images/933760.gif",
+    "manufacturer": "Topson",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/3/8/42678313c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350248
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1047179",
+    "name": "מכונת אספרסו Gaggia Cadorna Prestige",
+    "image": "images/1047179.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/6/4/56694646c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350248
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "678936",
+    "name": "מקינטה Bialetti Moka Express 1",
+    "image": "images/678936.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/7/7/44337780c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350248
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1227233",
+    "name": "מכונת אספרסו Philips EP2334/10",
+    "image": "images/1227233.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/7/1/88461723c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350248
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245935",
+    "name": "מכונת אספרסו Melitta Solo",
+    "image": "images/1245935.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/2/5/94315231c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350249
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1033246",
+    "name": "מכונת אספרסו Nespresso Citiz&Milk C123",
+    "image": "images/1033246.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/new/3312234786c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350249
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1239287",
+    "name": "מכונת אספרסו Siemens TP713R09 EQ700 Classic",
+    "image": "images/1239287.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/4/8/90328447c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350249
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127353",
+    "name": "מכונת אספרסו Breville VCF126X",
+    "image": "images/1127353.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/6/3/65983642c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350249
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "984590",
+    "name": "מכונת אספרסו Delonghi PRIMADONNA ELITE ECAM 650.55.MS",
+    "image": "images/984590.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/3/1/47111379c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350250
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1221161",
+    "name": "מכונת אספרסו Siemens TP513R09 EQ.500 Classic",
+    "image": "images/1221161.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/0/4/87304094c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350250
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116119",
+    "name": "מקציף חלב Universe NRI947",
+    "image": "images/1116119.gif",
+    "manufacturer": "Universe",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/3/8/62318317c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350250
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224112",
+    "name": "פרקולטור Caso Selection C 12",
+    "image": "images/1224112.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/9/4/87644980c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350250
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1060203",
+    "name": "מכונת אספרסו Melitta Purista Series 300",
+    "image": "images/1060203.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/6/8/54318626c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350250
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "130879",
+    "name": "מקינטה Bialetti Moka Express 2",
+    "image": "images/130879.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/8/1/82541880c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350251
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1144530",
+    "name": "מקינטה Moka Induction 4 כוסות Bialetti",
+    "image": "images/1144530.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/new/311014735117c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350251
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1221165",
+    "name": "מקציף חלב Gold Line ATL8855",
+    "image": "images/1221165.gif",
+    "manufacturer": "Gold Line",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/7/9/87289769c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350251
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1126853",
+    "name": "מקציף חלב Smeg MFF01",
+    "image": "images/1126853.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/7/0/64730734c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350251
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092955",
+    "name": "מכונת אספרסו Gaggia Classic PRO",
+    "image": "images/1092955.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/1/9/91609176b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350252
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "680481",
+    "name": "מקינטה Bialetti Moka Express 9",
+    "image": "images/680481.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/8/4/38794851c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350252
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1243628",
+    "name": "מכונת אספרסו Caso Espresso Gourmet Latte",
+    "image": "images/1243628.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/5/2/93852524c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350252,
+      "ksp": 1263,
+      "kspUrl": "https://ksp.co.il/web/item/414812"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237396",
+    "name": "מכונת אספרסו Siemens TQ717R03",
+    "image": "images/1237396.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/1/8/89888105c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350252,
+      "ksp": 5254,
+      "kspUrl": "https://ksp.co.il/web/item/368522"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "872925",
+    "name": "מקציף חלב Latte Whip Magic",
+    "image": "images/872925.gif",
+    "manufacturer": "Latte Whip",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/5/38505153b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "990060",
+    "name": "מקציף חלב Hyundai HYKM900S",
+    "image": "images/990060.gif",
+    "manufacturer": "Hyundai",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/8/1/47431847c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224101",
+    "name": "מכונת אספרסו Delonghi Stilosa EC260.BK",
+    "image": "images/1224101.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/9/9/87559921c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207091",
+    "name": "מקציף חלב Universe NRI-957",
+    "image": "images/1207091.gif",
+    "manufacturer": "Universe",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/3/7/78807339c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "3765",
+    "name": "מכונת אספרסו Gaggia Classic",
+    "image": "images/3765.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/5/5/12355591c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1187192",
+    "name": "מקציף חלב Fakir Milky Art",
+    "image": "images/1187192.gif",
+    "manufacturer": "Fakir",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/7/0/75840728c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350254
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1126855",
+    "name": "מקציף חלב DAVO DAV240S",
+    "image": "images/1126855.gif",
+    "manufacturer": "DAVO",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/5/1/65781513c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350254
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1126873",
+    "name": "מכונת אספרסו Miele CM5310",
+    "image": "images/1126873.gif",
+    "manufacturer": "Miele",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/3/4/62284364c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350254
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237395",
+    "name": "מקציף חלב SOL SL7010",
+    "image": "images/1237395.gif",
+    "manufacturer": "SOL",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/1/8/89948179c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350254
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "991949",
+    "name": "מכונת אספרסו Delonghi Magnifica S ECAM 22.110.B",
+    "image": "images/991949.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/6/1/93191635c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350255
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "955322",
+    "name": "מכונת קפה פילטר Melitta Optima Timer",
+    "image": "images/955322.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/6/3/57273646c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350255
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1106699",
+    "name": "מכונת אספרסו Nespresso Creatista Pro",
+    "image": "images/1106699.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/new/3394625701c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350255
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1227236",
+    "name": "מכונת אספרסו Philips EP5547/90",
+    "image": "images/1227236.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/3/9/88479332c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350255
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180120",
+    "name": "מכונת אספרסו Nivona CafeRomatica NICR 560",
+    "image": "images/1180120.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/3/2/75232300c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350255
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130749",
+    "name": "מכונת אספרסו Vero Point",
+    "image": "images/1130749.gif",
+    "manufacturer": "Vero",
+    "imageUrl": "https://img.zap.co.il/pics/new/1931350044c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350256
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1183112",
+    "name": "מכונת אספרסו Nespresso Vertuo Pop",
+    "image": "images/1183112.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/5/2/75282552b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350256
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1236564",
+    "name": "מקציף חלב SOL SL7008",
+    "image": "images/1236564.gif",
+    "manufacturer": "SOL",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/7/4/95174730c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350256
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211670",
+    "name": "מכונת אספרסו Siemens TF301E19",
+    "image": "images/1211670.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/7/81947684c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350256
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232497",
+    "name": "מקציף חלב Caso Crema & Choco",
+    "image": "images/1232497.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/new/19916586223c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350257
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "711765",
+    "name": "מקציף חלב Bialetti TuttoCrema 6",
+    "image": "images/711765.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/4/3/58953434c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350257
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "971166",
+    "name": "מכונת אספרסו Siemens TE655203RW EQ.6 plus s500",
+    "image": "images/971166.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/7/7/46407771c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350257
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1105064",
+    "name": "מכונת קפה פילטר Smeg DCF02",
+    "image": "images/1105064.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/8/2/59972809c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350257
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1170425",
+    "name": "מכונת אספרסו Lavazza Jolie",
+    "image": "images/1170425.gif",
+    "manufacturer": "Lavazza",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/7/7/74257750c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350257
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237162",
+    "name": "מקציף חלב Universe NRI937",
+    "image": "images/1237162.gif",
+    "manufacturer": "Universe",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/2/2/96802271c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350258
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227235",
+    "name": "מכונת אספרסו Philips EP5541/50",
+    "image": "images/1227235.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/3/9/88479331c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350258,
+      "ksp": 2959,
+      "kspUrl": "https://ksp.co.il/web/item/318673"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237393",
+    "name": "מקציף חלב SOL SL7009",
+    "image": "images/1237393.gif",
+    "manufacturer": "SOL",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/8/3/89743895c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350258
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227069",
+    "name": "מכונת אספרסו Philips EP4446/70",
+    "image": "images/1227069.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/3/9/88479330c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350258
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224095",
+    "name": "מכונת אספרסו Nespresso Vertuo Lattisima",
+    "image": "images/1224095.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/7/7/87357718c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350258
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1242730",
+    "name": "מכונת אספרסו Krups EA877D10 Intuition Experience+",
+    "image": "images/1242730.gif",
+    "manufacturer": "Krups",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/6/92356430c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350259
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1243627",
+    "name": "מקציף חלב Caso CappuLatte",
+    "image": "images/1243627.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/4/7/93847409c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350259
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239505",
+    "name": "מכונת אספרסו Delonghi ECAM12.121.B",
+    "image": "images/1239505.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/8/6/88816879c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350259
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "981466",
+    "name": "מכונת אספרסו Delonghi PRIMADONNA S EVO ECAM 510.55.M",
+    "image": "images/981466.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/85229721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350259
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1072563",
+    "name": "מכונת אספרסו Siemens TP507R04 EQ.500",
+    "image": "images/1072563.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/0/56460555c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350260
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227234",
+    "name": "מכונת אספרסו Philips EP3347/90",
+    "image": "images/1227234.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/3/4/88474300c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350260
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1125823",
+    "name": "מקציף חלב Latte LA705",
+    "image": "images/1125823.gif",
+    "manufacturer": "Latte",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/3/4/77514359c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350260
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "881732",
+    "name": "מקינטה Bialetti Venus 10",
+    "image": "images/881732.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/9/7/57387965c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350260
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224092",
+    "name": "מכונת אספרסו Smeg BCC12BLMEU",
+    "image": "images/1224092.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/4/3/87843414c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350261
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1236563",
+    "name": "מקציף חלב SOL SL7007",
+    "image": "images/1236563.gif",
+    "manufacturer": "SOL",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/8/3/89743893c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350261
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116019",
+    "name": "מכונת אספרסו Breville Barista Mini VCF125",
+    "image": "images/1116019.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/1/8/62338184c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350261
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "937568",
+    "name": "פרקולטור Gold Line ATL858",
+    "image": "images/937568.gif",
+    "manufacturer": "Gold Line",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/2/4/43124230c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350261
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "870962",
+    "name": "מכונת קפה פילטר Melitta Look",
+    "image": "images/870962.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/9/3/39343992c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350262
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1216520",
+    "name": "מכונת אספרסו Profitec Go",
+    "image": "images/1216520.gif",
+    "manufacturer": "Profitec",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/8/87048522c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350262
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "870967",
+    "name": "מכונת קפה פילטר Melitta Easy",
+    "image": "images/870967.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/0/2/49662049c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350263
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1225993",
+    "name": "מכונת אספרסו Breville BES881BTR",
+    "image": "images/1225993.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/0/6/88236076c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350263
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "957379",
+    "name": "מכונת אספרסו Delonghi PRIMADONNA ELITE EXPERIENCE ECAM 650.85.MS",
+    "image": "images/957379.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/8/9/58009867c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350263
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "790214",
+    "name": "מקציף חלב Breville BMF600",
+    "image": "images/790214.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/4/7/81817479c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350264
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1259743",
+    "name": "מכונת אספרסו Inissia EN 80 כולל מקציף Nespresso",
+    "image": "images/1259743.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/new/11112238718c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350264
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1088910",
+    "name": "מכונת אספרסו Delonghi Autentica Etam29.515.B",
+    "image": "images/1088910.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/3/8/57478370c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350264
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1076398",
+    "name": "מכונת אספרסו Siemens TQ507R02 EQ.500",
+    "image": "images/1076398.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/8/2/56462885c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1216518",
+    "name": "מכונת אספרסו Pascale Life & Milk",
+    "image": "images/1216518.gif",
+    "manufacturer": "Pascale",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/4/0/86720425c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "903306",
+    "name": "מכונת אספרסו Delonghi AUTENTICA ETAM 29.660.SB",
+    "image": "images/903306.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/1/41241840c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088916",
+    "name": "מכונת אספרסו LeLit PL042EMI",
+    "image": "images/1088916.gif",
+    "manufacturer": "LeLit",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/9/2/57372959b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1258431",
+    "name": "מקציף חלב 7290119839438 מקציף חלב איכותי אינדוקציה 4 ב-1 W400 Food Appeal",
+    "image": "images/1258431.gif",
+    "manufacturer": "Food Appeal",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/7/96817619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1196727",
+    "name": "מכונת אספרסו Nivona CafeRomatica NICR 550",
+    "image": "images/1196727.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/1/6/77796157c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350266
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "886682",
+    "name": "מכונת אספרסו Nespresso Inissia D40",
+    "image": "images/886682.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/4/7/41957453c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350266
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1105051",
+    "name": "מקינטה Moka Rainbow 3 כוסות Bialetti",
+    "image": "images/1105051.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/3/5/60185308c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350266
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1211685",
+    "name": "פרקולטור Hamilton Beach 49005-IS",
+    "image": "images/1211685.gif",
+    "manufacturer": "Hamilton Beach",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/1/81901043c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350267
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107169",
+    "name": "מקינטה Moka Induction 2 כוסות Bialetti",
+    "image": "images/1107169.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/6/1/60741636c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350267
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1121269",
+    "name": "מקציף חלב Espresso Mor Crema Di Latte",
+    "image": "images/1121269.gif",
+    "manufacturer": "Espresso Mor",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/4/6/61696452c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350267
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "711649",
+    "name": "מקציף חלב Bialetti TuttoCrema 3",
+    "image": "images/711649.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/3/0/38250362c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350267
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1086676",
+    "name": "מקינטה Bialetti Mokina",
+    "image": "images/1086676.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/8/6/74336874c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350268
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1165043",
+    "name": "מכונת אספרסו Chromex CM55B",
+    "image": "images/1165043.gif",
+    "manufacturer": "Chromex",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/5/9/70539558c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350268
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092962",
+    "name": "מכונת אספרסו Gaggia Cadorna Plus",
+    "image": "images/1092962.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/2/6/58576283c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350268
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123229",
+    "name": "מכונת אספרסו Flair Espresso NEO Espresso Maker",
+    "image": "images/1123229.gif",
+    "manufacturer": "Flair Espresso",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/9/3/64993996c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350268
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211669",
+    "name": "מקציף חלב Topson TP-808A",
+    "image": "images/1211669.gif",
+    "manufacturer": "Topson",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/7/8/93118743c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350268
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214767",
+    "name": "מקינטה Bialetti Moka Exclusive 3",
+    "image": "images/1214767.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/new/291282432160c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350269
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1242729",
+    "name": "מכונת אספרסו Krups EA872B10 Intuition Preference",
+    "image": "images/1242729.gif",
+    "manufacturer": "Krups",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/4/4/94294409c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350269
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1105058",
+    "name": "מקינטה Moka Rainbow 6 כוסות Bialetti",
+    "image": "images/1105058.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/4/1/60191435c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350269
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1091834",
+    "name": "מקציף חלב Selmor SE-974",
+    "image": "images/1091834.gif",
+    "manufacturer": "Selmor",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/0/9/52009071c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350269
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1110548",
+    "name": "מקציף חלב Severin SM3584",
+    "image": "images/1110548.gif",
+    "manufacturer": "Severin",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/8/3/61473844c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350270
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207102",
+    "name": "מקציף חלב Graef MS703",
+    "image": "images/1207102.gif",
+    "manufacturer": "Graef",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/9/8/78948944c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350270
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1018419",
+    "name": "מכונת אספרסו Nespresso Vertuo Plus GBC2",
+    "image": "images/1018419.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/7/9/49389731c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350270
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "717993",
+    "name": "מכונת אספרסו Lavazza Lavazza Blue LB300",
+    "image": "images/717993.gif",
+    "manufacturer": "Lavazza",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/4/5/57745444c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350270
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1140227",
+    "name": "מכונת אספרסו Siemens TQ707R03",
+    "image": "images/1140227.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/new/25120150855c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350270
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107166",
+    "name": "מכונת אספרסו Delonghi Magnifica S Smart ECAM 250.33.TB",
+    "image": "images/1107166.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/6/2/60952603c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350271
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1188812",
+    "name": "מכונת אספרסו Siemens TI35A209RW",
+    "image": "images/1188812.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/7/0/74040751c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350271
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1086677",
+    "name": "מכונת אספרסו Gran Lattissima F531 כולל מקציף חלב Nespresso",
+    "image": "images/1086677.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/5/7/57497503c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350271
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1187375",
+    "name": "פרקולטור Bialetti Preziosa Coffee Press 3 Cups",
+    "image": "images/1187375.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/4/9/76389468c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350271
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "855628",
+    "name": "מקציף חלב Twister Pro",
+    "image": "images/855628.gif",
+    "manufacturer": "Twister",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/3/0/38250355b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350272
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211325",
+    "name": "פרקולטור Moulinex FG121811",
+    "image": "images/1211325.gif",
+    "manufacturer": "Moulinex",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/3/9/79359315c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350272
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214769",
+    "name": "מקינטה Bialetti Brikka Induction 4",
+    "image": "images/1214769.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/3/8/77038399c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350272
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218032",
+    "name": "מכונת אספרסו Breville Barista Max Plus VCF152",
+    "image": "images/1218032.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/3/7/87047332c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350272,
+      "ksp": 1899,
+      "kspUrl": "https://ksp.co.il/web/item/412327"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "680482",
+    "name": "מקינטה Bialetti Moka Express 18",
+    "image": "images/680482.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/0/4/58334054c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350273
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1243318",
+    "name": "מכונת אספרסו Philips PSA3228",
+    "image": "images/1243318.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/4/2/93822472c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350273
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "130793",
+    "name": "מקינטה Bialetti Mini Express Double",
+    "image": "images/130793.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/1/9/44679155c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350273
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170419",
+    "name": "מקציף חלב Chromex MF40",
+    "image": "images/1170419.gif",
+    "manufacturer": "Chromex",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/5/0/74390502c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350273
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "371627",
+    "name": "מקינטה Bialetti Mini Express Single",
+    "image": "images/371627.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/8/3/41193883c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350274
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "886189",
+    "name": "מקינטה Bialetti Moka Alpina 3",
+    "image": "images/886189.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/3/1/40831356c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350274
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1216524",
+    "name": "מקציף חלב Sauter SMF500",
+    "image": "images/1216524.gif",
+    "manufacturer": "Sauter",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/4/2/86792431c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350274
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226803",
+    "name": "מכונת אספרסו Delonghi ECAM250.33.TB",
+    "image": "images/1226803.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/0/3/86103034c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350274
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055152",
+    "name": "מכונת אספרסו Siemens TI351209RW",
+    "image": "images/1055152.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/7/3/53953794c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350274
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "895201",
+    "name": "מכונת אספרסו LeLit PL41TEM",
+    "image": "images/895201.gif",
+    "manufacturer": "LeLit",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/1/1/40291163c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350275
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237412",
+    "name": "מקציף חלב מקציף חלב איכותי 4 ב - 1 עם בסיס נשלף Food Appeal",
+    "image": "images/1237412.gif",
+    "manufacturer": "Food Appeal",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/8/7/89967869c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350275
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "880814",
+    "name": "מקינטה Bialetti Moka Express 12",
+    "image": "images/880814.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/0/6/60756023c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350275
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1243393",
+    "name": "פרקולטור Braun KF1100",
+    "image": "images/1243393.gif",
+    "manufacturer": "Braun",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/8/1/93701897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350275
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "752505",
+    "name": "מקציף חלב Selmor SE901",
+    "image": "images/752505.gif",
+    "manufacturer": "Selmor",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/0/1/45191040c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350276
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "948321",
+    "name": "מקינטה Nova 4-6 כוסות G A T",
+    "image": "images/948321.gif",
+    "manufacturer": "G A T",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/6/0/44620666c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350276
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1200371",
+    "name": "מקציף חלב Hamilton Beach 41084-IS",
+    "image": "images/1200371.gif",
+    "manufacturer": "Hamilton Beach",
+    "imageUrl": "https://img.zap.co.il/pics/new/87161757335c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350276
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118269",
+    "name": "מכונת אספרסו Delonghi Magnifica S ECAM 22.110.SB",
+    "image": "images/1118269.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/0/3/48823073c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350276
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130745",
+    "name": "פרקולטור פרנץ' פרס 1000 מ\"ל Food Appeal",
+    "image": "images/1130745.gif",
+    "manufacturer": "Food Appeal",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/7/1/47811728b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350277
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227068",
+    "name": "מכונת אספרסו Philips EP4441/50",
+    "image": "images/1227068.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/1/7/88447147c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350277,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/318560"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1200174",
+    "name": "מקינטה Bialetti Moka Timer",
+    "image": "images/1200174.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/new/679508377c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350277
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263362",
+    "name": "מקינטה Bialetti Moka Express 6 Squid Game",
+    "image": "images/1263362.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/3/5/97745335c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350277
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1042170",
+    "name": "מכונת אספרסו Nespresso Xn1005 Inissia",
+    "image": "images/1042170.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/4/9/51709455c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350277
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1242090",
+    "name": "מכונת אספרסו Breville BES500BSS",
+    "image": "images/1242090.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/2/6/93446234c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350278
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214772",
+    "name": "מקינטה Bialetti Moka Dolce and Gabbana 3",
+    "image": "images/1214772.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/3/2/81812302c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350278
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1218034",
+    "name": "מכונת אספרסו Philips LM9012",
+    "image": "images/1218034.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/3/5/86935357c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350278
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1126863",
+    "name": "מכונת אספרסו Ufesa CE7255",
+    "image": "images/1126863.gif",
+    "manufacturer": "Ufesa",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/1/7/63577147c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350279
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "986996",
+    "name": "מכונת אספרסו Delonghi DINAMICA ECAM 350.55",
+    "image": "images/986996.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/2/9/47309228c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350279
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "854634",
+    "name": "מכונת אספרסו DAVO DAV250",
+    "image": "images/854634.gif",
+    "manufacturer": "DAVO",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/1/38641693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350279
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "991951",
+    "name": "מכונת אספרסו wacaco Minipresso GR",
+    "image": "images/991951.gif",
+    "manufacturer": "Wacaco",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/6/4/55824681b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350280
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1042165",
+    "name": "מקציף חלב Caso Crema Latte & Choco",
+    "image": "images/1042165.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/7/3/53423785c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350280
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "752508",
+    "name": "פרקולטור Selmor SE352",
+    "image": "images/752508.gif",
+    "manufacturer": "Selmor",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/4/5/42935483c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350280
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1183128",
+    "name": "מקינטה Subminimal NanoFoamer",
+    "image": "images/1183128.gif",
+    "manufacturer": "Subminimal",
+    "imageUrl": "https://img.zap.co.il/pics/new/2911670812c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350280
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "948318",
+    "name": "מקינטה Aroma VIP 6 כוסות G A T",
+    "image": "images/948318.gif",
+    "manufacturer": "G A T",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/2/0/44610258b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350280
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155299",
+    "name": "מכונת אספרסו Delonghi ECAM290.31.SB Magnifica Evo",
+    "image": "images/1155299.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/9/2/92912992c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350281,
+      "ksp": 2299,
+      "kspUrl": "https://ksp.co.il/web/item/409573"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1162613",
+    "name": "מכונת אספרסו Delonghi PrimaDonna Soul ECAM610.55.SB",
+    "image": "images/1162613.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/7/9/70359706b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350281
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207088",
+    "name": "מקציף חלב Electro Hanan EL190",
+    "image": "images/1207088.gif",
+    "manufacturer": "Electro Hanan",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/6/1/77831662c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350281
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180219",
+    "name": "מכונת אספרסו Siemens TP703R09",
+    "image": "images/1180219.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/4/9/76129437c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350281
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1051073",
+    "name": "מכונת אספרסו Fakir Babila",
+    "image": "images/1051073.gif",
+    "manufacturer": "Fakir",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/0/0/53570078c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350282
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263368",
+    "name": "מקינטה Bialetti Moka Express 3 Squid Game",
+    "image": "images/1263368.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/5/97705204c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350282
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1183098",
+    "name": "מכונת אספרסו 1381/10 Ariete",
+    "image": "images/1183098.gif",
+    "manufacturer": "Ariete",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/4/6/76026467c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350282
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241999",
+    "name": "מכונת אספרסו Hamilton Beach 46375-IS",
+    "image": "images/1241999.gif",
+    "manufacturer": "Hamilton Beach",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/5/9/93409516c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350282,
+      "ksp": 1899,
+      "kspUrl": "https://ksp.co.il/web/item/353072"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030240",
+    "name": "מכונת אספרסו Moulinex FG360D10",
+    "image": "images/1030240.gif",
+    "manufacturer": "Moulinex",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/2/2/51772259c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350282
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118376",
+    "name": "פרקולטור benaton BT-21052",
+    "image": "images/1118376.gif",
+    "manufacturer": "Benaton",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/2/7/62337239c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350283
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1125822",
+    "name": "מקציף חלב Latte La707",
+    "image": "images/1125822.gif",
+    "manufacturer": "Latte",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/7/2/65962745c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350283
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107173",
+    "name": "מכונת אספרסו Nespresso VertuoNext GCV1",
+    "image": "images/1107173.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/8/0/60840850c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350283
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1170677",
+    "name": "מקציף חלב Westinghouse WKMFX-1403",
+    "image": "images/1170677.gif",
+    "manufacturer": "Westinghouse",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/3/2/74232395c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350283
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "991955",
+    "name": "מכונת אספרסו Espresso Club Minipresso",
+    "image": "images/991955.gif",
+    "manufacturer": "Espresso Club",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/8/9/47409850c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350283
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241998",
+    "name": "מכונת אספרסו Hamilton Beach 46376-IS",
+    "image": "images/1241998.gif",
+    "manufacturer": "Hamilton Beach",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/3/5/93415344c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350284,
+      "ksp": 1899,
+      "kspUrl": "https://ksp.co.il/web/item/353072"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245936",
+    "name": "מכונת אספרסו Melitta Solo Pure",
+    "image": "images/1245936.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/2/5/94315234c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350284
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118375",
+    "name": "מקציף חלב benaton BT-2177",
+    "image": "images/1118375.gif",
+    "manufacturer": "Benaton",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/5/6/62696525c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350284
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263376",
+    "name": "מקינטה Bialetti Moka Express 3 Italia Collection",
+    "image": "images/1263376.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/6/5/77335669c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350284
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263374",
+    "name": "מקינטה Bialetti Moka Express 3 Stranger Things",
+    "image": "images/1263374.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/8/7/97727875c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350285
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263378",
+    "name": "מקינטה Bialetti Moka Express 6 Italia Collection",
+    "image": "images/1263378.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/8/7/77227831c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350285
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263366",
+    "name": "מקינטה Bialetti Moka Express 6 Bridgerton",
+    "image": "images/1263366.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/5/3/93273525c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350285
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "870966",
+    "name": "מכונת קפה פילטר Melitta Aromaboy",
+    "image": "images/870966.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/4/9/42339454c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350285
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1263363",
+    "name": "מקינטה Bialetti Moka Express 6 Stranger Things",
+    "image": "images/1263363.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/8/7/97727876c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350285
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263364",
+    "name": "מקינטה Bialetti Moka Express 3 MacKenzie-Childs",
+    "image": "images/1263364.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/4/0/97540411c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350286
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1237161",
+    "name": "מקציף חלב Universe NRI927",
+    "image": "images/1237161.gif",
+    "manufacturer": "Universe",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/2/2/90012212c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350286
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1061637",
+    "name": "מכונת אספרסו Ariete Classica 1389",
+    "image": "images/1061637.gif",
+    "manufacturer": "Ariete",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/8/5/54555858c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350286
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214766",
+    "name": "מקינטה Bialetti Moka Exclusive 6",
+    "image": "images/1214766.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/7/6/85226764c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350286
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1252834",
+    "name": "מקציף חלב DAVO DAV280",
+    "image": "images/1252834.gif",
+    "manufacturer": "DAVO",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/2/4/95104236c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118377",
+    "name": "מכונת אספרסו benaton BT-7001",
+    "image": "images/1118377.gif",
+    "manufacturer": "Benaton",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/4/9/61189452c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1228897",
+    "name": "מקינטה Bialetti Moka Express 3 Dolce Gabbana",
+    "image": "images/1228897.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/1/6/94266149c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1216517",
+    "name": "מכונת אספרסו Pascale Life & Fun RM-A20C",
+    "image": "images/1216517.gif",
+    "manufacturer": "Pascale",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/7/2/86782751c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1121619",
+    "name": "מכונת אספרסו Delonghi EC785",
+    "image": "images/1121619.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/5/5/63415552c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237414",
+    "name": "מכונת אספרסו Delonghi Magnifica Start ECAM220.61.W",
+    "image": "images/1237414.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/1/6/89736178c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350287
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232354",
+    "name": "מכונת אספרסו Philips LM8012",
+    "image": "images/1232354.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/2/0/89370294c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350288
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263365",
+    "name": "מקינטה Bialetti Moka Express 6 MacKenzie-Childs",
+    "image": "images/1263365.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/4/0/97540410c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350288
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1263360",
+    "name": "מקינטה Bialetti Moka Express 6 Dolce Gabbana",
+    "image": "images/1263360.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/1/6/94266150c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350288
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1088911",
+    "name": "מכונת אספרסו Delonghi Ecam 23.460",
+    "image": "images/1088911.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/0/0/52790021c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350288
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "961194",
+    "name": "מכונת אספרסו Siemens IDTI301209RW - EQ.3 s100",
+    "image": "images/961194.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/0/6/45776080c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350289
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1018420",
+    "name": "מכונת אספרסו Vertuo Plus כולל אירוצ'ינו 3 GBC2 Nespresso",
+    "image": "images/1018420.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/7/8/49418741c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350289
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1263370",
+    "name": "מקינטה Bialetti Moka Express 2 Dolce Gabbana",
+    "image": "images/1263370.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/2/5/97705203c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350289
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1242088",
+    "name": "מכונת אספרסו Breville BES450BSS",
+    "image": "images/1242088.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/5/5/95405545c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350289
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1068714",
+    "name": "מכונת אספרסו Gaggia Anima Prestige",
+    "image": "images/1068714.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/6/4/55594640c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350289
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1093727",
+    "name": "מכונת קפה פילטר Melitta AromaFresh",
+    "image": "images/1093727.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/1/8/58628145c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350290
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1170418",
+    "name": "מכונת אספרסו CMF59 סט מכונה ומקציף Chromex",
+    "image": "images/1170418.gif",
+    "manufacturer": "Chromex",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/4/0/74390499c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350290
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092199",
+    "name": "מכונת אספרסו Siemens EQ.300 TI355209RW",
+    "image": "images/1092199.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/3/9/57449342c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350290
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156390",
+    "name": "מכונת קפה פילטר Melitta Epos",
+    "image": "images/1156390.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/new/66155115655c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350290
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "917901",
+    "name": "מכונת אספרסו Illy X7.1 IPERESPRESSO",
+    "image": "images/917901.gif",
+    "manufacturer": "Illy",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/6/6/41816633b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350290
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "986981",
+    "name": "מכונת אספרסו Smeg ECF01",
+    "image": "images/986981.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/2/7/48817262c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350291
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919433",
+    "name": "מכונת אספרסו Nuova Simonelli Oscar II",
+    "image": "images/919433.gif",
+    "manufacturer": "Nuova Simonelli",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/3/5/42785350c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350291
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1228240",
+    "name": "מכונת אספרסו Philips EP3343/90",
+    "image": "images/1228240.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/7/3/88703768c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350291
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232363",
+    "name": "מכונת אספרסו Delonghi ECAM370.70.B",
+    "image": "images/1232363.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/2/2/88962295c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350291
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123237",
+    "name": "מכונת אספרסו Cecotec Matic Ccino-6000",
+    "image": "images/1123237.gif",
+    "manufacturer": "Cecotec",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/8/6/64946868c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350292
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "946767",
+    "name": "מכונת אספרסו LaPavoni Cellini Clasic - CCC",
+    "image": "images/946767.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/2/6/52626225c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350292
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242091",
+    "name": "מכונת אספרסו Breville Bambino BES500BTR",
+    "image": "images/1242091.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/2/3/92953271c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350292
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "966448",
+    "name": "מכונת אספרסו Gaggia Naviglio",
+    "image": "images/966448.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/new/276125224443c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350292
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155632",
+    "name": "מכונת אספרסו Krups Essential EA819N10",
+    "image": "images/1155632.gif",
+    "manufacturer": "Krups",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/7/1/69301763c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350292
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "890789",
+    "name": "מכונת אספרסו Melitta Caffeo Passione F53-0-10",
+    "image": "images/890789.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/7/2/39902789c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350293
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180286",
+    "name": "מכונת אספרסו Flair Espresso Flair 58",
+    "image": "images/1180286.gif",
+    "manufacturer": "Flair Espresso",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/7/1/75501726c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350293
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1200015",
+    "name": "מכונת אספרסו Ariete Moderna 1318",
+    "image": "images/1200015.gif",
+    "manufacturer": "Ariete",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/9/1/78061964c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350293
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118266",
+    "name": "מכונת אספרסו Delonghi Magnifica S Smart ECAM250.31.SB",
+    "image": "images/1118266.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/4/3/62543478c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350293
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1060204",
+    "name": "מכונת אספרסו Melitta Avanza Series 600",
+    "image": "images/1060204.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/6/8/54318624c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350293
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1134029",
+    "name": "מכונת אספרסו Coffee & Tea Milk מכונת קפה Pascale",
+    "image": "images/1134029.gif",
+    "manufacturer": "Pascale",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/9/0/67970967c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350294
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "978599",
+    "name": "מכונת אספרסו Coffee & Tea מכונת קפה Pascale",
+    "image": "images/978599.gif",
+    "manufacturer": "Pascale",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/8/59038773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350294
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "930494",
+    "name": "מכונת אספרסו Delonghi ECOV 311",
+    "image": "images/930494.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/new/692016191822c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350294
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1002946",
+    "name": "מכונת אספרסו Siemens TI303203RW EQ.3 s300",
+    "image": "images/1002946.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/9/7/48557915c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350294
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1171122",
+    "name": "מכונת אספרסו Saeco Xelsis Suprema SM8885",
+    "image": "images/1171122.gif",
+    "manufacturer": "Saeco",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/0/1/74231038c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350295
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1135362",
+    "name": "מכונת אספרסו 1313 Ariete",
+    "image": "images/1135362.gif",
+    "manufacturer": "Ariete",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/3/5/67195396c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350295
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127356",
+    "name": "מכונת אספרסו Gaggia Anima Class",
+    "image": "images/1127356.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/8/9/64979848c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350295
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "149552",
+    "name": "מכונת אספרסו LaPavoni Europiccola EN",
+    "image": "images/149552.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/7/8/44888754c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350295
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224096",
+    "name": "מכונת אספרסו LaPavoni New Casa Bar Steel",
+    "image": "images/1224096.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/3/3/87433342c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350296
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130746",
+    "name": "מכונת אספרסו Jura Ena 4",
+    "image": "images/1130746.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/1/1/66651100c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350296
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992746",
+    "name": "מכונת אספרסו Delonghi ECAM350.75.S",
+    "image": "images/992746.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/9/7/48307992c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350296
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "999104",
+    "name": "מכונת אספרסו Jura S8",
+    "image": "images/999104.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/6/9/49369604c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350296
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1144529",
+    "name": "מכונת אספרסו ECM Puristika",
+    "image": "images/1144529.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/8/69388361b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350297
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1221164",
+    "name": "מכונת אספרסו LaPavoni New Casa Bar Black",
+    "image": "images/1221164.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/9/5/87315958c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350297
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030239",
+    "name": "מכונת אספרסו Caso Crema One",
+    "image": "images/1030239.gif",
+    "manufacturer": "Caso",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/7/52207836c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350297
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245918",
+    "name": "מכונת אספרסו Siemens TQ518RX3 EQ.500",
+    "image": "images/1245918.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/2/8/95448243c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350297
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1047177",
+    "name": "מכונת אספרסו Gaggia Cadorna Style",
+    "image": "images/1047177.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/1/6/52626139c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350298
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155289",
+    "name": "מכונת אספרסו Gaggia Anima Style",
+    "image": "images/1155289.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/1/4/69624196c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350298
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "779322",
+    "name": "מכונת אספרסו Gaggia ACCADEMIA",
+    "image": "images/779322.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/2/9/85829246b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350298
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245917",
+    "name": "מכונת אספרסו Smeg EMC02BLMEU",
+    "image": "images/1245917.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/5/3/95183515c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350298
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1207093",
+    "name": "מכונת אספרסו Siemens EQ900 TQ907R05",
+    "image": "images/1207093.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/0/7/78637014c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350298
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "130484",
+    "name": "מכונת אספרסו Ascaso DREAM",
+    "image": "images/130484.gif",
+    "manufacturer": "Ascaso",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/9/2/20332932c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350299
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1129091",
+    "name": "מכונת אספרסו Delonghi PrimaDonna Class ECAM 550.85.MS",
+    "image": "images/1129091.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/2/4/66394284c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350299
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218035",
+    "name": "מכונת אספרסו Smeg BCC13",
+    "image": "images/1218035.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/2/6/88876261c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350299
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "149556",
+    "name": "מכונת אספרסו LaPavoni Professional PR",
+    "image": "images/149556.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/5/7/41757527c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350299
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1047178",
+    "name": "מכונת אספרסו Gaggia Cadorna Milk",
+    "image": "images/1047178.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/1/6/52626140c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350300
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055153",
+    "name": "מכונת אספרסו Nivona CafeRomatica 820",
+    "image": "images/1055153.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/0/7/53587036c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350300
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241967",
+    "name": "מקציף חלב Smeg Dolce and Gabbana MFF01DGBEU",
+    "image": "images/1241967.gif",
+    "manufacturer": "Smeg",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/8/2/92822848c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350300
+    },
+    "filterTags": {
+      "coffeeType": "קפסולות"
+    }
+  },
+  {
+    "id": "1013484",
+    "name": "מכונת אספרסו Siemens EQ.9 plus connect s500 TI9553X9RW",
+    "image": "images/1013484.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/7/3/92333716c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350300
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "32279",
+    "name": "מכונת אספרסו Gaggia Logic",
+    "image": "images/32279.gif",
+    "manufacturer": "Gaggia",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/2/8/12708222c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350301
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1121280",
+    "name": "מכונת אספרסו Delonghi PrimaDonna Class ECAM550.65.SB",
+    "image": "images/1121280.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/7/9/62609702c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350301
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1017466",
+    "name": "מכונת אספרסו Miele CM 5300",
+    "image": "images/1017466.gif",
+    "manufacturer": "Miele",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/1/7/49277180c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350301
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "870971",
+    "name": "מכונת אספרסו Melitta Caffeo Barista T",
+    "image": "images/870971.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/9/9/38949969c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350301
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232365",
+    "name": "מכונת אספרסו ECM Mechanika Slim PID",
+    "image": "images/1232365.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/3/9/89379372b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350301
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "987012",
+    "name": "מכונת אספרסו Siemens TE657313RW - EQ.6 plus s700",
+    "image": "images/987012.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/3/0/46470356c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350302
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130742",
+    "name": "מכונת אספרסו Delonghi PrimaDonna Soul ECAM610.75.MB",
+    "image": "images/1130742.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/5/8/66588545c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350302
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088917",
+    "name": "מכונת אספרסו LeLit PL042TEMD",
+    "image": "images/1088917.gif",
+    "manufacturer": "LeLit",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/3/8/57738334c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350302
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1082172",
+    "name": "מכונת אספרסו Melitta CI Touch",
+    "image": "images/1082172.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/5/4/56884598b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350302
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "882266",
+    "name": "מכונת אספרסו Rocket Giotto E61",
+    "image": "images/882266.gif",
+    "manufacturer": "Rocket",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/5/0/38250525c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350303
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1105305",
+    "name": "מכונת אספרסו Bellezza Chiara",
+    "image": "images/1105305.gif",
+    "manufacturer": "Bellezza",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/1/7/73467189c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350303
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "901448",
+    "name": "מכונת אספרסו Profitec PRO300",
+    "image": "images/901448.gif",
+    "manufacturer": "Profitec",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/0/1/57831062c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350303
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "934375",
+    "name": "מכונת אספרסו Jura WE8",
+    "image": "images/934375.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/7/4/42754712c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350303
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "802594",
+    "name": "מכונת אספרסו BEZZERA BZ10",
+    "image": "images/802594.gif",
+    "manufacturer": "Bezzera",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/3/2/49662337c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350303
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127349",
+    "name": "מכונת אספרסו Nivona CafeRomatica 960",
+    "image": "images/1127349.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/5/0/62150535c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239284",
+    "name": "מכונת אספרסו Stone Lite White",
+    "image": "images/1239284.gif",
+    "manufacturer": "Stone",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/0/5/90455089c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239283",
+    "name": "מכונת אספרסו Stone Lite Black",
+    "image": "images/1239283.gif",
+    "manufacturer": "Stone",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/3/5/90525334c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092194",
+    "name": "מכונת אספרסו ECM Technika V Profi PID",
+    "image": "images/1092194.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/7/5/57845771b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239285",
+    "name": "מכונת אספרסו Stone Lite Premium",
+    "image": "images/1239285.gif",
+    "manufacturer": "Stone",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/3/5/90525336c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350304
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "882275",
+    "name": "מכונת אספרסו ECM Casa IV",
+    "image": "images/882275.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/1/3/39343185c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218806",
+    "name": "מכונת אספרסו LeLit PL92T",
+    "image": "images/1218806.gif",
+    "manufacturer": "LeLit",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/2/6/86816295c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127350",
+    "name": "מכונת אספרסו Quickmill 0981 RUBINO",
+    "image": "images/1127350.gif",
+    "manufacturer": "quickmill",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/7/5/64895786c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211678",
+    "name": "מכונת אספרסו ECM Mechanika Max 82295",
+    "image": "images/1211678.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/2/8/85168243b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "912540",
+    "name": "מכונת אספרסו Siemens CT636LES1",
+    "image": "images/912540.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/3/7/41407370c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350305
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "935363",
+    "name": "מכונת אספרסו Melitta CAFFEO Barista TS",
+    "image": "images/935363.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/1/4/93304121c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350306
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1105306",
+    "name": "מכונת אספרסו Bellezza Valentina Leva",
+    "image": "images/1105306.gif",
+    "manufacturer": "Bellezza",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/4/67824183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350306
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1026369",
+    "name": "מכונת אספרסו Profitec PRO600",
+    "image": "images/1026369.gif",
+    "manufacturer": "Profitec",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/1/1/49901146c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350306
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "882277",
+    "name": "מכונת אספרסו ECM Barista",
+    "image": "images/882277.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/1/3/39343166c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350306
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1157451",
+    "name": "מכונת אספרסו Rocket Mozzafiato Type V",
+    "image": "images/1157451.gif",
+    "manufacturer": "Rocket",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/4/55824684c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350307
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "975872",
+    "name": "מכונת אספרסו TEKA CLC 855 GM",
+    "image": "images/975872.gif",
+    "manufacturer": "TEKA",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/7/2/51862772c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350307
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "988709",
+    "name": "מכונת אספרסו Jura X8",
+    "image": "images/988709.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/0/5/48035040c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350307
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "925300",
+    "name": "מכונת אספרסו Breville The Oracle BES980",
+    "image": "images/925300.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/6/1/42131663c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350307
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237406",
+    "name": "מכונת אספרסו Jura X10",
+    "image": "images/1237406.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/1/3/96563139c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350307
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "901450",
+    "name": "מכונת אספרסו Profitec PRO700",
+    "image": "images/901450.gif",
+    "manufacturer": "Profitec",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/9/5/56465956c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350308
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1248515",
+    "name": "מכונת אספרסו Dr.Coffee Coffee Break Black Pro Plus 152DC100",
+    "image": "images/1248515.gif",
+    "manufacturer": "DR.COFFEE",
+    "imageUrl": "https://img.zap.co.il/pics/sog/c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350308
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1102752",
+    "name": "מכונת אספרסו ECM Elektronika II Profi",
+    "image": "images/1102752.gif",
+    "manufacturer": "ECM",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/3/7/59777341b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350308
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "935371",
+    "name": "מכונת קפה פילטר Siemens CT636LES6",
+    "image": "images/935371.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/7/2/51862764c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350308
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "933733",
+    "name": "מכונת אספרסו Nivona CafeRomatica 1030",
+    "image": "images/933733.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/5/9/42759589c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350308
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1196728",
+    "name": "מכונת אספרסו Jura Giga 10 15478",
+    "image": "images/1196728.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/1/0/77770193c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350309
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1228243",
+    "name": "מכונת אספרסו Fiamma Nau Just",
+    "image": "images/1228243.gif",
+    "manufacturer": "Fiamma",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/3/0/88210382c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350309
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224094",
+    "name": "מכונת אספרסו Nuova Simonelli Appia Life Single Groups",
+    "image": "images/1224094.gif",
+    "manufacturer": "Nuova Simonelli",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/1/8/70678178c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350309
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1216522",
+    "name": "מכונת אספרסו Creama Plus Kalerm K95",
+    "image": "images/1216522.gif",
+    "manufacturer": "Creama Plus",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/6/7/96107618c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350309
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "711636",
+    "name": "מכונת אספרסו Elektra Micro Casa Semi Automatica",
+    "image": "images/711636.gif",
+    "manufacturer": "Elektra",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/4/8/41028402c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350309
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "933747",
+    "name": "מכונת אספרסו Jura Z6",
+    "image": "images/933747.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/7/4/42754713c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350310
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242116",
+    "name": "מכונת אספרסו Delonghi Meastosa EPAM960.75.GLM",
+    "image": "images/1242116.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/6/7/92567690c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350310
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092190",
+    "name": "מכונת אספרסו Aeg KKK884500M",
+    "image": "images/1092190.gif",
+    "manufacturer": "Aeg",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/5/8/58488537c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350310
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1013498",
+    "name": "מכונת אספרסו BEZZERA Matrix MN",
+    "image": "images/1013498.gif",
+    "manufacturer": "Bezzera",
+    "imageUrl": "https://img.zap.co.il/pics/new/25117913870c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350310
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1226274",
+    "name": "מכונת אספרסו LaPavoni Botticelli Specialty",
+    "image": "images/1226274.gif",
+    "manufacturer": "LaPavoni",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/7/6/88276728c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350311
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239521",
+    "name": "מכונת אספרסו Aeg KKK994500M",
+    "image": "images/1239521.gif",
+    "manufacturer": "Aeg",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/3/1/90561341c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350311
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1079164",
+    "name": "מכונת אספרסו Jura Z8",
+    "image": "images/1079164.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/2/2/56552289b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350311
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "912541",
+    "name": "מכונת אספרסו Siemens CT636LEW1",
+    "image": "images/912541.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/9/3/41543982c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350311
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "912524",
+    "name": "מכונת אספרסו Gorenje CMA9200UX",
+    "image": "images/912524.gif",
+    "manufacturer": "Gorenje",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/7/2/41472717c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350312
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1229645",
+    "name": "מכונת אספרסו Siemens CT718L1B0",
+    "image": "images/1229645.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/4/88864949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350312
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "869156",
+    "name": "מכונת אספרסו Miele CVA6401",
+    "image": "images/869156.gif",
+    "manufacturer": "Miele",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/2/53862067c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350312
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1098665",
+    "name": "מכונת אספרסו Miele CVA 7440",
+    "image": "images/1098665.gif",
+    "manufacturer": "Miele",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/6/0/59290694c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350312
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "887294",
+    "name": "מכונת אספרסו Gorenje GCC800",
+    "image": "images/887294.gif",
+    "manufacturer": "Gorenje",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/2/39862200c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350312
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "893667",
+    "name": "מכונת אספרסו Jura GIGA X3 Professional",
+    "image": "images/893667.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/3/1/40831397c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350313
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1008455",
+    "name": "מכונת אספרסו La Marzocco GS3",
+    "image": "images/1008455.gif",
+    "manufacturer": "La Marzocco",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/6/4/45204661b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350313
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225172",
+    "name": "מכונת אספרסו Victoria Arduino White Eagle 2GR",
+    "image": "images/1225172.gif",
+    "manufacturer": "Victoria Arduino",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/2/8/69838229b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350313
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225173",
+    "name": "מכונת אספרסו Victoria Arduino Black Eagle Volumetric 2GR",
+    "image": "images/1225173.gif",
+    "manufacturer": "Victoria Arduino",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/2/8/69838233c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350313
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225174",
+    "name": "מכונת אספרסו Victoria Arduino Black Eagle Volumetric 3GR",
+    "image": "images/1225174.gif",
+    "manufacturer": "Victoria Arduino",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/2/8/69838235c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350314
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "927877",
+    "name": "מכונת אספרסו Melitta Caffeo Ci",
+    "image": "images/927877.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/4/9/42339422c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350314
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056459980",
+    "name": "מכונת אספרסו Victoria Arduino White Eagle 3GR",
+    "image": "images/1056459980.gif",
+    "manufacturer": "Victoria Arduino",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/2/8/69838235c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350314
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1138277409",
+    "name": "מכונת אספרסו Victoria Arduino White Eagle 3GR",
+    "image": "images/1138277409.gif",
+    "manufacturer": "Victoria Arduino",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/2/8/69838235c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350314
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263367",
+    "name": "מקינטה Bialetti Moka Express 3 Bridgerton",
+    "image": "images/1263367.gif",
+    "manufacturer": "Bialetti",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/4/0/89430443c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350315
+    },
+    "filterTags": {
+      "coffeeType": "מוקה"
+    }
+  },
+  {
+    "id": "1056788252",
+    "name": "מכונת אספרסו Siemens EQ900 TQ907R05",
+    "image": "images/1056788252.gif",
+    "manufacturer": "Jura",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/7/4/42754712c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350315
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1020035155",
+    "name": "מכונת אספרסו La Marzocco Linea Micra",
+    "image": "images/1020035155.gif",
+    "manufacturer": "Siemens",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/3/7/41407370c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350315
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245919",
+    "name": "מקציף חלב Severin SM3579",
+    "image": "images/1245919.gif",
+    "manufacturer": "Severin",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/2/8/94368247c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350315
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156388",
+    "name": "מכונת אספרסו Melitta Amano",
+    "image": "images/1156388.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/9/5/69425945c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350315
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156389",
+    "name": "מכונת קפה פילטר Melitta Epour",
+    "image": "images/1156389.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/3/7/69417332c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350316
+    },
+    "filterTags": {
+      "coffeeType": "פילטר"
+    }
+  },
+  {
+    "id": "1013497",
+    "name": "מכונת אספרסו Nivona CafeRomatica 759",
+    "image": "images/1013497.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/1/7/59157131c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350316
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1181934",
+    "name": "מכונת אספרסו Torre Mariuccia",
+    "image": "images/1181934.gif",
+    "manufacturer": "Torre",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/7/7/74997701c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350316
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1101292",
+    "name": "מכונת אספרסו Rocket Mozzafiato Cronometro R",
+    "image": "images/1101292.gif",
+    "manufacturer": "Rocket",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/7/5/44665771c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350316
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1181935",
+    "name": "מכונת אספרסו Torre Peppina",
+    "image": "images/1181935.gif",
+    "manufacturer": "Torre",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/5/1/75501580c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350317
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "898017",
+    "name": "מכונת אספרסו Belmoca Belina",
+    "image": "images/898017.gif",
+    "manufacturer": "Belmoca",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/8/1/40341856c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350317
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1040509",
+    "name": "מכונת אספרסו Nespresso Citiz&Milk D123",
+    "image": "images/1040509.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/6/0/51270638c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350317
+    }
+  },
+  {
+    "id": "951673",
+    "name": "מכונת אספרסו Essenza Mini D30 EN85 כולל מקציף Nespresso",
+    "image": "images/951673.gif",
+    "manufacturer": "Nespresso",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/6/0/48520699c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350317
+    }
+  },
+  {
+    "id": "1076346436",
+    "name": "מכונת אספרסו Nivona NICR 1040",
+    "image": "images/1076346436.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/6/1/42131663c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350317
+    }
+  },
+  {
+    "id": "1061635",
+    "name": "מכונת אספרסו Ariete Vintage 1389",
+    "image": "images/1061635.gif",
+    "manufacturer": "Ariete",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/8/5/54555854c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350318
+    }
+  },
+  {
+    "id": "1187223",
+    "name": "מכונת אספרסו Arzum Okka OK001 Okka",
+    "image": "images/1187223.gif",
+    "manufacturer": "Arzum Okka",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/6/8/76338656c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350318
+    }
+  },
+  {
+    "id": "1162614",
+    "name": "מכונת אספרסו Delonghi Dedica Deluxe EC685",
+    "image": "images/1162614.gif",
+    "manufacturer": "Delonghi",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/7/75147541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350318
+    }
+  },
+  {
+    "id": "1245937",
+    "name": "מכונת אספרסו Melitta Solo Chilli",
+    "image": "images/1245937.gif",
+    "manufacturer": "Melitta",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/2/5/94315235c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350318
+    }
+  },
+  {
+    "id": "1221163",
+    "name": "מכונת אספרסו Miele CVA7845",
+    "image": "images/1221163.gif",
+    "manufacturer": "Miele",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/9/9/87179953c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350318
+    }
+  },
+  {
+    "id": "1121260",
+    "name": "מכונת אספרסו LeLit PL91T",
+    "image": "images/1121260.gif",
+    "manufacturer": "Beem",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/0/8/61808075c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350319
+    }
+  },
+  {
+    "id": "1056460033",
+    "name": "מכונת אספרסו Profitec PRO400",
+    "image": "images/1056460033.gif",
+    "manufacturer": "Stone",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/3/5/90525334c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350319
+    }
+  },
+  {
+    "id": "1056459543",
+    "name": "מכונת אספרסו Nivona NICR 1040",
+    "image": "images/1056459543.gif",
+    "manufacturer": "Nivona",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/5/9/42759589c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350319
+    }
+  },
+  {
+    "id": "944825",
+    "name": "מכונת אספרסו LeLit Anna PL41EM",
+    "image": "images/944825.gif",
+    "manufacturer": "G A T",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/5/5/44265521c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350319,
+      "ksp": 2099,
+      "kspUrl": "https://ksp.co.il/web/item/392635"
+    }
+  },
+  {
+    "id": "1264749",
+    "name": "מכונת אספרסו Dr.Coffee H1",
+    "image": "images/1264749.gif",
+    "manufacturer": "Dr.Coffee",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/9/4/94474904c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350320
+    }
+  },
+  {
+    "id": "1242089",
+    "name": "מכונת אספרסו Breville BES450BTR",
+    "image": "images/1242089.gif",
+    "manufacturer": "Breville",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/8/7/93047825c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636350320
+    }
+  }
+]

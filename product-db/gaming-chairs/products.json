@@ -1,0 +1,1585 @@
+[
+  {
+    "id": "1065906",
+    "name": "Dragon Combat",
+    "image": "images/1065906.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/5/6/95226567b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756325,
+      "ksp": 449,
+      "kspUrl": "https://ksp.co.il/web/item/106012"
+    },
+    "manufacturer": "Dragon",
+    "filterTags": {}
+  },
+  {
+    "id": "1065913",
+    "name": "Dragon Olympus GPDRC-OLY",
+    "image": "images/1065913.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/6/3/91493690b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756325
+    },
+    "manufacturer": "Dragon",
+    "filterTags": {}
+  },
+  {
+    "id": "1181125",
+    "name": "Spider Formula",
+    "image": "images/1181125.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/7/8/94008737b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756326
+    },
+    "manufacturer": "Spider",
+    "filterTags": {}
+  },
+  {
+    "id": "1180411",
+    "name": "Cooler Master Caliber E1",
+    "image": "images/1180411.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/7/8/74958796b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756327
+    },
+    "manufacturer": "Cooler Master",
+    "filterTags": {}
+  },
+  {
+    "id": "1065918",
+    "name": "Dragon Space RGB GPDRC-SPC",
+    "image": "images/1065918.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/9/6/92216994b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756328
+    },
+    "manufacturer": "Dragon",
+    "filterTags": {}
+  },
+  {
+    "id": "1205711",
+    "name": "כיסא גיימינג Scorpius Life",
+    "image": "images/1205711.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/1/2/93042105c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220207",
+    "name": "כיסא גיימינג Scorpius Professional",
+    "image": "images/1220207.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/3/0/92930350c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1202473",
+    "name": "כיסא גיימינג Scorpius Lightning",
+    "image": "images/1202473.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/8/0/94330897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186435",
+    "name": "כיסא גיימינג Corsair TC100 Fabric",
+    "image": "images/1186435.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/5/9/93169548c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220208",
+    "name": "כיסא גיימינג Scorpius Performance",
+    "image": "images/1220208.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/6/6/92396650c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1202472",
+    "name": "כיסא גיימינג Scorpius Gamer",
+    "image": "images/1202472.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/8/1/92391825c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756330
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1244108",
+    "name": "כיסא גיימינג Scorpius Deluxepro",
+    "image": "images/1244108.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/3/6/94796359c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116332",
+    "name": "כיסא גיימינג Corsair T3 Rush",
+    "image": "images/1116332.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/8/0/93380842c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242874",
+    "name": "כיסא גיימינג Razer Iskur V2 X",
+    "image": "images/1242874.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/7/4/93744797c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227367",
+    "name": "כיסא גיימינג Razer Iskur V2",
+    "image": "images/1227367.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/1/4/94334184c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128300",
+    "name": "כיסא גיימינג Razer Enki X",
+    "image": "images/1128300.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/1/5/97815196b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756332
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128301",
+    "name": "כיסא גיימינג Razer Enki",
+    "image": "images/1128301.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/6/2/91532641c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756332
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1110592",
+    "name": "כיסא גיימינג Dragon Cyber",
+    "image": "images/1110592.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/5/3/92533528c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065916",
+    "name": "כיסא גיימינג Dragon Gladiator",
+    "image": "images/1065916.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/2/7/92687213c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065925",
+    "name": "כיסא גיימינג Dragon GT DLX GPDRC-GT",
+    "image": "images/1065925.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/5/9/93169546c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217968",
+    "name": "כיסא גיימינג Cougar Armor Elite",
+    "image": "images/1217968.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/5/5/84035589c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1082204",
+    "name": "כיסא גיימינג Dragon Sniper GPRDC-SNIP",
+    "image": "images/1082204.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/6/1/57391650c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1254578",
+    "name": "כיסא גיימינג Dragon Ace Pro",
+    "image": "images/1254578.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/4/2/95382458c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756334
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237156",
+    "name": "כיסא גיימינג Corsair TC500 LUX",
+    "image": "images/1237156.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/new/511101155631c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118743",
+    "name": "שטיח לכיסא גיימינג Cougar Command Mat",
+    "image": "images/1118743.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/1/8/78088135c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1110593",
+    "name": "כיסא גיימינג Dragon Space Plus GPDRC-SPCPL",
+    "image": "images/1110593.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/1/9/93079122c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225196",
+    "name": "כיסא גיימינג Razer Iskur V2 Fabric",
+    "image": "images/1225196.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/2/88072065c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186401",
+    "name": "כיסא גיימינג Next Level 90902-005-06 GT Lite Cockpit",
+    "image": "images/1186401.gif",
+    "manufacturer": "Next Level",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/2/6/92146250c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1111765",
+    "name": "כורסת גיימינג Dragon Pro DLX Sofa GPDRC-SOFA",
+    "image": "images/1111765.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/5/9/61539556c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217974",
+    "name": "כיסא גיימינג Cougar Armor Air",
+    "image": "images/1217974.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/9/8/86118955c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065928",
+    "name": "כיסא גיימינג Cougar Armor One",
+    "image": "images/1065928.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/9/1/92311927c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217975",
+    "name": "כיסא גיימינג Cougar Armor Evo",
+    "image": "images/1217975.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/0/1/92331006c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065836",
+    "name": "כיסא גיימינג Noblechairs Icon PU Leather",
+    "image": "images/1065836.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/3/6/55186326c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128286",
+    "name": "כיסא גיימינג Noblechairs Epic Compact PU Leather",
+    "image": "images/1128286.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/7/9/66249714c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128289",
+    "name": "כיסא גיימינג Noblechairs Epic TX Fabric",
+    "image": "images/1128289.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/3/5/78325368c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1183485",
+    "name": "כיסא גיימינג Noblechairs Epic Spider-Man Edition",
+    "image": "images/1183485.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/12153541941c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065831",
+    "name": "כיסא גיימינג Noblechairs Epic PU Leather",
+    "image": "images/1065831.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/3/2/55192304c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1146971",
+    "name": "כיסא גיימינג Cougar Outrider",
+    "image": "images/1146971.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/5/0/68670539c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245630",
+    "name": "כורסת גיימינג Cougar Ranger One",
+    "image": "images/1245630.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/1/4/91844180c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245572",
+    "name": "כיסא גיימינג Cougar Armor Evo S",
+    "image": "images/1245572.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/0/1/92331006c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1176086",
+    "name": "כיסא גיימינג Noblechairs Legend TX",
+    "image": "images/1176086.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/18121234134c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206647",
+    "name": "כיסא גיימינג Dragon Flex GPDRC-FLEX-BB",
+    "image": "images/1206647.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/6/9/92769622c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245571",
+    "name": "כיסא גיימינג Cougar Armor Evo M",
+    "image": "images/1245571.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/4/4/94304443c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220209",
+    "name": "כיסא גיימינג Cougar Hotrod",
+    "image": "images/1220209.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/9/4/87144942c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116336",
+    "name": "כיסא גיימינג Dragon Super Tanker",
+    "image": "images/1116336.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/5/2/61522501b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1175311",
+    "name": "כיסא גיימינג Noblechairs Hero ST TX Fabric",
+    "image": "images/1175311.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/2511184146885c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1176087",
+    "name": "כיסא גיימינג Noblechairs Legend",
+    "image": "images/1176087.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/181212343562c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756341
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1153388",
+    "name": "כיסא גיימינג Cougar Terminator",
+    "image": "images/1153388.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/5/8/91588546c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756341
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245770",
+    "name": "כיסא גיימינג Cougar Armor One V2",
+    "image": "images/1245770.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/0/2/94312058c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756341
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206646",
+    "name": "כיסא גיימינג Dragon Maccabi Tel Aviv GPDRC-FC-TLV",
+    "image": "images/1206646.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/2/9/78949272c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1102269",
+    "name": "כיסא גיימינג Spider Goal",
+    "image": "images/1102269.gif",
+    "manufacturer": "Spider",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/6/1/58831677c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241864",
+    "name": "כיסא גיימינג Cougar Fusion S",
+    "image": "images/1241864.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/2/7/93247268c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206640",
+    "name": "כיסא גיימינג Noblechairs Hero ST Stormtrooper Edition",
+    "image": "images/1206640.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/3/5/78325367c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065930",
+    "name": "כיסא גיימינג Cougar Armor S",
+    "image": "images/1065930.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/9/9/91649922c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1121850",
+    "name": "כיסא גיימינג Gamdias Achilles E3",
+    "image": "images/1121850.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/3/64393200c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1183484",
+    "name": "כיסא גיימינג Noblechairs Epic High-tech Faux Leather",
+    "image": "images/1183484.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/12153526223c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206639",
+    "name": "כיסא גיימינג Noblechairs Hero ST High-tech Faux Leather",
+    "image": "images/1206639.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/5/78325366c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067583",
+    "name": "כורסת גיימינג Cougar Ranger",
+    "image": "images/1067583.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/7/8/92698778c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1244292",
+    "name": "כיסא גיימינג Dragon Alpine D.C",
+    "image": "images/1244292.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/9/6/93776945c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065883",
+    "name": "כיסא גיימינג Gamdias Achilles E1",
+    "image": "images/1065883.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/6/48446510c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1254571",
+    "name": "כיסא גיימינג Cougar Armor One V2 F",
+    "image": "images/1254571.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/1/6/95826173c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065922",
+    "name": "כיסא גיימינג Dragon Zeus",
+    "image": "images/1065922.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/8/7/51197805c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1066453",
+    "name": "כיסא גיימינג Noblechairs Epic Mercedes-AMG Petronas Motorsport",
+    "image": "images/1066453.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/4/6/54246406c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118746",
+    "name": "אביזר לכיסא גיימינג Dragon Memory Foam Pillow",
+    "image": "images/1118746.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/6/6/61876641c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242790",
+    "name": "כיסא גיימינג Cougar Speeder",
+    "image": "images/1242790.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/9/5/96575950c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065926",
+    "name": "כיסא גיימינג Dragon Monster XXL",
+    "image": "images/1065926.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/8/6/54106898c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250816",
+    "name": "כיסא גיימינג Cougar Explore Royal",
+    "image": "images/1250816.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/1/3/95103180c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245631",
+    "name": "כורסת גיימינג Cougar Ranger Elite",
+    "image": "images/1245631.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/4/1/91521438c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245632",
+    "name": "כיסא גיימינג Cougar Defensor",
+    "image": "images/1245632.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/1/9/91589167c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1254570",
+    "name": "כיסא גיימינג Cougar Defensor F",
+    "image": "images/1254570.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/4/2/94332463c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065841",
+    "name": "כיסא גיימינג Noblechairs Epic Real Leather",
+    "image": "images/1065841.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/3/2/55192307c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238438",
+    "name": "כורסת גיימינג Cougar Fidom",
+    "image": "images/1238438.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/3/0/90420394c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1208727",
+    "name": "כורסת גיימינג Cougar Ranger S",
+    "image": "images/1208727.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/4/3/79393476c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231598",
+    "name": "כיסא גיימינג Spider GS-96",
+    "image": "images/1231598.gif",
+    "manufacturer": "Spider",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/8/6/89246818c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128298",
+    "name": "כיסא גיימינג Noblechairs Icon TX Fabric",
+    "image": "images/1128298.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/2810111314897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065908",
+    "name": "כיסא גיימינג Dragon Ultra GPDRC-ULT",
+    "image": "images/1065908.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/6/54106430c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242789",
+    "name": "כיסא גיימינג Cougar Speeder One",
+    "image": "images/1242789.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/8/8/93668885c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1192696",
+    "name": "כיסא גיימינג Xtrike Me GC-903",
+    "image": "images/1192696.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/6/2/76392658c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1118143",
+    "name": "כיסא גיימינג Dragon Sniper Led GPRDC-SNIPLD",
+    "image": "images/1118143.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/3/8/60778334c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065905",
+    "name": "כיסא גיימינג Dragon Combat XL",
+    "image": "images/1065905.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/54129721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065840",
+    "name": "כיסא גיימינג Noblechairs Hero PU Leather",
+    "image": "images/1065840.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/2/2/55192287c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186441",
+    "name": "כיסא גיימינג מכבי חיפה רישמי GPDRC-FC-MCH Dragon",
+    "image": "images/1186441.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/5/1/77761597c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241862",
+    "name": "כיסא גיימינג Cougar Fusion SF",
+    "image": "images/1241862.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/9/4/91284987c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065957",
+    "name": "כיסא גיימינג בליס Homax",
+    "image": "images/1065957.gif",
+    "manufacturer": "Homax",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/1/8/48698112c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116333",
+    "name": "כיסא גיימינג Spider Drift",
+    "image": "images/1116333.gif",
+    "manufacturer": "Spider",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/6/0/61880600c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1202471",
+    "name": "כיסא גיימינג Scorpius Advance",
+    "image": "images/1202471.gif",
+    "manufacturer": "Scorpius",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/5/2/77782589c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065959",
+    "name": "כיסא גיימינג וונטנה Homax",
+    "image": "images/1065959.gif",
+    "manufacturer": "Homax",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/7/2/49682794c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065927",
+    "name": "כיסא גיימינג Cougar Fusion",
+    "image": "images/1065927.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/3/0/50010331c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756353
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1112411",
+    "name": "כיסא גיימינג XP Junior 200 ד\"ר גב",
+    "image": "images/1112411.gif",
+    "manufacturer": "ד&quot;ר גב",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/9/0/66640918c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756353
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1244293",
+    "name": "כיסא גיימינג Dragon Alpine D.C FB",
+    "image": "images/1244293.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/3/7/93777343c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756353,
+      "ksp": 949,
+      "kspUrl": "https://ksp.co.il/web/item/374372"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217810",
+    "name": "כיסא גיימינג Cougar Explore S",
+    "image": "images/1217810.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/5/5/84035590c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075437",
+    "name": "כיסא גיימינג Gamdias Aphrodite Ef1",
+    "image": "images/1075437.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/7/0/55900781c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1252151",
+    "name": "כיסא גיימינג Cougar Ranger Eva",
+    "image": "images/1252151.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/4/9/95389435c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1101327",
+    "name": "כיסא גיימינג Cougar Explore",
+    "image": "images/1101327.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/2/59532510c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1126029",
+    "name": "90902-005-02 F-GT Formula and GT Simulator Cockpit Next Level",
+    "image": "images/1126029.gif",
+    "manufacturer": "Next Level",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/0/9/65069029c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128295",
+    "name": "כיסא גיימינג Noblechairs Epic Compact Fabric",
+    "image": "images/1128295.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/6/4/69924600c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1128297",
+    "name": "כיסא גיימינג Noblechairs Hero TX Fabric",
+    "image": "images/1128297.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/new/281011136554c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065932",
+    "name": "כיסא גיימינג Cougar Armor Titan",
+    "image": "images/1065932.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/7/8/56868760c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1201211",
+    "name": "כיסא גיימינג Rosso Italy RSM-1042",
+    "image": "images/1201211.gif",
+    "manufacturer": "Rosso Italy",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/5/0/78220524c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1201213",
+    "name": "כיסא גיימינג Rosso Italy RSM-1045",
+    "image": "images/1201213.gif",
+    "manufacturer": "Rosso Italy",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/6/0/92960634c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065843",
+    "name": "כיסא גיימינג Noblechairs Hero Real Leather",
+    "image": "images/1065843.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/4/8/57778479c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1244429",
+    "name": "כיסא גיימינג Keisar Ergohuman Ultra",
+    "image": "images/1244429.gif",
+    "manufacturer": "Keisar",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/2/3/93083283c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156144",
+    "name": "כיסא גיימינג Cougar Armor One Royal",
+    "image": "images/1156144.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/1/1/74161187c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1115249",
+    "name": "כיסא גיימינג Zen Tarok Pro",
+    "image": "images/1115249.gif",
+    "manufacturer": "Zen",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/1/9/56679198c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1202526",
+    "name": "כיסא גיימינג DXRacer Gladiator 001",
+    "image": "images/1202526.gif",
+    "manufacturer": "DXRacer",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/1/3/76333164c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214895",
+    "name": "כיסא גיימינג Azoni Galiano",
+    "image": "images/1214895.gif",
+    "manufacturer": "Azoni",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/0/3/84033078c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1146970",
+    "name": "כיסא גיימינג Cougar Outrider S",
+    "image": "images/1146970.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/1/1/68771150c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206645",
+    "name": "פוף גיימינג DXRacer Craft Series",
+    "image": "images/1206645.gif",
+    "manufacturer": "DXRacer",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/1/3/76333161c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1248567",
+    "name": "כיסא גיימינג Cougar Terminator Elite",
+    "image": "images/1248567.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/4/0/95650411c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231660",
+    "name": "כיסא גיימינג Noblechairs Icon High-tech Faux Leather",
+    "image": "images/1231660.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/2/1/89131240c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186398",
+    "name": "כיסא גיימינג Noblechairs Hero Ence Edition",
+    "image": "images/1186398.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/7/1/74231789c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065884",
+    "name": "כיסא גיימינג Gamdias Aphrotide MF1",
+    "image": "images/1065884.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/2/1/51931237c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065885",
+    "name": "כיסא גיימינג Gamdias Achilles P1",
+    "image": "images/1065885.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/5/6/48446511c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1208728",
+    "name": "כיסא גיימינג Cougar Ranger Pro",
+    "image": "images/1208728.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/4/3/79393475c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220210",
+    "name": "כיסא גיימינג Comfort Enjoy Ultra",
+    "image": "images/1220210.gif",
+    "manufacturer": "Comfort",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/8/5/87275880c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231687",
+    "name": "כיסא גיימינג Noblechairs Epic Borussia Dortmund Edition",
+    "image": "images/1231687.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/2/5/86105216c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186397",
+    "name": "כיסא גיימינג Noblechairs Hero Doom Edition",
+    "image": "images/1186397.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/8/1/74231805c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1186402",
+    "name": "כיסא גיימינג Next Level 90902-005-01 GTtrack Cockpit",
+    "image": "images/1186402.gif",
+    "manufacturer": "Next Level",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/7/2/76272793c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1168666",
+    "name": "כיסא גיימינג Cougar Argo One",
+    "image": "images/1168666.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/0/7/74217042c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220212",
+    "name": "כיסא גיימינג Comfort Ergohuman Ultra",
+    "image": "images/1220212.gif",
+    "manufacturer": "Comfort",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/9/5/87275984c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220211",
+    "name": "כיסא גיימינג Comfort Mirus Ultra",
+    "image": "images/1220211.gif",
+    "manufacturer": "Comfort",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/9/5/87275983c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231698",
+    "name": "כיסא גיימינג Noblechairs HERO Real Madrid Edition",
+    "image": "images/1231698.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/7/88797621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231699",
+    "name": "כיסא גיימינג Noblechairs HERO Iron Man Edition",
+    "image": "images/1231699.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/4/7/81937459c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231702",
+    "name": "כיסא גיימינג Noblechairs HERO Far Cry 6 Special Edition",
+    "image": "images/1231702.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/7/88797616c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206641",
+    "name": "כיסא גיימינג Noblechairs Hero High-tech Faux Leather",
+    "image": "images/1206641.gif",
+    "manufacturer": "Noblechairs",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/1/78321985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065952",
+    "name": "כיסא גיימינג טוד Homax",
+    "image": "images/1065952.gif",
+    "manufacturer": "Homax",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/0/8/54638072c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1110640",
+    "name": "כיסא מרוצים Playgame MPS2",
+    "image": "images/1110640.gif",
+    "manufacturer": "Playgame",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/6/57436541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1098520",
+    "name": "כיסא גיימינג Razer Iskur",
+    "image": "images/1098520.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/8/3/59393849c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756364
+    }
+  },
+  {
+    "id": "1214897",
+    "name": "כיסא גיימינג SimPole podium 60",
+    "image": "images/1214897.gif",
+    "manufacturer": "SimPole",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/6/3/85943656c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756364
+    }
+  },
+  {
+    "id": "1250817",
+    "name": "כיסא גיימינג Cougar Explore Royal F",
+    "image": "images/1250817.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/1/3/95103179c.gif",
+    "prices": {
+      "zap": 1199,
+      "updated": 1778635756364
+    }
+  },
+  {
+    "id": "1250818",
+    "name": "כיסא גיימינג Cougar Explore Neo",
+    "image": "images/1250818.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/2/4/95124207c.gif",
+    "prices": {
+      "zap": 1249,
+      "updated": 1778635756365
+    }
+  },
+  {
+    "id": "1098522",
+    "name": "Homax אופיולנט כחול – כיסא מנהלים -גיימינג",
+    "image": "images/1098522.gif",
+    "manufacturer": "Homax",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/0/5/88805003b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635756365
+    }
+  }
+]

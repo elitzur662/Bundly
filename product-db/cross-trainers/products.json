@@ -1,0 +1,652 @@
+[
+  {
+    "id": "865058",
+    "name": "אליפטיקל York 902",
+    "image": "images/865058.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/7/4/37694794c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572477
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "856340",
+    "name": "אליפטיקל York BX200",
+    "image": "images/856340.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/7/9/38359761c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572478
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "863214",
+    "name": "אליפטיקל York UNO",
+    "image": "images/863214.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/7/6/38656753c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572478
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "865057",
+    "name": "אליפטיקל York Solo",
+    "image": "images/865057.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/0/38650320c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572479
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "886904",
+    "name": "אליפטיקל York SKYLINE",
+    "image": "images/886904.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/7/9/39459781c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572480
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124829",
+    "name": "אליפטיקל York Intense",
+    "image": "images/1124829.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/4/7/59977458b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572480
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1053208",
+    "name": "אליפטיקל Vo2 Wave 707",
+    "image": "images/1053208.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/8/0/53530833c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572481
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095644",
+    "name": "אליפטיקל Kettler KE320",
+    "image": "images/1095644.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/8/3/59013877c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572481
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "828678",
+    "name": "אליפטיקל Sportop 7000",
+    "image": "images/828678.gif",
+    "manufacturer": "Sportop",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/0/2/42042041c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572482
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "917963",
+    "name": "אליפטיקל York Expo",
+    "image": "images/917963.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/5/4/41444577c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572482
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "735566",
+    "name": "אליפטיקל Vo2 Royal 330",
+    "image": "images/735566.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/8/7/31237822c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572483
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1053206",
+    "name": "אליפטיקל Vo2 Evo6",
+    "image": "images/1053206.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/2/7/53257260c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572483
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "934842",
+    "name": "אליפטיקל York Double Wheel",
+    "image": "images/934842.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/9/2/42812951c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572484
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1092011",
+    "name": "אליפטיקל Vo2 WAVE 808",
+    "image": "images/1092011.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/1/1/58331112c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572484
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1100450",
+    "name": "אליפטיקל Max Trainer M6 מקס טריינר Bowflex",
+    "image": "images/1100450.gif",
+    "manufacturer": "Bowflex",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/7/3/59093712b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572485
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124828",
+    "name": "אליפטיקל York Scoop",
+    "image": "images/1124828.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/4/0/63040459c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572486
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1007343",
+    "name": "אליפטיקל Tritur 609",
+    "image": "images/1007343.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/1/2/42042160b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572486
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1141338",
+    "name": "אליפטיקל Kettler Skylon 3.1",
+    "image": "images/1141338.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/9/5/68395988c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572487
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "820163",
+    "name": "אליפטיקל Tritur EL302",
+    "image": "images/820163.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/3/92363366b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572487
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106813",
+    "name": "אליפטיקל Vo2 Cyclone3",
+    "image": "images/1106813.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/8/5/60825878c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572488
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "939512",
+    "name": "אליפטיקל Sportime DS7000",
+    "image": "images/939512.gif",
+    "manufacturer": "Sportime",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/2/4/98554202b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572489,
+      "ksp": 1439,
+      "kspUrl": "https://ksp.co.il/web/item/336294"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1032774",
+    "name": "אליפטיקל Vo2 MAX 700",
+    "image": "images/1032774.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/5/2/44732515c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572489
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106812",
+    "name": "אליפטיקל Vo2 Cyclone1",
+    "image": "images/1106812.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/8/5/60825879c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572490
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1162970",
+    "name": "אליפטיקל Neo Austria S404",
+    "image": "images/1162970.gif",
+    "manufacturer": "Neo Austria",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/2/6/62796267c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572490
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "886935",
+    "name": "אליפטיקל Vo2 Go 450",
+    "image": "images/886935.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/6/3/39873601c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572491
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1007341",
+    "name": "אליפטיקל York 830",
+    "image": "images/1007341.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/6/4/48894698b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572492
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "988012",
+    "name": "אליפטיקל Max Trainer M3 מקס טריינר Bowflex",
+    "image": "images/988012.gif",
+    "manufacturer": "Bowflex",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/8/0/46270898c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572492
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1141334",
+    "name": "Citysport אליפטיקל מגנטי 339060 מבית CITYSPORT גלגל 12 ק\"ג",
+    "image": "images/1141334.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/0/6/69406036c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572493
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1189716",
+    "name": "אליפטיקל Tritur EL607 Royal",
+    "image": "images/1189716.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/4/5/75975481c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572493
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163309",
+    "name": "Citysport אליפטיקל עם כסא ומשענת 959071 מבית CITYSPORT",
+    "image": "images/1163309.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/8/5/70445884c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572494
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "820162",
+    "name": "אליפטיקל Tritur EL201",
+    "image": "images/820162.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/7/5/37085724c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572495
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155236",
+    "name": "Citysport אליפטיקל מגנטי 339059 מבית CITYSPORT גלגל 14 ק\"ג",
+    "image": "images/1155236.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/7/4/92604724b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572495
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095645",
+    "name": "Citysport אליפטיקל חזק ועמיד 748370 מבית CITYSPORT גלגל תנופה סיבובי 16 ק\"ג",
+    "image": "images/1095645.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/1/4/66624196c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572496
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163314",
+    "name": "Citysport אליפטיקל אלקטרומגנטי power מבית CITYSPORT",
+    "image": "images/1163314.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/8/5/70445888c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572496
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "725174",
+    "name": "אליפטיקל Vo2 Royal 360",
+    "image": "images/725174.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/4/7/29117464c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572497
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "991294",
+    "name": "אליפטיקל Spirit E-GLIDE",
+    "image": "images/991294.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/8/4/40954850c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572498
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106824",
+    "name": "Citysport אליפטיקל איכותי עם צג דיגיטלי 982659 מבית CITYSPORT",
+    "image": "images/1106824.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/0/3/60163090c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572498
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155241",
+    "name": "Citysport אליפטיקל מקצועי איכותי 447734 מבית CITYSPORT",
+    "image": "images/1155241.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/5/6/69406560c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572499
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124843",
+    "name": "אליפטיקל Spirit XE795",
+    "image": "images/1124843.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/new/209123026508c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572499
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117530",
+    "name": "אליפטיקל Concept2 SkiErg",
+    "image": "images/1117530.gif",
+    "manufacturer": "Concept2",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/4/5/62095415c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572500
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095647",
+    "name": "Citysport אליפטיקל איכותי עומד 593058 מבית CITYSPORT",
+    "image": "images/1095647.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/1/2/58922116c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572500
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156127",
+    "name": "Phoenix אליפטיקל מקצועי 808009 PHOENIX GF1",
+    "image": "images/1156127.gif",
+    "manufacturer": "Phoenix",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/2/0/68140228c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572501
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "809235",
+    "name": "אליפטיקל Spirit CE800",
+    "image": "images/809235.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/5/40885204c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572502
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1053209",
+    "name": "אליפטיקל Vo2 E200",
+    "image": "images/1053209.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/1/8/52628173b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572502
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "754078",
+    "name": "אליפטיקל Vo2 CROSSFIT 88",
+    "image": "images/754078.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/7/2/32982775c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572503
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "965480",
+    "name": "אליפטיקל Life Fitness E1",
+    "image": "images/965480.gif",
+    "manufacturer": "Life Fitness",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/8/7/45987897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572504
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1115126",
+    "name": "אליפטיקל Vision S60",
+    "image": "images/1115126.gif",
+    "manufacturer": "Vision",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/4/62294541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572504
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1189713",
+    "name": "אליפטיקל SportsArt E875",
+    "image": "images/1189713.gif",
+    "manufacturer": "SportsArt",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/3/7/76507324b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572505
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1189717",
+    "name": "אליפטיקל M75 חזק ושקט מבית GHN",
+    "image": "images/1189717.gif",
+    "manufacturer": "GHN",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/0/0/92320060b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572505
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106829",
+    "name": "Citysport אליפטיקל עומד בעיצוב ארגונומי 373709 מבית CITYSPORT",
+    "image": "images/1106829.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/3/7/60587370c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572506
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095646",
+    "name": "Citysport אליפטיקל אורביטרק משולב כסא 338901 מבית CITYSPORT",
+    "image": "images/1095646.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/5/2/62402558c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572507
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1155235",
+    "name": "Citysport אליפטיקל מגנטי משולב עם גלגל תנופה 14 ק\"ג 228209 מבית CITYSPORT",
+    "image": "images/1155235.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/4/7/92697449b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572507
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106827",
+    "name": "Citysport אליפטיקל חדש 748369 מבית CITYSPORT גלגל 20 ק\"ג",
+    "image": "images/1106827.gif",
+    "manufacturer": "Citysport",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/2/6/60166215c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572508
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1053207",
+    "name": "אליפטיקל Vo2 Orbu",
+    "image": "images/1053207.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/1/2/53442124c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636572508
+    },
+    "filterTags": {}
+  }
+]

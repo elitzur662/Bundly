@@ -1,0 +1,995 @@
+[
+  {
+    "id": "1021063",
+    "name": "הליכון Vo2 Zoom1",
+    "image": "images/1021063.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/3/2/49432309c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550836
+    },
+    "filterTags": {
+      "maxSpeed": "14 קמ\"ש"
+    }
+  },
+  {
+    "id": "1021557",
+    "name": "הליכון Vo2 ZOOM49",
+    "image": "images/1021557.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/2/49432311b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550837
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "1054555",
+    "name": "הליכון Vo2 Alfa 7",
+    "image": "images/1054555.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/0/53750510c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550837
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1149820",
+    "name": "הליכון Kingsmith WalkingPad K12",
+    "image": "images/1149820.gif",
+    "manufacturer": "Kingsmith",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/1/68871067c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550837
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1090864",
+    "name": "הליכון Kettler KT01",
+    "image": "images/1090864.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/1/0/58250166c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550838
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212644",
+    "name": "הליכון York Silver Pro 4050",
+    "image": "images/1212644.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/3/1/86121373c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1253578",
+    "name": "הליכון Kingsmith Walkingpad Z1F",
+    "image": "images/1253578.gif",
+    "manufacturer": "Kingsmith",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/0/95470949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839,
+      "ksp": 1579,
+      "kspUrl": "https://ksp.co.il/web/item/404150"
+    },
+    "filterTags": {
+      "maxSpeed": "6 קמ\"ש"
+    }
+  },
+  {
+    "id": "821322",
+    "name": "הליכון York Legacy",
+    "image": "images/821322.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/7/4/37694797c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1090863",
+    "name": "הליכון Vo2 Alfa 6",
+    "image": "images/1090863.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/3/4/58224329c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {
+      "maxSpeed": "12 קמ\"ש"
+    }
+  },
+  {
+    "id": "998025",
+    "name": "הליכון York Apollo",
+    "image": "images/998025.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/9/4/66974970c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1143378",
+    "name": "הליכון Kingsmith WalkingPad X21",
+    "image": "images/1143378.gif",
+    "manufacturer": "Kingsmith",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/4/68304541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030942",
+    "name": "הליכון Vo2 RUN4300",
+    "image": "images/1030942.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/9/5/51005938c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839,
+      "ksp": 1794,
+      "kspUrl": "https://ksp.co.il/web/item/373045"
+    },
+    "filterTags": {
+      "maxSpeed": "14 קמ\"ש"
+    }
+  },
+  {
+    "id": "713887",
+    "name": "הליכון York Supreme 7900",
+    "image": "images/713887.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/9/5/26685963c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550839
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1016992",
+    "name": "הליכון York Universe",
+    "image": "images/1016992.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/2/8/48528206b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "992905",
+    "name": "הליכון York Gel Runner",
+    "image": "images/992905.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/5/2/56342568c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1248901",
+    "name": "הליכון Kingsmith WalkingPad X218",
+    "image": "images/1248901.gif",
+    "manufacturer": "Kingsmith",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/4/2/94052426c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840,
+      "ksp": 4479,
+      "kspUrl": "https://ksp.co.il/web/item/396977"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1084719",
+    "name": "הליכון Vo2 ZOOM52",
+    "image": "images/1084719.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/3/9/57449343c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1030960",
+    "name": "הליכון York Blazer+",
+    "image": "images/1030960.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/5/2/56772504c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "854640",
+    "name": "הליכון York Malibu",
+    "image": "images/854640.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/8/2/38012879c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992903",
+    "name": "הליכון York Gel Platnium",
+    "image": "images/992903.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/3/7/46967307c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1124239",
+    "name": "הליכון Kettler Legend 54",
+    "image": "images/1124239.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/7/4/61774704c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840,
+      "ksp": 6849,
+      "kspUrl": "https://ksp.co.il/web/item/303714"
+    },
+    "filterTags": {
+      "maxSpeed": "22 קמ\"ש"
+    }
+  },
+  {
+    "id": "1086569",
+    "name": "הליכון York Record Pro",
+    "image": "images/1086569.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/1/7/57477107b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "992902",
+    "name": "הליכון York Gel Master",
+    "image": "images/992902.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/8/9/47439871c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1201963",
+    "name": "הליכון Vo2 Leader4500",
+    "image": "images/1201963.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/4/6/77826463c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550840,
+      "ksp": 1859,
+      "kspUrl": "https://ksp.co.il/web/item/375461"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992904",
+    "name": "הליכון York Gel Target",
+    "image": "images/992904.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/9/7/67817923c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "718797",
+    "name": "הליכון York Excel",
+    "image": "images/718797.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/6/28146693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "13 קמ\"ש"
+    }
+  },
+  {
+    "id": "1096811",
+    "name": "הליכון Kettler KT520",
+    "image": "images/1096811.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/9/8/58708980c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "1255694",
+    "name": "הליכון York Express Plus",
+    "image": "images/1255694.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/2/9/96309244c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "773761",
+    "name": "הליכון York Mercury Plus",
+    "image": "images/773761.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/9/4/66974979c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "1034925",
+    "name": "הליכון Vo2 TARGET430",
+    "image": "images/1034925.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/5/8/53228515c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "717482",
+    "name": "הליכון York REFLEX",
+    "image": "images/717482.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/3/1/25611382c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1222643",
+    "name": "הליכון Tritur 754 GLSP243001",
+    "image": "images/1222643.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/6/4/87454663b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "852395",
+    "name": "הליכון York Matador",
+    "image": "images/852395.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/0/9/37869033c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1176476",
+    "name": "הליכון York Patrol Pro",
+    "image": "images/1176476.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/3/9/74259352c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550841
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1086570",
+    "name": "הליכון York Ultra Plus",
+    "image": "images/1086570.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/1/3/53533136c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "915554",
+    "name": "הליכון York YORK JUMBO",
+    "image": "images/915554.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/8/1/41411880b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "1110500",
+    "name": "הליכון Horizon T101",
+    "image": "images/1110500.gif",
+    "manufacturer": "Horizon",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/3/7/58017360c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237478",
+    "name": "הליכון 854 Tritur",
+    "image": "images/1237478.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/0/0/95060053b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "792649",
+    "name": "הליכון Vo2 GO45",
+    "image": "images/792649.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/6/36326693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "865697",
+    "name": "הליכון York REFLEX PLUS",
+    "image": "images/865697.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/3/5/38815365c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1201965",
+    "name": "הליכון SporTime Tent 533",
+    "image": "images/1201965.gif",
+    "manufacturer": "SporTime",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/2/4/76284282c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842,
+      "ksp": 2515,
+      "kspUrl": "https://ksp.co.il/web/item/335563"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1201966",
+    "name": "הליכון SporTime Toro 533",
+    "image": "images/1201966.gif",
+    "manufacturer": "SporTime",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/2/4/76284281c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1012251",
+    "name": "הליכון York AC SOLE",
+    "image": "images/1012251.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/9/48899836b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "964806",
+    "name": "הליכון Vo2 CLASS 47",
+    "image": "images/964806.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/3/9/52599390c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1035681",
+    "name": "הליכון 7 Omega",
+    "image": "images/1035681.gif",
+    "manufacturer": "Omega",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/3/3/51493301c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550842
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "815787",
+    "name": "הליכון SporTime DS1210",
+    "image": "images/815787.gif",
+    "manufacturer": "SporTime",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/1/3/98553115b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1019736",
+    "name": "הליכון Vo2 ZOOM43",
+    "image": "images/1019736.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/3/2/49432310b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "14 קמ\"ש"
+    }
+  },
+  {
+    "id": "1030943",
+    "name": "הליכון Vo2 LEADER450",
+    "image": "images/1030943.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/9/3/51123916c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "14 קמ\"ש"
+    }
+  },
+  {
+    "id": "768864",
+    "name": "הליכון Vo2 Go 53",
+    "image": "images/768864.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/1/6/35446170c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "1222470",
+    "name": "הליכון Kettler legendt15",
+    "image": "images/1222470.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/4/3/87343426c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1063333",
+    "name": "הליכון Vo2 MAX550",
+    "image": "images/1063333.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/1/6/53406197c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1070331",
+    "name": "הליכון Kettler Berlin S1",
+    "image": "images/1070331.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/7/8/55928761c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "150649",
+    "name": "הליכון Vo2 Hot",
+    "image": "images/150649.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/9/3/41663905c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "988563",
+    "name": "הליכון Kettler Berlin S2",
+    "image": "images/988563.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/9/5/48755916c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "1030948",
+    "name": "הליכון York Olympic",
+    "image": "images/1030948.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/0/1/93731046b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {
+      "maxSpeed": "16 קמ\"ש"
+    }
+  },
+  {
+    "id": "1090865",
+    "name": "הליכון Kettler KT470",
+    "image": "images/1090865.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/1/0/58250167c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550843
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "880918",
+    "name": "הליכון 8300 York",
+    "image": "images/880918.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/0/6/39196062c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1031044",
+    "name": "הליכון Vo2 GO51",
+    "image": "images/1031044.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/0/2/90072014b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222471",
+    "name": "הליכון SporTime magnum",
+    "image": "images/1222471.gif",
+    "manufacturer": "SporTime",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/8/9/85409884c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "848431",
+    "name": "הליכון Vo2 FAC",
+    "image": "images/848431.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/9/7/39117931c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "890408",
+    "name": "הליכון York AC 2000",
+    "image": "images/890408.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/6/5/39825696c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "939215",
+    "name": "הליכון York Polaris",
+    "image": "images/939215.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/4/7/59977452c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {
+      "maxSpeed": "18 קמ\"ש"
+    }
+  },
+  {
+    "id": "1254271",
+    "name": "הליכון 954 Tritur",
+    "image": "images/1254271.gif",
+    "manufacturer": "Tritur",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/8/9/95979831c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1162988",
+    "name": "הליכון Kettler Track S10",
+    "image": "images/1162988.gif",
+    "manufacturer": "Kettler",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/2/70412720c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844,
+      "ksp": 9489,
+      "kspUrl": "https://ksp.co.il/web/item/373111"
+    },
+    "filterTags": {
+      "maxSpeed": "22 קמ\"ש"
+    }
+  },
+  {
+    "id": "1113607",
+    "name": "הליכון Horizon ParagonX",
+    "image": "images/1113607.gif",
+    "manufacturer": "Horizon",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/6/5/59455671c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "815780",
+    "name": "הליכון Spirit CT800",
+    "image": "images/815780.gif",
+    "manufacturer": "Spirit",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/6/5/36825654c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "754077",
+    "name": "הליכון Vo2 RUNFIT 87",
+    "image": "images/754077.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/6/9/32659688c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550844
+    },
+    "filterTags": {
+      "maxSpeed": "22 קמ\"ש"
+    }
+  },
+  {
+    "id": "896364",
+    "name": "הליכון Life Fitness F3",
+    "image": "images/896364.gif",
+    "manufacturer": "Life Fitness",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/0/2/39442006c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "150652",
+    "name": "הליכון Vo2 Challenger",
+    "image": "images/150652.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/7/8/62588731c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {
+      "maxSpeed": "20 קמ\"ש"
+    }
+  },
+  {
+    "id": "1222467",
+    "name": "הליכון York Freerunner",
+    "image": "images/1222467.gif",
+    "manufacturer": "York",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/6/3/87003641c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1144886",
+    "name": "הליכון Assault AssaultRunner Pro",
+    "image": "images/1144886.gif",
+    "manufacturer": "Assault",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/7/4/66074798c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1039365",
+    "name": "הליכון Vo2 Pulse6000",
+    "image": "images/1039365.gif",
+    "manufacturer": "Vo2",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/0/5/51635081b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065316448",
+    "name": "הליכון מתקפל 3 ב-1 SNAILCLE דגם TM2202",
+    "image": "images/1065316448.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/9/96099265c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845,
+      "ksp": 1728,
+      "kspUrl": "https://ksp.co.il/web/item/462402"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065316447",
+    "name": "Kingsmith הליכון מתקפל ווקינגפד דגם KINGSMITH K12",
+    "image": "images/1065316447.gif",
+    "manufacturer": "Kingsmith",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/0/2/96062034c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1165036531",
+    "name": "הליכון מתקפל 3 ב-1 SNAILCLE דגם TM2202",
+    "image": "images/1165036531.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/9/96099265c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636550845,
+      "ksp": 1728,
+      "kspUrl": "https://ksp.co.il/web/item/462402"
+    }
+  }
+]
