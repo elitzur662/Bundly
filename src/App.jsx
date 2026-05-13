@@ -2759,26 +2759,36 @@ function TrustSection({ t }) {
 // ─────────────────────────────────────────────────────────────────
 //  HERO SECTION
 // ─────────────────────────────────────────────────────────────────
-function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCategoryBrowse, onMyProducts, savedCount = 0 }) {
-  const steps = [
-    { t1: t.heroStep1, t2: t.heroStep1s },
-    { t1: t.heroStep2, t2: t.heroStep2s },
-    { t1: t.heroStep3, t2: t.heroStep3s },
-    { t1: t.heroStep4, t2: t.heroStep4s },
-  ];
+function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCategoryBrowse, onMyProducts, onOpenCategory, personalRequests = [], savedCount = 0 }) {
+  // ── Demand-sorted category grid lives INSIDE the hero now, fused with the
+  // search bar via a shared "browse card" container. The data prep is identical
+  // to what the homepage did before (count personal requests per broad
+  // category), it just renders inline here so search + browse feel like one
+  // continuous gesture instead of two separate page sections.
+  const broadGrid = useMemo(() => {
+    const counts = {};
+    (personalRequests || []).forEach(r => {
+      const broad = mapToBroadCategory(r.category);
+      if (broad) counts[broad] = (counts[broad] || 0) + 1;
+    });
+    return HOME_CATEGORIES
+      .map(hc => ({ ...hc, count: counts[hc.name] || 0 }))
+      .sort((a, b) => b.count - a.count);
+  }, [personalRequests]);
+
   return (
-    <div className="relative overflow-hidden text-white" style={{ minHeight: "420px" }}>
+    <div className="relative overflow-hidden text-white">
 
       {/* ── Background photo ── */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1800&q=90&fit=crop')",
-          transform: "scale(1.03)", // slight zoom so edges don't show on smaller screens
+          transform: "scale(1.03)",
         }}
       />
 
-      {/* ── Overlay: indigo gradient on top of photo, left darker for readability ── */}
+      {/* ── Overlay: indigo gradient on top of photo ── */}
       <div
         className="absolute inset-0"
         style={{
@@ -2788,102 +2798,121 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
 
       {/* ── Soft vignette at bottom ── */}
       <div className="absolute bottom-0 left-0 right-0 h-24"
-        style={{ background: "linear-gradient(to bottom, transparent, rgba(49,46,129,0.4))" }} />
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(49,46,129,0.55))" }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-10 flex flex-col items-center text-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-8 flex flex-col items-center text-center">
 
-        {/* Badge */}
-        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
+        {/* Trust badge */}
+        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-5 backdrop-blur-sm shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
           {t.trustVerified}
         </span>
 
-        {/* Title — Rubik, tight tracking */}
+        {/* Title */}
         <h1
           className="font-hero mb-3 leading-tight text-white drop-shadow-sm"
           style={{
             fontFamily: "'Rubik', sans-serif",
             fontWeight: 900,
-            fontSize: "clamp(1.7rem, 6vw, 3.5rem)",
+            fontSize: "clamp(1.6rem, 5.5vw, 3rem)",
             letterSpacing: "-0.02em",
             textShadow: "0 2px 20px rgba(0,0,0,0.25)",
           }}
         >
           {t.heroTitle}
         </h1>
-        <p className="text-indigo-100/90 text-base max-w-lg mb-7 leading-relaxed" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>
+        <p className="text-indigo-100/90 text-sm sm:text-base max-w-lg mb-6 leading-relaxed" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>
           {t.heroSub}
         </p>
 
-        {/* ── BIG SEARCH BAR ── */}
-        <div className="w-full max-w-2xl mb-6">
-          <SmartSearchBar
-            t={t}
-            variant="hero"
-            placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
-            onResult={onSearchResult}
-            onWizard={onWizard}
-          />
-          <p className="text-indigo-300/70 text-xs mt-2.5 flex items-center justify-center gap-1.5">
-            <Zap className="w-3 h-3 text-yellow-300" />
-            Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
-          </p>
-        </div>
+        {/* ── Unified SEARCH + BROWSE card ───────────────────────────────────
+            Single white container holds the big search bar at the top and
+            the demand-sorted category grid below — separated by a soft hr.
+            This visually fuses the two interaction modes so the user reads
+            them as one tool: "search OR pick a category, same destination." */}
+        <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl shadow-indigo-900/30 ring-1 ring-white/40 backdrop-blur-sm overflow-hidden">
 
-        {/* Quick category pills */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
-          {[
-            { label: "📱 iPhone 16 Pro",  query: "iPhone 16 Pro" },
-            { label: "💻 MacBook Pro",    query: "MacBook Pro" },
-            { label: "🎧 AirPods Pro",    query: "AirPods Pro" },
-            { label: "🤖 Roomba j9+",     query: "שואב רובוטי Roomba j9+" },
-            { label: '📺 OLED 65"',       query: "טלוויזיה OLED 65 אינץ" },
-            { label: "🎮 PS5",            query: "PlayStation 5" },
-          ].map(({ label, query }, i) => (
-            <button key={i}
-              onClick={() => onWizard && onWizard(query)}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white/90 text-xs font-medium px-3 py-1.5 rounded-full transition backdrop-blur-sm active:scale-95">
-              {label}
-            </button>
-          ))}
-        </div>
+          {/* Top: search bar */}
+          <div className="px-4 sm:px-6 pt-5 pb-4">
+            <SmartSearchBar
+              t={t}
+              variant="hero"
+              placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
+              onResult={onSearchResult}
+              onWizard={onWizard}
+            />
+            <p className="text-gray-500 text-[11px] mt-2.5 flex items-center justify-center gap-1.5">
+              <Zap className="w-3 h-3 text-amber-500" />
+              Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
+            </p>
+          </div>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-3 w-full max-w-xl">
-          <button onClick={onDeals} className="flex-1 min-h-[48px] bg-white text-indigo-700 font-bold px-6 py-3.5 rounded-xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-xl shadow-indigo-900/30 text-sm">
-            {t.heroCta}
-          </button>
-          <button onClick={onPersonal} className="flex-1 min-h-[48px] bg-white/10 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl hover:bg-white/20 transition-all text-sm backdrop-blur-sm">
-            {t.heroCta2}
-          </button>
-        </div>
+          {/* Divider with label */}
+          <div className="relative px-6">
+            <div className="border-t border-gray-200" />
+            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-white px-3 text-[11px] font-bold text-gray-500 tracking-wide">
+              או דפדף לפי קטגוריה
+            </span>
+          </div>
 
-        {/* FOMO line */}
-        <p className="text-indigo-300 text-sm mb-12">⚡ 12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"} &nbsp;•&nbsp; {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}</p>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-lg mb-12">
-          {[
-            { num: "24+", label: t.statsDeals },
-            { num: "₪2.4M", label: t.statsSaved },
-            { num: "4,800+", label: t.statsMembers },
-          ].map((s, i) => (
-            <div key={i} className="bg-white/10 rounded-2xl px-4 py-3 text-center border border-white/10">
-              <p className="text-xl font-black text-white">{s.num}</p>
-              <p className="text-indigo-300 text-xs mt-0.5">{s.label}</p>
+          {/* Bottom: demand-sorted category grid */}
+          <div className="px-4 sm:px-6 py-5">
+            <div className="flex items-center gap-2 mb-3" dir="rtl">
+              <TrendingUp className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <p className="text-[11px] font-bold text-gray-600">
+                סדורות לפי ביקוש בזמן אמת — ככל שיותר מצטרפים, המחיר יורד
+              </p>
             </div>
-          ))}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+              {broadGrid.map(({ name, query, count }) => {
+                const visual = CATEGORY_VISUAL_MAP[name] || CATEGORY_VISUAL_MAP._default;
+                return (
+                  <button
+                    key={name}
+                    onClick={() => onOpenCategory && onOpenCategory(query)}
+                    className="group relative rounded-xl overflow-hidden shadow-sm hover:shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] cursor-pointer aspect-[4/3]"
+                  >
+                    <img src={visual.image} alt={name} loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${visual.gradient} opacity-40 mix-blend-multiply`} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                    {count > 0 && (
+                      <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-white/95 backdrop-blur-sm rounded-full px-1.5 py-0.5 shadow-sm">
+                        <Users className="w-2.5 h-2.5 text-indigo-600" />
+                        <span className="text-[9px] font-black text-indigo-700">{count}</span>
+                      </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 text-right" dir="rtl">
+                      <div className="flex items-center gap-1 justify-end">
+                        <p className="text-white font-black text-[11px] sm:text-xs drop-shadow-lg leading-tight line-clamp-1">{name}</p>
+                        <span className="text-sm drop-shadow-lg">{visual.icon}</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        {/* 4-step process */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
-          {steps.map((s, i) => (
-            <div key={i} className="bg-white/8 border border-white/10 rounded-2xl p-4 text-center backdrop-blur-sm">
-              <p className="font-bold text-sm mb-1">{s.t1}</p>
-              <p className="text-indigo-300 text-xs leading-relaxed">{s.t2}</p>
-            </div>
-          ))}
+        {/* Bottom secondary actions — small, low-emphasis */}
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-xs">
+          <button onClick={onDeals} className="text-white/90 font-semibold hover:text-white underline-offset-4 hover:underline transition">
+            {t.heroCta} ←
+          </button>
+          <span className="text-white/30">·</span>
+          <button onClick={onPersonal} className="text-white/90 font-semibold hover:text-white underline-offset-4 hover:underline transition">
+            {t.heroCta2} ←
+          </button>
         </div>
+
+        {/* FOMO line — compact */}
+        <p className="text-indigo-200/80 text-xs mt-4 flex items-center gap-1.5">
+          <span className="text-yellow-300">⚡</span>
+          12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"}
+          <span className="text-white/30 mx-1">·</span>
+          {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}
+        </p>
       </div>
     </div>
   );
@@ -20508,68 +20537,19 @@ export default function App() {
 
       {mode === "home" && (
         <>
-          <HeroSection t={t} onDeals={()=>setMode("deals")} onPersonal={()=>setMode("personal")} onSearchResult={r=>{setSearchResult(r);setMode("deals");}} onWizard={(q,opts)=>{openCategory(q,opts);}} onCategoryBrowse={()=>setShowCategoryBrowse(true)} onMyProducts={goToMyProducts} savedCount={myProducts.length + wishlist.length} />
+          <HeroSection
+            t={t}
+            onDeals={()=>setMode("deals")}
+            onPersonal={()=>setMode("personal")}
+            onSearchResult={r=>{setSearchResult(r);setMode("deals");}}
+            onWizard={(q,opts)=>{openCategory(q,opts);}}
+            onCategoryBrowse={()=>setShowCategoryBrowse(true)}
+            onMyProducts={goToMyProducts}
+            onOpenCategory={openCategory}
+            personalRequests={personalRequests}
+            savedCount={myProducts.length + wishlist.length}
+          />
           <main className="max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-10">
-            {/* ── BROAD CATEGORIES BY DEMAND — moved up so it's the first thing the user
-                sees after the search bar. Sorted by # of personal requests so popular
-                categories rise. */}
-            {(() => {
-              const broadCounts = {};
-              personalRequests.forEach(r => {
-                const broad = mapToBroadCategory(r.category);
-                if (broad) broadCounts[broad] = (broadCounts[broad] || 0) + 1;
-              });
-              const sorted = HOME_CATEGORIES
-                .map(hc => ({ ...hc, count: broadCounts[hc.name] || 0 }))
-                .sort((a, b) => b.count - a.count);
-              return (
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-md">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-xl font-bold text-gray-900">קטגוריות מוצרים לפי ביקוש</h2>
-                      <p className="text-xs text-gray-500">בחר קטגוריה — ככל שיותר אנשים מצטרפים, המחיר יורד</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {sorted.map(({ name, query, count }) => {
-                      const visual = CATEGORY_VISUAL_MAP[name] || CATEGORY_VISUAL_MAP._default;
-                      return (
-                        <button
-                          key={name}
-                          onClick={() => openCategory(query)}
-                          className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer aspect-[4/3]"
-                        >
-                          <img src={visual.image} alt={name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${visual.gradient} opacity-40 mix-blend-multiply`} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                          {count > 0 && (
-                            <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-sm">
-                              <Users className="w-3 h-3 text-indigo-600" />
-                              <span className="text-[11px] font-black text-indigo-700">{count}</span>
-                              <span className="text-[10px] text-gray-500 font-semibold">בקשות</span>
-                            </div>
-                          )}
-                          <div className="absolute bottom-0 left-0 right-0 p-3 text-right">
-                            <div className="flex items-center gap-2 justify-end">
-                              <p className="text-white font-black text-sm drop-shadow-lg leading-tight">{name}</p>
-                              <span className="text-lg drop-shadow-lg">{visual.icon}</span>
-                            </div>
-                            <p className="text-white/70 text-[10px] font-semibold mt-0.5">
-                              {count > 0 ? `${count} לקוחות מחפשים` : "לחץ לצפייה במוצרים"}
-                            </p>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })()}
-
             <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
               <button onClick={()=>{setCatFilter(null);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-indigo-600 text-white">{t.allCategories}</button>
               {cats.map((c,i)=>(
