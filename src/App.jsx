@@ -558,12 +558,28 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
       .map(r => ({ ...r, deal: dealById.get(r.dealId) }))
       .filter(x => x.deal)
   ), [recos, dealById]);
+  // Hover-arrow state: dimmed scroll buttons appear on the carousel edges
+  // when the cursor is over the strip, fade out on leave. Mobile keeps
+  // swipe-only — arrows are hidden by default and only shown on hover.
+  const scrollRef = useRef(null);
+  const [hovered, setHovered] = useState(false);
+  const scrollBy = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // dir: -1 scrolls toward the start of the strip, +1 toward the end.
+    // scrollBy({ left }) is direction-aware in modern browsers (RTL aware).
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: "smooth" });
+  };
   if (!recos?.recommendations?.length) return null;
   if (items.length === 0) return null;
   const isPersonalized = recos.source === "personalized";
   const profile        = recos.profile;
   return (
-    <section className="mb-10 relative">
+    <section
+      className="mb-10 relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="flex items-center gap-3 mb-4 px-0.5">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-fuchsia-600 flex items-center justify-center shadow-md flex-shrink-0">
           <span className="text-lg">✨</span>
@@ -581,6 +597,24 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
         </span>
       </div>
 
+      {/* Hover scroll arrows — show on mouse-over, fade out on leave. */}
+      <button
+        type="button"
+        aria-label="גלול שמאלה"
+        onClick={() => scrollBy(-1)}
+        className={`hidden md:flex absolute top-1/2 -translate-y-1/2 left-1 z-10 items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700 shadow-md backdrop-blur-sm transition-opacity duration-200 ${hovered ? "opacity-70 hover:opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+      </button>
+      <button
+        type="button"
+        aria-label="גלול ימינה"
+        onClick={() => scrollBy(1)}
+        className={`hidden md:flex absolute top-1/2 -translate-y-1/2 right-1 z-10 items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700 shadow-md backdrop-blur-sm transition-opacity duration-200 ${hovered ? "opacity-70 hover:opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+      </button>
+
       {/*
         Horizontal snap-scroll carousel.
         - `snap-x snap-mandatory` makes each card snap to the start of the
@@ -590,6 +624,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
         - Cards: w-[60%] sm:w-56 — ~1.5 cards visible on mobile.
       */}
       <div
+        ref={scrollRef}
         className="flex gap-3 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory"
         style={{
           scrollPaddingInline: "8px",
