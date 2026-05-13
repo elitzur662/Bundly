@@ -365,7 +365,7 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
   const priced = products.filter(p => p.priceMin > 0).slice(0, 5);
   const storeConfigs = [
     { pct: 11, wall: '#fef3c7', roof: '#f59e0b' },
-    { pct: 27, wall: '#ede9fe', roof: '#7c3aed' },
+    { pct: 27, wall: '#ede9fe', roof: '#c026d3' },
     { pct: 45, wall: '#dcfce7', roof: '#16a34a' },
     { pct: 63, wall: '#fee2e2', roof: '#dc2626' },
     { pct: 79, wall: '#dbeafe', roof: '#2563eb' },
@@ -412,7 +412,7 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
         position:'relative', width:'100%', height:H,
         borderRadius:14, overflow:'hidden', marginBottom:14,
         border:'1px solid #e0e7ff',
-        boxShadow:'0 2px 10px rgba(99,102,241,0.1)',
+        boxShadow:'0 2px 10px rgba(168,85,247,0.1)',
       }}>
         {/* ── Sky ────────────────────────────────────── */}
         <div style={{position:'absolute',inset:0,top:0,height:SKY,background:'linear-gradient(to bottom,#bfdbfe,#93c5fd)'}}/>
@@ -517,11 +517,11 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
         {/* ── Count badge (top-right) ────────────────── */}
         <div style={{
           position:'absolute', top:7, right:10, zIndex:10,
-          background:'rgba(79,70,229,0.88)', color:'white',
+          background:'rgba(147,51,234,0.88)', color:'white',
           borderRadius:20, padding:'2.5px 10px',
           fontSize:11, fontWeight:900,
           backdropFilter:'blur(4px)',
-          boxShadow:'0 1px 6px rgba(79,70,229,0.28)',
+          boxShadow:'0 1px 6px rgba(147,51,234,0.28)',
         }}>
           {count} נמצאו
         </div>
@@ -2451,7 +2451,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
 
   return (
     <nav className="bg-white/85 backdrop-blur-xl border-b border-gray-100/80 sticky top-0 z-40"
-      style={{ boxShadow: "0 1px 0 0 rgba(0,0,0,0.04), 0 2px 12px rgba(79,70,229,0.05)" }}>
+      style={{ boxShadow: "0 1px 0 0 rgba(0,0,0,0.04), 0 2px 12px rgba(147,51,234,0.05)" }}>
       <div className="max-w-6xl mx-auto px-4 h-15 flex items-center gap-3" style={{ height: "3.75rem" }}>
         {/* Logo */}
         <button onClick={() => onGoHome ? onGoHome() : setMode("home")} className="flex-shrink-0 flex items-center gap-2 group">
@@ -2460,7 +2460,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             <span className="text-white font-black text-sm select-none">B</span>
           </div>
           <span className="font-black text-xl tracking-tight"
-            style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             {BRAND_NAME}
           </span>
         </button>
@@ -2788,17 +2788,17 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         }}
       />
 
-      {/* ── Overlay: indigo gradient on top of photo ── */}
+      {/* ── Overlay: purple gradient on top of photo (matches new brand) ── */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, rgba(67,56,202,0.88) 0%, rgba(79,70,229,0.80) 40%, rgba(109,40,217,0.75) 100%)",
+          background: "linear-gradient(135deg, rgba(107,33,168,0.88) 0%, rgba(147,51,234,0.80) 40%, rgba(168,85,247,0.72) 100%)",
         }}
       />
 
       {/* ── Soft vignette at bottom ── */}
       <div className="absolute bottom-0 left-0 right-0 h-24"
-        style={{ background: "linear-gradient(to bottom, transparent, rgba(49,46,129,0.55))" }} />
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(88,28,135,0.55))" }} />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-8 flex flex-col items-center text-center">
 
@@ -3256,7 +3256,7 @@ function AnalogClockTimer({ closingDate, size = 80 }) {
 
   const urgent  = t.d < 1;
   const warning = t.d < 3;
-  const accent  = t.expired ? "#9ca3af" : urgent ? "#ef4444" : warning ? "#f59e0b" : "#6366f1";
+  const accent  = t.expired ? "#9ca3af" : urgent ? "#ef4444" : warning ? "#f59e0b" : "#a855f7";
   const accentBg = t.expired ? "bg-gray-100" : urgent ? "bg-red-50" : warning ? "bg-amber-50" : "bg-indigo-50";
   const accentText = t.expired ? "text-gray-400" : urgent ? "text-red-600" : warning ? "text-amber-600" : "text-indigo-600";
   const accentBorder = t.expired ? "border-gray-200" : urgent ? "border-red-200" : warning ? "border-amber-200" : "border-indigo-200";
@@ -10713,8 +10713,8 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             }}
             className="group relative w-full py-4 sm:py-3.5 px-4 rounded-2xl overflow-hidden active:scale-[0.985] transition-transform"
             style={{
-              background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 35%, #7c3aed 70%, #a855f7 100%)",
-              boxShadow: "0 10px 30px -8px rgba(79,70,229,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+              background: "linear-gradient(135deg, #9333ea 0%, #a855f7 35%, #c026d3 70%, #a855f7 100%)",
+              boxShadow: "0 10px 30px -8px rgba(147,51,234,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
             }}
           >
             {/* Animated diagonal shimmer */}
@@ -10793,8 +10793,8 @@ function PriceRangeSlider({ min, max, valueMin, valueMax, onChange, onClose }) {
       {/* CSS for dual-thumb styling */}
       <style>{`
         .price-slider { position:absolute; inset:0; width:100%; height:100%; appearance:none; -webkit-appearance:none; background:transparent; pointer-events:none; }
-        .price-slider::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:#4f46e5; border:3px solid #fff; box-shadow:0 1px 6px rgba(79,70,229,0.4); cursor:pointer; pointer-events:all; }
-        .price-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#4f46e5; border:3px solid #fff; box-shadow:0 1px 6px rgba(79,70,229,0.4); cursor:pointer; pointer-events:all; }
+        .price-slider::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:#9333ea; border:3px solid #fff; box-shadow:0 1px 6px rgba(147,51,234,0.4); cursor:pointer; pointer-events:all; }
+        .price-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#9333ea; border:3px solid #fff; box-shadow:0 1px 6px rgba(147,51,234,0.4); cursor:pointer; pointer-events:all; }
         .price-slider::-webkit-slider-runnable-track { height:6px; background:transparent; }
         .price-slider::-moz-range-track { height:6px; background:transparent; }
       `}</style>
@@ -15945,8 +15945,8 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
         style={{ background: "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)" }}>
         {/* Decorative blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #7c3aed, transparent)" }} />
-          <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #4f46e5, transparent)" }} />
+          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #c026d3, transparent)" }} />
+          <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #9333ea, transparent)" }} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5" style={{ background: "radial-gradient(circle, #a78bfa, transparent)" }} />
         </div>
 
@@ -15968,7 +15968,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
             <div className="flex flex-wrap gap-4">
               <button type="button" onClick={onJoin}
                 className="group flex items-center gap-2.5 px-8 py-4 rounded-2xl font-black text-lg text-white transition-all"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 32px rgba(124,58,237,0.4)" }}>
+                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
                 <Building2 className="w-5 h-5" />
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
@@ -16026,7 +16026,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
               ))}
             </div>
             <div className="rounded-3xl border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-violet-50/50 p-6"
-              style={{ boxShadow: "0 8px 32px rgba(79,70,229,0.08)" }}>
+              style={{ boxShadow: "0 8px 32px rgba(147,51,234,0.08)" }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-lg">🚀</div>
                 <h3 className="font-black text-indigo-700">Bundly</h3>
@@ -16043,7 +16043,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
       </section>
 
       {/* ── DEMAND CHECKER ──────────────────────────────── */}
-      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
+      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 100%)" }}>
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-4 py-1.5 text-sm font-bold mb-6">
             <Sparkles className="w-3.5 h-3.5" /> בדיקת ביקוש — חינם
@@ -16090,7 +16090,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 disabled={demandLoading || (!demandSelectedProduct && !demandPropose)}
                 title={!demandSelectedProduct && !demandPropose ? "בחר מוצר מהרשימה" : ""}
                 className="px-5 py-3 rounded-2xl font-bold text-white text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                 {demandLoading ? <BundlySpinner size={18} /> : <><Search className="w-4 h-4" />{demandPropose ? "הצע מוצר" : "בדוק"}</>}
               </button>
             </div>
@@ -16145,7 +16145,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 </div>
                 <button type="button" onClick={onJoin}
                   className="mt-4 w-full py-3 rounded-2xl font-bold text-white text-sm transition"
-                  style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                   פתח קבוצה עבור {demandResult.query} ←
                 </button>
               </div>
@@ -16192,7 +16192,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                   <div className="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-white/10" style={{ right: "-50%" }} />
                 )}
                 <div className="relative inline-flex w-16 h-16 rounded-2xl items-center justify-center mb-5 font-black text-2xl text-white mx-auto"
-                  style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                   {s.num}
                 </div>
                 <h3 className="font-black text-white text-base mb-2">{s.title}</h3>
@@ -16203,7 +16203,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
           <div className="text-center mt-12">
             <button type="button" onClick={onJoin}
               className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl font-black text-lg text-white transition"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 32px rgba(124,58,237,0.4)" }}>
+              style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
               <Building2 className="w-5 h-5" />
               מתחילים עכשיו — חינם
             </button>
@@ -16239,7 +16239,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
       </section>
 
       {/* ── TESTIMONIALS ────────────────────────────────── */}
-      <section className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
+      <section className="py-16 px-4" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 100%)" }}>
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl font-black text-gray-900 text-center mb-10">מה ספקים אומרים</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -16310,7 +16310,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
           <div className="flex flex-wrap justify-center gap-4">
             <button type="button" onClick={onJoin}
               className="flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-xl text-white"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 48px rgba(124,58,237,0.5)" }}>
+              style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 48px rgba(192,38,211,0.5)" }}>
               <Building2 className="w-6 h-6" />
               הצטרף עכשיו — חינם
             </button>
@@ -18277,7 +18277,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
 
       {variantsFor && (
         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4"
-          style={{ background: "radial-gradient(ellipse at top, rgba(99,102,241,0.35) 0%, rgba(0,0,0,0.7) 70%)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+          style={{ background: "radial-gradient(ellipse at top, rgba(168,85,247,0.35) 0%, rgba(0,0,0,0.7) 70%)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
           onClick={e => { if (e.target === e.currentTarget) setVariantsFor(null); }}>
           <style>{`
             @keyframes variantModalIn { from { opacity:0; transform: translateY(32px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
@@ -18291,7 +18291,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
           `}</style>
           <div className="variant-modal bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[88vh] flex flex-col" dir="rtl">
             {/* Compact header */}
-            <div className="relative px-4 py-3 flex-shrink-0 overflow-hidden" style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #d946ef 100%)" }}>
+            <div className="relative px-4 py-3 flex-shrink-0 overflow-hidden" style={{ background: "linear-gradient(135deg, #a855f7 0%, #d946ef 60%, #d946ef 100%)" }}>
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none" />
               <div className="relative flex items-center justify-between gap-2">
                 <div className="flex-1 min-w-0">
@@ -18578,14 +18578,14 @@ function BundlyFab({ onOpen, showPulse }) {
           bottom: fabBottom,
           width: fabSize,
           height: fabSize,
-          background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+          background: "linear-gradient(135deg, #9333ea, #c026d3)",
           border: "2px solid rgba(255,255,255,0.25)",
         }}
       >
         {showPulse && (
           <span
             className="absolute inset-0 rounded-full animate-ping opacity-30"
-            style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
+            style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}
           />
         )}
         <span
@@ -18917,7 +18917,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             @keyframes chatSheetUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
             @keyframes chatBackdrop { from { opacity: 0; } to { opacity: 1; } }
             @keyframes chatDots { 0%,80%,100%{transform:scale(0)} 40%{transform:scale(1)} }
-            @keyframes chatBtnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)} 50%{box-shadow:0 0 0 8px rgba(99,102,241,0)} }
+            @keyframes chatBtnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0.4)} 50%{box-shadow:0 0 0 8px rgba(168,85,247,0)} }
             .chat-results-btn { animation: chatBtnPulse 2s ease-out 3; }
             .chat-results-btn:hover { animation: none; }
           `}</style>
@@ -18928,7 +18928,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
           </div>
 
           {/* ── Header ── */}
-          <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+          <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
               <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
                 <text x="16" y="24" textAnchor="middle" fontSize="20" fontWeight="900" fill="white" fontFamily="Rubik,sans-serif">B</text>
@@ -18957,7 +18957,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
               <div key={i} className={`flex gap-2 px-3 ${msg.role === "user" ? "justify-start" : "justify-end"}`}>
                 {/* AI Avatar */}
                 {msg.role === "assistant" && (
-                  <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+                  <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
                     <span className="text-white text-xs font-black" style={{ fontFamily: "Rubik,sans-serif" }}>B</span>
                   </div>
                 )}
@@ -19000,7 +19000,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             {/* Typing indicator */}
             {loading && (
               <div className="flex gap-2 px-3 justify-end">
-                <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+                <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
                   <span className="text-white text-xs font-black" style={{ fontFamily: "Rubik,sans-serif" }}>B</span>
                 </div>
                 <div className="bg-gray-100 rounded-2xl rounded-tl-md px-4 py-3 flex items-center gap-1.5">
@@ -19063,7 +19063,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
               onClick={() => sendMessage()}
               disabled={!input.trim() || loading}
               className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-40"
-              style={{ background: input.trim() && !loading ? "linear-gradient(135deg, #4f46e5, #7c3aed)" : "#e5e7eb" }}
+              style={{ background: input.trim() && !loading ? "linear-gradient(135deg, #9333ea, #c026d3)" : "#e5e7eb" }}
             >
               <Send className="w-4 h-4 text-white" style={{ transform: "rotate(180deg)" }} />
             </button>
@@ -20282,7 +20282,7 @@ export default function App() {
               || deals.find(d => d.id === selectedDeal.id && d.name?.en === selectedDeal.name?.en)
               || selectedDeal;
     return (
-      <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
+      <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #fdfaf2 0%, #faf3e8 50%, #f5edff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
@@ -20707,7 +20707,7 @@ export default function App() {
               onClick={() => setShowCategoryBrowse(true)}
               className="group relative mt-3 w-full overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
               style={{
-                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)",
+                background: "linear-gradient(135deg, #a855f7 0%, #d946ef 50%, #ec4899 100%)",
                 boxShadow: "0 12px 28px -8px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.2)",
               }}
             >
