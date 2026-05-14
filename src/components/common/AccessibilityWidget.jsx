@@ -123,7 +123,11 @@ export default function AccessibilityWidget() {
       {/* Skip-to-content link — keyboard-only, jumps over the navbar */}
       <a href="#main" className="bundly-skip-link" onClick={handleSkip}>דלג לתוכן הראשי</a>
 
-      {/* Toggle button — always visible, top-right under the navbar */}
+      {/* Toggle button — bottom-LEFT corner in RTL (insetInlineEnd = left in RTL).
+          The chat advisor lives bottom-right (insetInlineStart), so we sit on the
+          opposite corner and never overlap it. We clear the mobile bottom nav
+          (~64px tall) plus a small breathing margin. Discreet styling: 40px disc,
+          low default opacity, no white border ring. */}
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
@@ -133,24 +137,28 @@ export default function AccessibilityWidget() {
         title="נגישות"
         style={{
           position: "fixed",
-          insetInlineStart: 12,
-          bottom: 24,
+          insetInlineEnd: 10,                          // LTR: right; RTL: left
+          bottom: "calc(env(safe-area-inset-bottom, 0px) + 78px)", // above mobile nav
           zIndex: 9998,
-          width: 48,
-          height: 48,
-          borderRadius: 24,
-          background: "linear-gradient(135deg, #7e22ce, #c026d3)",
+          width: 40,
+          height: 40,
+          borderRadius: 20,
+          background: "rgba(126, 34, 206, 0.78)",
           color: "#fff",
-          fontSize: 22,
+          fontSize: 17,
           fontWeight: 900,
-          border: "2px solid #fff",
-          boxShadow: "0 6px 18px rgba(126,34,206,0.35), 0 2px 6px rgba(0,0,0,0.15)",
+          border: "none",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           padding: 0,
+          opacity: 0.62,
+          transition: "opacity 0.15s ease",
         }}
+        onMouseEnter={e => { e.currentTarget.style.opacity = "1"; }}
+        onMouseLeave={e => { e.currentTarget.style.opacity = "0.62"; }}
       >
         ♿
       </button>
@@ -169,8 +177,8 @@ export default function AccessibilityWidget() {
             dir="rtl"
             style={{
               position: "fixed",
-              insetInlineStart: 12,
-              bottom: 80,
+              insetInlineEnd: 10,
+              bottom: "calc(env(safe-area-inset-bottom, 0px) + 128px)", // sit above the toggle
               zIndex: 9997,
               width: 280,
               maxWidth: "calc(100vw - 24px)",
