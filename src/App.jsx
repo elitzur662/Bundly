@@ -4782,11 +4782,25 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (notify) notify(tier === "committed" ? "✅ נעלת את המחיר! המקדמה הוקפאה." : "📍 המקום שלך שמור! פיקדון ₪25 הוקפא.");
   };
   const handleWhatsApp = () => {
-    // Deep-link URL: ?deal=<id> opens this exact deal on load instead of
-    // the home page. Previously shared links went to bundly.co/ and the
-    // recipient had to navigate manually — losing 90% of incoming traffic.
-    const baseUrl = `${window.location.origin}/?deal=${deal.id}`;
-    const msg = encodeURIComponent(`🛒 ${name}\n💰 ₪${(bestBid?.amount||deal.groupOffer).toLocaleString()}\n👥 ${deal.participants} קונים\n🔗 ${baseUrl}`);
+    // Deep-link URL: ?deal=<id>&q=<name> opens the exact deal when it
+    // exists on the recipient's session — and falls back to a category
+    // search for the product name when the deal id is session-local
+    // (Date.now()-style ids created from demand pools / one-off deals).
+    // Previously the recipient just landed on the home page if the deal
+    // wasn't in their INITIAL_DEALS list.
+    const productQ = encodeURIComponent(name);
+    const baseUrl = `${window.location.origin}/?deal=${deal.id}&q=${productQ}`;
+    const price = (bestBid?.amount || deal.groupOffer || 0).toLocaleString();
+    const lines = [
+      `🛒 ${name}`,
+      `💰 ₪${price}`,
+      `👥 ${deal.participants} קונים`,
+      ``,
+      `בואו נרכז ביחד ונגרום לספקים להתחרות עלינו 💪`,
+      ``,
+      `🔗 ${baseUrl}`,
+    ];
+    const msg = encodeURIComponent(lines.join("\n"));
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
 
@@ -19605,7 +19619,17 @@ export default function App() {
       // Only restore if we're not already showing this deal
       if (selectedDeal && String(selectedDeal.id) === String(dealParam)) return;
       const target = deals.find(d => String(d.id) === String(dealParam));
-      if (target) setSelectedDeal(target);
+      if (target) { setSelectedDeal(target); return; }
+      // Deal not in local list — likely a session-local ID (Date.now()-style)
+      // created by the original sharer. Fall back to a category search using
+      // the product name embedded in the share URL (?q=…) so the recipient
+      // lands on the relevant product instead of the home page.
+      const queryParam = params.get("q");
+      if (queryParam) {
+        // Clean up URL so a refresh doesn't keep firing the same fallback
+        try { window.history.replaceState({}, "", window.location.pathname); } catch (_) {}
+        openCategory(decodeURIComponent(queryParam));
+      }
     } catch { /* URL parse errors — ignore */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deals]);
