@@ -18729,7 +18729,9 @@ const _CHAT_BRAND_RX = [
   { rx: /philips|פיליפס/i,          name: "Philips" },
   { rx: /\btcl\b/i,                 name: "TCL" },
   { rx: /huawei|הואווי/i,           name: "Huawei" },
-  { rx: /\bdell\b|דל/i,             name: "Dell" },
+  // \b alone doesn't recognise Hebrew word boundaries, so "דל" was matching
+  // inside "גודל". Require Hebrew-letter lookbehind/lookahead to be empty.
+  { rx: /\bdell\b|(?<![א-ת])דל(?![א-ת])/i, name: "Dell" },
   { rx: /\bhp\b|אייץ.?פי/i,         name: "HP" },
   { rx: /lenovo|לנובו/i,            name: "Lenovo" },
   { rx: /\basus\b|אסוס/i,           name: "Asus" },
@@ -18748,9 +18750,9 @@ function parseChatIntent(text) {
   const { q: category, type } = catHit;
 
   // ── Price range ────────────────────────────────────────────────
-  // "עד 1500", "עד ₪3,000", "עד 5000 שח", "מתחת ל-2000"
+  // Phase 1 — explicit forms: "עד 1500", "עד ₪3,000", "מתחת ל-2000"
   let priceMax = null, priceMin = null;
-  const maxRx = /(?:עד|מקס|max|under|מתחת.*ל|לא יותר מ)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪|nis|ils)?/i;
+  const maxRx = /(?:עד|מקס|max|under|מתחת.*ל|לא יותר מ|תקציב)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪|nis|ils)?/i;
   const maxM  = t.match(maxRx);
   if (maxM) priceMax = parseInt(maxM[1].replace(/,/g, ""), 10);
   const minRx = /(?:מ-|מעל|מינ|min|over|above|מ\s)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪)?\s*(?:ועד|עד|-|to)/i;
@@ -18764,28 +18766,62 @@ function parseChatIntent(text) {
     const b = parseInt(rangeM[2].replace(/,/g, ""), 10);
     if (a >= 100 && b >= 100) { priceMin = Math.min(a, b); priceMax = Math.max(a, b); }
   }
+  // Phase 2 — bare-number fallback. In multi-turn chats the user often
+  // replies with just "1800" when asked "מה התקציב?". Pick the LARGEST
+  // standalone number ≥ a category-specific floor as the budget.
+  // (Numbers below the floor are probably model years, screen sizes, etc.)
+  if (priceMax == null && priceMin == null) {
+    const BUDGET_FLOOR = {
+      tv: 700, monitor: 400, laptop: 1200, phone: 400, tablet: 400,
+      headphone: 100, speaker: 150, soundbar: 300, console: 800,
+      fridge: 1500, washer: 1200, dryer: 1500, dishwasher: 1500,
+      ac: 1500, oven: 800, microwave: 200,
+      "robot-vacuum": 800, coffee: 200, hood: 400,
+    }[type] || 200;
+    const allNums = (raw.match(/\b\d{3,6}\b/g) || [])
+      .map(s => parseInt(s, 10))
+      .filter(n => n >= BUDGET_FLOOR && n <= 100000);
+    if (allNums.length > 0) priceMax = Math.max(...allNums);
+  }
 
   // ── Screen size (for TV / monitor / laptop / phone / tablet) ──
   let screenSize = null;
   if (["tv", "monitor", "laptop", "tablet", "phone"].includes(type)) {
-    // Range "60-70 אינץ" → snap mid to nearest common size
-    const rangeSize = t.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})\s*(?:אינץ|"|in|inch)/i);
+    const commonTv      = [24, 28, 32, 40, 43, 50, 55, 60, 65, 70, 75, 77, 85];
+    const commonMonitor = [22, 24, 27, 28, 29, 32, 34, 38, 43, 49];
+    const commonLaptop  = [11, 12, 13, 14, 15, 16, 17];
+    const commonTablet  = [7, 8, 9, 10, 11, 12, 13];
+    const commonPhone   = [5, 6, 7];
+    const palette = type === "tv" ? commonTv :
+                    type === "monitor" ? commonMonitor :
+                    type === "laptop" ? commonLaptop :
+                    type === "tablet" ? commonTablet : commonPhone;
+    const minVal = palette[0], maxVal = palette[palette.length - 1];
+    // 1) Explicit range with units: "60-70 אינץ"
+    let rangeSize = t.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})\s*(?:אינץ|"|in|inch)/i);
+    // 2) Bare range right after "גודל" / "size" keyword: "גודל 60-70"
+    if (!rangeSize) rangeSize = t.match(/(?:גודל|size|מסך)\s*\D{0,5}(\d{1,2})\s*[-–]\s*(\d{1,2})\b/i);
+    // 3) Bare numeric range that falls inside the palette: "60-70" anywhere
+    if (!rangeSize) {
+      const bare = t.match(/\b(\d{1,2})\s*[-–]\s*(\d{1,2})\b/);
+      if (bare) {
+        const a = parseInt(bare[1], 10), b = parseInt(bare[2], 10);
+        if (a >= minVal && a <= maxVal && b >= minVal && b <= maxVal) rangeSize = bare;
+      }
+    }
     if (rangeSize) {
       const mid = Math.round((parseInt(rangeSize[1], 10) + parseInt(rangeSize[2], 10)) / 2);
-      const commonTv      = [24, 28, 32, 40, 43, 50, 55, 60, 65, 70, 75, 77, 85];
-      const commonMonitor = [22, 24, 27, 28, 29, 32, 34, 38, 43, 49];
-      const commonLaptop  = [11, 12, 13, 14, 15, 16, 17];
-      const commonTablet  = [7, 8, 9, 10, 11, 12, 13];
-      const commonPhone   = [5, 6, 7];
-      const palette = type === "tv" ? commonTv :
-                      type === "monitor" ? commonMonitor :
-                      type === "laptop" ? commonLaptop :
-                      type === "tablet" ? commonTablet : commonPhone;
       const snap = palette.reduce((a, b) => Math.abs(b - mid) < Math.abs(a - mid) ? b : a);
       screenSize = `${snap}"`;
     } else {
-      const singleSize = t.match(/(\d{1,2}(?:\.\d)?)\s*(?:אינץ|"|in|inch)/i);
-      if (singleSize) screenSize = `${singleSize[1]}"`;
+      // 4) Explicit single size with units
+      let singleSize = t.match(/(\d{1,2}(?:\.\d)?)\s*(?:אינץ|"|in|inch)/i);
+      // 5) Bare single after "גודל" / "size" keyword
+      if (!singleSize) singleSize = t.match(/(?:גודל|size|מסך)\s*\D{0,5}(\d{1,2}(?:\.\d)?)\b/i);
+      if (singleSize) {
+        const n = parseFloat(singleSize[1]);
+        if (n >= minVal && n <= maxVal) screenSize = `${singleSize[1]}"`;
+      }
     }
   }
 
@@ -19200,14 +19236,18 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
                           // doesn't remount the advisor with stale isOpen=true.
                           _chatStore.isOpen = false;
                           setIsOpen(false);
-                          // Pass only the searchQuery — let the category page run
-                          // its standard search. Forwarding GPT-extracted filters
-                          // (priceMax, brands, screenSize) reliably over-narrowed
-                          // results to 0 because the strict client-side regex /
-                          // brand-alias matchers rarely lined up with raw ZAP
-                          // titles. The user can refine via the on-page filter
-                          // chips if they want.
-                          onSearchProduct(msg.searchQuery, null);
+                          // Accumulate the entire user-side of the conversation into
+                          // a single string and re-run the local intent parser. This
+                          // catches multi-turn answers ("60-70 אינץ", "עד 1800") that
+                          // GPT collected one-by-one but couldn't pack into reliable
+                          // filters. parseChatIntent returns deterministic price /
+                          // size / brand fields the category page can pre-apply.
+                          const combined = [
+                            msg.searchQuery,
+                            ...messages.filter(m => m.role === "user").map(m => m.content),
+                          ].join(" ");
+                          const intent = parseChatIntent(combined);
+                          onSearchProduct(msg.searchQuery, intent?.filters || null);
                         }}
                         className="chat-results-btn w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-l from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl transition text-sm font-bold shadow-md hover:shadow-lg"
                       >
