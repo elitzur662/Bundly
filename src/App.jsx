@@ -21,6 +21,7 @@ import { cleanName, sugText, sugIsProduct } from "./lib/format.js";
 import { makeTiers, activeTier, nextTier, getDealStatus, getAlternatives } from "./lib/deals.js";
 import BundlySpinner from "./components/common/BundlySpinner.jsx";
 import BundlyRoadLoader from "./components/common/BundlyRoadLoader.jsx";
+import AccessibilityWidget from "./components/common/AccessibilityWidget.jsx";
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -16408,6 +16409,7 @@ function Footer({ t, setMode }) {
               <li><a href="/privacy.html" target="_blank" rel="noopener" className="hover:text-white transition">{t.footerPrivacy}</a></li>
               <li><a href="/terms.html" target="_blank" rel="noopener" className="hover:text-white transition">{t.footerTerms}</a></li>
               <li><a href="/return-policy.html" target="_blank" rel="noopener" className="hover:text-white transition">מדיניות החזרות</a></li>
+              <li><a href="/accessibility.html" target="_blank" rel="noopener" className="hover:text-white transition">הצהרת נגישות</a></li>
             </ul>
           </div>
         </div>
@@ -21304,6 +21306,9 @@ export default function App() {
         onSearchProduct={(q, filters) => { openCategory(q, { filters }); }}
       />
       {universalBackBtn}
+      {/* Accessibility menu — global, always-on-top floating widget.
+          Mounted last so it sits above modals + the chat advisor. */}
+      <AccessibilityWidget />
     </div>
   );
 }
