@@ -3573,6 +3573,20 @@ app.get("/api/search-products-stream",
       if (!_l1Fresh && _l1) ZAP_CAT_CACHE.delete(sogCacheKey); // evict stale L1
       let cachedEntry = (_l1Fresh ? _l1 : null)
         || getCategoryFromDB(sogCacheKey, ZAP_CAT_TTL_MS);
+      // Fallback: q-narrowed cache might only have ~29 models (single page
+      // before CF block tripped). If the general sog cache (no q=) has a
+      // dramatically larger set, prefer the general — the q= filter usually
+      // narrowed by an over-restrictive descriptor we'd rather drop.
+      if (zapQ && (!cachedEntry || cachedEntry.candidates.length < 40)) {
+        const _l1General = ZAP_CAT_CACHE.get(detectedSog);
+        const _l1GenFresh = _l1General && (Date.now() - _l1General.ts) < ZAP_CAT_TTL_MS;
+        const generalEntry = (_l1GenFresh ? _l1General : null)
+          || getCategoryFromDB(detectedSog, ZAP_CAT_TTL_MS);
+        if (generalEntry && generalEntry.candidates.length >= (cachedEntry?.candidates.length || 0) * 5) {
+          console.log(`  ↳ Stream: 💾 sog="${detectedSog}" general cache (${generalEntry.candidates.length} models) preferred over q-narrowed (${cachedEntry?.candidates.length || 0})`);
+          cachedEntry = generalEntry;
+        }
+      }
       if (cachedEntry) {
         // Promote L2 hit to L1
         if (!ZAP_CAT_CACHE.has(sogCacheKey)) ZAP_CAT_CACHE.set(sogCacheKey, cachedEntry);
@@ -5931,7 +5945,11 @@ const ZAP_SOG_MAP = {
   "מכונות קפה": "e-coffeemachine", "מכונת קפה": "e-coffeemachine",
   // disambiguation sub-queries → מכונות קפה:
   "מכונת קפה קפסולות": "e-coffeemachine", "מכונת קפה אוטומטית": "e-coffeemachine", "מכונת קפה מטפטפת": "e-coffeemachine",
-  "תנורים": "e-oven", "תנור": "e-oven", "תנורי אפייה": "e-oven",
+  "תנורים": "e-oven", "תנור": "e-oven",
+  "תנורי אפייה": "e-oven", "תנור אפייה": "e-oven", "תנור אפיה": "e-oven",
+  "תנורי בנוי": "e-oven", "תנור בנוי": "e-oven",
+  "תנורי משולב": "e-oven", "תנור משולב": "e-oven", "תנור משולב כיריים": "e-oven",
+  "תנור מיקרוגל משולב": "e-oven", "תנור אדים": "e-oven",
   // ── חימום וקירור ────────────────────────────────────────────────────────────
   "מזגנים": "e-airconditioner", "מזגן": "e-airconditioner",
   // ── מסכי מחשב (by screen-size / type queries) ─────────────────────────────
