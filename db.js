@@ -30,6 +30,7 @@ function load() {
   if (!Array.isArray(data.transactions))      data.transactions      = [];
   if (!Array.isArray(data.suppliersRegistry)) data.suppliersRegistry = [];
   if (!Array.isArray(data.disputes))          data.disputes          = [];
+  if (!Array.isArray(data.cannedResponses))   data.cannedResponses   = [];
   if (!Array.isArray(data.reviews))           data.reviews           = [];
   if (!Array.isArray(data.savedProducts))     data.savedProducts     = [];
   // dealBids: { [dealId]: [bid, bid, ...] } — supplier offers per deal.
@@ -322,6 +323,29 @@ export function removeJoinedDeal(userId, dealId) {
   save(_db);
 }
 
+// Patch payment-related fields on an existing join record.
+// Used by the SetupIntent + off-session charge flow:
+//   • after /hold-spot or /commit-deposit  → { stripeCustomerId, setupIntentId, reservedAmount }
+//   • after frontend confirmCardSetup     → { paymentMethodId, cardLast4, cardBrand, savedAt }
+//   • after deal-close charge succeeds    → { chargedAt, lastChargeTxId, lastPaymentIntentId, chargeStatus }
+// Non-destructive: only assigns fields that are passed in.
+export function updateJoinedDealPayment(userId, dealId, fields = {}) {
+  _db = load();
+  const j = _db.joinedDeals.find(x => x.userId === Number(userId) && String(x.dealId) === String(dealId));
+  if (!j) return null;
+  const allowed = [
+    "stripeCustomerId", "setupIntentId", "reservedAmount",
+    "paymentMethodId", "cardLast4", "cardBrand", "savedAt",
+    "chargedAt", "lastChargeTxId", "lastPaymentIntentId", "chargeStatus",
+  ];
+  for (const k of allowed) {
+    if (fields[k] !== undefined) j[k] = fields[k];
+  }
+  j.updatedAt = new Date().toISOString();
+  save(_db);
+  return j;
+}
+
 // ── Orders ──────────────────────────────────────────────────────
 // Created when a customer accepts a supplier offer OR a deal closes successfully
 export function createOrder({ userId, supplierId, supplierName, productName, productImage, price, quantity = 1, requestId = null, dealId = null, shippingAddress, paymentMethod = "stub" }) {
@@ -494,18 +518,59 @@ export function updateSupplier(id, fields) {
   return s;
 }
 
-// ── Disputes ────────────────────────────────────────────────────
-export function createDispute({ orderId, userId, reason, description }) {
+// ── Disputes / Support Tickets ─────────────────────────────────
+// "Disputes" was historically only per-order. We now also use this collection
+// for general support tickets (no orderId), complaints, and feature requests
+// — distinguished by `type`. New fields:
+//   • type:        "order_dispute" | "general_support" | "complaint" | "feature_request"
+//   • subject:     short title for general tickets
+//   • category:    "billing" | "delivery" | "product" | "account" | "other"
+//   • priority:    "urgent" | "high" | "normal" | "low"   (default "normal")
+//   • slaTargetAt: ISO timestamp for first-response SLA
+//   • tags:        array of admin-applied tag strings
+//   • messages:    [{ role: "user"|"admin"|"system", text, ts, authorId, isCanned? }]
+//   • csat:        { rating: 1..5, comment, submittedAt } | null
+//   • contactEmail/contactPhone: for guests submitting without account
+// Backward compat: orderId stays as-is for legacy entries; new general tickets pass orderId=null.
+const SLA_HOURS_BY_PRIORITY = { urgent: 2, high: 6, normal: 24, low: 72 };
+function _slaTargetFor(priority) {
+  const hours = SLA_HOURS_BY_PRIORITY[priority] || SLA_HOURS_BY_PRIORITY.normal;
+  return new Date(Date.now() + hours * 3600_000).toISOString();
+}
+
+export function createDispute({
+  orderId = null, userId = null, reason, description,
+  type = "order_dispute", subject = "", category = "other",
+  priority = "normal", contactEmail = "", contactPhone = "",
+}) {
   _db = load();
+  const safePriority = ["urgent", "high", "normal", "low"].includes(priority) ? priority : "normal";
+  const safeType     = ["order_dispute", "general_support", "complaint", "feature_request"].includes(type) ? type : "general_support";
   const dispute = {
     id: nextId(_db.disputes),
-    orderId: Number(orderId),
-    userId: Number(userId),
-    reason: sanitizeText(reason).slice(0, 50),  // "not_delivered" | "damaged" | "wrong_item" | "other"
-    description: sanitizeText(description).slice(0, 1000),
-    status: "open",   // open | resolved | rejected
-    resolution: null, // "refunded" | "replaced" | "rejected" | null
+    type:        safeType,
+    orderId:     orderId != null ? Number(orderId) : null,
+    userId:      userId != null ? Number(userId) : null,
+    subject:     sanitizeText(subject).slice(0, 120),
+    category:    sanitizeText(category).slice(0, 30) || "other",
+    priority:    safePriority,
+    reason:      sanitizeText(reason).slice(0, 50),
+    description: sanitizeText(description).slice(0, 2000),
+    contactEmail: sanitizeText(contactEmail).slice(0, 120),
+    contactPhone: sanitizeText(contactPhone).slice(0, 30),
+    status: "open",        // open | in_progress | awaiting_user | resolved | rejected
+    resolution: null,      // "refunded" | "replaced" | "rejected" | "info_provided" | null
     adminNotes: "",
+    tags: [],
+    messages: description ? [{
+      role: "user",
+      text: sanitizeText(description).slice(0, 2000),
+      ts: new Date().toISOString(),
+      authorId: userId != null ? Number(userId) : null,
+    }] : [],
+    csat: null,
+    slaTargetAt: _slaTargetFor(safePriority),
+    firstAdminReplyAt: null,
     createdAt: new Date().toISOString(),
     resolvedAt: null,
   };
@@ -517,22 +582,148 @@ export function createDispute({ orderId, userId, reason, description }) {
 export function listDisputes(filter = {}) {
   _db = load();
   let rows = _db.disputes;
-  if (filter.status) rows = rows.filter(d => d.status === filter.status);
-  if (filter.userId) rows = rows.filter(d => d.userId === Number(filter.userId));
-  if (filter.orderId) rows = rows.filter(d => d.orderId === Number(filter.orderId));
+  if (filter.status)   rows = rows.filter(d => d.status === filter.status);
+  if (filter.userId)   rows = rows.filter(d => d.userId === Number(filter.userId));
+  if (filter.orderId)  rows = rows.filter(d => d.orderId === Number(filter.orderId));
+  if (filter.type)     rows = rows.filter(d => (d.type || "order_dispute") === filter.type);
+  if (filter.priority) rows = rows.filter(d => (d.priority || "normal") === filter.priority);
   return rows.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
+export function getDispute(id) {
+  _db = load();
+  return _db.disputes.find(x => x.id === Number(id)) || null;
 }
 
 export function updateDispute(id, fields) {
   _db = load();
   const d = _db.disputes.find(x => x.id === Number(id));
   if (!d) return null;
-  const allowed = ["status", "resolution", "adminNotes", "resolvedAt"];
+  const allowed = [
+    "status", "resolution", "adminNotes", "resolvedAt",
+    "priority", "tags", "category", "subject",
+  ];
   for (const k of allowed) {
     if (fields[k] !== undefined) d[k] = fields[k];
   }
+  // Refresh SLA if priority changed and the ticket is still open
+  if (fields.priority !== undefined && d.status !== "resolved" && d.status !== "rejected") {
+    d.slaTargetAt = _slaTargetFor(d.priority || "normal");
+  }
   save(_db);
   return d;
+}
+
+// Add a message to a dispute thread (user or admin reply).
+// Tracks `firstAdminReplyAt` automatically so SLA reports can compute response time.
+export function addDisputeMessage(id, { role, text, authorId = null, isCanned = false }) {
+  _db = load();
+  const d = _db.disputes.find(x => x.id === Number(id));
+  if (!d) return null;
+  if (!Array.isArray(d.messages)) d.messages = [];
+  const msg = {
+    role: ["user", "admin", "system"].includes(role) ? role : "user",
+    text: sanitizeText(text).slice(0, 2000),
+    ts: new Date().toISOString(),
+    authorId: authorId != null ? Number(authorId) : null,
+    isCanned: !!isCanned,
+  };
+  d.messages.push(msg);
+  if (msg.role === "admin" && !d.firstAdminReplyAt) d.firstAdminReplyAt = msg.ts;
+  // Admin reply flips status from "open" to "in_progress" if still open
+  if (msg.role === "admin" && d.status === "open") d.status = "in_progress";
+  save(_db);
+  return msg;
+}
+
+// Customer-side CSAT survey after a ticket is resolved.
+export function submitCsat(id, { rating, comment = "" }) {
+  _db = load();
+  const d = _db.disputes.find(x => x.id === Number(id));
+  if (!d) return null;
+  const r = Math.max(1, Math.min(5, Number(rating) || 0));
+  if (!r) return null;
+  d.csat = {
+    rating: r,
+    comment: sanitizeText(comment).slice(0, 500),
+    submittedAt: new Date().toISOString(),
+  };
+  save(_db);
+  return d.csat;
+}
+
+// Admin reports: totals + SLA breach count + CSAT avg.
+export function getDisputeStats() {
+  _db = load();
+  const all = _db.disputes || [];
+  const now = Date.now();
+  const isOpen = d => d.status !== "resolved" && d.status !== "rejected";
+  const slaBreached = d => isOpen(d) && d.slaTargetAt && new Date(d.slaTargetAt).getTime() < now && !d.firstAdminReplyAt;
+  const csatRatings = all.filter(d => d.csat?.rating).map(d => d.csat.rating);
+  const csatAvg = csatRatings.length > 0 ? (csatRatings.reduce((s, r) => s + r, 0) / csatRatings.length) : null;
+  const byStatus = {}, byPriority = {}, byType = {};
+  for (const d of all) {
+    byStatus[d.status || "open"] = (byStatus[d.status || "open"] || 0) + 1;
+    byPriority[d.priority || "normal"] = (byPriority[d.priority || "normal"] || 0) + 1;
+    byType[d.type || "order_dispute"] = (byType[d.type || "order_dispute"] || 0) + 1;
+  }
+  // Compute median first-response time in hours over the last 90 days
+  const since = now - 90 * 86400_000;
+  const responseTimes = all
+    .filter(d => d.firstAdminReplyAt && new Date(d.createdAt).getTime() >= since)
+    .map(d => (new Date(d.firstAdminReplyAt).getTime() - new Date(d.createdAt).getTime()) / 3600_000)
+    .sort((a, b) => a - b);
+  const median = responseTimes.length > 0 ? responseTimes[Math.floor(responseTimes.length / 2)] : null;
+  return {
+    total: all.length,
+    open: all.filter(isOpen).length,
+    slaBreaches: all.filter(slaBreached).length,
+    byStatus, byPriority, byType,
+    csatAvg: csatAvg != null ? Math.round(csatAvg * 10) / 10 : null,
+    csatCount: csatRatings.length,
+    medianFirstResponseHours: median != null ? Math.round(median * 10) / 10 : null,
+  };
+}
+
+// ── Canned responses (admin reply templates) ────────────────────
+// Stored as flat array under _db.cannedResponses, keyed by id.
+export function listCannedResponses() {
+  _db = load();
+  return (_db.cannedResponses || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0));
+}
+export function createCannedResponse({ title, body, category = "general" }) {
+  _db = load();
+  if (!Array.isArray(_db.cannedResponses)) _db.cannedResponses = [];
+  const r = {
+    id: nextId(_db.cannedResponses),
+    title: sanitizeText(title).slice(0, 80),
+    body:  sanitizeText(body).slice(0, 2000),
+    category: sanitizeText(category).slice(0, 30) || "general",
+    order: _db.cannedResponses.length,
+    createdAt: new Date().toISOString(),
+  };
+  _db.cannedResponses.push(r);
+  save(_db);
+  return r;
+}
+export function updateCannedResponse(id, fields) {
+  _db = load();
+  const r = (_db.cannedResponses || []).find(x => x.id === Number(id));
+  if (!r) return null;
+  for (const k of ["title", "body", "category", "order"]) {
+    if (fields[k] !== undefined) r[k] = fields[k];
+  }
+  save(_db);
+  return r;
+}
+export function deleteCannedResponse(id) {
+  _db = load();
+  if (!Array.isArray(_db.cannedResponses)) return false;
+  const idx = _db.cannedResponses.findIndex(x => x.id === Number(id));
+  if (idx < 0) return false;
+  _db.cannedResponses.splice(idx, 1);
+  save(_db);
+  return true;
 }
 
 // ── Input sanitization: strip HTML tags + dangerous protocols ──

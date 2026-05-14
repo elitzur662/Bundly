@@ -56,7 +56,7 @@ export const CATEGORY_VISUAL_MAP = {
     gradient: "from-emerald-500 to-teal-600",
   },
   "מצלמות": {
-    image: "https://images.unsplash.com/photo-1606986628253-49a5c47ab4ee?w=800&q=90&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=800&q=90&auto=format&fit=crop",
     icon: "📷",
     gradient: "from-amber-600 to-orange-700",
   },
@@ -66,7 +66,7 @@ export const CATEGORY_VISUAL_MAP = {
     gradient: "from-gray-800 to-gray-900",
   },
   "tv": {
-    image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=800&q=90&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&q=90&auto=format&fit=crop",
     icon: "📺",
     gradient: "from-indigo-600 to-violet-700",
   },

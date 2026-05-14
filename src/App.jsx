@@ -44,22 +44,40 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
   useEffect(() => {
     if (!cardRef) return;
     cardRef.current = {
-      // Validate locally + call stripe.confirmCardPayment with the server's clientSecret
-      confirm: async (clientSecret, { stub } = {}) => {
+      // Confirm the card against Stripe with the server's clientSecret.
+      // mode="payment" → stripe.confirmCardPayment (charges immediately or holds funds)
+      // mode="setup"   → stripe.confirmCardSetup   (validates + saves card, no money moves)
+      // The deposit flow uses mode="setup" so we collect a re-usable PaymentMethod
+      // and only charge it off-session after the deal closes + user confirms.
+      confirm: async (clientSecret, { stub, mode = "payment" } = {}) => {
         if (!name.trim()) return { ok: false, error: "חובה למלא שם על הכרטיס" };
         if (stub || !stripe || !elements) {
           // Demo / stub mode — server already returned a fake clientSecret;
-          // the deposit/preauth was logged on the server, nothing to confirm.
+          // the setup/preauth was logged on the server, nothing to confirm.
           return { ok: true, stub: true };
         }
         if (!cardComplete) return { ok: false, error: "פרטי כרטיס לא תקינים" };
-        const result = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: { name: name.trim() },
-          },
-        });
+        const paymentMethodPayload = {
+          card: elements.getElement(CardElement),
+          billing_details: { name: name.trim() },
+        };
+        const result = mode === "setup"
+          ? await stripe.confirmCardSetup(clientSecret, { payment_method: paymentMethodPayload })
+          : await stripe.confirmCardPayment(clientSecret, { payment_method: paymentMethodPayload });
         if (result.error) return { ok: false, error: localizeStripeError(result.error) };
+        if (mode === "setup") {
+          // Bubble up the PaymentMethod so the parent can ship it back to the
+          // server. Stripe stores the full PM on the customer; we only persist
+          // the id + last4 + brand for display.
+          const pm = result.setupIntent?.payment_method;
+          return {
+            ok: true,
+            setupIntent: result.setupIntent,
+            paymentMethodId: typeof pm === "string" ? pm : pm?.id || null,
+            cardLast4: pm?.card?.last4 || null,
+            cardBrand: pm?.card?.brand || null,
+          };
+        }
         return { ok: true, paymentIntent: result.paymentIntent };
       },
       ready: !!stripe && !!elements,
@@ -365,7 +383,7 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
   const priced = products.filter(p => p.priceMin > 0).slice(0, 5);
   const storeConfigs = [
     { pct: 11, wall: '#fef3c7', roof: '#f59e0b' },
-    { pct: 27, wall: '#ede9fe', roof: '#7c3aed' },
+    { pct: 27, wall: '#ede9fe', roof: '#c026d3' },
     { pct: 45, wall: '#dcfce7', roof: '#16a34a' },
     { pct: 63, wall: '#fee2e2', roof: '#dc2626' },
     { pct: 79, wall: '#dbeafe', roof: '#2563eb' },
@@ -412,7 +430,7 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
         position:'relative', width:'100%', height:H,
         borderRadius:14, overflow:'hidden', marginBottom:14,
         border:'1px solid #e0e7ff',
-        boxShadow:'0 2px 10px rgba(99,102,241,0.1)',
+        boxShadow:'0 2px 10px rgba(168,85,247,0.1)',
       }}>
         {/* ── Sky ────────────────────────────────────── */}
         <div style={{position:'absolute',inset:0,top:0,height:SKY,background:'linear-gradient(to bottom,#bfdbfe,#93c5fd)'}}/>
@@ -517,11 +535,11 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
         {/* ── Count badge (top-right) ────────────────── */}
         <div style={{
           position:'absolute', top:7, right:10, zIndex:10,
-          background:'rgba(79,70,229,0.88)', color:'white',
+          background:'rgba(147,51,234,0.88)', color:'white',
           borderRadius:20, padding:'2.5px 10px',
           fontSize:11, fontWeight:900,
           backdropFilter:'blur(4px)',
-          boxShadow:'0 1px 6px rgba(79,70,229,0.28)',
+          boxShadow:'0 1px 6px rgba(147,51,234,0.28)',
         }}>
           {count} נמצאו
         </div>
@@ -558,12 +576,28 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
       .map(r => ({ ...r, deal: dealById.get(r.dealId) }))
       .filter(x => x.deal)
   ), [recos, dealById]);
+  // Hover-arrow state: dimmed scroll buttons appear on the carousel edges
+  // when the cursor is over the strip, fade out on leave. Mobile keeps
+  // swipe-only — arrows are hidden by default and only shown on hover.
+  const scrollRef = useRef(null);
+  const [hovered, setHovered] = useState(false);
+  const scrollBy = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    // dir: -1 scrolls toward the start of the strip, +1 toward the end.
+    // scrollBy({ left }) is direction-aware in modern browsers (RTL aware).
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: "smooth" });
+  };
   if (!recos?.recommendations?.length) return null;
   if (items.length === 0) return null;
   const isPersonalized = recos.source === "personalized";
   const profile        = recos.profile;
   return (
-    <section className="mb-10 relative">
+    <section
+      className="mb-10 relative"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="flex items-center gap-3 mb-4 px-0.5">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-fuchsia-600 flex items-center justify-center shadow-md flex-shrink-0">
           <span className="text-lg">✨</span>
@@ -581,6 +615,24 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
         </span>
       </div>
 
+      {/* Hover scroll arrows — show on mouse-over, fade out on leave. */}
+      <button
+        type="button"
+        aria-label="גלול שמאלה"
+        onClick={() => scrollBy(-1)}
+        className={`hidden md:flex absolute top-1/2 -translate-y-1/2 left-1 z-10 items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700 shadow-md backdrop-blur-sm transition-opacity duration-200 ${hovered ? "opacity-70 hover:opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+      </button>
+      <button
+        type="button"
+        aria-label="גלול ימינה"
+        onClick={() => scrollBy(1)}
+        className={`hidden md:flex absolute top-1/2 -translate-y-1/2 right-1 z-10 items-center justify-center w-10 h-10 rounded-full bg-white/80 hover:bg-white text-pink-600 hover:text-pink-700 shadow-md backdrop-blur-sm transition-opacity duration-200 ${hovered ? "opacity-70 hover:opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
+      </button>
+
       {/*
         Horizontal snap-scroll carousel.
         - `snap-x snap-mandatory` makes each card snap to the start of the
@@ -590,6 +642,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
         - Cards: w-[60%] sm:w-56 — ~1.5 cards visible on mobile.
       */}
       <div
+        ref={scrollRef}
         className="flex gap-3 overflow-x-auto pb-3 scrollbar-none snap-x snap-mandatory"
         style={{
           scrollPaddingInline: "8px",
@@ -817,9 +870,9 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
       { name: "מכונת כביסה LG 9 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 3200 },
-      { name: "מייבש כביסה LG 8 ק\"ג", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 3600 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2900 },
+      { name: "מייבש כביסה LG 8 ק\"ג", image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400&q=80&fit=crop", marketPrice: 3600 },
+      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
+      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
       { name: "מזגן Electra 1.5 כ\"ס", image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80&fit=crop", marketPrice: 3500 },
     ],
     totalMarket: 22200,
@@ -841,9 +894,9 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "מקרר LG 425L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 3800 },
       { name: "מכונת כביסה Samsung 8 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 2600 },
-      { name: "תנור בנוי Electra", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 2200 },
-      { name: 'טלוויזיה Samsung 55" 4K', image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=400&q=80&fit=crop", marketPrice: 2800 },
-      { name: "מדיח כלים צר Bosch", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2400 },
+      { name: "תנור בנוי Electra", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 2200 },
+      { name: 'טלוויזיה Samsung 55" 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 2800 },
+      { name: "מדיח כלים צר Bosch", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2400 },
     ],
     totalMarket: 13800,
     bundlePrice: 10490,
@@ -863,8 +916,8 @@ const INITIAL_BUNDLES = [
     border: "border-orange-200",
     products: [
       { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1581622634431-c26024f18b0c?w=400&q=80&fit=crop", marketPrice: 2900 },
+      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
+      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
     ],
     totalMarket: 11900,
     bundlePrice: 9490,
@@ -883,7 +936,7 @@ const INITIAL_BUNDLES = [
     bg: "bg-violet-50",
     border: "border-violet-200",
     products: [
-      { name: 'Samsung 65" QLED 4K', image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829e1?w=400&q=80&fit=crop", marketPrice: 4800 },
+      { name: 'Samsung 65" QLED 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 4800 },
       { name: "Samsung Soundbar Q600", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&q=80&fit=crop", marketPrice: 1900 },
       { name: "Apple TV 4K", image: "https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?w=400&q=80&fit=crop", marketPrice: 750 },
     ],
@@ -927,7 +980,7 @@ const INITIAL_BUNDLES = [
     products: [
       { name: "PlayStation 5 Slim", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80&fit=crop", marketPrice: 2200 },
       { name: 'LG 27" Gaming 165Hz', image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80&fit=crop", marketPrice: 1800 },
-      { name: "SteelSeries Arctis Nova", image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80&fit=crop", marketPrice: 850 },
+      { name: "SteelSeries Arctis Nova", image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&q=80&fit=crop", marketPrice: 850 },
       { name: "DualSense Edge Controller", image: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=400&q=80&fit=crop", marketPrice: 750 },
     ],
     totalMarket: 5600,
@@ -950,7 +1003,7 @@ const INITIAL_BUNDLES = [
       { name: "עגלת תינוק Bugaboo Fox", image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?w=400&q=80&fit=crop", marketPrice: 4200 },
       { name: "כסא בטיחות Cybex Sirona", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80&fit=crop", marketPrice: 2200 },
       { name: "מוניטור Nanit Pro", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80&fit=crop", marketPrice: 1100 },
-      { name: "אמבטיה Stokke Flexi", image: "https://images.unsplash.com/photo-1590412200988-a436970781c5?w=400&q=80&fit=crop", marketPrice: 350 },
+      { name: "אמבטיה Stokke Flexi", image: "https://images.unsplash.com/photo-1582142306909-195724d33ffc?w=400&q=80&fit=crop", marketPrice: 350 },
       { name: "ערסל 4Moms mamaRoo", image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80&fit=crop", marketPrice: 1600 },
     ],
     totalMarket: 9450,
@@ -2416,7 +2469,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
 
   return (
     <nav className="bg-white/85 backdrop-blur-xl border-b border-gray-100/80 sticky top-0 z-40"
-      style={{ boxShadow: "0 1px 0 0 rgba(0,0,0,0.04), 0 2px 12px rgba(79,70,229,0.05)" }}>
+      style={{ boxShadow: "0 1px 0 0 rgba(0,0,0,0.04), 0 2px 12px rgba(147,51,234,0.05)" }}>
       <div className="max-w-6xl mx-auto px-4 h-15 flex items-center gap-3" style={{ height: "3.75rem" }}>
         {/* Logo */}
         <button onClick={() => onGoHome ? onGoHome() : setMode("home")} className="flex-shrink-0 flex items-center gap-2 group">
@@ -2425,7 +2478,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             <span className="text-white font-black text-sm select-none">B</span>
           </div>
           <span className="font-black text-xl tracking-tight"
-            style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             {BRAND_NAME}
           </span>
         </button>
@@ -2724,180 +2777,204 @@ function TrustSection({ t }) {
 // ─────────────────────────────────────────────────────────────────
 //  HERO SECTION
 // ─────────────────────────────────────────────────────────────────
-function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCategoryBrowse, onMyProducts, savedCount = 0 }) {
-  const steps = [
-    { t1: t.heroStep1, t2: t.heroStep1s },
-    { t1: t.heroStep2, t2: t.heroStep2s },
-    { t1: t.heroStep3, t2: t.heroStep3s },
-    { t1: t.heroStep4, t2: t.heroStep4s },
-  ];
-  return (
-    <div className="relative overflow-hidden text-white" style={{ minHeight: "520px" }}>
+function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCategoryBrowse, onMyProducts, onOpenCategory, personalRequests = [], savedCount = 0 }) {
+  // ── Demand-sorted category grid lives INSIDE the hero now, fused with the
+  // search bar via a shared "browse card" container. The data prep is identical
+  // to what the homepage did before (count personal requests per broad
+  // category), it just renders inline here so search + browse feel like one
+  // continuous gesture instead of two separate page sections.
+  const broadGrid = useMemo(() => {
+    const counts = {};
+    (personalRequests || []).forEach(r => {
+      const broad = mapToBroadCategory(r.category);
+      if (broad) counts[broad] = (counts[broad] || 0) + 1;
+    });
+    return HOME_CATEGORIES
+      .map(hc => ({ ...hc, count: counts[hc.name] || 0 }))
+      .sort((a, b) => b.count - a.count);
+  }, [personalRequests]);
 
-      {/* ── Background photo ── */}
+  return (
+    <div className="relative overflow-hidden text-white">
+
+      {/* ── Background photo — luxurious modern living room w/ home goods ── */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1800&q=90&fit=crop')",
-          transform: "scale(1.03)", // slight zoom so edges don't show on smaller screens
+          backgroundImage: "url('https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=1800&q=90&fit=crop')",
+          transform: "scale(1.03)",
         }}
       />
 
-      {/* ── Overlay: indigo gradient on top of photo, left darker for readability ── */}
+      {/* ── Radial overlay — soft purple "spotlight" centered behind the
+            search/categories block, fading to neutral dark at the edges.
+            No frames, no card, no ring — just light density. */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(135deg, rgba(67,56,202,0.88) 0%, rgba(79,70,229,0.80) 40%, rgba(109,40,217,0.75) 100%)",
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 62%, rgba(147,51,234,0.55) 0%, rgba(147,51,234,0.35) 25%, rgba(107,33,168,0.22) 55%, rgba(0,0,0,0.30) 85%, rgba(0,0,0,0.40) 100%)",
         }}
       />
 
-      {/* ── Soft vignette at bottom ── */}
-      <div className="absolute bottom-0 left-0 right-0 h-24"
-        style={{ background: "linear-gradient(to bottom, transparent, rgba(49,46,129,0.4))" }} />
+      {/* ── Soft vignette at bottom (very subtle now — radial gradient
+            already darkens the edges; vignette just adds a touch of depth). */}
+      <div className="absolute bottom-0 left-0 right-0 h-20"
+        style={{ background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.25))" }} />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 py-14 flex flex-col items-center text-center">
+      <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-20 flex flex-col items-center text-center">
 
-        {/* Badge */}
-        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-6 backdrop-blur-sm shadow-sm">
+        {/* Trust badge */}
+        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-5 backdrop-blur-sm shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
           {t.trustVerified}
         </span>
 
-        {/* Title — Rubik, tight tracking */}
+        {/* Title */}
         <h1
           className="font-hero mb-3 leading-tight text-white drop-shadow-sm"
           style={{
             fontFamily: "'Rubik', sans-serif",
             fontWeight: 900,
-            fontSize: "clamp(1.7rem, 6vw, 3.5rem)",
+            fontSize: "clamp(1.6rem, 5.5vw, 3rem)",
             letterSpacing: "-0.02em",
             textShadow: "0 2px 20px rgba(0,0,0,0.25)",
           }}
         >
           {t.heroTitle}
         </h1>
-        <p className="text-indigo-100/90 text-base max-w-lg mb-7 leading-relaxed" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>
+        <p className="text-indigo-100/90 text-sm sm:text-base max-w-lg mb-6 leading-relaxed" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>
           {t.heroSub}
         </p>
 
-        {/* ── BIG SEARCH BAR ── */}
-        <div className="w-full max-w-2xl mb-6">
-          <SmartSearchBar
-            t={t}
-            variant="hero"
-            placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
-            onResult={onSearchResult}
-            onWizard={onWizard}
-          />
-          <p className="text-indigo-300/70 text-xs mt-2.5 flex items-center justify-center gap-1.5">
+        {/* Search + categories sit directly on the radial purple glow that
+            comes from the hero overlay. No card, no ring — just the content. */}
+        <div className="w-full max-w-3xl">
+
+          {/* Search + paired browse-by-category button. */}
+          <div className="flex items-stretch gap-2">
+            <div className="flex-1 min-w-0">
+              <SmartSearchBar
+                t={t}
+                variant="hero"
+                placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
+                onResult={onSearchResult}
+                onWizard={onWizard}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={onCategoryBrowse}
+              className="hidden sm:inline-flex flex-shrink-0 items-center gap-2 px-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-lg shadow-indigo-900/20 hover:shadow-xl hover:shadow-indigo-900/30 active:scale-[0.97] transition-all"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              </svg>
+              <span className="whitespace-nowrap">חיפוש לפי קטגוריה</span>
+            </button>
+          </div>
+          {/* Mobile-only stacked button (under the search input). */}
+          <button
+            type="button"
+            onClick={onCategoryBrowse}
+            className="sm:hidden mt-2 w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold text-sm shadow-md active:scale-[0.98] transition-all"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            </svg>
+            חיפוש לפי קטגוריה
+          </button>
+          <p className="text-white/85 text-[11px] mt-2.5 flex items-center justify-center gap-1.5" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
             <Zap className="w-3 h-3 text-yellow-300" />
             Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
           </p>
-        </div>
 
-        {/* Quick category pills */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8">
-          {[
-            { label: "📱 iPhone 16 Pro",  query: "iPhone 16 Pro" },
-            { label: "💻 MacBook Pro",    query: "MacBook Pro" },
-            { label: "🎧 AirPods Pro",    query: "AirPods Pro" },
-            { label: "🤖 Roomba j9+",     query: "שואב רובוטי Roomba j9+" },
-            { label: '📺 OLED 65"',       query: "טלוויזיה OLED 65 אינץ" },
-            { label: "🎮 PS5",            query: "PlayStation 5" },
-          ].map(({ label, query }, i) => (
-            <button key={i}
-              onClick={() => onWizard && onWizard(query)}
-              className="bg-white/10 hover:bg-white/20 border border-white/20 text-white/90 text-xs font-medium px-3 py-1.5 rounded-full transition backdrop-blur-sm active:scale-95">
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-3 w-full max-w-xl">
-          <button onClick={onDeals} className="flex-1 min-h-[48px] bg-white text-indigo-700 font-bold px-6 py-3.5 rounded-xl hover:bg-indigo-50 hover:scale-105 transition-all shadow-xl shadow-indigo-900/30 text-sm">
-            {t.heroCta}
-          </button>
-          <button onClick={onPersonal} className="flex-1 min-h-[48px] bg-white/10 border border-white/30 text-white font-semibold px-6 py-3.5 rounded-xl hover:bg-white/20 transition-all text-sm backdrop-blur-sm">
-            {t.heroCta2}
-          </button>
-        </div>
-
-        {/* ── Premium "Browse by category" CTA — full-width, prominent,
-              visible on EVERY screen size including mobile.  */}
-        <button
-          onClick={onCategoryBrowse}
-          className="group relative mb-6 w-full max-w-xl overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
-          style={{
-            background: "linear-gradient(135deg, #ffffff 0%, #fef3c7 50%, #fde68a 100%)",
-            boxShadow: "0 14px 36px -10px rgba(251,191,36,0.55), inset 0 1px 0 rgba(255,255,255,0.6)",
-          }}
-        >
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(circle at 18% 0%, rgba(255,255,255,0.6), transparent 60%)" }}
-          />
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%)",
-              animation: "homeCategoryShimmer 3.2s ease-in-out infinite",
-              backgroundSize: "250% 100%",
-            }}
-          />
-          <style>{`@keyframes homeCategoryShimmer{0%,100%{background-position:200% 0}50%{background-position:-30% 0}}`}</style>
-          <div className="relative flex items-center justify-between gap-3 px-4 py-3.5" dir="rtl">
-            <div className="flex items-center gap-3 min-w-0">
-              <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md group-hover:rotate-6 transition-transform duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                  <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                  <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-              </span>
-              <div className="text-right min-w-0">
-                <div className="text-gray-900 font-black text-base sm:text-[15px] leading-tight tracking-tight">
-                  חיפוש לפי קטגוריה
-                </div>
-                <div className="text-gray-700 text-[11px] font-semibold leading-tight mt-0.5">
-                  גלה אלפי מוצרים מסווגים — מקררים, סמארטפונים, ועוד
-                </div>
-              </div>
+          {/* Demand-sorted category grid — sits on the hero photo directly. */}
+          <div className="mt-7">
+            <div className="flex items-center gap-2 mb-3 justify-center" dir="rtl">
+              <TrendingUp className="w-4 h-4 text-yellow-300 flex-shrink-0 drop-shadow-sm" />
+              <p className="text-white/90 text-[12px] font-bold" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                קטגוריות חמות לפי ביקוש בזמן אמת — ככל שיותר מצטרפים, המחיר יורד
+              </p>
             </div>
-            <ChevronLeft className="w-5 h-5 text-gray-700 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+              {broadGrid.map(({ name, query, count }) => {
+                const visual = CATEGORY_VISUAL_MAP[name] || CATEGORY_VISUAL_MAP._default;
+                return (
+                  <button
+                    key={name}
+                    onClick={() => onOpenCategory && onOpenCategory(query)}
+                    className="group relative rounded-xl overflow-hidden shadow-lg shadow-indigo-900/30 ring-1 ring-white/20 hover:ring-white/40 transition-all duration-300 hover:scale-[1.04] active:scale-[0.97] cursor-pointer aspect-[4/3]"
+                  >
+                    <img src={visual.image} alt={name} loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${visual.gradient} opacity-40 mix-blend-multiply`} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                    {count > 0 && (
+                      <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 bg-white/95 backdrop-blur-sm rounded-full px-1.5 py-0.5 shadow-sm">
+                        <Users className="w-2.5 h-2.5 text-indigo-600" />
+                        <span className="text-[9px] font-black text-indigo-700">{count}</span>
+                      </div>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 text-right" dir="rtl">
+                      <div className="flex items-center gap-1 justify-end">
+                        <p className="text-white font-black text-[11px] sm:text-xs drop-shadow-lg leading-tight line-clamp-1">{name}</p>
+                        <span className="text-sm drop-shadow-lg">{visual.icon}</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </button>
-
-
-        {/* FOMO line */}
-        <p className="text-indigo-300 text-sm mb-12">⚡ 12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"} &nbsp;•&nbsp; {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}</p>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-lg mb-12">
-          {[
-            { num: "24+", label: t.statsDeals },
-            { num: "₪2.4M", label: t.statsSaved },
-            { num: "4,800+", label: t.statsMembers },
-          ].map((s, i) => (
-            <div key={i} className="bg-white/10 rounded-2xl px-4 py-3 text-center border border-white/10">
-              <p className="text-xl font-black text-white">{s.num}</p>
-              <p className="text-indigo-300 text-xs mt-0.5">{s.label}</p>
-            </div>
-          ))}
         </div>
 
-        {/* 4-step process */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-3xl">
-          {steps.map((s, i) => (
-            <div key={i} className="bg-white/8 border border-white/10 rounded-2xl p-4 text-center backdrop-blur-sm">
-              <p className="font-bold text-sm mb-1">{s.t1}</p>
-              <p className="text-indigo-300 text-xs leading-relaxed">{s.t2}</p>
-            </div>
-          ))}
+        {/* Bottom secondary actions — small, low-emphasis */}
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-xs">
+          <button onClick={onDeals} className="text-white/90 font-semibold hover:text-white underline-offset-4 hover:underline transition">
+            {t.heroCta} ←
+          </button>
+          <span className="text-white/30">·</span>
+          <button onClick={onPersonal} className="text-white/90 font-semibold hover:text-white underline-offset-4 hover:underline transition">
+            {t.heroCta2} ←
+          </button>
         </div>
+
+        {/* FOMO line — compact */}
+        <p className="text-indigo-200/80 text-xs mt-4 flex items-center gap-1.5">
+          <span className="text-yellow-300">⚡</span>
+          12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"}
+          <span className="text-white/30 mx-1">·</span>
+          {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}
+        </p>
+      </div>
+
+      {/* ── Scroll affordance — gentle bouncing chevron at the bottom of the
+            hero so the user knows there's more content below the fold. */}
+      <div
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none flex flex-col items-center gap-1"
+        aria-hidden="true"
+      >
+        <span className="text-white/70 text-[10px] font-semibold tracking-wide" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+          גלול למטה
+        </span>
+        <ChevronDown
+          className="w-5 h-5 text-white/80"
+          strokeWidth={2.5}
+          style={{ animation: "heroScrollHint 1.6s ease-in-out infinite", filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.35))" }}
+        />
+        <style>{`
+          @keyframes heroScrollHint {
+            0%, 100% { transform: translateY(0); opacity: 0.75; }
+            50%      { transform: translateY(6px); opacity: 1; }
+          }
+        `}</style>
       </div>
     </div>
   );
@@ -3202,7 +3279,7 @@ function AnalogClockTimer({ closingDate, size = 80 }) {
 
   const urgent  = t.d < 1;
   const warning = t.d < 3;
-  const accent  = t.expired ? "#9ca3af" : urgent ? "#ef4444" : warning ? "#f59e0b" : "#6366f1";
+  const accent  = t.expired ? "#9ca3af" : urgent ? "#ef4444" : warning ? "#f59e0b" : "#a855f7";
   const accentBg = t.expired ? "bg-gray-100" : urgent ? "bg-red-50" : warning ? "bg-amber-50" : "bg-indigo-50";
   const accentText = t.expired ? "text-gray-400" : urgent ? "text-red-600" : warning ? "text-amber-600" : "text-indigo-600";
   const accentBorder = t.expired ? "border-gray-200" : urgent ? "border-red-200" : warning ? "border-amber-200" : "border-indigo-200";
@@ -9044,39 +9121,46 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 
 // ── Accept/reject modal with shipping address ──────────────────
 // ─────────────────────────────────────────────────────────────────
-//  DEPOSIT MODAL — collects card + charges deposit for a tier upgrade
-//  Tiers:
-//    - "watching":  flat ₪25 hold (refundable if group fails)
-//    - "committed": 25% of group price (deducted from final purchase)
+//  DEPOSIT MODAL — collects + saves card (no charge) for a tier upgrade
+//  New flow (per user request):
+//    • At join time we VALIDATE + SAVE the card via Stripe SetupIntent.
+//      No money moves now — Stripe runs at most a $0/$1 verification that
+//      is immediately voided. The PaymentMethod is attached to a Customer.
+//    • When the deal closes successfully, the user receives a notification
+//      and approves the actual charge (see /api/deals/:id/charge-confirmed).
+//    • If the deal cancels, nothing was charged — nothing to refund.
+//  Tier semantics preserved for analytics:
+//    - "watching":  default tier on hold-spot
+//    - "committed": user signalled stronger intent (commits to buy)
 // ─────────────────────────────────────────────────────────────────
 function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) {
   const [cardName, setCardName] = useState("");
   const cardRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [done, setDone] = useState(null); // { paymentIntentId, status }
+  const [done, setDone] = useState(null); // { setupIntentId, status, paymentMethodId, cardLast4 }
 
   const TIER_INFO = {
     watching: {
-      title: "רישום מקדים לסבב",
+      title: "שמירת מקום בקבוצה",
       emoji: "📋",
       gradient: "from-slate-500 to-gray-600",
-      explainer: `פיקדון ₪${depositAmount} שומר את מקומך בסבב הנוכחי. הסכום יוקפא בכרטיס בלבד — לא יחויב כעת.`,
+      explainer: `שמירת אמצעי תשלום בלבד — לא יחויב דבר עכשיו. הכרטיס יחויב רק אם הקבוצה תיסגר ואחרי אישור שלך.`,
       bullets: [
-        `✓ הסכום מקוזז מהמחיר הסופי בסגירת הסבב`,
-        `✓ אם הסבב לא ייסגר — מוחזר במלואו תוך 7 ימים`,
-        `✓ ניתן לשדרג להגשת הזמנה רשמית בכל שלב`,
+        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
+        `✓ הקבוצה לא נסגרה? אין שום חיוב, שום הקפאה`,
+        `✓ הקבוצה נסגרה? תקבל הודעה לאישור החיוב — לפי בחירתך`,
       ],
     },
     committed: {
-      title: "הגשת הזמנה לסבב",
+      title: "הצטרפות עם נעילת מחיר",
       emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `פיקדון של 25% (₪${depositAmount.toLocaleString()}) על הזמנה רשמית. נועל את המחיר הנוכחי. היתרה תיגבה רק בסגירת הסבב.`,
+      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחויב כעת.`,
       bullets: [
-        `✓ נעילת מחיר — לא תשלם/י יותר גם אם המחיר עולה`,
-        `✓ אם המחיר בסבב יורד — תקבל/י את המחיר הנמוך יותר`,
-        `✓ אם הסבב לא ייסגר — הפיקדון משוחרר אוטומטית`,
+        `✓ נעילת מחיר — המחיר הנוכחי שמור עבורך`,
+        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
+        `✓ סגירת הקבוצה? נשלח הודעה, ותאשר את החיוב בלחיצה`,
       ],
     },
   };
@@ -9087,7 +9171,8 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
     if (!cardName.trim()) { setError("חובה למלא שם על הכרטיס"); return; }
     setSubmitting(true); setError("");
     try {
-      // 1) Server creates a PaymentIntent (manual capture) and returns clientSecret
+      // 1) Server creates a SetupIntent + Stripe Customer, returns clientSecret.
+      //    No charge — only card validation + save.
       const endpoint = tier === "committed"
         ? `/api/deals/${deal.id}/commit-deposit`
         : `/api/deals/${deal.id}/hold-spot`;
@@ -9097,24 +9182,40 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
         body: JSON.stringify({ amount: depositAmount, tier }),
       });
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בעיבוד התשלום");
-      // 2) Stripe.js confirms the card directly against Stripe (we never see the PAN).
-      //    In stub mode the helper short-circuits to { ok: true, stub: true }.
-      // Defensive: validate that Stripe Elements actually loaded AND that the
-      // server returned a usable client secret (or stub flag) before proceeding.
+      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בשמירת הכרטיס");
       if (!data.stub && !data.clientSecret) {
-        throw new Error("שרת התשלום לא החזיר מזהה תשלום — נסה שוב");
+        throw new Error("שרת התשלום לא החזיר מזהה — נסה שוב");
       }
       if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
-        throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
+        throw new Error("טופס הכרטיס לא נטען. רענן את הדף ונסה שוב.");
       }
-      const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub });
-      if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
-      setDone({ paymentIntentId: data.paymentIntentId, status: data.status });
-      // Reset submitting BEFORE the success-redirect so the modal isn't stuck
-      // disabled if the user closes it during the 1.2s animation.
+      // 2) Stripe.js confirms the SetupIntent — saves the card on the customer
+      //    without charging. Returns the PaymentMethod id.
+      const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub, mode: "setup" });
+      if (!confirm?.ok) throw new Error(confirm?.error || "שמירת הכרטיס נכשלה");
+      // 3) Tell the server which PaymentMethod was saved so it can charge
+      //    off-session later when the deal closes.
+      if (confirm.paymentMethodId && token) {
+        try {
+          await fetch(`/api/deals/${deal.id}/save-payment-method`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({
+              paymentMethodId: confirm.paymentMethodId,
+              cardLast4:       confirm.cardLast4 || "",
+              cardBrand:       confirm.cardBrand || "",
+            }),
+          });
+        } catch (_) {}
+      }
+      setDone({
+        setupIntentId:   data.setupIntentId,
+        status:          data.status,
+        paymentMethodId: confirm.paymentMethodId,
+        cardLast4:       confirm.cardLast4,
+      });
       setSubmitting(false);
-      setTimeout(() => onSuccess(tier, data), 1200);
+      setTimeout(() => onSuccess(tier, { ...data, ...confirm }), 1500);
     } catch (e) {
       setError(e.message); setSubmitting(false);
     }
@@ -9146,16 +9247,21 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
               <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Check className="w-7 h-7 text-emerald-600" />
               </div>
-              <p className="font-black text-gray-900 text-lg">הצטרפת בהצלחה!</p>
-              <p className="text-xs text-gray-500 mt-1">פיקדון ₪{depositAmount.toLocaleString()} הוקפא בכרטיס.</p>
+              <p className="font-black text-gray-900 text-lg">הכרטיס נשמר 🎉</p>
+              <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                {done.cardLast4
+                  ? `כרטיס שמסתיים ב-${done.cardLast4} נשמר לטובת חיוב עתידי בלבד.`
+                  : "אמצעי התשלום נשמר לטובת חיוב עתידי בלבד."}
+              </p>
+              <p className="text-[11px] text-gray-500 mt-1">לא חויבת — נשלח הודעה אם הקבוצה תיסגר וננחה אותך לאשר את החיוב.</p>
             </div>
           ) : (
             <>
-              {/* Deposit summary */}
-              <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                <p className="text-[10px] text-gray-500 font-bold tracking-wide uppercase">פיקדון לתשלום</p>
-                <p className="text-3xl font-black text-gray-900 mt-1">₪{depositAmount.toLocaleString()}</p>
-                <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">{info.explainer}</p>
+              {/* "Today you pay ₪0" — leading visual emphasis */}
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                <p className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">חיוב היום</p>
+                <p className="text-3xl font-black text-emerald-700 mt-1">₪0</p>
+                <p className="text-[11px] text-emerald-800 mt-2 leading-relaxed">{info.explainer}</p>
               </div>
 
               {/* Bullets */}
@@ -9177,9 +9283,9 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 
               <button onClick={handleSubmit} disabled={submitting}
                 className={`w-full py-3.5 bg-gradient-to-r ${info.gradient} text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50`}>
-                {submitting ? "מעבד..." : `🔒 הקפא ₪${depositAmount.toLocaleString()} בכרטיס`}
+                {submitting ? "שומר..." : `🔒 שמור אמצעי תשלום (אפס חיוב)`}
               </button>
-              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב כעת — רק יוקפא הסכום המוצג.</p>
+              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב היום — רק יוודא שהוא תקף. תקבל הודעה אחרי סגירת הקבוצה לאישור החיוב.</p>
             </>
           )}
         </div>
@@ -10659,8 +10765,8 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             }}
             className="group relative w-full py-4 sm:py-3.5 px-4 rounded-2xl overflow-hidden active:scale-[0.985] transition-transform"
             style={{
-              background: "linear-gradient(135deg, #4f46e5 0%, #6366f1 35%, #7c3aed 70%, #a855f7 100%)",
-              boxShadow: "0 10px 30px -8px rgba(79,70,229,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
+              background: "linear-gradient(135deg, #9333ea 0%, #a855f7 35%, #c026d3 70%, #a855f7 100%)",
+              boxShadow: "0 10px 30px -8px rgba(147,51,234,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
             }}
           >
             {/* Animated diagonal shimmer */}
@@ -10739,8 +10845,8 @@ function PriceRangeSlider({ min, max, valueMin, valueMax, onChange, onClose }) {
       {/* CSS for dual-thumb styling */}
       <style>{`
         .price-slider { position:absolute; inset:0; width:100%; height:100%; appearance:none; -webkit-appearance:none; background:transparent; pointer-events:none; }
-        .price-slider::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:#4f46e5; border:3px solid #fff; box-shadow:0 1px 6px rgba(79,70,229,0.4); cursor:pointer; pointer-events:all; }
-        .price-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#4f46e5; border:3px solid #fff; box-shadow:0 1px 6px rgba(79,70,229,0.4); cursor:pointer; pointer-events:all; }
+        .price-slider::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:50%; background:#9333ea; border:3px solid #fff; box-shadow:0 1px 6px rgba(147,51,234,0.4); cursor:pointer; pointer-events:all; }
+        .price-slider::-moz-range-thumb { width:22px; height:22px; border-radius:50%; background:#9333ea; border:3px solid #fff; box-shadow:0 1px 6px rgba(147,51,234,0.4); cursor:pointer; pointer-events:all; }
         .price-slider::-webkit-slider-runnable-track { height:6px; background:transparent; }
         .price-slider::-moz-range-track { height:6px; background:transparent; }
       `}</style>
@@ -15891,8 +15997,8 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
         style={{ background: "linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)" }}>
         {/* Decorative blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #7c3aed, transparent)" }} />
-          <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #4f46e5, transparent)" }} />
+          <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #c026d3, transparent)" }} />
+          <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-15" style={{ background: "radial-gradient(circle, #9333ea, transparent)" }} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-5" style={{ background: "radial-gradient(circle, #a78bfa, transparent)" }} />
         </div>
 
@@ -15914,7 +16020,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
             <div className="flex flex-wrap gap-4">
               <button type="button" onClick={onJoin}
                 className="group flex items-center gap-2.5 px-8 py-4 rounded-2xl font-black text-lg text-white transition-all"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 32px rgba(124,58,237,0.4)" }}>
+                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
                 <Building2 className="w-5 h-5" />
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
@@ -15972,7 +16078,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
               ))}
             </div>
             <div className="rounded-3xl border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-violet-50/50 p-6"
-              style={{ boxShadow: "0 8px 32px rgba(79,70,229,0.08)" }}>
+              style={{ boxShadow: "0 8px 32px rgba(147,51,234,0.08)" }}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-lg">🚀</div>
                 <h3 className="font-black text-indigo-700">Bundly</h3>
@@ -16036,7 +16142,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 disabled={demandLoading || (!demandSelectedProduct && !demandPropose)}
                 title={!demandSelectedProduct && !demandPropose ? "בחר מוצר מהרשימה" : ""}
                 className="px-5 py-3 rounded-2xl font-bold text-white text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                 {demandLoading ? <BundlySpinner size={18} /> : <><Search className="w-4 h-4" />{demandPropose ? "הצע מוצר" : "בדוק"}</>}
               </button>
             </div>
@@ -16091,7 +16197,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 </div>
                 <button type="button" onClick={onJoin}
                   className="mt-4 w-full py-3 rounded-2xl font-bold text-white text-sm transition"
-                  style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                   פתח קבוצה עבור {demandResult.query} ←
                 </button>
               </div>
@@ -16138,7 +16244,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                   <div className="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-white/10" style={{ right: "-50%" }} />
                 )}
                 <div className="relative inline-flex w-16 h-16 rounded-2xl items-center justify-center mb-5 font-black text-2xl text-white mx-auto"
-                  style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)" }}>
+                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
                   {s.num}
                 </div>
                 <h3 className="font-black text-white text-base mb-2">{s.title}</h3>
@@ -16149,7 +16255,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
           <div className="text-center mt-12">
             <button type="button" onClick={onJoin}
               className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl font-black text-lg text-white transition"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 32px rgba(124,58,237,0.4)" }}>
+              style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
               <Building2 className="w-5 h-5" />
               מתחילים עכשיו — חינם
             </button>
@@ -16256,7 +16362,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
           <div className="flex flex-wrap justify-center gap-4">
             <button type="button" onClick={onJoin}
               className="flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-xl text-white"
-              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", boxShadow: "0 8px 48px rgba(124,58,237,0.5)" }}>
+              style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 48px rgba(192,38,211,0.5)" }}>
               <Building2 className="w-6 h-6" />
               הצטרף עכשיו — חינם
             </button>
@@ -18223,7 +18329,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
 
       {variantsFor && (
         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-0 sm:p-4"
-          style={{ background: "radial-gradient(ellipse at top, rgba(99,102,241,0.35) 0%, rgba(0,0,0,0.7) 70%)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+          style={{ background: "radial-gradient(ellipse at top, rgba(168,85,247,0.35) 0%, rgba(0,0,0,0.7) 70%)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
           onClick={e => { if (e.target === e.currentTarget) setVariantsFor(null); }}>
           <style>{`
             @keyframes variantModalIn { from { opacity:0; transform: translateY(32px) scale(0.95); } to { opacity:1; transform: translateY(0) scale(1); } }
@@ -18237,7 +18343,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
           `}</style>
           <div className="variant-modal bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden max-h-[88vh] flex flex-col" dir="rtl">
             {/* Compact header */}
-            <div className="relative px-4 py-3 flex-shrink-0 overflow-hidden" style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #d946ef 100%)" }}>
+            <div className="relative px-4 py-3 flex-shrink-0 overflow-hidden" style={{ background: "linear-gradient(135deg, #a855f7 0%, #d946ef 60%, #d946ef 100%)" }}>
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none" />
               <div className="relative flex items-center justify-between gap-2">
                 <div className="flex-1 min-w-0">
@@ -18524,14 +18630,14 @@ function BundlyFab({ onOpen, showPulse }) {
           bottom: fabBottom,
           width: fabSize,
           height: fabSize,
-          background: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+          background: "linear-gradient(135deg, #9333ea, #c026d3)",
           border: "2px solid rgba(255,255,255,0.25)",
         }}
       >
         {showPulse && (
           <span
             className="absolute inset-0 rounded-full animate-ping opacity-30"
-            style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
+            style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}
           />
         )}
         <span
@@ -18863,7 +18969,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             @keyframes chatSheetUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
             @keyframes chatBackdrop { from { opacity: 0; } to { opacity: 1; } }
             @keyframes chatDots { 0%,80%,100%{transform:scale(0)} 40%{transform:scale(1)} }
-            @keyframes chatBtnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)} 50%{box-shadow:0 0 0 8px rgba(99,102,241,0)} }
+            @keyframes chatBtnPulse { 0%,100%{box-shadow:0 0 0 0 rgba(168,85,247,0.4)} 50%{box-shadow:0 0 0 8px rgba(168,85,247,0)} }
             .chat-results-btn { animation: chatBtnPulse 2s ease-out 3; }
             .chat-results-btn:hover { animation: none; }
           `}</style>
@@ -18874,7 +18980,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
           </div>
 
           {/* ── Header ── */}
-          <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+          <div className="flex items-center gap-3 px-4 py-3 flex-shrink-0" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
               <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
                 <text x="16" y="24" textAnchor="middle" fontSize="20" fontWeight="900" fill="white" fontFamily="Rubik,sans-serif">B</text>
@@ -18903,7 +19009,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
               <div key={i} className={`flex gap-2 px-3 ${msg.role === "user" ? "justify-start" : "justify-end"}`}>
                 {/* AI Avatar */}
                 {msg.role === "assistant" && (
-                  <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+                  <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
                     <span className="text-white text-xs font-black" style={{ fontFamily: "Rubik,sans-serif" }}>B</span>
                   </div>
                 )}
@@ -18946,7 +19052,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             {/* Typing indicator */}
             {loading && (
               <div className="flex gap-2 px-3 justify-end">
-                <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
+                <div className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5" style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)" }}>
                   <span className="text-white text-xs font-black" style={{ fontFamily: "Rubik,sans-serif" }}>B</span>
                 </div>
                 <div className="bg-gray-100 rounded-2xl rounded-tl-md px-4 py-3 flex items-center gap-1.5">
@@ -19009,7 +19115,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
               onClick={() => sendMessage()}
               disabled={!input.trim() || loading}
               className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all disabled:opacity-40"
-              style={{ background: input.trim() && !loading ? "linear-gradient(135deg, #4f46e5, #7c3aed)" : "#e5e7eb" }}
+              style={{ background: input.trim() && !loading ? "linear-gradient(135deg, #9333ea, #c026d3)" : "#e5e7eb" }}
             >
               <Send className="w-4 h-4 text-white" style={{ transform: "rotate(180deg)" }} />
             </button>
@@ -20522,8 +20628,19 @@ export default function App() {
 
       {mode === "home" && (
         <>
-          <HeroSection t={t} onDeals={()=>setMode("deals")} onPersonal={()=>setMode("personal")} onSearchResult={r=>{setSearchResult(r);setMode("deals");}} onWizard={(q,opts)=>{openCategory(q,opts);}} onCategoryBrowse={()=>setShowCategoryBrowse(true)} onMyProducts={goToMyProducts} savedCount={myProducts.length + wishlist.length} />
-          <main className="max-w-6xl mx-auto px-4 py-10 pb-24 md:pb-10">
+          <HeroSection
+            t={t}
+            onDeals={()=>setMode("deals")}
+            onPersonal={()=>setMode("personal")}
+            onSearchResult={r=>{setSearchResult(r);setMode("deals");}}
+            onWizard={(q,opts)=>{openCategory(q,opts);}}
+            onCategoryBrowse={()=>setShowCategoryBrowse(true)}
+            onMyProducts={goToMyProducts}
+            onOpenCategory={openCategory}
+            personalRequests={personalRequests}
+            savedCount={myProducts.length + wishlist.length}
+          />
+          <main className="max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-10">
             <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
               <button onClick={()=>{setCatFilter(null);setMode("deals");}} className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold bg-indigo-600 text-white">{t.allCategories}</button>
               {cats.map((c,i)=>(
@@ -20542,64 +20659,6 @@ export default function App() {
               onDealClick={openDeal}
               lang={lang}
             />
-
-            {/* ── BROAD CATEGORIES BY DEMAND — visual category grid ── */}
-            {(() => {
-              const broadCounts = {};
-              personalRequests.forEach(r => {
-                const broad = mapToBroadCategory(r.category);
-                if (broad) broadCounts[broad] = (broadCounts[broad] || 0) + 1;
-              });
-              const sorted = HOME_CATEGORIES
-                .map(hc => ({ ...hc, count: broadCounts[hc.name] || 0 }))
-                .sort((a, b) => b.count - a.count);
-              return (
-                <div className="mb-10">
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-md">
-                      <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h2 className="text-xl font-bold text-gray-900">קטגוריות מוצרים לפי ביקוש</h2>
-                      <p className="text-xs text-gray-500">בחר קטגוריה — ככל שיותר אנשים מצטרפים, המחיר יורד</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {sorted.map(({ name, query, count }) => {
-                      const visual = CATEGORY_VISUAL_MAP[name] || CATEGORY_VISUAL_MAP._default;
-                      return (
-                        <button
-                          key={name}
-                          onClick={() => openCategory(query)}
-                          className="group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] cursor-pointer aspect-[4/3]"
-                        >
-                          <img src={visual.image} alt={name}
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${visual.gradient} opacity-40 mix-blend-multiply`} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                          {count > 0 && (
-                            <div className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-sm">
-                              <Users className="w-3 h-3 text-indigo-600" />
-                              <span className="text-[11px] font-black text-indigo-700">{count}</span>
-                              <span className="text-[10px] text-gray-500 font-semibold">בקשות</span>
-                            </div>
-                          )}
-                          <div className="absolute bottom-0 left-0 right-0 p-3 text-right">
-                            <div className="flex items-center gap-2 justify-end">
-                              <p className="text-white font-black text-sm drop-shadow-lg leading-tight">{name}</p>
-                              <span className="text-lg drop-shadow-lg">{visual.icon}</span>
-                            </div>
-                            <p className="text-white/70 text-[10px] font-semibold mt-0.5">
-                              {count > 0 ? `${count} לקוחות מחפשים` : "לחץ לצפייה במוצרים"}
-                            </p>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })()}
 
             <h2 className="text-xl font-bold text-gray-900 mb-5">{t.activeGroups}</h2>
             {/* Mobile: 2 per row (4 felt cramped for product cards with images +
@@ -20700,7 +20759,7 @@ export default function App() {
               onClick={() => setShowCategoryBrowse(true)}
               className="group relative mt-3 w-full overflow-hidden rounded-2xl active:scale-[0.985] transition-transform"
               style={{
-                background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)",
+                background: "linear-gradient(135deg, #a855f7 0%, #d946ef 50%, #ec4899 100%)",
                 boxShadow: "0 12px 28px -8px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.2)",
               }}
             >

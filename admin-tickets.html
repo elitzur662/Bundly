@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bundly — ניהול תיקי תמיכה</title>
+<style>
+  :root {
+    --bg: #0f0716; --panel: #1a0f24; --border: #2a1d3d;
+    --text: #f3e8ff; --muted: #b8a8d0;
+    --accent: #a855f7; --accent-dark: #7e22ce;
+    --ok: #10b981; --warn: #f59e0b; --bad: #ef4444; --info: #3b82f6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Rubik", Segoe UI, sans-serif;
+    background: linear-gradient(160deg, #0f0716 0%, #1a0f24 100%); color: var(--text); min-height: 100vh; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 20px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .stat-num { font-size: 24px; font-weight: 900; color: var(--accent); }
+  .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filters select, .filters button { background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 10px; font-size: 13px; cursor: pointer; }
+  .filters button.active { background: var(--accent); border-color: var(--accent); }
+  .layout { display: grid; grid-template-columns: 380px 1fr; gap: 16px; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .list { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 6px; max-height: 75vh; overflow-y: auto; }
+  .item { padding: 12px; border-radius: 10px; cursor: pointer; border: 1px solid transparent; margin-bottom: 4px; }
+  .item:hover { background: rgba(168, 85, 247, 0.1); }
+  .item.selected { background: rgba(168, 85, 247, 0.15); border-color: var(--accent); }
+  .item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 4px; }
+  .pill { font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 800; }
+  .pill.open { background: #1e3a5f; color: #93c5fd; }
+  .pill.in_progress { background: #4a2f0f; color: #fbbf24; }
+  .pill.awaiting_user { background: #3a1e5f; color: #c4b5fd; }
+  .pill.resolved { background: #064e3b; color: #6ee7b7; }
+  .pill.rejected { background: #3f1a1a; color: #fca5a5; }
+  .pill.urgent { background: #5f0c0c; color: #fda4af; }
+  .pill.high   { background: #5f3a0c; color: #fcd34d; }
+  .pill.normal { background: #1e3a5f; color: #93c5fd; }
+  .pill.low    { background: #2a2a2a; color: #aaa; }
+  .pill.sla-breach { background: #5f0c0c; color: #fff; font-weight: 900; }
+  .subject { font-weight: 700; font-size: 14px; }
+  .meta { font-size: 11px; color: var(--muted); }
+  .detail { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; max-height: 75vh; overflow-y: auto; }
+  .messages { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 10px; max-height: 350px; overflow-y: auto; margin-bottom: 12px; }
+  .msg { padding: 10px; border-radius: 10px; margin-bottom: 6px; font-size: 13px; }
+  .msg.user { background: rgba(255,255,255,0.06); }
+  .msg.admin { background: rgba(168,85,247,0.18); border: 1px solid var(--accent); }
+  .msg.system { background: rgba(245,158,11,0.1); font-style: italic; }
+  .msg-meta { font-size: 10px; color: var(--muted); margin-bottom: 4px; }
+  .reply textarea { width: 100%; background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px; min-height: 80px; font-family: inherit; font-size: 13px; }
+  .canned-select { width: 100%; background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 10px; padding: 8px; font-size: 12px; margin-bottom: 6px; }
+  .actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .btn { background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 10px;
+    font-weight: 800; font-size: 13px; cursor: pointer; }
+  .btn:hover { background: var(--accent-dark); }
+  .btn.ok { background: var(--ok); } .btn.bad { background: var(--bad); }
+  .btn.ghost { background: transparent; border: 1px solid var(--border); }
+  .canned-row { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .login { max-width: 400px; margin: 100px auto; background: var(--panel); padding: 30px; border-radius: 16px; }
+  .login input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; }
+  .csat-bar { display: inline-block; width: 60px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+  .csat-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); }
+  .tab-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tab { padding: 8px 14px; border-radius: 10px; background: var(--panel); border: 1px solid var(--border); cursor: pointer; font-size: 13px; font-weight: 700; }
+  .tab.active { background: var(--accent); border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div id="loginView" class="login" style="display:none">
+  <h1>Bundly — תמיכה</h1>
+  <p class="sub">סיסמת אדמין:</p>
+  <input id="pwd" type="password" autofocus />
+  <button class="btn" onclick="doLogin()">כניסה</button>
+  <p id="loginErr" style="color: var(--bad); font-size: 12px; margin-top: 8px; display:none">סיסמה שגויה</p>
+</div>
+<div id="mainView" class="wrap" style="display:none">
+  <h1>תיקי תמיכה</h1>
+  <p class="sub">ניהול תיקים, מענה אנושי, מדיניות תמיכה.</p>
+
+  <div class="tab-row">
+    <div class="tab active" onclick="setTab('tickets')">תיקים</div>
+    <div class="tab" onclick="setTab('canned')">תבניות תגובה</div>
+    <div class="tab" onclick="setTab('stats')">דוחות</div>
+  </div>
+
+  <div id="ticketsTab">
+    <div class="stats" id="stats"></div>
+    <div class="filters">
+      <select id="filterStatus" onchange="loadTickets()">
+        <option value="">כל הסטטוסים</option>
+        <option value="open">פתוח</option>
+        <option value="in_progress">בטיפול</option>
+        <option value="awaiting_user">ממתין ללקוח</option>
+        <option value="resolved">נפתר</option>
+        <option value="rejected">נדחה</option>
+      </select>
+      <select id="filterPriority" onchange="loadTickets()">
+        <option value="">כל העדיפויות</option>
+        <option value="urgent">דחוף מאוד</option>
+        <option value="high">חשוב</option>
+        <option value="normal">רגיל</option>
+        <option value="low">לא דחוף</option>
+      </select>
+      <select id="filterType" onchange="loadTickets()">
+        <option value="">כל הסוגים</option>
+        <option value="general_support">תמיכה כללית</option>
+        <option value="order_dispute">בעיית הזמנה</option>
+        <option value="complaint">תלונה</option>
+        <option value="feature_request">בקשת פיצ׳ר</option>
+      </select>
+      <button class="ghost" onclick="loadTickets()">רענן</button>
+    </div>
+    <div class="layout">
+      <div class="list" id="list"></div>
+      <div class="detail" id="detail">בחר תיק מהרשימה</div>
+    </div>
+  </div>
+
+  <div id="cannedTab" style="display:none">
+    <h2 style="font-size:18px;margin:0 0 12px">תבניות תגובה</h2>
+    <div style="background: var(--panel); border:1px solid var(--border); border-radius:14px; padding:16px">
+      <div style="display:flex; gap:8px; margin-bottom:12px">
+        <input id="cannedTitle" placeholder="כותרת" style="flex:1; padding:8px; background:rgba(255,255,255,0.05); color:var(--text); border:1px solid var(--border); border-radius:10px"/>
+        <select id="cannedCategory" style="padding:8px; background:rgba(255,255,255,0.05); color:var(--text); border:1px solid var(--border); border-radius:10px">
+          <option value="general">כללי</option><option value="delivery">משלוח</option><option value="billing">תשלום</option><option value="product">מוצר</option><option value="account">חשבון</option>
+        </select>
+      </div>
+      <textarea id="cannedBody" placeholder="גוף ההודעה (תוכל להשתמש בה כתגובה מהירה)" rows="4" style="width:100%; padding:8px; background:rgba(255,255,255,0.05); color:var(--text); border:1px solid var(--border); border-radius:10px; resize:none; margin-bottom:8px"></textarea>
+      <button class="btn" onclick="createCanned()">צור תבנית</button>
+    </div>
+    <div id="cannedList" style="margin-top:16px"></div>
+  </div>
+
+  <div id="statsTab" style="display:none">
+    <div id="statsDetail"></div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PWD_KEY = "bundly_admin_pwd";
+let adminPwd = sessionStorage.getItem(ADMIN_PWD_KEY) || "";
+let allTickets = [];
+let selectedTicket = null;
+let cannedResponses = [];
+const PRIORITY_LBL = { urgent: "דחוף מאוד", high: "חשוב", normal: "רגיל", low: "לא דחוף" };
+const STATUS_LBL   = { open: "פתוח", in_progress: "בטיפול", awaiting_user: "ממתין ללקוח", resolved: "נפתר", rejected: "נדחה" };
+const TYPE_LBL     = { general_support: "תמיכה", order_dispute: "הזמנה", complaint: "תלונה", feature_request: "פיצ׳ר" };
+
+function api(path, opts = {}) {
+  opts.headers = { "Content-Type": "application/json", "x-admin-password": adminPwd, ...(opts.headers || {}) };
+  return fetch(path, opts);
+}
+
+async function doLogin() {
+  adminPwd = document.getElementById("pwd").value;
+  const r = await api("/api/admin/tickets/stats");
+  if (r.ok) {
+    sessionStorage.setItem(ADMIN_PWD_KEY, adminPwd);
+    document.getElementById("loginView").style.display = "none";
+    document.getElementById("mainView").style.display = "block";
+    loadStats(); loadTickets(); loadCanned();
+  } else {
+    document.getElementById("loginErr").style.display = "block";
+  }
+}
+
+async function ensureLogin() {
+  if (!adminPwd) { document.getElementById("loginView").style.display = "block"; return false; }
+  const r = await api("/api/admin/tickets/stats");
+  if (!r.ok) { adminPwd = ""; sessionStorage.removeItem(ADMIN_PWD_KEY); document.getElementById("loginView").style.display = "block"; return false; }
+  document.getElementById("mainView").style.display = "block";
+  return true;
+}
+
+async function loadStats() {
+  const r = await api("/api/admin/tickets/stats");
+  if (!r.ok) return;
+  const { stats } = await r.json();
+  document.getElementById("stats").innerHTML = `
+    <div class="stat"><div class="stat-num">${stats.total}</div><div class="stat-lbl">סה"כ תיקים</div></div>
+    <div class="stat"><div class="stat-num">${stats.open}</div><div class="stat-lbl">פתוחים</div></div>
+    <div class="stat"><div class="stat-num" style="color:${stats.slaBreaches>0?'#ef4444':'#10b981'}">${stats.slaBreaches}</div><div class="stat-lbl">חריגה מ-SLA</div></div>
+    <div class="stat"><div class="stat-num">${stats.medianFirstResponseHours != null ? stats.medianFirstResponseHours + 'ש' : '—'}</div><div class="stat-lbl">חציון תגובה</div></div>
+    <div class="stat"><div class="stat-num">${stats.csatAvg != null ? '⭐' + stats.csatAvg : '—'}</div><div class="stat-lbl">CSAT (${stats.csatCount})</div></div>
+  `;
+}
+
+async function loadTickets() {
+  const qs = new URLSearchParams();
+  const st = document.getElementById("filterStatus").value;
+  const pr = document.getElementById("filterPriority").value;
+  const ty = document.getElementById("filterType").value;
+  if (st) qs.set("status", st); if (pr) qs.set("priority", pr); if (ty) qs.set("type", ty);
+  const r = await api("/api/admin/tickets?" + qs.toString());
+  const data = await r.json();
+  allTickets = data.tickets || [];
+  renderList();
+  loadStats();
+}
+
+function renderList() {
+  const now = Date.now();
+  const html = allTickets.map(t => {
+    const isBreach = !t.firstAdminReplyAt && t.slaTargetAt && new Date(t.slaTargetAt).getTime() < now && t.status !== "resolved" && t.status !== "rejected";
+    const cls = (selectedTicket?.id === t.id) ? "selected" : "";
+    return `
+      <div class="item ${cls}" onclick='selectTicket(${t.id})'>
+        <div class="item-row">
+          <span class="pill ${t.status||'open'}">${STATUS_LBL[t.status]||t.status}</span>
+          <span class="pill ${t.priority||'normal'}">${PRIORITY_LBL[t.priority]||t.priority}</span>
+          ${isBreach ? '<span class="pill sla-breach">SLA!</span>' : ''}
+        </div>
+        <div class="subject">${escapeHtml(t.subject || ('#' + t.id + ' — ' + (t.reason||'')))}</div>
+        <div class="meta">#${t.id} · ${TYPE_LBL[t.type]||t.type||'—'} · ${(t.messages||[]).length} הודעות · ${new Date(t.createdAt).toLocaleDateString('he-IL')}</div>
+      </div>`;
+  }).join("");
+  document.getElementById("list").innerHTML = html || '<p style="text-align:center;color:var(--muted);padding:30px">אין תיקים</p>';
+}
+
+function selectTicket(id) {
+  selectedTicket = allTickets.find(t => t.id === id);
+  renderList();
+  renderDetail();
+}
+
+function renderDetail() {
+  const t = selectedTicket;
+  if (!t) { document.getElementById("detail").innerHTML = "בחר תיק"; return; }
+  const messages = (t.messages || []).map(m => `
+    <div class="msg ${m.role}">
+      <div class="msg-meta">${m.role === 'admin' ? '👤 תמיכה' : m.role === 'system' ? '⚙️ מערכת' : '🧑 לקוח'} · ${new Date(m.ts).toLocaleString('he-IL')}${m.isCanned?' · תבנית':''}</div>
+      <div>${escapeHtml(m.text).replace(/\n/g, '<br/>')}</div>
+    </div>`).join("");
+  const cannedOpts = cannedResponses.map(c => `<option value="${c.id}">${escapeHtml(c.title)}</option>`).join("");
+  document.getElementById("detail").innerHTML = `
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+      <span class="pill ${t.status||'open'}">${STATUS_LBL[t.status]||t.status}</span>
+      <span class="pill ${t.priority||'normal'}">${PRIORITY_LBL[t.priority]||t.priority}</span>
+      <span style="font-size:11px;color:var(--muted)">#${t.id} · ${TYPE_LBL[t.type]||t.type||'—'}</span>
+    </div>
+    <h2 style="font-size:18px;margin:0 0 4px">${escapeHtml(t.subject || t.reason || '#' + t.id)}</h2>
+    <p style="font-size:12px;color:var(--muted);margin:0 0 12px">
+      ${t.contactEmail ? '📧 ' + escapeHtml(t.contactEmail) : ''}
+      ${t.contactPhone ? ' · 📱 ' + escapeHtml(t.contactPhone) : ''}
+      ${t.userId ? ' · userId=' + t.userId : ''}
+      ${t.orderId ? ' · orderId=' + t.orderId : ''}
+    </p>
+    <div class="messages">${messages || '<p style="color:var(--muted);text-align:center;padding:20px">אין הודעות</p>'}</div>
+    <div class="reply">
+      <select class="canned-select" id="cannedPicker" onchange="useCanned(this.value)">
+        <option value="">— בחר תבנית תגובה (אופציונלי) —</option>
+        ${cannedOpts}
+      </select>
+      <textarea id="replyText" placeholder="כתוב תגובה ללקוח..."></textarea>
+      <div class="actions">
+        <button class="btn" onclick="reply()">שלח תגובה</button>
+        <select id="updateStatus" style="padding:8px;background:rgba(255,255,255,0.05);color:var(--text);border:1px solid var(--border);border-radius:10px">
+          <option value="">שנה סטטוס...</option>
+          <option value="in_progress">בטיפול</option>
+          <option value="awaiting_user">ממתין ללקוח</option>
+          <option value="resolved">נפתר</option>
+          <option value="rejected">נדחה</option>
+        </select>
+        <select id="updatePriority" style="padding:8px;background:rgba(255,255,255,0.05);color:var(--text);border:1px solid var(--border);border-radius:10px">
+          <option value="">שנה עדיפות...</option>
+          <option value="urgent">דחוף מאוד</option><option value="high">חשוב</option><option value="normal">רגיל</option><option value="low">לא דחוף</option>
+        </select>
+        <button class="ghost" onclick="updateTicket()">עדכן</button>
+      </div>
+      ${t.csat ? `<div style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px"><strong>CSAT:</strong> ⭐ ${t.csat.rating}/5 ${t.csat.comment ? '— ' + escapeHtml(t.csat.comment) : ''}</div>` : ''}
+    </div>
+  `;
+}
+
+function useCanned(id) {
+  if (!id) return;
+  const c = cannedResponses.find(x => x.id === Number(id));
+  if (c) document.getElementById("replyText").value = c.body;
+}
+
+async function reply() {
+  const text = document.getElementById("replyText").value;
+  const cannedId = document.getElementById("cannedPicker").value;
+  if (!text && !cannedId) { alert("כתוב תגובה או בחר תבנית"); return; }
+  const r = await api(`/api/admin/tickets/${selectedTicket.id}/reply`, { method: "POST", body: JSON.stringify({ text, cannedId: cannedId ? Number(cannedId) : null }) });
+  if (r.ok) {
+    const data = await r.json();
+    selectedTicket = data.ticket;
+    // refresh allTickets
+    const idx = allTickets.findIndex(x => x.id === selectedTicket.id);
+    if (idx >= 0) allTickets[idx] = selectedTicket;
+    renderDetail(); renderList();
+  } else alert("שגיאה בשליחת תגובה");
+}
+
+async function updateTicket() {
+  const status = document.getElementById("updateStatus").value;
+  const priority = document.getElementById("updatePriority").value;
+  if (!status && !priority) { alert("בחר שינוי"); return; }
+  const body = {};
+  if (status) body.status = status;
+  if (priority) body.priority = priority;
+  const r = await api(`/api/admin/tickets/${selectedTicket.id}`, { method: "PATCH", body: JSON.stringify(body) });
+  if (r.ok) { loadTickets(); }
+}
+
+async function loadCanned() {
+  const r = await api("/api/admin/canned-responses");
+  if (!r.ok) return;
+  const data = await r.json();
+  cannedResponses = data.items || [];
+  document.getElementById("cannedList").innerHTML = cannedResponses.map(c => `
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <strong>${escapeHtml(c.title)}</strong>
+        <button class="ghost" onclick="deleteCanned(${c.id})" style="padding:4px 10px;font-size:11px">מחק</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">קטגוריה: ${c.category}</div>
+      <div style="font-size:13px;white-space:pre-line">${escapeHtml(c.body)}</div>
+    </div>`).join("") || '<p style="color:var(--muted)">אין תבניות עדיין</p>';
+}
+
+async function createCanned() {
+  const title = document.getElementById("cannedTitle").value;
+  const body = document.getElementById("cannedBody").value;
+  const category = document.getElementById("cannedCategory").value;
+  if (!title || !body) { alert("חובה למלא כותרת וגוף"); return; }
+  const r = await api("/api/admin/canned-responses", { method: "POST", body: JSON.stringify({ title, body, category }) });
+  if (r.ok) {
+    document.getElementById("cannedTitle").value = "";
+    document.getElementById("cannedBody").value = "";
+    loadCanned();
+  }
+}
+
+async function deleteCanned(id) {
+  if (!confirm("למחוק את התבנית?")) return;
+  const r = await api(`/api/admin/canned-responses/${id}`, { method: "DELETE" });
+  if (r.ok) loadCanned();
+}
+
+function setTab(name) {
+  document.querySelectorAll(".tab").forEach((t, i) => t.classList.toggle("active", i === ["tickets","canned","stats"].indexOf(name)));
+  document.getElementById("ticketsTab").style.display = name === "tickets" ? "block" : "none";
+  document.getElementById("cannedTab").style.display = name === "canned" ? "block" : "none";
+  document.getElementById("statsTab").style.display = name === "stats" ? "block" : "none";
+  if (name === "stats") renderStatsTab();
+}
+
+async function renderStatsTab() {
+  const r = await api("/api/admin/tickets/stats");
+  if (!r.ok) return;
+  const { stats } = await r.json();
+  const lines = [
+    `<h2 style="font-size:18px;margin:0 0 16px">דוחות תמיכה</h2>`,
+    `<div class="stats">`,
+    `  <div class="stat"><div class="stat-num">${stats.total}</div><div class="stat-lbl">סה"כ תיקים אי-פעם</div></div>`,
+    `  <div class="stat"><div class="stat-num">${stats.open}</div><div class="stat-lbl">פתוחים כעת</div></div>`,
+    `  <div class="stat"><div class="stat-num" style="color:${stats.slaBreaches>0?'#ef4444':'#10b981'}">${stats.slaBreaches}</div><div class="stat-lbl">חריגות SLA</div></div>`,
+    `  <div class="stat"><div class="stat-num">${stats.medianFirstResponseHours != null ? stats.medianFirstResponseHours + 'ש' : '—'}</div><div class="stat-lbl">חציון זמן תגובה ראשון (90 ימים)</div></div>`,
+    `  <div class="stat"><div class="stat-num">${stats.csatAvg != null ? '⭐ ' + stats.csatAvg + ' /5' : '—'}</div><div class="stat-lbl">CSAT ממוצע (${stats.csatCount} דירוגים)</div></div>`,
+    `</div>`,
+    `<h3 style="font-size:14px;margin:20px 0 8px">לפי סטטוס</h3>`,
+    `<div>${Object.entries(stats.byStatus).map(([k, v]) => `<span class="pill ${k}" style="margin:2px">${STATUS_LBL[k]||k}: ${v}</span>`).join("")}</div>`,
+    `<h3 style="font-size:14px;margin:20px 0 8px">לפי עדיפות</h3>`,
+    `<div>${Object.entries(stats.byPriority).map(([k, v]) => `<span class="pill ${k}" style="margin:2px">${PRIORITY_LBL[k]||k}: ${v}</span>`).join("")}</div>`,
+    `<h3 style="font-size:14px;margin:20px 0 8px">לפי סוג</h3>`,
+    `<div>${Object.entries(stats.byType).map(([k, v]) => `<span style="display:inline-block;margin:2px;padding:4px 10px;background:rgba(255,255,255,0.05);border-radius:8px;font-size:12px">${TYPE_LBL[k]||k}: ${v}</span>`).join("")}</div>`,
+  ];
+  document.getElementById("statsDetail").innerHTML = lines.join("");
+}
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+document.getElementById("pwd")?.addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+ensureLogin().then(ok => { if (ok) { loadStats(); loadTickets(); loadCanned(); } });
+</script>
+</body></html>

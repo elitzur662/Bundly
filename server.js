@@ -9590,6 +9590,11 @@ app.get("/admin/activity", (_req, res) => {
   res.sendFile(join(__dirname_here, "admin-activity.html"));
 });
 
+// Support-tickets admin dashboard (separate HTML, no React build needed).
+app.get("/admin/tickets", (_req, res) => {
+  res.sendFile(join(__dirname_here, "admin-tickets.html"));
+});
+
 // ── Admin activity feed ─────────────────────────────────────────
 // GET /api/admin/activity?limit=100&type=customer_register&since=<ts>
 // Returns the most recent platform events for the admin dashboard.
@@ -10762,67 +10767,104 @@ app.post("/api/users/:userId/recommendations", requireUserMatchOrAnon, express.j
   res.json({ profile: heuristic, recommendations: scored.slice(0, limit), source: "personalized" });
 });
 
-// POST /api/deals/:id/hold-spot — flat ₪25 deposit, refundable
+// ── Card-on-file flow: NEW deposit-without-charge ─────────────
+// Old hold-spot/commit-deposit endpoints have been re-pointed at Stripe
+// SetupIntent. Behaviour change:
+//   • NO MONEY MOVES at this step. The card is validated + saved.
+//   • The user's tier (watching / committed) is still tracked on
+//     joinedDeals so analytics, sort order, and deal-close grouping
+//     stay the same.
+//   • Frontend calls stripe.confirmCardSetup(clientSecret) instead of
+//     confirmCardPayment, and reads `setupIntentId` from the response.
+//   • When the deal closes, /api/deals/:id/charge-confirmed (below)
+//     charges every confirmed joiner's saved card off-session.
+async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
+  // Locate user for the Stripe Customer record
+  let user = null;
+  try { user = userId ? _prodDb.load().users.find(u => u.id === userId) : null; } catch {}
+
+  const cust = await _paySvc.findOrCreateCustomer({
+    userId: userId || `guest-${Date.now()}`,
+    email:  user?.email || "",
+    name:   user?.name  || "",
+  });
+  if (!cust.ok) return res.status(500).json({ error: cust.error || "Could not create customer" });
+
+  const setup = await _paySvc.createSetupIntent({
+    customerId:  cust.customerId,
+    userId,
+    dealId,
+    description: `Bundly ${tier} deposit (deal ${dealId}) — card saved for off-session charge on close`,
+  });
+  if (!setup.ok) return res.status(500).json({ error: setup.error || "SetupIntent failed" });
+
+  // Persist a transaction record so we have a paper trail; status:"saved" reflects
+  // "card on file, no charge yet". When the deal closes we'll write a follow-up
+  // transaction of type:"charge" linked back via paymentIntentId.
+  _prodDb.createTransaction({
+    orderId:    null,
+    userId,
+    supplierId: null,
+    amount:     0,                       // nothing was charged
+    type:       tier === "committed" ? "commit_setup" : "hold_setup",
+    status:     "saved",
+    paymentIntentId: setup.setupIntentId,
+    notes:      `Saved card for ${tier} on deal ${dealId}. Reserved price ₪${amount}. Will charge off-session after deal closes + user confirmation.`,
+  });
+
+  // Stash the customer id on the join record so the close-time job knows
+  // which Stripe customer to charge. paymentMethodId fills in after the
+  // frontend confirms the SetupIntent and tells us the resulting PM id.
+  try {
+    if (userId) {
+      _prodDb.upsertJoinedDeal({ userId, dealId, tier });
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        stripeCustomerId: cust.customerId,
+        reservedAmount:   Number(amount) || 0,
+        setupIntentId:    setup.setupIntentId,
+      });
+    }
+  } catch (_) {}
+
+  // Admin alert
+  try {
+    logActivity(tier === "committed" ? "deal_commit" : "deal_join", {
+      deal_id:  dealId,
+      tier:     tier === "committed" ? "committed (כרטיס נשמר)" : "watching (כרטיס נשמר)",
+      amount:   `הוקפא: לא — שמירת כרטיס בלבד (יעד ₪${amount})`,
+      customer: user?.name || `user#${userId}`,
+      phone:    user?.phone || "",
+    });
+  } catch (_) {}
+
+  res.json({
+    ok: true,
+    tier,
+    setupIntentId: setup.setupIntentId,    // frontend uses confirmCardSetup with this
+    clientSecret:  setup.clientSecret,
+    customerId:    cust.customerId,
+    stub:          !!setup.stub,
+    status:        setup.status,
+    amount,                                 // reservation amount (for display only)
+    cardSaved:     true,
+    willChargeOnClose: true,
+    message:       "הכרטיס יישמר ויחויב רק אם הקבוצה תיסגר, ורק אחרי אישור שלך",
+  });
+}
+
+// POST /api/deals/:id/hold-spot — was: ₪25 hold. Now: save card for free.
 app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
-  // Optional auth — guests can hold a spot too (we just won't link to a user)
   let userId = null;
   const tok = req.headers.authorization?.replace("Bearer ", "");
   if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
-  // Race-condition defense: reject parallel duplicate requests for the same
-  // user+deal. Without this lock, 100 simultaneous calls would create 100
-  // separate ₪25 holds. Attacker would burn the user's card; no real harm
-  // but creates accounting chaos and Stripe rate-limit issues.
   const lockKey = `hold:${dealId}:${userId || req.ip}`;
-  if (_depositInFlight.has(lockKey)) {
-    return res.status(409).json({ error: "Request already in progress" });
-  }
+  if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
   _depositInFlight.add(lockKey);
   try {
     const amount = Number(req.body?.amount || 25);
-    if (amount < 1 || amount > 1000) return res.status(400).json({ error: "Invalid deposit amount" });
-
-    const payment = await _paySvc.createPaymentIntent({
-      amount,
-      orderId: `hold-${dealId}-${Date.now()}`,
-      userId: userId || "guest",
-      description: `Bundly hold-spot deposit (deal ${dealId})`,
-      captureMethod: "manual",
-    });
-    if (!payment.ok) return res.status(500).json({ error: payment.error || "Payment failed" });
-
-    _prodDb.createTransaction({
-      orderId: null,
-      userId,
-      supplierId: null,
-      amount,
-      type: "hold_spot",
-      status: "held",
-      paymentIntentId: payment.paymentIntentId,
-      notes: `Hold-spot deposit ₪${amount} for deal ${dealId} — refunded if group fails, applied to final price otherwise`,
-    });
-
-    // Admin alert — customer just made a pre-registration deposit
-    try {
-      const user = _prodDb.load().users.find(u => u.id === userId);
-      logActivity("deal_join", {
-        deal_id:  dealId,
-        tier:     "watching (רישום מקדים)",
-        amount:   `₪${amount}`,
-        customer: user?.name || `user#${userId}`,
-        phone:    user?.phone || "",
-      });
-    } catch (_) {}
-
-    res.json({
-      ok: true,
-      tier: "watching",
-      paymentIntentId: payment.paymentIntentId,
-      clientSecret:    payment.clientSecret,
-      stub:            !!payment.stub,
-      status:          payment.status,
-      amount,
-    });
+    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid reservation amount" });
+    await _saveCardForDealJoin({ res, dealId, userId, tier: "watching", amount });
   } catch (e) {
     console.error("[hold-spot] error:", e.message);
     res.status(500).json({ error: e.message });
@@ -10831,69 +10873,115 @@ app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
   }
 } : notReady);
 
-// POST /api/deals/:id/commit-deposit — 25% of group price, locks in price
+// POST /api/deals/:id/commit-deposit — was: 25% hold. Now: save card for free.
 app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
   let userId = null;
   const tok = req.headers.authorization?.replace("Bearer ", "");
   if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
   if (!userId) return res.status(401).json({ error: "Auth required for commit-deposit" });
-  // Race-condition defense — see hold-spot above
   const lockKey = `commit:${dealId}:${userId}`;
-  if (_depositInFlight.has(lockKey)) {
-    return res.status(409).json({ error: "Request already in progress" });
-  }
+  if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
   _depositInFlight.add(lockKey);
   try {
     const amount = Number(req.body?.amount || 0);
-    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid deposit amount" });
-
-    const payment = await _paySvc.createPaymentIntent({
-      amount,
-      orderId: `commit-${dealId}-${Date.now()}`,
-      userId,
-      description: `Bundly 25% commit deposit (deal ${dealId})`,
-      captureMethod: "manual",
-    });
-    if (!payment.ok) return res.status(500).json({ error: payment.error || "Payment failed" });
-
-    _prodDb.createTransaction({
-      orderId: null,
-      userId,
-      supplierId: null,
-      amount,
-      type: "commit_deposit",
-      status: "held",
-      paymentIntentId: payment.paymentIntentId,
-      notes: `25% commit deposit ₪${amount} for deal ${dealId} — locks in group price. Captured on group close, released on group failure.`,
-    });
-
-    // Admin alert — customer just committed to a deal with a real deposit
-    try {
-      const user = _prodDb.load().users.find(u => u.id === userId);
-      logActivity("deal_commit", {
-        deal_id:  dealId,
-        amount:   `₪${amount}`,
-        customer: user?.name || `user#${userId}`,
-        phone:    user?.phone || "",
-      });
-    } catch (_) {}
-
-    res.json({
-      ok: true,
-      tier: "committed",
-      paymentIntentId: payment.paymentIntentId,
-      clientSecret:    payment.clientSecret,
-      stub:            !!payment.stub,
-      status:          payment.status,
-      amount,
-      lockedUntil: new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString(),
-    });
+    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid reservation amount" });
+    await _saveCardForDealJoin({ res, dealId, userId, tier: "committed", amount });
   } catch (e) {
     console.error("[commit-deposit] error:", e.message);
     res.status(500).json({ error: e.message });
   } finally {
     _depositInFlight.delete(lockKey);
+  }
+} : notReady);
+
+// POST /api/deals/:id/save-payment-method
+// Called by the frontend AFTER stripe.confirmCardSetup succeeds, so the
+// server can record the resulting PaymentMethod id on the join record.
+app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const dealId = req.params.id;
+    const { paymentMethodId, cardLast4, cardBrand } = req.body || {};
+    if (!paymentMethodId) return res.status(400).json({ error: "paymentMethodId required" });
+    _prodDb.updateJoinedDealPayment?.(req.user.id, dealId, {
+      paymentMethodId,
+      cardLast4: String(cardLast4 || "").slice(0, 4),
+      cardBrand: String(cardBrand || "").slice(0, 30),
+      savedAt:   new Date().toISOString(),
+    });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/deals/:id/charge-confirmed
+// User opens the deal (or a confirm link from the close-notification email)
+// and approves the charge. We then run off-session charge against the
+// PaymentMethod we stored on the join record.
+app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (req, res) => {
+  try {
+    const dealId = req.params.id;
+    const userId = req.user.id;
+    const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
+    if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
+    if (!join.paymentMethodId || !join.stripeCustomerId) {
+      return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
+    }
+    if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+
+    const amount = Number(req.body?.amount || join.reservedAmount || 0);
+    if (amount < 1) return res.status(400).json({ error: "Invalid charge amount" });
+
+    const charge = await _paySvc.chargeOffSession({
+      customerId:      join.stripeCustomerId,
+      paymentMethodId: join.paymentMethodId,
+      amount,
+      currency:        "ils",
+      orderId:         `deal-${dealId}-${userId}-${Date.now()}`,
+      userId,
+      description:     `Bundly deal ${dealId} — confirmed by customer`,
+    });
+
+    // Always write a transaction row, success or fail, so we have a clear audit log
+    const tx = _prodDb.createTransaction({
+      orderId:    null,
+      userId,
+      supplierId: null,
+      amount,
+      type:       "deal_close_charge",
+      status:     charge.ok ? (charge.status === "succeeded" ? "succeeded" : charge.status) : "failed",
+      paymentIntentId: charge.paymentIntentId || null,
+      notes:      charge.ok
+        ? `Off-session charge ₪${amount} for deal ${dealId} after customer confirmation`
+        : `Off-session charge FAILED for deal ${dealId}: ${charge.error} (code=${charge.code || "n/a"})`,
+    });
+
+    if (!charge.ok) return res.status(402).json({ error: charge.error, code: charge.code });
+
+    _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+      chargedAt:       new Date().toISOString(),
+      lastChargeTxId:  tx?.id || null,
+      lastPaymentIntentId: charge.paymentIntentId,
+      chargeStatus:    charge.status,
+    });
+
+    try {
+      logActivity("deal_charge_confirmed", {
+        deal_id: dealId, user_id: userId, amount: `₪${amount}`,
+        pm: join.paymentMethodId, status: charge.status,
+      });
+    } catch (_) {}
+
+    res.json({
+      ok: true,
+      paymentIntentId: charge.paymentIntentId,
+      status:          charge.status,
+      requiresAction:  !!charge.requiresAction,
+      nextActionUrl:   charge.nextActionUrl,
+      amount,
+    });
+  } catch (e) {
+    console.error("[charge-confirmed] error:", e.message);
+    res.status(500).json({ error: e.message });
   }
 } : notReady);
 
@@ -11022,15 +11110,194 @@ app.get("/api/admin/transactions", adminMiddleware, AUTH_READY ? (req, res) => {
   catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
-// ── Disputes ────────────────────────────────────────────────────
+// ── Disputes / Support tickets ─────────────────────────────────
+// Order-tied dispute (legacy endpoint, kept). Customer must own the order.
 app.post("/api/disputes", authMiddleware, AUTH_READY ? (req, res) => {
   try {
     const { orderId, reason, description } = req.body || {};
     if (!orderId || !reason) return res.status(400).json({ error: "Order ID and reason required" });
     const order = _prodDb.getOrder(orderId);
     if (!order || order.userId !== req.user.id) return res.status(403).json({ error: "Not your order" });
-    const dispute = _prodDb.createDispute({ orderId, userId: req.user.id, reason, description });
+    const dispute = _prodDb.createDispute({
+      orderId, userId: req.user.id, reason, description,
+      type: "order_dispute", subject: `הזמנה #${orderId}`,
+    });
+    try {
+      logActivity("ticket_new", { ticketId: dispute.id, type: "order_dispute", reason, orderId, userId: req.user.id });
+    } catch (_) {}
     res.json({ ok: true, dispute });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── General support tickets ────────────────────────────────────
+// Anyone can open a support ticket — authenticated users get their userId
+// auto-attached. Guests must provide contactEmail.
+app.post("/api/support/tickets", AUTH_READY ? (req, res) => {
+  try {
+    const {
+      subject, description, category = "other", priority = "normal",
+      contactEmail = "", contactPhone = "", type = "general_support", reason = "support",
+    } = req.body || {};
+    if (!description || description.length < 5) return res.status(400).json({ error: "צריך לכתוב הסבר קצר" });
+
+    // Identify the user — auth header takes priority, else fall back to email
+    let userId = null;
+    try {
+      const auth = req.headers.authorization || "";
+      if (auth.startsWith("Bearer ") && jwt) {
+        const decoded = jwt.verify(auth.slice(7), JWT_SECRET);
+        userId = decoded?.id || null;
+      }
+    } catch (_) {}
+    if (!userId && !contactEmail) {
+      return res.status(400).json({ error: "צריך התחברות או כתובת אימייל ליצירת קשר" });
+    }
+    const dispute = _prodDb.createDispute({
+      orderId: null, userId, reason, description,
+      type, subject, category, priority,
+      contactEmail, contactPhone,
+    });
+    try {
+      logActivity("ticket_new", {
+        ticketId: dispute.id, type, subject, priority,
+        userId, contactEmail: contactEmail || undefined,
+      });
+    } catch (_) {}
+    res.json({ ok: true, ticket: dispute });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── User-side ticket read + thread reply ──────────────────────
+app.get("/api/support/tickets/:id", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    res.json({ ok: true, ticket: t });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/support/tickets/:id/messages", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    if (t.status === "resolved" || t.status === "rejected") {
+      return res.status(400).json({ error: "התיק נסגר — לא ניתן להוסיף הודעות" });
+    }
+    const { text } = req.body || {};
+    if (!text || text.length < 1) return res.status(400).json({ error: "הודעה ריקה" });
+    const msg = _prodDb.addDisputeMessage(t.id, { role: "user", text, authorId: req.user.id });
+    try {
+      logActivity("ticket_user_reply", { ticketId: t.id, userId: req.user.id, preview: String(text).slice(0, 80) });
+    } catch (_) {}
+    res.json({ ok: true, message: msg });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/support/tickets/:id/csat", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    if (t.userId !== req.user.id) return res.status(403).json({ error: "Not your ticket" });
+    const { rating, comment = "" } = req.body || {};
+    const csat = _prodDb.submitCsat(t.id, { rating, comment });
+    if (!csat) return res.status(400).json({ error: "Invalid rating" });
+    try { logActivity("ticket_csat", { ticketId: t.id, rating: csat.rating, userId: req.user.id }); } catch (_) {}
+    res.json({ ok: true, csat });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// Alias for /api/user/disputes that returns the same data via the new name.
+app.get("/api/user/tickets", authMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, tickets: _prodDb.listDisputes({ userId: req.user.id }) }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin tickets: list / reply / stats / canned-responses ─────
+app.get("/api/admin/tickets", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const { status, type, priority } = req.query;
+    const tickets = _prodDb.listDisputes({
+      status: status || undefined,
+      type:   type   || undefined,
+      priority: priority || undefined,
+    });
+    res.json({ ok: true, tickets });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.get("/api/admin/tickets/stats", adminMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, stats: _prodDb.getDisputeStats() }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.patch("/api/admin/tickets/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const fields = req.body || {};
+    const allowed = {};
+    for (const k of ["status", "priority", "tags", "category", "subject", "resolution", "adminNotes", "resolvedAt"]) {
+      if (fields[k] !== undefined) allowed[k] = fields[k];
+    }
+    if (allowed.status === "resolved" && !allowed.resolvedAt) allowed.resolvedAt = new Date().toISOString();
+    const t = _prodDb.updateDispute(req.params.id, allowed);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    try { logActivity("ticket_admin_update", { ticketId: t.id, changes: Object.keys(allowed) }); } catch (_) {}
+    res.json({ ok: true, ticket: t });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+app.post("/api/admin/tickets/:id/reply", adminMiddleware, AUTH_READY ? async (req, res) => {
+  try {
+    const t = _prodDb.getDispute(req.params.id);
+    if (!t) return res.status(404).json({ error: "Ticket not found" });
+    const { text, cannedId } = req.body || {};
+    let body = text;
+    let isCanned = false;
+    if (!body && cannedId) {
+      const canned = _prodDb.listCannedResponses().find(c => c.id === Number(cannedId));
+      if (canned) { body = canned.body; isCanned = true; }
+    }
+    if (!body) return res.status(400).json({ error: "Reply text required" });
+    const msg = _prodDb.addDisputeMessage(t.id, { role: "admin", text: body, authorId: req.user.id, isCanned });
+    // Email the customer if we have an address
+    const recipientEmail = t.contactEmail || (t.userId ? _prodDb.load().users.find(u => u.id === t.userId)?.email : null);
+    if (recipientEmail) {
+      try {
+        globalThis._notif?.sendDisputeResolutionEmail?.(recipientEmail, {
+          disputeId: t.id, orderId: t.orderId, resolution: "admin_reply", body: body.slice(0, 500),
+        }).catch(() => {});
+      } catch (_) {}
+    }
+    try { logActivity("ticket_admin_reply", { ticketId: t.id, adminId: req.user.id, isCanned }); } catch (_) {}
+    res.json({ ok: true, message: msg, ticket: _prodDb.getDispute(t.id) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// Canned responses CRUD
+app.get("/api/admin/canned-responses", adminMiddleware, AUTH_READY ? (req, res) => {
+  try { res.json({ ok: true, items: _prodDb.listCannedResponses() }); }
+  catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.post("/api/admin/canned-responses", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const { title, body, category } = req.body || {};
+    if (!title || !body) return res.status(400).json({ error: "title + body required" });
+    res.json({ ok: true, item: _prodDb.createCannedResponse({ title, body, category }) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.patch("/api/admin/canned-responses/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const item = _prodDb.updateCannedResponse(req.params.id, req.body || {});
+    if (!item) return res.status(404).json({ error: "Canned response not found" });
+    res.json({ ok: true, item });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+app.delete("/api/admin/canned-responses/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const ok = _prodDb.deleteCannedResponse(req.params.id);
+    if (!ok) return res.status(404).json({ error: "Canned response not found" });
+    res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
