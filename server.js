@@ -3820,8 +3820,12 @@ app.get("/api/search-products-stream",
           // already picks the category. Example: "תנור אפייה" was narrowing
           // 3164 ovens → 31 because most product titles say "תנור Bosch"
           // without "אפייה". Adding these stops kills the false-negative.
-          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","ניקיון","סינון",
           "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
+          // Generic appliance-shape words that drag a robot-vacuum query
+          // down to <3% match against titles like "Roborock Saros 10
+          // Ultra" — ZAP product names are mostly English brand/model.
+          "שואב","אבק",
         ]);
         const _stem = w => {
           if (/[\u0590-\u05FF]/.test(w)) {
@@ -3865,11 +3869,12 @@ app.get("/api/search-products-stream",
           // Multiple safety nets so we don't over-narrow:
           //   • Fewer than 3 matches → likely English-titled products (Bosch, LG…)
           //     that don't contain the Hebrew stems. Keep everything.
-          //   • Dropped below 2% of the original (e.g. 3164 → 31 for "תנור אפייה")
-          //     with a reasonably big starting set → the second query word is
-          //     probably a redundant descriptor, not a real refinement. Keep all.
+          //   • Dropped below 5% of the original (e.g. 1300 → 30 for "רובוטי
+          //     ניקיון", 3164 → 31 for "תנור אפייה") with a reasonably big
+          //     starting set → the second query word is probably a redundant
+          //     descriptor, not a real refinement. Keep all.
           const ratio = beforeCount > 0 ? (heFiltered.length / beforeCount) : 0;
-          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.02)) {
+          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.05)) {
             candidates = heFiltered;
             console.log(`  ↳ Stream: Hebrew stem filter — ${beforeCount} → ${heFiltered.length} candidates (groups: ${_heStemGroups.length}, stems: [${_flatStems.slice(0,6).join(", ")}])`);
           } else if (heFiltered.length === 0) {
@@ -4409,8 +4414,9 @@ app.get("/api/search-products-stream",
           "ישראל","איכותי","מומלץ",
           // Mirrors _HE_STOP in the upstream filter — "what the appliance does"
           // words that are redundant with the category sog.
-          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","ניקיון","סינון",
           "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
+          "שואב","אבק",
         ]);
         // Strip common Hebrew plural / construct-state suffixes
         const _stem = w => {
