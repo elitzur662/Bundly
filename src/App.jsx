@@ -11195,10 +11195,12 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   const [priceMin, setPriceMin]         = useState(initialFilters?.priceMin ? String(initialFilters.priceMin) : "");
   const [priceMax, setPriceMax]         = useState(initialFilters?.priceMax ? String(initialFilters.priceMax) : "");
   const [selectedBrands, setSelectedBrands] = useState(initialFilters?.brands || []);
-  const [sortBy, setSortBy]             = useState("popular");
+  // sortBy: when the chat parser drove us here, default to "group-buy" so
+  // active group offers float to the top (matching the user's explicit ask).
+  const [sortBy, setSortBy]             = useState(initialFilters?.sortBy || "popular");
   // ── Smart filter bar state ─────────────────────────────────
   const [activeFilterChip, setActiveFilterChip] = useState(null); // which chip dropdown is open
-  const [selectedStorage, setSelectedStorage]   = useState(null); // e.g. "256GB"
+  const [selectedStorage, setSelectedStorage]   = useState(initialFilters?.storage || null); // e.g. "256GB"
   const [selectedColor, setSelectedColor]       = useState(null); // e.g. "שחור"
   const [selectedScreenSize, setSelectedScreenSize] = useState(initialFilters?.screenSize || null); // e.g. '65"'
   const [selectedCPU, setSelectedCPU]           = useState(null); // e.g. "Intel Core i7"
@@ -18687,6 +18689,146 @@ function BundlyFab({ onOpen, showPulse }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────────
+//  CHAT INTENT PARSER — extracts category + filters from a free-text query
+//  before falling through to GPT. When a query like "טלוויזיה 60-70 אינץ עד
+//  1500" lands, we recognise the structured shape and drive the results
+//  page directly with pre-applied filters, skipping the chat round-trip.
+//  Returns null when the query is conversational / no clear category match.
+// ─────────────────────────────────────────────────────────────────
+const _CHAT_CATEGORY_RX = [
+  // Order matters — more specific patterns first.
+  { rx: /טלוויז|טלויז|\btv\b/i,                                 q: "טלוויזיה",      type: "tv" },
+  { rx: /סמארטפון|אייפון|\biphone\b|גלקסי|galaxy|טלפון.*סלולר/i, q: "סמארטפון",     type: "phone" },
+  { rx: /מקבוק|\bmacbook\b|מחשב.*נייד|לפטופ|\blaptop\b/i,        q: "מחשב נייד",     type: "laptop" },
+  { rx: /טאבלט|אייפד|\bipad\b/i,                                q: "טאבלט",         type: "tablet" },
+  { rx: /מסך.*מחשב|מוניטור|\bmonitor\b/i,                       q: "מסך מחשב",      type: "monitor" },
+  { rx: /אוזניות|airpods|\bheadphone\b|\bbuds\b/i,             q: "אוזניות",       type: "headphone" },
+  { rx: /רמקול.*נייד|bluetooth.*speaker/i,                     q: "רמקול נייד",    type: "speaker" },
+  { rx: /רמקול\b/i,                                            q: "רמקול",         type: "speaker" },
+  { rx: /סאונד.*בר|soundbar/i,                                 q: "סאונד בר",      type: "soundbar" },
+  { rx: /קונסול|playstation|\bps5\b|\bxbox\b|nintendo/i,       q: "קונסולת משחק",  type: "console" },
+  { rx: /מקרר/,                                                q: "מקרר",          type: "fridge" },
+  { rx: /מכונת.*כביסה/,                                         q: "מכונת כביסה",   type: "washer" },
+  { rx: /מייבש.*כביסה/,                                         q: "מייבש כביסה",   type: "dryer" },
+  { rx: /מדיח.*כלים/,                                           q: "מדיח כלים",     type: "dishwasher" },
+  { rx: /מזגן/,                                                 q: "מזגן",          type: "ac" },
+  { rx: /תנור/,                                                 q: "תנור",          type: "oven" },
+  { rx: /מיקרוגל/,                                              q: "מיקרוגל",       type: "microwave" },
+  { rx: /שואב.*אבק.*רובוט|רובוט.*שואב/i,                       q: "שואב אבק רובוט", type: "robot-vacuum" },
+  { rx: /מכונת.*קפה/,                                           q: "מכונת קפה",     type: "coffee" },
+  { rx: /קולט.*אדים/,                                           q: "קולט אדים",     type: "hood" },
+];
+const _CHAT_BRAND_RX = [
+  { rx: /samsung|סמסונג/i,         name: "Samsung" },
+  { rx: /\bapple\b|אפל/i,           name: "Apple" },
+  { rx: /\blg\b|אל.?ג.?י/i,         name: "LG" },
+  { rx: /\bsony\b|סוני/i,           name: "Sony" },
+  { rx: /xiaomi|שיאומי|redmi/i,     name: "Xiaomi" },
+  { rx: /hisense|הייסנס/i,          name: "Hisense" },
+  { rx: /philips|פיליפס/i,          name: "Philips" },
+  { rx: /\btcl\b/i,                 name: "TCL" },
+  { rx: /huawei|הואווי/i,           name: "Huawei" },
+  { rx: /\bdell\b|דל/i,             name: "Dell" },
+  { rx: /\bhp\b|אייץ.?פי/i,         name: "HP" },
+  { rx: /lenovo|לנובו/i,            name: "Lenovo" },
+  { rx: /\basus\b|אסוס/i,           name: "Asus" },
+  { rx: /bosch|בוש/i,               name: "Bosch" },
+  { rx: /siemens|סימנס/i,           name: "Siemens" },
+  { rx: /electra|אלקטרה/i,          name: "Electra" },
+];
+function parseChatIntent(text) {
+  const raw = (text || "").trim();
+  if (!raw) return null;
+  const t = raw.toLowerCase();
+
+  // ── Category match ─────────────────────────────────────────────
+  const catHit = _CHAT_CATEGORY_RX.find(c => c.rx.test(t));
+  if (!catHit) return null;
+  const { q: category, type } = catHit;
+
+  // ── Price range ────────────────────────────────────────────────
+  // "עד 1500", "עד ₪3,000", "עד 5000 שח", "מתחת ל-2000"
+  let priceMax = null, priceMin = null;
+  const maxRx = /(?:עד|מקס|max|under|מתחת.*ל|לא יותר מ)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪|nis|ils)?/i;
+  const maxM  = t.match(maxRx);
+  if (maxM) priceMax = parseInt(maxM[1].replace(/,/g, ""), 10);
+  const minRx = /(?:מ-|מעל|מינ|min|over|above|מ\s)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪)?\s*(?:ועד|עד|-|to)/i;
+  const minM  = t.match(minRx);
+  if (minM) priceMin = parseInt(minM[1].replace(/,/g, ""), 10);
+  // Range "1500-3000" or "1500 עד 3000"
+  const rangeRx = /([\d,]{3,8})\s*(?:-|to|עד|ועד)\s*([\d,]{3,8})\s*(?:שח|שקלים|₪)?/;
+  const rangeM  = t.match(rangeRx);
+  if (rangeM && !priceMin && !priceMax) {
+    const a = parseInt(rangeM[1].replace(/,/g, ""), 10);
+    const b = parseInt(rangeM[2].replace(/,/g, ""), 10);
+    if (a >= 100 && b >= 100) { priceMin = Math.min(a, b); priceMax = Math.max(a, b); }
+  }
+
+  // ── Screen size (for TV / monitor / laptop / phone / tablet) ──
+  let screenSize = null;
+  if (["tv", "monitor", "laptop", "tablet", "phone"].includes(type)) {
+    // Range "60-70 אינץ" → snap mid to nearest common size
+    const rangeSize = t.match(/(\d{1,2})\s*[-–]\s*(\d{1,2})\s*(?:אינץ|"|in|inch)/i);
+    if (rangeSize) {
+      const mid = Math.round((parseInt(rangeSize[1], 10) + parseInt(rangeSize[2], 10)) / 2);
+      const commonTv      = [24, 28, 32, 40, 43, 50, 55, 60, 65, 70, 75, 77, 85];
+      const commonMonitor = [22, 24, 27, 28, 29, 32, 34, 38, 43, 49];
+      const commonLaptop  = [11, 12, 13, 14, 15, 16, 17];
+      const commonTablet  = [7, 8, 9, 10, 11, 12, 13];
+      const commonPhone   = [5, 6, 7];
+      const palette = type === "tv" ? commonTv :
+                      type === "monitor" ? commonMonitor :
+                      type === "laptop" ? commonLaptop :
+                      type === "tablet" ? commonTablet : commonPhone;
+      const snap = palette.reduce((a, b) => Math.abs(b - mid) < Math.abs(a - mid) ? b : a);
+      screenSize = `${snap}"`;
+    } else {
+      const singleSize = t.match(/(\d{1,2}(?:\.\d)?)\s*(?:אינץ|"|in|inch)/i);
+      if (singleSize) screenSize = `${singleSize[1]}"`;
+    }
+  }
+
+  // ── Brands ─────────────────────────────────────────────────────
+  const brands = [];
+  for (const b of _CHAT_BRAND_RX) {
+    if (b.rx.test(raw)) brands.push(b.name);
+  }
+
+  // ── Storage (for phones / tablets / laptops) ───────────────────
+  let storage = null;
+  if (["phone", "tablet", "laptop"].includes(type)) {
+    const ter  = raw.match(/(\d)\s*(?:tb|ט.?ב)/i);
+    const stor = raw.match(/(\d{2,4})\s*(?:gb|ג.?ב)/i);
+    if (ter) storage = `${ter[1]}TB`;
+    else if (stor) storage = `${stor[1]}GB`;
+  }
+
+  const filters = {};
+  if (priceMin)      filters.priceMin   = priceMin;
+  if (priceMax)      filters.priceMax   = priceMax;
+  if (screenSize)    filters.screenSize = screenSize;
+  if (storage)       filters.storage    = storage;
+  if (brands.length) filters.brands     = brands;
+
+  // Bare category like "טלוויזיה" alone still goes through GPT — the user
+  // may want a conversation. We only bypass GPT when at least one filter
+  // was detected.
+  if (Object.keys(filters).length === 0) return null;
+
+  return { query: category, type, filters, sortBy: "group-buy" };
+}
+function _formatChatFilters(f) {
+  const parts = [];
+  if (f.brands?.length) parts.push(`מותג: ${f.brands.join(", ")}`);
+  if (f.screenSize)     parts.push(`גודל: ${f.screenSize}`);
+  if (f.storage)        parts.push(`נפח: ${f.storage}`);
+  if (f.priceMin && f.priceMax) parts.push(`טווח: ₪${f.priceMin.toLocaleString()}-${f.priceMax.toLocaleString()}`);
+  else if (f.priceMax) parts.push(`עד ₪${f.priceMax.toLocaleString()}`);
+  else if (f.priceMin) parts.push(`מעל ₪${f.priceMin.toLocaleString()}`);
+  return parts.join(" · ");
+}
+
 function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supplierMode = false, supplier = null }) {
 
   const [isOpen, setIsOpen] = useState(_chatStore.isOpen);
@@ -18764,8 +18906,37 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
     const userMsg = { role: "user", content: text, ts: Date.now() };
     setMessages(prev => [...prev, userMsg]);
     setInput("");
-    setLoading(true);
 
+    // ── Fast path: structured intent (category + at least one filter) ──
+    // Skip the GPT round-trip when the user typed a clear filter-shaped
+    // request (e.g. "טלוויזיה 60-70 אינץ עד 1500"). We acknowledge in
+    // the chat, then close it and drive the results page with the
+    // detected filters pre-applied. Customers only — supplier chat
+    // always goes through the AI persona.
+    if (!supplierMode && onSearchProduct) {
+      const intent = parseChatIntent(text);
+      if (intent) {
+        const summary = _formatChatFilters(intent.filters);
+        setMessages(prev => [...prev, {
+          role: "assistant",
+          content:
+            `מצוין — מחפש ${intent.query}${summary ? ` (${summary})` : ""} עם עדיפות לקבוצות פעילות. ` +
+            `פותח את התוצאות בעמוד עם הסינון מוכן.`,
+          ts: Date.now(),
+        }]);
+        // Close synchronously (store + state) so the new page doesn't remount
+        // the advisor with a stale isOpen=true.
+        setTimeout(() => {
+          _chatStore.isOpen = false;
+          setIsOpen(false);
+          onSearchProduct(intent.query, intent.filters);
+        }, 600);
+        setTimeout(() => inputRef.current?.focus(), 50);
+        return;
+      }
+    }
+
+    setLoading(true);
     try {
       const dealsForApi = deals.map(d => ({
         name: d.name?.[lang] || d.name?.he || "",
