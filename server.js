@@ -10720,67 +10720,104 @@ app.post("/api/users/:userId/recommendations", requireUserMatchOrAnon, express.j
   res.json({ profile: heuristic, recommendations: scored.slice(0, limit), source: "personalized" });
 });
 
-// POST /api/deals/:id/hold-spot — flat ₪25 deposit, refundable
+// ── Card-on-file flow: NEW deposit-without-charge ─────────────
+// Old hold-spot/commit-deposit endpoints have been re-pointed at Stripe
+// SetupIntent. Behaviour change:
+//   • NO MONEY MOVES at this step. The card is validated + saved.
+//   • The user's tier (watching / committed) is still tracked on
+//     joinedDeals so analytics, sort order, and deal-close grouping
+//     stay the same.
+//   • Frontend calls stripe.confirmCardSetup(clientSecret) instead of
+//     confirmCardPayment, and reads `setupIntentId` from the response.
+//   • When the deal closes, /api/deals/:id/charge-confirmed (below)
+//     charges every confirmed joiner's saved card off-session.
+async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
+  // Locate user for the Stripe Customer record
+  let user = null;
+  try { user = userId ? _prodDb.load().users.find(u => u.id === userId) : null; } catch {}
+
+  const cust = await _paySvc.findOrCreateCustomer({
+    userId: userId || `guest-${Date.now()}`,
+    email:  user?.email || "",
+    name:   user?.name  || "",
+  });
+  if (!cust.ok) return res.status(500).json({ error: cust.error || "Could not create customer" });
+
+  const setup = await _paySvc.createSetupIntent({
+    customerId:  cust.customerId,
+    userId,
+    dealId,
+    description: `Bundly ${tier} deposit (deal ${dealId}) — card saved for off-session charge on close`,
+  });
+  if (!setup.ok) return res.status(500).json({ error: setup.error || "SetupIntent failed" });
+
+  // Persist a transaction record so we have a paper trail; status:"saved" reflects
+  // "card on file, no charge yet". When the deal closes we'll write a follow-up
+  // transaction of type:"charge" linked back via paymentIntentId.
+  _prodDb.createTransaction({
+    orderId:    null,
+    userId,
+    supplierId: null,
+    amount:     0,                       // nothing was charged
+    type:       tier === "committed" ? "commit_setup" : "hold_setup",
+    status:     "saved",
+    paymentIntentId: setup.setupIntentId,
+    notes:      `Saved card for ${tier} on deal ${dealId}. Reserved price ₪${amount}. Will charge off-session after deal closes + user confirmation.`,
+  });
+
+  // Stash the customer id on the join record so the close-time job knows
+  // which Stripe customer to charge. paymentMethodId fills in after the
+  // frontend confirms the SetupIntent and tells us the resulting PM id.
+  try {
+    if (userId) {
+      _prodDb.upsertJoinedDeal({ userId, dealId, tier });
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        stripeCustomerId: cust.customerId,
+        reservedAmount:   Number(amount) || 0,
+        setupIntentId:    setup.setupIntentId,
+      });
+    }
+  } catch (_) {}
+
+  // Admin alert
+  try {
+    logActivity(tier === "committed" ? "deal_commit" : "deal_join", {
+      deal_id:  dealId,
+      tier:     tier === "committed" ? "committed (כרטיס נשמר)" : "watching (כרטיס נשמר)",
+      amount:   `הוקפא: לא — שמירת כרטיס בלבד (יעד ₪${amount})`,
+      customer: user?.name || `user#${userId}`,
+      phone:    user?.phone || "",
+    });
+  } catch (_) {}
+
+  res.json({
+    ok: true,
+    tier,
+    setupIntentId: setup.setupIntentId,    // frontend uses confirmCardSetup with this
+    clientSecret:  setup.clientSecret,
+    customerId:    cust.customerId,
+    stub:          !!setup.stub,
+    status:        setup.status,
+    amount,                                 // reservation amount (for display only)
+    cardSaved:     true,
+    willChargeOnClose: true,
+    message:       "הכרטיס יישמר ויחויב רק אם הקבוצה תיסגר, ורק אחרי אישור שלך",
+  });
+}
+
+// POST /api/deals/:id/hold-spot — was: ₪25 hold. Now: save card for free.
 app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
-  // Optional auth — guests can hold a spot too (we just won't link to a user)
   let userId = null;
   const tok = req.headers.authorization?.replace("Bearer ", "");
   if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
-  // Race-condition defense: reject parallel duplicate requests for the same
-  // user+deal. Without this lock, 100 simultaneous calls would create 100
-  // separate ₪25 holds. Attacker would burn the user's card; no real harm
-  // but creates accounting chaos and Stripe rate-limit issues.
   const lockKey = `hold:${dealId}:${userId || req.ip}`;
-  if (_depositInFlight.has(lockKey)) {
-    return res.status(409).json({ error: "Request already in progress" });
-  }
+  if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
   _depositInFlight.add(lockKey);
   try {
     const amount = Number(req.body?.amount || 25);
-    if (amount < 1 || amount > 1000) return res.status(400).json({ error: "Invalid deposit amount" });
-
-    const payment = await _paySvc.createPaymentIntent({
-      amount,
-      orderId: `hold-${dealId}-${Date.now()}`,
-      userId: userId || "guest",
-      description: `Bundly hold-spot deposit (deal ${dealId})`,
-      captureMethod: "manual",
-    });
-    if (!payment.ok) return res.status(500).json({ error: payment.error || "Payment failed" });
-
-    _prodDb.createTransaction({
-      orderId: null,
-      userId,
-      supplierId: null,
-      amount,
-      type: "hold_spot",
-      status: "held",
-      paymentIntentId: payment.paymentIntentId,
-      notes: `Hold-spot deposit ₪${amount} for deal ${dealId} — refunded if group fails, applied to final price otherwise`,
-    });
-
-    // Admin alert — customer just made a pre-registration deposit
-    try {
-      const user = _prodDb.load().users.find(u => u.id === userId);
-      logActivity("deal_join", {
-        deal_id:  dealId,
-        tier:     "watching (רישום מקדים)",
-        amount:   `₪${amount}`,
-        customer: user?.name || `user#${userId}`,
-        phone:    user?.phone || "",
-      });
-    } catch (_) {}
-
-    res.json({
-      ok: true,
-      tier: "watching",
-      paymentIntentId: payment.paymentIntentId,
-      clientSecret:    payment.clientSecret,
-      stub:            !!payment.stub,
-      status:          payment.status,
-      amount,
-    });
+    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid reservation amount" });
+    await _saveCardForDealJoin({ res, dealId, userId, tier: "watching", amount });
   } catch (e) {
     console.error("[hold-spot] error:", e.message);
     res.status(500).json({ error: e.message });
@@ -10789,69 +10826,115 @@ app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
   }
 } : notReady);
 
-// POST /api/deals/:id/commit-deposit — 25% of group price, locks in price
+// POST /api/deals/:id/commit-deposit — was: 25% hold. Now: save card for free.
 app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
   let userId = null;
   const tok = req.headers.authorization?.replace("Bearer ", "");
   if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
   if (!userId) return res.status(401).json({ error: "Auth required for commit-deposit" });
-  // Race-condition defense — see hold-spot above
   const lockKey = `commit:${dealId}:${userId}`;
-  if (_depositInFlight.has(lockKey)) {
-    return res.status(409).json({ error: "Request already in progress" });
-  }
+  if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
   _depositInFlight.add(lockKey);
   try {
     const amount = Number(req.body?.amount || 0);
-    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid deposit amount" });
-
-    const payment = await _paySvc.createPaymentIntent({
-      amount,
-      orderId: `commit-${dealId}-${Date.now()}`,
-      userId,
-      description: `Bundly 25% commit deposit (deal ${dealId})`,
-      captureMethod: "manual",
-    });
-    if (!payment.ok) return res.status(500).json({ error: payment.error || "Payment failed" });
-
-    _prodDb.createTransaction({
-      orderId: null,
-      userId,
-      supplierId: null,
-      amount,
-      type: "commit_deposit",
-      status: "held",
-      paymentIntentId: payment.paymentIntentId,
-      notes: `25% commit deposit ₪${amount} for deal ${dealId} — locks in group price. Captured on group close, released on group failure.`,
-    });
-
-    // Admin alert — customer just committed to a deal with a real deposit
-    try {
-      const user = _prodDb.load().users.find(u => u.id === userId);
-      logActivity("deal_commit", {
-        deal_id:  dealId,
-        amount:   `₪${amount}`,
-        customer: user?.name || `user#${userId}`,
-        phone:    user?.phone || "",
-      });
-    } catch (_) {}
-
-    res.json({
-      ok: true,
-      tier: "committed",
-      paymentIntentId: payment.paymentIntentId,
-      clientSecret:    payment.clientSecret,
-      stub:            !!payment.stub,
-      status:          payment.status,
-      amount,
-      lockedUntil: new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString(),
-    });
+    if (amount < 1 || amount > 100000) return res.status(400).json({ error: "Invalid reservation amount" });
+    await _saveCardForDealJoin({ res, dealId, userId, tier: "committed", amount });
   } catch (e) {
     console.error("[commit-deposit] error:", e.message);
     res.status(500).json({ error: e.message });
   } finally {
     _depositInFlight.delete(lockKey);
+  }
+} : notReady);
+
+// POST /api/deals/:id/save-payment-method
+// Called by the frontend AFTER stripe.confirmCardSetup succeeds, so the
+// server can record the resulting PaymentMethod id on the join record.
+app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const dealId = req.params.id;
+    const { paymentMethodId, cardLast4, cardBrand } = req.body || {};
+    if (!paymentMethodId) return res.status(400).json({ error: "paymentMethodId required" });
+    _prodDb.updateJoinedDealPayment?.(req.user.id, dealId, {
+      paymentMethodId,
+      cardLast4: String(cardLast4 || "").slice(0, 4),
+      cardBrand: String(cardBrand || "").slice(0, 30),
+      savedAt:   new Date().toISOString(),
+    });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/deals/:id/charge-confirmed
+// User opens the deal (or a confirm link from the close-notification email)
+// and approves the charge. We then run off-session charge against the
+// PaymentMethod we stored on the join record.
+app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (req, res) => {
+  try {
+    const dealId = req.params.id;
+    const userId = req.user.id;
+    const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
+    if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
+    if (!join.paymentMethodId || !join.stripeCustomerId) {
+      return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
+    }
+    if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+
+    const amount = Number(req.body?.amount || join.reservedAmount || 0);
+    if (amount < 1) return res.status(400).json({ error: "Invalid charge amount" });
+
+    const charge = await _paySvc.chargeOffSession({
+      customerId:      join.stripeCustomerId,
+      paymentMethodId: join.paymentMethodId,
+      amount,
+      currency:        "ils",
+      orderId:         `deal-${dealId}-${userId}-${Date.now()}`,
+      userId,
+      description:     `Bundly deal ${dealId} — confirmed by customer`,
+    });
+
+    // Always write a transaction row, success or fail, so we have a clear audit log
+    const tx = _prodDb.createTransaction({
+      orderId:    null,
+      userId,
+      supplierId: null,
+      amount,
+      type:       "deal_close_charge",
+      status:     charge.ok ? (charge.status === "succeeded" ? "succeeded" : charge.status) : "failed",
+      paymentIntentId: charge.paymentIntentId || null,
+      notes:      charge.ok
+        ? `Off-session charge ₪${amount} for deal ${dealId} after customer confirmation`
+        : `Off-session charge FAILED for deal ${dealId}: ${charge.error} (code=${charge.code || "n/a"})`,
+    });
+
+    if (!charge.ok) return res.status(402).json({ error: charge.error, code: charge.code });
+
+    _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+      chargedAt:       new Date().toISOString(),
+      lastChargeTxId:  tx?.id || null,
+      lastPaymentIntentId: charge.paymentIntentId,
+      chargeStatus:    charge.status,
+    });
+
+    try {
+      logActivity("deal_charge_confirmed", {
+        deal_id: dealId, user_id: userId, amount: `₪${amount}`,
+        pm: join.paymentMethodId, status: charge.status,
+      });
+    } catch (_) {}
+
+    res.json({
+      ok: true,
+      paymentIntentId: charge.paymentIntentId,
+      status:          charge.status,
+      requiresAction:  !!charge.requiresAction,
+      nextActionUrl:   charge.nextActionUrl,
+      amount,
+    });
+  } catch (e) {
+    console.error("[charge-confirmed] error:", e.message);
+    res.status(500).json({ error: e.message });
   }
 } : notReady);
 

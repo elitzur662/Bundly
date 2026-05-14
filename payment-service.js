@@ -132,6 +132,141 @@ export async function retrievePaymentIntent(paymentIntentId) {
   };
 }
 
+// ── Card-on-file flow: SetupIntent + off-session charge ─────────
+// Used by the new "approve card but don't charge yet" deposit flow.
+// SetupIntent validates the card (issuing bank may do a $0 or $1
+// authorisation that's immediately voided) and saves the PaymentMethod
+// onto a customer for later off-session charges. No money moves at this
+// point — the user only sees their card was approved.
+
+/**
+ * Find an existing Stripe Customer for this Bundly user, or create one.
+ * STUB: returns a fake customer id keyed off userId.
+ */
+export async function findOrCreateCustomer({ userId, email = "", name = "" }) {
+  if (!STRIPE_READY) {
+    return { ok: true, stub: true, customerId: `cus_stub_${userId}` };
+  }
+  const stripe = await _getStripe();
+  if (!stripe) return { ok: false, error: "Stripe not loaded" };
+  // Search by metadata.userId so re-runs don't create duplicate customers.
+  try {
+    const found = await stripe.customers.search({
+      query: `metadata['userId']:'${String(userId)}'`,
+      limit: 1,
+    });
+    if (found.data.length > 0) {
+      return { ok: true, customerId: found.data[0].id, existing: true };
+    }
+  } catch (e) {
+    // search may be unavailable on some accounts — fall through to create
+  }
+  const customer = await stripe.customers.create({
+    email: email || undefined,
+    name:  name  || undefined,
+    metadata: { userId: String(userId), source: "bundly" },
+  });
+  return { ok: true, customerId: customer.id, created: true };
+}
+
+/**
+ * Create a SetupIntent to validate + save a card for future off-session use.
+ * No charge occurs. Returns a clientSecret the frontend feeds to
+ * stripe.confirmCardSetup() so the card stays on Stripe's side (PCI scope SAQ-A).
+ */
+export async function createSetupIntent({ customerId, userId, dealId = null, description = "" }) {
+  if (!STRIPE_READY) {
+    const fakeId = `seti_stub_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    console.log(`[payment] STUB SetupIntent ${fakeId} for user ${userId} (deal ${dealId})`);
+    return {
+      ok: true, stub: true,
+      setupIntentId: fakeId,
+      clientSecret:  `${fakeId}_secret_stub`,
+      customerId,
+      status: "succeeded",
+    };
+  }
+  const stripe = await _getStripe();
+  if (!stripe) return { ok: false, error: "Stripe not loaded" };
+  const intent = await stripe.setupIntents.create({
+    customer:            customerId,
+    payment_method_types: ["card"],
+    usage:               "off_session",
+    description:         description || `Bundly card-on-file (deal ${dealId || "n/a"})`,
+    metadata: {
+      userId: String(userId || ""), dealId: String(dealId || ""), bundlyType: "card_on_file",
+    },
+  });
+  return {
+    ok: true,
+    setupIntentId: intent.id,
+    clientSecret:  intent.client_secret,
+    customerId,
+    status:        intent.status,
+  };
+}
+
+/**
+ * Charge a previously-saved card off-session (no customer present).
+ *
+ * Triggered when a deal closes and the user has confirmed via the
+ * "approve payment" link in email/SMS. The PaymentMethod must already be
+ * attached to `customerId` (via a prior SetupIntent.confirm()).
+ *
+ * If the bank requires 3DS / SCA at this charge attempt, the intent comes
+ * back with status: "requires_action". The caller should then notify the
+ * customer to complete authentication via Stripe's hosted flow.
+ */
+export async function chargeOffSession({
+  customerId, paymentMethodId, amount, currency = "ils",
+  orderId = null, userId = null, description = "",
+}) {
+  if (!STRIPE_READY) {
+    const fakeId = `pi_offsession_stub_${Date.now()}`;
+    console.log(`[payment] STUB off-session charge ${fakeId} cust=${customerId} pm=${paymentMethodId} ₪${amount}`);
+    return {
+      ok: true, stub: true,
+      paymentIntentId: fakeId, status: "succeeded",
+      amount: Math.round(Number(amount) * 100), currency,
+    };
+  }
+  const stripe = await _getStripe();
+  if (!stripe) return { ok: false, error: "Stripe not loaded" };
+  try {
+    const intent = await stripe.paymentIntents.create({
+      amount:         Math.round(Number(amount) * 100),
+      currency,
+      customer:       customerId,
+      payment_method: paymentMethodId,
+      off_session:    true,
+      confirm:        true,
+      description:    description || `Bundly order ${orderId || ""}`,
+      metadata:       { orderId: String(orderId || ""), userId: String(userId || ""), bundlyType: "deal_close_charge" },
+    });
+    return {
+      ok: true,
+      paymentIntentId: intent.id,
+      status:          intent.status,
+      amount:          intent.amount,
+      currency:        intent.currency,
+      // requires_action means the bank wants 3DS — return the next-action URL
+      // so the customer can complete the challenge.
+      requiresAction:  intent.status === "requires_action",
+      nextActionUrl:   intent.next_action?.redirect_to_url?.url || null,
+    };
+  } catch (e) {
+    // Stripe throws on declined cards (StripeCardError) and authentication
+    // failures (authentication_required). Surface a friendly code so the
+    // server can pick the right notification template.
+    return {
+      ok: false,
+      error: e.message,
+      code:  e.code || e.decline_code || null,
+      paymentIntentId: e.payment_intent?.id || null,
+    };
+  }
+}
+
 /**
  * Issue a refund against a payment intent.
  */

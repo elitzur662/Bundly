@@ -44,22 +44,40 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
   useEffect(() => {
     if (!cardRef) return;
     cardRef.current = {
-      // Validate locally + call stripe.confirmCardPayment with the server's clientSecret
-      confirm: async (clientSecret, { stub } = {}) => {
+      // Confirm the card against Stripe with the server's clientSecret.
+      // mode="payment" → stripe.confirmCardPayment (charges immediately or holds funds)
+      // mode="setup"   → stripe.confirmCardSetup   (validates + saves card, no money moves)
+      // The deposit flow uses mode="setup" so we collect a re-usable PaymentMethod
+      // and only charge it off-session after the deal closes + user confirms.
+      confirm: async (clientSecret, { stub, mode = "payment" } = {}) => {
         if (!name.trim()) return { ok: false, error: "חובה למלא שם על הכרטיס" };
         if (stub || !stripe || !elements) {
           // Demo / stub mode — server already returned a fake clientSecret;
-          // the deposit/preauth was logged on the server, nothing to confirm.
+          // the setup/preauth was logged on the server, nothing to confirm.
           return { ok: true, stub: true };
         }
         if (!cardComplete) return { ok: false, error: "פרטי כרטיס לא תקינים" };
-        const result = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-            billing_details: { name: name.trim() },
-          },
-        });
+        const paymentMethodPayload = {
+          card: elements.getElement(CardElement),
+          billing_details: { name: name.trim() },
+        };
+        const result = mode === "setup"
+          ? await stripe.confirmCardSetup(clientSecret, { payment_method: paymentMethodPayload })
+          : await stripe.confirmCardPayment(clientSecret, { payment_method: paymentMethodPayload });
         if (result.error) return { ok: false, error: localizeStripeError(result.error) };
+        if (mode === "setup") {
+          // Bubble up the PaymentMethod so the parent can ship it back to the
+          // server. Stripe stores the full PM on the customer; we only persist
+          // the id + last4 + brand for display.
+          const pm = result.setupIntent?.payment_method;
+          return {
+            ok: true,
+            setupIntent: result.setupIntent,
+            paymentMethodId: typeof pm === "string" ? pm : pm?.id || null,
+            cardLast4: pm?.card?.last4 || null,
+            cardBrand: pm?.card?.brand || null,
+          };
+        }
         return { ok: true, paymentIntent: result.paymentIntent };
       },
       ready: !!stripe && !!elements,
@@ -9103,39 +9121,46 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 
 // ── Accept/reject modal with shipping address ──────────────────
 // ─────────────────────────────────────────────────────────────────
-//  DEPOSIT MODAL — collects card + charges deposit for a tier upgrade
-//  Tiers:
-//    - "watching":  flat ₪25 hold (refundable if group fails)
-//    - "committed": 25% of group price (deducted from final purchase)
+//  DEPOSIT MODAL — collects + saves card (no charge) for a tier upgrade
+//  New flow (per user request):
+//    • At join time we VALIDATE + SAVE the card via Stripe SetupIntent.
+//      No money moves now — Stripe runs at most a $0/$1 verification that
+//      is immediately voided. The PaymentMethod is attached to a Customer.
+//    • When the deal closes successfully, the user receives a notification
+//      and approves the actual charge (see /api/deals/:id/charge-confirmed).
+//    • If the deal cancels, nothing was charged — nothing to refund.
+//  Tier semantics preserved for analytics:
+//    - "watching":  default tier on hold-spot
+//    - "committed": user signalled stronger intent (commits to buy)
 // ─────────────────────────────────────────────────────────────────
 function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) {
   const [cardName, setCardName] = useState("");
   const cardRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [done, setDone] = useState(null); // { paymentIntentId, status }
+  const [done, setDone] = useState(null); // { setupIntentId, status, paymentMethodId, cardLast4 }
 
   const TIER_INFO = {
     watching: {
-      title: "רישום מקדים לסבב",
+      title: "שמירת מקום בקבוצה",
       emoji: "📋",
       gradient: "from-slate-500 to-gray-600",
-      explainer: `פיקדון ₪${depositAmount} שומר את מקומך בסבב הנוכחי. הסכום יוקפא בכרטיס בלבד — לא יחויב כעת.`,
+      explainer: `שמירת אמצעי תשלום בלבד — לא יחויב דבר עכשיו. הכרטיס יחויב רק אם הקבוצה תיסגר ואחרי אישור שלך.`,
       bullets: [
-        `✓ הסכום מקוזז מהמחיר הסופי בסגירת הסבב`,
-        `✓ אם הסבב לא ייסגר — מוחזר במלואו תוך 7 ימים`,
-        `✓ ניתן לשדרג להגשת הזמנה רשמית בכל שלב`,
+        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
+        `✓ הקבוצה לא נסגרה? אין שום חיוב, שום הקפאה`,
+        `✓ הקבוצה נסגרה? תקבל הודעה לאישור החיוב — לפי בחירתך`,
       ],
     },
     committed: {
-      title: "הגשת הזמנה לסבב",
+      title: "הצטרפות עם נעילת מחיר",
       emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `פיקדון של 25% (₪${depositAmount.toLocaleString()}) על הזמנה רשמית. נועל את המחיר הנוכחי. היתרה תיגבה רק בסגירת הסבב.`,
+      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחויב כעת.`,
       bullets: [
-        `✓ נעילת מחיר — לא תשלם/י יותר גם אם המחיר עולה`,
-        `✓ אם המחיר בסבב יורד — תקבל/י את המחיר הנמוך יותר`,
-        `✓ אם הסבב לא ייסגר — הפיקדון משוחרר אוטומטית`,
+        `✓ נעילת מחיר — המחיר הנוכחי שמור עבורך`,
+        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
+        `✓ סגירת הקבוצה? נשלח הודעה, ותאשר את החיוב בלחיצה`,
       ],
     },
   };
@@ -9146,7 +9171,8 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
     if (!cardName.trim()) { setError("חובה למלא שם על הכרטיס"); return; }
     setSubmitting(true); setError("");
     try {
-      // 1) Server creates a PaymentIntent (manual capture) and returns clientSecret
+      // 1) Server creates a SetupIntent + Stripe Customer, returns clientSecret.
+      //    No charge — only card validation + save.
       const endpoint = tier === "committed"
         ? `/api/deals/${deal.id}/commit-deposit`
         : `/api/deals/${deal.id}/hold-spot`;
@@ -9156,24 +9182,40 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
         body: JSON.stringify({ amount: depositAmount, tier }),
       });
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בעיבוד התשלום");
-      // 2) Stripe.js confirms the card directly against Stripe (we never see the PAN).
-      //    In stub mode the helper short-circuits to { ok: true, stub: true }.
-      // Defensive: validate that Stripe Elements actually loaded AND that the
-      // server returned a usable client secret (or stub flag) before proceeding.
+      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בשמירת הכרטיס");
       if (!data.stub && !data.clientSecret) {
-        throw new Error("שרת התשלום לא החזיר מזהה תשלום — נסה שוב");
+        throw new Error("שרת התשלום לא החזיר מזהה — נסה שוב");
       }
       if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
-        throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
+        throw new Error("טופס הכרטיס לא נטען. רענן את הדף ונסה שוב.");
       }
-      const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub });
-      if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
-      setDone({ paymentIntentId: data.paymentIntentId, status: data.status });
-      // Reset submitting BEFORE the success-redirect so the modal isn't stuck
-      // disabled if the user closes it during the 1.2s animation.
+      // 2) Stripe.js confirms the SetupIntent — saves the card on the customer
+      //    without charging. Returns the PaymentMethod id.
+      const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub, mode: "setup" });
+      if (!confirm?.ok) throw new Error(confirm?.error || "שמירת הכרטיס נכשלה");
+      // 3) Tell the server which PaymentMethod was saved so it can charge
+      //    off-session later when the deal closes.
+      if (confirm.paymentMethodId && token) {
+        try {
+          await fetch(`/api/deals/${deal.id}/save-payment-method`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({
+              paymentMethodId: confirm.paymentMethodId,
+              cardLast4:       confirm.cardLast4 || "",
+              cardBrand:       confirm.cardBrand || "",
+            }),
+          });
+        } catch (_) {}
+      }
+      setDone({
+        setupIntentId:   data.setupIntentId,
+        status:          data.status,
+        paymentMethodId: confirm.paymentMethodId,
+        cardLast4:       confirm.cardLast4,
+      });
       setSubmitting(false);
-      setTimeout(() => onSuccess(tier, data), 1200);
+      setTimeout(() => onSuccess(tier, { ...data, ...confirm }), 1500);
     } catch (e) {
       setError(e.message); setSubmitting(false);
     }
@@ -9205,16 +9247,21 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
               <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Check className="w-7 h-7 text-emerald-600" />
               </div>
-              <p className="font-black text-gray-900 text-lg">הצטרפת בהצלחה!</p>
-              <p className="text-xs text-gray-500 mt-1">פיקדון ₪{depositAmount.toLocaleString()} הוקפא בכרטיס.</p>
+              <p className="font-black text-gray-900 text-lg">הכרטיס נשמר 🎉</p>
+              <p className="text-xs text-gray-600 mt-2 leading-relaxed">
+                {done.cardLast4
+                  ? `כרטיס שמסתיים ב-${done.cardLast4} נשמר לטובת חיוב עתידי בלבד.`
+                  : "אמצעי התשלום נשמר לטובת חיוב עתידי בלבד."}
+              </p>
+              <p className="text-[11px] text-gray-500 mt-1">לא חויבת — נשלח הודעה אם הקבוצה תיסגר וננחה אותך לאשר את החיוב.</p>
             </div>
           ) : (
             <>
-              {/* Deposit summary */}
-              <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                <p className="text-[10px] text-gray-500 font-bold tracking-wide uppercase">פיקדון לתשלום</p>
-                <p className="text-3xl font-black text-gray-900 mt-1">₪{depositAmount.toLocaleString()}</p>
-                <p className="text-[11px] text-gray-500 mt-2 leading-relaxed">{info.explainer}</p>
+              {/* "Today you pay ₪0" — leading visual emphasis */}
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                <p className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">חיוב היום</p>
+                <p className="text-3xl font-black text-emerald-700 mt-1">₪0</p>
+                <p className="text-[11px] text-emerald-800 mt-2 leading-relaxed">{info.explainer}</p>
               </div>
 
               {/* Bullets */}
@@ -9236,9 +9283,9 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 
               <button onClick={handleSubmit} disabled={submitting}
                 className={`w-full py-3.5 bg-gradient-to-r ${info.gradient} text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50`}>
-                {submitting ? "מעבד..." : `🔒 הקפא ₪${depositAmount.toLocaleString()} בכרטיס`}
+                {submitting ? "שומר..." : `🔒 שמור אמצעי תשלום (אפס חיוב)`}
               </button>
-              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב כעת — רק יוקפא הסכום המוצג.</p>
+              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב היום — רק יוודא שהוא תקף. תקבל הודעה אחרי סגירת הקבוצה לאישור החיוב.</p>
             </>
           )}
         </div>

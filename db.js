@@ -323,6 +323,29 @@ export function removeJoinedDeal(userId, dealId) {
   save(_db);
 }
 
+// Patch payment-related fields on an existing join record.
+// Used by the SetupIntent + off-session charge flow:
+//   • after /hold-spot or /commit-deposit  → { stripeCustomerId, setupIntentId, reservedAmount }
+//   • after frontend confirmCardSetup     → { paymentMethodId, cardLast4, cardBrand, savedAt }
+//   • after deal-close charge succeeds    → { chargedAt, lastChargeTxId, lastPaymentIntentId, chargeStatus }
+// Non-destructive: only assigns fields that are passed in.
+export function updateJoinedDealPayment(userId, dealId, fields = {}) {
+  _db = load();
+  const j = _db.joinedDeals.find(x => x.userId === Number(userId) && String(x.dealId) === String(dealId));
+  if (!j) return null;
+  const allowed = [
+    "stripeCustomerId", "setupIntentId", "reservedAmount",
+    "paymentMethodId", "cardLast4", "cardBrand", "savedAt",
+    "chargedAt", "lastChargeTxId", "lastPaymentIntentId", "chargeStatus",
+  ];
+  for (const k of allowed) {
+    if (fields[k] !== undefined) j[k] = fields[k];
+  }
+  j.updatedAt = new Date().toISOString();
+  save(_db);
+  return j;
+}
+
 // ── Orders ──────────────────────────────────────────────────────
 // Created when a customer accepts a supplier offer OR a deal closes successfully
 export function createOrder({ userId, supplierId, supplierName, productName, productImage, price, quantity = 1, requestId = null, dealId = null, shippingAddress, paymentMethod = "stub" }) {
