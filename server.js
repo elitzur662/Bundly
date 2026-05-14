@@ -3604,6 +3604,20 @@ app.get("/api/search-products-stream",
       if (!_l1Fresh && _l1) ZAP_CAT_CACHE.delete(sogCacheKey); // evict stale L1
       let cachedEntry = (_l1Fresh ? _l1 : null)
         || getCategoryFromDB(sogCacheKey, ZAP_CAT_TTL_MS);
+      // Fallback: q-narrowed cache might only have ~29 models (single page
+      // before CF block tripped). If the general sog cache (no q=) has a
+      // dramatically larger set, prefer the general — the q= filter usually
+      // narrowed by an over-restrictive descriptor we'd rather drop.
+      if (zapQ && (!cachedEntry || cachedEntry.candidates.length < 40)) {
+        const _l1General = ZAP_CAT_CACHE.get(detectedSog);
+        const _l1GenFresh = _l1General && (Date.now() - _l1General.ts) < ZAP_CAT_TTL_MS;
+        const generalEntry = (_l1GenFresh ? _l1General : null)
+          || getCategoryFromDB(detectedSog, ZAP_CAT_TTL_MS);
+        if (generalEntry && generalEntry.candidates.length >= (cachedEntry?.candidates.length || 0) * 5) {
+          console.log(`  ↳ Stream: 💾 sog="${detectedSog}" general cache (${generalEntry.candidates.length} models) preferred over q-narrowed (${cachedEntry?.candidates.length || 0})`);
+          cachedEntry = generalEntry;
+        }
+      }
       if (cachedEntry) {
         // Promote L2 hit to L1
         if (!ZAP_CAT_CACHE.has(sogCacheKey)) ZAP_CAT_CACHE.set(sogCacheKey, cachedEntry);
@@ -3833,6 +3847,12 @@ app.get("/api/search-products-stream",
           "חשמליים","חשמלי","חשמליות","חשמל","ישראל","מקצועי","איכותי","מומלץ",
           "אלחוטי","אלחוטיים","אלחוטית","אלחוטיות","נטען","נטענת",
           "מקצועית","מקצועיים","מקצועיות","ביתי","ביתית","ביתיים",
+          // "What the appliance does" descriptors — redundant once the sog
+          // already picks the category. Example: "תנור אפייה" was narrowing
+          // 3164 ovens → 31 because most product titles say "תנור Bosch"
+          // without "אפייה". Adding these stops kills the false-negative.
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
         ]);
         const _stem = w => {
           if (/[\u0590-\u05FF]/.test(w)) {
@@ -3873,14 +3893,20 @@ app.get("/api/search-products-stream",
           });
           const _flatStems = _heStemGroups.flat();
           // Dry-run: only apply if the filter leaves a meaningful number of candidates.
-          // Otherwise, Zap products may be in English (brand names) and we'd wipe everything.
-          if (heFiltered.length >= 3) {
+          // Multiple safety nets so we don't over-narrow:
+          //   • Fewer than 3 matches → likely English-titled products (Bosch, LG…)
+          //     that don't contain the Hebrew stems. Keep everything.
+          //   • Dropped below 2% of the original (e.g. 3164 → 31 for "תנור אפייה")
+          //     with a reasonably big starting set → the second query word is
+          //     probably a redundant descriptor, not a real refinement. Keep all.
+          const ratio = beforeCount > 0 ? (heFiltered.length / beforeCount) : 0;
+          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.02)) {
             candidates = heFiltered;
             console.log(`  ↳ Stream: Hebrew stem filter — ${beforeCount} → ${heFiltered.length} candidates (groups: ${_heStemGroups.length}, stems: [${_flatStems.slice(0,6).join(", ")}])`);
           } else if (heFiltered.length === 0) {
             console.log(`  ↳ Stream: Hebrew stem filter — 0 matches (stems: [${_flatStems.slice(0,6).join(", ")}]) — keeping all ${beforeCount} (products likely in English)`);
           } else {
-            console.log(`  ↳ Stream: Hebrew stem filter — only ${heFiltered.length} matches — keeping all ${beforeCount} (too narrow)`);
+            console.log(`  ↳ Stream: Hebrew stem filter — ${heFiltered.length}/${beforeCount} too narrow (ratio ${(ratio*100).toFixed(1)}% < 2%) — keeping all`);
           }
         }
       }
@@ -4428,6 +4454,10 @@ app.get("/api/search-products-stream",
           "אלחוטי","אלחוטיים","אלחוטית","אלחוטיות","נטען","נטענת",
           "מקצועי","מקצועית","מקצועיים","ביתי","ביתית","ביתיים",
           "ישראל","איכותי","מומלץ",
+          // Mirrors _HE_STOP in the upstream filter — "what the appliance does"
+          // words that are redundant with the category sog.
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
         ]);
         // Strip common Hebrew plural / construct-state suffixes
         const _stem = w => {
@@ -5962,7 +5992,11 @@ const ZAP_SOG_MAP = {
   "מכונות קפה": "e-coffeemachine", "מכונת קפה": "e-coffeemachine",
   // disambiguation sub-queries → מכונות קפה:
   "מכונת קפה קפסולות": "e-coffeemachine", "מכונת קפה אוטומטית": "e-coffeemachine", "מכונת קפה מטפטפת": "e-coffeemachine",
-  "תנורים": "e-oven", "תנור": "e-oven", "תנורי אפייה": "e-oven",
+  "תנורים": "e-oven", "תנור": "e-oven",
+  "תנורי אפייה": "e-oven", "תנור אפייה": "e-oven", "תנור אפיה": "e-oven",
+  "תנורי בנוי": "e-oven", "תנור בנוי": "e-oven",
+  "תנורי משולב": "e-oven", "תנור משולב": "e-oven", "תנור משולב כיריים": "e-oven",
+  "תנור מיקרוגל משולב": "e-oven", "תנור אדים": "e-oven",
   // ── חימום וקירור ────────────────────────────────────────────────────────────
   "מזגנים": "e-airconditioner", "מזגן": "e-airconditioner",
   // ── מסכי מחשב (by screen-size / type queries) ─────────────────────────────
@@ -7959,7 +7993,20 @@ async function fetchZapSearchPage(makeSearchUrl, pageIdx) {
   let effectiveUrl = url;
   // Handle Zap 302 redirect (keyword search → models.aspx?sog=...)
   if ((resp.status === 301 || resp.status === 302) && resp.headers["location"]) {
-    const loc = resp.headers["location"];
+    let loc = resp.headers["location"];
+    // ── Fix mojibake on the Location header ────────────────────────────
+    // ZAP sends raw UTF-8 bytes in the Location header. Node's HTTP layer
+    // reads headers as Latin-1, so Hebrew arrives as "×ª× ××¨ ××¤×××"
+    // (each char = one UTF-8 byte). If we percent-encode that further we
+    // get a double-encoded mess like %C3%83%C2%97. Detect & repair by
+    // reinterpreting the string as Latin-1 bytes → UTF-8 string.
+    try {
+      if (/[-ÿ]/.test(loc)) {
+        const repaired = Buffer.from(loc, "latin1").toString("utf8");
+        // Only adopt the repair if it produced valid Hebrew / printable text
+        if (/[֐-׿]/.test(repaired)) loc = repaired;
+      }
+    } catch (_) {}
     let redirectPath = loc.startsWith("http")
       ? (() => { try { const u = new URL(loc); return u.pathname + u.search; } catch (_) { return loc; } })()
       : loc;
@@ -12951,6 +12998,22 @@ if (process.env.NODE_ENV === "production") {
 // Tap server errors into the audit log before the safe handler returns 500
 app.use(logServerErrors(audit));
 app.use(safeErrorHandler);
+
+// ── Last-resort handlers: log and keep the process alive ──────
+// ECONNRESET from upstream scrapers and short-lived stream/client aborts
+// kept crashing the process and forcing Vite to restart Express. Trap them
+// here so the user-facing server stays up; the original request still 502s
+// to the caller, but the next request goes through normally.
+process.on("uncaughtException", (err) => {
+  console.error(`[uncaughtException] ${err.code || "ERR"}: ${err.message}`);
+  if (err.code !== "ECONNRESET" && err.code !== "EPIPE") {
+    console.error(err.stack);
+  }
+});
+process.on("unhandledRejection", (reason) => {
+  const msg = reason instanceof Error ? `${reason.code || "ERR"}: ${reason.message}` : String(reason);
+  console.error(`[unhandledRejection] ${msg}`);
+});
 
 const server = app.listen(PORT, () => {
   console.log(`\n🚀 Bundly API server running on http://localhost:${PORT}`);
