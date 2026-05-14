@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { ChevronDown, ChevronLeft, X, Mail, Phone, MessageCircle, Star, Send, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { ChevronDown, ChevronLeft, X, MessageCircle, Star, Send, AlertCircle, CheckCircle, Clock } from "lucide-react";
 
 // ── FAQ knowledge base entries ─────────────────────────────────
 // Plain Q/A data — keep small + concrete. New items go at the bottom of the
