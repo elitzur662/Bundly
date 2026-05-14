@@ -5758,6 +5758,7 @@ const SOG_SANITY_KEYWORDS = {
   "e-hairdrayer":      ["hair","dyson","remington","philips","babyliss","מייבש שיער","פן"],
   "e-hairdesigner":   ["hair","straightener","curler","מחליק","מסלסל","תלתלן","babyliss","remington","dyson"],
   "e-epilator":       ["epilator","ipl","braun","philips","remington","מסיר שיער","silk"],
+  "e-hairremover":    ["ipl","laser","lumea","silk expert","silk-expert","intense pulsed","i light","אפילטור","מסיר שיער","הסרת שיער","שעווה","epilator","philips","braun","remington","panasonic","kemei"],
   "e-shaver":         ["shaver","braun","philips","remington","gillette","גילוח","trimmer","beard"],
   "e-ladyshaver":     ["braun","philips","remington","silk","lady","epilator","ipl"],
   "e-massager":       ["massage","theragun","hypervolt","נוב","percussion","עיסוי","מסאג"],
@@ -6033,8 +6034,17 @@ const ZAP_SOG_MAP = {
   "מכשירי קרליות": "e-hairdesigner",
   // e-hairstyler removed — not a valid ZAP sog (returns unrelated products)
   // search.aspx will find the correct category for these queries
-  // e-epilator removed — not a valid ZAP sog (returns BBQ grills, same as e-hairstyler)
-  // search.aspx will find the correct category for אפילטורים / IPL
+  // Hair-removal devices (consumer IPL, laser, epilators, electric wax) — all live in
+  // the e-hairremover sog ("מסירי שיער"). Previously this was unmapped so ZAP redirected
+  // it to b-cosmeticequipment (PROFESSIONAL salon equipment — sterilizers, salon chairs)
+  // which is why the page showed unrelated products with wrong images.
+  "מכשירי IPL ביתי": "e-hairremover", "מכשיר IPL ביתי": "e-hairremover",
+  "IPL ביתי": "e-hairremover", "IPL": "e-hairremover",
+  "מכשירי לייזר ביתי": "e-hairremover", "מכשיר לייזר ביתי": "e-hairremover",
+  "לייזר ביתי": "e-hairremover",
+  "מכשירי הסרת שיער": "e-hairremover", "הסרת שיער": "e-hairremover",
+  "אפילטורים חשמליים": "e-hairremover", "אפילטור": "e-hairremover", "אפילטור חשמלי": "e-hairremover",
+  "מכשירי שעווה חשמלית": "e-hairremover", "שעווה חשמלית": "e-hairremover",
   "מכשירי גילוח חשמליים לגברים": "e-shaver", "מכשירי גילוח": "e-shaver",
   "מגזמי זקן": "e-shaver", "מגזם זקן": "e-shaver",
   "מגזמי שיער ביתיים": "e-shaver",
@@ -6660,6 +6670,7 @@ const PREWARM_CATEGORIES = [
   ["e-hairdesigner",     null],  // מחליקי/מסלסלי שיער
   // ["e-hairstyler",   null],  // removed — invalid sog
   // ["e-epilator",      null],  // removed — invalid sog (returns BBQ grills)
+  ["e-hairremover",     null],  // IPL / לייזר ביתי / אפילטורים — ~250 models
   ["e-shaver",          null],  // מכשירי גילוח לגברים
   ["e-ladyshaver",      null],  // גילוח לנשים
   ["e-beautymachine",   null],  // מכשירי טיפוח פנים
