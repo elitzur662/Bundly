@@ -1244,9 +1244,9 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
         } rounded-xl px-2.5 py-1.5 transition-all ${className}`}
       >
         {existing ? (
-          <><Users className="w-3 h-3 flex-shrink-0" /><span>{existing.count} מעוניינים · אפשרויות הוזלת מחיר</span></>
+          <><Users className="w-3 h-3 flex-shrink-0" /><span>{existing.count} מעוניינים · בקשו הצעת מחיר אישית</span></>
         ) : (
-          <><Sparkles className="w-3 h-3 flex-shrink-0" /><span>אפשרויות הוזלת מחיר</span></>
+          <><Sparkles className="w-3 h-3 flex-shrink-0" /><span>בקשו הצעת מחיר אישית</span></>
         )}
       </button>
 
@@ -1262,7 +1262,7 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
             {/* Header */}
             <div className="px-5 pt-5 pb-3 border-b border-gray-100 sticky top-0 bg-white z-10">
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-black text-gray-900">אפשרויות הוזלת מחיר</h3>
+                <h3 className="text-base font-black text-gray-900">בקשו הצעת מחיר אישית</h3>
                 <button onClick={closeAll} className="text-gray-400 hover:text-gray-600 transition">
                   <X className="w-5 h-5" />
                 </button>
