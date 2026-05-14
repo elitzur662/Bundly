@@ -7912,7 +7912,20 @@ async function fetchZapSearchPage(makeSearchUrl, pageIdx) {
   let effectiveUrl = url;
   // Handle Zap 302 redirect (keyword search → models.aspx?sog=...)
   if ((resp.status === 301 || resp.status === 302) && resp.headers["location"]) {
-    const loc = resp.headers["location"];
+    let loc = resp.headers["location"];
+    // ── Fix mojibake on the Location header ────────────────────────────
+    // ZAP sends raw UTF-8 bytes in the Location header. Node's HTTP layer
+    // reads headers as Latin-1, so Hebrew arrives as "×ª× ××¨ ××¤×××"
+    // (each char = one UTF-8 byte). If we percent-encode that further we
+    // get a double-encoded mess like %C3%83%C2%97. Detect & repair by
+    // reinterpreting the string as Latin-1 bytes → UTF-8 string.
+    try {
+      if (/[-ÿ]/.test(loc)) {
+        const repaired = Buffer.from(loc, "latin1").toString("utf8");
+        // Only adopt the repair if it produced valid Hebrew / printable text
+        if (/[֐-׿]/.test(repaired)) loc = repaired;
+      }
+    } catch (_) {}
     let redirectPath = loc.startsWith("http")
       ? (() => { try { const u = new URL(loc); return u.pathname + u.search; } catch (_) { return loc; } })()
       : loc;
@@ -12904,6 +12917,22 @@ if (process.env.NODE_ENV === "production") {
 // Tap server errors into the audit log before the safe handler returns 500
 app.use(logServerErrors(audit));
 app.use(safeErrorHandler);
+
+// ── Last-resort handlers: log and keep the process alive ──────
+// ECONNRESET from upstream scrapers and short-lived stream/client aborts
+// kept crashing the process and forcing Vite to restart Express. Trap them
+// here so the user-facing server stays up; the original request still 502s
+// to the caller, but the next request goes through normally.
+process.on("uncaughtException", (err) => {
+  console.error(`[uncaughtException] ${err.code || "ERR"}: ${err.message}`);
+  if (err.code !== "ECONNRESET" && err.code !== "EPIPE") {
+    console.error(err.stack);
+  }
+});
+process.on("unhandledRejection", (reason) => {
+  const msg = reason instanceof Error ? `${reason.code || "ERR"}: ${reason.message}` : String(reason);
+  console.error(`[unhandledRejection] ${msg}`);
+});
 
 const server = app.listen(PORT, () => {
   console.log(`\n🚀 Bundly API server running on http://localhost:${PORT}`);
