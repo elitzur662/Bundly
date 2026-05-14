@@ -3802,6 +3802,12 @@ app.get("/api/search-products-stream",
           "חשמליים","חשמלי","חשמליות","חשמל","ישראל","מקצועי","איכותי","מומלץ",
           "אלחוטי","אלחוטיים","אלחוטית","אלחוטיות","נטען","נטענת",
           "מקצועית","מקצועיים","מקצועיות","ביתי","ביתית","ביתיים",
+          // "What the appliance does" descriptors — redundant once the sog
+          // already picks the category. Example: "תנור אפייה" was narrowing
+          // 3164 ovens → 31 because most product titles say "תנור Bosch"
+          // without "אפייה". Adding these stops kills the false-negative.
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
         ]);
         const _stem = w => {
           if (/[\u0590-\u05FF]/.test(w)) {
@@ -3842,14 +3848,20 @@ app.get("/api/search-products-stream",
           });
           const _flatStems = _heStemGroups.flat();
           // Dry-run: only apply if the filter leaves a meaningful number of candidates.
-          // Otherwise, Zap products may be in English (brand names) and we'd wipe everything.
-          if (heFiltered.length >= 3) {
+          // Multiple safety nets so we don't over-narrow:
+          //   • Fewer than 3 matches → likely English-titled products (Bosch, LG…)
+          //     that don't contain the Hebrew stems. Keep everything.
+          //   • Dropped below 2% of the original (e.g. 3164 → 31 for "תנור אפייה")
+          //     with a reasonably big starting set → the second query word is
+          //     probably a redundant descriptor, not a real refinement. Keep all.
+          const ratio = beforeCount > 0 ? (heFiltered.length / beforeCount) : 0;
+          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.02)) {
             candidates = heFiltered;
             console.log(`  ↳ Stream: Hebrew stem filter — ${beforeCount} → ${heFiltered.length} candidates (groups: ${_heStemGroups.length}, stems: [${_flatStems.slice(0,6).join(", ")}])`);
           } else if (heFiltered.length === 0) {
             console.log(`  ↳ Stream: Hebrew stem filter — 0 matches (stems: [${_flatStems.slice(0,6).join(", ")}]) — keeping all ${beforeCount} (products likely in English)`);
           } else {
-            console.log(`  ↳ Stream: Hebrew stem filter — only ${heFiltered.length} matches — keeping all ${beforeCount} (too narrow)`);
+            console.log(`  ↳ Stream: Hebrew stem filter — ${heFiltered.length}/${beforeCount} too narrow (ratio ${(ratio*100).toFixed(1)}% < 2%) — keeping all`);
           }
         }
       }
@@ -4381,6 +4393,10 @@ app.get("/api/search-products-stream",
           "אלחוטי","אלחוטיים","אלחוטית","אלחוטיות","נטען","נטענת",
           "מקצועי","מקצועית","מקצועיים","ביתי","ביתית","ביתיים",
           "ישראל","איכותי","מומלץ",
+          // Mirrors _HE_STOP in the upstream filter — "what the appliance does"
+          // words that are redundant with the category sog.
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
         ]);
         // Strip common Hebrew plural / construct-state suffixes
         const _stem = w => {
