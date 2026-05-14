@@ -19242,12 +19242,18 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
                           // GPT collected one-by-one but couldn't pack into reliable
                           // filters. parseChatIntent returns deterministic price /
                           // size / brand fields the category page can pre-apply.
+                          // When the parser identifies a clean category, we prefer
+                          // its broad Hebrew query name ("טלוויזיה") over GPT's
+                          // enriched string ("tv OLED 60-70") — the enriched
+                          // version triggers the strict post-filter on ZAP and
+                          // narrows 600 TVs to 28 OLED-only. Filters go in the UI
+                          // where the user can see + tweak them.
                           const combined = [
                             msg.searchQuery,
                             ...messages.filter(m => m.role === "user").map(m => m.content),
                           ].join(" ");
                           const intent = parseChatIntent(combined);
-                          onSearchProduct(msg.searchQuery, intent?.filters || null);
+                          onSearchProduct(intent?.query || msg.searchQuery, intent?.filters || null);
                         }}
                         className="chat-results-btn w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-l from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-xl transition text-sm font-bold shadow-md hover:shadow-lg"
                       >
