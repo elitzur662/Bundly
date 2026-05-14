@@ -6087,6 +6087,102 @@ const ZAP_SOG_MAP = {
   // ── ריהוט ──────────────────────────────────────────────────────────────────
   "ספות": "h-livingroomset", "ספה": "h-livingroomset",
   "מיטות": "h-bed", "מיטה": "h-bed",
+
+  // ── Bulk-mapped from ZAP redirect probe (probe-categories.mjs) ────────────
+  // Each entry was verified by hitting search.aspx?keyword=X and reading the
+  // 301-redirect Location header. Only mappings whose target sog name clearly
+  // matches the Hebrew leaf semantically are included; suspect redirects (e.g.
+  // ספסלי כושר → h-towel) were left unmapped so search.aspx can keep trying.
+  // ── מטבח ───────────────────────────────────────────────────────────────────
+  "טוסטרים": "e-toster", "טוסטר": "e-toster", "טוסטר לחם": "e-toster", "טוסטר אובן": "e-toster", "מכונת כריכים": "e-toster",
+  "מיקסרים": "e-mixer", "מיקסר": "e-mixer",
+  "מעבדי מזון": "e-foodproccessor", "מעבד מזון": "e-foodproccessor",
+  "סירי בישול וטיגון": "h-cookingpots", "סירי בישול": "h-cookingpots", "סיר טיגון": "h-cookingpots", "מחבת חשמלית": "h-cookingpots",
+  "פלטות חשמליות": "e-plata", "פלטה חשמלית": "e-plata", "פלטת שבת": "e-plata",
+  "קולטי אדים": "e-hoods", "קולט אדים": "e-hoods",
+  "מכונות שטיפה וטאטוא": "h-washer", "מכונת שטיפה": "h-washer",
+  // ── שמע / מולטימדיה ───────────────────────────────────────────────────────
+  "מיקרופונים": "e-microphone", "מיקרופון": "e-microphone",
+  "מציאות מדומה": "e-vrglasses", "VR": "e-vrglasses", "משקפי VR": "e-vrglasses", "Meta Quest": "e-vrglasses",
+  "ג'ויסטיקים ואביזרי משחק": "c-joystick", "ג'ויסטיק": "c-joystick", "Joystick": "c-joystick", "אביזרי משחק": "c-joystick",
+  // ── סלולר / שעונים ─────────────────────────────────────────────────────────
+  "טלפונים סלולריים בסיסיים": "e-cellphone", "טלפון בסיסי": "e-cellphone", "טלפון נוקיה": "e-cellphone",
+  "שעונים חכמים": "e-cellwatch", "שעון חכם": "e-cellwatch", "Apple Watch": "e-cellwatch", "Galaxy Watch": "e-cellwatch",
+  "מטענים": "e-charger", "מטען": "e-charger", "פאוורבנק": "e-charger", "מטען נייד": "e-charger",
+  // ── אבטחה ─────────────────────────────────────────────────────────────────
+  "מצלמות אבטחה": "g-hiddencam", "מצלמת אבטחה": "g-hiddencam", "מצלמת רחוב": "g-hiddencam",
+  // ── מחשבים — חומרה ───────────────────────────────────────────────────────
+  "שרתים": "c-server", "שרת": "c-server",
+  "מעבדים": "c-cpu", "מעבד": "c-cpu", "CPU": "c-cpu",
+  "לוחות אם": "c-motherboard", "לוח אם": "c-motherboard", "Motherboard": "c-motherboard",
+  "מארזי מחשב": "c-tower", "מארז מחשב": "c-tower",
+  "סורקים": "c-scanner", "סורק": "c-scanner",
+  "רמקולים למחשב": "c-speakers", "רמקול למחשב": "c-speakers",
+  "שולחנות גיימינג": "c-gamingtable", "שולחן גיימינג": "c-gamingtable",
+  // ── רשתות ואחסון ──────────────────────────────────────────────────────────
+  "ראוטרים": "c-router", "ראוטר": "c-router", "Router": "c-router",
+  "מגדילי טווח WiFi": "c-repeater", "מגדיל טווח": "c-repeater", "Range Extender": "c-repeater",
+  "מתגי רשת": "c-hub", "מתג רשת": "c-hub", "Network Switch": "c-hub",
+  "כוננים קשיחים": "c-harddrive", "כונן קשיח": "c-harddrive", "HDD": "c-harddrive",
+  "כרטיסי זיכרון": "c-flashmemory", "כרטיס זיכרון": "c-flashmemory", "SD card": "c-flashmemory", "Micro SD": "c-flashmemory",
+  "NAS שרתי אחסון": "c-nasserver", "NAS": "c-nasserver", "Synology": "c-nasserver", "QNAP": "c-nasserver",
+  // ── אופניים ───────────────────────────────────────────────────────────────
+  "אופני גרוויטי": "s-bycicle", "אופני Gravity": "s-bycicle", "אופני Gravel": "s-bycicle",
+  // ── רכב ──────────────────────────────────────────────────────────────────
+  "דיבוריות Bluetooth": "e-diburit", "דיבורית": "e-diburit",
+  "מולטימדיה לרכב": "t-mp3", "מסך מולטימדיה לרכב": "t-mp3",
+  "רמקולים לרכב": "t-speakers", "רמקול לרכב": "t-speakers",
+  "מגברים לרכב": "t-amplifier", "מגבר לרכב": "t-amplifier",
+  "מצברים לרכב": "t-carbattery", "מצבר לרכב": "t-carbattery", "מצבר": "t-carbattery",
+  "מד מתח לרכב": "t-converter", "ממיר מתח": "t-converter", "Inverter רכב": "t-converter",
+
+  // ── Found via alternative-synonym probe (probe-alternatives.mjs) ──────────
+  // ── צילום ──────────────────────────────────────────────────────────────────
+  "עדשות": "h-cameralens", "עדשת מצלמה": "h-cameralens",
+  "חצובות": "h-tripod", "חצובה": "h-tripod", "מונופד": "h-tripod", "מונופד חשמלי": "h-tripod",
+  "תיקי מצלמה": "h-camerabag", "תיק מצלמה": "h-camerabag", "תרמיל מצלמה": "h-camerabag",
+  "מזל\"טים": "e-drone", "רחפן": "e-drone", "מזלט": "e-drone", "DJI": "e-drone", "drone": "e-drone",
+  // ── אביזרי סלולר ─────────────────────────────────────────────────────────
+  "אביזרי סלולר": "e-cellphonecase", "כיסוי לסלולר": "e-cellphonecase", "מגן סלולר": "e-cellphonecase",
+  // ── מחשבים — חומרה נוסף ──────────────────────────────────────────────────
+  "מחשבי מיני": "c-brandpc", "מיני PC": "c-brandpc", "Mac Mini": "c-brandpc", "Intel NUC": "c-brandpc",
+  "זיכרון RAM": "c-memory", "RAM": "c-memory", "DDR4": "c-memory", "DDR5": "c-memory",
+  "כוננים SSD": "c-harddrive", "SSD": "c-harddrive",
+  "כוננים חיצוניים": "c-harddrive", "כונן חיצוני": "c-harddrive",
+  "זיכרונות USB": "c-diskonkey", "דיסק און קי": "c-diskonkey", "Flash Drive": "c-diskonkey",
+  "מאווררים וקירור": "c-fan", "מאוורר למחשב": "c-fan", "CPU Cooler": "c-fan",
+  // ── טיפוח שיער ───────────────────────────────────────────────────────────
+  "תלתלנים חשמליים": "e-hairdesigner", "תלתלן": "e-hairdesigner",
+  // ── ספורט / בריאות ─────────────────────────────────────────────────────
+  "אקדחי עיסוי (Massage Gun)": "e-massage", "אקדח עיסוי": "e-massage", "Massage Gun": "e-massage", "Theragun": "e-massage",
+  "ספסלי כושר": "s-bench", "ספסל כושר": "s-bench", "ספסל אימון": "s-bench",
+  "מד חמצן (Pulse Oximeter)": "b-bloodpressure", "Pulse Oximeter": "b-bloodpressure",
+  "מכשירי EMS": "s-abs", "חגורת EMS": "s-abs", "EMS": "s-abs",
+  // ── אופניים — variants → catch-all s-bycicle/s-electricbike ─────────────
+  "אופניים חשמליים 250W": "s-electricbike", "אופניים חשמליים 500W": "s-electricbike",
+  "אופניים חשמליים עירוניים": "s-electricbike", "אופניים חשמליים הרריים": "s-electricbike",
+  "אופניים חשמליים מתקפלים": "s-electricbike", "אופניים חשמליים לילדים": "s-electricbike",
+  "אופניים חשמליים לנשים": "s-electricbike", "Fat Bike חשמלי": "s-electricbike",
+  "אופני כביש": "s-bycicle", "אופני הרים": "s-bycicle", "אופני עיר": "s-bycicle",
+  "אופני ילדים": "s-bycicle", "אופניים מתקפלים": "s-bycicle", "אופניים היברידיים": "s-bycicle",
+  "BMX": "s-bycicle",
+  "בקרים (Controller) לאופניים": "s-bycicle", "מנועי Mid-Drive": "s-bycicle",
+  "תצוגות LCD לאופניים": "s-bycicle", "מד מהירות חשמלי": "s-bycicle",
+  // ── אביזרי אופניים — catch-all s-bicycleaccessories ─────────────────────
+  "קסדות אופניים": "s-bicycleaccessories", "מנעולי אופניים": "s-bicycleaccessories",
+  "תאורה לאופניים": "s-bicycleaccessories", "מחזיקי טלפון לאופניים": "s-bicycleaccessories",
+  "בגדי רכיבה": "s-bicycleaccessories", "כפפות רכיבה": "s-bicycleaccessories",
+  "פעמוני אופניים": "s-bicycleaccessories", "משאבות אוויר": "s-bicycleaccessories",
+  "תיקי אופניים": "s-bicycleaccessories",
+  // ── בית חכם — catch-all b-smarthome ─────────────────────────────────────
+  "פעמוני דלת חכמים (Video Doorbell)": "b-smarthome", "Video Doorbell": "b-smarthome",
+  "בקרי תאורה חכמים": "b-smarthome", "Philips Hue": "b-smarthome", "תאורה חכמה": "b-smarthome",
+  "חיישני תנועה": "b-smarthome", "חיישן תנועה": "b-smarthome",
+  // ── רכב — broad t- sogs ────────────────────────────────────────────────
+  "מצלמות דרך (Dash Cam)": "t-dashcam", "מצלמת דרך": "t-dashcam", "Dash Cam": "t-dashcam",
+  "בוסטרים חשמליים להתנעה": "t-batterycharger", "בוסטר התנעה": "t-batterycharger", "Jump Starter": "t-batterycharger",
+  // עמדות טעינה לרכב חשמלי — wallbox redirects to t-converter on ZAP but this is borderline;
+  // EV charging stations are sparse on ZAP. Routes via search.aspx for now (better than wrong sog).
 };
 
 //       (prices + store names are SSR'd, no JS needed)
