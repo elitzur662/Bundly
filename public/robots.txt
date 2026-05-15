@@ -6,4 +6,4 @@ Disallow: /product-img/
 Disallow: /product-db/
 Disallow: /invoices/
 
-Sitemap: https://bundly.co/sitemap.xml
+Sitemap: https://www.bundly.co/sitemap.xml
