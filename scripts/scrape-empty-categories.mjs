@@ -174,18 +174,31 @@ function writeOutputs(slug, products) {
     .map(p => toProductDbShape(p, now))
     .filter(Boolean);
 
-  // If the slug already had a populated file, optionally MERGE rather than replace
-  // so we don't blow away previously-enriched data from other sources.
-  if (!REFRESH && fs.existsSync(productsPath)) {
+  // If the slug already had a populated file, optionally MERGE rather than
+  // replace so we don't blow away previously-enriched data from other
+  // sources. We attempt the read directly (no existsSync check first) to
+  // avoid a TOCTOU race between check and read — readFileSync returns
+  // ENOENT cleanly when the file is missing.
+  let existing = null;
+  if (!REFRESH) {
     try {
-      const existing = JSON.parse(fs.readFileSync(productsPath, "utf8"));
-      const byId = new Map(existing.map(r => [r.id, r]));
-      for (const r of rows) byId.set(r.id, { ...byId.get(r.id), ...r });
-      const merged = [...byId.values()];
-      fs.writeFileSync(productsPath, JSON.stringify(merged, null, 2));
-      fs.writeFileSync(metaPath, JSON.stringify({ pricesTs: now, catalogTs: now }, null, 2));
-      return { wrote: merged.length, added: rows.filter(r => !byId.has(r.id)).length };
-    } catch (_) { /* fall through to overwrite */ }
+      existing = JSON.parse(fs.readFileSync(productsPath, "utf8"));
+    } catch (e) {
+      if (e.code !== "ENOENT") {
+        // Malformed JSON or unreadable → fall through to overwrite below.
+        existing = null;
+      }
+    }
+  }
+
+  if (existing) {
+    const byId = new Map(existing.map(r => [r.id, r]));
+    const before = byId.size;
+    for (const r of rows) byId.set(r.id, { ...byId.get(r.id), ...r });
+    const merged = [...byId.values()];
+    fs.writeFileSync(productsPath, JSON.stringify(merged, null, 2));
+    fs.writeFileSync(metaPath, JSON.stringify({ pricesTs: now, catalogTs: now }, null, 2));
+    return { wrote: merged.length, added: merged.length - before };
   }
 
   fs.writeFileSync(productsPath, JSON.stringify(rows, null, 2));
