@@ -4231,59 +4231,102 @@ app.get("/api/search-products-stream",
     if (stubListings.length > 0)
       console.log(`  ↳ Stream: added ${stubListings.length} name-only stubs for candidates beyond ZAP_MAX_MODELS`);
 
-    // ── Phase 3: Collect organic+shopping (and await KSP cat fallback if active) ────
-    // kspCatPromise is awaited separately to avoid mixing its undefined return value
-    // into organicRes (which flatMaps the results).
-    const [shoppingRes, gsRes, ...organicRes] = await Promise.allSettled([shoppingPromise, googleShopPromise, ...organicPromises]);
-    await Promise.all([kspCatPromise, zapListingPromise]); // kspCatFallback[] + zapListingPrices populated as side-effects
-    const shoppingRaw = shoppingRes.status === "fulfilled" ? shoppingRes.value : [];
-    const gsRaw       = gsRes.status === "fulfilled" ? gsRes.value : [];
-    const organicRaw  = organicRes.flatMap(r => r.status === "fulfilled" ? r.value : []);
-
-    // ── KSP secondary source — fetch in parallel with everything else ──────
-    // Priority: category browse (when sog is known) > text search.
-    // Category browse returns ALL in-stock KSP products for the sog; text search
-    // is a keyword search and often misses category-level queries like "מחשבים נייחים".
-    // Skip this block when KSP category fallback already ran (kspCatFallback is set),
-    // to avoid double-counting.
-    let kspRaw = [];
-    if (kspCatFallback.length === 0) {  // don't run if category fallback already fired
+    // ── Phase 3: Run ALL secondary sources in parallel + race against a budget ──
+    // Before this refactor, the order was:
+    //   1. await shopping + organic (could be 30s if DFS falls back to Merchant)
+    //   2. then await KSP text search (5-15s)
+    //   3. then await Bug (5-15s)
+    // KSP and Bug were ANNOTATED as parallel in comments but actually ran sequentially
+    // after the slow await. Result: a CF-blocked ZAP search took ~60s end-to-end.
+    //
+    // Now: launch KSP/Bug as promises immediately (they only need detectedSog +
+    // kspCatFallback, both of which are already set by this point), then race the
+    // entire batch against a 14s budget. Anything that hasn't returned by then is
+    // dropped from this response — its result still goes into the DB cache in the
+    // background but doesn't block the user.
+    const kspTextPromise = (async () => {
+      if (kspCatFallback.length > 0) return []; // cat fallback already populated kspRaw equivalent
       try {
         const kspKey = q.trim().toLowerCase();
         const kspCached = getKspCacheFromDB(kspKey, 6 * 3600_000);
         const kspCachedData = Array.isArray(kspCached) ? kspCached : kspCached?.data;
         if (Array.isArray(kspCachedData) && kspCachedData.length > 0) {
-          kspRaw = kspCachedData;
-          console.log(`  ↳ KSP: cache hit — ${kspRaw.length} results`);
-        } else if (detectedSog && KSP_CAT_MAP[detectedSog] && !_kspFallbackActive) {
-          // Use category browse when sog is known — much better than text search for category queries
-          kspRaw = await getKspCategoryAll(detectedSog, { maxPages: 3, timeout: 15000 });
-          if (kspRaw.length > 0) saveKspCacheToDB(kspKey, kspRaw);
-          console.log(`  ↳ KSP: category browse "${KSP_CAT_MAP[detectedSog]}" — ${kspRaw.length} results`);
-        } else {
-          kspRaw = await searchKsp(q, { limit: 30, timeout: 8000 });
-          if (kspRaw.length > 0) saveKspCacheToDB(kspKey, kspRaw);
-          console.log(`  ↳ KSP: text search — ${kspRaw.length} results`);
+          console.log(`  ↳ KSP: cache hit — ${kspCachedData.length} results`);
+          return kspCachedData;
         }
+        if (detectedSog && KSP_CAT_MAP[detectedSog] && !_kspFallbackActive) {
+          const r = await getKspCategoryAll(detectedSog, { maxPages: 3, timeout: 10000 });
+          if (r.length > 0) saveKspCacheToDB(kspKey, r);
+          console.log(`  ↳ KSP: category browse "${KSP_CAT_MAP[detectedSog]}" — ${r.length} results`);
+          return r;
+        }
+        const r = await searchKsp(q, { limit: 30, timeout: 6000 });
+        if (r.length > 0) saveKspCacheToDB(kspKey, r);
+        console.log(`  ↳ KSP: text search — ${r.length} results`);
+        return r;
       } catch (e) {
         console.warn(`  ↳ KSP: error — ${e.message}`);
+        return [];
       }
-    }
+    })();
 
-    // ── Bug secondary source — runs in parallel with KSP (only when ZAP has data or KSP cat fallback didn't fire) ──
-    let bugRaw = [];
-    if (kspCatFallback.length === 0) {
+    const bugPromise = (async () => {
+      if (kspCatFallback.length > 0) return [];
       try {
         if (detectedSog && BUG_CAT_MAP[detectedSog]) {
-          bugRaw = await getBugCategory(detectedSog, { timeout: 12000 });
-          console.log(`  ↳ Bug: category browse — ${bugRaw.length} results`);
-        } else if (!detectedSog) {
-          bugRaw = await searchBug(q, { timeout: 10000 });
-          console.log(`  ↳ Bug: text search — ${bugRaw.length} results`);
+          const r = await getBugCategory(detectedSog, { timeout: 8000 });
+          console.log(`  ↳ Bug: category browse — ${r.length} results`);
+          return r;
+        }
+        if (!detectedSog) {
+          const r = await searchBug(q, { timeout: 6000 });
+          console.log(`  ↳ Bug: text search — ${r.length} results`);
+          return r;
         }
       } catch (e) {
         console.warn(`  ↳ Bug: error — ${e.message}`);
       }
+      return [];
+    })();
+
+    // Wait for ALL sources, but cap at 14s total. Anything slower than that is
+    // skipped for this response — the page still shows ZAP + whatever else
+    // returned in time. The dropped promise resolves later into its own caches.
+    const SLOW_BUDGET_MS = 14000;
+    const allSourcesPromise = Promise.allSettled([
+      shoppingPromise, googleShopPromise, kspTextPromise, bugPromise, ...organicPromises,
+    ]);
+    const phase3Start = Date.now();
+    const phase3Results = await Promise.race([
+      allSourcesPromise,
+      new Promise(r => setTimeout(() => r("__TIMEOUT__"), SLOW_BUDGET_MS)),
+    ]);
+    await Promise.all([kspCatPromise, zapListingPromise]); // side-effect promises (kspCatFallback, zapListingPrices)
+
+    let shoppingRaw = [], gsRaw = [], kspRaw = [], bugRaw = [], organicRaw = [];
+    if (phase3Results === "__TIMEOUT__") {
+      console.warn(`  ↳ Stream: secondary sources timed out after ${SLOW_BUDGET_MS}ms — emitting with whatever returned in time`);
+      // Pull whatever has already resolved (use .then on each individually with a
+      // 0ms timeout race so we don't block).
+      const drain = (p) => Promise.race([p, Promise.resolve("__PENDING__")]);
+      const [s, g, k, b, ...o] = await Promise.all([
+        drain(shoppingPromise), drain(googleShopPromise), drain(kspTextPromise), drain(bugPromise),
+        ...organicPromises.map(drain),
+      ]);
+      shoppingRaw = Array.isArray(s) ? s : [];
+      gsRaw       = Array.isArray(g) ? g : [];
+      kspRaw      = Array.isArray(k) ? k : [];
+      bugRaw      = Array.isArray(b) ? b : [];
+      organicRaw  = o.filter(Array.isArray).flat();
+    } else {
+      const elapsed = Date.now() - phase3Start;
+      console.log(`  ↳ Stream: secondary sources finished in ${elapsed}ms`);
+      const [shoppingRes, gsRes, kspRes, bugRes, ...organicRes] = phase3Results;
+      shoppingRaw = shoppingRes.status === "fulfilled" ? shoppingRes.value : [];
+      gsRaw       = gsRes.status === "fulfilled"       ? gsRes.value       : [];
+      kspRaw      = kspRes.status === "fulfilled"      ? kspRes.value      : [];
+      bugRaw      = bugRes.status === "fulfilled"      ? bugRes.value      : [];
+      organicRaw  = organicRes.flatMap(r => r.status === "fulfilled" ? r.value : []);
     }
 
     console.log(`  ↳ Stream: sources — zap=${allZapListings.length} ksp=${kspRaw.length} bug=${bugRaw.length} gs=${gsRaw.length} shop=${shoppingRaw.length} organic=${organicRaw.length}${kspCatFallback.length > 0 ? ` kspFallback=${kspCatFallback.length}` : ""}`);
@@ -5656,8 +5699,12 @@ async function searchDFSMerchant(query) {
   }
   console.log(`  ↳ [merchant] Task created: ${taskId} (status ${postStatus})`);
 
-  // Step 2: Poll for results (5s initial wait, then 3s intervals, up to ~20s total)
-  const delays = [5000, 3000, 3000, 3000, 3000, 3000];
+  // Step 2: Poll for results.
+  // Earlier delays were 5s + 3s×5 = 20s — too slow when the task is ready
+  // in <5s, the user pays the full 5s for nothing. Front-load tightly so
+  // fast tasks return fast, fall back to ~5s on the tail for slow ones.
+  // 1.5 + 2 + 2.5 + 3 + 4 + 5 = 18s overall budget but first probe at 1.5s.
+  const delays = [1500, 2000, 2500, 3000, 4000, 5000];
   let items = [];
   let elapsed = 0;
   for (let i = 0; i < delays.length; i++) {
