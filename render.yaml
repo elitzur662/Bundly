@@ -12,7 +12,11 @@ services:
   - type: web
     name: bundly
     runtime: node
-    plan: starter            # $7/mo. "free" plan sleeps after 15min idle.
+    # standard — $25/mo, 2GB RAM. starter (512MB) consistently OOM'd: the
+    # in-memory product catalog (17K models) + ZAP caches + suggest index +
+    # 62K-street autocomplete pushed V8 past the container limit and the
+    # kernel SIGKILL'd the process. 2GB gives ~8x headroom for organic growth.
+    plan: standard
     region: frankfurt        # closest Render region to Israel; lowest latency.
     branch: main
     autoDeploy: true
@@ -24,7 +28,13 @@ services:
     buildCommand: npm ci --legacy-peer-deps --include=dev --no-audit --no-fund && npm run build
     # NODE_ENV=production triggers server.js to serve dist/ as static + SPA fallback.
     startCommand: npm run start:prod
-    healthCheckPath: /api/stripe-public-key
+    # Render polls this path every ~30s. If it returns non-2xx, Render
+    # restarts the instance — so the endpoint must verify the things
+    # whose failure means "this container can't serve traffic":
+    #   • dist/index.html exists (frontend deployable)
+    #   • heap is below 90% of cap (won't OOM mid-request)
+    #   • DB is reachable
+    healthCheckPath: /api/health
     # Skip rebuilds when only docs/markdown change — saves ~3min per cosmetic commit.
     buildFilter:
       paths:
@@ -67,8 +77,11 @@ services:
       # no GC pressure signal. With this cap, V8 starts compacting at
       # ~400MB and surfaces clean OOM stack traces if memory is truly
       # exhausted. Recommended on Render starter (512MB) / standard (2GB).
+      # standard plan = 2GB RAM. Cap V8 at 1700MB so it GCs aggressively
+      # before approaching the container ceiling — gives clean OOM stack
+      # traces instead of SIGKILL surprises. Adjust together with `plan:`.
       - key: NODE_OPTIONS
-        value: --max-old-space-size=448
+        value: --max-old-space-size=1700
       # Generate strong secrets once on first deploy:
       - key: JWT_SECRET
         generateValue: true
