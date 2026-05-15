@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7e22ce"/>
+      <stop offset="50%" stop-color="#9333ea"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="bMark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#7e22ce"/>
+    </linearGradient>
+    <filter id="bShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Purple gradient background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Soft decorative circles -->
+  <circle cx="120" cy="120" r="180" fill="#ffffff" fill-opacity="0.08"/>
+  <circle cx="1080" cy="510" r="220" fill="#ffffff" fill-opacity="0.08"/>
+
+  <!-- Translucent center card -->
+  <rect x="100" y="115" width="1000" height="400" rx="40"
+        fill="url(#card)" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
+
+  <!-- ── The "B" mark ────────────────────────────────────────────────
+       Clean white rounded square + bold sans-serif "B" in purple.
+       sans-serif renders identically on every social-card rasteriser. -->
+  <g transform="translate(540 158)" filter="url(#bShadow)">
+    <rect width="120" height="120" rx="28" fill="#ffffff"/>
+    <text x="60" y="95" font-family="sans-serif" font-size="98" font-weight="900"
+          fill="url(#bMark)" text-anchor="middle" letter-spacing="-4">B</text>
+  </g>
+
+  <!-- Brand wordmark -->
+  <text x="600" y="370" font-family="sans-serif" font-size="76" font-weight="900"
+        fill="#ffffff" text-anchor="middle" letter-spacing="4">
+    BUNDLY
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="430" font-family="sans-serif" font-size="28" font-weight="500"
+        fill="#ffffff" fill-opacity="0.92" text-anchor="middle" letter-spacing="1">
+    Group Buying in Israel · Real Group Prices
+  </text>
+
+  <!-- URL stripe -->
+  <rect x="0" y="570" width="1200" height="60" fill="#1f2937"/>
+  <text x="600" y="608" font-family="sans-serif" font-size="28" font-weight="700"
+        fill="#c084fc" text-anchor="middle" letter-spacing="2">
+    bundly.co
+  </text>
+</svg>
