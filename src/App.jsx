@@ -4465,7 +4465,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       >
         <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
         <span className="text-[11px] font-medium text-white/85">
-          נעילת מחיר · שמירת אמצעי תשלום (לא נחוייב כעת)
+          נעילת מחיר · שמירת אמצעי תשלום (לא נחייב כעת)
         </span>
       </button>
 
@@ -9186,7 +9186,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       title: "הצטרפות עם נעילת מחיר",
       emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחויב כעת.`,
+      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחייב כעת.`,
       bullets: [
         `✓ נעילת מחיר — המחיר הנוכחי שמור עבורך`,
         `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
