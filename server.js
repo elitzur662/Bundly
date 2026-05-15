@@ -9483,25 +9483,31 @@ app.get("/api/address/cities", (req, res) => {
   res.json(results);
 });
 
-const _israelStreets = (() => {
+// Lazy-loaded: 61K streets ≈ 5–10MB heap. On Render starter (512MB RAM) every
+// MB matters — defer the parse until the first /api/address/streets call.
+// Most sessions never reach checkout, so most container lifetimes never pay
+// the memory cost.
+let _israelStreets = null;
+function _getIsraelStreets() {
+  if (_israelStreets) return _israelStreets;
   try {
     const raw = readFileSync(join(__dirname_here, "israel-streets.json"), "utf8");
-    const data = JSON.parse(raw);
-    const totalStreets = Object.values(data).reduce((s, a) => s + a.length, 0);
-    console.log(`[Address] Loaded ${totalStreets} streets for ${Object.keys(data).length} cities from static file`);
-    return data;
+    _israelStreets = JSON.parse(raw);
+    const totalStreets = Object.values(_israelStreets).reduce((s, a) => s + a.length, 0);
+    console.log(`[Address] Lazy-loaded ${totalStreets} streets for ${Object.keys(_israelStreets).length} cities`);
   } catch (e) {
     console.error("[Address] Failed to load israel-streets.json:", e.message);
-    return {};
+    _israelStreets = {};
   }
-})();
+  return _israelStreets;
+}
 
 app.get("/api/address/streets", (req, res) => {
   const city = (req.query.city || "").trim();
   const q = (req.query.q || "").trim();
-  console.log(`[Address] Streets request: city="${city}" q="${q}" — available cities: ${Object.keys(_israelStreets).length}`);
+  const streetsMap = _getIsraelStreets();
   if (!city) return res.json([]);
-  const cityStreets = _israelStreets[city] || [];
+  const cityStreets = streetsMap[city] || [];
   console.log(`[Address] Found ${cityStreets.length} streets for "${city}"`);
   if (!q) return res.json(cityStreets.slice(0, 20));
   const prefix = cityStreets.filter(s => s.startsWith(q));
@@ -13049,9 +13055,34 @@ if (process.env.NODE_ENV === "production") {
   const distPath = process.cwd() + "/dist";
   const { existsSync: _distExists } = await import("node:fs");
   if (_distExists(distPath)) {
-    app.use(express.static(distPath, { dotfiles: "deny", maxAge: "1h" }));
-    // SPA fallback: any non-API, non-static route serves index.html
-    app.get(/^(?!\/(api|product-db|product-img|invoices|zap-proxy|dfs-proxy)).*/, (_req, res) => {
+    // ── Cache policy: hashed assets forever, everything else short.
+    // index.html MUST NOT be long-cached — Vite hashes bundle filenames per
+    // build, so a browser holding stale index.html will request bundles that
+    // no longer exist on the server, fall through the SPA fallback below, and
+    // receive HTML for a `.js` URL → browser refuses to execute or worse,
+    // downloads the response. Setting no-cache on the entry HTML guarantees
+    // every page load gets the fresh bundle hashes.
+    app.use(express.static(distPath, {
+      dotfiles: "deny",
+      etag: true,
+      setHeaders(res, filePath) {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        } else if (/\/assets\//.test(filePath)) {
+          // Hashed asset filename — safe to cache forever.
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        } else {
+          res.setHeader("Cache-Control", "public, max-age=3600");
+        }
+      },
+    }));
+    // SPA fallback: serve index.html for app routes — but EXCLUDE /assets/
+    // and common static prefixes so a missing hashed bundle returns a clean
+    // 404 (which the browser can recover from with a refresh) rather than
+    // HTML masquerading as JavaScript.
+    app.get(/^(?!\/(api|assets|product-db|product-img|invoices|zap-proxy|dfs-proxy)).*/, (_req, res) => {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.sendFile(distPath + "/index.html");
     });
     console.log(`✅ Production mode — serving dist/ as static`);

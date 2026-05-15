@@ -60,6 +60,15 @@ services:
         value: 10000          # Render's default. Internal only — public goes through 443.
       - key: DATA_DIR
         value: /var/data
+      # Cap Node heap below container RAM ceiling so V8 GCs aggressively
+      # before the kernel OOM-kills the process. Without this, V8 thinks
+      # it can use ~1.7GB (its default), runs full speed past the 512MB
+      # container limit, then SIGKILLs mid-request — no graceful error,
+      # no GC pressure signal. With this cap, V8 starts compacting at
+      # ~400MB and surfaces clean OOM stack traces if memory is truly
+      # exhausted. Recommended on Render starter (512MB) / standard (2GB).
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=448
       # Generate strong secrets once on first deploy:
       - key: JWT_SECRET
         generateValue: true
