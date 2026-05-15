@@ -7,7 +7,7 @@
     "dev": "vite",
     "server": "node server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
-    "start:prod": "NODE_ENV=production node server.js",
+    "start:prod": "node scripts/seed-product-db.mjs && NODE_ENV=production node server.js",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
     "preview": "vite preview",

@@ -1,0 +1,544 @@
+[
+  {
+    "id": "1184928",
+    "name": "מתקן מים Hadass מיני בר ספיריט בר טאצ’",
+    "image": "images/1184928.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/6/5/76295662c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438464
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205338",
+    "name": "מתקן מים אפיקים מיני בר נועם 2 - שומר שבת",
+    "image": "images/1205338.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/new/49113118164c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438464
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "819972",
+    "name": "מתקן מים קומפקט מיני בר",
+    "image": "images/819972.gif",
+    "manufacturer": "קומפקט",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/1/9/40189130c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438464
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205339",
+    "name": "מתקן מים אפיקים מיני בר נועם 1 - שומר שבת",
+    "image": "images/1205339.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/9/7/78887956c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438465
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222547",
+    "name": "מתקן מים Hadass פרימיום בר",
+    "image": "images/1222547.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/9/8/82798903c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438465
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222545",
+    "name": "מתקן מים Hadass מיני בר ספיריט פלוס שבת",
+    "image": "images/1222545.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/3/2/86712374c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438465
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "866368",
+    "name": "מתקן מים אולימפיק מיני בר דיגיטלי דור 4",
+    "image": "images/866368.gif",
+    "manufacturer": "אולימפיק",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/7/9/38779705c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438466,
+      "ksp": 1099,
+      "kspUrl": "https://ksp.co.il/web/item/154858"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205341",
+    "name": "מתקן מים אפיקים בר מים אולימפיק",
+    "image": "images/1205341.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/9/7/78887958c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438466
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1037768",
+    "name": "מתקן מים Hadass פרימיום בר דיגיטלי",
+    "image": "images/1037768.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/7/6/51646744c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438466
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "964640",
+    "name": "מתקן מים צלול GOLD PREMIUM",
+    "image": "images/964640.gif",
+    "manufacturer": "צלול",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/5/9/53849594c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438467
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163981",
+    "name": "מתקן מים EL5010 Electro Hanan",
+    "image": "images/1163981.gif",
+    "manufacturer": "Electro Hanan",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/4/8/70258459c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438467
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1017204",
+    "name": "מתקן מים צלול נגה שבת",
+    "image": "images/1017204.gif",
+    "manufacturer": "צלול",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/9/3/48813961b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438467
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1146563",
+    "name": "מתקן מים EL-6010 Electro Hanan",
+    "image": "images/1146563.gif",
+    "manufacturer": "Electro Hanan",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/0/2/68862090c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438468
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249145",
+    "name": "מתקן מים אפיקים טוקיו דיגיטלי",
+    "image": "images/1249145.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/4/5/93585437b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438468
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695336",
+    "name": "מתקן מים טייגר מיני בר",
+    "image": "images/695336.gif",
+    "manufacturer": "טייגר",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/0/3/22243071c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438468
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695327",
+    "name": "מתקן מים אולימפיק מיני בר 2 ברזים",
+    "image": "images/695327.gif",
+    "manufacturer": "אולימפיק",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/1/7/21067185c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438468
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "854070",
+    "name": "מתקן מים KLEAR BAR מיני בר",
+    "image": "images/854070.gif",
+    "manufacturer": "KLEAR BAR",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/5/6/38256574c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438468
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1141275",
+    "name": "מתקן מים אפיקים בר מים WE",
+    "image": "images/1141275.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/6/3/68383626c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695326",
+    "name": "מתקן מים אולימפיק מיני בר 3 ברזים",
+    "image": "images/695326.gif",
+    "manufacturer": "אולימפיק",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/3/7/20717321c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065471",
+    "name": "מתקן מים צלול אושן בר",
+    "image": "images/1065471.gif",
+    "manufacturer": "צלול",
+    "imageUrl": "https://img.zap.co.il/pics/new/24115502454c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695337",
+    "name": "מתקן מים טייגר רצפתי",
+    "image": "images/695337.gif",
+    "manufacturer": "טייגר",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/4/7/38037451c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249173",
+    "name": "מתקן מים אפיקים טוקיו שבת חם/קר",
+    "image": "images/1249173.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/9/4/92854966b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695333",
+    "name": "מתקן מים אנגל אנג'ל רצפתי",
+    "image": "images/695333.gif",
+    "manufacturer": "אנגל",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/3/7/23907300c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695334",
+    "name": "מתקן מים אנגל אנג'ל מיני בר",
+    "image": "images/695334.gif",
+    "manufacturer": "אנגל",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/8/0/48550816b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438469
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "695457",
+    "name": "מתקן מים אטלנטיס מיני בר",
+    "image": "images/695457.gif",
+    "manufacturer": "אטלנטיס",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/9/2/21092989c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "775926",
+    "name": "מתקן מים רויאל מיני בר",
+    "image": "images/775926.gif",
+    "manufacturer": "רויאל",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/7/6/35236774b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "873628",
+    "name": "מתקן מים אולימפיק בר ריצפתי",
+    "image": "images/873628.gif",
+    "manufacturer": "אולימפיק",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/7/3/64403741c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "992441",
+    "name": "מתקן מים Panamera KLEAR BAR",
+    "image": "images/992441.gif",
+    "manufacturer": "KLEAR BAR",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/8/8/51388871c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "704409",
+    "name": "מתקן מים סטאר רצפתי משולב",
+    "image": "images/704409.gif",
+    "manufacturer": "סטאר",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/1/4/25254159c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "877324",
+    "name": "מתקן מים אטלנטיס רצפתי",
+    "image": "images/877324.gif",
+    "manufacturer": "אטלנטיס",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/2/9/40849287c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1049898",
+    "name": "מתקן מים Hadass מהדרין מיני בר",
+    "image": "images/1049898.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/6/6/52326618b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249172",
+    "name": "מתקן מים אפיקים טוקיו מכני",
+    "image": "images/1249172.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/9/4/92854966c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438470,
+      "ksp": 1199,
+      "kspUrl": "https://ksp.co.il/web/item/347986"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "771988",
+    "name": "מתקן מים דור 2 קלאסיק בר מים דור 2 קלאסיק",
+    "image": "images/771988.gif",
+    "manufacturer": "דור 2 קלאסיק",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/5/5/35495576c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "777801",
+    "name": "מתקן מים סטאר בר מים ריצפתי",
+    "image": "images/777801.gif",
+    "manufacturer": "סטאר",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/5/0/48560504c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130557838",
+    "name": "מתקן מים אפיקים בר מים דגם RX355AS כסוף",
+    "image": "images/1130557838.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/0/4/97654031c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471,
+      "ksp": 690,
+      "kspUrl": "https://ksp.co.il/web/item/364690"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075078648",
+    "name": "בר מים ריו אפיקים AFIKIM במגוון צבעים",
+    "image": "images/1075078648.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/7/2/96512717c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1090455418",
+    "name": "בר מים רותחים CASO קאסו דגם HW660 PRO",
+    "image": "images/1090455418.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/7/5/97305718c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056926475",
+    "name": "Hadass מיני בר הדס לוטוס פלוס טאץ שחור",
+    "image": "images/1056926475.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/7/5/96765729c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075078649",
+    "name": "Hadass מתקן מים הדס מהדרין לשבת מים וחמים וקרים",
+    "image": "images/1075078649.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/4/1/97321407c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065304927",
+    "name": "Hadass מתקן מים הדס דגם אלגנט שחור וכסוף +מקרר",
+    "image": "images/1065304927.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/2/9/96099258c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438471
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075078645",
+    "name": "קולר מים קרים נירוסטה דגם RXK 400 AS מבית אפיקים כולל הובלה והתקנה",
+    "image": "images/1075078645.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/8/5/96565891c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438472
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056926441",
+    "name": "Hadass מיני בר הדס לוטוס פלוס טאץ ברונזה",
+    "image": "images/1056926441.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/7/5/96765730c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438472
+    }
+  },
+  {
+    "id": "1171135873",
+    "name": "בר מים רותחים CASO קאסו דגם HW660 PRO",
+    "image": "images/1171135873.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/7/5/97305718b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438472
+    }
+  },
+  {
+    "id": "1169062586",
+    "name": "Hadass מתקן מים הדס דגם לוטוס UV",
+    "image": "images/1169062586.gif",
+    "manufacturer": "Hadass",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/3/6/97436345c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636438472
+    }
+  },
+  {
+    "id": "1169062587",
+    "name": "מתקן מים אפיקים דגם ריו בר שחור",
+    "image": "images/1169062587.gif",
+    "manufacturer": "אפיקים",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/9/5/97425965c.gif",
+    "prices": {
+      "zap": 1790,
+      "updated": 1778636438472
+    }
+  }
+]

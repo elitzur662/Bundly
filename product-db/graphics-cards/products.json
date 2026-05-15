@@ -1,0 +1,1484 @@
+[
+  {
+    "id": "1260785",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 MASTER ICE 32G GV-N5090AORUSM ICE-32GD",
+    "image": "images/1260785.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/4/0/94780484c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588242
+    },
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260859",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5090 GAMING OC 32G GV-N5090GAMING OC-32GD",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588242
+    },
+    "imageUrl": "https://img.zap.co.il/pics/4/5/9/0/94100954c.gif",
+    "image": "images/1260859.gif",
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260765",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti Eagle OC SFF 16GB GDDR7 GV-N507TEAGLEOC-16GD",
+    "image": "images/1260765.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/9/0/94320965c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588242
+    },
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260781",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti Gaming OC 16GB GDDR7 GV-N507TGAMING OC-16GD",
+    "image": "images/1260781.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/7/7/94017784c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588242
+    },
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260764",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti WINDFORCE SFF 16GB GDDR7 GV-N507TWF3OC-16GD",
+    "image": "images/1260764.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/4/3/94013470c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588244
+    },
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260760",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 12GB EAGLE OC SFF GV-N5070EAGLE OC-12GD",
+    "image": "images/1260760.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/0/7/96127032c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588245
+    },
+    "manufacturer": "Gigabyte",
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260754",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 16GB EAGLE OC GV-N506TEAGLE OC-16GD",
+    "image": "images/1260754.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/1/2/94442160c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588245
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260811",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 XTREME WATERFORCE WB 32G GV-N5090AORUSX WB-32GD",
+    "image": "images/1260811.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/5/8/95218523c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588245
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260757",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 16GB AERO OC GV-N506TAERO OC-16GD",
+    "image": "images/1260757.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/1/2/94442158c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588245
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1227481",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 3050 OC Low Profile 6G GV-N3050OC-6GL",
+    "image": "images/1227481.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/2/7/88237280c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588246
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260749",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 8GB WIindForce 2 GV-N5060WF2OC-8GD",
+    "image": "images/1260749.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/5/4/96734514c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588246
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260779",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Windforce 2 MAX OC 8GB GV-N5060WF2MAX OC-8GD",
+    "image": "images/1260779.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/9/6/95526941c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588246
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260759",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 12GB WINDFORCE OC SFF GV-N5070WF3OC-12GD",
+    "image": "images/1260759.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/0/7/96127035c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588247
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260755",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 16GB EAGLE OC GV-N506TEAGLEOC ICE-16GD",
+    "image": "images/1260755.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/9/94489840c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588247
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260758",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 12GB EAGLE OC ICE SFF GV-N5070EAGLEOC ICE-12GD",
+    "image": "images/1260758.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/94529158c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588247
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "990510",
+    "name": "כרטיס מסך Gigabyte GeForce GT 1030 Low Profile D4 2G GV-N1030D4-2GL",
+    "image": "images/990510.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/9/7/47297971c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588247
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1260769",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 3050 6GB WindForce 2 GV-N3050WF2OCV2-6GD",
+    "image": "images/1260769.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/0/6/94696044c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588247
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260774",
+    "name": "כרטיס מסך Gigabyte Radeon RX 9060 XT GAMING OC 8GB GV-R9060XTGAMING OC-8GD",
+    "image": "images/1260774.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/0/5/95075027c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588248
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260773",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Gaming OC 8GB GV-N5060GAMING OC-8GD",
+    "image": "images/1260773.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/6/5/95215607c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588248
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260789",
+    "name": "כרטיס מסך Gigabyte Radeon RX 9060 XT GAMING OC 16G GV-R9060XTGAMING OC-16GD",
+    "image": "images/1260789.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/8/9/95079876c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588248
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260753",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 8GB GAMING GV-N506TGAMING OC-8GD",
+    "image": "images/1260753.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/8/9/94489838c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588248
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260761",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 12GB GAMING OC GV-N5070GAMING OC-12GD",
+    "image": "images/1260761.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/3/0/97060359c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1196977",
+    "name": "כרטיס מסך Gigabyte Radeon RX 7600 GV-R76GAMING OC-8GD",
+    "image": "images/1196977.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/1/4/97034127b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260747",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 OC Low Profile 8G GV-N5060OC-8GL",
+    "image": "images/1260747.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/0/5/95075026c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1200683",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 4060 GAMING GV-N4060GAMING OC-8GD",
+    "image": "images/1200683.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/6/2/78212668c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 40xx"
+    }
+  },
+  {
+    "id": "1260771",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti EAGLE OC GV-N506TEAGLEOC ICE-8GD",
+    "image": "images/1260771.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/9/94489840c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260783",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5080 AERO OC SFF 16G GV-N5080AERO OC-16GD",
+    "image": "images/1260783.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/6/3/95553605c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588249
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260772",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5050 WINDFORCE OC 8G GV-N5050WF2OC-8GD",
+    "image": "images/1260772.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/6/6/95426634c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588250
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260768",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5050 8GB GV-N5050OC-8GL",
+    "image": "images/1260768.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/5/9/95129506c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588250
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260748",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 8GB EAGLE OC GV-N5060EAGLE OC-8GD",
+    "image": "images/1260748.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/8/9/95079875c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588250
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260801",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 EAGLE OC ICE 8G GV-N5060EAGLEOC ICE-8GD",
+    "image": "images/1260801.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/7/94717183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588250
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260790",
+    "name": "כרטיס מסך Gigabyte Radeon RX 9070 Gaming OC 16G GV-R9070GAMING OC-16GD",
+    "image": "images/1260790.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/6/9/97189665c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588251
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260762",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 12GB AERO OC GV-N5070AERO OC-12GD",
+    "image": "images/1260762.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/2/9/94279252c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588251
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260787",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5050 8GB GV-N5050GAMING OC-8GD",
+    "image": "images/1260787.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/9/6/95526940c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588251
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260918",
+    "name": "כרטיס מסך Asus Dual GeForce RTX 3050 OC DUAL- RTX3050-O6G 90YV0K60-M0NA00",
+    "image": "images/1260918.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/3/4/96894341c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588251
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260766",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti 16GB EAGLE OC ICE SFF GV-N507TEAGLEOC ICE-16GD",
+    "image": "images/1260766.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/9/1/95601935c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588251
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260856",
+    "name": "כרטיס מסך Gigabyte Radeon RX 9070 XT GAMING OC 16G GV-R9070XTGAMING OC-16GD",
+    "image": "images/1260856.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/3/7/94037391c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588252
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260917",
+    "name": "כרטיס מסך Arktek RX 580 8GB 256Bit AKR580D5S8GH1",
+    "image": "images/1260917.gif",
+    "manufacturer": "Arktek",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/0/6/95606038c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588252
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1173939",
+    "name": "כרטיס מסך Power Color Radeon RX 550 AXRX 550 4GBD5-HLE",
+    "image": "images/1173939.gif",
+    "manufacturer": "Power Color",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/0/2/86312084c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588252
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260788",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 8GB Aero GV-N506TAERO OC-8GD",
+    "image": "images/1260788.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/8/6/97366878c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588252
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1200698",
+    "name": "כרטיס מסך Arktek GTX 1660TI AKN1660TID6S6GH1",
+    "image": "images/1200698.gif",
+    "manufacturer": "Arktek",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/6/3/75843632c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588252
+    },
+    "filterTags": {
+      "gpu": "NVIDIA GTX 16xx"
+    }
+  },
+  {
+    "id": "1235181",
+    "name": "כרטיס מסך MSI GeForce GT 730 N730-4GD3V2",
+    "image": "images/1235181.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/2/3/87223223c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1243021",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5080 WindForce OC SFF 16G GV-N5080WF3OC-16GD",
+    "image": "images/1243021.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/8/5/93385813c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588253
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1208434",
+    "name": "כרטיס מסך Gigabyte Radeon RX 7700 XT Gaming GV-R77XTGAMING OC-12GD",
+    "image": "images/1208434.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/2/7/79207220c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588253
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1173938",
+    "name": "כרטיס מסך Arktek GeForce GT730 AKN730D3S4GL1",
+    "image": "images/1173938.gif",
+    "manufacturer": "Arktek",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/8/7/70357874c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588253
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1260921",
+    "name": "כרטיס מסך Asus Dual GeForce RTX 5050 8GB OC DUAL-RTX5050-O8G 90YV0N72-M0NA00",
+    "image": "images/1260921.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/0/2/95552009c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1235180",
+    "name": "כרטיס מסך MSI GeForce GT 1030 4GD4 LP OC",
+    "image": "images/1235180.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/0/8/89908093c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254,
+      "bug": 489,
+      "bugUrl": "https://www.bug.co.il/brand/msi/geforce/gt1030/4gd4/lp/oc"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1260814",
+    "name": "כרטיס מסך Gigabyte AORUS Radeon RX 9070 XT ELITE 16G GV-R9070XTAORUS E-16GD",
+    "image": "images/1260814.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/5/4/93964592c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260777",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti WINDFORCE MAX OC 16G GV-N506TWF2MAXOC-16GD",
+    "image": "images/1260777.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/2/97152541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260750",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 8GB AERO OC GV-N5060AERO OC-8GD",
+    "image": "images/1260750.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/0/5/95075025c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260756",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 16GB GAMING GV-N506TGAMING OC-16GD",
+    "image": "images/1260756.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/4/2/95022406c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588254
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260751",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 8GB EAGLE OC GV-N506TEAGLE OC-8GD",
+    "image": "images/1260751.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/2/8/94898225c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588255
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260920",
+    "name": "כרטיס מסך MSI GeForce RTX 5050 8G SHADOW 2X OC G5050-8S2C 4711377379960",
+    "image": "images/1260920.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/7/0/96930715c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588255
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260782",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti AERO OC 16G GV-N507TAERO OC-16GD",
+    "image": "images/1260782.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/1/9/94529163c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588255
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1017613",
+    "name": "כרטיס מסך Gigabyte GeForce GTX 1660 Ti OC 6G GV-N166TOC-6GD",
+    "image": "images/1017613.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/1/5/49355106c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "NVIDIA GTX 16xx"
+    }
+  },
+  {
+    "id": "1260802",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 EAGLE MAX OC 8GB GDDR7 GV-N5060EAGLEMAX OC-8GD",
+    "image": "images/1260802.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/5/5/95685583c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260919",
+    "name": "כרטיס מסך Zotac GAMING GeForce RTX 5050 Twin Edge ZT-B50500E-10M",
+    "image": "images/1260919.gif",
+    "manufacturer": "Zotac",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/3/8/96808366c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260784",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5080 GAMING OC 16G GV-N5080GAMING OC-16GD",
+    "image": "images/1260784.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/1/2/93922131c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1255421",
+    "name": "כרטיס מסך Acer Nitro Radeon RX 9060 XT OC 8GB",
+    "image": "images/1255421.gif",
+    "manufacturer": "Acer",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/7/2/95452711c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1260803",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5060 ELITE 8G GV-N5060AORUS E-8GD",
+    "image": "images/1260803.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/4/8/95158465c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588256
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260956",
+    "name": "כרטיס מסך Asus Dual GeForce RTX 5060 8GB OC Edition 90YV0N12-MONA00",
+    "image": "images/1260956.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/3/4/94754362c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588257,
+      "ksp": 1890,
+      "kspUrl": "https://ksp.co.il/web/item/382318"
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260962",
+    "name": "כרטיס מסך Asus Dual GeForce RTX 5060 Ti 16GB 90YV0MH0-M0NA00",
+    "image": "images/1260962.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/new/22135249161c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588257,
+      "ksp": 1890,
+      "kspUrl": "https://ksp.co.il/web/item/382318"
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1125319",
+    "name": "כרטיס מסך Asus TUF RTX3060-O12G-V2-GAMING 90YV0GC0-M0NA10",
+    "image": "images/1125319.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/new/510101630608c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588257
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260804",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti WINDFORCE OC 8G GV-N506TWF2OC-8GD",
+    "image": "images/1260804.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/8/9/94489839c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1139228",
+    "name": "כרטיס מסך Asus Phoenix GeForce GTX 1650 OC PH-GTX1650-04G",
+    "image": "images/1139228.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/new/19112422739c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA GTX 16xx"
+    }
+  },
+  {
+    "id": "1260857",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5070 Ti MASTER 16G GV-N507TAORUS M-16GD",
+    "image": "images/1260857.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/1/2/95692162c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260817",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti WINDFORCE OC 16G GV-N506TWF2OC-16GD",
+    "image": "images/1260817.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/1/9/94529155c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260778",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5070 MASTER 12G GV-N5070AORUS M-12GD",
+    "image": "images/1260778.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/4/5/96795472c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260763",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti 16GB WINDFORCE SFF GV-N507TWF3-16GD",
+    "image": "images/1260763.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/7/5/96485712c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588258
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1088877",
+    "name": "כרטיס מסך Gigabyte GeForce GTX 1650 D6 OC 4G GV-N1656OC-4GD",
+    "image": "images/1088877.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/9/6/57976991c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588259
+    },
+    "filterTags": {
+      "gpu": "NVIDIA GTX 16xx"
+    }
+  },
+  {
+    "id": "1145991",
+    "name": "כרטיס מסך PNY Nvidia RTX A2000 VCNRTXA2000-SB",
+    "image": "images/1145991.gif",
+    "manufacturer": "PNY",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/2/68822311c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588259
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX"
+    }
+  },
+  {
+    "id": "1095750",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 3090 TURBO 24G GV-N3090TURBO-24GD",
+    "image": "images/1095750.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/8/8/97608893b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588259
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1139235",
+    "name": "כרטיס מסך Asus TUF Gaming GeForce RTX 3070 Ti OC TUF-RTX3070TI-O8G-GAMING",
+    "image": "images/1139235.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/3/2/67202331c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588259
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260730",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5080 XTREME WATERFORCE 16G GV-N5080AORUSX W-16GD",
+    "image": "images/1260730.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/6/3/97093673c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588260
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260727",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5080 WindForce SFF GV-N5080WF3-16GD",
+    "image": "images/1260727.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/5/8/95928548c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588260
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260806",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti EAGLE MAX OC 16G GV-N506TEAGLEMAX-OC-16GD",
+    "image": "images/1260806.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/7/5/95215760c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588260
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260955",
+    "name": "כרטיס מסך Acer Predator Bifrost Radeon RX 9070 XT OC 16GB DP.Z4FWW.P01",
+    "image": "images/1260955.gif",
+    "manufacturer": "Acer",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/4/2/95222428c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588260
+    },
+    "filterTags": {
+      "gpu": "AMD Radeon RX"
+    }
+  },
+  {
+    "id": "1154044",
+    "name": "כרטיס מסך Asus Dual GeForce RTX 3070 V2 DUAL-RTX3070-8G-V2",
+    "image": "images/1154044.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/7/6/69966715c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588260
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1101828",
+    "name": "כרטיס מסך Asus TUF Gaming GeForce RTX 3070 TUF-RTX3070-8G-GAMING",
+    "image": "images/1101828.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/2/7/59667216c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588261
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1260854",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Eagle OC ICE 12GB GDDR7 GV-N5070EAGLEOC-ICE-12GD",
+    "image": "images/1260854.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/3/0/97060358c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588261
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260780",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5070 Ti EAGLE OC SFF 16G GV-N507TEAGLE OC-16GD",
+    "image": "images/1260780.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/9/1/95601934c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588261
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260770",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5080 MASTER 16G GV-N5080AORUS M-16GD",
+    "image": "images/1260770.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/9/2/94872971c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588262
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260737",
+    "name": "כרטיס מסך Palit GeForce RTX 5080 GamingPro NE75080019T2-GB2031A",
+    "image": "images/1260737.gif",
+    "manufacturer": "Palit",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/9/0/96910972c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588262
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260741",
+    "name": "כרטיס מסך MSI GeForce RTX 5080 16G EXPERT OC G5080-16EC",
+    "image": "images/1260741.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/2/1/96351288c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588262
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260735",
+    "name": "כרטיס מסך Palit GeForce RTX 5080 GamingPro OC NE75080S19T2-GB2031A",
+    "image": "images/1260735.gif",
+    "manufacturer": "Palit",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/9/0/96910976c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588262
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260729",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5080 MASTER ICE 16G GV-N5080AORUSM ICE-16GD",
+    "image": "images/1260729.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/1/9/94529159c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588262
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1178121",
+    "name": "כרטיס מסך MSI GeForce RTX 4080 16GB Ventus 3X OC",
+    "image": "images/1178121.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/9/2/75222906c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588263
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 40xx"
+    }
+  },
+  {
+    "id": "1260813",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 MASTER 32G GV-N5090AORUS M-32GD",
+    "image": "images/1260813.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/6/2/97202609c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588263
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1116816",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 3080 Ti GAMING OC GV-N308TGAMING OC-12GD",
+    "image": "images/1116816.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/1/7/62307138c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588263
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1182512",
+    "name": "כרטיס מסך MSI GeForce RTX 4080 16GB SUPRIM X",
+    "image": "images/1182512.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/7/7/75517795c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588263
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 40xx"
+    }
+  },
+  {
+    "id": "1260861",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 XTREME WATERFORCE 32G GV-N5090AORUSX W-32GD",
+    "image": "images/1260861.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/8/7/95097829c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588263
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260812",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 STEALTH ICE 32G GV-N5090AORUSST ICE-32GD",
+    "image": "images/1260812.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/3/0/96490319c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588264
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260791",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 AI BOX GV-N5090IXEB-32GD",
+    "image": "images/1260791.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/6/4/97094607c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588264
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1200680",
+    "name": "כרטיס מסך Leadtek Nvidia RTX A6000 48 GB GDDR6 326S5001150",
+    "image": "images/1200680.gif",
+    "manufacturer": "Leadtek",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/5/1/74221593c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588264
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX"
+    }
+  },
+  {
+    "id": "1131700",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 3070 Ti GAMING OC GV-N307TGAMING OC-8GD",
+    "image": "images/1131700.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/2/7/66107250c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588264
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 30xx"
+    }
+  },
+  {
+    "id": "1125277",
+    "name": "כרטיס מסך NVIDIA Tesla T4 75W LP PCI-e Passive 16G",
+    "image": "images/1125277.gif",
+    "manufacturer": "NVIDIA",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/2/1/57351257c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1173936",
+    "name": "כרטיס מסך Asus GeForce GT730-SL-2GD5-BRK 90YV06N2-M0NA00",
+    "image": "images/1173936.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/70359158c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588265
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1260958",
+    "name": "כרטיס מסך Asus TUF Gaming GeForce RTX 5060 8GB OC Edition 90YV0N00-M0NA00",
+    "image": "images/1260958.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/2/3/95573279c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588265,
+      "ksp": 1890,
+      "kspUrl": "https://ksp.co.il/web/item/382318"
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260724",
+    "name": "כרטיס מסך Asus Prime GeForce RTX 5080 OC Edition 90YV0LX0-M0NA00",
+    "image": "images/1260724.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/7/1/96931786c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588265
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1260767",
+    "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5080 16GB MASTER ICE GV-N5080AORUSM ICE-16GD",
+    "image": "images/1260767.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/0/7/96127020c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588265
+    },
+    "filterTags": {
+      "gpu": "NVIDIA RTX 50xx"
+    }
+  },
+  {
+    "id": "1174009",
+    "name": "כרטיס מסך MSI GeForce RTX 3050 Ventus 2X 8G OC",
+    "image": "images/1174009.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/6/7/74817610c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588266
+    }
+  },
+  {
+    "id": "1260810",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti WINDFORCE MAX OC 16G GV-N506TWF2MAX OC-16GD",
+    "image": "images/1260810.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/5/4/95674515c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588266
+    }
+  },
+  {
+    "id": "1260816",
+    "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti WINDFORCE 16G GV-N506TWF2-16GD",
+    "image": "images/1260816.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/1/2/94442163c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588266
+    }
+  },
+  {
+    "id": "1220255",
+    "name": "כרטיס מסך MSI GeForce RTX 3050 VENTUS 2X 6G OC",
+    "image": "images/1220255.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/3/8/87258313c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588266
+    }
+  },
+  {
+    "id": "1260775",
+    "name": "כרטיס מסך Gigabyte RTX 5060 Ti WindForce 2 8GB GV-N506TWF2-8GD",
+    "image": "images/1260775.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/4/2/95022404c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588267
+    }
+  },
+  {
+    "id": "1238062",
+    "name": "כרטיס מסך MSI GT 710 2GD3H 4HDMI",
+    "image": "images/1238062.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/1/9/90279119c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588267
+    }
+  },
+  {
+    "id": "1235189",
+    "name": "כרטיס מסך inno3D GeForce GT 730 2GB SDDR3 LP N730-1SDV-E3BX",
+    "image": "images/1235189.gif",
+    "manufacturer": "inno3D",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/8/0/86960822c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588267
+    }
+  },
+  {
+    "id": "1173932",
+    "name": "כרטיס מסך inno3D GeForce GT 710 N710-1SDV-E3BX",
+    "image": "images/1173932.gif",
+    "manufacturer": "inno3D",
+    "imageUrl": "https://img.zap.co.il/pics/new/2111141258963c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635588267
+    }
+  }
+]

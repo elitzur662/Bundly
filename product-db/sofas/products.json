@@ -1,0 +1,454 @@
+[
+  {
+    "id": "925011",
+    "name": "ספה Bradex Soho ספה דו",
+    "image": "images/925011.gif",
+    "manufacturer": "Bradex",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/7/9/96969728c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840924,
+      "ksp": 1090,
+      "kspUrl": "https://ksp.co.il/web/item/400341"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919905",
+    "name": "ספת אירוח וידר ליז",
+    "image": "images/919905.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/6/7/41037626c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840928
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919906",
+    "name": "ספת ספר וידר לילך",
+    "image": "images/919906.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/6/7/41037627c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840929
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1129934",
+    "name": "מערכת ישיבה פינתית Bradex Viva פינתית נפתחת למיטה זוגית עם ארגז מצעים",
+    "image": "images/1129934.gif",
+    "manufacturer": "Bradex",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/3/1/66251337c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840930,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/454038"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919909",
+    "name": "ספת אירוח וידר מיני כלנית",
+    "image": "images/919909.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/6/7/41037632c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840931
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1204396",
+    "name": "ספת אירוח SLEEPNET PS 100 ספה נפתחת למיטה 28255",
+    "image": "images/1204396.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/new/88154033947c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840932
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919911",
+    "name": "ספת ספר וידר נובל",
+    "image": "images/919911.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/6/7/41037625c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840933
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919907",
+    "name": "ספת ספר וידר תכלת",
+    "image": "images/919907.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/6/7/41037628c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840934
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "881061",
+    "name": "ספת אירוח וידר מיני סיטי",
+    "image": "images/881061.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/0/1/39331041b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840935
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919908",
+    "name": "ספה וידר אוסקר",
+    "image": "images/919908.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/6/7/41037631c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840936
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919910",
+    "name": "ספת אירוח וידר מיני גראס",
+    "image": "images/919910.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/6/7/41037633c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840937
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919903",
+    "name": "ספת אירוח וידר צבר",
+    "image": "images/919903.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/6/7/41037629c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840937
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "881062",
+    "name": "ספה וידר אמנון",
+    "image": "images/881062.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/9/0/39330909c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840938
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "910084",
+    "name": "ספת אירוח וידר דקל",
+    "image": "images/910084.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/7/8/41028765b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840939
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919904",
+    "name": "ספת אירוח וידר מונקו",
+    "image": "images/919904.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/6/7/41037630c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840941
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1204397",
+    "name": "ספת אירוח SLEEPNET PS 98 ספה נפתחת למיטה 28255",
+    "image": "images/1204397.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/new/88154547544c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840943
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "881058",
+    "name": "ספה וידר תמר",
+    "image": "images/881058.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/1/1/39331186b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840944
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "919912",
+    "name": "ספה וידר קוברה",
+    "image": "images/919912.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/6/7/41037624c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840945
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1185114",
+    "name": "ספת אירוח וידר ספה תלת מושבית דגם אשל",
+    "image": "images/1185114.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/7/0/57080744b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840946
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1204399",
+    "name": "ספת אירוח SLEEPNET PS 99 ספה נפתחת למיטה 28255",
+    "image": "images/1204399.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/new/88154526513c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840947
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1115043",
+    "name": "ספה תלת מושבית SLEEPNET ספה תלת מושבית M1971",
+    "image": "images/1115043.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/1/4/62184166c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840947,
+      "ksp": 999,
+      "kspUrl": "https://ksp.co.il/web/item/428821"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1185115",
+    "name": "ספת אירוח וידר ספה דו מושבית דגם מיני מונו",
+    "image": "images/1185115.gif",
+    "manufacturer": "וידר",
+    "imageUrl": "https://img.zap.co.il/pics/new/142162946658c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840948
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "823404",
+    "name": "ספת אירוח מדי קומפורט בייבילון",
+    "image": "images/823404.gif",
+    "manufacturer": "מדי קומפורט",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/0/36440985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840949
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1214012",
+    "name": "מערכת ישיבה פינתית SLEEPNET SA-102 60224 סלון פינתי",
+    "image": "images/1214012.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/1/8/84118183c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840950
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "453324",
+    "name": "ספת אירוח עמינח יופיטר",
+    "image": "images/453324.gif",
+    "manufacturer": "עמינח",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/9/8/14738944c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840951
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1021950",
+    "name": "ספת אירוח מדי קומפורט יולי",
+    "image": "images/1021950.gif",
+    "manufacturer": "מדי קומפורט",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/3/3/42383351c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840952
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "823405",
+    "name": "ספת אירוח מדי קומפורט דופלו",
+    "image": "images/823405.gif",
+    "manufacturer": "מדי קומפורט",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/7/6/92756750c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840953
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1058597",
+    "name": "ספת אירוח IG-110 SLEEPNET",
+    "image": "images/1058597.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/0/8/54148024c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840953
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1123331",
+    "name": "מערכת ישיבה 2+3 SLEEPNET מערכת ישיבה פינתית מתכווננת 3+2 דגם Z-6060",
+    "image": "images/1123331.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/2/7/64787264c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840954
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056645",
+    "name": "מערכת ישיבה פינתית BEL170 SLEEPNET",
+    "image": "images/1056645.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/1/6/53926180c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840955
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056639",
+    "name": "מערכת ישיבה פינתית BEL300 SLEEPNET",
+    "image": "images/1056639.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/0/3/53953083c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840956
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056646",
+    "name": "מערכת ישיבה פינתית BEL120 SLEEPNET",
+    "image": "images/1056646.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/0/6/53926098c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840957
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237195",
+    "name": "מערכת ישיבה SLEEPNET CR-150 ספה לסלון מעור",
+    "image": "images/1237195.gif",
+    "manufacturer": "SLEEPNET",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/1/7/84117182c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840958
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1167965",
+    "name": "ספת אירוח Bradex Arona ספה דו מושבית נפתחת למיטה וחצי",
+    "image": "images/1167965.gif",
+    "manufacturer": "Bradex",
+    "imageUrl": "https://img.zap.co.il/pics/new/891347495c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840959,
+      "ksp": 1790,
+      "kspUrl": "https://ksp.co.il/web/item/403957"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205110",
+    "name": "ספת אירוח Home Decor דו מושבית נפתחת דגם אורטל",
+    "image": "images/1205110.gif",
+    "manufacturer": "Home Decor",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/2/4/78794230c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840960
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "942055",
+    "name": "מערכת ישיבה פינתית Bradex Urban סלון פינתי מבד",
+    "image": "images/942055.gif",
+    "manufacturer": "Bradex",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/6/8/43108670c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840961
+    }
+  },
+  {
+    "id": "1015691",
+    "name": "ספת אירוח Bradex Aris ספה נפתחת למיטה",
+    "image": "images/1015691.gif",
+    "manufacturer": "Bradex",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/6/5/49195644c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778636840961,
+      "ksp": 1590,
+      "kspUrl": "https://ksp.co.il/web/item/428876"
+    }
+  }
+]

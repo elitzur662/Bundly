@@ -1,0 +1,5604 @@
+[
+  {
+    "id": "1097727",
+    "name": "מקרן Epson EH-TW750 Full HD",
+    "image": "images/1097727.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/5/6/59156513c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528266,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1121073",
+    "name": "מקרן Samsung SP-LSP7T 120",
+    "image": "images/1121073.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/0/64420510c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528266
+    },
+    "manufacturer": "Samsung",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1109755",
+    "name": "מקרן 4K Optoma UHD35 יבואן רשמי",
+    "image": "images/1109755.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/7/2/90192736b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528266
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1109736",
+    "name": "מקרן Epson EB-X49",
+    "image": "images/1109736.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/3/9/59799341b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528267
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1261623",
+    "name": "מקרן Epson EBW55",
+    "image": "images/1261623.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/8/7/97337808c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528271
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1261621",
+    "name": "מקרן Epson EBW53",
+    "image": "images/1261621.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/2/6/94936266b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528271
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1124616",
+    "name": "מקרן Infocus IN116AA",
+    "image": "images/1124616.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/6/1/65441675c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528272
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1126453",
+    "name": "מקרן Panasonic PTVW360",
+    "image": "images/1126453.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/8/1/64491802c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528272
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1172418",
+    "name": "מקרן Epson EH-TW6150 V11HA74040",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528275
+    },
+    "imageUrl": "https://img.zap.co.il/pics/2/6/5/1/74951562c.gif",
+    "image": "images/1172418.gif",
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1013865",
+    "name": "מקרן Ricoh PJX3340",
+    "image": "images/1013865.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/4/7/48857488c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528275
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "1207373",
+    "name": "מקרן Optoma ZH450",
+    "image": "images/1207373.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/9/2/87342978b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528276
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1207386",
+    "name": "מקרן Infocus IN1044",
+    "image": "images/1207386.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/7/4/77264789c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528276
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "727749",
+    "name": "מקרן Nec NP600",
+    "image": "images/727749.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/8/29438065b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528276
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1261626",
+    "name": "מקרן Epson EB994F",
+    "image": "images/1261626.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/5/3/98523584b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528276
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1138424",
+    "name": "מקרן Infocus IN1039",
+    "image": "images/1138424.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/4/1/67611432b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528277
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1124619",
+    "name": "מקרן Infocus IN114BBST",
+    "image": "images/1124619.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/8/2/64792897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528277
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1261492",
+    "name": "מקרן Infocus IN0061SL",
+    "image": "images/1261492.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/3/2/94932322c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528281
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1166340",
+    "name": "מקרן Optoma ZW350 Full HD",
+    "image": "images/1166340.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/9/0/70660956b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528281
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1142133",
+    "name": "מקרן Infocus IN1036",
+    "image": "images/1142133.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/142102329502c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528281
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1112668",
+    "name": "מקרן Infocus IN2139WU Full HD",
+    "image": "images/1112668.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/4/0/61660412c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528282
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1193258",
+    "name": "מקרן Panasonic PT-VMZ51",
+    "image": "images/1193258.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/0/9/77119064b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528282
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1116580",
+    "name": "מקרן Optoma UHZ65LV 4K / UHD",
+    "image": "images/1116580.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/5/3/62453527b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528282
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1233085",
+    "name": "מקרן Optoma ZW410UST",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528283
+    },
+    "imageUrl": "https://img.zap.co.il/pics/2/1/1/3/89653112b.gif",
+    "image": "images/1233085.gif",
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1162028",
+    "name": "מקרן Optoma ZH606E Full HD",
+    "image": "images/1162028.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/167162737664b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528283
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1096017147",
+    "name": "מקרן Philips Screeneo U5 SCN550/INT",
+    "image": "images/1096017147.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/2/2/44652216c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528283
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1013867",
+    "name": "מקרן Epson EHTW9400 Full HD",
+    "image": "images/1013867.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/5/8/49108572c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528287,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1060586",
+    "name": "מקרן Epson EHLS500 Full HD",
+    "image": "images/1060586.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/2/2/54472237c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528288,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1210904",
+    "name": "מקרן Optoma ZU500USTE",
+    "image": "images/1210904.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/9/7/79317943b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528288
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233088",
+    "name": "מקרן Optoma ZU607TST",
+    "image": "images/1233088.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/11992751155b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528288
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1146108",
+    "name": "מקרן Epson LS11000W",
+    "image": "images/1146108.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/153173921830c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528289
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "watts": "11000W"
+    }
+  },
+  {
+    "id": "1146423",
+    "name": "מקרן Epson EHLS12000",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528289
+    },
+    "imageUrl": "https://img.zap.co.il/pics/1/1/2/3/72873211c.gif",
+    "image": "images/1146423.gif",
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1245014",
+    "name": "מקרן Panasonic PTMZ20KL",
+    "image": "images/1245014.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/8/93798684b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528289
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1050942787",
+    "name": "מקרן Epson EHLS500 Full HD",
+    "image": "images/1050942787.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/6/0/68090620c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528292,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1222941",
+    "name": "מקרן Acer X1228H",
+    "image": "images/1222941.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/214111633534c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528293
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "840779665",
+    "name": "מקרן Panasonic PTVW360",
+    "image": "images/840779665.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/2/2/42492276c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528294
+    },
+    "filterTags": {},
+    "manufacturer": "BenQ"
+  },
+  {
+    "id": "1175379",
+    "name": "מקרן Optoma UHD55 Full HD",
+    "image": "images/1175379.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/4/6/75036418b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528294
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "883347",
+    "name": "מקרן Acer P1283 SD",
+    "image": "images/883347.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/6/40466205b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528295
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "1210899",
+    "name": "מקרן Optoma GT2000HDR",
+    "image": "images/1210899.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/8/9/79559877b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528296
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1210902",
+    "name": "מקרן Optoma ZH507",
+    "image": "images/1210902.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/9/7/79317941b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528296
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "943552",
+    "name": "מקרן Ricoh PJ X4241N SD",
+    "image": "images/943552.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/9/6/44106947c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528296
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "964768",
+    "name": "מקרן Nec P554U Full HD",
+    "image": "images/964768.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/6/4/50994650c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528300
+    },
+    "manufacturer": "Nec",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1242453",
+    "name": "מקרן Ricoh WUL5860",
+    "image": "images/1242453.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/0/0/91390045c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528300
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "957428",
+    "name": "מקרן Epson EB695WI HD Ready",
+    "image": "images/957428.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/8/7/45407838b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528301
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1172423",
+    "name": "מקרן Epson EH-LS800 V11HA90040",
+    "image": "images/1172423.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/4/7/76307473c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528301
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1170352",
+    "name": "מקרן Optoma UHD35X",
+    "image": "images/1170352.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/7/6/62416782b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528302
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1226285",
+    "name": "מקרן Acer X1228I",
+    "image": "images/1226285.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/6/0/88180676b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528302
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "1204360",
+    "name": "מקרן Optoma W340UST",
+    "image": "images/1204360.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/3/4/78834356b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528303
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1056840088",
+    "name": "מקרן Nec NP600",
+    "image": "images/1056840088.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/5/1/45401545c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528303
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1210903",
+    "name": "מקרן Optoma UHZ66",
+    "image": "images/1210903.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/4/1/79571462c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528311
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1261494",
+    "name": "מקרן Infocus IN1028SL",
+    "image": "images/1261494.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/1/1/95811199c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528314
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1233084",
+    "name": "מקרן Optoma W319USTire",
+    "image": "images/1233084.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/5/8/89548515b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528314
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1139023",
+    "name": "מקרן Optoma X400LVE Full HD",
+    "image": "images/1139023.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/171164246899c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528315
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1130532",
+    "name": "מקרן Optoma W400LVe Full HD",
+    "image": "images/1130532.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/1/2/66572131b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528318
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1204362",
+    "name": "מקרן Epson CO-FH01 יבואן רשמי",
+    "image": "images/1204362.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/6/8/78518656c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528319
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1254558",
+    "name": "מקרן Samsung The Freestyle 2nd Gen SP-LFF3CL יבואן רשמי",
+    "image": "images/1254558.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/0/8/95138041c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528320
+    },
+    "manufacturer": "Samsung",
+    "filterTags": {}
+  },
+  {
+    "id": "1109748",
+    "name": "מקרן Infocus IN114BB SD",
+    "image": "images/1109748.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/9/8/61198970c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528320
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1210900",
+    "name": "מקרן Optoma ZH520",
+    "image": "images/1210900.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/7/7/79557743b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528323
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "893107",
+    "name": "מקרן ViewSonic PJD7822HDL Full HD",
+    "image": "images/893107.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/4/3/40133415b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528323
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1188983",
+    "name": "מקרן Optoma HD29I",
+    "image": "images/1188983.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/4/76474205c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528324
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "956299",
+    "name": "מקרן Epson EHTW5400",
+    "image": "images/956299.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/0/9/45259060c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528324
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1057979267",
+    "name": "מקרן Infocus IN1044",
+    "image": "images/1057979267.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/4/9/56229405c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528325
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "1210897",
+    "name": "מקרן Optoma ZW350E",
+    "image": "images/1210897.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/9/7/79317946b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528325
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1210898",
+    "name": "מקרן Optoma ZH400",
+    "image": "images/1210898.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/4/5/79525490b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528326
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "839135",
+    "name": "מקרן BenQ W1070 Full HD",
+    "image": "images/839135.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/1/2/37892102b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528326
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1085700569",
+    "name": "מקרן BenQ W1070 Full HD",
+    "image": "images/1085700569.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/2/4/56984292c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528329
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1193253",
+    "name": "מקרן Optoma 4K400STX",
+    "image": "images/1193253.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/0/9/77119062b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528330
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1225847",
+    "name": "מקרן Optoma ZU507TST",
+    "image": "images/1225847.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/3/3/88113357b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528330
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1226281",
+    "name": "מקרן Epson EHLS650B",
+    "image": "images/1226281.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/0/2/87872039c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528331
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1204349",
+    "name": "מקרן Panasonic PT-VMZ71",
+    "image": "images/1204349.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/9/77119065b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528333
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1261388",
+    "name": "מקרן HP/Compaq CC180W",
+    "image": "images/1261388.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/0/0/96820089c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528333
+    },
+    "manufacturer": "HP/Compaq",
+    "filterTags": {
+      "watts": "180W"
+    }
+  },
+  {
+    "id": "1114156",
+    "name": "מקרן Philips PicoPix Micro 2 PPX340/INT SD",
+    "image": "images/1114156.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/7/3/60843790c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528334
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1258246",
+    "name": "מקרן Xiaomi Smart Projector L1",
+    "image": "images/1258246.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/9/3/95123920c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528341,
+      "ivory": 935,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139919"
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1139025",
+    "name": "מקרן BenQ MX560",
+    "image": "images/1139025.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/17116438336c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528342
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1263142",
+    "name": "מקרן Xiaomi Smart Projector L1 Pro",
+    "image": "images/1263142.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/4/6/95916455c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528342
+    },
+    "manufacturer": "Xiaomi",
+    "filterTags": {}
+  },
+  {
+    "id": "1067183",
+    "name": "מקרן Optoma HD28E Full HD",
+    "image": "images/1067183.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/3/9/55549369b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528343
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1188972",
+    "name": "מקרן Philips NeoPix 320 NPX320/INT",
+    "image": "images/1188972.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/3/7/98557332b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528343
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1226278",
+    "name": "מקרן Philips NeoPix 100 NPX100/INT",
+    "image": "images/1226278.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/8/7/88277896c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528344
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1261389",
+    "name": "מקרן HP/Compaq CP180",
+    "image": "images/1261389.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/5/1/96421570c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528345
+    },
+    "manufacturer": "HP/Compaq",
+    "filterTags": {}
+  },
+  {
+    "id": "1183097",
+    "name": "מקרן Optoma UHD38X Full HD",
+    "image": "images/1183097.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/7/6/62416782c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528345
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1242449",
+    "name": "מקרן ViewSonic PA503XE",
+    "image": "images/1242449.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/4/3/93653496c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528350
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1261390",
+    "name": "מקרן HP/Compaq CC360",
+    "image": "images/1261390.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/5/96895065c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528350
+    },
+    "manufacturer": "HP/Compaq",
+    "filterTags": {}
+  },
+  {
+    "id": "1233083",
+    "name": "מקרן Optoma HD30LV Full HD",
+    "image": "images/1233083.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/3/8/87048330c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528350
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1130231",
+    "name": "מקרן Epson EB-FH52",
+    "image": "images/1130231.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/9/2/66352929c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528350
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1220286",
+    "name": "מקרן Pure Cinema PC-70",
+    "image": "images/1220286.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/8/0/86750832c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528351
+    },
+    "manufacturer": "Pure Cinema",
+    "filterTags": {}
+  },
+  {
+    "id": "869130",
+    "name": "מקרן Infocus IN114A SD",
+    "image": "images/869130.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/1/7/38937108c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528351
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1245003",
+    "name": "מקרן Philips NeoPix 200 NPX200/INT",
+    "image": "images/1245003.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/1/8/94078136c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528351
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1093895",
+    "name": "מקרן Philips PicoPix Max PPX620",
+    "image": "images/1093895.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/3/7/58627303c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528352,
+      "bug": 1939,
+      "bugUrl": "https://www.bug.co.il/brand/philips/picopix/max"
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1116587",
+    "name": "מקרן BenQ MH560",
+    "image": "images/1116587.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/8/7/94797820b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528355
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "942154",
+    "name": "מקרן Epson EB-2250U Full HD",
+    "image": "images/942154.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/7/2/57052751c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528355,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261478",
+    "name": "מקרן Infocus IN0004SL",
+    "image": "images/1261478.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/1/0/96930193c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528355
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1242459",
+    "name": "מקרן Philips NeoPix 750 NPX750/INT",
+    "image": "images/1242459.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/9/4/95134964c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528355
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1193233",
+    "name": "מקרן PackardBell LUMENS 3500 LUMINATOR-SMART",
+    "image": "images/1193233.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/8/6/59256808c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528356
+    },
+    "manufacturer": "PackardBell",
+    "filterTags": {}
+  },
+  {
+    "id": "1261383",
+    "name": "מקרן ViewSonic M1 Max",
+    "image": "images/1261383.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/9/1/96351919c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528356
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1060590",
+    "name": "מקרן Optoma X343E",
+    "image": "images/1060590.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/7/6/54466761c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528356
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1261380",
+    "name": "מקרן ViewSonic LX60HD",
+    "image": "images/1261380.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/9/1/96351918c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528357
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1108379",
+    "name": "מקרן Philips NeoPix Prime 2 NPX542/INT HD Ready",
+    "image": "images/1108379.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/9/3/58923937c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528357
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1114152",
+    "name": "מקרן Epson EB982W",
+    "image": "images/1114152.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/1/6/62176126b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528360
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "watts": "982W"
+    }
+  },
+  {
+    "id": "978841",
+    "name": "מקרן BenQ MX550",
+    "image": "images/978841.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/4/46704616c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528360
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1225842",
+    "name": "מקרן Philips NeoPix 730 NPX730/INT",
+    "image": "images/1225842.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/7/3/88133736c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528361
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1074288",
+    "name": "מקרן Optoma HD29HST",
+    "image": "images/1074288.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/9/5/56265957c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528361
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1172419",
+    "name": "מקרן Epson EH-TW6250 V11HA73040",
+    "image": "images/1172419.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/5/1/74951561c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528361,
+      "ksp": 5990,
+      "kspUrl": "https://ksp.co.il/web/item/248318"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1245048",
+    "name": "מקרן Aopen Fire Legend QF12",
+    "image": "images/1245048.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/6/6/93806625c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528362
+    },
+    "manufacturer": "Aopen",
+    "filterTags": {}
+  },
+  {
+    "id": "1225840",
+    "name": "מקרן Philips NeoPix 530 NPX530/INT",
+    "image": "images/1225840.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/8/88138621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528362
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1125556",
+    "name": "מקרן Optoma W309ST Full HD",
+    "image": "images/1125556.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/410155716242c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528363
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "954649",
+    "name": "מקרן Ricoh PJX2440 SD",
+    "image": "images/954649.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/2/8/51098226c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528367
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "1074292",
+    "name": "מקרן Optoma hd146x Full HD",
+    "image": "images/1074292.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/3/9/56279397c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528368
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1204329",
+    "name": "מקרן ViewSonic X1000-4K",
+    "image": "images/1204329.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/3/2/76692300c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528370
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1172185",
+    "name": "מקרן Epson CO-W01 V11HA86040",
+    "image": "images/1172185.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/2/8/74508256c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528371
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1109735",
+    "name": "מקרן Epson EB-W06",
+    "image": "images/1109735.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/7/6/59796710c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528374
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "972298",
+    "name": "מקרן ViewSonic PA502X SD",
+    "image": "images/972298.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/2/9/46619261c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528375
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1225838",
+    "name": "מקרן Philips NeoPix 230 Smart NPX230/INT",
+    "image": "images/1225838.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/8/88138619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528377
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1220291",
+    "name": "מקרן Epson EBL210W",
+    "image": "images/1220291.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/6/2/87282685c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528384
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "watts": "210W"
+    }
+  },
+  {
+    "id": "1242457",
+    "name": "מקרן Philips NeoPix 550 NPX550/INT",
+    "image": "images/1242457.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/4/9/91429453c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528385
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1050872",
+    "name": "מקרן ViewSonic M1 plus",
+    "image": "images/1050872.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/8/7/52767830c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528386
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1261382",
+    "name": "מקרן ViewSonic M1X",
+    "image": "images/1261382.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/9/0/96410957c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528386
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1242472",
+    "name": "מקרן PackardBell Lumens 5000 Luminator Ultra-50",
+    "image": "images/1242472.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/2/5/91385233c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528387
+    },
+    "manufacturer": "PackardBell",
+    "filterTags": {}
+  },
+  {
+    "id": "1109739",
+    "name": "מקרן Epson EB-FH06",
+    "image": "images/1109739.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/9/1/60901974c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528387
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1097725",
+    "name": "מקרן Philips PicoPix Max One PPX520",
+    "image": "images/1097725.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/9/1/59001901c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528387,
+      "bug": 10899,
+      "bugUrl": "https://www.bug.co.il/brand/philips/picopix/max/one/ppx520"
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1065630",
+    "name": "מקרן Innova HD-7 SD",
+    "image": "images/1065630.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/8/8/54108826c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528387
+    },
+    "manufacturer": "Innova",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1130229",
+    "name": "מקרן Philips NeoPix Easy Play NPX443/INT",
+    "image": "images/1130229.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/0/2/66512024c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528390
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "925044",
+    "name": "מקרן BenQ MS527 SD",
+    "image": "images/925044.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/3/5/49595394c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528391
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "899900",
+    "name": "מקרן ViewSonic PJD5255 SD",
+    "image": "images/899900.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/3/2/40482318c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528391
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1208560",
+    "name": "מקרן Philips NeoPix 110 NPX110/INT",
+    "image": "images/1208560.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/4/8/79318486c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528391
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1146420",
+    "name": "מקרן Philips NeoPix Ultra 2 Plus NPX645",
+    "image": "images/1146420.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/7/3/68853733c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528391
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1162022",
+    "name": "מקרן BenQ GV30",
+    "image": "images/1162022.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/210135016685c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528392
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1065629",
+    "name": "מקרן Innova HD-9 SD",
+    "image": "images/1065629.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/4/5/49205420c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528392
+    },
+    "manufacturer": "Innova",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1097721",
+    "name": "מקרן Philips NeoPix Easy 2+ NPX442/INT HD Ready",
+    "image": "images/1097721.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/9/1/59001900c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528394
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1172410",
+    "name": "מקרן Philips NeoPix Prime One NPX535/INT",
+    "image": "images/1172410.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/6/3/74743656c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528395
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "936101",
+    "name": "מקרן BenQ MX570 SD",
+    "image": "images/936101.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/8/0/42560803c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528396
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1165024",
+    "name": "מקרן Samsung The Freestyle SP-LSP3BLAX",
+    "image": "images/1165024.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/3/1/70551305c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528397
+    },
+    "manufacturer": "Samsung",
+    "filterTags": {}
+  },
+  {
+    "id": "1172417",
+    "name": "מקרן Epson CO-FH02 V11HA85040",
+    "image": "images/1172417.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/9/1/74731997c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528397
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1146422",
+    "name": "מקרן ViewSonic M2E",
+    "image": "images/1146422.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/8/9/68959823c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528398
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1013916",
+    "name": "מקרן BenQ MH550 Full HD",
+    "image": "images/1013916.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/5/4/49204563c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528398
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1245002",
+    "name": "מקרן Vivitek DX330",
+    "image": "images/1245002.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/94125345844c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528400
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {}
+  },
+  {
+    "id": "1210896",
+    "name": "מקרן Optoma EH401",
+    "image": "images/1210896.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/9/1/97211936c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528402
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1116579",
+    "name": "מקרן Vivitek DX273",
+    "image": "images/1116579.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/7/9/62379763b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528402
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {}
+  },
+  {
+    "id": "996324",
+    "name": "מקרן BenQ TK800 4K / UHD",
+    "image": "images/996324.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/1/9/47829165c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528403
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1245052",
+    "name": "מקרן Infocus SP126",
+    "image": "images/1245052.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/5/93745320c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528403
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1039607",
+    "name": "מקרן ViewSonic PS501X SD",
+    "image": "images/1039607.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/6/8/52768620c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528403
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "903487",
+    "name": "מקרן ViewSonic PJD5155 SD",
+    "image": "images/903487.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/8/1/41481822c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528403
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1166339",
+    "name": "מקרן ViewSonic LS500WH",
+    "image": "images/1166339.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/5/2/70672542c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528404
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "970238",
+    "name": "מקרן BenQ MX806ST",
+    "image": "images/970238.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/0/0/46270005c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528404
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "938401",
+    "name": "מקרן Optoma S341 SD",
+    "image": "images/938401.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/9/3/43143998c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528404
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "894531",
+    "name": "מקרן BenQ MS524 SD",
+    "image": "images/894531.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/9/4/40264995c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528406
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "945604",
+    "name": "מקרן ViewSonic PJD5154 SD",
+    "image": "images/945604.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/1/9/44329132c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528407
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1039605",
+    "name": "מקרן ViewSonic PA503X SD",
+    "image": "images/1039605.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/0/2/54282047b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528407
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "905876",
+    "name": "מקרן Infocus IN114X SD",
+    "image": "images/905876.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/4/9/41189492c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528408
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "933162",
+    "name": "מקרן Vivitek QUMI Q3 Plus HD Ready",
+    "image": "images/933162.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/2/4/54604208c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528408
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1242456",
+    "name": "מקרן Pure Cinema PC-300",
+    "image": "images/1242456.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/9/2/93202986c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528408
+    },
+    "manufacturer": "Pure Cinema",
+    "filterTags": {}
+  },
+  {
+    "id": "1140843",
+    "name": "מקרן ViewSonic PX701-4K",
+    "image": "images/1140843.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/6/0/68090624c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528409
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1050871",
+    "name": "מקרן BenQ MX535 SD",
+    "image": "images/1050871.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/1/2/53162111c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528409
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1137369",
+    "name": "מקרן Pure Cinema PC-200",
+    "image": "images/1137369.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/3/65523616c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528411
+    },
+    "manufacturer": "Pure Cinema",
+    "filterTags": {}
+  },
+  {
+    "id": "1135052",
+    "name": "מקרן Infocus IN1034",
+    "image": "images/1135052.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/8/4/67264882b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528411,
+      "ivory": 2490,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153907"
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1261736",
+    "name": "מקרן Acer X1229HP",
+    "image": "images/1261736.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/7/96957205c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528412
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "947845",
+    "name": "מקרן ViewSonic PJD5254 SD",
+    "image": "images/947845.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/0/1/44451029c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528412
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "925057",
+    "name": "מקרן Ricoh PJ X2340 SD",
+    "image": "images/925057.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/1/9/42139148c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528412
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "1137370",
+    "name": "מקרן Pure Cinema VLP-200",
+    "image": "images/1137370.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/7/9/69859759c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528413
+    },
+    "manufacturer": "Pure Cinema",
+    "filterTags": {}
+  },
+  {
+    "id": "1067178",
+    "name": "מקרן ViewSonic PX701HD Full HD",
+    "image": "images/1067178.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/2/0/55360200c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528413
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "987168",
+    "name": "מקרן BenQ MX611 SD",
+    "image": "images/987168.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/7/3/48523754c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528414
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1220283",
+    "name": "מקרן Vision Led DLV-250",
+    "image": "images/1220283.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/0/8/87148068c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528415
+    },
+    "manufacturer": "Vision Led",
+    "filterTags": {}
+  },
+  {
+    "id": "1192732",
+    "name": "מקרן PackardBell PLU10",
+    "image": "images/1192732.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/7/9/73729748c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528415
+    },
+    "manufacturer": "PackardBell",
+    "filterTags": {}
+  },
+  {
+    "id": "962040",
+    "name": "מקרן SD EBS05‎‎‎‎‎‎ Epson",
+    "image": "images/962040.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/3/1/45811315c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528416
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1188435",
+    "name": "מקרן Optoma W371",
+    "image": "images/1188435.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/3/0/76170323c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528416
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "954650",
+    "name": "מקרן Ricoh PJWXC1110",
+    "image": "images/954650.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/9/4/62464919c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528416
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "921378",
+    "name": "מקרן BenQ MX602 SD",
+    "image": "images/921378.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/0/5/43185020c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528417
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1233080",
+    "name": "מקרן Philips NeoPix 130W NPX130W/INT",
+    "image": "images/1233080.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/0/5/88935031c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528417
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "watts": "130W"
+    }
+  },
+  {
+    "id": "1017967",
+    "name": "מקרן ViewSonic PG603X SD",
+    "image": "images/1017967.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/0/2/49062015c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528418
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "914182",
+    "name": "מקרן RIF6 Cube HD Ready",
+    "image": "images/914182.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/8/5/41415804c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528418
+    },
+    "manufacturer": "RIF6",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "847818",
+    "name": "מקרן ViewSonic PJD5134 SD",
+    "image": "images/847818.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/4/38194541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528418
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "926152",
+    "name": "מקרן BenQ MW529 HD Ready",
+    "image": "images/926152.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/2/45542555b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528419
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1110983",
+    "name": "מקרן ViewSonic PA503XB Full HD",
+    "image": "images/1110983.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/1/1/60661128c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528419
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1060595",
+    "name": "מקרן BenQ EW800ST Full HD",
+    "image": "images/1060595.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/2/6/54116255c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528419
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "956294",
+    "name": "מקרן BenQ MX532 SD",
+    "image": "images/956294.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/1/3/44913193c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528419
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "786802",
+    "name": "מקרן Infocus IN104 SD",
+    "image": "images/786802.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/2/7/35967286c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528420
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1085744",
+    "name": "מקרן ViewSonic M1 Mini Plus Full HD",
+    "image": "images/1085744.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/8/7/57587889c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528421
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "980949",
+    "name": "מקרן Epson EBU05 Full HD",
+    "image": "images/980949.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/3/7/48847302c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528421,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1245049",
+    "name": "מקרן Aopen QF16ATV",
+    "image": "images/1245049.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/1/4/94004174c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528422
+    },
+    "manufacturer": "Aopen",
+    "filterTags": {}
+  },
+  {
+    "id": "1124617",
+    "name": "מקרן Infocus IN116BB",
+    "image": "images/1124617.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/6/1/65441676c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528422
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1095055",
+    "name": "מקרן Philips NeoPix Ultra 2 NPX642 Full HD",
+    "image": "images/1095055.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/2/3/58693233c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528422
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "720739",
+    "name": "מקרן Aiptek PocketCinema V10 SD",
+    "image": "images/720739.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/762009143715c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528423
+    },
+    "manufacturer": "Aiptek",
+    "filterTags": {}
+  },
+  {
+    "id": "987159",
+    "name": "מקרן Epson EBX39 SD",
+    "image": "images/987159.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/7/0/47050719c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528423
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "931781",
+    "name": "מקרן ViewSonic PJD5151 SD",
+    "image": "images/931781.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/7/5/42655749c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528424
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "903488",
+    "name": "מקרן Philips PPX4350 SD",
+    "image": "images/903488.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/7/40987693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528425
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1261381",
+    "name": "מקרן ViewSonic SP7",
+    "image": "images/1261381.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/0/0/97080018c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528426
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "857786",
+    "name": "מקרן Epson EBX18 SD",
+    "image": "images/857786.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/2/8/38568210c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528426
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "956296",
+    "name": "מקרן Epson EHTW610",
+    "image": "images/956296.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/8/8/45258875c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528426
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "905169",
+    "name": "מקרן ViewSonic PJD5353LS SD",
+    "image": "images/905169.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/0/3/42623095c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528427
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "996318",
+    "name": "מקרן ViewSonic PA503W HD Ready",
+    "image": "images/996318.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/0/5/47775030c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528427
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "HD",
+      "watts": "503W"
+    }
+  },
+  {
+    "id": "1261624",
+    "name": "מקרן Epson EBFH08",
+    "image": "images/1261624.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/6/8/95648664b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528428
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "929313",
+    "name": "מקרן BenQ MX528 SD",
+    "image": "images/929313.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/3/9/64699316c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528428
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "915121",
+    "name": "מקרן Infocus IN112X HD Ready",
+    "image": "images/915121.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/7/9/48509749c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528430
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "804392",
+    "name": "מקרן Nec V260G",
+    "image": "images/804392.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/0/40950101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528430
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "933169",
+    "name": "מקרן BenQ MH530 Full HD",
+    "image": "images/933169.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/8/0/42650812c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528430
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1109740",
+    "name": "מקרן Epson EH-TW740 Full HD",
+    "image": "images/1109740.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/9/1/60901972c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528434,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1116590",
+    "name": "מקרן BenQ EX600 Full HD",
+    "image": "images/1116590.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/159125928685c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528435
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "821005",
+    "name": "מקרן Philips PPX2480",
+    "image": "images/821005.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/4/2/37242406c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528436
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "894530",
+    "name": "מקרן BenQ MX525 SD",
+    "image": "images/894530.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/5/0/40270584c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528436
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "958024",
+    "name": "מקרן Vivitek DX263",
+    "image": "images/958024.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/7/3/55083794c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528437
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {}
+  },
+  {
+    "id": "936108",
+    "name": "מקרן BenQ MW855UST HD Ready",
+    "image": "images/936108.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/2/2/42492276c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528440
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "950559",
+    "name": "מקרן BenQ MW826ST HD Ready",
+    "image": "images/950559.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/9/44749840c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528441
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1060323",
+    "name": "מקרן Philips Screeneo S4 SCN450",
+    "image": "images/1060323.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/7/6/54096718c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528441
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1146107",
+    "name": "מקרן EBE10‎ Epson",
+    "image": "images/1146107.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/7/9/69919781c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528441
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "925055",
+    "name": "מקרן Ricoh PJWX2240 HD Ready",
+    "image": "images/925055.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/2/2/42602286c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528441
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "954648",
+    "name": "מקרן Ricoh PJWX2440",
+    "image": "images/954648.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/0/1/49091001c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528442
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "375098",
+    "name": "מקרן BenQ MP610 SD",
+    "image": "images/375098.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/0/2/13802071c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528442
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "912271",
+    "name": "מקרן Philips PPX4010 SD",
+    "image": "images/912271.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/0/1/41561083c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528444
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1261625",
+    "name": "מקרן Epson EBFH54",
+    "image": "images/1261625.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/294184947243c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528444
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "873461",
+    "name": "מקרן Epson EBS18 SD",
+    "image": "images/873461.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/5/9/39049597c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "979739",
+    "name": "מקרן Optoma UHD40 4K / UHD",
+    "image": "images/979739.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/7/48517101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1121061",
+    "name": "מקרן Optoma X371",
+    "image": "images/1121061.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/307164055774c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "921836",
+    "name": "מקרן Panasonic PTLB280 SD",
+    "image": "images/921836.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/7/0/42000742c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "931306",
+    "name": "מקרן Optoma X341 SD",
+    "image": "images/931306.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/9/0/42520924c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1174546",
+    "name": "מקרן Optoma DX400E",
+    "image": "images/1174546.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/6/2/74692678c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528445
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "957466",
+    "name": "מקרן Epson EB1780W HD Ready",
+    "image": "images/957466.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/1/45401555c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528447
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "HD",
+      "watts": "1780W"
+    }
+  },
+  {
+    "id": "1151593",
+    "name": "מקרן Optoma EH416E Full HD",
+    "image": "images/1151593.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/2/3/69493234c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528447
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "906301",
+    "name": "מקרן EKB DPM-S10 HD Ready",
+    "image": "images/906301.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/6/1/40921619c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528447
+    },
+    "manufacturer": "EKB",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1114150",
+    "name": "מקרן Epson EBX06",
+    "image": "images/1114150.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/1/6/62176127c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528447
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1116581",
+    "name": "מקרן Optoma EH335 Full HD",
+    "image": "images/1116581.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/7/5/62405772c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528447
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1047450",
+    "name": "מקרן Epson EHTW7000",
+    "image": "images/1047450.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/2/0/52910256c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528448
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1261385",
+    "name": "מקרן ViewSonic LS740W",
+    "image": "images/1261385.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/8/6/95426829c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528448
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "watts": "740W"
+    }
+  },
+  {
+    "id": "934216",
+    "name": "מקרן ViewSonic PJD7720HD Full HD",
+    "image": "images/934216.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/6/3/42923694b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528448
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1245004",
+    "name": "מקרן Philips Screeneo UL5 Smart SCN355/INT",
+    "image": "images/1245004.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/0/7/94077021c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528449
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "883982",
+    "name": "מקרן Optoma GT1080 Full HD",
+    "image": "images/883982.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/1/4/39394123c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528449
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "812095",
+    "name": "מקרן Epson EBX14 SD",
+    "image": "images/812095.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/7/38527063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528449
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "987170",
+    "name": "מקרן BenQ SX751 SD",
+    "image": "images/987170.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/9/49219153c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528449
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "954622",
+    "name": "מקרן BenQ MS531 SD",
+    "image": "images/954622.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/2/45542065c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528450
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261737",
+    "name": "מקרן Acer H6830BD",
+    "image": "images/1261737.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/5/8/97228562c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528450
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "860354",
+    "name": "מקרן BenQ MX662 SD",
+    "image": "images/860354.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/0/1/38651014b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528450
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "949385",
+    "name": "מקרן Optoma W355 HD Ready",
+    "image": "images/949385.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/7/9/44739767c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528451
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1060324",
+    "name": "מקרן Philips Screeneo S6 SCN650",
+    "image": "images/1060324.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/4/54284265c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528451
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1261480",
+    "name": "מקרן Infocus IN0026ST",
+    "image": "images/1261480.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/5/4/97814565c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "857950",
+    "name": "מקרן ViewSonic PJD5234L SD",
+    "image": "images/857950.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/5/40395311c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1060604",
+    "name": "מקרן ViewSonic PJD7828HDL Full HD",
+    "image": "images/1060604.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/1/5/53955106c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1124621",
+    "name": "מקרן Infocus IN118AA",
+    "image": "images/1124621.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/6/1/65441679c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1173920",
+    "name": "מקרן Optoma HD28I",
+    "image": "images/1173920.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/7/4/74254792c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "888904",
+    "name": "מקרן Sony VPL EX235 SD",
+    "image": "images/888904.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/2/8/40788214c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "Sony",
+    "filterTags": {}
+  },
+  {
+    "id": "1037337",
+    "name": "מקרן BenQ MW550",
+    "image": "images/1037337.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/7/2/50332726c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528452
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1109743",
+    "name": "מקרן Epson EF11",
+    "image": "images/1109743.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/1/5/61895162c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528453
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "970239",
+    "name": "מקרן BenQ MH534",
+    "image": "images/970239.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/5/8/46748591c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528454
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261490",
+    "name": "מקרן Infocus IN0028SL",
+    "image": "images/1261490.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/0/7/96737027c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528454
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1183096",
+    "name": "מקרן Philips Screeneo U4 SCN350/INT",
+    "image": "images/1183096.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/4/6/76076404c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528454
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1112659",
+    "name": "מקרן ViewSonic PG706HD Full HD",
+    "image": "images/1112659.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/2/7/61467248c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528454
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "970240",
+    "name": "מקרן BenQ MW820ST HD Ready",
+    "image": "images/970240.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/0/0/46270000c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528454
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "854752",
+    "name": "מקרן Philips PPX3610 SD",
+    "image": "images/854752.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/7/2/38642737c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528456
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "894532",
+    "name": "מקרן Infocus IN2128HDA Full HD",
+    "image": "images/894532.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/9/9/40219997c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528458
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "931316",
+    "name": "מקרן Optoma HD27 Full HD",
+    "image": "images/931316.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/4/9/43069482b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528460
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1074287",
+    "name": "מקרן Ricoh PJ WX5461",
+    "image": "images/1074287.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/4/9/56229405c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528466
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "1213586",
+    "name": "מקרן Vivitek DW275",
+    "image": "images/1213586.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/8/3/85533888c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528468
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {}
+  },
+  {
+    "id": "1017988",
+    "name": "מקרן ViewSonic PX747-4K 4K / UHD",
+    "image": "images/1017988.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/0/4/49224026c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528468
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "926128",
+    "name": "מקרן Nec NP-M323X SD",
+    "image": "images/926128.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/2/4/43164298c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528469
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "957724",
+    "name": "מקרן Epson EBU32",
+    "image": "images/957724.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/5/1/45401545c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528470
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "921415",
+    "name": "מקרן BenQ MX842UST SD",
+    "image": "images/921415.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/7/7/41697756c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528471
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1037343",
+    "name": "מקרן BenQ LX810STD SD",
+    "image": "images/1037343.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/9/4/49634931c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528473
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261479",
+    "name": "מקרן Infocus IN0026SL",
+    "image": "images/1261479.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/2/94932320c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528475
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "858298",
+    "name": "מקרן Acer P1276 SD",
+    "image": "images/858298.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/0/0/38520094b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528475
+    },
+    "manufacturer": "Acer",
+    "filterTags": {}
+  },
+  {
+    "id": "1109745",
+    "name": "מקרן Epson EH-TW5820",
+    "image": "images/1109745.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/1/7/60587102b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528483
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "957432",
+    "name": "מקרן Epson EB685WI HD Ready",
+    "image": "images/957432.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/8/7/45407834c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528484
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "888943",
+    "name": "מקרן Infocus IN118HDA Full HD",
+    "image": "images/888943.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/5/4/39934521c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528485
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1137373",
+    "name": "מקרן Infocus IN1014",
+    "image": "images/1137373.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/4/1/67261456c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528486
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1261628",
+    "name": "מקרן Epson EHTW840",
+    "image": "images/1261628.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/5/6/96126539c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528489
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1085555",
+    "name": "מקרן Optoma EH470 Full HD",
+    "image": "images/1085555.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/2/4/56984292c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528490
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261627",
+    "name": "מקרן Epson EBW56S",
+    "image": "images/1261627.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/2/1/97121242c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528491
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1102637",
+    "name": "מקרן EH-TW710‎ Epson",
+    "image": "images/1102637.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/7/2/59442706c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528493
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1225849",
+    "name": "מקרן Nec ME403U",
+    "image": "images/1225849.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/6/3/86583613c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528494
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "949281",
+    "name": "מקרן BenQ MH684 Full HD",
+    "image": "images/949281.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/4/0/44610450c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528494
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "956336",
+    "name": "מקרן BenQ W1090 Full HD",
+    "image": "images/956336.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/4/9/45299492c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528494
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "914183",
+    "name": "מקרן BenQ W2000 Full HD",
+    "image": "images/914183.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/2/0/43430219c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528495
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1074290",
+    "name": "מקרן Optoma HD29HE",
+    "image": "images/1074290.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/9/5/56265956c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528495
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "899172",
+    "name": "מקרן Optoma X312 SD",
+    "image": "images/899172.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/1/6/40476181c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528495
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "799122",
+    "name": "מקרן BenQ MX613ST SD",
+    "image": "images/799122.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/9/9/40949996c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528495
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "956300",
+    "name": "מקרן Epson EHTW5600 Full HD",
+    "image": "images/956300.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/0/9/45259058c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528495,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "853986",
+    "name": "מקרן Infocus IN1110 SD",
+    "image": "images/853986.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/9/3/38403988c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528498
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "905177",
+    "name": "מקרן Infocus IN118HDXC Full HD",
+    "image": "images/905177.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/0/2/41092013c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528498
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1109741",
+    "name": "מקרן Epson EB-992F Full HD",
+    "image": "images/1109741.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/2/6/61116225c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528499,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "987169",
+    "name": "מקרן BenQ SW752 HD Ready",
+    "image": "images/987169.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/5/0/47050513c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528499
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1261629",
+    "name": "מקרן Epson EHTW850",
+    "image": "images/1261629.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/5/6/96126540c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528499
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1176161",
+    "name": "מקרן Epson Smart EF12 V11HA14040",
+    "image": "images/1176161.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/5/1/74951564c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528499
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "915910",
+    "name": "מקרן BenQ W1110 Full HD",
+    "image": "images/915910.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/2/0/43430218c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528500
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1074304",
+    "name": "מקרן Epson EH-TW7100 4K / UHD",
+    "image": "images/1074304.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/0/6/56226076c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528500,
+      "ksp": 5990,
+      "kspUrl": "https://ksp.co.il/web/item/248318"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1149771",
+    "name": "מקרן BenQ LU930 Full HD",
+    "image": "images/1149771.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/124155457362c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528501
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261386",
+    "name": "מקרן ViewSonic X1-4K Pro",
+    "image": "images/1261386.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/9/0/96410955c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528501,
+      "ksp": 7699,
+      "kspUrl": "https://ksp.co.il/web/item/436967"
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "894533",
+    "name": "מקרן Infocus IN3138HDA Full HD",
+    "image": "images/894533.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/3/40243985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528502
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "921414",
+    "name": "מקרן BenQ MW705 HD Ready",
+    "image": "images/921414.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/4/54604204c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528502
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1109756",
+    "name": "מקרן Optoma UHD38 4K / UHD",
+    "image": "images/1109756.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/9/1/60881913c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528502
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "956301",
+    "name": "מקרן Epson EHTW5650 Full HD",
+    "image": "images/956301.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/0/9/45259059c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528502,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1100384",
+    "name": "מקרן Epson EHTW5700",
+    "image": "images/1100384.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/7/2/59442705c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528503
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "839361",
+    "name": "מקרן Nec M361X SD",
+    "image": "images/839361.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/2/3/40943282b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1046182",
+    "name": "מקרן ViewSonic X10-4K Full HD",
+    "image": "images/1046182.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/8/7/52767849c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "896480",
+    "name": "מקרן Acer P1510 Full HD",
+    "image": "images/896480.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/4/1/39261481b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "Acer",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1233086",
+    "name": "מקרן Optoma UHZ55",
+    "image": "images/1233086.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/9/8/89548912c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233078",
+    "name": "מקרן ViewSonic LS740HD",
+    "image": "images/1233078.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/8/89558101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1261377",
+    "name": "מקרן Vivitek DH380",
+    "image": "images/1261377.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/3/4/97734356c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528504
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {}
+  },
+  {
+    "id": "1039602",
+    "name": "מקרן BenQ TK800M SD",
+    "image": "images/1039602.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/6/4/52954679c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528505
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "979740",
+    "name": "מקרן BenQ SU754 Full HD",
+    "image": "images/979740.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/6/9/49639668c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528505
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1067182",
+    "name": "מקרן Optoma UHD30 4K / UHD",
+    "image": "images/1067182.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/6/8/56248676c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528505
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "879506",
+    "name": "מקרן Infocus IN2126A HD Ready",
+    "image": "images/879506.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/4/7/39287407c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528506
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "954625",
+    "name": "מקרן BenQ TH683 Full HD",
+    "image": "images/954625.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/8/5/44955862c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528506
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261493",
+    "name": "מקרן Infocus IN1026SL",
+    "image": "images/1261493.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/8/6/95836848c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "893350",
+    "name": "מקרן Optoma HD36 Full HD",
+    "image": "images/893350.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/4/4/40214440c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "933165",
+    "name": "מקרן Epson HOME CINEMA 2045 Full HD",
+    "image": "images/933165.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/9/1/42751971c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "909883",
+    "name": "מקרן Optoma HD28DSE Full HD",
+    "image": "images/909883.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/2/4/41304241c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "931322",
+    "name": "מקרן Optoma EH200ST Full HD",
+    "image": "images/931322.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/1/7/42517108c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "987145",
+    "name": "מקרן Ricoh PJHD5451",
+    "image": "images/987145.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/4/6/47036424c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528507
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "987171",
+    "name": "מקרן BenQ SH753 Full HD",
+    "image": "images/987171.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/6/7/48537618c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528508
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261486",
+    "name": "מקרן Optoma ZH551",
+    "image": "images/1261486.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/1/6/95856115c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528508
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "869461",
+    "name": "מקרן Philips HDP1590 HD Ready",
+    "image": "images/869461.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/1/2/39012121c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528509
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1210901",
+    "name": "מקרן Optoma ZH450ST",
+    "image": "images/1210901.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/8/9/79559878b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528509
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1193261",
+    "name": "מקרן Epson EB-L520U",
+    "image": "images/1193261.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/6/2/87282686c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528509
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1220292",
+    "name": "מקרן Epson EBL260F",
+    "image": "images/1220292.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/6/2/87282687c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528509
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1149770",
+    "name": "מקרן BenQ LU710 Full HD",
+    "image": "images/1149770.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/1/0/69240154c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528509
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1060325",
+    "name": "מקרן Philips Screeneo U3 HDP3550 Full HD",
+    "image": "images/1060325.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/7/6/54096720c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528510
+    },
+    "manufacturer": "Philips",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "835822",
+    "name": "מקרן Epson EHTW6100 Full HD",
+    "image": "images/835822.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/7/5/37785791c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528510,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1127338",
+    "name": "מקרן Infocus INL2158 Full HD",
+    "image": "images/1127338.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/0/4/64824040c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528511
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1233087",
+    "name": "מקרן Optoma ZK430ST",
+    "image": "images/1233087.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/9/8/89548917c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528511
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1163933",
+    "name": "מקרן Optoma UHZ45 Full HD",
+    "image": "images/1163933.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/9/7/70437943c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528511
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "954627",
+    "name": "מקרן BenQ W3000 Full HD",
+    "image": "images/954627.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/8/5/44955868c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528511
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261630",
+    "name": "מקרן Epson EBL265F",
+    "image": "images/1261630.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/2/1/97121246c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528512
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "949282",
+    "name": "מקרן BenQ SW921 HD Ready",
+    "image": "images/949282.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/2/2/44652216c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528512
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "888934",
+    "name": "מקרן Optoma HD161X Full HD",
+    "image": "images/888934.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/7/1/39861766c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528512
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "956333",
+    "name": "מקרן Optoma UHD550X 4K / UHD",
+    "image": "images/956333.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/6/0/46170696c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528512
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "921417",
+    "name": "מקרן BenQ SU922 Full HD",
+    "image": "images/921417.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/41959721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528514
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1067181",
+    "name": "מקרן Optoma UHD42 4K / UHD",
+    "image": "images/1067181.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/4/9/55549423c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528514
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "932705",
+    "name": "מקרן Epson EHTW7300 Full HD",
+    "image": "images/932705.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/1/8/43438131c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528514,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1204347",
+    "name": "מקרן Philips Screeneo U5 SCN550/INT",
+    "image": "images/1204347.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/8/1/77931892c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528515
+    },
+    "manufacturer": "Philips",
+    "filterTags": {}
+  },
+  {
+    "id": "1159964",
+    "name": "מקרן Infocus INL2168",
+    "image": "images/1159964.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/2/70202522c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528515
+    },
+    "manufacturer": "Infocus",
+    "filterTags": {}
+  },
+  {
+    "id": "1130233",
+    "name": "מקרן Optoma UHZ50 Full HD",
+    "image": "images/1130233.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/7/67867836c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528515
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1220293",
+    "name": "מקרן Epson EB-L530U",
+    "image": "images/1220293.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/2/87282684c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528515
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1172421",
+    "name": "מקרן Epson EH-LS300 V11HA07140",
+    "image": "images/1172421.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/0/2/74732036c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528516
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "931327",
+    "name": "מקרן Optoma W319USTIR Full HD",
+    "image": "images/931327.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/3/9/42509363c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528519
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "894529",
+    "name": "מקרן Full HD EHTW6600‎ Epson",
+    "image": "images/894529.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/0/1/40821083c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528523,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261633",
+    "name": "מקרן Epson EB770FI",
+    "image": "images/1261633.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/1/6/97126164c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528524
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1261721",
+    "name": "מקרן BenQ TK710",
+    "image": "images/1261721.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/8/4/96874808c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528524
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1204330",
+    "name": "מקרן Ricoh PJ WXL4540",
+    "image": "images/1204330.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/6/2/78102694c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528524
+    },
+    "manufacturer": "Ricoh",
+    "filterTags": {}
+  },
+  {
+    "id": "976553",
+    "name": "מקרן Optoma UHZ65 4K / UHD",
+    "image": "images/976553.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/7/1/46611795c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528525
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "949402",
+    "name": "מקרן Optoma UHD65 4K / UHD",
+    "image": "images/949402.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/2/1/44721264c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528525
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "880563",
+    "name": "מקרן Sony VPLHW40ES Full HD",
+    "image": "images/880563.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/0/39310836c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528525
+    },
+    "manufacturer": "Sony",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1140845",
+    "name": "מקרן ViewSonic LS831WU Full HD",
+    "image": "images/1140845.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/6/0/68090620c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528531
+    },
+    "manufacturer": "ViewSonic",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1225850",
+    "name": "מקרן Nec P627UL",
+    "image": "images/1225850.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/3/3/88113363c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528532
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1245053",
+    "name": "מקרן Epson EB760WI",
+    "image": "images/1245053.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/2/5/97125217c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528534
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "862857",
+    "name": "מקרן Epson EHTW9200 Full HD",
+    "image": "images/862857.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/5/8/38728505c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528534,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1013866",
+    "name": "מקרן Epson EHTW7400 Full HD",
+    "image": "images/1013866.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/9/2/48982918c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528535,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "950539",
+    "name": "מקרן Vivitek DH765ZUST Full HD",
+    "image": "images/950539.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/0/0/44790093c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528535
+    },
+    "manufacturer": "Vivitek",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "932706",
+    "name": "מקרן Epson EHTW9300 Full HD",
+    "image": "images/932706.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/0/2/42692072c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528536,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1261717",
+    "name": "מקרן BenQ LU935",
+    "image": "images/1261717.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/6/6/96876634c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528537
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261724",
+    "name": "מקרן BenQ W2720I",
+    "image": "images/1261724.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/8/4/96874809c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528537
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261487",
+    "name": "מקרן Optoma UHZ68LV",
+    "image": "images/1261487.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/15217202767c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528540
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233082",
+    "name": "מקרן Panasonic PTVMZ61",
+    "image": "images/1233082.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/3/3/88113373c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528540
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1220294",
+    "name": "מקרן Epson EBL630U",
+    "image": "images/1220294.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/6/2/87282682c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528541
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "867483",
+    "name": "מקרן Epson EHTW7200 Full HD",
+    "image": "images/867483.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/4/7/39107461c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528541,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1204364",
+    "name": "מקרן Epson LS800",
+    "image": "images/1204364.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/4/5/78855497c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528541
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1226282",
+    "name": "מקרן Epson EHLS650W",
+    "image": "images/1226282.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/136111020120c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528541
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "watts": "650W"
+    }
+  },
+  {
+    "id": "1220295",
+    "name": "מקרן Epson EBL570U",
+    "image": "images/1220295.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/6/2/87282683c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528542
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1151600",
+    "name": "מקרן Optoma CinemaX P2",
+    "image": "images/1151600.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/1/0/64420182c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528542
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233090",
+    "name": "מקרן Nec PA803U",
+    "image": "images/1233090.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/3/8/89558325c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528542
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1261716",
+    "name": "מקרן BenQ LK935",
+    "image": "images/1261716.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/8/4/96874804c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528544
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261484",
+    "name": "מקרן Panasonic PT-VMZ72",
+    "image": "images/1261484.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/6/6/96126603c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528545
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "1233095",
+    "name": "מקרן Epson EBL635SU",
+    "image": "images/1233095.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/5/5/88655520c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528545
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1226283",
+    "name": "מקרן Epson EHLS800B",
+    "image": "images/1226283.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/9/7/93527915c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528545
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1226284",
+    "name": "מקרן Epson EHLS800W",
+    "image": "images/1226284.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/1/0/88420155c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528545
+    },
+    "manufacturer": "Epson",
+    "filterTags": {
+      "watts": "800W"
+    }
+  },
+  {
+    "id": "932707",
+    "name": "מקרן BenQ W11000 Full HD",
+    "image": "images/932707.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/4/5/42705458c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528545
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1155997",
+    "name": "מקרן Panasonic PT-VMZ60U",
+    "image": "images/1155997.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/1/9/69919113b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528546
+    },
+    "manufacturer": "Panasonic",
+    "filterTags": {}
+  },
+  {
+    "id": "997505",
+    "name": "מקרן BenQ LU950 Full HD",
+    "image": "images/997505.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/4/0/47930439c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528547
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1186947",
+    "name": "מקרן Epson EB-L720U",
+    "image": "images/1186947.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/9/3/76323911c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528547
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1261645",
+    "name": "מקרן Epson EBL790U",
+    "image": "images/1261645.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/9/1/97211938c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528548
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1210905",
+    "name": "מקרן Optoma ZU606TSTE",
+    "image": "images/1210905.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/9/7/79317944c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528548
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233091",
+    "name": "מקרן Nec PV710UL",
+    "image": "images/1233091.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/99833976c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528548
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1261649",
+    "name": "מקרן Epson EBL770U",
+    "image": "images/1261649.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/2/1/97121255c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528548
+    },
+    "manufacturer": "Epson",
+    "filterTags": {}
+  },
+  {
+    "id": "1233089",
+    "name": "מקרן Optoma ZK708T",
+    "image": "images/1233089.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/11992823909b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528548
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1261718",
+    "name": "מקרן BenQ LU960ST2",
+    "image": "images/1261718.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/5/97365153c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528549
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1261725",
+    "name": "מקרן BenQ W5800",
+    "image": "images/1261725.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/1/6/96846188c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528549
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1220290",
+    "name": "מקרן JVC LXNZ30",
+    "image": "images/1220290.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/8/7/87087861c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528550
+    },
+    "manufacturer": "JVC",
+    "filterTags": {}
+  },
+  {
+    "id": "1114153",
+    "name": "מקרן BenQ X12000",
+    "image": "images/1114153.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/9/4/63254970c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528550
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {}
+  },
+  {
+    "id": "1225848",
+    "name": "מקרן Optoma ZU920TST",
+    "image": "images/1225848.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/6/3/3/88113364c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528550
+    },
+    "manufacturer": "Optoma",
+    "filterTags": {}
+  },
+  {
+    "id": "1233094",
+    "name": "מקרן Nec PA1004UL",
+    "image": "images/1233094.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/3/8/89558329c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "manufacturer": "Nec",
+    "filterTags": {}
+  },
+  {
+    "id": "1037354",
+    "name": "מקרן BenQ LK970 4K / UHD",
+    "image": "images/1037354.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/9/4/49634930c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "manufacturer": "BenQ",
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1120040369",
+    "name": "מקרן Infocus IN1044",
+    "image": "images/1120040369.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/7/2/38642737c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088838765",
+    "name": "מקרן Optoma GT2000HDR",
+    "image": "images/1088838765.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/2/1/97121242c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1135051",
+    "name": "מקרן Infocus IN1024",
+    "image": "images/1135051.gif",
+    "manufacturer": "Infocus",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/8/4/67264881c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1240235",
+    "name": "מקרן Blaupunkt BP-5095",
+    "image": "images/1240235.gif",
+    "manufacturer": "Blaupunkt",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/9/2/90772958c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "949381",
+    "name": "מקרן Optoma X400 SD",
+    "image": "images/949381.gif",
+    "manufacturer": "Optoma",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/4/2/44732479c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528551
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "921294",
+    "name": "מקרן Ricoh PJ WX5460 HD Ready",
+    "image": "images/921294.gif",
+    "manufacturer": "Ricoh",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/6/6/63476697c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528552
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1155149",
+    "name": "מקרן Philips NeoPix Ultra 2TV+ NPX644/INT",
+    "image": "images/1155149.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/4/9/74419448c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528553
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1131408715",
+    "name": "מקרן Epson EHTW650 Full HD",
+    "image": "images/1131408715.gif",
+    "manufacturer": "ViewSonic",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/1/5/53955106c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528553,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "956298",
+    "name": "מקרן Epson EHTW650 Full HD",
+    "image": "images/956298.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/8/8/45258876c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528553,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1131114614",
+    "name": "מקרן Epson EHTW5400",
+    "image": "images/1131114614.gif",
+    "manufacturer": "Ricoh",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/6/6/63476695c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528554
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "914186",
+    "name": "מקרן Ricoh PJ WX3351N HD Ready",
+    "image": "images/914186.gif",
+    "manufacturer": "Ricoh",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/6/6/63476695c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528554
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "915904",
+    "name": "מקרן Nec V302H HD Ready",
+    "image": "images/915904.gif",
+    "manufacturer": "Nec",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/0/8/43048073c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528555
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1060579",
+    "name": "מקרן Epson EF100 HD Ready",
+    "image": "images/1060579.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/0/4/54984094c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528559
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "1261719",
+    "name": "מקרן BenQ TK700",
+    "image": "images/1261719.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/8/4/96874807c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528559
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1037342",
+    "name": "מקרן BenQ TH671ST",
+    "image": "images/1037342.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/7/2/50332730c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528560
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1000943",
+    "name": "מקרן Epson EB535W HD Ready",
+    "image": "images/1000943.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/8/6/45406897c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528560
+    },
+    "filterTags": {
+      "resolution": "HD",
+      "watts": "535W"
+    }
+  },
+  {
+    "id": "957448",
+    "name": "מקרן Epson EB1795F Full HD",
+    "image": "images/957448.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/8/7/45407821c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528561,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "1116586",
+    "name": "מקרן BenQ TK700STI 4K / UHD",
+    "image": "images/1116586.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/new/29793016686c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528561
+    },
+    "filterTags": {
+      "resolution": "4K / UHD"
+    }
+  },
+  {
+    "id": "1261378",
+    "name": "מקרן Vivitek DH856E",
+    "image": "images/1261378.gif",
+    "manufacturer": "Vivitek",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/5/4/97734556c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528561
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1134162826",
+    "name": "מקרן Optoma ZU500USTE",
+    "image": "images/1134162826.gif",
+    "manufacturer": "Panasonic",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/6/6/96126603c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528562
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1135093916",
+    "name": "מקרן Epson EH-TW6150 V11HA74040",
+    "image": "images/1135093916.gif",
+    "manufacturer": "Ricoh",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/0/1/49091001c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528562
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242450",
+    "name": "מקרן ViewSonic PX704HD",
+    "image": "images/1242450.gif",
+    "manufacturer": "ViewSonic",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/2/5/93225288c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528565
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1135093383",
+    "name": "מקרן Epson EBFH54",
+    "image": "images/1135093383.gif",
+    "manufacturer": "Optoma",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/7/5/62405772c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528565
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1136428479",
+    "name": "מקרן Infocus IN1028SL",
+    "image": "images/1136428479.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/4/54604204c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528565
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "894506",
+    "name": "מקרן Optoma HD50 Full HD",
+    "image": "images/894506.gif",
+    "manufacturer": "Optoma",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/6/3/42623601c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528565
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "785975",
+    "name": "מקרן ViewSonic PRO8200 Full HD",
+    "image": "images/785975.gif",
+    "manufacturer": "ViewSonic",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/2/6/38406254c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528566
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "836997",
+    "name": "מקרן Panasonic PTAE8000U Full HD",
+    "image": "images/836997.gif",
+    "manufacturer": "Panasonic",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/9/7/37837930c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528566
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "876939",
+    "name": "מקרן BenQ MX600 SD",
+    "image": "images/876939.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/2/6/40316210c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528566
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "969058",
+    "name": "מקרן BenQ MX604 SD",
+    "image": "images/969058.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/1/3/46173190c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528567
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "789847",
+    "name": "מקרן BenQ MX660 SD",
+    "image": "images/789847.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/4/4/36294472c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528567
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "790271",
+    "name": "מקרן BenQ MX760 SD",
+    "image": "images/790271.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/1/3/36163192b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528567
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "864503",
+    "name": "מקרן BenQ MW523 HD Ready",
+    "image": "images/864503.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/9/1/38761987c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528569
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "875753",
+    "name": "מקרן BenQ MX661 SD",
+    "image": "images/875753.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/4/5/49595409c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528569
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "845233",
+    "name": "מקרן BenQ MS517 SD",
+    "image": "images/845233.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/4/0/38380488c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528570
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "921413",
+    "name": "מקרן BenQ MX704 SD",
+    "image": "images/921413.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/6/4/42404657c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528570
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "875755",
+    "name": "מקרן BenQ MX620ST SD",
+    "image": "images/875755.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/1/6/39146123c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528570
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "875754",
+    "name": "מקרן BenQ MH680 Full HD",
+    "image": "images/875754.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/0/8/39148051c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528571
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "939037",
+    "name": "מקרן Epson EBX9LW",
+    "image": "images/939037.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/9/5/43495980c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528571
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "896975",
+    "name": "מקרן BenQ MW526 HD Ready",
+    "image": "images/896975.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/0/6/40376093c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528572
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "867482",
+    "name": "מקרן Epson EHTW5200 Full HD",
+    "image": "images/867482.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/3/3/38883302c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528572,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "915913",
+    "name": "מקרן BenQ MH741 Full HD",
+    "image": "images/915913.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/8/9/41689855b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528573
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "925046",
+    "name": "מקרן Epson EHTW5350 Full HD",
+    "image": "images/925046.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/4/1/7/3/40803714c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528573,
+      "ksp": 4290,
+      "kspUrl": "https://ksp.co.il/web/item/461752"
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "883971",
+    "name": "מקרן BenQ GP20 HD Ready",
+    "image": "images/883971.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/2/39432621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528573
+    },
+    "filterTags": {
+      "resolution": "HD"
+    }
+  },
+  {
+    "id": "883984",
+    "name": "מקרן BenQ HT1075 Full HD",
+    "image": "images/883984.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/6/2/39432638c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528573
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "917303",
+    "name": "מקרן BenQ TH670 Full HD",
+    "image": "images/917303.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/7/5/41585700c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528574
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "987172",
+    "name": "מקרן BenQ MH750 Full HD",
+    "image": "images/987172.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/7/1/47051711c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528575
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "852518",
+    "name": "מקרן Epson EB1940W HD Ready",
+    "image": "images/852518.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/9/2/40512963c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528576
+    },
+    "filterTags": {
+      "resolution": "HD",
+      "watts": "1940W"
+    }
+  },
+  {
+    "id": "872339",
+    "name": "מקרן BenQ MH740 Full HD",
+    "image": "images/872339.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/2/3/40943270c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528576
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "826195",
+    "name": "מקרן BenQ EP5920 Full HD",
+    "image": "images/826195.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/1/2/37382138c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528577
+    },
+    "filterTags": {
+      "resolution": "Full HD"
+    }
+  },
+  {
+    "id": "834502",
+    "name": "מקרן Epson EB1945W HD Ready",
+    "image": "images/834502.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/9/2/42622977c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528577
+    },
+    "filterTags": {
+      "resolution": "HD",
+      "watts": "1945W"
+    }
+  },
+  {
+    "id": "1037346",
+    "name": "מקרן BenQ W2700",
+    "image": "images/1037346.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/6/0/51270636c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528578
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095617521",
+    "name": "מקרן Infocus IN1036",
+    "image": "images/1095617521.gif",
+    "manufacturer": "Infocus",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/3/40243985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528578
+    }
+  },
+  {
+    "id": "815095",
+    "name": "מקרן Epson EHTW480 HD Ready",
+    "image": "images/815095.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/2/2/35812263c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528578
+    }
+  },
+  {
+    "id": "1056839941",
+    "name": "מקרן Epson EHTW5400",
+    "image": "images/1056839941.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/7/38527063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528579
+    }
+  },
+  {
+    "id": "1167785028",
+    "name": "מקרן Optoma W340UST",
+    "image": "images/1167785028.gif",
+    "manufacturer": "Acer",
+    "imageUrl": "https://img.zap.co.il/pics/new/214111633534c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528580
+    }
+  },
+  {
+    "id": "1181342",
+    "name": "מקרן Vivitek DH278",
+    "image": "images/1181342.gif",
+    "manufacturer": "Vivitek",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/6/0/75580642c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528580
+    }
+  },
+  {
+    "id": "1140852307",
+    "name": "מקרן Optoma HD27 Full HD",
+    "image": "images/1140852307.gif",
+    "manufacturer": "Nec",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/8/29438065c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528581
+    }
+  },
+  {
+    "id": "925144",
+    "name": "מקרן Optoma GT2000HDR",
+    "image": "images/925144.gif",
+    "manufacturer": "Hitachi",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/7/4/42074746b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528581
+    }
+  },
+  {
+    "id": "1181359716",
+    "name": "מקרן Optoma HD27 Full HD",
+    "image": "images/1181359716.gif",
+    "manufacturer": "BenQ",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/8/4/96874807c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528581
+    }
+  },
+  {
+    "id": "1056839947",
+    "name": "מקרן Optoma ZW350 Full HD",
+    "image": "images/1056839947.gif",
+    "manufacturer": "Epson",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/1/7/60587102c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635528581
+    }
+  },
+  {
+    "id": "1178850622",
+    "name": "מקרן Optoma ZH450",
+    "image": "images/1178850622.gif",
+    "manufacturer": "Infocus",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/2/94932320c.gif",
+    "prices": {
+      "zap": 3389,
+      "updated": 1778635528582
+    }
+  }
+]

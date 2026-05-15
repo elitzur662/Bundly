@@ -1,0 +1,4126 @@
+[
+  {
+    "id": "934583",
+    "name": "מקלדת Logitech K780",
+    "image": "images/934583.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/6/2/42802681b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691318
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "1064474",
+    "name": "מקלדת ועכבר Logitech MK270",
+    "image": "images/1064474.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/5/4/41224510c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691318,
+      "ksp": 104,
+      "kspUrl": "https://ksp.co.il/web/item/21422"
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "955280",
+    "name": "מקלדת ועכבר SilverLine WKM1603",
+    "image": "images/955280.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/1/9/44119111b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691319
+    },
+    "manufacturer": "SilverLine",
+    "filterTags": {}
+  },
+  {
+    "id": "990846",
+    "name": "מקלדת SilverLine GKB209",
+    "image": "images/990846.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/4/0/91630490c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691319
+    },
+    "manufacturer": "SilverLine",
+    "filterTags": {}
+  },
+  {
+    "id": "1167570",
+    "name": "מקלדת Razer DeathStalker V2 Pro",
+    "image": "images/1167570.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/5/6/71896590b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691321
+    },
+    "manufacturer": "Razer",
+    "filterTags": {}
+  },
+  {
+    "id": "964861",
+    "name": "מקלדת Apple Magic Keyboard with Numeric Keypad MQ052HB/A",
+    "image": "images/964861.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/9/8/45388968b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691321
+    },
+    "manufacturer": "Apple",
+    "filterTags": {}
+  },
+  {
+    "id": "1081552",
+    "name": "מקלדת ועכבר Microsoft MS Ergonomic WIRED Desktop RJU-00016",
+    "image": "images/1081552.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/5/8/56868563b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691322
+    },
+    "manufacturer": "Microsoft",
+    "filterTags": {}
+  },
+  {
+    "id": "1095329",
+    "name": "מקלדת SilverLine KB-889HE",
+    "image": "images/1095329.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/5/1/58871545b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691323
+    },
+    "manufacturer": "SilverLine",
+    "filterTags": {}
+  },
+  {
+    "id": "969104",
+    "name": "מקלדת מולטימדיה Dell KB216 בצבע שחור",
+    "image": "images/969104.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/1/50461430c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691323
+    },
+    "manufacturer": "Dell",
+    "filterTags": {}
+  },
+  {
+    "id": "1163105",
+    "name": "מקלדת אלחוטית Logitech MX Mechanical צבע שחור",
+    "image": "images/1163105.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/0/8/97238010b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691323
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "1157676",
+    "name": "SteelSeries מקלדת גיימינג עמידה במים TKL Apex 3 TKL - US",
+    "image": "images/1157676.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/4/2/93102467c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691324
+    },
+    "manufacturer": "SteelSeries",
+    "filterTags": {}
+  },
+  {
+    "id": "1238839",
+    "name": "מקלדת Logitech G515 Lightspeed TKL",
+    "image": "images/1238839.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/2/5/93815203b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691324
+    },
+    "manufacturer": "Logitech",
+    "filterTags": {}
+  },
+  {
+    "id": "943763",
+    "name": "מקלדת ועכבר Logitech MK850 Performance",
+    "image": "images/943763.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/7/0/44190745c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691324
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "981283",
+    "name": "מקלדת ועכבר Logitech MK540 Advanced",
+    "image": "images/981283.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/5/5/86095500c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691325
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088528",
+    "name": "מקלדת ועכבר Logitech MK295",
+    "image": "images/1088528.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/6/4/57874650c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691325,
+      "ksp": 104,
+      "kspUrl": "https://ksp.co.il/web/item/21422"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206391",
+    "name": "מקלדת Logitech MX Keys S",
+    "image": "images/1206391.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/9/2/78842944c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691325,
+      "bug": 379,
+      "bugUrl": "https://www.bug.co.il/brand/logitech/color/grey/mx/keys/s/wireless/keyboard"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1106913",
+    "name": "מקלדת Razer Huntsman Mini",
+    "image": "images/1106913.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/8/5/92575808c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691325
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206155",
+    "name": "מקלדת Razer Ornata V3 X",
+    "image": "images/1206155.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/4/5/92145479c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691326
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1232412",
+    "name": "מקלדת Logitech Wave Keys",
+    "image": "images/1232412.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/9/4/87454909c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691326
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "775811",
+    "name": "מקלדת ועכבר Logitech Desktop MK120",
+    "image": "images/775811.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/4/8/42238412c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691326
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1204458",
+    "name": "מקלדת ועכבר Logitech MK370 Combo for Business",
+    "image": "images/1204458.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/6/7/78617637c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691326
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "785333",
+    "name": "מקלדת Logitech K120",
+    "image": "images/785333.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/2/3/45663230c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691326
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206156",
+    "name": "מקלדת Razer Ornata V3",
+    "image": "images/1206156.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/6/0/96470668b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691327
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "765077",
+    "name": "מקלדת ועכבר Logitech Wireless Desktop MK250",
+    "image": "images/765077.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/9/2/35352998c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691327
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088529",
+    "name": "מקלדת Razer BlackWidow V3 Tenkeyless",
+    "image": "images/1088529.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/4/6/92456482c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691327
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1198901",
+    "name": "מקלדת Razer Ornata V3 Tenkeyless",
+    "image": "images/1198901.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/2/7/92157219c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1036825",
+    "name": "מקלדת Lenovo Legion K500",
+    "image": "images/1036825.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/3/1/91461308c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1008894",
+    "name": "מקלדת ועכבר Lenovo 510 Wireless Combo GX30T02646",
+    "image": "images/1008894.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/2/2/95862257b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "916138",
+    "name": "מקלדת עם משטח מגע Logitech Wireless Touch Keyboard K400 Plus",
+    "image": "images/916138.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/0/4/41704029c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "933124",
+    "name": "מקלדת Logitech G213 Prodigy",
+    "image": "images/933124.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/3/7/93087316c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691328
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1160361",
+    "name": "מקלדת ועכבר Dell KM3322W",
+    "image": "images/1160361.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/9/9/70249998c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114567",
+    "name": "מקלדת Logitech Ergo K860",
+    "image": "images/1114567.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/1/5/61775170b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1061582",
+    "name": "מקלדת ועכבר Lenovo 510 Wireless Combo GX30W75337",
+    "image": "images/1061582.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/5/8/52098596c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206157",
+    "name": "מקלדת Razer BlackWidow V4 X",
+    "image": "images/1206157.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/4/9/92439406c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691329
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1185330",
+    "name": "מקלדת ועכבר Logitech Signature MK650 Combo For Business",
+    "image": "images/1185330.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/2/7/76297241c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691330
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1175028",
+    "name": "מקלדת ועכבר Asus CW100",
+    "image": "images/1175028.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/1/1/92111177c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691330
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251434",
+    "name": "מקלדת Razer Huntsman V3 Pro TKL",
+    "image": "images/1251434.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/0/2/95032046c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691330
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "944202",
+    "name": "מקלדת ועכבר Logitech Wireless Combo MK345",
+    "image": "images/944202.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/8/2/96002867b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691330
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1140470",
+    "name": "מקלדת Logitech MX Keys Mini For Mac",
+    "image": "images/1140470.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/2/6/68046233c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114562",
+    "name": "מקלדת ועכבר Asus W5000",
+    "image": "images/1114562.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/9/0/61930946c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1122711",
+    "name": "מקלדת ועכבר Dell KM7321W",
+    "image": "images/1122711.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/7/9/64969733c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1194607",
+    "name": "מקלדת Logitech G413 TKL SE",
+    "image": "images/1194607.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/4/7/75017419b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124798",
+    "name": "מקלדת ועכבר HP 230 Wireless Mouse and Keyboard Combo 18H24AA",
+    "image": "images/1124798.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/9/7/64707993c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163076",
+    "name": "מקלדת Logitech MX Mechanical Mini",
+    "image": "images/1163076.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/70209158c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691331
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097418",
+    "name": "מקלדת ועכבר CoolerMaster Devastator 3 Plus",
+    "image": "images/1097418.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/7/4/92904778c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691332
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1047455",
+    "name": "מקלדת ועכבר Logitech MK470",
+    "image": "images/1047455.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/0/7/52857041c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691332,
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/75459"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1220829",
+    "name": "מקלדת Logitech G Pro X TKL",
+    "image": "images/1220829.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/new/203102256736c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691332,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1242570",
+    "name": "מקלדת ועכבר Logitech Pop Icon Combo",
+    "image": "images/1242570.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/1/4/92344119c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691332
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1210012",
+    "name": "מקלדת ועכבר HP HP 230 Wireless Mouse and Keyboard Combo 3L1F0AA",
+    "image": "images/1210012.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/5/0/77910530c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1223917",
+    "name": "מקלדת Razer BlackWidow V4 75",
+    "image": "images/1223917.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/2/0/91630279c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237432",
+    "name": "מקלדת ועכבר HP 235 Wireless Mouse and Keyboard Combo 1Y4D0UT",
+    "image": "images/1237432.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/2/7/90217237c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1043702",
+    "name": "מקלדת ועכבר Gold Touch KYW700",
+    "image": "images/1043702.gif",
+    "manufacturer": "Gold Touch",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/2/7/52027269c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249826",
+    "name": "מקלדת ועכבר 650‎ 4R013AA HP",
+    "image": "images/1249826.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/2/8/91568292c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691333
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1116791",
+    "name": "מקלדת Razer Huntsman V2",
+    "image": "images/1116791.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/7/1/61391703c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691334
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250043",
+    "name": "מקלדת Apple Magic Keyboard with Touch ID and Numeric Keypad MXK73HB/A",
+    "image": "images/1250043.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/0/0/94050005c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691334
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1255023",
+    "name": "מקלדת Logitech Pebble Keys 2 K380s",
+    "image": "images/1255023.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/0/95780621c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691334
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231742",
+    "name": "מקלדת Lenovo Legion K510 Mini Pro GY41P80859",
+    "image": "images/1231742.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/2/3/89323265c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1198904",
+    "name": "מקלדת Razer BlackWidow V4 PRO",
+    "image": "images/1198904.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/4/9/91569417c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067152",
+    "name": "מקלדת SteelSeries Apex 3",
+    "image": "images/1067152.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/3/5/93095368c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1252906",
+    "name": "מקלדת Logitech G515 Lightspeed TKL Wired",
+    "image": "images/1252906.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/0/2/95032063c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691335
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250784",
+    "name": "מקלדת Razer Huntsman V3 Pro",
+    "image": "images/1250784.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/3/3/95143345c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217378",
+    "name": "מקלדת ועכבר Lenovo Legion KM300 GX30Z21575",
+    "image": "images/1217378.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/6/6/91626611c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1205296",
+    "name": "מקלדת ועכבר Logitech MX Keys S Combo",
+    "image": "images/1205296.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/8/78498430c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1206158",
+    "name": "מקלדת Razer BlackWidow V4",
+    "image": "images/1206158.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/8/8/95058858b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218155",
+    "name": "מקלדת Corsair K70 CORE RGB",
+    "image": "images/1218155.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/4/7/87037407c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1137491",
+    "name": "מקלדת ועכבר Lenovo 510 Wireless Combo GX31D64837",
+    "image": "images/1137491.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/new/51132849809c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691336
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1103473",
+    "name": "מקלדת Razer BlackWidow V3",
+    "image": "images/1103473.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/7/0/93160756c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170470",
+    "name": "מקלדת SteelSeries Apex 9 TKL",
+    "image": "images/1170470.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/0/8/91608038c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691337,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1122710",
+    "name": "מקלדת ועכבר Dell KM5221W",
+    "image": "images/1122710.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/9/0/0/2/87672009c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691337
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239139",
+    "name": "מקלדת Logitech G915 X Wired",
+    "image": "images/1239139.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/3/9/92219342b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056070",
+    "name": "מקלדת SteelSeries Apex 7 TKL",
+    "image": "images/1056070.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/3/8/54148362c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691338,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1178586",
+    "name": "מקלדת ועכבר HP 150 Wired Mouse and Keyboard Combo 240J7AA",
+    "image": "images/1178586.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/9/3/75303995c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1164670",
+    "name": "מקלדת ועכבר Genius KM-8100 -31340004418",
+    "image": "images/1164670.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/9/5/70545988c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222793",
+    "name": "מקלדת ועכבר Logitech Signature Slim Combo MK950",
+    "image": "images/1222793.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/new/25141515459c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691338
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249248",
+    "name": "מקלדת Logitech Pop Icon Keys",
+    "image": "images/1249248.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/93852284c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225904",
+    "name": "מקלדת Logitech Signature Slim K950",
+    "image": "images/1225904.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/9/8/93078917c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1125511",
+    "name": "מקלדת Corsair K55 RGB PRO Gaming Keyboard CH-9226765-NA",
+    "image": "images/1125511.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/2/92372153c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691339
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1218959",
+    "name": "מקלדת ועכבר HP 650 4R016AA",
+    "image": "images/1218959.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/5/9/87179525c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238842",
+    "name": "מקלדת HP 965 Ergonomic Wireless Keyboard 7E756AA",
+    "image": "images/1238842.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/0/4/90474052c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1164428",
+    "name": "מקלדת Logitech G413-SE",
+    "image": "images/1164428.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/2/93162840b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1245410",
+    "name": "מקלדת Logitech Pop Icon",
+    "image": "images/1245410.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/93852284c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249824",
+    "name": "מקלדת Genius Ergo KB-700",
+    "image": "images/1249824.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/5/3/94333565c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250042",
+    "name": "מקלדת Apple Magic Keyboard MXCL3HB/A",
+    "image": "images/1250042.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/2/9/3/3/91573392c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691340,
+      "ksp": 1229,
+      "kspUrl": "https://ksp.co.il/web/item/372964"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237429",
+    "name": "מקלדת Asus KW100",
+    "image": "images/1237429.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/7/5/89485702c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691341
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170480",
+    "name": "מקלדת Logitech G715 TKL",
+    "image": "images/1170480.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/5/2/74302595c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691341,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1003049",
+    "name": "מקלדת ועכבר SilverLine WKM1608",
+    "image": "images/1003049.gif",
+    "manufacturer": "SilverLine",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/0/8/37888010c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691341
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180561",
+    "name": "מקלדת Logitech G915 TKL",
+    "image": "images/1180561.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/2/4/92154206b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691342,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1175011",
+    "name": "מקלדת HP 150 Wired Keyboard 664R5AA",
+    "image": "images/1175011.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/9/3/75303993c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1192035",
+    "name": "מקלדת Skyloong Macaron GK61",
+    "image": "images/1192035.gif",
+    "manufacturer": "Skyloong",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/6/8/91638689c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250350",
+    "name": "מקלדת Corsair K55 Core RGB",
+    "image": "images/1250350.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/7/7/94787770c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1036821",
+    "name": "מקלדת ועכבר Lenovo 300 GX30M39623",
+    "image": "images/1036821.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/1/6/53246176c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691342
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1236001",
+    "name": "מקלדת ועכבר Lenovo Essential Wireless Combo Keyboard & Mouse Gen2 4X31N50725",
+    "image": "images/1236001.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/7/7/89927749c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114564",
+    "name": "מקלדת ועכבר Lenovo GX30W22197",
+    "image": "images/1114564.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/6/0/57270693c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107858",
+    "name": "מקלדת Gold Touch KY500",
+    "image": "images/1107858.gif",
+    "manufacturer": "Gold Touch",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/9/0/59300926c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1227663",
+    "name": "מקלדת ועכבר HP 655 Wireless Keyboard and Mouse Combo 4R009A6",
+    "image": "images/1227663.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/0/6/87586044c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1138309",
+    "name": "מקלדת Lenovo Go Wireless Split Keyboard",
+    "image": "images/1138309.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/5/7/89937532c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691343
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1137807",
+    "name": "מקלדת Logitech MX Keys Mini",
+    "image": "images/1137807.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/1/5/86165171c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1081321",
+    "name": "מקלדת ועכבר Dell KM7120W",
+    "image": "images/1081321.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/1/3/57113132c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1236002",
+    "name": "מקלדת ועכבר HP 685 Comfort Dual-Mode 8T6L7UT",
+    "image": "images/1236002.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/1/9/89949101c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691344
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250046",
+    "name": "מקלדת Apple Magic Keyboard MXCK3HB/A",
+    "image": "images/1250046.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/7/8/94988747c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345,
+      "ksp": 1229,
+      "kspUrl": "https://ksp.co.il/web/item/372964"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237521",
+    "name": "מקלדת HP 480 Comfort 8T6M1AA",
+    "image": "images/1237521.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/8/6/90236888c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1246396",
+    "name": "מקלדת HK-Gaming GK61",
+    "image": "images/1246396.gif",
+    "manufacturer": "HK-Gaming",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/6/94476721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1211767",
+    "name": "מקלדת ועכבר 330 2V9E6AA סט HP",
+    "image": "images/1211767.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/4/8/85168445c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1152998",
+    "name": "מקלדת ועכבר RAPOO 8210M",
+    "image": "images/1152998.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/8/9/69779821c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250037",
+    "name": "מקלדת HP 960 7E755AA",
+    "image": "images/1250037.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/4/2/94292485c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1002138",
+    "name": "מקלדת ועכבר RAPOO X1800S",
+    "image": "images/1002138.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/new/8510343102c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691345
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1241772",
+    "name": "מקלדת ועכבר Lenovo Legion KM310 GX31N91912",
+    "image": "images/1241772.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/9/2/88372902c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1041876",
+    "name": "מקלדת SteelSeries Apex Pro",
+    "image": "images/1041876.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/2/1/91611254c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691346,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212574",
+    "name": "מקלדת ועכבר Lenovo GX31D10723",
+    "image": "images/1212574.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/4/9/82709491c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1191878",
+    "name": "מקלדת Jlab Epic",
+    "image": "images/1191878.gif",
+    "manufacturer": "Jlab",
+    "imageUrl": "https://img.zap.co.il/pics/8/5/9/5/76595958c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691346
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237523",
+    "name": "מקלדת ועכבר HP 680 Comfort Dual-Mode 8T6L6AA",
+    "image": "images/1237523.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/8/6/90236889c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "901147",
+    "name": "מקלדת Logitech K480",
+    "image": "images/901147.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/9/9/40509953c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1183169",
+    "name": "מקלדת Roccat Vulcan II Mini",
+    "image": "images/1183169.gif",
+    "manufacturer": "Roccat",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/1/4/75574153c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691347
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250045",
+    "name": "מקלדת Apple Magic Keyboard with Touch ID and Numeric Keypad MXK83HB/A",
+    "image": "images/1250045.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/0/2/92422011c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1003043",
+    "name": "מקלדת SilverLine MM818HE",
+    "image": "images/1003043.gif",
+    "manufacturer": "SilverLine",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/1/6/48476165c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1064476",
+    "name": "ערכת גיימינג Marvo CM375",
+    "image": "images/1064476.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/7/6/49866783c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1065068",
+    "name": "מקלדת Razer Cynosa Lite",
+    "image": "images/1065068.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/4/9/2/92082945c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691348
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1040228",
+    "name": "מקלדת ועכבר Genius Genius Smart KM-8200",
+    "image": "images/1040228.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/9/5/51795929c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097409",
+    "name": "מקלדת Corsair K100 RGB CH-912A014-NA",
+    "image": "images/1097409.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/9/3/59213901c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "953306",
+    "name": "מקלדת ועכבר Cougar Deathfire EX",
+    "image": "images/953306.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/3/0/44830323c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055359",
+    "name": "מקלדת ועכבר CoolerMaster MS110",
+    "image": "images/1055359.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/8/8/55828844c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691349
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1236225",
+    "name": "מקלדת ועכבר Asus U2000 Keyboard + Mouse Set",
+    "image": "images/1236225.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/1/7/90017177c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1176965",
+    "name": "מקלדת Gold Touch KY200-BT",
+    "image": "images/1176965.gif",
+    "manufacturer": "Gold Touch",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/0/3/75063080c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1231459",
+    "name": "מקלדת ועכבר CoolerMaster MS111",
+    "image": "images/1231459.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/0/1/89151033c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "936763",
+    "name": "מקלדת SilverLine KB-889",
+    "image": "images/936763.gif",
+    "manufacturer": "SilverLine",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/5/6/43046522c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691350
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067154",
+    "name": "מקלדת SteelSeries Apex 5",
+    "image": "images/1067154.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/0/0/6/4/92784600c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180564",
+    "name": "מקלדת Corsair K60 Pro TKL",
+    "image": "images/1180564.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/3/0/75250397c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1164431",
+    "name": "ערכת גיימינג Xtrike Me CMX-410",
+    "image": "images/1164431.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/5/2/70462550c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250036",
+    "name": "מקלדת Lenovo Legion K310 GY41N91866",
+    "image": "images/1250036.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/0/3/92373068c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691351
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1152995",
+    "name": "מקלדת ועכבר Lenovo 300 USB Combo Keyboard and Mouse GX30M39606",
+    "image": "images/1152995.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/2/1/69611205c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250034",
+    "name": "מקלדת ועכבר Lenovo Essential Wired Combo 4X31R64417",
+    "image": "images/1250034.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/4/4/94474470c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015662",
+    "name": "מקלדת Cougar VANTAR",
+    "image": "images/1015662.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/8/5/51015856c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1233388",
+    "name": "מקלדת ועכבר RAPOO X260S E.H",
+    "image": "images/1233388.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/0/4/89074061c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691352
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1109886",
+    "name": "מקלדת ועכבר Lenovo GX30Z91078",
+    "image": "images/1109886.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/1/9/59319175c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691353
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237430",
+    "name": "מקלדת ועכבר HP Pavilion 200 9DF28AA",
+    "image": "images/1237430.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/4/2/94292483c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691353
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1156148",
+    "name": "מקלדת ועכבר HP 235 Wireless Mouse and Keyboard Combo 1Y4D0AA",
+    "image": "images/1156148.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/3/0/69980323c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691353
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237522",
+    "name": "מקלדת HP 485 Comfort Wired Keyboard 8T6M2AA",
+    "image": "images/1237522.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/8/6/90236887c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "939929",
+    "name": "מקלדת Corsair K55 RGB Gaming Keyboard CH-9206015-NA",
+    "image": "images/939929.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/0/47610320c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015655",
+    "name": "מקלדת Logitech G512 LIGHTSYNC RGB MECHANICAL GAMING KEYBOARD",
+    "image": "images/1015655.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/8/8/50858830c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1140562",
+    "name": "מקלדת Apple Magic Keyboard MK2A3HB/A",
+    "image": "images/1140562.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/7/1/3/2/62362317c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354,
+      "ksp": 1229,
+      "kspUrl": "https://ksp.co.il/web/item/372964"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250781",
+    "name": "מקלדת Razer Huntsman V3 Pro Mini",
+    "image": "images/1250781.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/3/3/95143346c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1164246",
+    "name": "מקלדת Razer Huntsman V2 Tenkeyless",
+    "image": "images/1164246.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/3/9/92219347c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691354
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1223837",
+    "name": "מקלדת Skyloong GK84",
+    "image": "images/1223837.gif",
+    "manufacturer": "Skyloong",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/1/6/87776123c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239132",
+    "name": "מקלדת Logitech G915 X Lightspeed",
+    "image": "images/1239132.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/new/912124911518c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180566",
+    "name": "מקלדת Corsair K60 RGB Pro CH-910D019-NA",
+    "image": "images/1180566.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/9/4/75354988c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222794",
+    "name": "מקלדת Logitech G Pro X 60",
+    "image": "images/1222794.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/new/12516362325c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691355
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1073645",
+    "name": "מקלדת Lenovo Legion K300",
+    "image": "images/1073645.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/5/6/93256596c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075991",
+    "name": "מקלדת CoolerMaster CK350",
+    "image": "images/1075991.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/1/3/56433199c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "925120",
+    "name": "מקלדת Dell KB522",
+    "image": "images/925120.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/2/2/42142215c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117788",
+    "name": "מקלדת CoolerMaster CK351",
+    "image": "images/1117788.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/6/3/62513663c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222436",
+    "name": "מקלדת Onikuma G52",
+    "image": "images/1222436.gif",
+    "manufacturer": "Onikuma",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/8/4/87444882c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691356
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1122929",
+    "name": "מקלדת Roccat Pyro",
+    "image": "images/1122929.gif",
+    "manufacturer": "Roccat",
+    "imageUrl": "https://img.zap.co.il/pics/9/3/5/6/65056539c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217301",
+    "name": "מקלדת Lenovo Essential Wired Keyboard 4Y41C68659",
+    "image": "images/1217301.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/7/6/89146793c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1029634",
+    "name": "מקלדת Logitech G PRO",
+    "image": "images/1029634.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/8/4/49664850c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1129298",
+    "name": "מקלדת ועכבר Philips SPT6602B",
+    "image": "images/1129298.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/9/4/68394930c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1003116",
+    "name": "מקלדת Roccat Vulcan 120",
+    "image": "images/1003116.gif",
+    "manufacturer": "Roccat",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/4/4/90324493c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015649",
+    "name": "מקלדת ועכבר RAPOO 8000MB E.H",
+    "image": "images/1015649.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/8/3/52713810c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691357
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1171430",
+    "name": "מקלדת SteelSeries Apex Pro Mini Wireless",
+    "image": "images/1171430.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/1/6/74226193c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1175007",
+    "name": "מקלדת Xtrike Me GK-980",
+    "image": "images/1175007.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/7/5/74955787c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691358
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251439",
+    "name": "מקלדת SteelSeries Apex Pro Gen 3 TKL",
+    "image": "images/1251439.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/5/5/94325546c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691358,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238834",
+    "name": "מקלדת SteelSeries Apex Pro Gen 3",
+    "image": "images/1238834.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/4/3/8/6/90536834c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691359,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1061590",
+    "name": "מקלדת Cougar Aurora S",
+    "image": "images/1061590.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/0/9/54229076c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097421",
+    "name": "מקלדת CoolerMaster MK110",
+    "image": "images/1097421.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/3/8/59198311c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238841",
+    "name": "מקלדת HP 685 Comfort Dual-Mode Keyboard 8T6L9UT",
+    "image": "images/1238841.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/0/4/90474053c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1117787",
+    "name": "מקלדת CoolerMaster CK352",
+    "image": "images/1117787.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/6/3/62513665c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691359
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124795",
+    "name": "מקלדת Corsair K70 RGB TKL Champion Series CH-9119010-NA",
+    "image": "images/1124795.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/new/209122512852c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1109885",
+    "name": "מקלדת CoolerMaster SK620",
+    "image": "images/1109885.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/0/9/61239065c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1075990",
+    "name": "מקלדת CoolerMaster CK550",
+    "image": "images/1075990.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/2/6/56426210c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691360
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055360",
+    "name": "מקלדת CoolerMaster CK320",
+    "image": "images/1055360.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/2/6/56426208c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1122949",
+    "name": "מקלדת Logitech MX Keys for Mac",
+    "image": "images/1122949.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/7/7/64997716c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097410",
+    "name": "מקלדת CoolerMaster SK622",
+    "image": "images/1097410.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/7/4/59194727c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055361",
+    "name": "מקלדת CoolerMaster SK630",
+    "image": "images/1055361.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/3/9/59129383c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1096849",
+    "name": "מקלדת CoolerMaster MK750",
+    "image": "images/1096849.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/5/9/59149511c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114974",
+    "name": "מקלדת Corsair K65 RGB MINI CH-9194010-NA",
+    "image": "images/1114974.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/5/4/62274544c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691361
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055362",
+    "name": "מקלדת CoolerMaster SK631",
+    "image": "images/1055362.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/3/9/59129384c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1055363",
+    "name": "מקלדת CoolerMaster SK650",
+    "image": "images/1055363.gif",
+    "manufacturer": "CoolerMaster",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/3/9/59129385c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225112",
+    "name": "מקלדת Ducky Origin Vintage",
+    "image": "images/1225112.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/7/7/6/0/88090677c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1003070",
+    "name": "מקלדת Marvo K616",
+    "image": "images/1003070.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/6/2/47502687c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691362
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "972829",
+    "name": "מקלדת Corsair K65 LUX Cherry MX RGB Red CH-9110010-NA",
+    "image": "images/972829.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/5/1/44641524c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1180492",
+    "name": "מקלדת Razer DeathStalker V2",
+    "image": "images/1180492.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/4/4/74944447c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691363
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238838",
+    "name": "מקלדת ועכבר Logitech Pebble 2 Combo",
+    "image": "images/1238838.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/9/4/87454911c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691363,
+      "ksp": 104,
+      "kspUrl": "https://ksp.co.il/web/item/21422"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "942240",
+    "name": "מקלדת Corsair K65 RGB RAPIDFIRE",
+    "image": "images/942240.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/7/2/92832790c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691363,
+      "ksp": 699,
+      "kspUrl": "https://ksp.co.il/web/item/309113"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015664",
+    "name": "מקלדת HP OMEN SEQUENCER",
+    "image": "images/1015664.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/6/4/48994650c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691364
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250039",
+    "name": "מקלדת ועכבר Protec DM509",
+    "image": "images/1250039.gif",
+    "manufacturer": "Protec",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/2/5/94255255c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691364
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1063301",
+    "name": "ערכת גיימינג Marvo CM204",
+    "image": "images/1063301.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/9/8/53718936c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691364
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1050575",
+    "name": "מקלדת Logitech G815",
+    "image": "images/1050575.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/5/1/3/92113150c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691364
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225169",
+    "name": "מקלדת Corsair K70 Pro RGB Optical Mechanical Gaming CH-910941A-NA",
+    "image": "images/1225169.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/6/1/92811627c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691364
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1061589",
+    "name": "מקלדת Dragon GPDRA-RGB7",
+    "image": "images/1061589.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/2/0/91590288c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691365
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1064470",
+    "name": "מקלדת Dragon GPDRA-K18",
+    "image": "images/1064470.gif",
+    "manufacturer": "Dragon",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/1/0/52410172c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691365
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1127649",
+    "name": "מקלדת Marvo K629G",
+    "image": "images/1127649.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/1/0/70670119c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691365
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249774",
+    "name": "מקלדת 1stplayer NEO87",
+    "image": "images/1249774.gif",
+    "manufacturer": "1stplayer",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/6/2/94112620c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088410",
+    "name": "מקלדת Razer Ornata V2",
+    "image": "images/1088410.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/4/9/91549496c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1137486",
+    "name": "מקלדת SilverLine KB-889HER",
+    "image": "images/1137486.gif",
+    "manufacturer": "SilverLine",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/0/0/67480038c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1043701",
+    "name": "מקלדת ועכבר Gold Touch Combo Set KYM300",
+    "image": "images/1043701.gif",
+    "manufacturer": "Gold Touch",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/2/7/52027270c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250038",
+    "name": "מקלדת ועכבר HP 655 Wireless Keyboard and Mouse Combo 860P8AA",
+    "image": "images/1250038.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/7/3/93983773c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1152997",
+    "name": "מקלדת ועכבר Genius KM-170 31330006411",
+    "image": "images/1152997.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/0/7/69647099c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691366
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "818806",
+    "name": "מקלדת ועכבר RAPOO X1800",
+    "image": "images/818806.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/3/6/37146304c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691367
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1003072",
+    "name": "מקלדת ועכבר RAPOO 8000M",
+    "image": "images/1003072.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/1/2/52392146c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691367
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114773",
+    "name": "מקלדת ועכבר GPlus KM-008B H.E",
+    "image": "images/1114773.gif",
+    "manufacturer": "GPlus",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/1/1/62221106c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691367
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1061583",
+    "name": "מקלדת Kingston HyperX ALLOY Origins",
+    "image": "images/1061583.gif",
+    "manufacturer": "Kingston",
+    "imageUrl": "https://img.zap.co.il/pics/6/4/5/2/58812546c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691367
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124802",
+    "name": "מקלדת ועכבר Philips SPT6501B",
+    "image": "images/1124802.gif",
+    "manufacturer": "Philips",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/7/2/65442752c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691368
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088406",
+    "name": "מקלדת ועכבר Asus W2500",
+    "image": "images/1088406.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/9/9/57799925c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691368
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1104746",
+    "name": "מקלדת ועכבר Marvo KM409",
+    "image": "images/1104746.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/0/0/59990072c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691368
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250351",
+    "name": "מקלדת Corsair K70 Core TKL RGB",
+    "image": "images/1250351.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/9/7/94707937c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691368
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1235035",
+    "name": "מקלדת Lenovo Multi-Device Wireless Keyboard ZG38C05821",
+    "image": "images/1235035.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/4/7/89827479c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691368
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1056072",
+    "name": "מקלדת SteelSeries Apex 7",
+    "image": "images/1056072.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/7/0/54040727c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691369
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238837",
+    "name": "מקלדת ועכבר Razink R311",
+    "image": "images/1238837.gif",
+    "manufacturer": "Razink",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/2/3/90403230c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691369
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1153455",
+    "name": "מקלדת HP Pavilion Gaming Keyboard 550 9LY71AA",
+    "image": "images/1153455.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/0/6/63006055c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691369
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1192039",
+    "name": "מקלדת Ducky One 3 Mini DKON2161ST",
+    "image": "images/1192039.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/6/0/76570668c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691369
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1215986",
+    "name": "מקלדת SteelSeries Apex Pro Mini",
+    "image": "images/1215986.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/9/6/84186915c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691369,
+      "bug": 1299,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/apex/pro/mini/wl/us"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1219239",
+    "name": "מקלדת Corsair K55 CH-9226C65-NA",
+    "image": "images/1219239.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/7/1/87221731c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691370
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "966376",
+    "name": "מקלדת Logitech Craft",
+    "image": "images/966376.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/0/9/47559005c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691370
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "950183",
+    "name": "מקלדת Logitech G413",
+    "image": "images/950183.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/3/8/44738365c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691370,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095331",
+    "name": "מקלדת Razer BlackWidow V3 G.S",
+    "image": "images/1095331.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/3/6/8/9/91449863c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1073648",
+    "name": "מקלדת Razer BlackWidow Ultimate-Green Switch",
+    "image": "images/1073648.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/4/0/56150499c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124788",
+    "name": "מקלדת Apple Magic Keyboard with Touch ID MK293HB/A",
+    "image": "images/1124788.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/64947043c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251435",
+    "name": "מקלדת Ducky One 3 RGB TKL",
+    "image": "images/1251435.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/1/9/94529104c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "911634",
+    "name": "מקלדת עם משטח מגע Riitek mini i8+ Wireless",
+    "image": "images/911634.gif",
+    "manufacturer": "Riitek",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/7/0/41060791c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250421",
+    "name": "מקלדת Ducky One 3 Pro Mini",
+    "image": "images/1250421.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/2/94242361c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691371
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225113",
+    "name": "מקלדת Ducky Tinker 65",
+    "image": "images/1225113.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/6/0/88090667c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691372
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1224118",
+    "name": "מקלדת Bakker Elkhuizen S-board 840",
+    "image": "images/1224118.gif",
+    "manufacturer": "Bakker Elkhuizen",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/0/87330616c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691372
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251437",
+    "name": "מקלדת Glorious GMMK 2 65%",
+    "image": "images/1251437.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/6/1/92431655c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691372
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1096847",
+    "name": "מקלדת Logitech K380",
+    "image": "images/1096847.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/9/1/59001927c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691372
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "994574",
+    "name": "מקלדת Logitech G513",
+    "image": "images/994574.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/2/0/48370235c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691373
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1258530",
+    "name": "מקלדת Asus Jelly75 Keyboard KD201",
+    "image": "images/1258530.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/8/8/8/7/96837888c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691373
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225114",
+    "name": "מקלדת Ducky Tinker 75",
+    "image": "images/1225114.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/6/0/88090669c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691373
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217355",
+    "name": "מקלדת ועכבר GPlus KM-2000 7291044097023",
+    "image": "images/1217355.gif",
+    "manufacturer": "GPlus",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/0/0/86930093c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691373
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250782",
+    "name": "מקלדת ועכבר Nexer KB900",
+    "image": "images/1250782.gif",
+    "manufacturer": "Nexer",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/1/3/95163170c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691373
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1222772",
+    "name": "ערכת גיימינג Onikuma TZ3006",
+    "image": "images/1222772.gif",
+    "manufacturer": "Onikuma",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/87432284c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691374
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1037558",
+    "name": "מקלדת עם משטח מגע RAPOO K2800B E.H",
+    "image": "images/1037558.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/9/9/51559924c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691374
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1096848",
+    "name": "מקלדת Corsair K100 RGB CH-912A01A-NA",
+    "image": "images/1096848.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/4/6/93316468c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691374
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1246889",
+    "name": "מקלדת Glorious GMMK 3 HE 65%",
+    "image": "images/1246889.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/7/3/94533725c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691374
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1253190",
+    "name": "מקלדת ועכבר Logitech Wireless Combo MK250 Compact",
+    "image": "images/1253190.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/4/7/97377426c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691375
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1062081",
+    "name": "מקלדת ועכבר RAPOO 8000MW E.H",
+    "image": "images/1062081.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/2/1/54641275c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691375
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1114771",
+    "name": "מקלדת ועכבר Gamdias Hermes E1B 4-1 Combo",
+    "image": "images/1114771.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/8/3/61803829c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691375
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "955319",
+    "name": "מקלדת ועכבר Marvo KM400",
+    "image": "images/955319.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/4/7/9/4/42814974c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691375
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1080057",
+    "name": "מקלדת Havit KB378",
+    "image": "images/1080057.gif",
+    "manufacturer": "Havit",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/7/6/62286747c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "918713",
+    "name": "מקלדת HP K2500",
+    "image": "images/918713.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/6/0/40900680c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1037556",
+    "name": "מקלדת ועכבר RAPOO 9300MW E.H",
+    "image": "images/1037556.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/4/5/51715410c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1152996",
+    "name": "מקלדת ועכבר Genius KM-170 31330006410",
+    "image": "images/1152996.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/new/412104441801c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1229132",
+    "name": "מקלדת Gold Touch KY-NUM",
+    "image": "images/1229132.gif",
+    "manufacturer": "Gold Touch",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/4/8/88488469c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1040230",
+    "name": "מקלדת Genius KB101",
+    "image": "images/1040230.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/1/0/0/5/51125001c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691376
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250040",
+    "name": "מקלדת ועכבר Protec DM510",
+    "image": "images/1250040.gif",
+    "manufacturer": "Protec",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/0/2/95032013c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691377
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "917087",
+    "name": "מקלדת HP K1500",
+    "image": "images/917087.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/4/1/44591476c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691377
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1129301",
+    "name": "מקלדת ועכבר HP Wired Keyboard and Mouse 160 6HD76AA",
+    "image": "images/1129301.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/5/5/65825566c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691377
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1209249",
+    "name": "מקלדת ועכבר Lenovo Essential Wired Keyboard and Mouse Combo 4X30L79900",
+    "image": "images/1209249.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/new/1610205010134c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691377
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124804",
+    "name": "מקלדת ועכבר Xtrike Me MK-503KIT",
+    "image": "images/1124804.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/0/3/65103076c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691378
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1071243",
+    "name": "מקלדת ועכבר Havit KB260GCM",
+    "image": "images/1071243.gif",
+    "manufacturer": "Havit",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/1/2/55942130c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691378
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249822",
+    "name": "מקלדת ועכבר Genius KM-100SE",
+    "image": "images/1249822.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/0/7/94367054c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691378
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1067144",
+    "name": "מקלדת ועכבר GPlus PWS-681 E.H",
+    "image": "images/1067144.gif",
+    "manufacturer": "GPlus",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/6/6/54466610c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691378
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250044",
+    "name": "מקלדת Apple Magic Keyboard MWR23HB/A",
+    "image": "images/1250044.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/2/1/93321243c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691378,
+      "ksp": 1229,
+      "kspUrl": "https://ksp.co.il/web/item/372964"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1107857",
+    "name": "מקלדת Gigabyte Force K81",
+    "image": "images/1107857.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/5/6/61006541c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691379
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1142183",
+    "name": "מקלדת Logitech Pop Keys",
+    "image": "images/1142183.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/68339721c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691379
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088940",
+    "name": "מקלדת ועכבר RAPOO 8200MW E.H",
+    "image": "images/1088940.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/4/0/57970482c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691379
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "959932",
+    "name": "מקלדת ועכבר HP C2710",
+    "image": "images/959932.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/7/8/45578779c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691380
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015831",
+    "name": "מקלדת Gamdias Hermes E2 7 Color",
+    "image": "images/1015831.gif",
+    "manufacturer": "gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/3/7/4/6/48446473c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691380
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1029630",
+    "name": "מקלדת ועכבר Lenovo 4X30M39475",
+    "image": "images/1029630.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/6/5/58185697c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691380
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124797",
+    "name": "ערכת גיימינג Gamdias Posidon M2",
+    "image": "images/1124797.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/7/8/7/4/86054787c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691380
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095326",
+    "name": "מקלדת Cougar Vantar MX",
+    "image": "images/1095326.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/9/0/58560984c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691380
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1095328",
+    "name": "מקלדת Gamdias Hermes M5",
+    "image": "images/1095328.gif",
+    "manufacturer": "gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/3/0/58670390c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691381
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1036832",
+    "name": "מקלדת Lenovo GY40T02169",
+    "image": "images/1036832.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/8/6/50216881c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691381
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "955370",
+    "name": "ערכת גיימינג Genius KMH200",
+    "image": "images/955370.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/9/6/45266935c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691382
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1022196",
+    "name": "מקלדת Gamdias Hermes P2 RGB",
+    "image": "images/1022196.gif",
+    "manufacturer": "gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/4/6/48446472c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691382
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1088408",
+    "name": "ערכת גיימינג Marvo CMV-407",
+    "image": "images/1088408.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/4/0/57770478c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691382
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250347",
+    "name": "מקלדת ועכבר Lenovo Professional Wireless Rechargeable Combo 4X31K03948",
+    "image": "images/1250347.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/4/4/94474471c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691382
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1024768",
+    "name": "מקלדת Xtrike Me CM400",
+    "image": "images/1024768.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/2/8/50148283c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691382
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1040217",
+    "name": "מקלדת Cougar PURI RGB",
+    "image": "images/1040217.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/4/7/50887429c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691383
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237034",
+    "name": "מקלדת Razer G413 TKL SE",
+    "image": "images/1237034.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/5/1/90121581c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691383,
+      "ksp": 298,
+      "kspUrl": "https://ksp.co.il/web/item/201409"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1078980",
+    "name": "מקלדת Gigabyte AORUS K1",
+    "image": "images/1078980.gif",
+    "manufacturer": "Gigabyte",
+    "imageUrl": "https://img.zap.co.il/pics/2/7/6/8/56538672c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691383
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1261423",
+    "name": "מקלדת ועכבר Logitech MX Keys S Combo for Mac",
+    "image": "images/1261423.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/2/0/8/97318025c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691383
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "947665",
+    "name": "מקלדת HP Omen Keyboard 1100 1MY13AA",
+    "image": "images/947665.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/2/1/44591232c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691383
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "970583",
+    "name": "מקלדת Apple Magic Keyboard MLA22HB/A",
+    "image": "images/970583.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/3/0/44700324c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691384,
+      "ksp": 1229,
+      "kspUrl": "https://ksp.co.il/web/item/372964"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "973264",
+    "name": "מקלדת Razer Cynosa Chroma",
+    "image": "images/973264.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/9/4/9/3/47403949c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691384
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "939681",
+    "name": "מקלדת Razer BlackWidow Chroma V2",
+    "image": "images/939681.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/8/1/47181865c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691384
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "958967",
+    "name": "מקלדת Razer BlackWidow Tournament Edition Chroma V2",
+    "image": "images/958967.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/7/9/47219705c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1217302",
+    "name": "מקלדת Fiio KB3",
+    "image": "images/1217302.gif",
+    "manufacturer": "Fiio",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/9/9/89369921c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1130484",
+    "name": "מקלדת Razer BlackWidow V3 Mini HyperSpeed G.S",
+    "image": "images/1130484.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/1/1/1/5/70315111c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249820",
+    "name": "מקלדת Glorious GMMK 3 Prebuilt 75%",
+    "image": "images/1249820.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/1/5/94485136c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1175017",
+    "name": "מקלדת Dell AW510K",
+    "image": "images/1175017.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/2/1/74991227c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1239154",
+    "name": "מקלדת Logitech G915 X Lightspeed TKL",
+    "image": "images/1239154.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/8/3/90563898b.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691385
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251436",
+    "name": "מקלדת Logitech G Pro X 60 TKL",
+    "image": "images/1251436.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/2/4/92664221c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691386
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "879097",
+    "name": "מקלדת ועכבר Logitech Wireless Combo MK240",
+    "image": "images/879097.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/0/3/39273015c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691386
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1246860",
+    "name": "מקלדת Glorious GMMK 3 HE 75%",
+    "image": "images/1246860.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/8/9/94309854c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691386
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250792",
+    "name": "מקלדת Turtle Beach Vulcan II Max",
+    "image": "images/1250792.gif",
+    "manufacturer": "Turtle Beach",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/9/2/94062923c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691386
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249792",
+    "name": "מקלדת ועכבר Sigma FLAT-4M1-W-HE-BK",
+    "image": "images/1249792.gif",
+    "manufacturer": "Sigma",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/0/1/94441095c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691387
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1263608",
+    "name": "מקלדת Aula S99 Pro",
+    "image": "images/1263608.gif",
+    "manufacturer": "Aula",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/7/0/97490726c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691387,
+      "bug": 199,
+      "bugUrl": "https://www.bug.co.il/brand/aula/s99/pro/cream/green"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1036830",
+    "name": "מקלדת Kingston HyperX Alloy Core RGB",
+    "image": "images/1036830.gif",
+    "manufacturer": "Kingston",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/7/2/63452757c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691387
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251604",
+    "name": "מקלדת Glorious GMMK 3 PRO HE 75% Wireless",
+    "image": "images/1251604.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/8/9/95359810c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691387
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "918717",
+    "name": "מקלדת Razer Tartarus",
+    "image": "images/918717.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/5/9/5/9/41849595c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691387
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1212441",
+    "name": "מקלדת SteelSeries Apex Pro TKL 2023",
+    "image": "images/1212441.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/1/8/84568140c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691388
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237425",
+    "name": "מקלדת Apple Magic Keyboard with Touch ID US-Layout MXCK3LB/A",
+    "image": "images/1237425.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/5/0/90220555c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691388
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1225115",
+    "name": "מקלדת Ducky One 3 RGB",
+    "image": "images/1225115.gif",
+    "manufacturer": "Ducky",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/6/0/88090676c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691388
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249818",
+    "name": "מקלדת Glorious GMMK 3 Prebuilt 100%",
+    "image": "images/1249818.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/1/4/93884165c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691388
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1170469",
+    "name": "מקלדת SteelSeries Apex 9 Mini",
+    "image": "images/1170469.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/new/51017335873c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691388
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1097623",
+    "name": "מקלדת SteelSeries Apex Pro TKL",
+    "image": "images/1097623.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/5/6/65076584c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691389,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1238835",
+    "name": "מקלדת SteelSeries Apex Pro TKL Wireless Gen 3",
+    "image": "images/1238835.gif",
+    "manufacturer": "SteelSeries",
+    "imageUrl": "https://img.zap.co.il/pics/5/3/8/6/90536835c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691389,
+      "bug": 1329,
+      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1251605",
+    "name": "מקלדת Glorious GMMK 3 PRO HE 65% Wired",
+    "image": "images/1251605.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/8/9/94309853c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691389
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1249823",
+    "name": "מקלדת Genius KB-113",
+    "image": "images/1249823.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/0/7/94367053c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1015660",
+    "name": "מקלדת Cougar Attack X3 RGB",
+    "image": "images/1015660.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/9/4/49124902c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1230426",
+    "name": "מקלדת ועכבר RAPOO 9320M",
+    "image": "images/1230426.gif",
+    "manufacturer": "RAPOO",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/8/5/89085882c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1209246",
+    "name": "מקלדת ועכבר Genius Smart KM-200 31330003418",
+    "image": "images/1209246.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/9/2/2/1/79321229c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1250349",
+    "name": "מקלדת ועכבר Dell KM555",
+    "image": "images/1250349.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/5/2/94332507c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1163235",
+    "name": "מקלדת עם משטח מגע Riitek Mini Wireless Keyboard i4",
+    "image": "images/1163235.gif",
+    "manufacturer": "Riitek",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/5/7/70427599c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1124803",
+    "name": "מקלדת ועכבר Logitech MK275",
+    "image": "images/1124803.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/7/3/65523789c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691390,
+      "ksp": 104,
+      "kspUrl": "https://ksp.co.il/web/item/21422"
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "909046",
+    "name": "מקלדת ועכבר Microsoft Wireless Desktop 850",
+    "image": "images/909046.gif",
+    "manufacturer": "Microsoft",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/4/0/74440432c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691391
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1237441",
+    "name": "מקלדת Lenovo Professional Wireless Keyboard 4X30H56857",
+    "image": "images/1237441.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/new/1311122440976c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691391
+    },
+    "filterTags": {}
+  },
+  {
+    "id": "1108305421",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1108305421.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/2/0/91340227c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691391
+    }
+  },
+  {
+    "id": "1110692613",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1110692613.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/8/2/92852861c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691392
+    }
+  },
+  {
+    "id": "1134099488",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1134099488.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/8/6/96326879c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691392
+    }
+  },
+  {
+    "id": "1156855561",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1156855561.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/8/0/96990828c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691392
+    }
+  },
+  {
+    "id": "1157991261",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1157991261.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/9/2/97392985c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691392
+    }
+  },
+  {
+    "id": "1056395422",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1056395422.gif",
+    "manufacturer": "Nexer",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/7/5/97365770c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691392
+    }
+  },
+  {
+    "id": "1051210946",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1051210946.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/8/4/0/9/95229048c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691393
+    }
+  },
+  {
+    "id": "1150948708",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1150948708.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/1/3/95393152c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691393
+    }
+  },
+  {
+    "id": "1134099338",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1134099338.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/9/6/94996924c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691393
+    }
+  },
+  {
+    "id": "1161080543",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1161080543.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/3/3/95393361c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691393
+    }
+  },
+  {
+    "id": "1152951557",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1152951557.gif",
+    "manufacturer": "HP",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/3/3/94383302c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691393
+    }
+  },
+  {
+    "id": "872157134",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/872157134.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/9/9/95529936c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691394
+    }
+  },
+  {
+    "id": "1088774275",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1088774275.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/3/8/3/97033836c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691394
+    }
+  },
+  {
+    "id": "1056394429",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1056394429.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/0/6/3/7/94717360c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691394
+    }
+  },
+  {
+    "id": "1140735120",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1140735120.gif",
+    "manufacturer": "Corsair",
+    "imageUrl": "https://img.zap.co.il/pics/2/6/9/4/97314962c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1107603807",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1107603807.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/5/8/96988508c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1134099325",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1134099325.gif",
+    "manufacturer": "Skyloong",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/4/0/92360486c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1134099335",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1134099335.gif",
+    "manufacturer": "Glorious",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/7/9/96319785c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1125644488",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1125644488.gif",
+    "manufacturer": "Apple",
+    "imageUrl": "https://img.zap.co.il/pics/3/2/9/1/96821923c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1162270327",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1162270327.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/2/2/95992296c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691395
+    }
+  },
+  {
+    "id": "1157991282",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1157991282.gif",
+    "manufacturer": "Xtrike Me",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/4/8/97598416c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691396
+    }
+  },
+  {
+    "id": "1071373217",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1071373217.gif",
+    "manufacturer": "Skyloong",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/3/5/96045369c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691396
+    }
+  },
+  {
+    "id": "1159622492",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1159622492.gif",
+    "manufacturer": "Kingston",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/4/3/98353431c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691396
+    }
+  },
+  {
+    "id": "1056395099",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1056395099.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/6/93526684c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691396
+    }
+  },
+  {
+    "id": "1135970791",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1135970791.gif",
+    "manufacturer": "Dell",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/7/7/98127740c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691397
+    }
+  },
+  {
+    "id": "1110691642",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1110691642.gif",
+    "manufacturer": "Lenovo",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/1/2/95002155c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691397
+    }
+  },
+  {
+    "id": "1104841532",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1104841532.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/1/1/97731185c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691397
+    }
+  },
+  {
+    "id": "1156477546",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1156477546.gif",
+    "manufacturer": "Logitech",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/4/6/93276486c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691397
+    }
+  },
+  {
+    "id": "1098536400",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1098536400.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/9/4/97294971c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1140734728",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1140734728.gif",
+    "manufacturer": "Gamdias",
+    "imageUrl": "https://img.zap.co.il/pics/3/5/6/0/92620653c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1140734610",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1140734610.gif",
+    "manufacturer": "Razer",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/8/0/91470868c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1134099357",
+    "name": "מקלדת ועכבר Logitech MK270 עם רוסית",
+    "image": "images/1134099357.gif",
+    "manufacturer": "Evoluent",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/0/4/97694070c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1059577",
+    "name": "מקלדת Microsoft Bluetooth QSZ-00015",
+    "image": "images/1059577.gif",
+    "manufacturer": "Microsoft",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/9/7/54287976c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1117800",
+    "name": "מקלדת DLK1102",
+    "image": "images/1117800.gif",
+    "manufacturer": "Delux",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/5/6/62546540c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691398
+    }
+  },
+  {
+    "id": "1218822",
+    "name": "מקלדת ועכבר Genius Smart KM-8100 31340014411",
+    "image": "images/1218822.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/4/5/86785485c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1778635691399
+    }
+  },
+  {
+    "id": "1003155",
+    "name": "מקלדת Marvo KG925G",
+    "image": "images/1003155.gif",
+    "manufacturer": "Marvo",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/3/8/48068310c.gif",
+    "prices": {
+      "zap": 348,
+      "updated": 1778635691399
+    }
+  }
+]
