@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Rubik, -apple-system, BlinkMacSystemFont, 'Segoe UI', Heebo, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7e22ce"/>
+      <stop offset="50%" stop-color="#9333ea"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.08"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Decorative circles -->
+  <circle cx="120" cy="120" r="180" fill="#ffffff" fill-opacity="0.07"/>
+  <circle cx="1080" cy="510" r="220" fill="#ffffff" fill-opacity="0.07"/>
+
+  <!-- Center card -->
+  <rect x="100" y="120" width="1000" height="390" rx="36" fill="url(#card)" stroke="#ffffff" stroke-opacity="0.2" stroke-width="2"/>
+
+  <!-- Handshake icon (emoji-style) -->
+  <text x="600" y="270" font-size="120" text-anchor="middle" dominant-baseline="middle">🤝</text>
+
+  <!-- Brand name -->
+  <text x="600" y="370" font-size="92" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="-2">
+    Bundly · בנדלי
+  </text>
+
+  <!-- Tagline (Hebrew) -->
+  <text x="600" y="440" font-size="36" font-weight="500" fill="#ffffff" fill-opacity="0.92" text-anchor="middle" direction="rtl">
+    קנייה קבוצתית — מחירי קבוצה אמיתיים
+  </text>
+
+  <!-- URL stripe at bottom -->
+  <rect x="0" y="570" width="1200" height="60" fill="#1f2937"/>
+  <text x="600" y="608" font-size="26" font-weight="700" fill="#c084fc" text-anchor="middle">
+    bundly.co
+  </text>
+</svg>
