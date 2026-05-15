@@ -4456,17 +4456,20 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       >
         <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
         <span className="text-[11px] font-medium text-white/85">
-          נעילת מחיר • פיקדון ₪{COMMITTED_DEPOSIT.toLocaleString()} (25% מהסכום)
+          נעילת מחיר · שמירת אמצעי תשלום (לא נחוייב כעת)
         </span>
       </button>
 
-      {/* Secondary action — updates only */}
+      {/* Secondary action — updates only (bell-shaped pill) */}
       <button
         onClick={() => onSelectTier("interested")}
-        className="w-full text-center text-[12px] font-medium text-gray-500 hover:text-gray-700 py-2 transition-colors"
+        className="w-full rounded-2xl border border-indigo-200 bg-white hover:bg-indigo-50 hover:border-indigo-300 text-indigo-700 py-2.5 px-4 flex items-center justify-center gap-2 text-[13px] font-bold transition-all active:scale-[0.99] shadow-sm"
       >
-        או — <span className="underline decoration-dotted underline-offset-2">קבלת עדכונים על הסבב בלבד</span>
-        {interestedCount > 0 && <span className="text-gray-400"> ({interestedCount} רשומים)</span>}
+        <Bell className="w-4 h-4" />
+        <span>קבלו עדכונים על הסבב בלבד</span>
+        {interestedCount > 0 && (
+          <span className="text-[11px] font-medium text-indigo-400">({interestedCount} רשומים)</span>
+        )}
       </button>
 
       {/* Footnote */}
