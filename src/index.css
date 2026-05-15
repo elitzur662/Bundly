@@ -155,6 +155,15 @@ input[inputmode="numeric"], input[inputmode="email"], input[inputmode="tel"] {
   overflow: hidden;
 }
 
+/* Bell jingle for the "notify me" CTA — fires once on click.
+   Stagger of left/right rotations mimics a hand-rung bell. */
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: rotate(-18deg); }
+  20%, 40%, 60%, 80%      { transform: rotate(18deg); }
+}
+.bell-ring { animation: bellRing 0.7s ease-in-out; transform-origin: 50% 18%; }
+
 /* Nicer modal slide-up animation on mobile */
 @keyframes slideUpMobile {
   from { transform: translateY(100%); opacity: 0; }
