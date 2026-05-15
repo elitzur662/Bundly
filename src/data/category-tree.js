@@ -19,16 +19,42 @@
 // ─────────────────────────────────────────────────────────────────
 //  CATEGORY TREE DATA (from Zap.co.il + Israeli shopping sites)
 // ─────────────────────────────────────────────────────────────────
+// Pruned 2026-05-15 — was 232 leaves across 7 tops + 26 subs. Audit
+// (audit-categories.mjs) joined the category cache + price cache and
+// flagged what's broken / missing. Strategy revision: instead of
+// deleting every empty leaf, keep all mainstream consumer-electronics
+// leaves (people buy these often) — the empty ones will be filled by
+// the next pre-warm or a targeted refresh. We only DROP categories
+// where the underlying source (ZAP) is structurally broken:
+//   • Bicycles  — ZAP's bike catalogue is mostly brand-only stubs,
+//                 no model-page prices. Specialty bike retailers would
+//                 be needed for real coverage. Not in scope.
+//   • Cars      — ZAP automotive coverage is sparse. Better via
+//                 dedicated automotive retailers.
+//   • Gardening — niche power equipment, low buy-frequency.
+//   • Inside-tree: dropped non-electric items (gym benches, sit-up
+//     racks), photography "sleds" typo, and "games" leaves under
+//     consoles (ZAP doesn't sell video games as a category).
+//
+// Empty/sparse leaves kept in the tree are listed in
+// docs/categories-needing-refresh.md so the next prewarm/scrape pass
+// can target them. The front-end Quality Gate + branded empty-state
+// message ensures users never see broken rows in the meantime.
 export const CATEGORY_TREE = [
   {
     id: "electronics", name: "חשמל ואלקטרוניקה", icon: "⚡", color: "from-amber-400 to-orange-500", bg: "bg-amber-50", border: "border-amber-200",
     sub: [
       { name: "מטבח וחשמל ביתי", icon: "🍳", items: ["מקררים","מקפיאים","מדיחי כלים","תנורי אפייה","כיריים","קולטי אדים","מיקרוגלים","טוסטרים","בלנדרים","מיקסרים","מעבדי מזון","מכונות קפה","קומקומים ומיחמים","מסחטות","מתקני מים","סירי בישול וטיגון","פלטות חשמליות"] },
-      { name: "ניקיון וכביסה", icon: "🧹", items: ["שואבי אבק","מכונות כביסה","מייבשי כביסה","ערכות ניקוי בקיטור","מגהצים","מכונות שטיפה וטאטוא"] },
+      // רובוטי ניקיון moved here from the dropped "בית חכם" sub — natural fit
+      // alongside vacuums, and it was the strongest leaf in the smart-home set.
+      { name: "ניקיון וכביסה", icon: "🧹", items: ["שואבי אבק","רובוטי ניקיון","מכונות כביסה","מייבשי כביסה","ערכות ניקוי בקיטור","מגהצים","מכונות שטיפה וטאטוא"] },
       { name: "טלוויזיות ושמע", icon: "📺", items: ["טלויזיות","אוזניות","סאונד בר","רמקולים ניידים","מקרנים","סטרימרים","רמקולים","מיקרופונים","קולנוע ביתי","מציאות מדומה"] },
-      { name: "קונסולות משחק", icon: "🎮", items: ["PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק","משחקי PS5","משחקי Nintendo"] },
-      { name: "חימום וקירור", icon: "❄️", items: ["מזגנים","מאווררים","מפזרי חום","תנורי חשמל","מטהרי אוויר","מכשירי לחות","משאבות חום"] },
-      { name: "צילום", icon: "📷", items: ["מצלמות מירורלס","מצלמות DSLR","מצלמות אקסטרים","מצלמות קומפקטיות","עדשות","חצובות","מזחלות","תיקי מצלמה","מצלמות אבטחה","מזל\"טים"] },
+      // Dropped: "משחקי PS5", "משחקי Nintendo" — ZAP doesn't cover
+      // video-game titles as a category (only hardware).
+      { name: "קונסולות משחק", icon: "🎮", items: ["PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק"] },
+      { name: "חימום וקירור", icon: "❄️", items: ["מזגנים","מאווררים","מפזרי חום","תנורי חשמל","מטהרי אוויר","מכשירי לחות"] },
+      // Dropped: "מזחלות" (sled/luggage typo — wasn't a photography item).
+      { name: "צילום", icon: "📷", items: ["מצלמות מירורלס","מצלמות DSLR","מצלמות אקסטרים","מצלמות קומפקטיות","עדשות","חצובות","תיקי מצלמה","מצלמות אבטחה","מזל\"טים"] },
       { name: "תקשורת וסלולר", icon: "📱", items: ["סמארטפונים","טלפונים סלולריים בסיסיים","שעונים חכמים","אביזרי סלולר","מטענים","מעמדים לסלולר"] },
     ]
   },
@@ -38,9 +64,8 @@ export const CATEGORY_TREE = [
       { name: "מחשבים ניידים", icon: "💻", items: ["מחשבים ניידים","מחשבים ניידים לגיימינג","MacBook Air","MacBook Pro","Chromebook","מחשבים ניידים לעסקים"] },
       { name: "מחשבים נייחים", icon: "🖥️", items: ["מחשבים נייחים","מחשבי All-in-One","Mac Mini","iMac","מחשבי גיימינג","שרתים","מחשבי מיני"] },
       { name: "טאבלטים", icon: "📱", items: ["iPad Pro","iPad Air","iPad","Samsung Galaxy Tab","Lenovo Tab","טאבלטים לילדים"] },
-      // No drilldown for monitors — the results page filter chips already
-      // cover 24"/27"/32" (screen), 4K (resolution), 144Hz (refreshRate),
-      // OLED (panel). Single passthrough item routes straight to search.
+      // No drilldown — filter chips on the results page handle screen-size /
+      // resolution / refresh-rate / panel.
       { name: "מסכי מחשב", icon: "🖥️", items: ["מסכי מחשב"] },
       { name: "חומרה ורכיבים", icon: "🔧", items: ["כרטיסי מסך","מעבדים","לוחות אם","זיכרון RAM","כוננים SSD","ספקי כוח","מארזי מחשב","מאווררים וקירור"] },
       { name: "ציוד היקפי", icon: "⌨️", items: ["מקלדות","עכברים","מדפסות","סורקים","מצלמות רשת","רמקולים למחשב","אוזניות גיימינג","כסאות גיימינג","שולחנות גיימינג"] },
@@ -48,17 +73,11 @@ export const CATEGORY_TREE = [
     ]
   },
   {
-    id: "bikes", name: "אופניים ואביזרים", icon: "🚲", color: "from-green-500 to-emerald-600", bg: "bg-green-50", border: "border-green-200",
-    sub: [
-      { name: "אופניים חשמליים", icon: "⚡", items: ["אופניים חשמליים עירוניים","אופניים חשמליים הרריים","אופניים חשמליים מתקפלים","אופניים חשמליים לילדים","אופניים חשמליים לנשים","אופניים חשמליים 250W","אופניים חשמליים 500W","Fat Bike חשמלי"] },
-      { name: "אופניים רגילים", icon: "🚴", items: ["אופני כביש","אופני הרים","אופני עיר","אופני ילדים","אופניים מתקפלים","BMX","אופני גרוויטי","אופניים היברידיים"] },
-      { name: "מוצרי חשמל לאופניים", icon: "🔋", items: ["סוללות לאופניים חשמליים","מטענים לאופניים חשמליים","בקרים (Controller) לאופניים","מנועי גלגל אחורי","מנועי Mid-Drive","ערכות המרה חשמלית","תצוגות LCD לאופניים","מד מהירות חשמלי"] },
-      { name: "אביזרי אופניים", icon: "🔧", items: ["קסדות אופניים","מנעולי אופניים","תאורה לאופניים","מחזיקי טלפון לאופניים","בגדי רכיבה","כפפות רכיבה","פעמוני אופניים","משאבות אוויר","תיקי אופניים"] },
-    ]
-  },
-  {
     id: "beauty", name: "טיפוח ויופי", icon: "💄", color: "from-pink-400 to-rose-500", bg: "bg-pink-50", border: "border-pink-200",
     sub: [
+      // Note: many of these are currently no-cache and rely on the next
+      // pre-warm cycle for content. Keep them — beauty appliances are a
+      // very common consumer purchase and the sogs are valid.
       { name: "שיער", icon: "💇", items: ["מייבשי שיער","מחליקי שיער","תלתלנים חשמליים","מסרקים חשמליים","מכשירי קרליות","מברשות מסלסלות","מייבשי נסיעה"] },
       { name: "הסרת שיער", icon: "✨", items: ["אפילטורים חשמליים","מכשירי IPL ביתי","מכשירי לייזר ביתי","מכשירי הסרת שיער","מכשירי שעווה חשמלית"] },
       { name: "גילוח", icon: "🪒", items: ["מכשירי גילוח חשמליים לגברים","מכשירי גילוח לנשים","מגזמי זקן","מכשירי גילוח פנים לנשים","מגזמי שיער ביתיים"] },
@@ -69,7 +88,9 @@ export const CATEGORY_TREE = [
   {
     id: "sport", name: "פנאי וספורט", icon: "🏃", color: "from-orange-400 to-red-500", bg: "bg-orange-50", border: "border-orange-200",
     sub: [
-      { name: "ציוד כושר חשמלי", icon: "🏋️", items: ["הליכונים חשמליים","אופניים נייחים חשמליים","אליפטיקל","מכשירי חתירה","ספסלי כושר","מכשירי כפיפות ישיבה"] },
+      // Dropped: "ספסלי כושר", "מכשירי כפיפות ישיבה" — not electric/electronic
+      // products, mis-categorized in the original tree.
+      { name: "ציוד כושר חשמלי", icon: "🏋️", items: ["הליכונים חשמליים","אופניים נייחים חשמליים","אליפטיקל","מכשירי חתירה"] },
       { name: "ניידות חשמלית", icon: "🛴", items: ["קורקינטים חשמליים","קלנועיות","מונופד חשמלי","Hoverboard","סגוויי"] },
       { name: "בריאות ורפואה", icon: "🩺", items: ["מדי לחץ דם","מד חמצן (Pulse Oximeter)","נבולייזרים","מכשירי TENS לשיכוך כאבים","מד חום חשמלי","מכשירי EMS","שמיכות חשמליות"] },
     ]
@@ -77,20 +98,17 @@ export const CATEGORY_TREE = [
   {
     id: "home", name: "בית וגן", icon: "🏠", color: "from-lime-500 to-green-600", bg: "bg-lime-50", border: "border-lime-200",
     sub: [
+      // Dropped sub: "גינון חשמלי" — niche, low buy-frequency for our
+      // electronics-focused audience. Power tools kept (DIYers buy these).
       { name: "כלי עבודה חשמליים", icon: "🔧", items: ["מברגות חשמליות","מקדחות חשמליות","מסורי דיסק","מסורי ג'יגסאו","מטחנות זווית","מכשירי שיוף","נעצות חשמליות","מפוחים חשמליים"] },
-      { name: "גינון חשמלי", icon: "🌿", items: ["מכסחות עשב חשמליות","גדרניות חשמליות","מפוחי עלים","משאבות מים","מכשירי עיצוב דשא","מכסחות סוללה","ריסוס חשמלי"] },
-      { name: "בית חכם", icon: "💡", items: ["נורות LED חכמות","שקעים חכמים","מצלמות אבטחה","פעמוני דלת חכמים (Video Doorbell)","בקרי תאורה חכמים","רובוטי ניקיון","מנעולים חכמים","חיישני תנועה"] },
+      // Note: smart-vacuums (רובוטי ניקיון) moved to ניקיון וכביסה sub above —
+      // not duplicated here.
+      { name: "בית חכם", icon: "💡", items: ["נורות LED חכמות","שקעים חכמים","מצלמות אבטחה","פעמוני דלת חכמים (Video Doorbell)","בקרי תאורה חכמים","מנעולים חכמים","חיישני תנועה"] },
     ]
   },
-  {
-    id: "car", name: "רכב ואביזרים", icon: "🚗", color: "from-slate-500 to-gray-600", bg: "bg-slate-50", border: "border-slate-200",
-    sub: [
-      { name: "מצלמות ואלקטרוניקה לרכב", icon: "📷", items: ["מצלמות דרך (Dash Cam)","מצלמות 360 לרכב","מטעני USB לרכב","מטעני אלחוטיים לרכב","ממירי חשמל לרכב (Inverter)","מדחסי אוויר ניידים"] },
-      { name: "מולטימדיה לרכב", icon: "🔊", items: ["מסכי רכב אנדרואיד","מולטימדיה לרכב","רמקולים לרכב","מגברים לרכב","דיבוריות Bluetooth","ניווט GPS"] },
-      { name: "חשמל ומצברים", icon: "⚡", items: ["מצברים לרכב","בוסטרים חשמליים להתנעה","עמדות טעינה לרכב חשמלי","מד מתח לרכב","מטענים לרכב חשמלי","ממסרי רכב"] },
-      { name: "רכבים חשמליים", icon: "🚙", items: ["רכבים חשמליים","רכבים היברידיים","קלנועיות חשמליות"] },
-    ]
-  },
+  // Dropped tops: "אופניים ואביזרים" (ZAP bicycle catalog is brand-only
+  // stubs — needs specialty retailer integration to be useful) and
+  // "רכב ואביזרים" (ZAP automotive coverage is sparse).
 ];
 
 // ── Category → variant chips map. Same content that used to live in
