@@ -56,6 +56,7 @@ jobs:
           JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
           URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
           SESSION_SECRET: smoke-test-session-secret-also-long-enough
+          ADMIN_PASSWORD: smoke-test-admin-pw-must-pass-12char-check
         run: npm run smoke
 
       - name: Verify static asset serving (production mode)
@@ -69,43 +70,108 @@ jobs:
           JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
           URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
           SESSION_SECRET: smoke-test-session-secret-also-long-enough
+          # server.js _assertStrongSecret hard-exits in NODE_ENV=production
+          # if ADMIN_PASSWORD is missing or shorter than 12 chars. Was the
+          # silent-killer cause of the first CI run's red X.
+          ADMIN_PASSWORD: smoke-test-admin-pw-must-pass-12char-check
           PORT: 3100
         run: |
-          node server.js &
+          set -eo pipefail
+          # Boot server in background, redirect output to file we can dump on failure.
+          node server.js > /tmp/server.log 2>&1 &
           SERVER_PID=$!
-          # Wait up to 30s for port to open
-          for i in $(seq 1 30); do
-            if nc -z 127.0.0.1 3100 2>/dev/null; then break; fi
+
+          cleanup() {
+            local code=$?
+            if [ $code -ne 0 ]; then
+              echo "::group::Server log (last 200 lines)"
+              tail -200 /tmp/server.log 2>/dev/null || echo "(no log)"
+              echo "::endgroup::"
+            fi
+            kill -9 $SERVER_PID 2>/dev/null || true
+            return $code
+          }
+          trap cleanup EXIT
+
+          # Wait up to 60s for /api/health to answer 200. We probe /api/health
+          # specifically (rather than just opening the port) because in
+          # production mode helmet/enforceHttps will redirect / before listen
+          # is fully ready, while /api/health is unconditional once the
+          # express handler is mounted. X-Forwarded-Proto bypasses enforceHttps.
+          echo "Waiting for server to accept requests on :3100…"
+          READY=0
+          for i in $(seq 1 60); do
+            CODE=$(curl --max-time 2 -s -o /dev/null -w "%{http_code}" \
+                   -H "X-Forwarded-Proto: https" \
+                   "http://127.0.0.1:3100/api/health" 2>/dev/null || echo "000")
+            if [ "$CODE" = "200" ] || [ "$CODE" = "503" ]; then
+              echo "Server responded with HTTP $CODE after ${i}s"
+              READY=1
+              break
+            fi
+            # On every 10s, dump tail of log so we can see progress
+            if [ $((i % 10)) -eq 0 ]; then
+              echo "  …still waiting (${i}s). Last server log line:"
+              tail -1 /tmp/server.log 2>/dev/null | sed 's/^/    /'
+            fi
             sleep 1
           done
 
-          # Helper: always send X-Forwarded-Proto: https so enforceHttps lets us through.
-          HDR='-H X-Forwarded-Proto:https'
-
-          # Root must return text/html (not application/octet-stream → would cause download in browsers)
-          ROOT_CT=$(curl -s $HDR -I http://127.0.0.1:3100/ | tr -d '\r' | grep -i '^content-type:' | head -1 | awk '{print $2}')
-          echo "Root Content-Type: $ROOT_CT"
-          echo "$ROOT_CT" | grep -qi 'text/html' || { echo "::error::/ returned wrong Content-Type ($ROOT_CT) — would trigger browser download"; kill $SERVER_PID; exit 1; }
-
-          # Pull the actual bundle hash from index.html and verify it returns application/javascript
-          BUNDLE=$(curl -s $HDR http://127.0.0.1:3100/ | grep -oE '/assets/[^"]+\.js' | head -1)
-          if [ -n "$BUNDLE" ]; then
-            JS_CT=$(curl -s $HDR -I "http://127.0.0.1:3100$BUNDLE" | tr -d '\r' | grep -i '^content-type:' | head -1 | awk '{print $2}')
-            echo "Bundle ($BUNDLE) Content-Type: $JS_CT"
-            echo "$JS_CT" | grep -qi 'javascript' || { echo "::error::JS bundle returned wrong Content-Type ($JS_CT) — browser will refuse to execute under nosniff"; kill $SERVER_PID; exit 1; }
-          else
-            echo "::warning::No /assets/*.js reference found in index.html"
+          if [ "$READY" != "1" ]; then
+            echo "::error::Server never became ready within 60s"
+            exit 1
           fi
 
-          # A bundle that DOESN'T exist must 404 (NOT fall through to index.html — that was the stale-cache bug)
-          FAKE_STATUS=$(curl -s $HDR -o /dev/null -w "%{http_code}" http://127.0.0.1:3100/assets/this-bundle-does-not-exist.js)
+          probe_header() {
+            curl --max-time 5 -s -I -H "X-Forwarded-Proto: https" "$1" \
+              | tr -d '\r' \
+              | grep -i "^$2:" \
+              | head -1 \
+              | sed -E "s/^[Cc]ontent-[Tt]ype: *//I"
+          }
+
+          probe_status() {
+            curl --max-time 5 -s -o /dev/null -w "%{http_code}" \
+              -H "X-Forwarded-Proto: https" "$1"
+          }
+
+          # 1) Root must return text/html (not application/octet-stream → would cause browser download)
+          ROOT_CT=$(probe_header "http://127.0.0.1:3100/" "Content-Type")
+          echo "Root Content-Type: '$ROOT_CT'"
+          if ! echo "$ROOT_CT" | grep -qi "text/html"; then
+            echo "::error::/ returned wrong Content-Type ($ROOT_CT) — would trigger browser download"
+            exit 1
+          fi
+
+          # 2) Bundle reference exists in index.html and returns application/javascript
+          BUNDLE=$(curl --max-time 5 -s -H "X-Forwarded-Proto: https" http://127.0.0.1:3100/ \
+                   | grep -oE '/assets/[^"]+\.js' | head -1)
+          if [ -z "$BUNDLE" ]; then
+            echo "::error::No /assets/*.js reference found in index.html"
+            exit 1
+          fi
+          JS_CT=$(probe_header "http://127.0.0.1:3100$BUNDLE" "Content-Type")
+          echo "Bundle ($BUNDLE) Content-Type: '$JS_CT'"
+          if ! echo "$JS_CT" | grep -qi "javascript"; then
+            echo "::error::JS bundle returned wrong Content-Type ($JS_CT) — browser will refuse to execute under nosniff"
+            exit 1
+          fi
+
+          # 3) Missing bundle returns 404 (the stale-cache regression guard)
+          FAKE_STATUS=$(probe_status "http://127.0.0.1:3100/assets/this-bundle-does-not-exist.js")
           echo "Missing-asset status: $FAKE_STATUS"
-          [ "$FAKE_STATUS" = "404" ] || { echo "::error::/assets/missing.js returned $FAKE_STATUS instead of 404 — stale-cache regression"; kill $SERVER_PID; exit 1; }
+          if [ "$FAKE_STATUS" != "404" ]; then
+            echo "::error::/assets/missing.js returned $FAKE_STATUS instead of 404 — stale-cache regression"
+            exit 1
+          fi
 
-          # /api/health must report all-OK
-          HEALTH=$(curl -s $HDR -o /dev/null -w "%{http_code}" http://127.0.0.1:3100/api/health)
+          # 4) /api/health returns 200
+          HEALTH=$(probe_status "http://127.0.0.1:3100/api/health")
           echo "Health status: $HEALTH"
-          [ "$HEALTH" = "200" ] || { echo "::error::/api/health returned $HEALTH"; kill $SERVER_PID; exit 1; }
+          if [ "$HEALTH" != "200" ]; then
+            echo "::error::/api/health returned $HEALTH"
+            exit 1
+          fi
 
-          kill $SERVER_PID 2>/dev/null
+          echo ""
           echo "✓ Static serving + asset MIME + 404 fallthrough + health all OK"

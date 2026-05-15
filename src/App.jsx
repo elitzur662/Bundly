@@ -4339,6 +4339,15 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
   const maxParticipants  = deal.maxParticipants || 0;
   const interestedCount  = (deal.interested || 0) + (deal.watching || 0);
   const daysLeft         = deal.daysLeft ?? 0;
+  // Bell-jingle state — fires the bellRing CSS animation once per click on
+  // the "updates only" button. Resets after ~700ms (animation duration) so
+  // repeated clicks each trigger a fresh ring.
+  const [bellRinging, setBellRinging] = useState(false);
+  const ringBellAndJoin = () => {
+    setBellRinging(true);
+    setTimeout(() => setBellRinging(false), 720);
+    onSelectTier("interested");
+  };
 
   // ── Compact mode (sticky header) — minimal indicator ──
   if (compact) {
@@ -4456,22 +4465,28 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       >
         <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
         <span className="text-[11px] font-medium text-white/85">
-          נעילת מחיר • פיקדון ₪{COMMITTED_DEPOSIT.toLocaleString()} (25% מהסכום)
+          נעילת מחיר · שמירת אמצעי תשלום (לא נחייב כעת)
         </span>
       </button>
 
-      {/* Secondary action — updates only */}
+      {/* Secondary action — colourful bell pill, jingles on click */}
       <button
-        onClick={() => onSelectTier("interested")}
-        className="w-full text-center text-[12px] font-medium text-gray-500 hover:text-gray-700 py-2 transition-colors"
+        onClick={ringBellAndJoin}
+        className="w-full rounded-2xl border-2 border-amber-200 bg-gradient-to-l from-amber-50 via-yellow-50 to-pink-50 hover:from-amber-100 hover:via-yellow-100 hover:to-pink-100 hover:border-amber-300 text-gray-800 py-2.5 px-4 flex items-center justify-center gap-2 text-[13px] font-bold transition-all active:scale-[0.99] shadow-sm"
       >
-        או — <span className="underline decoration-dotted underline-offset-2">קבלת עדכונים על הסבב בלבד</span>
-        {interestedCount > 0 && <span className="text-gray-400"> ({interestedCount} רשומים)</span>}
+        <Bell
+          className={`w-5 h-5 text-amber-500 drop-shadow-sm ${bellRinging ? "bell-ring" : ""}`}
+          fill="currentColor"
+        />
+        <span>קבלו עדכונים על הסבב בלבד</span>
+        {interestedCount > 0 && (
+          <span className="text-[11px] font-medium text-amber-600/80">({interestedCount} רשומים)</span>
+        )}
       </button>
 
-      {/* Footnote */}
+      {/* Footnote — explains the SetupIntent (no-charge) flow */}
       <p className="text-center text-[10px] text-gray-400 leading-relaxed">
-        הפיקדון מקוזז מהמחיר הסופי בסגירת הסבב, או מוחזר במלואו אם המינימום לא הושג.
+        המחיר נשמר לכם ללא חיוב. החיוב יבוצע רק לאחר אישורכם בסגירת הסבב, ולא יבוצע כלל אם המינימום לא הושג.
       </p>
       <DemandForecast deal={deal} />
     </div>
@@ -9171,7 +9186,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       title: "הצטרפות עם נעילת מחיר",
       emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחויב כעת.`,
+      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחייב כעת.`,
       bullets: [
         `✓ נעילת מחיר — המחיר הנוכחי שמור עבורך`,
         `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
