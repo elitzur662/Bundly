@@ -21,7 +21,11 @@ import url  from "node:url";
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, "..");
-const SITE      = "https://bundly.co";
+// Always emit `www.` URLs — the apex `bundly.co` 301-redirects to www
+// (Cloudflare config), and Google Search Console fails to fetch sitemaps
+// served through a redirect. Using the post-redirect host means GSC pulls
+// the file directly with no hop.
+const SITE      = "https://www.bundly.co";
 const OUT_PATH  = path.join(ROOT, "public", "sitemap.xml");
 
 // ── Read the category tree directly from its source ───────────────────────
