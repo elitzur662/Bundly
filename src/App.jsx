@@ -11192,6 +11192,43 @@ const QUERY_SUBTYPE_FILTERS = {
 };
 
 // ─────────────────────────────────────────────────────────────────
+//  PRODUCT QUALITY GATE
+//  A result row is shown only if it has a real name, a real image, and
+//  a real price. Anything that fails this gate is hidden from the user;
+//  if EVERY row in a category fails, we surface a branded empty-state
+//  message instead of showing junk. Tunable so we can loosen if needed.
+// ─────────────────────────────────────────────────────────────────
+function isUsableProduct(p) {
+  if (!p) return false;
+  // Skeletons are transient placeholders during streaming — let them through.
+  if (p._phase === "skeleton") return true;
+
+  // ── Title ──
+  // Must exist, have more than 3 chars, and contain at least one letter
+  // (digits-only or punctuation-only "names" are unusable).
+  const name = ((p.nameHe || "") + " " + (p.nameEn || "")).trim();
+  if (name.length < 4) return false;
+  if (!/[a-zA-Zא-ת]/.test(name)) return false;
+
+  // ── Image ──
+  // Must be a real URL (http/https) or a server-relative path (/product-img/...)
+  const img = p.image || p.imageUrl || "";
+  if (typeof img !== "string" || img.length < 6) return false;
+  const looksLikeUrl = /^https?:\/\//i.test(img) || img.startsWith("/");
+  if (!looksLikeUrl) return false;
+  // Generic Zap placeholder filenames we've seen in the wild
+  if (/no[-_]?image|noimage|placeholder|default\.png/i.test(img)) return false;
+
+  // ── Price ──
+  // Sanity bounds: < ₪30 is almost always a parser bug (tiny accessory listing
+  // miscategorised), > ₪200K is also implausible for our consumer catalogue.
+  const price = Number(p.priceMin) || 0;
+  if (price < 30 || price > 200000) return false;
+
+  return true;
+}
+
+// ─────────────────────────────────────────────────────────────────
 function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFooter, onReSearch, onAddToPool, onDirectJoinPool, onRequestSupplierPrice, demandPools, initialFilters, onGoHome }) {
   const [allProducts, setAllProducts]   = useState([]);
   const [loading, setLoading]           = useState(true);
@@ -11529,7 +11566,10 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
   // ── Apply filters + sort ───────────────────────────────────────
   const displayProducts = useMemo(() => {
-    let result = [...withGroupBuy];
+    // Quality gate first — hide rows with broken images, junk prices, empty
+    // names. If everything is filtered out here, the JSX branch below shows
+    // the branded "no products yet" message instead.
+    let result = withGroupBuy.filter(isUsableProduct);
 
     // ── Wizard term filters — instant client-side, from selected option searchTerms ──
     // Each selected option adds a searchTerm (English) matched against the product name.
@@ -13209,14 +13249,50 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           </div>
         )}
 
-        {/* Empty state after filters */}
-        {streamPhase === "done" && !error && displayProducts.length === 0 && allProducts.length > 0 && (
-          <div className="text-center py-16">
-            <Package className="w-12 h-12 text-gray-200 mx-auto mb-3" />
-            <p className="font-bold text-gray-600">אין מוצרים שמתאימים לפילטרים</p>
-            <button onClick={clearFilters} className="mt-3 text-indigo-600 text-sm font-bold hover:underline">נקה פילטרים</button>
-          </div>
-        )}
+        {/* Empty state — three branches:
+            (a) System genuinely has nothing usable in this category (0 results
+                from server, OR results came back but all failed the quality
+                gate) → branded aspirational message, NOT "clear filters".
+            (b) Server returned usable products but the user's filters reject
+                all of them → "clear filters" CTA.
+            (c) Skeleton/streaming still in progress → render nothing (handled
+                by the loading branches above).
+        */}
+        {streamPhase === "done" && !error && (() => {
+          const usableCount = allProducts.filter(isUsableProduct).length;
+          const filtersActive = displayProducts.length === 0 && usableCount > 0;
+          const reallyEmpty   = displayProducts.length === 0 && usableCount === 0;
+
+          if (reallyEmpty) {
+            return (
+              <div className="text-center py-16 px-6 max-w-md mx-auto">
+                <div className="text-5xl mb-4">🌱</div>
+                <p className="font-black text-gray-800 text-base leading-snug mb-2">
+                  לצערנו עדיין אין מוצרים זמינים בקטגוריה הנוכחית
+                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  לאט לאט נצבור כוח ונשנה את חוקי הקנייה בישראל
+                </p>
+                <button
+                  onClick={onBack}
+                  className="mt-6 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                >
+                  חזרה לחיפוש
+                </button>
+              </div>
+            );
+          }
+          if (filtersActive) {
+            return (
+              <div className="text-center py-16">
+                <Package className="w-12 h-12 text-gray-200 mx-auto mb-3" />
+                <p className="font-bold text-gray-600">אין מוצרים שמתאימים לפילטרים</p>
+                <button onClick={clearFilters} className="mt-3 text-indigo-600 text-sm font-bold hover:underline">נקה פילטרים</button>
+              </div>
+            );
+          }
+          return null;
+        })()}
 
         {/* Product grid — shown as soon as first products arrive */}
         {!error && displayProducts.length > 0 && (
