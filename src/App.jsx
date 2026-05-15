@@ -10825,7 +10825,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                 </span>
                 <div className="text-right min-w-0">
                   <div className="text-white font-black text-base sm:text-sm leading-tight tracking-tight">
-                    {existingDeal ? "הצטרף לקבוצה" : "הצטרף לקבוצת רכישה"}
+                    {existingDeal ? "פרטים נוספים והצטרפות לקבוצה" : "פרטים נוספים והצטרפות לקבוצת רכישה"}
                   </div>
                   <div className="text-white/85 text-[11px] sm:text-[11px] font-semibold leading-tight mt-0.5">
                     {existingDeal

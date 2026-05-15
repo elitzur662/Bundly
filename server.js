@@ -4641,18 +4641,22 @@ app.get("/api/search-products-stream",
         console.log(`  ↳ Stream: AI-free category path — ${finalProducts.length} products (${priced} priced, sog=${detectedSog})`);
 
         // ── Image enrichment for AI-free path ─────────────────────────────────
-        // Shopping/Merchant products may lack images. Fetch missing ones via DFS Image API.
-        const MAX_IMG_AIFREE = 40;
+        // Lowered from 40 → 15: every miss costs a DFS image-search call (~1-6s)
+        // and most of the >15-th rows are brand-only stubs whose images would be
+        // rejected by the Quality Gate downstream anyway. Brand-only queries
+        // are short-circuited inside getProductImage (see _isBrandOnlyQuery).
+        const MAX_IMG_AIFREE = 15;
         const noImgAiFree = finalProducts.filter(p => !p.image);
         if (noImgAiFree.length > 0) {
           console.log(`  ↳ Stream: AI-free path — ${noImgAiFree.length} products missing images, fetching up to ${MAX_IMG_AIFREE}...`);
           const toSearchImg = noImgAiFree.slice(0, MAX_IMG_AIFREE);
+          const imgStart = Date.now();
           const fetchedImgs = await Promise.all(
             toSearchImg.map(p => getProductImage(p.nameEn || p.nameHe || q).catch(() => null))
           );
           let imgFound = 0;
           toSearchImg.forEach((p, i) => { if (fetchedImgs[i]) { p.image = fetchedImgs[i]; imgFound++; } });
-          console.log(`  ↳ Stream: AI-free image enrichment — found ${imgFound}/${toSearchImg.length} images`);
+          console.log(`  ↳ Stream: AI-free image enrichment — found ${imgFound}/${toSearchImg.length} images in ${Date.now() - imgStart}ms`);
         }
       }
     }
@@ -8878,17 +8882,58 @@ const RETAILER_DOMAINS = [
   "zap.co.il","priceline.co.il","deal.co.il","shop.co.il",
 ];
 
+// Per-query in-flight promise dedup. Without this, when an image-enrichment
+// batch fires Promise.all over 40 products and 4 of them share the same
+// brand name ("Polygon"), all 4 cache-miss simultaneously and trigger 4
+// duplicate DFS API calls. Storing the pending promise here merges them
+// into a single call.
+const imageInFlight = new Map(); // cacheKey → Promise<string|null>
+
+// Names that ZAP returns as "products" but are clearly just bare brand
+// labels — image search for these returns garbage (e.g. "Razor" → safety
+// razor, "Neuron" → brain anatomy, "Soul" → music albums). Better to leave
+// image=null and let the downstream Quality Gate drop the row.
+function _isBrandOnlyQuery(q) {
+  const s = (q || "").trim();
+  if (!s) return true;
+  // Very short single token — almost certainly a brand without a model.
+  if (s.length < 14 && /^[A-Za-z][\w\-]*( [A-Za-z][\w\-]*)?$/.test(s)) {
+    // Allow if it contains a digit (e.g. "iPhone 17") — those are real models.
+    if (/\d/.test(s)) return false;
+    return true;
+  }
+  return false;
+}
+
 async function getProductImage(query) {
   const cacheKey = query.trim().toLowerCase();
   const cached = imageCache.get(cacheKey);
   if (cached && cached.expires > Date.now()) return cached.url;
   if (cached) imageCache.delete(cacheKey); // expired — evict
 
-  const store = (val) => { imageCache.set(cacheKey, { url: val, expires: Date.now() + IMAGE_CACHE_TTL }); return val; };
+  // Fast-path: brand-only queries → return null without hitting DFS.
+  if (_isBrandOnlyQuery(query)) {
+    imageCache.set(cacheKey, { url: null, expires: Date.now() + IMAGE_CACHE_TTL });
+    return null;
+  }
 
+  // In-flight dedup: merge concurrent requests for the same key.
+  if (imageInFlight.has(cacheKey)) return imageInFlight.get(cacheKey);
+
+  const store = (val) => {
+    imageCache.set(cacheKey, { url: val, expires: Date.now() + IMAGE_CACHE_TTL });
+    imageInFlight.delete(cacheKey);
+    return val;
+  };
+
+  // Wrap the remaining work in an IIFE so we can register the in-flight
+  // promise BEFORE awaiting anything. Without this, Promise.all over 40
+  // products that share a brand would fire 40 DFS calls before any of
+  // them cached.
+  const work = (async () => {
   const login    = process.env.DATAFORSEO_LOGIN;
   const password = process.env.DATAFORSEO_PASSWORD;
-  if (!login || !password) return null;
+  if (!login || !password) return store(null);
 
   // Inner fetcher — runs the DFS image search with a given keyword.
   // Returns { items, statusCode } so the caller can decide whether to retry.
@@ -8903,7 +8948,7 @@ async function getProductImage(query) {
     const { data } = await axios.post(
       `${DFS_BASE}/v3/serp/google/images/live/advanced`,
       payload,
-      { auth: { username: login, password: password }, timeout: 12000, headers: { "content-type": "application/json" } }
+      { auth: { username: login, password: password }, timeout: 6000, headers: { "content-type": "application/json" } }
     );
     return {
       items:      data?.tasks?.[0]?.result?.[0]?.items || [],
@@ -9030,8 +9075,12 @@ async function getProductImage(query) {
 
   } catch (err) {
     console.warn("  ↳ Image fetch failed:", err.message);
+    imageInFlight.delete(cacheKey);
     return null; // don't cache errors — allow retry
   }
+  })(); // ── end IIFE
+  imageInFlight.set(cacheKey, work);
+  return work;
 }
 
 // Legacy SerpAPI image function — kept but bypassed (SerpAPI quota exhausted)
