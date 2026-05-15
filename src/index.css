@@ -8,6 +8,61 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
 }
 
+/* ── Accessibility: visible focus ring on every interactive element ──────
+   Required by WCAG 2.0 AA (1.4.11 + 2.4.7). The default browser outline
+   was being suppressed by Tailwind reset, leaving keyboard users with no
+   visible focus indicator. focus-visible only fires for keyboard nav, so
+   mouse clicks don't show the ring. */
+:focus-visible {
+  outline: 3px solid #c084fc !important;
+  outline-offset: 2px !important;
+  border-radius: 3px;
+}
+
+/* Skip-to-content link — hidden until focused via Tab. WCAG 2.4.1. */
+.bundly-skip-link {
+  position: fixed;
+  top: -60px;
+  right: 12px;
+  z-index: 9999;
+  background: #7e22ce;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 0 0 12px 12px;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 14px;
+  transition: top 0.15s ease-out;
+  box-shadow: 0 6px 20px rgba(126, 34, 206, 0.35);
+}
+.bundly-skip-link:focus { top: 0; }
+
+/* ── Accessibility menu — body-level adjustments applied via JS classes ── */
+html.a11y-large       { font-size: 112.5%; }
+html.a11y-xlarge      { font-size: 125%; }
+html.a11y-high-contrast {
+  filter: contrast(1.35) saturate(1.15);
+}
+html.a11y-grayscale {
+  filter: grayscale(1);
+}
+html.a11y-underline-links a { text-decoration: underline !important; text-underline-offset: 2px; }
+html.a11y-reduce-motion *, html.a11y-reduce-motion *::before, html.a11y-reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+html.a11y-big-cursor, html.a11y-big-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path d="M3 3 L3 28 L11 21 L15 31 L19 29 L15 19 L25 19 Z" fill="black" stroke="white" stroke-width="2"/></svg>') 0 0, auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
 /* Hide scrollbars on horizontally-scrollable tab bars */
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }

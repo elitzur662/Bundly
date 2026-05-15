@@ -3851,8 +3851,12 @@ app.get("/api/search-products-stream",
           // already picks the category. Example: "תנור אפייה" was narrowing
           // 3164 ovens → 31 because most product titles say "תנור Bosch"
           // without "אפייה". Adding these stops kills the false-negative.
-          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","ניקיון","סינון",
           "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
+          // Generic appliance-shape words that drag a robot-vacuum query
+          // down to <3% match against titles like "Roborock Saros 10
+          // Ultra" — ZAP product names are mostly English brand/model.
+          "שואב","אבק",
         ]);
         const _stem = w => {
           if (/[\u0590-\u05FF]/.test(w)) {
@@ -3896,11 +3900,12 @@ app.get("/api/search-products-stream",
           // Multiple safety nets so we don't over-narrow:
           //   • Fewer than 3 matches → likely English-titled products (Bosch, LG…)
           //     that don't contain the Hebrew stems. Keep everything.
-          //   • Dropped below 2% of the original (e.g. 3164 → 31 for "תנור אפייה")
-          //     with a reasonably big starting set → the second query word is
-          //     probably a redundant descriptor, not a real refinement. Keep all.
+          //   • Dropped below 5% of the original (e.g. 1300 → 30 for "רובוטי
+          //     ניקיון", 3164 → 31 for "תנור אפייה") with a reasonably big
+          //     starting set → the second query word is probably a redundant
+          //     descriptor, not a real refinement. Keep all.
           const ratio = beforeCount > 0 ? (heFiltered.length / beforeCount) : 0;
-          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.02)) {
+          if (heFiltered.length >= 3 && (beforeCount < 100 || ratio >= 0.05)) {
             candidates = heFiltered;
             console.log(`  ↳ Stream: Hebrew stem filter — ${beforeCount} → ${heFiltered.length} candidates (groups: ${_heStemGroups.length}, stems: [${_flatStems.slice(0,6).join(", ")}])`);
           } else if (heFiltered.length === 0) {
@@ -4456,8 +4461,9 @@ app.get("/api/search-products-stream",
           "ישראל","איכותי","מומלץ",
           // Mirrors _HE_STOP in the upstream filter — "what the appliance does"
           // words that are redundant with the category sog.
-          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","סינון",
+          "אפייה","אפיה","בישול","ייבוש","יבוש","כיבוס","ניקוי","ניקיון","סינון",
           "גילוח","סלסול","חימום","קירור","הקפאה","שאיבה","מיון","שטיפה",
+          "שואב","אבק",
         ]);
         // Strip common Hebrew plural / construct-state suffixes
         const _stem = w => {
@@ -5799,6 +5805,7 @@ const SOG_SANITY_KEYWORDS = {
   "e-hairdrayer":      ["hair","dyson","remington","philips","babyliss","מייבש שיער","פן"],
   "e-hairdesigner":   ["hair","straightener","curler","מחליק","מסלסל","תלתלן","babyliss","remington","dyson"],
   "e-epilator":       ["epilator","ipl","braun","philips","remington","מסיר שיער","silk"],
+  "e-hairremover":    ["ipl","laser","lumea","silk expert","silk-expert","intense pulsed","i light","אפילטור","מסיר שיער","הסרת שיער","שעווה","epilator","philips","braun","remington","panasonic","kemei"],
   "e-shaver":         ["shaver","braun","philips","remington","gillette","גילוח","trimmer","beard"],
   "e-ladyshaver":     ["braun","philips","remington","silk","lady","epilator","ipl"],
   "e-massager":       ["massage","theragun","hypervolt","נוב","percussion","עיסוי","מסאג"],
@@ -6074,8 +6081,17 @@ const ZAP_SOG_MAP = {
   "מכשירי קרליות": "e-hairdesigner",
   // e-hairstyler removed — not a valid ZAP sog (returns unrelated products)
   // search.aspx will find the correct category for these queries
-  // e-epilator removed — not a valid ZAP sog (returns BBQ grills, same as e-hairstyler)
-  // search.aspx will find the correct category for אפילטורים / IPL
+  // Hair-removal devices (consumer IPL, laser, epilators, electric wax) — all live in
+  // the e-hairremover sog ("מסירי שיער"). Previously this was unmapped so ZAP redirected
+  // it to b-cosmeticequipment (PROFESSIONAL salon equipment — sterilizers, salon chairs)
+  // which is why the page showed unrelated products with wrong images.
+  "מכשירי IPL ביתי": "e-hairremover", "מכשיר IPL ביתי": "e-hairremover",
+  "IPL ביתי": "e-hairremover", "IPL": "e-hairremover",
+  "מכשירי לייזר ביתי": "e-hairremover", "מכשיר לייזר ביתי": "e-hairremover",
+  "לייזר ביתי": "e-hairremover",
+  "מכשירי הסרת שיער": "e-hairremover", "הסרת שיער": "e-hairremover",
+  "אפילטורים חשמליים": "e-hairremover", "אפילטור": "e-hairremover", "אפילטור חשמלי": "e-hairremover",
+  "מכשירי שעווה חשמלית": "e-hairremover", "שעווה חשמלית": "e-hairremover",
   "מכשירי גילוח חשמליים לגברים": "e-shaver", "מכשירי גילוח": "e-shaver",
   "מגזמי זקן": "e-shaver", "מגזם זקן": "e-shaver",
   "מגזמי שיער ביתיים": "e-shaver",
@@ -6118,6 +6134,102 @@ const ZAP_SOG_MAP = {
   // ── ריהוט ──────────────────────────────────────────────────────────────────
   "ספות": "h-livingroomset", "ספה": "h-livingroomset",
   "מיטות": "h-bed", "מיטה": "h-bed",
+
+  // ── Bulk-mapped from ZAP redirect probe (probe-categories.mjs) ────────────
+  // Each entry was verified by hitting search.aspx?keyword=X and reading the
+  // 301-redirect Location header. Only mappings whose target sog name clearly
+  // matches the Hebrew leaf semantically are included; suspect redirects (e.g.
+  // ספסלי כושר → h-towel) were left unmapped so search.aspx can keep trying.
+  // ── מטבח ───────────────────────────────────────────────────────────────────
+  "טוסטרים": "e-toster", "טוסטר": "e-toster", "טוסטר לחם": "e-toster", "טוסטר אובן": "e-toster", "מכונת כריכים": "e-toster",
+  "מיקסרים": "e-mixer", "מיקסר": "e-mixer",
+  "מעבדי מזון": "e-foodproccessor", "מעבד מזון": "e-foodproccessor",
+  "סירי בישול וטיגון": "h-cookingpots", "סירי בישול": "h-cookingpots", "סיר טיגון": "h-cookingpots", "מחבת חשמלית": "h-cookingpots",
+  "פלטות חשמליות": "e-plata", "פלטה חשמלית": "e-plata", "פלטת שבת": "e-plata",
+  "קולטי אדים": "e-hoods", "קולט אדים": "e-hoods",
+  "מכונות שטיפה וטאטוא": "h-washer", "מכונת שטיפה": "h-washer",
+  // ── שמע / מולטימדיה ───────────────────────────────────────────────────────
+  "מיקרופונים": "e-microphone", "מיקרופון": "e-microphone",
+  "מציאות מדומה": "e-vrglasses", "VR": "e-vrglasses", "משקפי VR": "e-vrglasses", "Meta Quest": "e-vrglasses",
+  "ג'ויסטיקים ואביזרי משחק": "c-joystick", "ג'ויסטיק": "c-joystick", "Joystick": "c-joystick", "אביזרי משחק": "c-joystick",
+  // ── סלולר / שעונים ─────────────────────────────────────────────────────────
+  "טלפונים סלולריים בסיסיים": "e-cellphone", "טלפון בסיסי": "e-cellphone", "טלפון נוקיה": "e-cellphone",
+  "שעונים חכמים": "e-cellwatch", "שעון חכם": "e-cellwatch", "Apple Watch": "e-cellwatch", "Galaxy Watch": "e-cellwatch",
+  "מטענים": "e-charger", "מטען": "e-charger", "פאוורבנק": "e-charger", "מטען נייד": "e-charger",
+  // ── אבטחה ─────────────────────────────────────────────────────────────────
+  "מצלמות אבטחה": "g-hiddencam", "מצלמת אבטחה": "g-hiddencam", "מצלמת רחוב": "g-hiddencam",
+  // ── מחשבים — חומרה ───────────────────────────────────────────────────────
+  "שרתים": "c-server", "שרת": "c-server",
+  "מעבדים": "c-cpu", "מעבד": "c-cpu", "CPU": "c-cpu",
+  "לוחות אם": "c-motherboard", "לוח אם": "c-motherboard", "Motherboard": "c-motherboard",
+  "מארזי מחשב": "c-tower", "מארז מחשב": "c-tower",
+  "סורקים": "c-scanner", "סורק": "c-scanner",
+  "רמקולים למחשב": "c-speakers", "רמקול למחשב": "c-speakers",
+  "שולחנות גיימינג": "c-gamingtable", "שולחן גיימינג": "c-gamingtable",
+  // ── רשתות ואחסון ──────────────────────────────────────────────────────────
+  "ראוטרים": "c-router", "ראוטר": "c-router", "Router": "c-router",
+  "מגדילי טווח WiFi": "c-repeater", "מגדיל טווח": "c-repeater", "Range Extender": "c-repeater",
+  "מתגי רשת": "c-hub", "מתג רשת": "c-hub", "Network Switch": "c-hub",
+  "כוננים קשיחים": "c-harddrive", "כונן קשיח": "c-harddrive", "HDD": "c-harddrive",
+  "כרטיסי זיכרון": "c-flashmemory", "כרטיס זיכרון": "c-flashmemory", "SD card": "c-flashmemory", "Micro SD": "c-flashmemory",
+  "NAS שרתי אחסון": "c-nasserver", "NAS": "c-nasserver", "Synology": "c-nasserver", "QNAP": "c-nasserver",
+  // ── אופניים ───────────────────────────────────────────────────────────────
+  "אופני גרוויטי": "s-bycicle", "אופני Gravity": "s-bycicle", "אופני Gravel": "s-bycicle",
+  // ── רכב ──────────────────────────────────────────────────────────────────
+  "דיבוריות Bluetooth": "e-diburit", "דיבורית": "e-diburit",
+  "מולטימדיה לרכב": "t-mp3", "מסך מולטימדיה לרכב": "t-mp3",
+  "רמקולים לרכב": "t-speakers", "רמקול לרכב": "t-speakers",
+  "מגברים לרכב": "t-amplifier", "מגבר לרכב": "t-amplifier",
+  "מצברים לרכב": "t-carbattery", "מצבר לרכב": "t-carbattery", "מצבר": "t-carbattery",
+  "מד מתח לרכב": "t-converter", "ממיר מתח": "t-converter", "Inverter רכב": "t-converter",
+
+  // ── Found via alternative-synonym probe (probe-alternatives.mjs) ──────────
+  // ── צילום ──────────────────────────────────────────────────────────────────
+  "עדשות": "h-cameralens", "עדשת מצלמה": "h-cameralens",
+  "חצובות": "h-tripod", "חצובה": "h-tripod", "מונופד": "h-tripod", "מונופד חשמלי": "h-tripod",
+  "תיקי מצלמה": "h-camerabag", "תיק מצלמה": "h-camerabag", "תרמיל מצלמה": "h-camerabag",
+  "מזל\"טים": "e-drone", "רחפן": "e-drone", "מזלט": "e-drone", "DJI": "e-drone", "drone": "e-drone",
+  // ── אביזרי סלולר ─────────────────────────────────────────────────────────
+  "אביזרי סלולר": "e-cellphonecase", "כיסוי לסלולר": "e-cellphonecase", "מגן סלולר": "e-cellphonecase",
+  // ── מחשבים — חומרה נוסף ──────────────────────────────────────────────────
+  "מחשבי מיני": "c-brandpc", "מיני PC": "c-brandpc", "Mac Mini": "c-brandpc", "Intel NUC": "c-brandpc",
+  "זיכרון RAM": "c-memory", "RAM": "c-memory", "DDR4": "c-memory", "DDR5": "c-memory",
+  "כוננים SSD": "c-harddrive", "SSD": "c-harddrive",
+  "כוננים חיצוניים": "c-harddrive", "כונן חיצוני": "c-harddrive",
+  "זיכרונות USB": "c-diskonkey", "דיסק און קי": "c-diskonkey", "Flash Drive": "c-diskonkey",
+  "מאווררים וקירור": "c-fan", "מאוורר למחשב": "c-fan", "CPU Cooler": "c-fan",
+  // ── טיפוח שיער ───────────────────────────────────────────────────────────
+  "תלתלנים חשמליים": "e-hairdesigner", "תלתלן": "e-hairdesigner",
+  // ── ספורט / בריאות ─────────────────────────────────────────────────────
+  "אקדחי עיסוי (Massage Gun)": "e-massage", "אקדח עיסוי": "e-massage", "Massage Gun": "e-massage", "Theragun": "e-massage",
+  "ספסלי כושר": "s-bench", "ספסל כושר": "s-bench", "ספסל אימון": "s-bench",
+  "מד חמצן (Pulse Oximeter)": "b-bloodpressure", "Pulse Oximeter": "b-bloodpressure",
+  "מכשירי EMS": "s-abs", "חגורת EMS": "s-abs", "EMS": "s-abs",
+  // ── אופניים — variants → catch-all s-bycicle/s-electricbike ─────────────
+  "אופניים חשמליים 250W": "s-electricbike", "אופניים חשמליים 500W": "s-electricbike",
+  "אופניים חשמליים עירוניים": "s-electricbike", "אופניים חשמליים הרריים": "s-electricbike",
+  "אופניים חשמליים מתקפלים": "s-electricbike", "אופניים חשמליים לילדים": "s-electricbike",
+  "אופניים חשמליים לנשים": "s-electricbike", "Fat Bike חשמלי": "s-electricbike",
+  "אופני כביש": "s-bycicle", "אופני הרים": "s-bycicle", "אופני עיר": "s-bycicle",
+  "אופני ילדים": "s-bycicle", "אופניים מתקפלים": "s-bycicle", "אופניים היברידיים": "s-bycicle",
+  "BMX": "s-bycicle",
+  "בקרים (Controller) לאופניים": "s-bycicle", "מנועי Mid-Drive": "s-bycicle",
+  "תצוגות LCD לאופניים": "s-bycicle", "מד מהירות חשמלי": "s-bycicle",
+  // ── אביזרי אופניים — catch-all s-bicycleaccessories ─────────────────────
+  "קסדות אופניים": "s-bicycleaccessories", "מנעולי אופניים": "s-bicycleaccessories",
+  "תאורה לאופניים": "s-bicycleaccessories", "מחזיקי טלפון לאופניים": "s-bicycleaccessories",
+  "בגדי רכיבה": "s-bicycleaccessories", "כפפות רכיבה": "s-bicycleaccessories",
+  "פעמוני אופניים": "s-bicycleaccessories", "משאבות אוויר": "s-bicycleaccessories",
+  "תיקי אופניים": "s-bicycleaccessories",
+  // ── בית חכם — catch-all b-smarthome ─────────────────────────────────────
+  "פעמוני דלת חכמים (Video Doorbell)": "b-smarthome", "Video Doorbell": "b-smarthome",
+  "בקרי תאורה חכמים": "b-smarthome", "Philips Hue": "b-smarthome", "תאורה חכמה": "b-smarthome",
+  "חיישני תנועה": "b-smarthome", "חיישן תנועה": "b-smarthome",
+  // ── רכב — broad t- sogs ────────────────────────────────────────────────
+  "מצלמות דרך (Dash Cam)": "t-dashcam", "מצלמת דרך": "t-dashcam", "Dash Cam": "t-dashcam",
+  "בוסטרים חשמליים להתנעה": "t-batterycharger", "בוסטר התנעה": "t-batterycharger", "Jump Starter": "t-batterycharger",
+  // עמדות טעינה לרכב חשמלי — wallbox redirects to t-converter on ZAP but this is borderline;
+  // EV charging stations are sparse on ZAP. Routes via search.aspx for now (better than wrong sog).
 };
 
 //       (prices + store names are SSR'd, no JS needed)
@@ -6701,6 +6813,7 @@ const PREWARM_CATEGORIES = [
   ["e-hairdesigner",     null],  // מחליקי/מסלסלי שיער
   // ["e-hairstyler",   null],  // removed — invalid sog
   // ["e-epilator",      null],  // removed — invalid sog (returns BBQ grills)
+  ["e-hairremover",     null],  // IPL / לייזר ביתי / אפילטורים — ~250 models
   ["e-shaver",          null],  // מכשירי גילוח לגברים
   ["e-ladyshaver",      null],  // גילוח לנשים
   ["e-beautymachine",   null],  // מכשירי טיפוח פנים
@@ -9417,25 +9530,31 @@ app.get("/api/address/cities", (req, res) => {
   res.json(results);
 });
 
-const _israelStreets = (() => {
+// Lazy-loaded: 61K streets ≈ 5–10MB heap. On Render starter (512MB RAM) every
+// MB matters — defer the parse until the first /api/address/streets call.
+// Most sessions never reach checkout, so most container lifetimes never pay
+// the memory cost.
+let _israelStreets = null;
+function _getIsraelStreets() {
+  if (_israelStreets) return _israelStreets;
   try {
     const raw = readFileSync(join(__dirname_here, "israel-streets.json"), "utf8");
-    const data = JSON.parse(raw);
-    const totalStreets = Object.values(data).reduce((s, a) => s + a.length, 0);
-    console.log(`[Address] Loaded ${totalStreets} streets for ${Object.keys(data).length} cities from static file`);
-    return data;
+    _israelStreets = JSON.parse(raw);
+    const totalStreets = Object.values(_israelStreets).reduce((s, a) => s + a.length, 0);
+    console.log(`[Address] Lazy-loaded ${totalStreets} streets for ${Object.keys(_israelStreets).length} cities`);
   } catch (e) {
     console.error("[Address] Failed to load israel-streets.json:", e.message);
-    return {};
+    _israelStreets = {};
   }
-})();
+  return _israelStreets;
+}
 
 app.get("/api/address/streets", (req, res) => {
   const city = (req.query.city || "").trim();
   const q = (req.query.q || "").trim();
-  console.log(`[Address] Streets request: city="${city}" q="${q}" — available cities: ${Object.keys(_israelStreets).length}`);
+  const streetsMap = _getIsraelStreets();
   if (!city) return res.json([]);
-  const cityStreets = _israelStreets[city] || [];
+  const cityStreets = streetsMap[city] || [];
   console.log(`[Address] Found ${cityStreets.length} streets for "${city}"`);
   if (!q) return res.json(cityStreets.slice(0, 20));
   const prefix = cityStreets.filter(s => s.startsWith(q));
@@ -12983,9 +13102,34 @@ if (process.env.NODE_ENV === "production") {
   const distPath = process.cwd() + "/dist";
   const { existsSync: _distExists } = await import("node:fs");
   if (_distExists(distPath)) {
-    app.use(express.static(distPath, { dotfiles: "deny", maxAge: "1h" }));
-    // SPA fallback: any non-API, non-static route serves index.html
-    app.get(/^(?!\/(api|product-db|product-img|invoices|zap-proxy|dfs-proxy)).*/, (_req, res) => {
+    // ── Cache policy: hashed assets forever, everything else short.
+    // index.html MUST NOT be long-cached — Vite hashes bundle filenames per
+    // build, so a browser holding stale index.html will request bundles that
+    // no longer exist on the server, fall through the SPA fallback below, and
+    // receive HTML for a `.js` URL → browser refuses to execute or worse,
+    // downloads the response. Setting no-cache on the entry HTML guarantees
+    // every page load gets the fresh bundle hashes.
+    app.use(express.static(distPath, {
+      dotfiles: "deny",
+      etag: true,
+      setHeaders(res, filePath) {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        } else if (/\/assets\//.test(filePath)) {
+          // Hashed asset filename — safe to cache forever.
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        } else {
+          res.setHeader("Cache-Control", "public, max-age=3600");
+        }
+      },
+    }));
+    // SPA fallback: serve index.html for app routes — but EXCLUDE /assets/
+    // and common static prefixes so a missing hashed bundle returns a clean
+    // 404 (which the browser can recover from with a refresh) rather than
+    // HTML masquerading as JavaScript.
+    app.get(/^(?!\/(api|assets|product-db|product-img|invoices|zap-proxy|dfs-proxy)).*/, (_req, res) => {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.sendFile(distPath + "/index.html");
     });
     console.log(`✅ Production mode — serving dist/ as static`);
