@@ -49,13 +49,21 @@ export const CATEGORY_TREE = [
       // alongside vacuums, and it was the strongest leaf in the smart-home set.
       { name: "ניקיון וכביסה", icon: "🧹", items: ["שואבי אבק","רובוטי ניקיון","מכונות כביסה","מייבשי כביסה","ערכות ניקוי בקיטור","מגהצים","מכונות שטיפה וטאטוא"] },
       { name: "טלוויזיות ושמע", icon: "📺", items: ["טלויזיות","אוזניות","סאונד בר","רמקולים ניידים","מקרנים","סטרימרים","רמקולים","מיקרופונים","קולנוע ביתי","מציאות מדומה"] },
-      // Dropped: "משחקי PS5", "משחקי Nintendo" — ZAP doesn't cover
-      // video-game titles as a category (only hardware).
-      { name: "קונסולות משחק", icon: "🎮", items: ["PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק"] },
+      // Game titles (משחקי PS5/Nintendo) sourced from KSP via
+      // scripts/scrape-empty-categories.mjs (ZAP doesn't catalogue games).
+      { name: "קונסולות משחק", icon: "🎮", items: ["PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק","משחקי PS5","משחקי Nintendo"] },
       { name: "חימום וקירור", icon: "❄️", items: ["מזגנים","מאווררים","מפזרי חום","תנורי חשמל","מטהרי אוויר","מכשירי לחות"] },
       // Dropped: "מזחלות" (sled/luggage typo — wasn't a photography item).
       { name: "צילום", icon: "📷", items: ["מצלמות מירורלס","מצלמות DSLR","מצלמות אקסטרים","מצלמות קומפקטיות","עדשות","חצובות","תיקי מצלמה","מצלמות אבטחה","מזל\"טים"] },
-      { name: "תקשורת וסלולר", icon: "📱", items: ["סמארטפונים","טלפונים סלולריים בסיסיים","שעונים חכמים","אביזרי סלולר","מטענים","מעמדים לסלולר"] },
+    ]
+  },
+  {
+    // Promoted from a sub-section of electronics to a top-level card —
+    // smartphones + wearables drive enough traffic to deserve their own tile.
+    id: "telecom", name: "תקשורת וסלולר", icon: "📱", color: "from-purple-500 to-indigo-600", bg: "bg-purple-50", border: "border-purple-200",
+    sub: [
+      { name: "סלולר", icon: "📱", items: ["סמארטפונים","טלפונים סלולריים בסיסיים"] },
+      { name: "שעונים ואביזרים", icon: "⌚", items: ["שעונים חכמים","אביזרי סלולר","מטענים","מעמדים לסלולר"] },
     ]
   },
   {
