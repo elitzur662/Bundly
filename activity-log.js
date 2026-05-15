@@ -70,7 +70,7 @@ if (TG_TOKEN && TG_CHAT_ID) {
   console.log(`📢 ActivityLog: Telegram configured (chat=${TG_CHAT_ID.slice(0,4)}...) — will dispatch events`);
 }
 
-function tgSendMessage(text) {
+export function tgSendMessage(text) {
   if (!TG_TOKEN || !TG_CHAT_ID) {
     if (!_tgWarnedDisabled) {
       console.log("📢 ActivityLog: Telegram not configured (set TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID to enable)");

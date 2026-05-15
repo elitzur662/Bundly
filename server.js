@@ -217,7 +217,7 @@ import {
   safeId, sanitizeIdParam, ownsResource,
 } from "./security-middleware.js";
 
-import { logActivity, getRecentActivities, getActivityStats } from "./activity-log.js";
+import { logActivity, getRecentActivities, getActivityStats, tgSendMessage } from "./activity-log.js";
 
 import {
   wafFilter, bodyLimit, requestTimeout, originGuard, honeypot,
@@ -442,13 +442,62 @@ app.post("/api/client-error",
   }
 );
 
+// Real health probe — Render polls this every ~30s and pulls the instance
+// out of the load balancer (then eventually restarts it) when it returns
+// non-2xx. Three checks decide if this container can actually serve traffic:
+//   1. dist/index.html readable → frontend deployable
+//   2. heap usage < 90% of v8 cap → not about to OOM mid-request
+//   3. JSON store responsive → reads aren't blocked
+// Any failure returns 503 so the LB rotates around the bad pod immediately.
+import { statSync as _hcStat } from "node:fs";
+import * as _v8 from "node:v8";
+const _hcDistPath = process.cwd() + "/dist/index.html";
 app.get("/api/health", (_req, res) => {
-  res.json({
-    ok: true,
-    v: "v38-SMART-CACHE",
+  const checks = { dist: "unknown", heap: "unknown", db: "unknown" };
+  let healthy = true;
+
+  // ── dist/index.html ──────────────────────────────────────────────
+  if (process.env.NODE_ENV === "production") {
+    try { _hcStat(_hcDistPath); checks.dist = "ok"; }
+    catch { checks.dist = "missing"; healthy = false; }
+  } else {
+    checks.dist = "skipped (dev)";
+  }
+
+  // ── heap headroom ────────────────────────────────────────────────
+  // v8.getHeapStatistics().heap_size_limit reflects --max-old-space-size.
+  const heap = process.memoryUsage();
+  const heapLimit = _v8?.getHeapStatistics?.()?.heap_size_limit || 0;
+  const heapPct = heapLimit > 0 ? (heap.heapUsed / heapLimit) * 100 : 0;
+  checks.heap = {
+    usedMB:  Math.round(heap.heapUsed / 1024 / 1024),
+    rssMB:   Math.round(heap.rss / 1024 / 1024),
+    limitMB: Math.round(heapLimit / 1024 / 1024),
+    pct:     heapPct.toFixed(1) + "%",
+  };
+  if (heapPct >= 90) healthy = false;
+
+  // ── DB ──────────────────────────────────────────────────────────
+  // The JSON-backed store exposes a load count we can read cheaply.
+  try {
+    if (typeof getActivityStats === "function") {
+      getActivityStats();
+      checks.db = "ok";
+    } else {
+      checks.db = "skipped";
+    }
+  } catch (e) {
+    checks.db = "error: " + String(e.message || e).slice(0, 60);
+    healthy = false;
+  }
+
+  res.status(healthy ? 200 : 503).json({
+    ok: healthy,
+    v: "v39-REAL-HEALTHCHECK",
     port: process.env.PORT || 3001,
     serp: !!process.env.SERP_API_KEY,
     openai: !!process.env.OPENAI_API_KEY,
+    checks,
     cache: {
       searchProducts: SEARCH_PRODUCTS_CACHE.size,
       zapCategories:  ZAP_CAT_CACHE.size,
@@ -13066,10 +13115,12 @@ if (process.env.NODE_ENV === "production") {
       dotfiles: "deny",
       etag: true,
       setHeaders(res, filePath) {
-        if (filePath.endsWith("index.html")) {
+        // Normalise backslashes (Windows) → forward slashes for the regex.
+        const p = filePath.replace(/\\/g, "/");
+        if (p.endsWith("/index.html") || p.endsWith("index.html")) {
           res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        } else if (/\/assets\//.test(filePath)) {
-          // Hashed asset filename — safe to cache forever.
+        } else if (p.includes("/assets/")) {
+          // Hashed asset filename (Vite emits content-hash in name) — safe forever.
           res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
         } else {
           res.setHeader("Cache-Control", "public, max-age=3600");
@@ -13178,6 +13229,38 @@ const server = app.listen(PORT, () => {
     setInterval(() => priceTrickleStep().catch(() => {}), PRICE_TRICKLE_INTERVAL_MS);
     console.log(`💧 Price trickle: starting — 1 fetch every ${PRICE_TRICKLE_INTERVAL_MS/1000}s`);
   }, 5 * 60 * 1000);
+
+  // ── Memory heartbeat ─────────────────────────────────────────────
+  // Every 5 minutes log heap/RSS. If heap usage crosses 80% of v8 cap,
+  // dispatch a one-off Telegram alert so we hear about pressure BEFORE
+  // it turns into a SIGKILL. The "armed" flag prevents alert spam — once
+  // we fire we wait until heap drops below 65% before re-arming.
+  let _heapAlertArmed = true;
+  setInterval(() => {
+    try {
+      const heap = process.memoryUsage();
+      const limit = _v8?.getHeapStatistics?.()?.heap_size_limit || 0;
+      const pct = limit > 0 ? (heap.heapUsed / limit) * 100 : 0;
+      const usedMB = Math.round(heap.heapUsed / 1024 / 1024);
+      const rssMB  = Math.round(heap.rss / 1024 / 1024);
+      const limMB  = Math.round(limit / 1024 / 1024);
+      console.log(`[heartbeat] heap ${usedMB}MB/${limMB}MB (${pct.toFixed(1)}%)  rss ${rssMB}MB`);
+      if (pct >= 80 && _heapAlertArmed) {
+        _heapAlertArmed = false;
+        const msg =
+          `🚨 *Bundly heap pressure*\n` +
+          `• used: ${usedMB} MB / ${limMB} MB (${pct.toFixed(1)}%)\n` +
+          `• rss:  ${rssMB} MB\n` +
+          `• host: ${process.env.RENDER_SERVICE_NAME || "local"}\n` +
+          `• action: Render LB will start failing /api/health at 90% and restart`;
+        try { tgSendMessage(msg); } catch (_) {}
+      } else if (pct < 65) {
+        _heapAlertArmed = true;
+      }
+    } catch (e) {
+      console.warn("[heartbeat] error:", e.message);
+    }
+  }, 5 * 60 * 1000).unref?.();
 
   // ── ZAP filter taxonomy prewarm (90s delay — after category cache settles) ──
   setTimeout(() => prewarmZapFilters().catch(e => console.warn("Filter prewarm error:", e.message)), 90000);

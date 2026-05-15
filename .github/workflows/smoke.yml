@@ -1,0 +1,111 @@
+name: Smoke test
+
+# Runs on every PR + every push to main. The job builds the frontend, boots
+# the server with NODE_ENV=production, and verifies that critical endpoints
+# answer correctly. If anything fails, the PR is blocked from merging — so a
+# broken build can never reach Render.
+#
+# What this catches that `npm run build` alone misses:
+#   • runtime import / dead-code-path errors
+#   • route handlers that crash on first request
+#   • static-serving regressions ("/" returns text/html, /assets/*.js exists)
+#   • dist/index.html missing or empty
+#   • new envs that explode at startup
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  smoke:
+    name: Build + boot + probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps --include=dev --no-audit --no-fund
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Verify dist/ output exists and is non-trivial
+        run: |
+          test -f dist/index.html || { echo "::error::dist/index.html missing"; exit 1; }
+          test -d dist/assets     || { echo "::error::dist/assets missing"; exit 1; }
+          # Index must contain at least one /assets/*.js reference — proves bundle was emitted.
+          grep -q '/assets/.*\.js' dist/index.html || { echo "::error::dist/index.html has no JS bundle reference"; exit 1; }
+          echo "✓ dist/index.html ($(wc -c < dist/index.html) bytes) + $(ls dist/assets | wc -l) assets"
+
+      - name: Run smoke test (boots server in dev mode, probes endpoints)
+        env:
+          # NODE_ENV deliberately UNSET — smoke-test.mjs boots server.js as a
+          # child process and `enforceHttps` 301-redirects HTTP→HTTPS in prod,
+          # which we can't curl without a cert. Dev mode exercises the same
+          # imports + handlers and proves the build is healthy.
+          STRIPE_SECRET_KEY: sk_test_dummy_for_smoke
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy_for_smoke
+          JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
+          URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
+          SESSION_SECRET: smoke-test-session-secret-also-long-enough
+        run: npm run smoke
+
+      - name: Verify static asset serving (production mode)
+        env:
+          # Production mode so dist/ static + SPA fallback is registered. We
+          # send X-Forwarded-Proto: https on every probe so enforceHttps
+          # doesn't 301 us — mimicking how Cloudflare/Render's edge sets it.
+          NODE_ENV: production
+          STRIPE_SECRET_KEY: sk_test_dummy_for_smoke
+          STRIPE_PUBLISHABLE_KEY: pk_test_dummy_for_smoke
+          JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
+          URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
+          SESSION_SECRET: smoke-test-session-secret-also-long-enough
+          PORT: 3100
+        run: |
+          node server.js &
+          SERVER_PID=$!
+          # Wait up to 30s for port to open
+          for i in $(seq 1 30); do
+            if nc -z 127.0.0.1 3100 2>/dev/null; then break; fi
+            sleep 1
+          done
+
+          # Helper: always send X-Forwarded-Proto: https so enforceHttps lets us through.
+          HDR='-H X-Forwarded-Proto:https'
+
+          # Root must return text/html (not application/octet-stream → would cause download in browsers)
+          ROOT_CT=$(curl -s $HDR -I http://127.0.0.1:3100/ | tr -d '\r' | grep -i '^content-type:' | head -1 | awk '{print $2}')
+          echo "Root Content-Type: $ROOT_CT"
+          echo "$ROOT_CT" | grep -qi 'text/html' || { echo "::error::/ returned wrong Content-Type ($ROOT_CT) — would trigger browser download"; kill $SERVER_PID; exit 1; }
+
+          # Pull the actual bundle hash from index.html and verify it returns application/javascript
+          BUNDLE=$(curl -s $HDR http://127.0.0.1:3100/ | grep -oE '/assets/[^"]+\.js' | head -1)
+          if [ -n "$BUNDLE" ]; then
+            JS_CT=$(curl -s $HDR -I "http://127.0.0.1:3100$BUNDLE" | tr -d '\r' | grep -i '^content-type:' | head -1 | awk '{print $2}')
+            echo "Bundle ($BUNDLE) Content-Type: $JS_CT"
+            echo "$JS_CT" | grep -qi 'javascript' || { echo "::error::JS bundle returned wrong Content-Type ($JS_CT) — browser will refuse to execute under nosniff"; kill $SERVER_PID; exit 1; }
+          else
+            echo "::warning::No /assets/*.js reference found in index.html"
+          fi
+
+          # A bundle that DOESN'T exist must 404 (NOT fall through to index.html — that was the stale-cache bug)
+          FAKE_STATUS=$(curl -s $HDR -o /dev/null -w "%{http_code}" http://127.0.0.1:3100/assets/this-bundle-does-not-exist.js)
+          echo "Missing-asset status: $FAKE_STATUS"
+          [ "$FAKE_STATUS" = "404" ] || { echo "::error::/assets/missing.js returned $FAKE_STATUS instead of 404 — stale-cache regression"; kill $SERVER_PID; exit 1; }
+
+          # /api/health must report all-OK
+          HEALTH=$(curl -s $HDR -o /dev/null -w "%{http_code}" http://127.0.0.1:3100/api/health)
+          echo "Health status: $HEALTH"
+          [ "$HEALTH" = "200" ] || { echo "::error::/api/health returned $HEALTH"; kill $SERVER_PID; exit 1; }
+
+          kill $SERVER_PID 2>/dev/null
+          echo "✓ Static serving + asset MIME + 404 fallthrough + health all OK"
