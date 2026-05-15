@@ -4248,7 +4248,7 @@ app.get("/api/search-products-stream",
       if (kspCatFallback.length > 0) return []; // cat fallback already populated kspRaw equivalent
       try {
         const kspKey = q.trim().toLowerCase();
-        const kspCached = getKspCacheFromDB(kspKey, 6 * 3600_000);
+        const kspCached = getKspCacheFromDB(kspKey);
         const kspCachedData = Array.isArray(kspCached) ? kspCached : kspCached?.data;
         if (Array.isArray(kspCachedData) && kspCachedData.length > 0) {
           console.log(`  ↳ KSP: cache hit — ${kspCachedData.length} results`);
