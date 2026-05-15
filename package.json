@@ -8,6 +8,7 @@
     "server": "node server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
     "start:prod": "node scripts/seed-product-db.mjs && NODE_ENV=production node server.js",
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "export-excel": "node excel-export.mjs",

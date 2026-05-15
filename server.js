@@ -4278,59 +4278,102 @@ app.get("/api/search-products-stream",
     if (stubListings.length > 0)
       console.log(`  ↳ Stream: added ${stubListings.length} name-only stubs for candidates beyond ZAP_MAX_MODELS`);
 
-    // ── Phase 3: Collect organic+shopping (and await KSP cat fallback if active) ────
-    // kspCatPromise is awaited separately to avoid mixing its undefined return value
-    // into organicRes (which flatMaps the results).
-    const [shoppingRes, gsRes, ...organicRes] = await Promise.allSettled([shoppingPromise, googleShopPromise, ...organicPromises]);
-    await Promise.all([kspCatPromise, zapListingPromise]); // kspCatFallback[] + zapListingPrices populated as side-effects
-    const shoppingRaw = shoppingRes.status === "fulfilled" ? shoppingRes.value : [];
-    const gsRaw       = gsRes.status === "fulfilled" ? gsRes.value : [];
-    const organicRaw  = organicRes.flatMap(r => r.status === "fulfilled" ? r.value : []);
-
-    // ── KSP secondary source — fetch in parallel with everything else ──────
-    // Priority: category browse (when sog is known) > text search.
-    // Category browse returns ALL in-stock KSP products for the sog; text search
-    // is a keyword search and often misses category-level queries like "מחשבים נייחים".
-    // Skip this block when KSP category fallback already ran (kspCatFallback is set),
-    // to avoid double-counting.
-    let kspRaw = [];
-    if (kspCatFallback.length === 0) {  // don't run if category fallback already fired
+    // ── Phase 3: Run ALL secondary sources in parallel + race against a budget ──
+    // Before this refactor, the order was:
+    //   1. await shopping + organic (could be 30s if DFS falls back to Merchant)
+    //   2. then await KSP text search (5-15s)
+    //   3. then await Bug (5-15s)
+    // KSP and Bug were ANNOTATED as parallel in comments but actually ran sequentially
+    // after the slow await. Result: a CF-blocked ZAP search took ~60s end-to-end.
+    //
+    // Now: launch KSP/Bug as promises immediately (they only need detectedSog +
+    // kspCatFallback, both of which are already set by this point), then race the
+    // entire batch against a 14s budget. Anything that hasn't returned by then is
+    // dropped from this response — its result still goes into the DB cache in the
+    // background but doesn't block the user.
+    const kspTextPromise = (async () => {
+      if (kspCatFallback.length > 0) return []; // cat fallback already populated kspRaw equivalent
       try {
         const kspKey = q.trim().toLowerCase();
-        const kspCached = getKspCacheFromDB(kspKey, 6 * 3600_000);
+        const kspCached = getKspCacheFromDB(kspKey);
         const kspCachedData = Array.isArray(kspCached) ? kspCached : kspCached?.data;
         if (Array.isArray(kspCachedData) && kspCachedData.length > 0) {
-          kspRaw = kspCachedData;
-          console.log(`  ↳ KSP: cache hit — ${kspRaw.length} results`);
-        } else if (detectedSog && KSP_CAT_MAP[detectedSog] && !_kspFallbackActive) {
-          // Use category browse when sog is known — much better than text search for category queries
-          kspRaw = await getKspCategoryAll(detectedSog, { maxPages: 3, timeout: 15000 });
-          if (kspRaw.length > 0) saveKspCacheToDB(kspKey, kspRaw);
-          console.log(`  ↳ KSP: category browse "${KSP_CAT_MAP[detectedSog]}" — ${kspRaw.length} results`);
-        } else {
-          kspRaw = await searchKsp(q, { limit: 30, timeout: 8000 });
-          if (kspRaw.length > 0) saveKspCacheToDB(kspKey, kspRaw);
-          console.log(`  ↳ KSP: text search — ${kspRaw.length} results`);
+          console.log(`  ↳ KSP: cache hit — ${kspCachedData.length} results`);
+          return kspCachedData;
         }
+        if (detectedSog && KSP_CAT_MAP[detectedSog] && !_kspFallbackActive) {
+          const r = await getKspCategoryAll(detectedSog, { maxPages: 3, timeout: 10000 });
+          if (r.length > 0) saveKspCacheToDB(kspKey, r);
+          console.log(`  ↳ KSP: category browse "${KSP_CAT_MAP[detectedSog]}" — ${r.length} results`);
+          return r;
+        }
+        const r = await searchKsp(q, { limit: 30, timeout: 6000 });
+        if (r.length > 0) saveKspCacheToDB(kspKey, r);
+        console.log(`  ↳ KSP: text search — ${r.length} results`);
+        return r;
       } catch (e) {
         console.warn(`  ↳ KSP: error — ${e.message}`);
+        return [];
       }
-    }
+    })();
 
-    // ── Bug secondary source — runs in parallel with KSP (only when ZAP has data or KSP cat fallback didn't fire) ──
-    let bugRaw = [];
-    if (kspCatFallback.length === 0) {
+    const bugPromise = (async () => {
+      if (kspCatFallback.length > 0) return [];
       try {
         if (detectedSog && BUG_CAT_MAP[detectedSog]) {
-          bugRaw = await getBugCategory(detectedSog, { timeout: 12000 });
-          console.log(`  ↳ Bug: category browse — ${bugRaw.length} results`);
-        } else if (!detectedSog) {
-          bugRaw = await searchBug(q, { timeout: 10000 });
-          console.log(`  ↳ Bug: text search — ${bugRaw.length} results`);
+          const r = await getBugCategory(detectedSog, { timeout: 8000 });
+          console.log(`  ↳ Bug: category browse — ${r.length} results`);
+          return r;
+        }
+        if (!detectedSog) {
+          const r = await searchBug(q, { timeout: 6000 });
+          console.log(`  ↳ Bug: text search — ${r.length} results`);
+          return r;
         }
       } catch (e) {
         console.warn(`  ↳ Bug: error — ${e.message}`);
       }
+      return [];
+    })();
+
+    // Wait for ALL sources, but cap at 14s total. Anything slower than that is
+    // skipped for this response — the page still shows ZAP + whatever else
+    // returned in time. The dropped promise resolves later into its own caches.
+    const SLOW_BUDGET_MS = 14000;
+    const allSourcesPromise = Promise.allSettled([
+      shoppingPromise, googleShopPromise, kspTextPromise, bugPromise, ...organicPromises,
+    ]);
+    const phase3Start = Date.now();
+    const phase3Results = await Promise.race([
+      allSourcesPromise,
+      new Promise(r => setTimeout(() => r("__TIMEOUT__"), SLOW_BUDGET_MS)),
+    ]);
+    await Promise.all([kspCatPromise, zapListingPromise]); // side-effect promises (kspCatFallback, zapListingPrices)
+
+    let shoppingRaw = [], gsRaw = [], kspRaw = [], bugRaw = [], organicRaw = [];
+    if (phase3Results === "__TIMEOUT__") {
+      console.warn(`  ↳ Stream: secondary sources timed out after ${SLOW_BUDGET_MS}ms — emitting with whatever returned in time`);
+      // Pull whatever has already resolved (use .then on each individually with a
+      // 0ms timeout race so we don't block).
+      const drain = (p) => Promise.race([p, Promise.resolve("__PENDING__")]);
+      const [s, g, k, b, ...o] = await Promise.all([
+        drain(shoppingPromise), drain(googleShopPromise), drain(kspTextPromise), drain(bugPromise),
+        ...organicPromises.map(drain),
+      ]);
+      shoppingRaw = Array.isArray(s) ? s : [];
+      gsRaw       = Array.isArray(g) ? g : [];
+      kspRaw      = Array.isArray(k) ? k : [];
+      bugRaw      = Array.isArray(b) ? b : [];
+      organicRaw  = o.filter(Array.isArray).flat();
+    } else {
+      const elapsed = Date.now() - phase3Start;
+      console.log(`  ↳ Stream: secondary sources finished in ${elapsed}ms`);
+      const [shoppingRes, gsRes, kspRes, bugRes, ...organicRes] = phase3Results;
+      shoppingRaw = shoppingRes.status === "fulfilled" ? shoppingRes.value : [];
+      gsRaw       = gsRes.status === "fulfilled"       ? gsRes.value       : [];
+      kspRaw      = kspRes.status === "fulfilled"      ? kspRes.value      : [];
+      bugRaw      = bugRes.status === "fulfilled"      ? bugRes.value      : [];
+      organicRaw  = organicRes.flatMap(r => r.status === "fulfilled" ? r.value : []);
     }
 
     console.log(`  ↳ Stream: sources — zap=${allZapListings.length} ksp=${kspRaw.length} bug=${bugRaw.length} gs=${gsRaw.length} shop=${shoppingRaw.length} organic=${organicRaw.length}${kspCatFallback.length > 0 ? ` kspFallback=${kspCatFallback.length}` : ""}`);
@@ -4645,18 +4688,22 @@ app.get("/api/search-products-stream",
         console.log(`  ↳ Stream: AI-free category path — ${finalProducts.length} products (${priced} priced, sog=${detectedSog})`);
 
         // ── Image enrichment for AI-free path ─────────────────────────────────
-        // Shopping/Merchant products may lack images. Fetch missing ones via DFS Image API.
-        const MAX_IMG_AIFREE = 40;
+        // Lowered from 40 → 15: every miss costs a DFS image-search call (~1-6s)
+        // and most of the >15-th rows are brand-only stubs whose images would be
+        // rejected by the Quality Gate downstream anyway. Brand-only queries
+        // are short-circuited inside getProductImage (see _isBrandOnlyQuery).
+        const MAX_IMG_AIFREE = 15;
         const noImgAiFree = finalProducts.filter(p => !p.image);
         if (noImgAiFree.length > 0) {
           console.log(`  ↳ Stream: AI-free path — ${noImgAiFree.length} products missing images, fetching up to ${MAX_IMG_AIFREE}...`);
           const toSearchImg = noImgAiFree.slice(0, MAX_IMG_AIFREE);
+          const imgStart = Date.now();
           const fetchedImgs = await Promise.all(
             toSearchImg.map(p => getProductImage(p.nameEn || p.nameHe || q).catch(() => null))
           );
           let imgFound = 0;
           toSearchImg.forEach((p, i) => { if (fetchedImgs[i]) { p.image = fetchedImgs[i]; imgFound++; } });
-          console.log(`  ↳ Stream: AI-free image enrichment — found ${imgFound}/${toSearchImg.length} images`);
+          console.log(`  ↳ Stream: AI-free image enrichment — found ${imgFound}/${toSearchImg.length} images in ${Date.now() - imgStart}ms`);
         }
       }
     }
@@ -5703,8 +5750,12 @@ async function searchDFSMerchant(query) {
   }
   console.log(`  ↳ [merchant] Task created: ${taskId} (status ${postStatus})`);
 
-  // Step 2: Poll for results (5s initial wait, then 3s intervals, up to ~20s total)
-  const delays = [5000, 3000, 3000, 3000, 3000, 3000];
+  // Step 2: Poll for results.
+  // Earlier delays were 5s + 3s×5 = 20s — too slow when the task is ready
+  // in <5s, the user pays the full 5s for nothing. Front-load tightly so
+  // fast tasks return fast, fall back to ~5s on the tail for slow ones.
+  // 1.5 + 2 + 2.5 + 3 + 4 + 5 = 18s overall budget but first probe at 1.5s.
+  const delays = [1500, 2000, 2500, 3000, 4000, 5000];
   let items = [];
   let elapsed = 0;
   for (let i = 0; i < delays.length; i++) {
@@ -7623,6 +7674,54 @@ const _PRODUCT_DB_SOG_MAP = {
   "air-conditioners":  "e-airconditioner",
   "hair-dryers":       "e-hairdrayer",
   "hair-stylers":      "e-hairdesigner",
+  // ── Slugs populated by scripts/scrape-empty-categories.mjs ───────────────
+  // These pull data from KSP for sogs where ZAP either has no catalogue
+  // (e.g. game titles) or returns brand-only stubs. The scrape script
+  // writes product-db/<slug>/products.json which loadProductDbIntoCache()
+  // then folds back into ZAP_CAT_CACHE for the matching sog.
+  "ps5-games":         "e-tvgame",
+  "nintendo-games":    "e-tvgame",
+  "smart-home":        "b-smarthome",
+  "security-cameras":  "g-hiddencam",
+  "toasters":          "e-toster",
+  "mixers":            "e-mixer",
+  "food-processors":   "e-foodproccessor",
+  "juicers":           "e-squeezer",
+  "kitchen-pots":      "h-cookingpots",
+  "hot-plates":        "e-plata",
+  "hair-removers":     "e-hairremover",
+  "shavers":           "e-shaver",
+  "lady-shavers":      "e-ladyshaver",
+  "beauty-machines":   "e-beautymachine",
+  "massagers":         "e-massager",
+  "smartwatches":      "e-cellwatch",
+  "phone-cases":       "e-cellphonecase",
+  "chargers":          "e-charger",
+  "cpus":              "c-cpu",
+  "motherboards":      "c-motherboard",
+  "ram":               "c-memory",
+  "ssds":              "c-harddrive",
+  "pc-cases":          "c-tower",
+  "pc-cooling":        "c-fan",
+  "routers":           "c-router",
+  "wifi-extenders":    "c-repeater",
+  "network-switches":  "c-hub",
+  "flash-drives":      "c-diskonkey",
+  "sd-cards":          "c-flashmemory",
+  "nas-servers":       "c-nasserver",
+  "scanners":          "c-scanner",
+  "electric-scooters": "s-electricscooter",
+  "exercise-bikes":    "s-exercisebike",
+  "ellipticals":       "s-crosstrainer",
+  "bp-monitors":       "e-bloodpressure",
+  "nebulizers":        "e-nebulizer",
+  "thermometers":      "e-thermometer",
+  "tens-devices":      "e-tens",
+  "ems-belts":         "s-abs",
+  "power-tools":       "b-powertools",
+  "microphones":       "e-microphone",
+  "vr-headsets":       "e-vrglasses",
+  "dashcams":          "t-dashcam",
 };
 
 // On Render, DATA_DIR points to the persistent disk so the enriched product
@@ -8878,17 +8977,58 @@ const RETAILER_DOMAINS = [
   "zap.co.il","priceline.co.il","deal.co.il","shop.co.il",
 ];
 
+// Per-query in-flight promise dedup. Without this, when an image-enrichment
+// batch fires Promise.all over 40 products and 4 of them share the same
+// brand name ("Polygon"), all 4 cache-miss simultaneously and trigger 4
+// duplicate DFS API calls. Storing the pending promise here merges them
+// into a single call.
+const imageInFlight = new Map(); // cacheKey → Promise<string|null>
+
+// Names that ZAP returns as "products" but are clearly just bare brand
+// labels — image search for these returns garbage (e.g. "Razor" → safety
+// razor, "Neuron" → brain anatomy, "Soul" → music albums). Better to leave
+// image=null and let the downstream Quality Gate drop the row.
+function _isBrandOnlyQuery(q) {
+  const s = (q || "").trim();
+  if (!s) return true;
+  // Very short single token — almost certainly a brand without a model.
+  if (s.length < 14 && /^[A-Za-z][\w\-]*( [A-Za-z][\w\-]*)?$/.test(s)) {
+    // Allow if it contains a digit (e.g. "iPhone 17") — those are real models.
+    if (/\d/.test(s)) return false;
+    return true;
+  }
+  return false;
+}
+
 async function getProductImage(query) {
   const cacheKey = query.trim().toLowerCase();
   const cached = imageCache.get(cacheKey);
   if (cached && cached.expires > Date.now()) return cached.url;
   if (cached) imageCache.delete(cacheKey); // expired — evict
 
-  const store = (val) => { imageCache.set(cacheKey, { url: val, expires: Date.now() + IMAGE_CACHE_TTL }); return val; };
+  // Fast-path: brand-only queries → return null without hitting DFS.
+  if (_isBrandOnlyQuery(query)) {
+    imageCache.set(cacheKey, { url: null, expires: Date.now() + IMAGE_CACHE_TTL });
+    return null;
+  }
 
+  // In-flight dedup: merge concurrent requests for the same key.
+  if (imageInFlight.has(cacheKey)) return imageInFlight.get(cacheKey);
+
+  const store = (val) => {
+    imageCache.set(cacheKey, { url: val, expires: Date.now() + IMAGE_CACHE_TTL });
+    imageInFlight.delete(cacheKey);
+    return val;
+  };
+
+  // Wrap the remaining work in an IIFE so we can register the in-flight
+  // promise BEFORE awaiting anything. Without this, Promise.all over 40
+  // products that share a brand would fire 40 DFS calls before any of
+  // them cached.
+  const work = (async () => {
   const login    = process.env.DATAFORSEO_LOGIN;
   const password = process.env.DATAFORSEO_PASSWORD;
-  if (!login || !password) return null;
+  if (!login || !password) return store(null);
 
   // Inner fetcher — runs the DFS image search with a given keyword.
   // Returns { items, statusCode } so the caller can decide whether to retry.
@@ -8903,7 +9043,7 @@ async function getProductImage(query) {
     const { data } = await axios.post(
       `${DFS_BASE}/v3/serp/google/images/live/advanced`,
       payload,
-      { auth: { username: login, password: password }, timeout: 12000, headers: { "content-type": "application/json" } }
+      { auth: { username: login, password: password }, timeout: 6000, headers: { "content-type": "application/json" } }
     );
     return {
       items:      data?.tasks?.[0]?.result?.[0]?.items || [],
@@ -9030,8 +9170,12 @@ async function getProductImage(query) {
 
   } catch (err) {
     console.warn("  ↳ Image fetch failed:", err.message);
+    imageInFlight.delete(cacheKey);
     return null; // don't cache errors — allow retry
   }
+  })(); // ── end IIFE
+  imageInFlight.set(cacheKey, work);
+  return work;
 }
 
 // Legacy SerpAPI image function — kept but bypassed (SerpAPI quota exhausted)
