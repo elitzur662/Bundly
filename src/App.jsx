@@ -2516,6 +2516,18 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
           {navItem("search", <Search className="w-4 h-4" />, t.navSearch)}
           {navItem("deals", <Tag className="w-4 h-4" />, t.activeGroups)}
           {navItem("personal", <Send className="w-4 h-4" />, t.personalRequest)}
+          {/* External link — opens the static how-it-works page in a new tab.
+              Visible on desktop and the mobile dropdown (see below). */}
+          <a
+            href="/how-it-works.html"
+            target="_blank"
+            rel="noopener"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition-all border border-violet-100"
+            title="איך זה עובד?"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>איך זה עובד?</span>
+          </a>
           {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
         </div>
 
@@ -2635,6 +2647,16 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                   {icon}{label}
                 </button>
               ))}
+              {/* "How it works" — opens a new tab, doesn't change mode. */}
+              <a
+                href="/how-it-works.html"
+                target="_blank"
+                rel="noopener"
+                onClick={closeMenu}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 border border-violet-100 hover:bg-violet-100 min-h-[44px]"
+              >
+                <Sparkles className="w-5 h-5" />איך זה עובד?
+              </a>
 
               {/* User-specific links */}
               {user && (
@@ -17793,6 +17815,37 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
   const [joined, setJoined] = useState(false);
   const [saved, setSaved] = useState(isSaved);
   const [showPicker, setShowPicker] = useState(false);
+  // "Send to suppliers" private-request path — bundle is dispatched to
+  // every approved supplier as a personal request, without making the
+  // bundle public on the deals feed.
+  const [sentToSuppliers, setSentToSuppliers] = useState(false);
+  const [sendingToSuppliers, setSendingToSuppliers] = useState(false);
+  const sendBundleToSuppliers = async () => {
+    if (sendingToSuppliers || sentToSuppliers) return;
+    setSendingToSuppliers(true);
+    try {
+      const tok = localStorage.getItem("bundly_token") || "";
+      const desc = prods.map(p => `• ${p.name}${p.marketPrice ? ` (₪${p.marketPrice})` : ""}`).join("\n");
+      const res = await fetch("/api/personal-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+        body: JSON.stringify({
+          product:  `חבילה: ${bundle.title}`,
+          category: "חבילות חכמות",
+          budget:   String(bundlePrice || ""),
+          desc:     `בקשת הצעה לחבילה (${prods.length} מוצרים, שווי שוק ₪${totalMarket.toLocaleString()}):\n${desc}`,
+          isSpecificModel: false,
+          productImage: prods[0]?.image || null,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSentToSuppliers(true);
+    } catch (e) {
+      alert(`לא הצלחנו לשלוח את הבקשה לספקים: ${e.message}`);
+    } finally {
+      setSendingToSuppliers(false);
+    }
+  };
 
   // Persist any product list change to parent (fires on add/remove).
   // Accepts an array OR a functional updater to avoid stale-closure issues
@@ -17957,7 +18010,27 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
               className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black rounded-2xl text-sm transition shadow-lg shadow-indigo-200/50 active:scale-[0.98] flex items-center justify-center gap-2"
             >
               <Package className="w-4 h-4" />
-              אני רוצה את החבילה הזו ✅
+              הצטרפו לקבוצת הרכישה לחבילה
+            </button>
+          )}
+
+          {/* Private path — send the bundle directly to suppliers without
+              joining a public group. Hides itself once sent so the user
+              has clear confirmation. Per user request 2026-05-15. */}
+          {sentToSuppliers ? (
+            <div className="bg-sky-50 border border-sky-200 rounded-2xl p-3 text-center">
+              <BadgeCheck className="w-6 h-6 text-sky-500 mx-auto mb-1" />
+              <p className="font-black text-sky-800 text-xs">הבקשה נשלחה לכל הספקים</p>
+              <p className="text-[11px] text-sky-600 mt-0.5">ספקים שיענו ישלחו לך הצעת מחיר ישירות</p>
+            </div>
+          ) : (
+            <button
+              onClick={sendBundleToSuppliers}
+              disabled={sendingToSuppliers}
+              className="w-full py-3 bg-white border-2 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 text-indigo-700 font-bold rounded-2xl text-[13px] transition active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-wait"
+            >
+              <Send className="w-4 h-4" />
+              {sendingToSuppliers ? "שולח לספקים..." : "שלחו את החבילה ישירות לספקים (ללא הצטרפות לקבוצה)"}
             </button>
           )}
         </div>

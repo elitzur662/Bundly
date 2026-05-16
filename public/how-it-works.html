@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>איך זה עובד? — Bundly</title>
+  <meta name="description" content="איך Bundly עובד — קנייה קבוצתית בישראל. מצטרפים לסבב, ספקים מתחרים, אתם זוכים במחיר נמוך יותר. ללא חיוב מקדים, ללא סיכון." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Rubik', 'Segoe UI', -apple-system, sans-serif;
+      background: linear-gradient(160deg, #faf5ff 0%, #f3f4f6 50%, #fdf2f8 100%);
+      color: #1f2937;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    a { color: #7e22ce; text-decoration: none; }
+    a:hover { color: #581c87; }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid #e5e7eb;
+      padding: 8px 16px; border-radius: 12px;
+      color: #6b7280; font-weight: 700; font-size: 14px;
+      transition: all 0.2s;
+    }
+    .nav-back:hover { background: #f9fafb; color: #1f2937; }
+    .container { max-width: 920px; margin: 0 auto; padding: 24px 20px 80px; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 50px 24px 60px;
+      background: linear-gradient(135deg, #7e22ce 0%, #9333ea 50%, #c084fc 100%);
+      border-radius: 28px;
+      margin: 24px 0 40px;
+      color: #fff;
+      box-shadow: 0 20px 60px rgba(126, 34, 206, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before, .hero::after {
+      content: "";
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      pointer-events: none;
+    }
+    .hero::before { top: -60px; right: -60px; }
+    .hero::after  { bottom: -80px; left: -50px; }
+    .hero-emoji { font-size: 64px; line-height: 1; margin-bottom: 18px; }
+    .hero h1 { font-size: 36px; font-weight: 900; margin-bottom: 14px; position: relative; }
+    .hero p  { font-size: 17px; opacity: 0.95; max-width: 580px; margin: 0 auto; position: relative; }
+    .hero .B-logo {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px;
+      background: #fff;
+      border-radius: 14px;
+      font-size: 32px; font-weight: 900;
+      color: #7e22ce;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      margin-bottom: 16px;
+    }
+
+    /* Section */
+    section { margin-bottom: 56px; }
+    h2 {
+      font-size: 24px; font-weight: 900;
+      color: #1f2937;
+      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 10px;
+    }
+    h2 .step-num {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #7e22ce, #c084fc);
+      color: #fff;
+      border-radius: 12px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 17px;
+    }
+    .sub { color: #6b7280; font-size: 15px; margin-bottom: 22px; }
+
+    /* Steps */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .step {
+      background: #fff;
+      border: 1px solid #e9d5ff;
+      border-radius: 20px;
+      padding: 22px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .step:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(126, 34, 206, 0.12); }
+    .step-icon { font-size: 36px; margin-bottom: 12px; line-height: 1; }
+    .step h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; color: #1f2937; }
+    .step p  { color: #6b7280; font-size: 14px; line-height: 1.6; }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .feature {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      border: 1px solid #f3e8ff;
+    }
+    .feature-icon-row {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .icon-amber  { background: #fef3c7; }
+    .icon-green  { background: #d1fae5; }
+    .icon-blue   { background: #dbeafe; }
+    .icon-pink   { background: #fce7f3; }
+    .icon-violet { background: #ede9fe; }
+    .icon-rose   { background: #ffe4e6; }
+    .feature h3 { font-size: 16px; font-weight: 800; margin-bottom: 6px; color: #1f2937; }
+    .feature p  { color: #6b7280; font-size: 14px; }
+
+    /* Illustration */
+    .illustration {
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px;
+      margin: 30px 0;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .illustration svg { max-width: 100%; height: auto; }
+    .illustration .caption {
+      margin-top: 18px; color: #6b7280; font-size: 14px; font-style: italic;
+    }
+
+    /* Tier ladder visualization */
+    .ladder {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .ladder-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid #f3e8ff;
+      border-radius: 14px;
+      padding: 14px 18px;
+    }
+    .ladder-row.tier1 { background: #faf5ff; }
+    .ladder-row.tier2 { background: #f3e8ff; }
+    .ladder-row.tier3 { background: #e9d5ff; }
+    .ladder-row.tier4 { background: linear-gradient(90deg, #c084fc, #9333ea); color: #fff; border-color: transparent; }
+    .ladder-row .count { font-size: 14px; font-weight: 800; }
+    .ladder-row .label { font-size: 14px; }
+    .ladder-row .price { font-size: 17px; font-weight: 900; }
+
+    /* FAQ */
+    details {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      transition: all 0.15s;
+    }
+    details[open] { border-color: #c084fc; box-shadow: 0 4px 16px rgba(126, 34, 206, 0.08); }
+    details summary {
+      font-weight: 700; color: #1f2937; cursor: pointer; font-size: 15px;
+      list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    details summary::after { content: "+"; font-size: 22px; color: #7e22ce; font-weight: 300; transition: transform 0.2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { margin-top: 12px; color: #4b5563; font-size: 14px; line-height: 1.7; }
+
+    /* CTA footer */
+    .cta {
+      background: linear-gradient(135deg, #fdf2f8, #faf5ff);
+      border: 1px solid #f3e8ff;
+      border-radius: 24px;
+      padding: 36px 28px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .cta h2 { color: #7e22ce; margin-bottom: 12px; }
+    .cta p { color: #6b7280; margin-bottom: 22px; font-size: 16px; }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #7e22ce, #9333ea);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 12px 24px rgba(126, 34, 206, 0.3);
+      transition: all 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(126, 34, 206, 0.4); color: #fff; }
+
+    @media (max-width: 640px) {
+      .hero { padding: 36px 20px 42px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 15px; }
+      h2 { font-size: 20px; }
+      .ladder-row { grid-template-columns: 64px 1fr auto; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="nav-back">→ חזרה לאתר</a>
+
+    <!-- Hero -->
+    <header class="hero">
+      <span class="B-logo">B</span>
+      <div class="hero-emoji">🤝</div>
+      <h1>איך Bundly עובדת?</h1>
+      <p>פלטפורמת קנייה קבוצתית שמחברת בין צרכנים לבין ספקים בישראל. אתם מצטרפים לסבב, ספקים מתחרים על המחיר — והקבוצה זוכה במחיר נמוך יותר ממה שכל אחד היה משיג לבד.</p>
+    </header>
+
+    <!-- 4 הצעדים -->
+    <section>
+      <h2><span class="step-num">1</span> ארבעת הצעדים</h2>
+      <p class="sub">כך משתמש טיפוסי קונה דרך Bundly:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">🔍</div>
+          <h3>1. מוצאים את המוצר</h3>
+          <p>חיפוש לפי שם, גלילה בקטגוריות, או בקשה מהצ'אט החכם של Bundly. רואים מחירים מ-ZAP, KSP, Bug ומקורות נוספים.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">👥</div>
+          <h3>2. מצטרפים לסבב</h3>
+          <p>לוחצים "הגשת הזמנה" או רק "עדכונים בלבד". שומרים אמצעי תשלום — <strong>ללא חיוב</strong>. ככל שיותר אנשים מצטרפים, המחיר יורד.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">🏪</div>
+          <h3>3. ספקים מתחרים</h3>
+          <p>כל שהסבב מתקרב לסגירה, ספקים מקבלים התראה ומגישים הצעת מחיר. הזול ביותר מנצח את כל הקבוצה.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-icon">✅</div>
+          <h3>4. סגירת הסבב</h3>
+          <p>כשמסתיים — אנחנו שולחים לכם מייל אישור. רק אחרי שאתם מאשרים אישית, החיוב מתבצע. אם לא — אין חיוב, אין סיכון.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ויזואליזציה של מדרגות מחיר -->
+    <section>
+      <h2><span class="step-num">2</span> מדרגות מחיר — איך זה עובד?</h2>
+      <p class="sub">ככל שיותר חברים מצטרפים, המחיר יורד. דוגמה עבור מקרר Samsung 580L (מחיר שוק ₪5,200):</p>
+
+      <div class="ladder">
+        <div class="ladder-row tier1">
+          <span class="count">👤 1-9</span>
+          <span class="label">בודדים — מחיר רגיל</span>
+          <span class="price">₪5,200</span>
+        </div>
+        <div class="ladder-row tier2">
+          <span class="count">👥 10+</span>
+          <span class="label">קבוצה קטנה — 5% הנחה</span>
+          <span class="price">₪4,940</span>
+        </div>
+        <div class="ladder-row tier3">
+          <span class="count">👥👥 25+</span>
+          <span class="label">קבוצה בינונית — 10% הנחה</span>
+          <span class="price">₪4,680</span>
+        </div>
+        <div class="ladder-row tier4">
+          <span class="count">🎯 50+</span>
+          <span class="label">קבוצה גדולה — 18% הנחה</span>
+          <span class="price">₪4,260</span>
+        </div>
+      </div>
+
+      <div style="background: #fef3c7; border: 1px solid #fcd34d; border-radius: 12px; padding: 14px 18px; margin-top: 18px; font-size: 14px;">
+        <strong>💡 חשוב לדעת:</strong> המדרגות הן <strong>"רעיון למחיר"</strong> בלבד — המחיר הסופי נקבע על ידי הספק שמגיש את ההצעה. ספקים יודעים את הסבב ויודעים שהם מתחרים, ולכן ההצעות בדרך כלל קרובות למחיר הנמוך ביותר.
+      </div>
+    </section>
+
+    <!-- מה מקבלים כצרכן -->
+    <section>
+      <h2><span class="step-num">3</span> למה Bundly?</h2>
+      <p class="sub">היתרונות העיקריים שלכם כצרכנים:</p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon-row icon-amber">💰</div>
+          <h3>מחיר נמוך ב-10-25%</h3>
+          <p>הקבוצה היא הכוח. ספקים מעדיפים מכירה של 30 פריטים בבת אחת על פני 30 מכירות בודדות, ומוכנים לחתוך את הרווח שלהם בשביל זה.</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon-row icon-green">🔒</div>
+          <h3>ללא חיוב מקדים</h3>
+          <p>שומרים כרטיס אשראי ב-Stripe (פלטפורמת תשלום מהמובילות בעולם). חיוב מתבצע <strong>רק</strong> אחרי שאתם מאשרים — לא לפני. אפשר לבטל בכל עת.</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon-row icon-blue">📊</div>
+          <h3>שקיפות מלאה</h3>
+          <p>רואים את המחיר הנוכחי, את מספר המשתתפים, ואת כל ההצעות מהספקים. אין הפתעות, אין דמי טיפול נסתרים.</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon-row icon-pink">🛡️</div>
+          <h3>הגנת צרכן מלאה</h3>
+          <p>14 יום זכות החזרה לפי חוק. אחריות יצרן מלאה. תמיכה ישירה ב-bundly.co.shop@gmail.com במקרה של בעיה.</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon-row icon-violet">🤖</div>
+          <h3>צ'אט חכם BundlyAI</h3>
+          <p>שאלו את הצ'אט "אני רוצה מקרר עד ₪5,000 עם פתח מים". הוא ימצא וי-יסנן בשבילכם — בעברית.</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon-row icon-rose">📦</div>
+          <h3>חבילות חכמות</h3>
+          <p>קונים מוצרי חשמל למעבר דירה? חבילת מטבח שלמה? חבילות חכמות מאפשרות הצעת ספק על סט שלם — וחיסכון של עוד 10-15%.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- איור פשוט של זרימת הסבב -->
+    <section>
+      <h2><span class="step-num">4</span> איור הזרימה</h2>
+      <p class="sub">איך נראית הדרך מהחיפוש ועד החיוב:</p>
+
+      <div class="illustration">
+        <svg viewBox="0 0 800 200" width="100%" height="auto">
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <polygon points="0 0, 10 5, 0 10" fill="#9333ea"/>
+            </marker>
+          </defs>
+
+          <!-- Step 1 -->
+          <g>
+            <circle cx="80" cy="100" r="42" fill="#faf5ff" stroke="#c084fc" stroke-width="3"/>
+            <text x="80" y="92" text-anchor="middle" font-size="24">🔍</text>
+            <text x="80" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#7e22ce">חיפוש</text>
+            <text x="80" y="165" text-anchor="middle" font-size="11" fill="#6b7280">אתם מוצאים את המוצר</text>
+          </g>
+
+          <line x1="125" y1="100" x2="195" y2="100" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+          <!-- Step 2 -->
+          <g>
+            <circle cx="240" cy="100" r="42" fill="#fdf2f8" stroke="#ec4899" stroke-width="3"/>
+            <text x="240" y="92" text-anchor="middle" font-size="24">👥</text>
+            <text x="240" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#be185d">הצטרפות</text>
+            <text x="240" y="165" text-anchor="middle" font-size="11" fill="#6b7280">שמירת כרטיס · ללא חיוב</text>
+          </g>
+
+          <line x1="285" y1="100" x2="355" y2="100" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+          <!-- Step 3 -->
+          <g>
+            <circle cx="400" cy="100" r="42" fill="#fff7ed" stroke="#f97316" stroke-width="3"/>
+            <text x="400" y="92" text-anchor="middle" font-size="24">🏪</text>
+            <text x="400" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#c2410c">תחרות ספקים</text>
+            <text x="400" y="165" text-anchor="middle" font-size="11" fill="#6b7280">מקבלים הצעות מחיר</text>
+          </g>
+
+          <line x1="445" y1="100" x2="515" y2="100" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+          <!-- Step 4 -->
+          <g>
+            <circle cx="560" cy="100" r="42" fill="#f0fdf4" stroke="#22c55e" stroke-width="3"/>
+            <text x="560" y="92" text-anchor="middle" font-size="24">✅</text>
+            <text x="560" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">אישור</text>
+            <text x="560" y="165" text-anchor="middle" font-size="11" fill="#6b7280">אתם מאשרים אישית</text>
+          </g>
+
+          <line x1="605" y1="100" x2="675" y2="100" stroke="#9333ea" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+
+          <!-- Step 5 -->
+          <g>
+            <circle cx="720" cy="100" r="42" fill="#eff6ff" stroke="#3b82f6" stroke-width="3"/>
+            <text x="720" y="92" text-anchor="middle" font-size="24">📦</text>
+            <text x="720" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">קבלה</text>
+            <text x="720" y="165" text-anchor="middle" font-size="11" fill="#6b7280">המוצר מגיע אליכם</text>
+          </g>
+        </svg>
+        <p class="caption">פשוט, שקוף, ובלי סיכון — מתחילים עם חיפוש, מסיימים עם המוצר בבית.</p>
+      </div>
+    </section>
+
+    <!-- שאלות נפוצות -->
+    <section>
+      <h2><span class="step-num">5</span> שאלות שאולי תשאלו</h2>
+
+      <details>
+        <summary>אם אני לא רוצה לחתום על חיוב, איך אני מקבל מחיר?</summary>
+        <p>אתם פשוט לוחצים "עדכונים בלבד" (כפתור הפעמון). זה רושם אתכם לקבל הודעות על הסבב — בלי לשמור כרטיס. כשהסבב נסגר ויש מחיר טוב, אתם יכולים להחליט אם להמשיך לתשלום, או לוותר.</p>
+      </details>
+
+      <details>
+        <summary>מה קורה אם הסבב לא נסגר?</summary>
+        <p>הכרטיס שלכם נשאר בידי Stripe, לא מחויב, ויוסר אוטומטית. לא תקבלו הודעה על חיוב כי לא יהיה חיוב. הסבב פשוט "מתפוגג" בלי נזק.</p>
+      </details>
+
+      <details>
+        <summary>איך אני יודע שהספק אמין?</summary>
+        <p>נכון לרגע, האתר בשלב Beta וטרם הופעלה מערכת אימות ספקים. אנו ממליצים לבדוק את הספק מול אתר התעודה, לבדוק ביקורות, ולעבוד דרך כרטיס אשראי (לא העברה בנקאית). אנחנו עובדים על השקת מערכת "ספק מאומת" בקרוב.</p>
+      </details>
+
+      <details>
+        <summary>למה המחיר באתר עלול להיות שונה ממה שאקבל?</summary>
+        <p>המחירים המוצגים הם <strong>אינדיקציה</strong> — נאספים אוטומטית מאתרי השוואת מחירים. המחיר האמיתי שתקבלו תלוי בהצעת הספק הספציפי בסבב. בגלל זה הוספנו את התווית "רעיון למחיר" מעל מדרגות המחיר.</p>
+      </details>
+
+      <details>
+        <summary>אילו קטגוריות יש באתר?</summary>
+        <p>מוצרי חשמל ואלקטרוניקה (מקררים, טלוויזיות, מיקרוגלים, מכונות כביסה), מחשבים וטאבלטים (לפטופים, iPad, מסכים), טיפוח ויופי, סלולר, וקונסולות משחק. אנחנו מוסיפים קטגוריות חדשות לפי ביקוש.</p>
+      </details>
+
+      <details>
+        <summary>איך מבטלים הצטרפות?</summary>
+        <p>נכנסים ל"המוצרים שלי" (אייקון החבילה בתחתית המסך), לוחצים על ה-X ליד המוצר → "אישור הסרה". זהו. כל עוד הסבב לא נסגר וחיוב לא בוצע, אין שום עלות.</p>
+      </details>
+
+      <details>
+        <summary>איפה אני רואה את הסבבים שאני בהם?</summary>
+        <p>בטאב "המוצרים שלי" בתחתית המסך. רואים שם את כל המוצרים שלכם — סבבים פעילים, מוצרים ששמרתם למועדפים, והזמנות שאישרתם.</p>
+      </details>
+
+      <details>
+        <summary>איך פונים לתמיכה?</summary>
+        <p>שולחים מייל ל-<a href="mailto:bundly.co.shop@gmail.com">bundly.co.shop@gmail.com</a>. אנחנו עונים בדרך כלל תוך 24 שעות.</p>
+      </details>
+    </section>
+
+    <!-- CTA סופי -->
+    <div class="cta">
+      <h2 style="display:block">מוכנים להתחיל?</h2>
+      <p>חברו לקנייה הקבוצתית הראשונה שלכם — וגלו כמה אפשר לחסוך כשאנחנו פועלים יחד.</p>
+      <a href="/" class="cta-btn">🚀 חזרה לאתר ולחיפוש מוצרים</a>
+    </div>
+  </div>
+</body>
+</html>
