@@ -1605,6 +1605,10 @@ function AuthModal({ t, onSuccess, onClose }) {
   const [street, setStreet]       = useState("");
   const [buildingNum, setBuildingNum]   = useState("");
   const [apartmentNum, setApartmentNum] = useState("");
+  // Required terms-acceptance checkbox — gates the signup flow's "Continue"
+  // button. Stored on the user record at registration time as
+  // termsAcceptedAt for audit / legal record.
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [prefs, setPrefs]     = useState({ sms: true, emailNotif: true, priceDrop: true, dealActivated: true, supplierJoined: true });
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
@@ -1709,13 +1713,14 @@ function AuthModal({ t, onSuccess, onClose }) {
     if (!city.trim()) { setError("בחר עיר"); return; }
     if (!street.trim()) { setError("בחר רחוב"); return; }
     if (!buildingNum.trim()) { setError("הכנס מספר בית"); return; }
+    if (!termsAccepted) { setError("יש לאשר את תקנון השימוש כדי להמשיך"); return; }
     setError(""); setLoading(true);
     const name = `${firstName.trim()} ${lastName.trim()}`;
     try {
       const res = await fetch("/api/auth/profile", {
         method: "PATCH",
         headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
-        body: JSON.stringify({ name, firstName: firstName.trim(), lastName: lastName.trim(), email, city, street, buildingNum, apartmentNum })
+        body: JSON.stringify({ name, firstName: firstName.trim(), lastName: lastName.trim(), email, city, street, buildingNum, apartmentNum, termsAcceptedAt: new Date().toISOString() })
       });
       if (!res.ok) throw new Error("Failed to save profile");
       setStep("prefs");
@@ -2027,7 +2032,27 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </div>
 
-            <Btn onClick={handleSaveProfile} disabled={loading} className="w-full" size="lg">
+            {/* Required terms-of-service consent — gates the "Continue"
+                button. The terms (public/terms.html) explicitly disclose
+                that the site is in Beta and may show wrong prices/images,
+                so users acknowledge they've read those caveats. */}
+            <label className="flex items-start gap-2.5 cursor-pointer select-none bg-indigo-50/50 border border-indigo-100 rounded-xl px-3 py-2.5">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-indigo-600 cursor-pointer flex-shrink-0"
+              />
+              <span className="text-[12px] text-gray-700 leading-snug">
+                קראתי ואני מסכים/ה ל
+                <a href="/terms.html" target="_blank" rel="noopener" className="text-indigo-700 font-bold underline mx-1">תקנון השימוש</a>
+                ול
+                <a href="/privacy.html" target="_blank" rel="noopener" className="text-indigo-700 font-bold underline mx-1">מדיניות הפרטיות</a>
+                . אני מודע/ת שהאתר בשלב הרצה (Beta), שייתכנו אי-דיוקים במחירים ובתמונות, ושהמחיר הסופי כפוף להצעת הספק.
+              </span>
+            </label>
+
+            <Btn onClick={handleSaveProfile} disabled={loading || !termsAccepted} className="w-full" size="lg">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "המשך →"}
             </Btn>
           </div>
@@ -5185,9 +5210,18 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 )}
               </div>
 
-              <h3 className="text-sm font-black text-gray-800 mb-3 flex items-center gap-2">
-                <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר — ככל שמצטרפים, חוסכים יותר
-              </h3>
+              <div className="mb-3">
+                <h3 className="text-sm font-black text-gray-800 flex items-center gap-2">
+                  <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר — ככל שמצטרפים, חוסכים יותר
+                </h3>
+                {/* Non-binding disclaimer — the numbers below are a
+                    suggested ladder for the supplier to bid against,
+                    NOT a binding promise of price at each tier. */}
+                <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-1.5 inline-flex items-center gap-1.5">
+                  <span>💡</span>
+                  <span><strong>רעיון למחיר</strong> — המחירים להלן הם הצעה בלבד וכפופים להצעת הספק הסופית.</span>
+                </p>
+              </div>
               <div className="space-y-1.5 mb-4">
                 {tiers.map((tier, i) => {
                   const isActive = active?.people === tier.people;
@@ -9005,17 +9039,29 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
             const catIcon = CAT_ICONS[p.catIdx] || "📦";
             const catName = CATEGORIES.he[p.catIdx] || "";
             const visual = CATEGORY_VISUAL_MAP[catName] || CATEGORY_VISUAL_MAP._default;
+            // Per user feedback 2026-05-15: ProductImage was re-querying the
+            // image API for every saved product and sometimes replacing the
+            // correct stored thumbnail with a wrong one (the API matches by
+            // query string and can drift). Use the image the user saw when
+            // they saved the product — that's by definition the right one.
+            const savedImg = p.image || visual.image;
             return (
               <div key={p.addedAt || i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:shadow-lg transition-all cursor-pointer"
                 onClick={() => onProductClick?.(p)}>
                 {/* Large image */}
                 <div className="relative aspect-square bg-gray-50 overflow-hidden">
-                  <ProductImage
-                    query={p.name || p.productName || ""}
-                    fallback={p.image || visual.image}
+                  <img
+                    src={savedImg}
                     alt={p.name || catName}
-                    className="w-full h-full"
-                    imgClassName="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    onError={(e) => {
+                      // If the stored URL is dead (rare — happens when a
+                      // ZAP CDN URL expires), fall back to the category visual.
+                      if (e.currentTarget.src !== visual.image) {
+                        e.currentTarget.src = visual.image;
+                      }
+                    }}
+                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Tier badge — top right */}
                   <span className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-sm ${tier.color}`}>
@@ -11186,6 +11232,61 @@ const QUERY_SUBTYPE_FILTERS = {
     include: ["xiaomi", "redmi", "poco", "mi "],
     exclude: ["iphone", "galaxy", "samsung", "pixel"],
   },
+
+  // ── קונסולות משחק & משחקים (sog=e-tvgame catch-all) ─────────────────────
+  // The catalog mixes PS5/PS4/Switch/Xbox consoles AND game titles. Without
+  // a subtype filter, a search for "PS5" returns Switch games and vice-versa.
+  "PS5":              { include: ["ps5", "playstation 5", "playstation5"],   exclude: ["ps4", "xbox", "nintendo", "switch"] },
+  "PS4":              { include: ["ps4", "playstation 4", "playstation4"],   exclude: ["ps5", "xbox", "nintendo", "switch"] },
+  "Nintendo Switch":  { include: ["nintendo", "switch"],                      exclude: ["ps5", "ps4", "xbox", "playstation"] },
+  "Xbox Series X":    { include: ["xbox series x", "xbox-series-x", "xss"],   exclude: ["series s", "ps5", "ps4", "nintendo", "switch"] },
+  "Xbox Series S":    { include: ["xbox series s", "xbox-series-s", "xsx"],   exclude: ["series x", "ps5", "ps4", "nintendo", "switch"] },
+  "ג'ויסטיקים ואביזרי משחק": {
+    include: ["controller", "joystick", "gamepad", "dualsense", "dualshock", "ג'ויסטיק", "בקר", "joy-con", "joycon", "elite"],
+    exclude: ["משחק", "game"],
+  },
+  "משחקי PS5":         { include: ["ps5", "playstation 5"], exclude: ["console", "controller", "ps4"] },
+  "משחקי Nintendo":    { include: ["nintendo", "switch"],   exclude: ["console", "joy-con", "joycon", "ps5", "ps4"] },
+
+  // ── בית חכם (sog=b-smarthome catch-all) ──────────────────────────────────
+  // All leaves share the same broad sog so "נורות LED חכמות" used to surface
+  // smart doorbells and motion sensors too. Narrow each leaf by keyword.
+  "נורות LED חכמות":   { include: ["bulb", "led bulb", "smart bulb", "נורה", "hue ", "lifx", "wiz"], exclude: ["doorbell", "פעמון", "sensor", "חיישן", "lock", "מנעול", "plug", "שקע"] },
+  "שקעים חכמים":       { include: ["plug", "socket", "smart plug", "שקע", "outlet"], exclude: ["bulb", "נורה", "doorbell", "פעמון", "sensor", "lock"] },
+  "פעמוני דלת חכמים (Video Doorbell)": { include: ["doorbell", "video doorbell", "פעמון דלת", "ring video", "nest doorbell"], exclude: ["bulb", "plug", "lock", "sensor"] },
+  "בקרי תאורה חכמים": { include: ["hub", "bridge", "controller", "dimmer", "switch", "מתג", "philips hue"], exclude: ["doorbell", "lock", "plug", "bulb"] },
+  "מנעולים חכמים":     { include: ["lock", "smart lock", "מנעול"], exclude: ["doorbell", "bulb", "plug", "sensor"] },
+  "חיישני תנועה":      { include: ["sensor", "motion", "חיישן", "occupancy", "pir"], exclude: ["doorbell", "lock", "bulb", "plug"] },
+
+  // ── כלי עבודה חשמליים (sog=b-powertools catch-all) ───────────────────────
+  // "מסורי דיסק" surfaced screwdrivers and drills because no narrowing.
+  "מברגות חשמליות":    { include: ["drill driver", "screwdriver", "מברגה", "impact driver"], exclude: ["jigsaw", "circular saw", "grinder", "מסור", "מטחנה"] },
+  "מקדחות חשמליות":    { include: ["drill", "hammer drill", "מקדח", "rotary hammer"], exclude: ["screwdriver", "מברגה", "jigsaw", "circular saw", "grinder", "מסור", "מטחנה"] },
+  "מסורי דיסק":         { include: ["circular saw", "מסור דיסק", "מסור עיגול", "track saw"], exclude: ["jigsaw", "jig saw", "ג'יגסאו", "drill", "מקדח", "screwdriver", "מברגה", "grinder", "מטחנה"] },
+  "מסורי ג'יגסאו":      { include: ["jigsaw", "jig saw", "ג'יגסאו"], exclude: ["circular saw", "מסור דיסק", "drill", "מקדח", "grinder", "מטחנה"] },
+  "מטחנות זווית":      { include: ["angle grinder", "grinder", "מטחנה", "disc grinder"], exclude: ["drill", "מקדח", "saw", "מסור", "screwdriver", "מברגה"] },
+  "מכשירי שיוף":       { include: ["sander", "polisher", "ליטוש", "שיוף", "orbital"], exclude: ["drill", "מקדח", "saw", "מסור", "grinder", "מטחנה"] },
+  "נעצות חשמליות":     { include: ["stapler", "nailer", "nail gun", "סיכון", "נעצות"], exclude: ["drill", "מקדח", "saw", "מסור"] },
+  "מפוחים חשמליים":    { include: ["blower", "מפוח", "leaf blower"], exclude: ["drill", "מקדח", "saw", "מסור"] },
+
+  // ── הסרת שיער (sog=e-hairremover catch-all) ──────────────────────────────
+  "אפילטורים חשמליים":  { include: ["epilator", "אפילטור", "silk-épil", "silk epil"], exclude: ["ipl", "laser", "wax", "שעווה"] },
+  "מכשירי IPL ביתי":    { include: ["ipl", "lumea", "silk-expert", "silk expert", "intense pulsed"], exclude: ["epilator", "אפילטור", "laser", "wax", "שעווה"] },
+  "מכשירי לייזר ביתי":   { include: ["laser", "diode laser", "לייזר"], exclude: ["ipl", "epilator", "אפילטור", "wax", "שעווה"] },
+  "מכשירי שעווה חשמלית": { include: ["wax", "warmer", "שעווה"], exclude: ["ipl", "laser", "epilator", "אפילטור"] },
+
+  // ── גילוח (sogs: e-shaver / e-ladyshaver) ────────────────────────────────
+  "מכשירי גילוח חשמליים לגברים": { include: ["shaver", "מגלח", "shaving", "series ", "oneblade"], exclude: ["lady", "women", "נשים", "beard trimmer alone", "מסיר שיער"] },
+  "מכשירי גילוח לנשים":          { include: ["lady shaver", "women", "lady", "נשים", "silk-épil"], exclude: ["beard", "men", "גברים"] },
+  "מגזמי זקן":                   { include: ["beard trimmer", "beard", "זקן", "מגזם"], exclude: ["full shaver", "lady", "נשים"] },
+
+  // ── טיפוח פנים (sog=e-beautymachine catch-all) ──────────────────────────
+  "מסכות LED לפנים":           { include: ["led mask", "מסכת led", "light therapy mask"], exclude: ["rf", "ultrasound", "microcurrent"] },
+  "מכשירי RF ביתי":            { include: ["rf ", " rf", "radio frequency", "tripollar"], exclude: ["led", "ultrasound", "microcurrent"] },
+  "מכשירי אולטרסאונד לפנים":   { include: ["ultrasound", "ultrasonic", "אולטרסאונד"], exclude: ["led", "rf", "microcurrent"] },
+  "מכשירי מיקרוקרנט":          { include: ["microcurrent", "מיקרוקרנט", "nuface"], exclude: ["led", "rf", "ultrasound"] },
+  "מכשירי ניקוי פנים חשמליים":  { include: ["cleansing", "ניקוי פנים", "facial brush", "foreo", "luna"], exclude: ["led", "rf", "ultrasound", "microcurrent"] },
+  "מכשירי ניקוי פנים סוניק":    { include: ["sonic", "סוניק", "foreo luna"], exclude: ["led", "rf"] },
 };
 
 // ─────────────────────────────────────────────────────────────────
