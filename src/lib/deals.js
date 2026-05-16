@@ -46,14 +46,45 @@ export function getDealStatus(deal) {
 }
 
 /**
- * Category-aware "you might also like" — same catIdx, within ±45% price.
- * Ranked by price closeness so accessories don't get suggested next to a TV.
- * Returns top 3.
+ * Sub-category-aware "you might also like" — only deals that share the
+ * leading Hebrew noun phrase of the reference deal's name.
+ *
+ * Was: matched by `catIdx` (top-level), which lumped refrigerators with
+ * washing machines and dishwashers under "home appliances". Per user
+ * feedback that's too loose — they want fridge↔fridge, not fridge↔TV.
+ *
+ * `subCategoryKey` pulls the Hebrew prefix before the first Latin or
+ * digit character. That's the natural product-type label in our data:
+ *   "מקרר Samsung 580L"          → "מקרר"
+ *   "מכונת כביסה LG 9 ק"ג"        → "מכונת כביסה"
+ *   "טלוויזיה Sony 55\" 4K"       → "טלוויזיה"
+ *   "MacBook Pro 16"             → "macbook" (Latin fallback)
+ *
+ * Catches all brand variants of the same product type without false
+ * positives across types.
  */
+function subCategoryKey(deal) {
+  const raw = deal?.name?.he
+    || deal?.name?.en
+    || deal?.productName
+    || deal?.title
+    || "";
+  const s = String(raw).trim();
+  if (!s) return "";
+  // Prefer the leading Hebrew word(s) before any Latin/digit character.
+  const heLead = s.match(/^[֐-׿\s'"]+/);
+  if (heLead && heLead[0].trim().length >= 2) return heLead[0].trim();
+  // No Hebrew prefix — fall back to the first Latin word, lower-cased.
+  const latinLead = s.match(/^[A-Za-z][A-Za-z0-9]*/);
+  return latinLead ? latinLead[0].toLowerCase() : s.slice(0, 12).toLowerCase();
+}
+
 export function getAlternatives(deal, allDeals) {
+  const refKey   = subCategoryKey(deal);
   const refPrice = deal.groupOffer || deal.marketMin || 0;
+  if (!refKey) return [];
   return allDeals
-    .filter(d => d.id !== deal.id && d.catIdx === deal.catIdx)
+    .filter(d => d.id !== deal.id && subCategoryKey(d) === refKey)
     .map(d => {
       const dPrice = d.groupOffer || d.marketMin || 0;
       const priceDiff = refPrice > 0 ? Math.abs(dPrice - refPrice) / refPrice : 1;
@@ -61,7 +92,7 @@ export function getAlternatives(deal, allDeals) {
       const priceScore = Math.max(0, Math.round((1 - priceDiff / 0.45) * 100));
       return { ...d, score: priceScore };
     })
-    .filter(d => d.score > 0)           // within ±45% price range, same category
+    .filter(d => d.score > 0)           // within ±45% price range, same sub-category
     .sort((a, b) => b.score - a.score)  // closest price first
     .slice(0, 3);
 }

@@ -1605,6 +1605,10 @@ function AuthModal({ t, onSuccess, onClose }) {
   const [street, setStreet]       = useState("");
   const [buildingNum, setBuildingNum]   = useState("");
   const [apartmentNum, setApartmentNum] = useState("");
+  // Required terms-acceptance checkbox — gates the signup flow's "Continue"
+  // button. Stored on the user record at registration time as
+  // termsAcceptedAt for audit / legal record.
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [prefs, setPrefs]     = useState({ sms: true, emailNotif: true, priceDrop: true, dealActivated: true, supplierJoined: true });
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
@@ -1709,13 +1713,14 @@ function AuthModal({ t, onSuccess, onClose }) {
     if (!city.trim()) { setError("בחר עיר"); return; }
     if (!street.trim()) { setError("בחר רחוב"); return; }
     if (!buildingNum.trim()) { setError("הכנס מספר בית"); return; }
+    if (!termsAccepted) { setError("יש לאשר את תקנון השימוש כדי להמשיך"); return; }
     setError(""); setLoading(true);
     const name = `${firstName.trim()} ${lastName.trim()}`;
     try {
       const res = await fetch("/api/auth/profile", {
         method: "PATCH",
         headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
-        body: JSON.stringify({ name, firstName: firstName.trim(), lastName: lastName.trim(), email, city, street, buildingNum, apartmentNum })
+        body: JSON.stringify({ name, firstName: firstName.trim(), lastName: lastName.trim(), email, city, street, buildingNum, apartmentNum, termsAcceptedAt: new Date().toISOString() })
       });
       if (!res.ok) throw new Error("Failed to save profile");
       setStep("prefs");
@@ -2027,7 +2032,27 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </div>
 
-            <Btn onClick={handleSaveProfile} disabled={loading} className="w-full" size="lg">
+            {/* Required terms-of-service consent — gates the "Continue"
+                button. The terms (public/terms.html) explicitly disclose
+                that the site is in Beta and may show wrong prices/images,
+                so users acknowledge they've read those caveats. */}
+            <label className="flex items-start gap-2.5 cursor-pointer select-none bg-indigo-50/50 border border-indigo-100 rounded-xl px-3 py-2.5">
+              <input
+                type="checkbox"
+                checked={termsAccepted}
+                onChange={(e) => setTermsAccepted(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-indigo-600 cursor-pointer flex-shrink-0"
+              />
+              <span className="text-[12px] text-gray-700 leading-snug">
+                קראתי ואני מסכים/ה ל
+                <a href="/terms.html" target="_blank" rel="noopener" className="text-indigo-700 font-bold underline mx-1">תקנון השימוש</a>
+                ול
+                <a href="/privacy.html" target="_blank" rel="noopener" className="text-indigo-700 font-bold underline mx-1">מדיניות הפרטיות</a>
+                . אני מודע/ת שהאתר בשלב הרצה (Beta), שייתכנו אי-דיוקים במחירים ובתמונות, ושהמחיר הסופי כפוף להצעת הספק.
+              </span>
+            </label>
+
+            <Btn onClick={handleSaveProfile} disabled={loading || !termsAccepted} className="w-full" size="lg">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "המשך →"}
             </Btn>
           </div>
@@ -2491,6 +2516,18 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
           {navItem("search", <Search className="w-4 h-4" />, t.navSearch)}
           {navItem("deals", <Tag className="w-4 h-4" />, t.activeGroups)}
           {navItem("personal", <Send className="w-4 h-4" />, t.personalRequest)}
+          {/* External link — opens the static how-it-works page in a new tab.
+              Visible on desktop and the mobile dropdown (see below). */}
+          <a
+            href="/how-it-works.html"
+            target="_blank"
+            rel="noopener"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition-all border border-violet-100"
+            title="איך זה עובד?"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>איך זה עובד?</span>
+          </a>
           {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
         </div>
 
@@ -2610,6 +2647,16 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                   {icon}{label}
                 </button>
               ))}
+              {/* "How it works" — opens a new tab, doesn't change mode. */}
+              <a
+                href="/how-it-works.html"
+                target="_blank"
+                rel="noopener"
+                onClick={closeMenu}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 border border-violet-100 hover:bg-violet-100 min-h-[44px]"
+              >
+                <Sparkles className="w-5 h-5" />איך זה עובד?
+              </a>
 
               {/* User-specific links */}
               {user && (
@@ -2721,8 +2768,10 @@ function SupplierNavbar({ supplier, onLogout, onExitToCustomer }) {
 //  TRUST STRIP
 // ─────────────────────────────────────────────────────────────────
 function TrustStrip({ t }) {
+  // Removed "ספקים מאומתים" (trustVerified) — supplier verification
+  // process isn't live yet, so claiming it on the home strip is misleading.
+  // Re-add once we have a real verification flow + supplier badging.
   const items = [
-    { icon: <BadgeCheck className="w-3.5 h-3.5 text-indigo-500" />, label: t.trustVerified },
     { icon: <Banknote className="w-3.5 h-3.5 text-emerald-500" />, label: t.trustNoPay },
     { icon: <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />, label: t.trustTransparent },
     { icon: <ThumbsUp className="w-3.5 h-3.5 text-violet-500" />, label: t.trustSafe },
@@ -2825,11 +2874,8 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-20 flex flex-col items-center text-center">
 
-        {/* Trust badge */}
-        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-5 backdrop-blur-sm shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-          {t.trustVerified}
-        </span>
+        {/* Trust badge removed — supplier verification isn't live yet,
+            so claiming "ספקים מאומתים" at the hero top was misleading. */}
 
         {/* Title */}
         <h1
@@ -4469,6 +4515,14 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         </span>
       </button>
 
+      {/* Reassurance — cancel-anytime guarantee under the join button.
+          Per user feedback: customers hesitate because they think saving
+          a card commits them. The green check + concise copy converts. */}
+      <div className="flex items-center justify-center gap-1.5 text-[12px] font-semibold text-emerald-700">
+        <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+        <span>ניתן לבטל בכל עת</span>
+      </div>
+
       {/* Secondary action — colourful bell pill, jingles on click */}
       <button
         onClick={ringBellAndJoin}
@@ -5158,21 +5212,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           const liveViewers = 8 + ((deal.id * 7) % 20);
           return (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
-              {/* ── Loss-aversion header strip ── */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <div className="flex-1 bg-red-50 border border-red-100 rounded-xl p-3">
-                  <p className="text-[10px] text-red-500 font-bold uppercase mb-0.5">בלי Bundly תשלם</p>
-                  <p className="text-base font-black text-red-700">₪{marketPrice.toLocaleString()}</p>
-                </div>
-                <div className="flex-1 bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                  <p className="text-[10px] text-emerald-600 font-bold uppercase mb-0.5">עכשיו עם הקבוצה</p>
-                  <p className="text-base font-black text-emerald-700">₪{currentGroupPrice.toLocaleString()}</p>
-                </div>
-                <div className="flex-1 bg-amber-50 border border-amber-100 rounded-xl p-3">
-                  <p className="text-[10px] text-amber-600 font-bold uppercase mb-0.5">חוסך</p>
-                  <p className="text-base font-black text-amber-700">₪{lossIfMissed.toLocaleString()}</p>
-                </div>
-              </div>
+              {/* Loss-aversion strip removed per user request 2026-05-15 —
+                  presenting a "savings" number against an opaque "market"
+                  price felt like inflated marketing. Tier pricing (below)
+                  already shows the discount narrative through real
+                  group-size milestones, no synthetic baseline needed. */}
 
               {/* ── Live signals strip ── */}
               <div className="flex items-center justify-between gap-2 mb-4 px-2 py-2 bg-gray-50 rounded-xl text-[11px]">
@@ -5188,9 +5232,18 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 )}
               </div>
 
-              <h3 className="text-sm font-black text-gray-800 mb-3 flex items-center gap-2">
-                <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר — ככל שמצטרפים, חוסכים יותר
-              </h3>
+              <div className="mb-3">
+                <h3 className="text-sm font-black text-gray-800 flex items-center gap-2">
+                  <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר — ככל שמצטרפים, חוסכים יותר
+                </h3>
+                {/* Non-binding disclaimer — the numbers below are a
+                    suggested ladder for the supplier to bid against,
+                    NOT a binding promise of price at each tier. */}
+                <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-1.5 inline-flex items-center gap-1.5">
+                  <span>💡</span>
+                  <span><strong>רעיון למחיר</strong> — המחירים להלן הם הצעה בלבד וכפופים להצעת הספק הסופית.</span>
+                </p>
+              </div>
               <div className="space-y-1.5 mb-4">
                 {tiers.map((tier, i) => {
                   const isActive = active?.people === tier.people;
@@ -9008,17 +9061,29 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
             const catIcon = CAT_ICONS[p.catIdx] || "📦";
             const catName = CATEGORIES.he[p.catIdx] || "";
             const visual = CATEGORY_VISUAL_MAP[catName] || CATEGORY_VISUAL_MAP._default;
+            // Per user feedback 2026-05-15: ProductImage was re-querying the
+            // image API for every saved product and sometimes replacing the
+            // correct stored thumbnail with a wrong one (the API matches by
+            // query string and can drift). Use the image the user saw when
+            // they saved the product — that's by definition the right one.
+            const savedImg = p.image || visual.image;
             return (
               <div key={p.addedAt || i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:shadow-lg transition-all cursor-pointer"
                 onClick={() => onProductClick?.(p)}>
                 {/* Large image */}
                 <div className="relative aspect-square bg-gray-50 overflow-hidden">
-                  <ProductImage
-                    query={p.name || p.productName || ""}
-                    fallback={p.image || visual.image}
+                  <img
+                    src={savedImg}
                     alt={p.name || catName}
-                    className="w-full h-full"
-                    imgClassName="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    onError={(e) => {
+                      // If the stored URL is dead (rare — happens when a
+                      // ZAP CDN URL expires), fall back to the category visual.
+                      if (e.currentTarget.src !== visual.image) {
+                        e.currentTarget.src = visual.image;
+                      }
+                    }}
+                    className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Tier badge — top right */}
                   <span className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-sm ${tier.color}`}>
@@ -11189,6 +11254,61 @@ const QUERY_SUBTYPE_FILTERS = {
     include: ["xiaomi", "redmi", "poco", "mi "],
     exclude: ["iphone", "galaxy", "samsung", "pixel"],
   },
+
+  // ── קונסולות משחק & משחקים (sog=e-tvgame catch-all) ─────────────────────
+  // The catalog mixes PS5/PS4/Switch/Xbox consoles AND game titles. Without
+  // a subtype filter, a search for "PS5" returns Switch games and vice-versa.
+  "PS5":              { include: ["ps5", "playstation 5", "playstation5"],   exclude: ["ps4", "xbox", "nintendo", "switch"] },
+  "PS4":              { include: ["ps4", "playstation 4", "playstation4"],   exclude: ["ps5", "xbox", "nintendo", "switch"] },
+  "Nintendo Switch":  { include: ["nintendo", "switch"],                      exclude: ["ps5", "ps4", "xbox", "playstation"] },
+  "Xbox Series X":    { include: ["xbox series x", "xbox-series-x", "xss"],   exclude: ["series s", "ps5", "ps4", "nintendo", "switch"] },
+  "Xbox Series S":    { include: ["xbox series s", "xbox-series-s", "xsx"],   exclude: ["series x", "ps5", "ps4", "nintendo", "switch"] },
+  "ג'ויסטיקים ואביזרי משחק": {
+    include: ["controller", "joystick", "gamepad", "dualsense", "dualshock", "ג'ויסטיק", "בקר", "joy-con", "joycon", "elite"],
+    exclude: ["משחק", "game"],
+  },
+  "משחקי PS5":         { include: ["ps5", "playstation 5"], exclude: ["console", "controller", "ps4"] },
+  "משחקי Nintendo":    { include: ["nintendo", "switch"],   exclude: ["console", "joy-con", "joycon", "ps5", "ps4"] },
+
+  // ── בית חכם (sog=b-smarthome catch-all) ──────────────────────────────────
+  // All leaves share the same broad sog so "נורות LED חכמות" used to surface
+  // smart doorbells and motion sensors too. Narrow each leaf by keyword.
+  "נורות LED חכמות":   { include: ["bulb", "led bulb", "smart bulb", "נורה", "hue ", "lifx", "wiz"], exclude: ["doorbell", "פעמון", "sensor", "חיישן", "lock", "מנעול", "plug", "שקע"] },
+  "שקעים חכמים":       { include: ["plug", "socket", "smart plug", "שקע", "outlet"], exclude: ["bulb", "נורה", "doorbell", "פעמון", "sensor", "lock"] },
+  "פעמוני דלת חכמים (Video Doorbell)": { include: ["doorbell", "video doorbell", "פעמון דלת", "ring video", "nest doorbell"], exclude: ["bulb", "plug", "lock", "sensor"] },
+  "בקרי תאורה חכמים": { include: ["hub", "bridge", "controller", "dimmer", "switch", "מתג", "philips hue"], exclude: ["doorbell", "lock", "plug", "bulb"] },
+  "מנעולים חכמים":     { include: ["lock", "smart lock", "מנעול"], exclude: ["doorbell", "bulb", "plug", "sensor"] },
+  "חיישני תנועה":      { include: ["sensor", "motion", "חיישן", "occupancy", "pir"], exclude: ["doorbell", "lock", "bulb", "plug"] },
+
+  // ── כלי עבודה חשמליים (sog=b-powertools catch-all) ───────────────────────
+  // "מסורי דיסק" surfaced screwdrivers and drills because no narrowing.
+  "מברגות חשמליות":    { include: ["drill driver", "screwdriver", "מברגה", "impact driver"], exclude: ["jigsaw", "circular saw", "grinder", "מסור", "מטחנה"] },
+  "מקדחות חשמליות":    { include: ["drill", "hammer drill", "מקדח", "rotary hammer"], exclude: ["screwdriver", "מברגה", "jigsaw", "circular saw", "grinder", "מסור", "מטחנה"] },
+  "מסורי דיסק":         { include: ["circular saw", "מסור דיסק", "מסור עיגול", "track saw"], exclude: ["jigsaw", "jig saw", "ג'יגסאו", "drill", "מקדח", "screwdriver", "מברגה", "grinder", "מטחנה"] },
+  "מסורי ג'יגסאו":      { include: ["jigsaw", "jig saw", "ג'יגסאו"], exclude: ["circular saw", "מסור דיסק", "drill", "מקדח", "grinder", "מטחנה"] },
+  "מטחנות זווית":      { include: ["angle grinder", "grinder", "מטחנה", "disc grinder"], exclude: ["drill", "מקדח", "saw", "מסור", "screwdriver", "מברגה"] },
+  "מכשירי שיוף":       { include: ["sander", "polisher", "ליטוש", "שיוף", "orbital"], exclude: ["drill", "מקדח", "saw", "מסור", "grinder", "מטחנה"] },
+  "נעצות חשמליות":     { include: ["stapler", "nailer", "nail gun", "סיכון", "נעצות"], exclude: ["drill", "מקדח", "saw", "מסור"] },
+  "מפוחים חשמליים":    { include: ["blower", "מפוח", "leaf blower"], exclude: ["drill", "מקדח", "saw", "מסור"] },
+
+  // ── הסרת שיער (sog=e-hairremover catch-all) ──────────────────────────────
+  "אפילטורים חשמליים":  { include: ["epilator", "אפילטור", "silk-épil", "silk epil"], exclude: ["ipl", "laser", "wax", "שעווה"] },
+  "מכשירי IPL ביתי":    { include: ["ipl", "lumea", "silk-expert", "silk expert", "intense pulsed"], exclude: ["epilator", "אפילטור", "laser", "wax", "שעווה"] },
+  "מכשירי לייזר ביתי":   { include: ["laser", "diode laser", "לייזר"], exclude: ["ipl", "epilator", "אפילטור", "wax", "שעווה"] },
+  "מכשירי שעווה חשמלית": { include: ["wax", "warmer", "שעווה"], exclude: ["ipl", "laser", "epilator", "אפילטור"] },
+
+  // ── גילוח (sogs: e-shaver / e-ladyshaver) ────────────────────────────────
+  "מכשירי גילוח חשמליים לגברים": { include: ["shaver", "מגלח", "shaving", "series ", "oneblade"], exclude: ["lady", "women", "נשים", "beard trimmer alone", "מסיר שיער"] },
+  "מכשירי גילוח לנשים":          { include: ["lady shaver", "women", "lady", "נשים", "silk-épil"], exclude: ["beard", "men", "גברים"] },
+  "מגזמי זקן":                   { include: ["beard trimmer", "beard", "זקן", "מגזם"], exclude: ["full shaver", "lady", "נשים"] },
+
+  // ── טיפוח פנים (sog=e-beautymachine catch-all) ──────────────────────────
+  "מסכות LED לפנים":           { include: ["led mask", "מסכת led", "light therapy mask"], exclude: ["rf", "ultrasound", "microcurrent"] },
+  "מכשירי RF ביתי":            { include: ["rf ", " rf", "radio frequency", "tripollar"], exclude: ["led", "ultrasound", "microcurrent"] },
+  "מכשירי אולטרסאונד לפנים":   { include: ["ultrasound", "ultrasonic", "אולטרסאונד"], exclude: ["led", "rf", "microcurrent"] },
+  "מכשירי מיקרוקרנט":          { include: ["microcurrent", "מיקרוקרנט", "nuface"], exclude: ["led", "rf", "ultrasound"] },
+  "מכשירי ניקוי פנים חשמליים":  { include: ["cleansing", "ניקוי פנים", "facial brush", "foreo", "luna"], exclude: ["led", "rf", "ultrasound", "microcurrent"] },
+  "מכשירי ניקוי פנים סוניק":    { include: ["sonic", "סוניק", "foreo luna"], exclude: ["led", "rf"] },
 };
 
 // ─────────────────────────────────────────────────────────────────
@@ -12950,9 +13070,17 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   };
 
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
-      {/* ── Sticky header ─────────────────────────────────────── */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
+    // pb-24 on mobile (md:pb-0 on desktop) makes room at the bottom for
+    // the floating MobileBottomNav (~60px + safe-area). Without it the
+    // pagination strip at the bottom of the results gets clipped behind
+    // the nav and users have to scroll-bounce to reveal page-2 etc.
+    <div className="min-h-screen bg-gray-50 pb-24 md:pb-0" dir="rtl">
+      {/* ── Sticky header ─────────────────────────────────────────────
+          IMPORTANT: top offset must clear the global <Navbar> (sticky
+          top-0 z-40, 3.75rem tall). Without it the navbar covers this
+          header on scroll and the "חזרה" / "B home" buttons become
+          unreachable on mobile — that was the bug. */}
+      <div className="sticky z-30 bg-white border-b border-gray-100 shadow-sm" style={{ top: "3.75rem" }}>
         <div className="max-w-7xl mx-auto px-4">
 
           {/* Title row */}
@@ -17687,6 +17815,37 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
   const [joined, setJoined] = useState(false);
   const [saved, setSaved] = useState(isSaved);
   const [showPicker, setShowPicker] = useState(false);
+  // "Send to suppliers" private-request path — bundle is dispatched to
+  // every approved supplier as a personal request, without making the
+  // bundle public on the deals feed.
+  const [sentToSuppliers, setSentToSuppliers] = useState(false);
+  const [sendingToSuppliers, setSendingToSuppliers] = useState(false);
+  const sendBundleToSuppliers = async () => {
+    if (sendingToSuppliers || sentToSuppliers) return;
+    setSendingToSuppliers(true);
+    try {
+      const tok = localStorage.getItem("bundly_token") || "";
+      const desc = prods.map(p => `• ${p.name}${p.marketPrice ? ` (₪${p.marketPrice})` : ""}`).join("\n");
+      const res = await fetch("/api/personal-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+        body: JSON.stringify({
+          product:  `חבילה: ${bundle.title}`,
+          category: "חבילות חכמות",
+          budget:   String(bundlePrice || ""),
+          desc:     `בקשת הצעה לחבילה (${prods.length} מוצרים, שווי שוק ₪${totalMarket.toLocaleString()}):\n${desc}`,
+          isSpecificModel: false,
+          productImage: prods[0]?.image || null,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setSentToSuppliers(true);
+    } catch (e) {
+      alert(`לא הצלחנו לשלוח את הבקשה לספקים: ${e.message}`);
+    } finally {
+      setSendingToSuppliers(false);
+    }
+  };
 
   // Persist any product list change to parent (fires on add/remove).
   // Accepts an array OR a functional updater to avoid stale-closure issues
@@ -17851,7 +18010,27 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
               className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black rounded-2xl text-sm transition shadow-lg shadow-indigo-200/50 active:scale-[0.98] flex items-center justify-center gap-2"
             >
               <Package className="w-4 h-4" />
-              אני רוצה את החבילה הזו ✅
+              הצטרפו לקבוצת הרכישה לחבילה
+            </button>
+          )}
+
+          {/* Private path — send the bundle directly to suppliers without
+              joining a public group. Hides itself once sent so the user
+              has clear confirmation. Per user request 2026-05-15. */}
+          {sentToSuppliers ? (
+            <div className="bg-sky-50 border border-sky-200 rounded-2xl p-3 text-center">
+              <BadgeCheck className="w-6 h-6 text-sky-500 mx-auto mb-1" />
+              <p className="font-black text-sky-800 text-xs">הבקשה נשלחה לכל הספקים</p>
+              <p className="text-[11px] text-sky-600 mt-0.5">ספקים שיענו ישלחו לך הצעת מחיר ישירות</p>
+            </div>
+          ) : (
+            <button
+              onClick={sendBundleToSuppliers}
+              disabled={sendingToSuppliers}
+              className="w-full py-3 bg-white border-2 border-indigo-200 hover:border-indigo-300 hover:bg-indigo-50 text-indigo-700 font-bold rounded-2xl text-[13px] transition active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-wait"
+            >
+              <Send className="w-4 h-4" />
+              {sendingToSuppliers ? "שולח לספקים..." : "שלחו את החבילה ישירות לספקים (ללא הצטרפות לקבוצה)"}
             </button>
           )}
         </div>
@@ -20794,7 +20973,10 @@ export default function App() {
   // they're in supplier mode. Customer flows keep the standard Navbar.
   const isSupplierMode = mode === "supplier-dashboard" && currentSupplier;
   return (
-    <div dir={t.dir} className="min-h-screen bg-gray-50">
+    // pb-24 on mobile so the MobileBottomNav (fixed bottom-0, ~80px tall
+    // with safe-area) doesn't clip the final card / pagination of every
+    // page. Desktop renders the nav with `md:hidden` so no padding needed.
+    <div dir={t.dir} className="min-h-screen bg-gray-50 pb-24 md:pb-0">
       {isSupplierMode ? (
         <SupplierNavbar
           supplier={currentSupplier}

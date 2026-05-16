@@ -135,6 +135,7 @@ try {
     sendOrderStatusEmail:        emailMod.sendOrderStatusEmail,
     sendKycDecisionEmail:        emailMod.sendKycDecisionEmail,
     sendDisputeResolutionEmail:  emailMod.sendDisputeResolutionEmail,
+    sendDealMemberJoinedEmail:   emailMod.sendDealMemberJoinedEmail,
     sendOrderStatusSms:          smsMod.sendOrderStatusSms,
   };
   AUTH_READY = true;
@@ -11126,6 +11127,72 @@ app.post("/api/users/:userId/recommendations", requireUserMatchOrAnon, express.j
   res.json({ profile: heuristic, recommendations: scored.slice(0, limit), source: "personalized" });
 });
 
+// ── Deal-momentum notifications ─────────────────────────────────
+// Fires when a NEW member joins a deal, emailing every OTHER member so
+// they see the count climbing. Two safety nets keep this from turning
+// into a spam fountain:
+//   • Per-recipient cooldown: each (userId, dealId) pair gets at most
+//     one email every NOTIFY_COOLDOWN_MS. If 20 people join in a minute,
+//     each existing member still only receives one email.
+//   • Hard cap: never blast more than NOTIFY_MAX_FANOUT recipients in a
+//     single broadcast — very large deals would otherwise hit Gmail's
+//     500 / day SMTP limit on the first big surge.
+const NOTIFY_COOLDOWN_MS = 30 * 60 * 1000;   // 30 min per (member, deal)
+const NOTIFY_MAX_FANOUT  = 80;               // max emails per broadcast
+const _joinNotifyLast = new Map();           // `${userId}:${dealId}` → ms
+async function _broadcastDealJoined(dealId, joinerUserId, joinerName) {
+  if (!AUTH_READY) return;
+  const send = globalThis._notif?.sendDealMemberJoinedEmail;
+  if (!send) return;
+
+  let deal, members, users;
+  try {
+    const dbSnap = _prodDb.load();
+    members = _prodDb.listJoinedDealsByDealId
+      ? _prodDb.listJoinedDealsByDealId(dealId)
+      : (dbSnap.joinedDeals || []).filter(j => String(j.dealId) === String(dealId));
+    users   = dbSnap.users || [];
+    // Look up deal metadata (product name + min size + link). Deals come
+    // from getActiveDeals/deals collection — we lift from the live snapshot.
+    deal = (dbSnap.deals || []).find(d => String(d.id) === String(dealId)) || null;
+  } catch (e) {
+    console.warn(`[joinNotify] db lookup failed: ${e.message}`);
+    return;
+  }
+
+  if (!members.length) return;
+  const otherMembers = members.filter(m => Number(m.userId) !== Number(joinerUserId));
+  if (otherMembers.length === 0) return;
+
+  const productName  = deal?.productName || deal?.title || "המוצר שלך";
+  const currentCount = members.length;
+  const targetCount  = Number(deal?.minSize || deal?.maxParticipants || 0);
+  const link         = deal?.id
+    ? `https://www.bundly.co/?deal=${encodeURIComponent(deal.id)}`
+    : `https://www.bundly.co/`;
+
+  const now = Date.now();
+  let sent = 0, skipped = 0;
+  for (const m of otherMembers) {
+    if (sent >= NOTIFY_MAX_FANOUT) break;
+    const key  = `${m.userId}:${dealId}`;
+    const prev = _joinNotifyLast.get(key) || 0;
+    if (now - prev < NOTIFY_COOLDOWN_MS) { skipped++; continue; }
+    const u = users.find(x => Number(x.id) === Number(m.userId));
+    if (!u?.email) continue;
+    _joinNotifyLast.set(key, now);
+    try {
+      await send(u.email, { productName, joinerName, currentCount, targetCount, link });
+      sent++;
+    } catch (e) {
+      console.warn(`[joinNotify] send to ${u.email.slice(0,4)}... failed: ${e.message}`);
+    }
+  }
+  if (sent > 0 || skipped > 0) {
+    console.log(`  ↳ [joinNotify] deal ${dealId}: emailed ${sent}, throttled ${skipped}, total members ${members.length}`);
+  }
+}
+
 // ── Card-on-file flow: NEW deposit-without-charge ─────────────
 // Old hold-spot/commit-deposit endpoints have been re-pointed at Stripe
 // SetupIntent. Behaviour change:
@@ -11174,8 +11241,20 @@ async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
   // Stash the customer id on the join record so the close-time job knows
   // which Stripe customer to charge. paymentMethodId fills in after the
   // frontend confirms the SetupIntent and tells us the resulting PM id.
+  let isNewJoin = false;
   try {
     if (userId) {
+      // Was this user already in the deal? Drives whether we fire the
+      // "new member joined" broadcast below — re-joins (e.g. switching
+      // tier from watching → committed) shouldn't re-spam everyone.
+      try {
+        const existingJoins = _prodDb.listJoinedDealsByDealId
+          ? _prodDb.listJoinedDealsByDealId(dealId)
+          : (_prodDb.load().joinedDeals || []).filter(j => String(j.dealId) === String(dealId));
+        const prev = existingJoins.find(j => Number(j.userId) === Number(userId));
+        isNewJoin = !prev;
+      } catch (_) { isNewJoin = true; }
+
       _prodDb.upsertJoinedDeal({ userId, dealId, tier });
       _prodDb.updateJoinedDealPayment?.(userId, dealId, {
         stripeCustomerId: cust.customerId,
@@ -11184,6 +11263,17 @@ async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
       });
     }
   } catch (_) {}
+
+  // Fire-and-forget: email every other member so they see the count rise.
+  // Wrapped in setImmediate so the API response returns instantly — the
+  // broadcast (which iterates members and hits Gmail SMTP per recipient)
+  // runs after we've already responded to the joiner's request.
+  if (isNewJoin && userId) {
+    setImmediate(() => {
+      _broadcastDealJoined(dealId, userId, user?.name || "")
+        .catch(e => console.warn(`[joinNotify] broadcast error: ${e.message}`));
+    });
+  }
 
   // Admin alert
   try {
@@ -13223,21 +13313,24 @@ ${process.env.BUNDLY_SUPPORT_PHONE ? `- **טלפון:** ${process.env.BUNDLY_SUP
 
     console.log(`[Chat] searchQuery: ${searchQuery}, redirectToResults: ${redirectToResults}, gptIsAsking: ${gptIsAsking}`);
 
-    // ── Smart price floor: when user only gives priceMax ("עד 15000"),
-    // compute a reasonable priceMin so the results page doesn't show
-    // a huge range like ₪900–₪15,000.
-    // Category-aware: phones have wider range (25%), laptops/TVs tighter (40%)
+    // ── Smart price floor — keep the range tight even when the user
+    // only gave a ceiling.
+    // Per user feedback 2026-05-15: "עד 6500" was returning ₪300 → ₪6500
+    // which is way too wide; bidders end up scrolling past entry-level
+    // accessories before they see anything in their actual budget.
+    // Fixed 50% floor (min = max × 0.5) gives a focused band — for ₪6500
+    // they see ₪3250–₪6500. Category-specific tuning removed in favour
+    // of one predictable rule.
     let filterPriceMin = filters.priceMin || null;
     let filterPriceMax = filters.priceMax || null;
-    if (filterPriceMax && !filterPriceMin) {
-      const floorPct = /phone|smartphone|טלפון|סלולרי/.test(catEn || catHintRaw || "")
-        ? 0.25   // phones: ₪4000 → floor ₪1000 (wide range for budget→mid)
-        : /tablet|טאבלט|headphones|אוזניות|smartwatch|שעון/.test(catEn || catHintRaw || "")
-        ? 0.30   // accessories/tablets: moderate range
-        : 0.40;  // laptops, TVs, monitors: tighter range
-      filterPriceMin = Math.round(filterPriceMax * floorPct / 100) * 100;
-      if (filterPriceMin < 100) filterPriceMin = 100; // minimum floor ₪100
-      console.log(`[Chat] Smart price floor (${Math.round(floorPct*100)}%): ₪${filterPriceMin}–₪${filterPriceMax} [cat: ${catEn || catHintRaw || "unknown"}]`);
+    if (filterPriceMax) {
+      const computedFloor = Math.max(100, Math.round(filterPriceMax * 0.5 / 100) * 100);
+      // Apply when user didn't give a min, OR gave one that's looser than 50% (which
+      // would still produce the wide-range complaint we're trying to fix).
+      if (!filterPriceMin || filterPriceMin < computedFloor) {
+        filterPriceMin = computedFloor;
+        console.log(`[Chat] Smart price floor (50%): ₪${filterPriceMin}–₪${filterPriceMax}`);
+      }
     }
 
     // Normalize brands to English for frontend brand filtering
