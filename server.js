@@ -6122,6 +6122,14 @@ const SOG_CONTENT_GUARDS = {
     requireAny: ["headphone", "אוזניות", "earphone", "earbud", "buds", "airpods", "headset", "אוזניה"],
     rejectAny:  ["speaker", "soundbar", "tv ", "טלוויזיה", "smartphone", "סמארטפון", "case alone", "charger only"],
   },
+  "c-speakers": {
+    name: "רמקולים למחשב",
+    // Computer speakers — keywords cover the popular product lines (Logitech
+    // Z-series, Creative Pebble, Edifier R-series, Harman Sound Sticks, etc.)
+    // plus generic "2.1", "2.0" suffixes that appear on most PC-audio sets.
+    requireAny: ["pc speaker", "computer speaker", "רמקול למחשב", "רמקולי מחשב", "logitech z", "creative pebble", "edifier", "harman soundsticks", "razer nommo", "razer leviathan", "klipsch promedia", "2.1", "2.0", "5.1", "usb speaker"],
+    rejectAny:  ["soundbar", "סאונד בר", "טלוויזיה", "tv ", "headphone", "אוזניות", "buds", "earbud", "in-ceiling", "outdoor speaker"],
+  },
   "e-fridge": {
     name: "מקרר",
     requireAny: ["fridge", "מקרר", "refrigerator", "freezer integrated"],
@@ -7050,12 +7058,14 @@ const PREWARM_CATEGORIES = [
   ["e-tvgame",          null],  // קונסולות משחק
   ["e-mediaplayer",     null],  // סטרימרים
   // ── Computers ────────────────────────────────────────────────────────────
-  ["c-pcdesktop",       null],  // מחשבים נייחים
+  ["c-pcdesktop",       null],  // מחשבים נייחים — sparse, still warm for legacy paths
+  ["c-brandpc",         null],  // מחשבים נייחים (Brand PCs) — real desktop catalogue
   ["c-monitor",         null],  // מסכי מחשב
   ["c-graphiccard",     null],  // כרטיסי מסך
   ["c-keyboard",        null],  // מקלדות
   ["c-mouse",           null],  // עכברים
   ["c-printer",         null],  // מדפסות
+  ["c-speakers",        null],  // רמקולים למחשב
   ["c-webcam",          null],  // מצלמות רשת
   ["c-gamingchair",     null],  // כסאות גיימינג
   // ── Audio / Video ────────────────────────────────────────────────────────
