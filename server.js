@@ -6088,6 +6088,15 @@ const SOG_CONTENT_GUARDS = {
     requireAny: ["desktop", "מחשב נייח", "מחשב שולחני", "tower", "all-in-one", "all in one", "aio", "imac", "mac mini", "mini pc", "intel nuc", "סטיישן", "workstation"],
     rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "media player", "soundbar", "סאונד בר", "טלוויזיה", "monitor", "מסך", "tablet", "טאבלט", "laptop", "מחשב נייד", "notebook", "smartphone", "סמארטפון", "iphone", "אייפון"],
   },
+  "c-brandpc": {
+    // Same content rules as c-pcdesktop — c-brandpc is ZAP's branded-desktop
+    // sog (Lenovo ThinkCentre, Apple Mac Mini, Dell OptiPlex, HP EliteDesk).
+    // We re-routed "מחשב נייח" here because c-pcdesktop has only ~10 entries
+    // and is contaminated. Same whitelist/blacklist keeps the page clean.
+    name: "מחשב נייח (Brand PC)",
+    requireAny: ["desktop", "מחשב נייח", "מחשב שולחני", "tower", "all-in-one", "all in one", "aio", "imac", "mac mini", "mini pc", "intel nuc", "סטיישן", "workstation", "thinkcentre", "optiplex", "elitedesk", "prodesk"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "media player", "soundbar", "סאונד בר", "טלוויזיה", "monitor", "מסך", "tablet", "טאבלט", "laptop", "מחשב נייד", "notebook", "smartphone", "סמארטפון", "iphone", "אייפון"],
+  },
   "c-pclaptop": {
     name: "מחשב נייד",
     requireAny: ["laptop", "notebook", "מחשב נייד", "macbook", "chromebook", "thinkpad", "ideapad", "vivobook", "zenbook", "envy", "pavilion", "rog", "legion", "predator", "nitro", "yoga", "victus", "tuf gaming", "surface laptop", "latitude", "inspiron"],
@@ -6188,8 +6197,13 @@ const ZAP_SOG_MAP = {
   "MacBook Air": "c-pclaptop",
   "MacBook Pro": "c-pclaptop", "Chromebook": "c-pclaptop",
   // ── מחשבים נייחים ──────────────────────────────────────────────────────────
-  "מחשבים נייחים": "c-pcdesktop", "מחשב נייח": "c-pcdesktop",
-  "מחשבים שולחניים": "c-pcdesktop", "מחשב שולחני": "c-pcdesktop",
+  // Was c-pcdesktop, but that sog only has ~10 cached entries and is heavily
+  // contaminated (Xiaomi TV streamers tagged as desktops). c-brandpc carries
+  // ~910 real branded desktops (Lenovo ThinkCentre, Apple Mac Mini, Dell
+  // OptiPlex, HP EliteDesk, etc.) — 428 of them explicitly labelled
+  // "מחשב נייח" in their titles. That's the correct sog for this query.
+  "מחשבים נייחים": "c-brandpc", "מחשב נייח": "c-brandpc",
+  "מחשבים שולחניים": "c-brandpc", "מחשב שולחני": "c-brandpc",
   // ── ציוד מחשב היקפי ────────────────────────────────────────────────────────
   "טאבלטים": "c-tabletpc", "טאבלט": "c-tabletpc",
   "מסכי מחשב": "c-monitor", "מסך מחשב": "c-monitor",
@@ -6281,9 +6295,11 @@ const ZAP_SOG_MAP = {
   "מסכי": "c-monitor",
   // ── מחשבים נוספים ─────────────────────────────────────────────────────────
   "מחשבים ניידים לעסקים": "c-pclaptop",
-  "מחשבי All-in-One": "c-pcdesktop",
-  "מחשבי גיימינג": "c-pcdesktop",
-  "Mac Mini": "c-pcdesktop", "iMac": "c-pcdesktop",
+  // All desktop variants → c-brandpc (real catalogue with 910 desktops),
+  // NOT c-pcdesktop (sparse, contaminated with TV streamers).
+  "מחשבי All-in-One": "c-brandpc",
+  "מחשבי גיימינג": "c-brandpc",
+  "Mac Mini": "c-brandpc", "iMac": "c-brandpc",
   // ── טאבלטים ───────────────────────────────────────────────────────────────
   "טאבלטים לילדים": "c-tabletpc",
   "iPad Pro": "c-tabletpc", "iPad Air": "c-tabletpc", "iPad": "c-tabletpc",
