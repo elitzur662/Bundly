@@ -249,3 +249,51 @@ export async function sendDealActivatedEmail(to, { productName, price, participa
     `),
   });
 }
+
+// Fired when a NEW member joins a deal — emails every existing member so
+// they can feel the momentum and stay engaged. Subject + body emphasise
+// the rising count and the gap to the next price tier (when known).
+export async function sendDealMemberJoinedEmail(to, {
+  productName,
+  joinerName,        // optional — display "אנונימי" if missing for privacy
+  currentCount,
+  targetCount,       // min size needed to activate the deal
+  link,
+}) {
+  if (!process.env.EMAIL_USER || !to) return;
+  const remaining = targetCount && currentCount < targetCount
+    ? Math.max(0, targetCount - currentCount)
+    : 0;
+  const subject = remaining > 0
+    ? `🎉 עוד משתתף הצטרף — ${currentCount} כבר בסבב של ${productName}`
+    : `🔥 הסבב מתמלא! ${currentCount} משתתפים על ${productName}`;
+  const progressBar = targetCount
+    ? `
+      <div style="background:#f3f4f6;border-radius:999px;height:8px;overflow:hidden;margin:14px 0">
+        <div style="background:linear-gradient(90deg,#7e22ce,#c084fc);height:8px;width:${Math.min(100, Math.round((currentCount / targetCount) * 100))}%"></div>
+      </div>
+      <p style="text-align:center;font-size:13px;color:#6b7280;margin:0">
+        ${currentCount} / ${targetCount} משתתפים
+      </p>`
+    : "";
+  const cta = remaining > 0
+    ? `<p style="font-size:15px;margin-top:14px">עוד <strong>${remaining}</strong> משתתפים ונפעיל מחיר קבוצתי נמוך יותר. שתפו עם חברים — כל מצטרף מקרב את כולם להנחה.</p>`
+    : `<p style="font-size:15px;margin-top:14px">הקבוצה כבר מספיק גדולה כדי להפעיל מחיר נמוך — אנחנו ניצור קשר ברגע שהסבב נסגר.</p>`;
+  await transporter.sendMail({
+    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    to,
+    subject,
+    html: baseTemplate(`
+      <h2>🎉 ${joinerName || "משתתף חדש"} הצטרף לסבב</h2>
+      <div class="highlight">
+        <p style="margin:0;font-weight:700">${productName}</p>
+        ${progressBar}
+      </div>
+      ${cta}
+      ${link ? `<a class="btn" href="${link}">לצפייה בסבב ←</a>` : ""}
+      <p style="font-size:11px;color:#9ca3af;text-align:center;margin-top:18px">
+        עדכון זה נשלח כי הצטרפת לסבב. ניתן להפסיק עדכונים בכל עת מ"הסבבים שלי" באתר.
+      </p>
+    `),
+  });
+}
