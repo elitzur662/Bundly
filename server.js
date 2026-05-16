@@ -4685,6 +4685,64 @@ app.get("/api/search-products-stream",
               _phase: "final",
             };
           });
+        // ── Merge UNIQUE products from KSP + Bug ─────────────────────────────
+        // Was: finalProducts only contained products that had a ZAP candidate
+        // entry. When the ZAP cache for the sog was thin (e.g. c-pcdesktop had
+        // 10 models cached, 0 priced after model-page fetches), KSP's 34
+        // results and Bug's 20 results were thrown away even though they were
+        // real laptops/desktops. User saw 10 products when they should have
+        // seen ~55. Now we add KSP/Bug products that don't already match a
+        // ZAP entry by title.
+        const _existingTitles = new Set(finalProducts.map(p => _normaliseTitle(p.nameEn || "")));
+        const _isDupeOfExisting = (title) => {
+          const k = _normaliseTitle(title);
+          if (_existingTitles.has(k)) return true;
+          for (const t of _existingTitles) {
+            if (t && (k.includes(t.slice(0, 30)) || t.includes(k.slice(0, 30)))) return true;
+          }
+          return false;
+        };
+        const _extraSources = [
+          ...kspRaw.map(r => ({ src: "ksp", ...r })),
+          ...kspCatFallback.map(r => ({ src: "ksp", ...r })),
+          ...bugRaw.map(r => ({ src: "bug", ...r })),
+        ];
+        let extraAdded = 0;
+        for (const r of _extraSources) {
+          if (!r?.title || r.price <= 0) continue;
+          if (_isDupeOfExisting(r.title)) continue;
+          _existingTitles.add(_normaliseTitle(r.title));
+          finalProducts.push({
+            _streamKey: `${r.src}-${r.link?.match(/(\d+)/)?.[1] || extraAdded}`,
+            nameEn:     r.title,
+            nameHe:     null,
+            model:      null,
+            specs:      [],
+            priceMin:   r.price,
+            priceMax:   r.price,
+            image:      r.image || null,
+            stores:     [{ name: r.store || (r.src === "ksp" ? "KSP" : "Bug"), price: r.price }],
+            storeCount: 1,
+            link:       r.link || "",
+            _phase:     "final",
+            _src:       r.src,
+          });
+          extraAdded++;
+        }
+        if (extraAdded > 0) {
+          console.log(`  ↳ Stream: merged ${extraAdded} unique products from KSP+Bug into finalProducts (had ${finalProducts.length - extraAdded} from ZAP)`);
+        }
+
+        // ── Sog content guard — hard-reject products that don't match the
+        // expected category. Catches catalogue contamination + cross-source
+        // bleed. See SOG_CONTENT_GUARDS for the per-sog whitelist/blacklist.
+        const preGuard = finalProducts.length;
+        finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+        const rejected = preGuard - finalProducts.length;
+        if (rejected > 0) {
+          console.log(`  ↳ Stream: SOG content guard — rejected ${rejected}/${preGuard} products that didn't match sog="${detectedSog}" (${SOG_CONTENT_GUARDS[detectedSog]?.name || "unknown"})`);
+        }
+
         const priced = finalProducts.filter(p => p.priceMin > 0).length;
         console.log(`  ↳ Stream: AI-free category path — ${finalProducts.length} products (${priced} priced, sog=${detectedSog})`);
 
@@ -4728,6 +4786,13 @@ app.get("/api/search-products-stream",
         _phase:     "final",
         _zapRank:   i + 1,
       }));
+      // Apply sog content guard here too — KSP-only path also benefits
+      // from filtering out wrong-type items.
+      const _preKspGuard = finalProducts.length;
+      finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+      if (_preKspGuard - finalProducts.length > 0) {
+        console.log(`  ↳ KSP fast path — SOG guard rejected ${_preKspGuard - finalProducts.length}/${_preKspGuard}`);
+      }
       console.log(`  ↳ KSP category fast path — ${finalProducts.length} products (sog=${detectedSog})`);
     }
 
@@ -4841,6 +4906,18 @@ ${resultsSummary}
     }
 
     if (closed) return res.end();
+    // ── Final-emit SOG guard ─────────────────────────────────────────────
+    // Defensive last-mile filter for ANY upstream path (AI categorisation,
+    // KSP fast-path, etc.) that produced finalProducts but didn't apply the
+    // guard locally. No-op when detectedSog has no guard registered.
+    if (finalProducts && detectedSog && SOG_CONTENT_GUARDS[detectedSog]) {
+      const _preFinalGuard = finalProducts.length;
+      finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+      const dropped = _preFinalGuard - finalProducts.length;
+      if (dropped > 0) {
+        console.log(`  ↳ Final emit SOG guard: dropped ${dropped} wrong-category products (sog=${detectedSog})`);
+      }
+    }
     if (finalProducts) send({ type: "final", products: finalProducts });
     send({ type: "done", total: (finalProducts||[]).length });
     res.end();
@@ -5992,6 +6069,111 @@ function validateSogCandidates(sog, candidates) {
   return true;
 }
 
+// ── Sog content guards ────────────────────────────────────────────────────────
+// Per-sog whitelist + blacklist that EVERY product must pass before reaching
+// the user. Catches catalogue contamination (Xiaomi TV streamers tagged as
+// c-pcdesktop, accessories slipping into headphone category, etc.) and
+// cross-source bleed (KSP/Bug returning unrelated items for our query).
+//
+// Shape: { name (Hebrew label for logging), requireAny: [keywords], rejectAny: [keywords] }
+//   • If `requireAny` is set, product MUST match at least one keyword.
+//   • `rejectAny` is always applied — any match disqualifies the product.
+// Matching is case-insensitive on the joined `${nameHe} ${nameEn}` of each row.
+//
+// Add new entries here whenever you spot wrong-type leakage. Empty entries
+// mean "no filter applied" (sog is too broad / not safe to whitelist).
+const SOG_CONTENT_GUARDS = {
+  "c-pcdesktop": {
+    name: "מחשב נייח",
+    requireAny: ["desktop", "מחשב נייח", "מחשב שולחני", "tower", "all-in-one", "all in one", "aio", "imac", "mac mini", "mini pc", "intel nuc", "סטיישן", "workstation"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "media player", "soundbar", "סאונד בר", "טלוויזיה", "monitor", "מסך", "tablet", "טאבלט", "laptop", "מחשב נייד", "notebook", "smartphone", "סמארטפון", "iphone", "אייפון"],
+  },
+  "c-brandpc": {
+    // Same content rules as c-pcdesktop — c-brandpc is ZAP's branded-desktop
+    // sog (Lenovo ThinkCentre, Apple Mac Mini, Dell OptiPlex, HP EliteDesk).
+    // We re-routed "מחשב נייח" here because c-pcdesktop has only ~10 entries
+    // and is contaminated. Same whitelist/blacklist keeps the page clean.
+    name: "מחשב נייח (Brand PC)",
+    requireAny: ["desktop", "מחשב נייח", "מחשב שולחני", "tower", "all-in-one", "all in one", "aio", "imac", "mac mini", "mini pc", "intel nuc", "סטיישן", "workstation", "thinkcentre", "optiplex", "elitedesk", "prodesk"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "media player", "soundbar", "סאונד בר", "טלוויזיה", "monitor", "מסך", "tablet", "טאבלט", "laptop", "מחשב נייד", "notebook", "smartphone", "סמארטפון", "iphone", "אייפון"],
+  },
+  "c-pclaptop": {
+    name: "מחשב נייד",
+    requireAny: ["laptop", "notebook", "מחשב נייד", "macbook", "chromebook", "thinkpad", "ideapad", "vivobook", "zenbook", "envy", "pavilion", "rog", "legion", "predator", "nitro", "yoga", "victus", "tuf gaming", "surface laptop", "latitude", "inspiron"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "desktop", "מחשב נייח", "tower", "all-in-one", "aio", "imac", "mini pc", "soundbar", "טלוויזיה", "smartphone", "סמארטפון", "iphone", "אייפון", "tablet", "טאבלט", "ipad", "monitor", "מסך"],
+  },
+  "e-tv": {
+    name: "טלוויזיה",
+    requireAny: ["tv", "טלוויזיה", "טלויזיה", "smart tv", "oled", "qled", "neo qled", "uhd", "4k", "8k", "led tv"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "soundbar", "סאונד בר", "media player", "stand", "מעמד", "remote", "שלט", "wall mount"],
+  },
+  "e-cellphone": {
+    name: "סמארטפון",
+    requireAny: ["iphone", "אייפון", "galaxy", "גלקסי", "pixel", "פיקסל", "xiaomi", "שיאומי", "redmi", "סמארטפון", "smartphone", "oneplus", "huawei", "honor", "phone", "nokia", "realme"],
+    rejectAny:  ["tablet", "טאבלט", "ipad", "watch", "שעון", "buds", "אוזניות", "tv ", "smart tv", "laptop", "מחשב", "case", "כיסוי", "charger", "מטען", "stand", "מעמד"],
+  },
+  "c-tabletpc": {
+    name: "טאבלט",
+    requireAny: ["tablet", "טאבלט", "ipad", "galaxy tab", "tab a", "tab s", "lenovo tab", "matepad", "mediapad", "fire tablet", "xiaomi pad"],
+    rejectAny:  ["smartphone", "סמארטפון", "iphone", "אייפון", "laptop", "מחשב נייד", "case", "כיסוי", "stand", "screen protector", "מגן מסך"],
+  },
+  "e-headphone": {
+    name: "אוזניות",
+    requireAny: ["headphone", "אוזניות", "earphone", "earbud", "buds", "airpods", "headset", "אוזניה"],
+    rejectAny:  ["speaker", "soundbar", "tv ", "טלוויזיה", "smartphone", "סמארטפון", "case alone", "charger only"],
+  },
+  "c-speakers": {
+    name: "רמקולים למחשב",
+    // Computer speakers — keywords cover the popular product lines (Logitech
+    // Z-series, Creative Pebble, Edifier R-series, Harman Sound Sticks, etc.)
+    // plus generic "2.1", "2.0" suffixes that appear on most PC-audio sets.
+    requireAny: ["pc speaker", "computer speaker", "רמקול למחשב", "רמקולי מחשב", "logitech z", "creative pebble", "edifier", "harman soundsticks", "razer nommo", "razer leviathan", "klipsch promedia", "2.1", "2.0", "5.1", "usb speaker"],
+    rejectAny:  ["soundbar", "סאונד בר", "טלוויזיה", "tv ", "headphone", "אוזניות", "buds", "earbud", "in-ceiling", "outdoor speaker"],
+  },
+  "e-fridge": {
+    name: "מקרר",
+    requireAny: ["fridge", "מקרר", "refrigerator", "freezer integrated"],
+    rejectAny:  ["wine cooler under-counter only", "ice maker", "מכונת קרח", "מקפיא נפרד", "deep freezer"],
+  },
+  "e-washingmachine": {
+    name: "מכונת כביסה",
+    requireAny: ["washing machine", "washer", "מכונת כביסה", "wash machine"],
+    rejectAny:  ["dryer alone", "מייבש כביסה", "spin dryer", "detergent", "אבקת כביסה"],
+  },
+  "e-drayer": {
+    name: "מייבש כביסה",
+    requireAny: ["dryer", "מייבש", "tumble dryer", "heat pump dryer", "condenser dryer"],
+    rejectAny:  ["washing machine alone", "מכונת כביסה בלבד", "hair dryer", "מייבש שיער"],
+  },
+  "e-oven": {
+    name: "תנור",
+    requireAny: ["oven", "תנור", "תנורי", "single oven", "double oven", "wall oven", "built-in oven"],
+    rejectAny:  ["microwave alone", "מיקרוגל בלבד", "מפזר חום", "תנור חימום", "space heater", "תנור גז סלון"],
+  },
+  "e-microwaveoven": {
+    name: "מיקרוגל",
+    requireAny: ["microwave", "מיקרוגל", "מ"], // "מ" alone is too loose — only useful with the prefix
+    rejectAny:  ["oven only", "תנור אפייה בלבד", "stove", "כיריים"],
+  },
+  "e-tvgame": {
+    name: "קונסולה",
+    requireAny: ["ps5", "ps4", "playstation", "xbox", "nintendo", "switch", "console", "קונסולה"],
+    rejectAny:  ["tv ", "טלוויזיה ", "monitor", "מסך", "stand", "rack"],
+  },
+};
+
+function _passesSogGuard(product, sog) {
+  const guard = SOG_CONTENT_GUARDS[sog];
+  if (!guard) return true; // no guard for this sog → permissive
+  const text = ((product.nameHe || "") + " " + (product.nameEn || product.title || "")).toLowerCase();
+  if (!text.trim()) return false;
+  if (guard.rejectAny && guard.rejectAny.some(kw => text.includes(kw.toLowerCase()))) return false;
+  if (guard.requireAny && guard.requireAny.length > 0) {
+    if (!guard.requireAny.some(kw => text.includes(kw.toLowerCase()))) return false;
+  }
+  return true;
+}
+
 // ── Hardcoded Zap SOG map ─────────────────────────────────────────────────────
 // Maps common Hebrew category queries → Zap sog category ID.
 // Used as primary SOG source to bypass search.aspx WAF/redirect failures.
@@ -6023,8 +6205,13 @@ const ZAP_SOG_MAP = {
   "MacBook Air": "c-pclaptop",
   "MacBook Pro": "c-pclaptop", "Chromebook": "c-pclaptop",
   // ── מחשבים נייחים ──────────────────────────────────────────────────────────
-  "מחשבים נייחים": "c-pcdesktop", "מחשב נייח": "c-pcdesktop",
-  "מחשבים שולחניים": "c-pcdesktop", "מחשב שולחני": "c-pcdesktop",
+  // Was c-pcdesktop, but that sog only has ~10 cached entries and is heavily
+  // contaminated (Xiaomi TV streamers tagged as desktops). c-brandpc carries
+  // ~910 real branded desktops (Lenovo ThinkCentre, Apple Mac Mini, Dell
+  // OptiPlex, HP EliteDesk, etc.) — 428 of them explicitly labelled
+  // "מחשב נייח" in their titles. That's the correct sog for this query.
+  "מחשבים נייחים": "c-brandpc", "מחשב נייח": "c-brandpc",
+  "מחשבים שולחניים": "c-brandpc", "מחשב שולחני": "c-brandpc",
   // ── ציוד מחשב היקפי ────────────────────────────────────────────────────────
   "טאבלטים": "c-tabletpc", "טאבלט": "c-tabletpc",
   "מסכי מחשב": "c-monitor", "מסך מחשב": "c-monitor",
@@ -6116,9 +6303,11 @@ const ZAP_SOG_MAP = {
   "מסכי": "c-monitor",
   // ── מחשבים נוספים ─────────────────────────────────────────────────────────
   "מחשבים ניידים לעסקים": "c-pclaptop",
-  "מחשבי All-in-One": "c-pcdesktop",
-  "מחשבי גיימינג": "c-pcdesktop",
-  "Mac Mini": "c-pcdesktop", "iMac": "c-pcdesktop",
+  // All desktop variants → c-brandpc (real catalogue with 910 desktops),
+  // NOT c-pcdesktop (sparse, contaminated with TV streamers).
+  "מחשבי All-in-One": "c-brandpc",
+  "מחשבי גיימינג": "c-brandpc",
+  "Mac Mini": "c-brandpc", "iMac": "c-brandpc",
   // ── טאבלטים ───────────────────────────────────────────────────────────────
   "טאבלטים לילדים": "c-tabletpc",
   "iPad Pro": "c-tabletpc", "iPad Air": "c-tabletpc", "iPad": "c-tabletpc",
@@ -6869,12 +7058,14 @@ const PREWARM_CATEGORIES = [
   ["e-tvgame",          null],  // קונסולות משחק
   ["e-mediaplayer",     null],  // סטרימרים
   // ── Computers ────────────────────────────────────────────────────────────
-  ["c-pcdesktop",       null],  // מחשבים נייחים
+  ["c-pcdesktop",       null],  // מחשבים נייחים — sparse, still warm for legacy paths
+  ["c-brandpc",         null],  // מחשבים נייחים (Brand PCs) — real desktop catalogue
   ["c-monitor",         null],  // מסכי מחשב
   ["c-graphiccard",     null],  // כרטיסי מסך
   ["c-keyboard",        null],  // מקלדות
   ["c-mouse",           null],  // עכברים
   ["c-printer",         null],  // מדפסות
+  ["c-speakers",        null],  // רמקולים למחשב
   ["c-webcam",          null],  // מצלמות רשת
   ["c-gamingchair",     null],  // כסאות גיימינג
   // ── Audio / Video ────────────────────────────────────────────────────────
