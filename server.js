@@ -13313,21 +13313,24 @@ ${process.env.BUNDLY_SUPPORT_PHONE ? `- **טלפון:** ${process.env.BUNDLY_SUP
 
     console.log(`[Chat] searchQuery: ${searchQuery}, redirectToResults: ${redirectToResults}, gptIsAsking: ${gptIsAsking}`);
 
-    // ── Smart price floor: when user only gives priceMax ("עד 15000"),
-    // compute a reasonable priceMin so the results page doesn't show
-    // a huge range like ₪900–₪15,000.
-    // Category-aware: phones have wider range (25%), laptops/TVs tighter (40%)
+    // ── Smart price floor — keep the range tight even when the user
+    // only gave a ceiling.
+    // Per user feedback 2026-05-15: "עד 6500" was returning ₪300 → ₪6500
+    // which is way too wide; bidders end up scrolling past entry-level
+    // accessories before they see anything in their actual budget.
+    // Fixed 50% floor (min = max × 0.5) gives a focused band — for ₪6500
+    // they see ₪3250–₪6500. Category-specific tuning removed in favour
+    // of one predictable rule.
     let filterPriceMin = filters.priceMin || null;
     let filterPriceMax = filters.priceMax || null;
-    if (filterPriceMax && !filterPriceMin) {
-      const floorPct = /phone|smartphone|טלפון|סלולרי/.test(catEn || catHintRaw || "")
-        ? 0.25   // phones: ₪4000 → floor ₪1000 (wide range for budget→mid)
-        : /tablet|טאבלט|headphones|אוזניות|smartwatch|שעון/.test(catEn || catHintRaw || "")
-        ? 0.30   // accessories/tablets: moderate range
-        : 0.40;  // laptops, TVs, monitors: tighter range
-      filterPriceMin = Math.round(filterPriceMax * floorPct / 100) * 100;
-      if (filterPriceMin < 100) filterPriceMin = 100; // minimum floor ₪100
-      console.log(`[Chat] Smart price floor (${Math.round(floorPct*100)}%): ₪${filterPriceMin}–₪${filterPriceMax} [cat: ${catEn || catHintRaw || "unknown"}]`);
+    if (filterPriceMax) {
+      const computedFloor = Math.max(100, Math.round(filterPriceMax * 0.5 / 100) * 100);
+      // Apply when user didn't give a min, OR gave one that's looser than 50% (which
+      // would still produce the wide-range complaint we're trying to fix).
+      if (!filterPriceMin || filterPriceMin < computedFloor) {
+        filterPriceMin = computedFloor;
+        console.log(`[Chat] Smart price floor (50%): ₪${filterPriceMin}–₪${filterPriceMax}`);
+      }
     }
 
     // Normalize brands to English for frontend brand filtering

@@ -2721,8 +2721,10 @@ function SupplierNavbar({ supplier, onLogout, onExitToCustomer }) {
 //  TRUST STRIP
 // ─────────────────────────────────────────────────────────────────
 function TrustStrip({ t }) {
+  // Removed "ספקים מאומתים" (trustVerified) — supplier verification
+  // process isn't live yet, so claiming it on the home strip is misleading.
+  // Re-add once we have a real verification flow + supplier badging.
   const items = [
-    { icon: <BadgeCheck className="w-3.5 h-3.5 text-indigo-500" />, label: t.trustVerified },
     { icon: <Banknote className="w-3.5 h-3.5 text-emerald-500" />, label: t.trustNoPay },
     { icon: <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />, label: t.trustTransparent },
     { icon: <ThumbsUp className="w-3.5 h-3.5 text-violet-500" />, label: t.trustSafe },
@@ -2825,11 +2827,8 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-20 flex flex-col items-center text-center">
 
-        {/* Trust badge */}
-        <span className="inline-flex items-center gap-2 bg-white/15 border border-white/25 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-5 backdrop-blur-sm shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
-          {t.trustVerified}
-        </span>
+        {/* Trust badge removed — supplier verification isn't live yet,
+            so claiming "ספקים מאומתים" at the hero top was misleading. */}
 
         {/* Title */}
         <h1
@@ -4469,6 +4468,14 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         </span>
       </button>
 
+      {/* Reassurance — cancel-anytime guarantee under the join button.
+          Per user feedback: customers hesitate because they think saving
+          a card commits them. The green check + concise copy converts. */}
+      <div className="flex items-center justify-center gap-1.5 text-[12px] font-semibold text-emerald-700">
+        <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+        <span>ניתן לבטל בכל עת</span>
+      </div>
+
       {/* Secondary action — colourful bell pill, jingles on click */}
       <button
         onClick={ringBellAndJoin}
@@ -5158,21 +5165,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           const liveViewers = 8 + ((deal.id * 7) % 20);
           return (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
-              {/* ── Loss-aversion header strip ── */}
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <div className="flex-1 bg-red-50 border border-red-100 rounded-xl p-3">
-                  <p className="text-[10px] text-red-500 font-bold uppercase mb-0.5">בלי Bundly תשלם</p>
-                  <p className="text-base font-black text-red-700">₪{marketPrice.toLocaleString()}</p>
-                </div>
-                <div className="flex-1 bg-emerald-50 border border-emerald-100 rounded-xl p-3">
-                  <p className="text-[10px] text-emerald-600 font-bold uppercase mb-0.5">עכשיו עם הקבוצה</p>
-                  <p className="text-base font-black text-emerald-700">₪{currentGroupPrice.toLocaleString()}</p>
-                </div>
-                <div className="flex-1 bg-amber-50 border border-amber-100 rounded-xl p-3">
-                  <p className="text-[10px] text-amber-600 font-bold uppercase mb-0.5">חוסך</p>
-                  <p className="text-base font-black text-amber-700">₪{lossIfMissed.toLocaleString()}</p>
-                </div>
-              </div>
+              {/* Loss-aversion strip removed per user request 2026-05-15 —
+                  presenting a "savings" number against an opaque "market"
+                  price felt like inflated marketing. Tier pricing (below)
+                  already shows the discount narrative through real
+                  group-size milestones, no synthetic baseline needed. */}
 
               {/* ── Live signals strip ── */}
               <div className="flex items-center justify-between gap-2 mb-4 px-2 py-2 bg-gray-50 rounded-xl text-[11px]">
@@ -12950,9 +12947,17 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   };
 
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
-      {/* ── Sticky header ─────────────────────────────────────── */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
+    // pb-24 on mobile (md:pb-0 on desktop) makes room at the bottom for
+    // the floating MobileBottomNav (~60px + safe-area). Without it the
+    // pagination strip at the bottom of the results gets clipped behind
+    // the nav and users have to scroll-bounce to reveal page-2 etc.
+    <div className="min-h-screen bg-gray-50 pb-24 md:pb-0" dir="rtl">
+      {/* ── Sticky header ─────────────────────────────────────────────
+          IMPORTANT: top offset must clear the global <Navbar> (sticky
+          top-0 z-40, 3.75rem tall). Without it the navbar covers this
+          header on scroll and the "חזרה" / "B home" buttons become
+          unreachable on mobile — that was the bug. */}
+      <div className="sticky z-30 bg-white border-b border-gray-100 shadow-sm" style={{ top: "3.75rem" }}>
         <div className="max-w-7xl mx-auto px-4">
 
           {/* Title row */}
@@ -20794,7 +20799,10 @@ export default function App() {
   // they're in supplier mode. Customer flows keep the standard Navbar.
   const isSupplierMode = mode === "supplier-dashboard" && currentSupplier;
   return (
-    <div dir={t.dir} className="min-h-screen bg-gray-50">
+    // pb-24 on mobile so the MobileBottomNav (fixed bottom-0, ~80px tall
+    // with safe-area) doesn't clip the final card / pagination of every
+    // page. Desktop renders the nav with `md:hidden` so no padding needed.
+    <div dir={t.dir} className="min-h-screen bg-gray-50 pb-24 md:pb-0">
       {isSupplierMode ? (
         <SupplierNavbar
           supplier={currentSupplier}
