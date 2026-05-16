@@ -4685,6 +4685,54 @@ app.get("/api/search-products-stream",
               _phase: "final",
             };
           });
+        // ── Merge UNIQUE products from KSP + Bug ─────────────────────────────
+        // Was: finalProducts only contained products that had a ZAP candidate
+        // entry. When the ZAP cache for the sog was thin (e.g. c-pcdesktop had
+        // 10 models cached, 0 priced after model-page fetches), KSP's 34
+        // results and Bug's 20 results were thrown away even though they were
+        // real laptops/desktops. User saw 10 products when they should have
+        // seen ~55. Now we add KSP/Bug products that don't already match a
+        // ZAP entry by title.
+        const _existingTitles = new Set(finalProducts.map(p => _normaliseTitle(p.nameEn || "")));
+        const _isDupeOfExisting = (title) => {
+          const k = _normaliseTitle(title);
+          if (_existingTitles.has(k)) return true;
+          for (const t of _existingTitles) {
+            if (t && (k.includes(t.slice(0, 30)) || t.includes(k.slice(0, 30)))) return true;
+          }
+          return false;
+        };
+        const _extraSources = [
+          ...kspRaw.map(r => ({ src: "ksp", ...r })),
+          ...kspCatFallback.map(r => ({ src: "ksp", ...r })),
+          ...bugRaw.map(r => ({ src: "bug", ...r })),
+        ];
+        let extraAdded = 0;
+        for (const r of _extraSources) {
+          if (!r?.title || r.price <= 0) continue;
+          if (_isDupeOfExisting(r.title)) continue;
+          _existingTitles.add(_normaliseTitle(r.title));
+          finalProducts.push({
+            _streamKey: `${r.src}-${r.link?.match(/(\d+)/)?.[1] || extraAdded}`,
+            nameEn:     r.title,
+            nameHe:     null,
+            model:      null,
+            specs:      [],
+            priceMin:   r.price,
+            priceMax:   r.price,
+            image:      r.image || null,
+            stores:     [{ name: r.store || (r.src === "ksp" ? "KSP" : "Bug"), price: r.price }],
+            storeCount: 1,
+            link:       r.link || "",
+            _phase:     "final",
+            _src:       r.src,
+          });
+          extraAdded++;
+        }
+        if (extraAdded > 0) {
+          console.log(`  ↳ Stream: merged ${extraAdded} unique products from KSP+Bug into finalProducts (had ${finalProducts.length - extraAdded} from ZAP)`);
+        }
+
         const priced = finalProducts.filter(p => p.priceMin > 0).length;
         console.log(`  ↳ Stream: AI-free category path — ${finalProducts.length} products (${priced} priced, sog=${detectedSog})`);
 
