@@ -4733,6 +4733,16 @@ app.get("/api/search-products-stream",
           console.log(`  ↳ Stream: merged ${extraAdded} unique products from KSP+Bug into finalProducts (had ${finalProducts.length - extraAdded} from ZAP)`);
         }
 
+        // ── Sog content guard — hard-reject products that don't match the
+        // expected category. Catches catalogue contamination + cross-source
+        // bleed. See SOG_CONTENT_GUARDS for the per-sog whitelist/blacklist.
+        const preGuard = finalProducts.length;
+        finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+        const rejected = preGuard - finalProducts.length;
+        if (rejected > 0) {
+          console.log(`  ↳ Stream: SOG content guard — rejected ${rejected}/${preGuard} products that didn't match sog="${detectedSog}" (${SOG_CONTENT_GUARDS[detectedSog]?.name || "unknown"})`);
+        }
+
         const priced = finalProducts.filter(p => p.priceMin > 0).length;
         console.log(`  ↳ Stream: AI-free category path — ${finalProducts.length} products (${priced} priced, sog=${detectedSog})`);
 
@@ -4776,6 +4786,13 @@ app.get("/api/search-products-stream",
         _phase:     "final",
         _zapRank:   i + 1,
       }));
+      // Apply sog content guard here too — KSP-only path also benefits
+      // from filtering out wrong-type items.
+      const _preKspGuard = finalProducts.length;
+      finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+      if (_preKspGuard - finalProducts.length > 0) {
+        console.log(`  ↳ KSP fast path — SOG guard rejected ${_preKspGuard - finalProducts.length}/${_preKspGuard}`);
+      }
       console.log(`  ↳ KSP category fast path — ${finalProducts.length} products (sog=${detectedSog})`);
     }
 
@@ -4889,6 +4906,18 @@ ${resultsSummary}
     }
 
     if (closed) return res.end();
+    // ── Final-emit SOG guard ─────────────────────────────────────────────
+    // Defensive last-mile filter for ANY upstream path (AI categorisation,
+    // KSP fast-path, etc.) that produced finalProducts but didn't apply the
+    // guard locally. No-op when detectedSog has no guard registered.
+    if (finalProducts && detectedSog && SOG_CONTENT_GUARDS[detectedSog]) {
+      const _preFinalGuard = finalProducts.length;
+      finalProducts = finalProducts.filter(p => _passesSogGuard(p, detectedSog));
+      const dropped = _preFinalGuard - finalProducts.length;
+      if (dropped > 0) {
+        console.log(`  ↳ Final emit SOG guard: dropped ${dropped} wrong-category products (sog=${detectedSog})`);
+      }
+    }
     if (finalProducts) send({ type: "final", products: finalProducts });
     send({ type: "done", total: (finalProducts||[]).length });
     res.end();
@@ -6036,6 +6065,94 @@ function validateSogCandidates(sog, candidates) {
     console.warn(`  ↳ [SOG sanity] ❌ ${sog}: only ${(pct*100).toFixed(0)}% of products match expected keywords — discarding bad fetch`);
     console.warn(`     Sample names: ${sample.slice(0,4).map(c=>c.name||'(empty)').join(' | ')}`);
     return false;
+  }
+  return true;
+}
+
+// ── Sog content guards ────────────────────────────────────────────────────────
+// Per-sog whitelist + blacklist that EVERY product must pass before reaching
+// the user. Catches catalogue contamination (Xiaomi TV streamers tagged as
+// c-pcdesktop, accessories slipping into headphone category, etc.) and
+// cross-source bleed (KSP/Bug returning unrelated items for our query).
+//
+// Shape: { name (Hebrew label for logging), requireAny: [keywords], rejectAny: [keywords] }
+//   • If `requireAny` is set, product MUST match at least one keyword.
+//   • `rejectAny` is always applied — any match disqualifies the product.
+// Matching is case-insensitive on the joined `${nameHe} ${nameEn}` of each row.
+//
+// Add new entries here whenever you spot wrong-type leakage. Empty entries
+// mean "no filter applied" (sog is too broad / not safe to whitelist).
+const SOG_CONTENT_GUARDS = {
+  "c-pcdesktop": {
+    name: "מחשב נייח",
+    requireAny: ["desktop", "מחשב נייח", "מחשב שולחני", "tower", "all-in-one", "all in one", "aio", "imac", "mac mini", "mini pc", "intel nuc", "סטיישן", "workstation"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "media player", "soundbar", "סאונד בר", "טלוויזיה", "monitor", "מסך", "tablet", "טאבלט", "laptop", "מחשב נייד", "notebook", "smartphone", "סמארטפון", "iphone", "אייפון"],
+  },
+  "c-pclaptop": {
+    name: "מחשב נייד",
+    requireAny: ["laptop", "notebook", "מחשב נייד", "macbook", "chromebook", "thinkpad", "ideapad", "vivobook", "zenbook", "envy", "pavilion", "rog", "legion", "predator", "nitro", "yoga", "victus", "tuf gaming", "surface laptop", "latitude", "inspiron"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "android tv", "desktop", "מחשב נייח", "tower", "all-in-one", "aio", "imac", "mini pc", "soundbar", "טלוויזיה", "smartphone", "סמארטפון", "iphone", "אייפון", "tablet", "טאבלט", "ipad", "monitor", "מסך"],
+  },
+  "e-tv": {
+    name: "טלוויזיה",
+    requireAny: ["tv", "טלוויזיה", "טלויזיה", "smart tv", "oled", "qled", "neo qled", "uhd", "4k", "8k", "led tv"],
+    rejectAny:  ["tv box", "tv stick", "סטרימר", "streamer", "soundbar", "סאונד בר", "media player", "stand", "מעמד", "remote", "שלט", "wall mount"],
+  },
+  "e-cellphone": {
+    name: "סמארטפון",
+    requireAny: ["iphone", "אייפון", "galaxy", "גלקסי", "pixel", "פיקסל", "xiaomi", "שיאומי", "redmi", "סמארטפון", "smartphone", "oneplus", "huawei", "honor", "phone", "nokia", "realme"],
+    rejectAny:  ["tablet", "טאבלט", "ipad", "watch", "שעון", "buds", "אוזניות", "tv ", "smart tv", "laptop", "מחשב", "case", "כיסוי", "charger", "מטען", "stand", "מעמד"],
+  },
+  "c-tabletpc": {
+    name: "טאבלט",
+    requireAny: ["tablet", "טאבלט", "ipad", "galaxy tab", "tab a", "tab s", "lenovo tab", "matepad", "mediapad", "fire tablet", "xiaomi pad"],
+    rejectAny:  ["smartphone", "סמארטפון", "iphone", "אייפון", "laptop", "מחשב נייד", "case", "כיסוי", "stand", "screen protector", "מגן מסך"],
+  },
+  "e-headphone": {
+    name: "אוזניות",
+    requireAny: ["headphone", "אוזניות", "earphone", "earbud", "buds", "airpods", "headset", "אוזניה"],
+    rejectAny:  ["speaker", "soundbar", "tv ", "טלוויזיה", "smartphone", "סמארטפון", "case alone", "charger only"],
+  },
+  "e-fridge": {
+    name: "מקרר",
+    requireAny: ["fridge", "מקרר", "refrigerator", "freezer integrated"],
+    rejectAny:  ["wine cooler under-counter only", "ice maker", "מכונת קרח", "מקפיא נפרד", "deep freezer"],
+  },
+  "e-washingmachine": {
+    name: "מכונת כביסה",
+    requireAny: ["washing machine", "washer", "מכונת כביסה", "wash machine"],
+    rejectAny:  ["dryer alone", "מייבש כביסה", "spin dryer", "detergent", "אבקת כביסה"],
+  },
+  "e-drayer": {
+    name: "מייבש כביסה",
+    requireAny: ["dryer", "מייבש", "tumble dryer", "heat pump dryer", "condenser dryer"],
+    rejectAny:  ["washing machine alone", "מכונת כביסה בלבד", "hair dryer", "מייבש שיער"],
+  },
+  "e-oven": {
+    name: "תנור",
+    requireAny: ["oven", "תנור", "תנורי", "single oven", "double oven", "wall oven", "built-in oven"],
+    rejectAny:  ["microwave alone", "מיקרוגל בלבד", "מפזר חום", "תנור חימום", "space heater", "תנור גז סלון"],
+  },
+  "e-microwaveoven": {
+    name: "מיקרוגל",
+    requireAny: ["microwave", "מיקרוגל", "מ"], // "מ" alone is too loose — only useful with the prefix
+    rejectAny:  ["oven only", "תנור אפייה בלבד", "stove", "כיריים"],
+  },
+  "e-tvgame": {
+    name: "קונסולה",
+    requireAny: ["ps5", "ps4", "playstation", "xbox", "nintendo", "switch", "console", "קונסולה"],
+    rejectAny:  ["tv ", "טלוויזיה ", "monitor", "מסך", "stand", "rack"],
+  },
+};
+
+function _passesSogGuard(product, sog) {
+  const guard = SOG_CONTENT_GUARDS[sog];
+  if (!guard) return true; // no guard for this sog → permissive
+  const text = ((product.nameHe || "") + " " + (product.nameEn || product.title || "")).toLowerCase();
+  if (!text.trim()) return false;
+  if (guard.rejectAny && guard.rejectAny.some(kw => text.includes(kw.toLowerCase()))) return false;
+  if (guard.requireAny && guard.requireAny.length > 0) {
+    if (!guard.requireAny.some(kw => text.includes(kw.toLowerCase()))) return false;
   }
   return true;
 }
