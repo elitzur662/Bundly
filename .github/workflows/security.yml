@@ -37,8 +37,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Scan code for weak default secrets
         run: |
-          if grep -r "bundly-super-secret-2024\|admin123\|change-me-to-a" --include="*.js" --include="*.jsx" --exclude-dir=node_modules .; then
+          # Match the legacy placeholder strings that used to ship as
+          # fallback secrets. The grep deliberately ignores the lines that
+          # DEFINE the blocklist itself (server.js: _WEAK_SUBSTRINGS,
+          # FORBIDDEN_SECRETS) — those are the guard, not a leak.
+          HITS=$(grep -rn "bundly-super-secret-2024\|admin123\|change-me-to-a" \
+                   --include="*.js" --include="*.jsx" \
+                   --exclude-dir=node_modules . \
+                 | grep -v "_WEAK_SUBSTRINGS\|FORBIDDEN_SECRETS" \
+                 || true)
+          if [ -n "$HITS" ]; then
             echo "::error::Default secrets found in code!"
+            echo "$HITS"
             exit 1
           fi
 
