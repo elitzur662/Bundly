@@ -25,6 +25,7 @@
     "verify": "npm run build && npm run smoke"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@stripe/react-stripe-js": "^6.3.0",
     "@stripe/stripe-js": "^9.4.0",
     "axios": "^1.7.2",
