@@ -10,12 +10,18 @@
  * Start: node server.js  (from the groupbuy-app folder)
  */
 
+// dotenv MUST load before any other import that reads process.env at
+// module-init time (activity-log.js TG_TOKEN, email-service.js transporter,
+// payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
+// top of the file, so a later `dotenv.config()` call runs AFTER those modules
+// have already snapshotted env vars as "". Side-effect import runs first.
+import "dotenv/config";
+
 import express from "express";
 // import cors from "cors"; // replaced by strictCors in security-middleware.js
 import axios from "axios";
 import * as cheerio from "cheerio";
 import OpenAI from "openai";
-import dotenv from "dotenv";
 import https from "https";
 import _httpsProxyAgentPkg from "https-proxy-agent";
 const { HttpsProxyAgent } = _httpsProxyAgentPkg;
@@ -37,7 +43,7 @@ import { syncAll as zapBulkScrapeAll } from "./db-sync-runner.js";
 // ── Categorize: spec → filterTags normalizer (shared with bulk tagger) ────────
 import { tagsFromZapSpecs, inferCategory as inferCategoryFromName } from "./categorize.js";
 
-dotenv.config();
+// dotenv loaded via side-effect import at top of file (see comment there).
 
 // ─────────────────────────────────────────────────────────────────
 //  GLOBAL UTILITY — strip HTML direction marks & entities from scraped text
