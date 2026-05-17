@@ -16112,11 +16112,11 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
       badgeColor: "bg-red-100 text-red-600",
     },
     {
-      icon: "📊",
-      title: "בדיקת ביקוש לפני מכירה",
-      sub: "Pre-Demand — תדע לפני שתתחייב",
-      desc: "העלה מוצר לבדיקה חינם. תראה כמה אנשים מתעניינים לפני שאתה מתחייב למחיר או למלאי. רק כשיש ביקוש אמיתי — פותחים קבוצה.",
-      badge: "חדש",
+      icon: "💳",
+      title: "כל קונה מאמת כרטיס מראש",
+      sub: "פרטי כרטיס נשמרים — חיוב אוטומטי בסגירה",
+      desc: "לפני שאתה משקיע במלאי או באריזה, הקונים כבר אישרו כרטיס תקף ב-Stripe. הקבוצה נסגרת? הסליקה רצה אוטומטית באותו רגע — בלי \"שלחתי בקשת תשלום ולא ענו\". לא נסגרת? אין חיוב, אין חוב פתוח.",
+      badge: "אמיתי",
       badgeColor: "bg-blue-100 text-blue-600",
     },
     {
@@ -16144,8 +16144,8 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
     {
       icon: "💰",
       title: "אין מכירה = אין סיכון",
-      sub: "עמלה רק על עסקה שנסגרה",
-      desc: "בלי דמי הקמה. בלי התחייבות חודשית. בלי תשלום על פרסום. אתה משלם אחוז קטן רק כשמכרת בפועל. חודש ראשון — בלי עמלה.",
+      sub: "2% עמלה — רק על עסקה שנסגרה",
+      desc: "בלי דמי הקמה. בלי התחייבות חודשית. בלי תשלום על פרסום. 2% מסכום העסקה — רק כשמכרת בפועל. 3 חודשי ניסיון ראשונים — בלי עמלה כלל.",
       badge: "ללא סיכון",
       badgeColor: "bg-emerald-100 text-emerald-600",
     },
@@ -16194,18 +16194,19 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
   ];
 
   const steps = [
-    { num: "01", title: "נרשם בחינם", desc: "3 מוצרים ראשונים ללא עמלה. הגדרת פרופיל ממותג תוך 10 דקות." },
-    { num: "02", title: "בודק ביקוש", desc: "מעלה מוצר לבדיקה — רואה כמה אנשים מתעניינים לפני התחייבות." },
-    { num: "03", title: "פותח קבוצה", desc: "קובע מחיר ומלאי. האתר מרכז קונים בשבילך ומנהל את התשלומים." },
-    { num: "04", title: "מקבל תשלום", desc: "הקבוצה נסגרת, התשלום מועבר אליך. אתה שולח את הסחורה. פשוט." },
+    { num: "01", title: "נרשם בחינם", desc: "3 חודשי ניסיון ללא עמלת בנדלי. הגדרת פרופיל ממותג תוך 10 דקות, ללא כרטיס אשראי." },
+    { num: "02", title: "מקבל קונים מאומתים", desc: "לקוחות שכבר אישרו כרטיס תקף ב-Stripe מחפשים את המוצרים שלך. אתה לא צריך לרדוף — הם מגיעים אליך מוכנים לקנות." },
+    { num: "03", title: "קובע מחיר לקבוצות רכישה", desc: "אתה מציע מחיר לפי גודל הקבוצה. הצעות תחרותיות מספקים אחרים — אתה תמיד יכול להוריד את שלך, רק להיטיב." },
+    { num: "04", title: "מקבל תשלום מאובטח", desc: "הקבוצה נסגרת → הסליקה אוטומטית → התשלום מועבר תוך 21 ימי עסקים מאספקה. בלי גבייה ידנית, בלי חיובים חוזרים." },
   ];
 
   const faqs = [
-    { q: "כמה עמלה אתם לוקחים?", a: "עמלה על עסקה שנסגרה בלבד — החודש הראשון ללא עמלה כלל. לא משלמים על חשיפה, על רישום, או על בדיקת ביקוש." },
-    { q: "מה קורה אם הקבוצה לא מגיעה למינימום?", a: "הקבוצה לא נפתחת ואין חיוב לאף אחד. אתה יכול לבחור להאריך, לשנות מחיר, או לסגור — לגמרי בשליטתך." },
-    { q: "מי מטפל בגבייה ובביטולים?", a: "הפלטפורמה מנהלת את הגבייה, מדיניות הביטולים, ומעבירה לך תשלום מרוכז. בלי כאב ראש תפעולי." },
+    { q: "כמה עמלה אתם לוקחים?", a: "2% מסכום העסקה לפני מע\"מ, על עסקה שנסגרה בלבד. 3 חודשי הניסיון הראשונים — ללא עמלה כלל. לא משלמים על חשיפה, על רישום, או על העלאת מוצרים." },
+    { q: "מתי מקבלים את הכסף?", a: "התשלום מועבר תוך עד 21 ימי עסקים מאספקה ללקוח. הסליקה אוטומטית — בלי גבייה ידנית, בלי חיובים חוזרים." },
+    { q: "מה קורה אם הקבוצה לא מגיעה למינימום?", a: "הקבוצה לא נסגרת, אין חיוב לאף לקוח, ואין התחייבות לאף ספק. הצעת המחיר שלך פשוט נמחקת. אתה יכול להגיש הצעה חדשה בקבוצה הבאה." },
+    { q: "מי מטפל בגבייה ובביטולים?", a: "הפלטפורמה מנהלת את הסליקה (Stripe), מדיניות הביטולים (14 יום לפי חוק הגנת הצרכן), ומעבירה לך תשלום מרוכז. אתה רק שולח את הסחורה." },
     { q: "האם אני יכול למכור רק באזורים מסוימים?", a: "כן. אתה בוחר — כל הארץ, אזורים ספציפיים, איסוף עצמי, או שילוב. הלוגיסטיקה שלך, הכללים שלך." },
-    { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל שלך יכול להיות חי תוך 10 דקות. בדיקת ביקוש — מיד. עסקה ראשונה — תוך ימים." },
+    { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל יכול להיות חי תוך 10 דקות. ההצעה הראשונה לקבוצה פתוחה — מיד אחרי אימות העסק. עסקה ראשונה — תלוי בגודל הקבוצה ובמחיר שתציע." },
   ];
 
   const stats = [
@@ -16253,12 +16254,6 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 <Building2 className="w-5 h-5" />
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
-              </button>
-              <button type="button"
-                onClick={() => document.getElementById('sl-demand').scrollIntoView({ behavior:'smooth' })}
-                className="flex items-center gap-2 px-7 py-4 rounded-2xl font-bold text-white/80 hover:text-white border border-white/20 hover:border-white/40 transition backdrop-blur-sm bg-white/5">
-                <Search className="w-4 h-4" />
-                בדוק ביקוש למוצר שלך
               </button>
             </div>
           </div>
@@ -16323,117 +16318,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
         </div>
       </section>
 
-      {/* ── DEMAND CHECKER ──────────────────────────────── */}
-      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-4 py-1.5 text-sm font-bold mb-6">
-            <Sparkles className="w-3.5 h-3.5" /> בדיקת ביקוש — חינם
-          </div>
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3">
-            יש לך מוצר? בוא נבדוק אם השוק רוצה אותו
-          </h2>
-          <p className="text-gray-500 mb-8">לפני שאתה מתחייב למלאי — ראה כמה קונים מחכים</p>
-
-          <div className="bg-white rounded-3xl shadow-xl p-6 border border-indigo-50">
-            <div className="flex gap-3 mb-4" ref={demandContainerRef}>
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={demandQuery}
-                  onChange={e => { setDemandQuery(e.target.value); setDemandResult(null); }}
-                  onKeyDown={e => {
-                    if (e.key === "ArrowDown") { e.preventDefault(); setDemandActiveSug(p => Math.min(p+1, demandSugs.length-1)); }
-                    else if (e.key === "ArrowUp") { e.preventDefault(); setDemandActiveSug(p => Math.max(p-1, -1)); }
-                    else if (e.key === "Enter") {
-                      if (demandActiveSug >= 0 && demandSugs[demandActiveSug]) {
-                        handleDemandSuggestionClick(demandSugs[demandActiveSug]);
-                      } else if (demandSelectedProduct || demandPropose) {
-                        handleDemandCheck();
-                      }
-                    } else if (e.key === "Escape") setDemandShowSug(false);
-                  }}
-                  onFocus={() => demandSugs.length > 0 && setDemandShowSug(true)}
-                  placeholder="שם מוצר — לדוגמה: שואב רובוטי, מזגן נייד..."
-                  className="w-full border border-gray-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-right"
-                  autoComplete="off"
-                />
-                {demandShowSug && (
-                  <AutocompleteDropdown
-                    suggestions={demandSugs}
-                    activeSug={demandActiveSug}
-                    setActiveSug={setDemandActiveSug}
-                    small
-                    onSelect={handleDemandSuggestionClick}
-                  />
-                )}
-              </div>
-              <button type="button" onClick={handleDemandCheck}
-                disabled={demandLoading || (!demandSelectedProduct && !demandPropose)}
-                title={!demandSelectedProduct && !demandPropose ? "בחר מוצר מהרשימה" : ""}
-                className="px-5 py-3 rounded-2xl font-bold text-white text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
-                {demandLoading ? <BundlySpinner size={18} /> : <><Search className="w-4 h-4" />{demandPropose ? "הצע מוצר" : "בדוק"}</>}
-              </button>
-            </div>
-
-            {/* Hint when supplier typed something but hasn't picked yet */}
-            {demandQuery.trim().length >= 2 && !demandSelectedProduct && !demandPropose && !demandShowSug && (
-              <p className="text-[11px] text-amber-600 mb-2 text-right">
-                ⚠️ בחר מוצר מהרשימה — חייב להיות מוצר אמיתי מהאתר.
-              </p>
-            )}
-            {demandPropose && (
-              <p className="text-[11px] text-amber-700 mb-2 text-right font-semibold">
-                🔥 אתה עומד להציע מוצר חדש: "<strong>{demandQuery}</strong>"
-              </p>
-            )}
-            {demandSelectedProduct && (
-              <p className="text-[11px] text-emerald-700 mb-2 text-right font-semibold">
-                ✓ מוצר נבחר: <strong>{demandSelectedProduct.name}</strong>
-              </p>
-            )}
-            <div className="flex flex-wrap gap-2 mb-2">
-              {demandExamples.map((ex, i) => (
-                <button key={i} type="button"
-                  onClick={() => { setDemandQuery(ex); }}
-                  className="text-xs px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition font-medium">
-                  {ex}
-                </button>
-              ))}
-            </div>
-
-            {demandResult && (
-              <div className="mt-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 p-5 text-right">
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full ${demandResult.score === "גבוה" ? "bg-emerald-100 text-emerald-700" : demandResult.score === "בינוני" ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>
-                    ביקוש {demandResult.score}
-                  </span>
-                  <h4 className="font-black text-gray-800 text-sm">{demandResult.query}</h4>
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-indigo-600">{demandResult.count}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">קונים פוטנציאליים</div>
-                  </div>
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-violet-600">{Math.floor(demandResult.count * 0.4)}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">בקשות פעילות</div>
-                  </div>
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-emerald-600">{demandResult.trend}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">מגמה</div>
-                  </div>
-                </div>
-                <button type="button" onClick={onJoin}
-                  className="mt-4 w-full py-3 rounded-2xl font-bold text-white text-sm transition"
-                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
-                  פתח קבוצה עבור {demandResult.query} ←
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* DEMAND CHECKER section removed — kept handlers/state above for potential reuse */}
 
       {/* ── FEATURES GRID ───────────────────────────────── */}
       <section className="bg-white py-20 px-4">
@@ -16586,7 +16471,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
             </span>
           </h2>
           <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">
-            3 מוצרים ראשונים ללא עמלה. בלי כרטיס אשראי. בדיקת ביקוש חינמית לכל מוצר.
+            3 חודשי ניסיון ללא עמלה. בלי כרטיס אשראי. אחרי הניסיון — 2% בלבד, על עסקה שנסגרה.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button type="button" onClick={onJoin}
@@ -16594,12 +16479,6 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
               style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 48px rgba(192,38,211,0.5)" }}>
               <Building2 className="w-6 h-6" />
               הצטרף עכשיו — חינם
-            </button>
-            <button type="button"
-              onClick={() => document.getElementById('sl-demand').scrollIntoView({ behavior:'smooth' })}
-              className="flex items-center gap-2 px-8 py-5 rounded-2xl font-bold text-white/80 border border-white/20 hover:border-white/40 transition text-lg">
-              <Search className="w-5 h-5" />
-              בדוק ביקוש קודם
             </button>
           </div>
           <p className="text-white/30 text-sm mt-6">מצטרפים לצד הספקים שכבר מוכרים בBundly</p>
