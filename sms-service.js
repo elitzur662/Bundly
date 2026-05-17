@@ -1,8 +1,18 @@
 /**
  * Bundly — SMS Service (Twilio)
  * Requires: TWILIO_SID, TWILIO_TOKEN, TWILIO_FROM in .env
+ *
+ * LAUNCH HARDENING:
+ *   - Never print OTPs in production. Dev mode shows a masked preview only.
+ *   - Never log full phone numbers — mask the middle digits.
+ *   - In production, getClient() returning null is a hard error (caller
+ *     decides whether to throw or return failure). The previous "silent
+ *     skip" behavior would have let users register without ever receiving
+ *     an OTP, leaving accounts stranded.
  */
 import twilio from "twilio";
+
+const IS_PROD = process.env.NODE_ENV === "production";
 
 // Normalize Israeli phone to E.164 (+972...)
 export function normalizePhone(raw = "") {
@@ -12,24 +22,49 @@ export function normalizePhone(raw = "") {
   return `+${digits}`;
 }
 
+// Mask a phone for log output: +972505551234 → +972505***234
+function _maskPhone(phone) {
+  const s = String(phone || "");
+  if (s.length < 6) return "***";
+  return s.slice(0, 6) + "***" + s.slice(-3);
+}
+
 function getClient() {
   if (!process.env.TWILIO_SID || !process.env.TWILIO_TOKEN) return null;
   return twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 }
 
 // ── Send OTP ───────────────────────────────────────────────────────
+// Returns { ok: true } on success, { ok: false, error } on failure.
+// In production, refusing to send means the caller must surface an error
+// to the user — never let the OTP step succeed silently when SMS failed.
 export async function sendOtpSms(phone, code) {
   const client = getClient();
   if (!client) {
-    console.warn("[SMS] Twilio not configured — OTP:", code);
-    return; // will still be saved to DB; frontend shows it in dev mode
+    if (IS_PROD) {
+      // Hard fail in production — don't print OTP to logs, don't silently
+      // succeed. The /api/auth/send-otp handler relies on this signal to
+      // return 503 to the user.
+      console.error("[SMS] Twilio not configured in production — OTP send refused");
+      return { ok: false, error: "SMS service not configured" };
+    }
+    // Dev only: log a masked notice (NOT the code) so devs can find the
+    // OTP via the in-memory store rather than fishing it out of stdout.
+    console.warn(`[SMS] dev mode — OTP for ${_maskPhone(phone)} would be sent (check DB)`);
+    return { ok: true, dev: true };
   }
-  await client.messages.create({
-    body: `קוד האימות שלך ב-Bundly: ${code}\nתקף ל-5 דקות.`,
-    from: process.env.TWILIO_FROM,
-    to:   normalizePhone(phone),
-  });
-  console.log(`[SMS] OTP sent to ${phone}`);
+  try {
+    await client.messages.create({
+      body: `קוד האימות שלך ב-Bundly: ${code}\nתקף ל-5 דקות.`,
+      from: process.env.TWILIO_FROM,
+      to:   normalizePhone(phone),
+    });
+    console.log(`[SMS] OTP sent to ${_maskPhone(phone)}`);
+    return { ok: true };
+  } catch (e) {
+    console.warn(`[SMS] OTP send failed for ${_maskPhone(phone)}: ${e.message}`);
+    return { ok: false, error: e.message };
+  }
 }
 
 // ── Price Drop SMS ─────────────────────────────────────────────────
@@ -59,7 +94,7 @@ export async function sendSupplierOfferSms(phone, { productName, offerPrice, sup
       from: process.env.TWILIO_FROM,
       to:   normalizePhone(phone),
     });
-    console.log(`[SMS] Supplier offer sent to ${phone}`);
+    console.log(`[SMS] Supplier offer sent to ${_maskPhone(phone)}`);
   } catch (e) {
     console.warn("[SMS] offer send failed:", e.message);
   }
@@ -79,7 +114,7 @@ export async function sendOrderStatusSms(phone, { orderId, productName, status, 
   if (!body) return;
   try {
     await client.messages.create({ body, from: process.env.TWILIO_FROM, to: normalizePhone(phone) });
-    console.log(`[SMS] Order ${orderId} status=${status} sent to ${phone}`);
+    console.log(`[SMS] Order ${orderId} status=${status} sent to ${_maskPhone(phone)}`);
   } catch (e) { console.warn("[SMS] order status failed:", e.message); }
 }
 
