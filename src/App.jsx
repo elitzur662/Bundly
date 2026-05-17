@@ -2522,11 +2522,11 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             href="/how-it-works.html"
             target="_blank"
             rel="noopener"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition-all border border-violet-100"
+            className="how-it-works-pulse flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 transition-all shadow-md shadow-violet-300/50 border border-violet-400/30"
             title="איך זה עובד?"
           >
-            <Sparkles className="w-4 h-4" />
-            <span>איך זה עובד?</span>
+            <Sparkles className="w-4 h-4 animate-pulse" />
+            <span className="font-black">איך זה עובד?</span>
           </a>
           {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
         </div>
