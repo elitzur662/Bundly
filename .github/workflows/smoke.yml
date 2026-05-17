@@ -53,10 +53,14 @@ jobs:
           # imports + handlers and proves the build is healthy.
           STRIPE_SECRET_KEY: sk_test_dummy_for_smoke
           STRIPE_PUBLISHABLE_KEY: pk_test_dummy_for_smoke
-          JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
-          URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
-          SESSION_SECRET: smoke-test-session-secret-also-long-enough
-          ADMIN_PASSWORD: smoke-test-admin-pw-must-pass-12char-check
+          # Hard-coded CI secrets (never used outside CI). Must be ≥32 chars
+          # AND avoid the _WEAK_SUBSTRINGS list in server.js (no "test-secret",
+          # "default-secret", "fallback", "placeholder", etc.) so the strong-
+          # secret guard accepts them.
+          JWT_SECRET: ci-smoke-jwt-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
+          URL_SIGN_SECRET: ci-smoke-urlsign-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
+          SESSION_SECRET: ci-smoke-session-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
+          ADMIN_PASSWORD: ci-smoke-admin-strong-pw-12chars
         run: npm run smoke
 
       - name: Verify static asset serving (production mode)
@@ -67,13 +71,17 @@ jobs:
           NODE_ENV: production
           STRIPE_SECRET_KEY: sk_test_dummy_for_smoke
           STRIPE_PUBLISHABLE_KEY: pk_test_dummy_for_smoke
-          JWT_SECRET: smoke-test-secret-must-be-long-enough-to-pass-validation
-          URL_SIGN_SECRET: smoke-test-url-sign-secret-also-long-enough
-          SESSION_SECRET: smoke-test-session-secret-also-long-enough
+          # Hard-coded CI secrets (never used outside CI). Must be ≥32 chars
+          # AND avoid the _WEAK_SUBSTRINGS list in server.js (no "test-secret",
+          # "default-secret", "fallback", "placeholder", etc.) so the strong-
+          # secret guard accepts them.
+          JWT_SECRET: ci-smoke-jwt-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
+          URL_SIGN_SECRET: ci-smoke-urlsign-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
+          SESSION_SECRET: ci-smoke-session-c0ffee-deadbeef-c0ffee-deadbeef-cafe1234
           # server.js _assertStrongSecret hard-exits in NODE_ENV=production
           # if ADMIN_PASSWORD is missing or shorter than 12 chars. Was the
           # silent-killer cause of the first CI run's red X.
-          ADMIN_PASSWORD: smoke-test-admin-pw-must-pass-12char-check
+          ADMIN_PASSWORD: ci-smoke-admin-strong-pw-12chars
           PORT: 3100
         run: |
           set -eo pipefail
