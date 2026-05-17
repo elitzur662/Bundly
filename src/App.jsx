@@ -19829,10 +19829,14 @@ export default function App() {
       const startLow = (d.bids?.length > 0
         ? Math.min(...d.bids.map(b => b.amount || Infinity))
         : (d.groupOffer || d.marketMin || d.marketMax || 0));
-      if (startLow > 0) {
+      // /api/auto-bid/scan now requires admin auth — fire only if we have an
+      // admin token cached. Anonymous customers shouldn't trigger this; the
+      // server's hourly cron handles auto-bid evaluation for regular users.
+      const _adminTok = localStorage.getItem("bundly_admin_token");
+      if (startLow > 0 && _adminTok) {
         fetch(`/api/auto-bid/scan`, {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${_adminTok}` },
           body:    JSON.stringify({
             dealId:    d.id,
             currentLow: startLow,

@@ -124,8 +124,9 @@ export function helmetHeaders() {
         defaultSrc: ["'self'"],
         // Stripe.js loads from js.stripe.com (and may load helper scripts from
         // m.stripe.com). Without these the credit-card iframe never appears.
-        scriptSrc:  ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network"],
-        scriptSrcElem: ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network"],
+        // hCaptcha needs js.hcaptcha.com + newassets.hcaptcha.com (worker + widget assets)
+        scriptSrc:  ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network", "https://js.hcaptcha.com", "https://*.hcaptcha.com", "https://newassets.hcaptcha.com"],
+        scriptSrcElem: ["'self'", "'unsafe-inline'", "https://js.stripe.com", "https://m.stripe.com", "https://m.stripe.network", "https://js.hcaptcha.com", "https://*.hcaptcha.com", "https://newassets.hcaptcha.com"],
         styleSrc:   ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:    ["'self'", "https://fonts.gstatic.com", "data:"],
         imgSrc:     ["'self'", "data:", "https:", "blob:"],
@@ -206,13 +207,13 @@ export function securityHeaders(req, res, next) {
   // Scripts are strictly same-origin + Stripe.js domains; disable eval; disable plugins.
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network",
-    "script-src-elem 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network",
+    "script-src 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network https://js.hcaptcha.com https://*.hcaptcha.com https://newassets.hcaptcha.com",
+    "script-src-elem 'self' 'unsafe-inline' https://js.stripe.com https://m.stripe.com https://m.stripe.network https://js.hcaptcha.com https://*.hcaptcha.com https://newassets.hcaptcha.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: https: blob:",
-    "connect-src 'self' https://api.stripe.com https://js.stripe.com https://m.stripe.com https://m.stripe.network https://q.stripe.com",
-    "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://m.stripe.network",
+    "connect-src 'self' https://api.stripe.com https://js.stripe.com https://m.stripe.com https://m.stripe.network https://q.stripe.com https://hcaptcha.com https://*.hcaptcha.com",
+    "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://m.stripe.network https://hcaptcha.com https://*.hcaptcha.com",
     "frame-ancestors 'none'",
     "form-action 'self'",
     "base-uri 'self'",
