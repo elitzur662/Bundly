@@ -3566,19 +3566,27 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
                 </div>
               )}
 
-              {/* Store list */}
+              {/* Price ladder — anonymised (no store names). Per brand
+                  request: don't reveal that prices come from external
+                  retailers; show only positional ranking + price. */}
               {(product.stores || []).length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs font-bold text-gray-500 mb-2">מחירים לפי חנות:</p>
+                  <p className="text-xs font-bold text-gray-500 mb-2">השוואת מחירים בשוק:</p>
                   <div className="space-y-1.5">
-                    {[...(product.stores || [])].filter(s => s.price > 0).sort((a, b) => a.price - b.price).slice(0, 5).map((store, i) => (
-                      <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${i === 0 ? "bg-emerald-50 border border-emerald-100" : "bg-gray-50 border border-gray-100"}`}>
-                        <span className={`text-xs font-semibold ${i === 0 ? "text-emerald-700" : "text-gray-700"}`}>
-                          {i === 0 && <span className="mr-1">🥇</span>}{store.name}
-                        </span>
-                        <span className={`text-sm font-black ${i === 0 ? "text-emerald-700" : "text-gray-800"}`}>₪{(store.price).toLocaleString()}</span>
-                      </div>
-                    ))}
+                    {[...(product.stores || [])].filter(s => s.price > 0).sort((a, b) => a.price - b.price).slice(0, 5).map((store, i) => {
+                      const rankLabel = i === 0 ? "המחיר הזול ביותר בשוק"
+                                      : i === 1 ? "מחיר שני בשוק"
+                                      : i === 2 ? "מחיר שלישי בשוק"
+                                      : `מקום ${i + 1}`;
+                      return (
+                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${i === 0 ? "bg-emerald-50 border border-emerald-100" : "bg-gray-50 border border-gray-100"}`}>
+                          <span className={`text-xs font-semibold ${i === 0 ? "text-emerald-700" : "text-gray-700"}`}>
+                            {i === 0 && <span className="mr-1">🥇</span>}{rankLabel}
+                          </span>
+                          <span className={`text-sm font-black ${i === 0 ? "text-emerald-700" : "text-gray-800"}`}>₪{(store.price).toLocaleString()}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -10336,12 +10344,16 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                   <TrendingDown className="w-4 h-4 text-indigo-500" />{t.psCurrentPrice} — {t.psCheapest}
                 </h3>
                 <div className="space-y-2">
-                  {[...result.suppliers].sort((a,b)=>a.price-b.price).map((s, i) => (
+                  {[...result.suppliers].sort((a,b)=>a.price-b.price).map((s, i) => {
+                    const rankSub = i === 0 ? "המחיר הזול ביותר בשוק"
+                                  : i === 1 ? "מחיר שני בשוק"
+                                  : `מקום ${i + 1}`;
+                    return (
                     <div key={i} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl ${i===0?"bg-indigo-50 border border-indigo-100":"bg-gray-50"}`}>
                       <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 ${i===0?"bg-indigo-600 text-white":"bg-gray-200 text-gray-500"}`}>{i===0?"★":i+1}</span>
                       <div className="flex-1 min-w-0">
                         <p className={`font-black text-base leading-tight ${i===0?"text-indigo-700":"text-gray-500"}`}>₪{s.price?.toLocaleString()}</p>
-                        {s.name && <p className="text-[11px] text-gray-400 truncate">{s.name}</p>}
+                        <p className="text-[11px] text-gray-400 truncate">{rankSub}</p>
                       </div>
                       {s.link && isIsraeliLink(s.link)
                         ? <a href={s.link} target="_blank" rel="noopener noreferrer"
@@ -10351,7 +10363,8 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                         : null
                       }
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
               </div>
             )}
@@ -10747,7 +10760,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                 <p className="text-3xl font-black text-gray-900 leading-none mt-1">
                   {priceMin > 0 ? `₪${priceMin.toLocaleString()}` : "—"}
                 </p>
-                {cheapest && <p className="text-[11px] text-gray-400 mt-0.5">{cheapest.source || cheapest.name}</p>}
+                {cheapest && <p className="text-[11px] text-gray-400 mt-0.5">מתוך השוואת מחירים בשוק</p>}
               </div>
               {groupTarget > 0 && (
                 <div className="text-left">
@@ -10784,17 +10797,26 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               </button>
               {showAllStores && (
                 <div className="mt-2 space-y-1.5">
-                  {pricedSup.slice(0, 8).map((s, i) => (
-                    <a key={i} href={storeLink(s)} target="_blank" rel="noopener noreferrer"
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition group ${
-                        i === 0 ? "bg-gradient-to-l from-emerald-500 to-teal-600 text-white shadow-md" : "bg-white border border-gray-100 hover:border-emerald-200"
-                      }`}>
-                      <span className={`text-sm font-black ${i === 0 ? "text-white" : "text-gray-300"}`}>{i === 0 ? "🥇" : i + 1}</span>
-                      <span className={`flex-1 text-sm font-bold truncate ${i === 0 ? "text-white" : "text-gray-700"}`}>{s.source || s.name}</span>
-                      <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{s.price.toLocaleString()}</span>
-                      <ExternalLink className={`w-3 h-3 ${i === 0 ? "text-white/60" : "text-gray-300"}`} />
-                    </a>
-                  ))}
+                  {pricedSup.slice(0, 8).map((s, i) => {
+                    // Anonymised rank label — never show store names to the
+                    // customer. Brand keeps the appearance of a curated
+                    // market comparison, not a price-scraping aggregator.
+                    const rankLabel = i === 0 ? "המחיר הזול ביותר בשוק"
+                                    : i === 1 ? "מחיר שני בשוק"
+                                    : i === 2 ? "מחיר שלישי בשוק"
+                                    : `מקום ${i + 1}`;
+                    return (
+                      <a key={i} href={storeLink(s)} target="_blank" rel="noopener noreferrer"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition group ${
+                          i === 0 ? "bg-gradient-to-l from-emerald-500 to-teal-600 text-white shadow-md" : "bg-white border border-gray-100 hover:border-emerald-200"
+                        }`}>
+                        <span className={`text-sm font-black ${i === 0 ? "text-white" : "text-gray-300"}`}>{i === 0 ? "🥇" : i + 1}</span>
+                        <span className={`flex-1 text-sm font-bold truncate ${i === 0 ? "text-white" : "text-gray-700"}`}>{rankLabel}</span>
+                        <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{s.price.toLocaleString()}</span>
+                        <ExternalLink className={`w-3 h-3 ${i === 0 ? "text-white/60" : "text-gray-300"}`} />
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
