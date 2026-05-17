@@ -287,9 +287,14 @@ export async function sendDealMemberJoinedEmail(to, {
     ? Math.max(0, targetCount - currentCount)
     : 0;
   const safeProductName = _esc(productName);
+  // SECURITY (red-team round 2 — L-R2-5): use the escaped+CRLF-stripped
+  // product name in the Subject too. Other email subjects already do this;
+  // this one was the only inconsistency. Defends against header injection
+  // if productName ever flows through with embedded \r\n.
+  const subjectSafe = String(safeProductName).replace(/[\r\n]+/g, " ").slice(0, 200);
   const subject = remaining > 0
-    ? `🎉 עוד משתתף הצטרף — ${currentCount} כבר בסבב של ${productName}`
-    : `🔥 הסבב מתמלא! ${currentCount} משתתפים על ${productName}`;
+    ? `🎉 עוד משתתף הצטרף — ${currentCount} כבר בסבב של ${subjectSafe}`
+    : `🔥 הסבב מתמלא! ${currentCount} משתתפים על ${subjectSafe}`;
   const progressBar = targetCount
     ? `
       <div style="background:#f3f4f6;border-radius:999px;height:8px;overflow:hidden;margin:14px 0">

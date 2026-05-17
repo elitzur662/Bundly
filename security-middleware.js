@@ -11,7 +11,7 @@
  * are detected and used when present for stronger guarantees.
  */
 import { timingSafeEqual, randomBytes, createHmac, createHash } from "node:crypto";
-import { appendFile } from "node:fs";
+import { appendFile, statSync, renameSync, existsSync } from "node:fs";
 
 const IS_PROD = process.env.NODE_ENV === "production";
 
@@ -93,8 +93,24 @@ export function audit(type, req, details = {}) {
     method:  _sanitizeLogValue(req?.method || ""),
     ...safeDetails,
   }) + "\n";
+  _rotateAuditLogIfNeeded();
   appendFile(AUDIT_FILE, line, () => {});
   if (!IS_PROD) console.log(`[AUDIT ${type}]`, safeDetails, req?.path);
+}
+
+// SECURITY (red-team round 2 — L-R2-3): rotate the audit log to prevent
+// disk-fill DoS via flood of auth-fail / WAF-block events. Default cap is
+// 50 MB per file; rotate to .1 and start fresh. We only check every ~1000
+// writes (Math.random < 0.001) to avoid statSync per request.
+const _AUDIT_MAX_BYTES = Number(process.env.AUDIT_LOG_MAX_BYTES) || (50 * 1024 * 1024);
+function _rotateAuditLogIfNeeded() {
+  if (Math.random() > 0.001) return;
+  try {
+    if (!existsSync(AUDIT_FILE)) return;
+    const sz = statSync(AUDIT_FILE).size;
+    if (sz < _AUDIT_MAX_BYTES) return;
+    renameSync(AUDIT_FILE, AUDIT_FILE + ".1");
+  } catch {}
 }
 
 // ── Production-grade security headers via helmet (if installed) ──
@@ -548,22 +564,31 @@ export async function verifyCaptcha(token, remoteIp = null) {
     return { ok: true, skipped: true }; // disabled only in dev
   }
   if (!token) return { ok: false, error: "Missing captcha token" };
-  // Replay defense — hCaptcha tokens are single-use by design; we enforce
+  // SECURITY (red-team round 2 — M-R2-2): TOCTOU close. Previously the
+  // .has(token) check ran, then we awaited siteverify, THEN we called
+  // .set(token, …). Concurrent requests in the same tick all passed the
+  // check before any set ran → one valid token reused N times.
+  // Now we RESERVE the token synchronously *before* awaiting siteverify.
+  // On siteverify failure, evict so a genuine retry isn't blocked.
   if (_usedCaptchaTokens.has(token)) {
     return { ok: false, error: "Captcha token already used", replay: true };
   }
+  _usedCaptchaTokens.set(token, Date.now() + 10 * 60_000); // reserve
   try {
     const body = new URLSearchParams({ secret, response: token, ...(remoteIp && { remoteip: remoteIp }) });
     const res = await fetch("https://hcaptcha.com/siteverify", { method: "POST", body });
     const data = await res.json();
     if (data.success) {
-      // Mark as used for 10 minutes (hCaptcha tokens normally expire in 2 min,
-      // but we cache longer to defend against clock skew)
-      _usedCaptchaTokens.set(token, Date.now() + 10 * 60_000);
       return { ok: true, score: data.score };
     }
+    // hCaptcha rejected — evict the reservation so the user can retry with
+    // a fresh token (their existing one is already burned by hCaptcha anyway).
+    _usedCaptchaTokens.delete(token);
     return { ok: false, error: "Captcha failed", codes: data["error-codes"] };
-  } catch (e) { return { ok: false, error: e.message }; }
+  } catch (e) {
+    _usedCaptchaTokens.delete(token);
+    return { ok: false, error: e.message };
+  }
 }
 
 // ── Strict input validators using validator.js ───────────────────
