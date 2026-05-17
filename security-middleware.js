@@ -309,17 +309,34 @@ export function preventPrototypePollution(req, _res, next) {
   next();
 }
 
-// ── Path traversal guard on :id / :name params ────────────────────
-// Rejects .., /, \, null bytes — blocks ../../../etc/passwd style attacks.
+// ── Path traversal + prototype-pollution guard on URL params ──────
+// Blocks ../../../etc/passwd style attacks AND path-component prototype
+// pollution like `/api/deals/__proto__/bids` (audit F2). The DB helpers
+// use `obj[key] = value` patterns where `key` is taken from req.params;
+// JS assignment to the literal key "__proto__" mutates the prototype
+// chain and corrupts every subsequent read. Catch it at the edge.
 const TRAVERSAL_REGEX = /(\.\.[\\/]|%2e%2e|%00|\x00)/i;
+const PROTO_POLLUTION_VALUES = new Set([
+  "__proto__", "constructor", "prototype",
+  "%5f%5fproto%5f%5f", "%5F%5Fproto%5F%5F",
+]);
 export function preventTraversal(req, res, next) {
   const allValues = [
     ...Object.values(req.params || {}),
     ...Object.values(req.query || {}).filter(v => typeof v === "string"),
   ];
   for (const v of allValues) {
-    if (typeof v === "string" && TRAVERSAL_REGEX.test(v)) {
+    if (typeof v !== "string") continue;
+    if (TRAVERSAL_REGEX.test(v)) {
       audit("TRAVERSAL_BLOCKED", req, { value: String(v).slice(0, 100) });
+      return res.status(400).json({ error: "Invalid parameter" });
+    }
+    // Compare URL-decoded form too — attacker may send `%5f%5fproto%5f%5f`.
+    const lowered = v.toLowerCase();
+    let decoded = lowered;
+    try { decoded = decodeURIComponent(lowered); } catch { /* malformed % escape */ }
+    if (PROTO_POLLUTION_VALUES.has(lowered) || PROTO_POLLUTION_VALUES.has(decoded)) {
+      audit("PROTO_POLLUTION_BLOCKED", req, { value: String(v).slice(0, 100), path: req.path });
       return res.status(400).json({ error: "Invalid parameter" });
     }
   }

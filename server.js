@@ -12280,8 +12280,14 @@ app.patch("/api/admin/disputes/:id", adminMiddleware, AUTH_READY ? async (req, r
 //  the local data dir and POSTs each file individually.
 // ─────────────────────────────────────────────────────────────────
 const _UPLOAD_DATA_DIR = process.env.DATA_DIR || process.cwd();
+// SECURITY (audit F7): bundly-db.json REMOVED from the allowlist.
+// Letting admins overwrite the live DB via this endpoint was a one-token
+// path to total platform compromise: forge user records, set arbitrary
+// kycStatus, inject transactions, wipe disputes. DB modifications must
+// go through the typed CRUD endpoints (with their middleware + audit
+// trail). For legitimate disaster recovery, restore from backup at the
+// filesystem level (Render disk snapshot), not via HTTP.
 const _UPLOAD_ALLOWED = [
-  /^bundly-db\.json$/,
   /^zap-categories\.json$/,
   /^zap-prices\.json$/,
   /^ksp-cache\.json$/,

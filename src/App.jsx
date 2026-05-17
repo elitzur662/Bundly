@@ -20644,6 +20644,21 @@ export default function App() {
   const handleSupplierDashClick = () => currentSupplier ? setMode("supplier-dashboard") : setShowSupplierLogin(true);
 
   const handleLogout = () => {
+    // SECURITY (audit C-A3): call /api/auth/logout so the server can
+    // revoke the JTI before we drop the token locally. Without this,
+    // a stolen token (XSS, lingering tab, shared device) remains valid
+    // server-side for the full 30-day lifetime. Fire-and-forget — the
+    // local cleanup runs regardless of server reachability.
+    try {
+      const token = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : null;
+      if (token) {
+        fetch("/api/auth/logout", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          keepalive: true, // delivers even if the page is unloading
+        }).catch(() => {});
+      }
+    } catch (_) {}
     // Clear ALL user-specific state so the next user on this device doesn't
     // inherit the previous user's data (wishlist, products, search history).
     localStorage.removeItem("bundly_token");
