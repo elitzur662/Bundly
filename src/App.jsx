@@ -2543,12 +2543,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </button>
             </div>
           ) : (
-            <>
-              <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
-              <Btn onClick={onSupplierDashClick || (() => setMode("suppliers"))} variant="ghost" size="sm" className="hidden md:inline-flex">
-                <Building2 className="w-3.5 h-3.5" />כניסת ספקים
-              </Btn>
-            </>
+            <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
           )}
           {/* Mobile hamburger — always last. Wrapped in event-stop to ensure
                 clicks aren't swallowed by accidental parent handlers. */}
