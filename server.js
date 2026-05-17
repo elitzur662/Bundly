@@ -200,30 +200,47 @@ _assertStrongSecret("URL_SIGN_SECRET", process.env.URL_SIGN_SECRET, 32);
 _assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// LAUNCH HARDENING — in production, refuse to start if any required external
-// service env var is missing. The previous behavior was to silently fall back
-// to stubs (fake Stripe IDs, OTP printed to stdout, emails dropped silently).
-// That's safe-ish in dev but a public-launch landmine: customers would think
-// they paid / received an OTP / got an email when the system was no-op.
+// LAUNCH HARDENING — in production:
+//   HARD-REQUIRED env vars cause boot to fail. These cover payment paths
+//   that would silently stub out (fake successes shown to customers) and
+//   defenses that fail-open without their secret.
+//   SOFT-REQUIRED env vars print a startup warning but allow boot to
+//   proceed. These disable a non-critical feature (webhook verification,
+//   email notifications) — the system still works, just with that channel
+//   off. Operator can add them in Render → Environment without redeploy.
 if (process.env.NODE_ENV === "production") {
-  const REQUIRED_PROD_ENV = [
-    "STRIPE_SECRET_KEY",       // payment-service stubs without this
-    "STRIPE_PUBLISHABLE_KEY",  // frontend needs this exposed via /api/stripe-public-key
-    "STRIPE_WEBHOOK_SECRET",   // webhook signature verification
-    "TWILIO_SID",              // SMS OTP (sms-service.js bails silently)
+  const HARD_REQUIRED = [
+    "STRIPE_SECRET_KEY",       // payment-service stubs would fake successes
+    "STRIPE_PUBLISHABLE_KEY",  // frontend payment form fails to render
+    "TWILIO_SID",              // OTP can't be sent — registration completely broken
     "TWILIO_TOKEN",
     "TWILIO_FROM",
-    "HCAPTCHA_SECRET",         // captcha (security-middleware verifyCaptcha)
-    "EMAIL_USER",              // OTP email + notifications
-    "EMAIL_PASS",
-    "ALLOWED_ORIGINS",         // CORS allowlist
+    "HCAPTCHA_SECRET",         // captcha verification fails-open without it
+    "ALLOWED_ORIGINS",         // CORS would reject all browser requests
   ];
-  const missing = REQUIRED_PROD_ENV.filter(k => !process.env[k]);
-  if (missing.length > 0) {
-    console.error(`❌ FATAL: production launch requires these env vars: ${missing.join(", ")}`);
-    console.error(`   Without them, the system silently falls back to stubs (fake payments,`);
-    console.error(`   OTP printed to stdout, emails dropped). Set them in Render → Environment.`);
+  const SOFT_REQUIRED = [
+    "STRIPE_WEBHOOK_SECRET",   // webhook handler already returns 503 if missing
+    "EMAIL_USER",              // welcome / order-status / dispute emails won't send
+    "EMAIL_PASS",
+  ];
+  const hardMissing = HARD_REQUIRED.filter(k => !process.env[k]);
+  if (hardMissing.length > 0) {
+    console.error(`❌ FATAL: production launch requires these env vars: ${hardMissing.join(", ")}`);
+    console.error(`   Without them, payments stub / OTP fails / CAPTCHA bypassed.`);
+    console.error(`   Set them in Render → Environment.`);
     process.exit(1);
+  }
+  const softMissing = SOFT_REQUIRED.filter(k => !process.env[k]);
+  if (softMissing.length > 0) {
+    console.warn(`⚠️  PROD WARNING — non-critical env vars missing: ${softMissing.join(", ")}`);
+    console.warn(`   System will start but the corresponding features are OFF:`);
+    if (softMissing.includes("STRIPE_WEBHOOK_SECRET")) {
+      console.warn(`     • STRIPE_WEBHOOK_SECRET missing → Stripe webhooks rejected (503)`);
+    }
+    if (softMissing.includes("EMAIL_USER") || softMissing.includes("EMAIL_PASS")) {
+      console.warn(`     • EMAIL_USER/PASS missing → no welcome / order-status / dispute emails`);
+    }
+    console.warn(`   Add them in Render → Environment when ready (no redeploy needed for env-only edits).`);
   }
 }
 
