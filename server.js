@@ -318,27 +318,40 @@ app.post(
     try {
       switch (event.type) {
         case "payment_intent.succeeded": {
-          // Captured (manual or automatic). Mark our transaction(s) as captured.
+          // SECURITY (red-team round 2 — M-R2-3): only promote from the
+          // expected predecessor states. Previously a late/duplicate
+          // payment_intent.succeeded could overwrite an already-released
+          // or already-refunded row back to "captured", breaking ledger
+          // reconciliation. Refuse impossible transitions.
           if (_prodDb && intentId) {
             const txs = _prodDb.listTransactions?.() || [];
             for (const t of txs) {
-              if (t.paymentIntentId === intentId && t.status !== "captured") {
-                _prodDb.updateTransaction?.(t.id, { status: "captured", capturedAt: new Date().toISOString() });
-                console.log(`${logTag} ↳ tx ${t.id} → captured`);
+              if (t.paymentIntentId !== intentId) continue;
+              const allowed = ["held", "pending", "preauth"];
+              if (!allowed.includes(t.status)) {
+                console.warn(`${logTag} ↳ tx ${t.id} ignored: status="${t.status}" not in [${allowed}]`);
+                continue;
               }
+              _prodDb.updateTransaction?.(t.id, { status: "captured", capturedAt: new Date().toISOString() });
+              console.log(`${logTag} ↳ tx ${t.id} → captured`);
             }
           }
           break;
         }
         case "payment_intent.canceled": {
-          // Hold released (group failed, customer cancelled).
           if (_prodDb && intentId) {
             const txs = _prodDb.listTransactions?.() || [];
             for (const t of txs) {
-              if (t.paymentIntentId === intentId && t.status !== "released") {
-                _prodDb.updateTransaction?.(t.id, { status: "released", releasedAt: new Date().toISOString() });
-                console.log(`${logTag} ↳ tx ${t.id} → released`);
+              if (t.paymentIntentId !== intentId) continue;
+              // Only "held" preauths can transition to "released". Refunded/
+              // captured/failed rows must not be overwritten.
+              const allowed = ["held", "pending", "preauth"];
+              if (!allowed.includes(t.status)) {
+                console.warn(`${logTag} ↳ tx ${t.id} ignored: status="${t.status}" not in [${allowed}]`);
+                continue;
               }
+              _prodDb.updateTransaction?.(t.id, { status: "released", releasedAt: new Date().toISOString() });
+              console.log(`${logTag} ↳ tx ${t.id} → released`);
             }
           }
           break;
@@ -1615,10 +1628,16 @@ function simplifyQuery(q) {
   return s;
 }
 
-app.get("/api/search", async (req, res) => {
+// SECURITY (red-team round 2 — L-R2-2): /api/search hits paid DataForSEO
+// APIs (organic + shopping) per cache miss. Cap per-IP to prevent
+// "denial-of-wallet" via query randomisation.
+app.get("/api/search",
+  rateLimit({ windowMs: 60_000, max: 30, label: "api-search" }),
+  async (req, res) => {
   const { q } = req.query;
   if (!q || q.trim().length < 2)
     return res.status(400).json({ error: "Query too short" });
+  if (q.length > 120) return res.status(400).json({ error: "Query too long" });
 
   try {
     console.log(`🔍 Searching: "${q}"`);
@@ -1800,9 +1819,12 @@ app.get("/api/search", async (req, res) => {
 //  Fetches prices directly from zap.co.il/model.aspx?modelid=...
 //  Returns the same shape as /api/search so the frontend is compatible.
 // ─────────────────────────────────────────────────────────────────
-app.get("/api/zap-model", async (req, res) => {
+app.get("/api/zap-model",
+  rateLimit({ windowMs: 60_000, max: 60, label: "api-zap-model" }),
+  async (req, res) => {
   const { modelId, name } = req.query;
   if (!modelId) return res.status(400).json({ error: "Missing modelId" });
+  if (String(modelId).length > 64) return res.status(400).json({ error: "modelId too long" });
 
   // Shopping/Merchant products use synthetic keys (shop-0, shop-1, ...) — not real Zap model IDs
   if (modelId.startsWith("shop-") || modelId.startsWith("ksp-")) {
@@ -9621,10 +9643,20 @@ function requireSupplierMatch(req, res, next) {
   if (!supplierIdParam) return res.status(400).json({ error: "Missing supplierId in path" });
   const wantedLower = String(supplierIdParam).toLowerCase();
 
-  // ── 3) guest-supplier demo path — no real data exposed ─────────────────
+  // ── 3) guest-supplier demo path — read-only ────────────────────────────
+  // SECURITY (red-team round 2 — L-R2-7): the demo path now refuses any
+  // write method. Previous behavior let anonymous callers POST/PATCH/DELETE
+  // against "guest-supplier" resources, polluting shared demo data and
+  // exposing the routes to analytics/scraper abuse.
   if (wantedLower === "guest-supplier") {
-    const hdrId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-    if (hdrId === "guest-supplier" || hdrId === "") return next();
+    const hdrId = (req.headers["x-supplier-id"] || "").toString().toLowerCase().trim();
+    if (hdrId === "guest-supplier" || hdrId === "") {
+      const isWrite = req.method !== "GET" && req.method !== "HEAD";
+      if (isWrite) {
+        return res.status(403).json({ error: "Guest supplier is read-only — sign up to perform this action" });
+      }
+      return next();
+    }
   }
 
   // ── Parse Bearer JWT ───────────────────────────────────────────────────
@@ -9691,6 +9723,48 @@ function requireSupplierMatch(req, res, next) {
 
   audit("IDOR_BLOCKED", req, { endpoint: "supplier-scoped", supplierId: supplierIdParam });
   return res.status(403).json({ error: "Forbidden — supplier identity check failed. Log in with the same email registered on the supplier account." });
+}
+
+// SECURITY (red-team round 2 — C-R2-2/3/4 + H-R2-1/2): for routes that act on
+// resources keyed by orderId / dealId / questionId / requestId rather than
+// supplierId, the legacy code trusted `x-supplier-email` / `x-supplier-id`
+// headers — attacker-controlled. This helper resolves the *verified* supplier
+// identity from the Bearer JWT (matching `user.email → supplier.email`) so
+// the route can compare to `order.supplierId` without trusting client input.
+//
+// Returns:
+//   { admin: true }              — admin JWT present
+//   { supplier: <record> }       — verified supplier (KYC-approved)
+//   { error: "...", code: NNN }  — failure (no/invalid/revoked JWT, KYC pending)
+function _resolveVerifiedSupplier(req) {
+  const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+  if (!tok || tok.length < 20) {
+    return { error: "Bearer token required", code: 401 };
+  }
+  let payload;
+  try { payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS); }
+  catch { return { error: "Invalid token", code: 401 }; }
+  if (isJwtRevoked?.(payload?.jti)) return { error: "Token revoked", code: 401 };
+  if (payload?.role === "admin") return { admin: true, payload };
+  if (payload?.id == null) return { error: "No user id in token", code: 401 };
+  try {
+    const snap = _prodDb.load();
+    const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
+    const userEmail = (user?.email || "").toLowerCase().trim();
+    if (!userEmail) return { error: "User email missing", code: 403 };
+    const supplier = (snap.suppliers || []).find(s =>
+      (s.email && s.email.toLowerCase() === userEmail) ||
+      (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
+    );
+    if (!supplier) return { error: "No supplier registered for this account", code: 403 };
+    const status = (supplier.kycStatus || "").toLowerCase();
+    if (status && status !== "approved") {
+      return { error: "Supplier account pending verification", code: 403, kycStatus: status };
+    }
+    return { supplier, payload };
+  } catch (e) {
+    return { error: "Lookup failed: " + e.message, code: 500 };
+  }
 }
 
 // Soft authorization for user-scoped endpoints. Verifies the URL's :userId
@@ -9790,6 +9864,15 @@ function adminMiddleware(req, res, next) {
       audit("ADMIN_TOKEN_REUSE", req, { roleClaim: payload.role });
       return res.status(403).json({ error: "Admin only" });
     }
+    // SECURITY (red-team round 2 — H-R2-4): admin tokens MUST honor the
+    // revocation list. Previously a leaked admin token was valid for its
+    // full 4h TTL with no way to invalidate it (admin logout didn't exist
+    // and authMiddleware rejected admin tokens). Now /api/admin/logout
+    // calls revokeJwt(jti) and this check enforces it.
+    if (isJwtRevoked?.(payload.jti)) {
+      audit("ADMIN_TOKEN_REVOKED", req, { jti: payload.jti });
+      return res.status(401).json({ error: "Admin token revoked" });
+    }
     req.admin = payload;
     // Also expose as req.user so middleware that reads req.user (e.g.
     // requireFreshAuth) works on admin routes without a separate adapter.
@@ -9800,6 +9883,14 @@ function adminMiddleware(req, res, next) {
     res.status(401).json({ error: "Invalid admin token" });
   }
 }
+
+// SECURITY (red-team round 2 — H-R2-4): admin logout. Revokes the bearer
+// jti so a stolen/leaked admin token can be invalidated before its 4h TTL.
+app.post("/api/admin/logout", adminMiddleware, (req, res) => {
+  if (req.admin?.jti) revokeJwt(req.admin.jti, req.admin.exp);
+  audit("ADMIN_LOGOUT", req);
+  res.json({ ok: true });
+});
 
 // SECURITY (audit H-A1): step-up auth for the highest-risk admin actions
 // — capturing pre-auth funds, resolving disputes (which issue refunds),
@@ -9887,21 +9978,25 @@ app.post("/api/auth/check-existing",
   // whether the user exists. Without this, attackers could iterate through
   // phone numbers and detect which are registered via timing differences.
   const startedAt = Date.now();
-  const { phone, email } = req.body;
+  const { phone, email } = req.body || {};
   let result;
-  if (!phone) result = { http: 400, body: { error: "Phone required" } };
+  // SECURITY (red-team round 2 — L-R2-6): require BOTH phone and email.
+  // Previously, sending only phone returned a clean true/false existence
+  // oracle — an attacker could enumerate registered phone numbers at 20/min
+  // per IP. Requiring email forces the attacker to know the email up front
+  // (raising the bar from "phone book" to "two-correlated-secrets").
+  if (!phone)  result = { http: 400, body: { error: "Phone required" } };
+  else if (!email) result = { http: 400, body: { error: "Email required" } };
   else if (!validatePhone(phone)) result = { http: 400, body: { error: "מספר טלפון לא תקין" } };
-  else if (email && !validateEmail(email)) result = { http: 400, body: { error: "מייל לא תקין" } };
+  else if (!validateEmail(email)) result = { http: 400, body: { error: "מייל לא תקין" } };
   else {
     const normalized = normalizePhone(phone);
     const user = getUserByPhone(normalized);
-    // Always run the same operations regardless of user existence,
-    // so timing is constant (~250ms target).
-    const _emailMatches = user && user.email && email
+    const _emailMatches = user && user.email
       ? user.email.toLowerCase() === email.toLowerCase()
-      : true;
-    const exists = !!user;
-    if (!exists || (user.email && email && !_emailMatches)) {
+      : false;
+    const exists = !!user && _emailMatches;
+    if (!exists) {
       result = { http: 200, body: { ok: false, reason: "not_found_or_mismatch" } };
     } else {
       result = { http: 200, body: { ok: true } };
@@ -9992,7 +10087,10 @@ app.post("/api/auth/verify-otp",
     return res.status(429).json({ error: "החשבון ננעל זמנית עקב ריבוי ניסיונות" });
   }
   // OTP code must be exactly 6 digits — reject obvious garbage early
-  if (typeof code !== "string" || !/^\d{4,8}$/.test(code)) {
+  // SECURITY (red-team round 2 — M-R2-1): OTPs are issued as exactly 6
+  // digits. Accepting 4–8 burns lockout budget on shorter brute-force
+  // inputs and would weaken future shorter test/override codes.
+  if (typeof code !== "string" || !/^\d{6}$/.test(code)) {
     _trackOtpFailure(normalized);
     return res.status(400).json({ error: "קוד שגוי" });
   }
@@ -10194,27 +10292,25 @@ app.get("/api/address/streets", (req, res) => {
 
 // GET /api/personal-requests — list all requests, newest first
 app.get("/api/personal-requests", AUTH_READY ? (req, res) => {
-  // Authorization required — this list contains customers' phone numbers
-  // and emails. Restrict to authenticated suppliers (header) or admin.
-  // Anonymous viewers / scrapers must not be able to enumerate PII.
-  const adminTok = req.headers.authorization?.replace("Bearer ", "");
-  let isAdmin = false;
-  if (adminTok && adminTok.length > 20) {
-    try { isAdmin = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* */ }
+  // SECURITY (red-team round 2 — C-R2-2): the previous gate accepted ANY
+  // non-empty `x-supplier-email` header without verifying it, leaking
+  // customer PII (phone, email, name) to anyone who could send a header.
+  // Worse, requests where `r.status !== "pending"` were returned unmasked
+  // even to non-admins. Now require a real JWT and ALWAYS mask PII for
+  // rows the supplier never quoted.
+  const ident = _resolveVerifiedSupplier(req);
+  if (ident.error) {
+    audit("PII_BLOCKED", req, { endpoint: "personal-requests", reason: ident.error });
+    return res.status(ident.code || 401).json({ error: ident.error });
   }
-  const supplierEmail = (req.headers["x-supplier-email"] || "").toString().trim();
-  const supplierId    = (req.headers["x-supplier-id"]    || "").toString().trim();
-  if (!isAdmin && !supplierEmail && !supplierId) {
-    audit("PII_BLOCKED", req, { endpoint: "personal-requests" });
-    return res.status(401).json({ error: "Authenticated supplier required" });
-  }
+  const isAdmin = !!ident.admin;
+  const myId = ident.supplier?.id;
   try {
     let requests = listPersonalRequests();
-    // Non-admin suppliers see masked PII for requests they haven't quoted yet
     if (!isAdmin) {
       requests = requests.map(r => {
-        const isMine = (r.offerSupplier && r.offerSupplierId === (supplierEmail || supplierId));
-        if (isMine || r.status !== "pending") return r;
+        const isMine = r.offerSupplierId && String(r.offerSupplierId) === String(myId);
+        if (isMine) return r;
         const mask = (s) => !s ? "" : s.slice(0, 2) + "***" + (s.length > 5 ? s.slice(-2) : "");
         return { ...r, phone: mask(r.phone), email: r.email ? "***@***" : "", name: r.name ? r.name.split(" ")[0] : "" };
       });
@@ -10227,23 +10323,47 @@ app.get("/api/personal-requests", AUTH_READY ? (req, res) => {
 } : notReady);
 
 // POST /api/personal-requests — customer creates new request
-app.post("/api/personal-requests", AUTH_READY ? (req, res) => {
+// SECURITY (red-team round 2 — H-R2-8): unauthenticated + uncapped + per-row
+// fan-out (one DB write per supplier) was a 100x amplification DoS.
+// Now: per-IP rate limit (3/min), per-IP daily cap, bulk fanout in a single
+// DB write, plus length caps on each text field so a single request can't
+// inflate the JSON file by megabytes.
+const _personalReqDaily = new Map(); // ip → { count, resetAt }
+function _checkPersonalReqDaily(ip) {
+  const now = Date.now();
+  let rec = _personalReqDaily.get(ip);
+  if (!rec || rec.resetAt < now) {
+    rec = { count: 0, resetAt: now + 24 * 3600_000 };
+    _personalReqDaily.set(ip, rec);
+  }
+  rec.count += 1;
+  return rec.count <= 20;
+}
+app.post("/api/personal-requests",
+  rateLimit({ windowMs: 60_000, max: 3, label: "personal-request-create" }),
+  AUTH_READY ? (req, res) => {
   try {
+    if (!_checkPersonalReqDaily(req.ip || "unknown")) {
+      audit("PERSONAL_REQ_DAILY_CAP", req);
+      return res.status(429).json({ error: "הגעת לתקרה היומית של בקשות אישיות" });
+    }
     const b = req.body || {};
     if (!b.product || !String(b.product).trim()) {
       return res.status(400).json({ error: "Product required" });
     }
+    if (String(b.product).length > 200) return res.status(400).json({ error: "Product name too long" });
+    if (b.desc && String(b.desc).length > 1000) return res.status(400).json({ error: "Description too long" });
     const row = createPersonalRequest({
-      product:            String(b.product).trim(),
-      category:           b.category || "אחר",
-      budget:             b.budget != null ? String(b.budget) : "",
-      desc:               b.desc || "",
-      name:               b.name  || "משתמש אנונימי",
-      phone:              b.phone || "",
-      email:              b.email || "",
+      product:            String(b.product).trim().slice(0, 200),
+      category:           String(b.category || "אחר").slice(0, 80),
+      budget:             b.budget != null ? String(b.budget).slice(0, 20) : "",
+      desc:               String(b.desc || "").slice(0, 1000),
+      name:               String(b.name  || "משתמש אנונימי").slice(0, 100),
+      phone:              String(b.phone || "").slice(0, 30),
+      email:              String(b.email || "").slice(0, 200),
       currentLowestPrice: b.currentLowestPrice != null ? Number(b.currentLowestPrice) : null,
       isSpecificModel:    !!b.isSpecificModel,
-      productImage:       b.productImage || null,
+      productImage:       b.productImage ? String(b.productImage).slice(0, 500) : null,
       userId:             b.userId || null,
     });
     try {
@@ -10260,28 +10380,33 @@ app.post("/api/personal-requests", AUTH_READY ? (req, res) => {
     // have no way to know about it unless they happen to open their dashboard.
     // Result: customer submits request → silence → no offers → drop-off.
     try {
-      if (_prodDb?.listSuppliers && pushSupplierNotification) {
+      // SECURITY (red-team round 2 — H-R2-8): single batched write instead
+      // of N writes. Previous loop did `pushSupplierNotification(s.id, …)`
+      // per supplier which each performed a full DB load+mutate+writeFile.
+      // 100 suppliers = 100 full DB writes per request = trivial DoS.
+      if (_prodDb?.listSuppliers && (pushSupplierNotificationsBulk || pushSupplierNotification)) {
         const allSuppliers = _prodDb.listSuppliers();
         const cat = (row.category || "").trim();
-        // Match by primary categories overlap OR exact category match OR fallback to all approved suppliers
         const matched = allSuppliers.filter(s => {
           if (s.kycStatus && s.kycStatus !== "approved") return false;
           const primary = Array.isArray(s.primaryCategories) ? s.primaryCategories : [];
           if (primary.length > 0 && cat) {
             return primary.some(c => c && (c.includes(cat) || cat.includes(c)));
           }
-          // No category preferences set → notify all approved suppliers
           return true;
         });
-        for (const s of matched) {
-          try {
-            pushSupplierNotification(s.id, {
-              type:    "new-request",
-              title:   `📝 בקשה חדשה: ${row.product}`,
-              message: `קטגוריה: ${cat}${row.budget ? ` · תקציב: ₪${row.budget}` : ""}${row.desc ? ` · ${row.desc.slice(0,80)}` : ""}`,
-              requestId: row.id,
-            });
-          } catch (_) {}
+        const note = {
+          type:    "new-request",
+          title:   `📝 בקשה חדשה: ${row.product}`,
+          message: `קטגוריה: ${cat}${row.budget ? ` · תקציב: ₪${row.budget}` : ""}${row.desc ? ` · ${row.desc.slice(0,80)}` : ""}`,
+          requestId: row.id,
+        };
+        if (pushSupplierNotificationsBulk) {
+          pushSupplierNotificationsBulk(matched.map(s => ({ supplierId: s.id, ...note })));
+        } else {
+          for (const s of matched) {
+            try { pushSupplierNotification(s.id, note); } catch (_) {}
+          }
         }
         if (matched.length > 0) {
           console.log(`[personal-requests] notified ${matched.length} suppliers about request #${row.id} (${row.product})`);
@@ -10624,24 +10749,25 @@ app.get("/api/orders/:id", authMiddleware, AUTH_READY ? (req, res) => {
 } : notReady);
 
 // Supplier-facing: update order status (shipped / delivered / tracking)
-// Requires supplier email in x-supplier-email header — verified against order.supplierId.
-// TODO: replace with full supplier JWT once supplier login is wired to server auth.
+// SECURITY (red-team round 2 — C-R2-4): supplier identity now verified via
+// Bearer JWT, not via spoofable x-supplier-email header. Previous header-only
+// check let any unauthenticated attacker mark any order shipped/delivered.
 app.patch("/api/orders/:id/status", AUTH_READY ? async (req, res) => {
   try {
-    // Authorization: only the order's supplier (or admin) can update
     const existing = _prodDb.getOrder(req.params.id);
     if (!existing) return res.status(404).json({ error: "Not found" });
-    const supplierEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-    const adminToken = req.headers.authorization?.replace("Bearer ", "");
-    let isAdmin = false;
-    if (adminToken) {
-      try { isAdmin = jwt.verify(adminToken, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* */ }
+    const ident = _resolveVerifiedSupplier(req);
+    if (ident.error) {
+      audit("IDOR_BLOCKED", req, { endpoint: "order-status", orderId: req.params.id, reason: ident.error });
+      return res.status(ident.code || 401).json({ error: ident.error });
     }
+    const isAdmin = !!ident.admin;
     if (!isAdmin) {
-      // Match supplier by email or by supplierId
-      const supplier = supplierEmail ? _prodDb.getSupplierByEmail(supplierEmail) : null;
-      const allowedId = supplier?.id || supplierEmail;
-      if (!allowedId || (existing.supplierId !== allowedId && existing.supplierId !== supplier?.businessName)) {
+      const supplier = ident.supplier;
+      const matchesId   = String(supplier?.id || "").toLowerCase() === String(existing.supplierId || "").toLowerCase();
+      const matchesName = supplier?.businessName && supplier.businessName === existing.supplierId;
+      const matchesEmail= supplier?.email && supplier.email.toLowerCase() === String(existing.supplierId || "").toLowerCase();
+      if (!matchesId && !matchesName && !matchesEmail) {
         audit("IDOR_BLOCKED", req, { endpoint: "order-status", orderId: req.params.id });
         return res.status(403).json({ error: "Forbidden — not your order" });
       }
@@ -10739,7 +10865,17 @@ app.post("/api/orders/:id/confirm-receipt", authMiddleware, AUTH_READY ? (req, r
 // ── Pre-authorized payment lifecycle ───────────────────────────
 // Capture held funds when group reaches minimum participants.
 // Admin-callable; in production this is triggered by the group-close cron job.
+// SECURITY (red-team round 2 — M-R2-7): preauth state lock shared by both
+// capture and release routes. Without this, a concurrent admin-capture +
+// customer-release pair could leave Stripe captured but DB cancelled.
+const _preauthInFlight = new Set();
+
 app.post("/api/orders/:id/capture-preauth", adminMiddleware, adminFreshAuth, AUTH_READY ? async (req, res) => {
+  const lockKey = `preauth:${req.params.id}`;
+  if (_preauthInFlight.has(lockKey)) {
+    return res.status(409).json({ error: "Pre-auth operation already in progress for this order" });
+  }
+  _preauthInFlight.add(lockKey);
   try {
     const order = _prodDb.getOrder(req.params.id);
     if (!order) return res.status(404).json({ error: "Not found" });
@@ -10766,6 +10902,7 @@ app.post("/api/orders/:id/capture-preauth", adminMiddleware, adminFreshAuth, AUT
     }
     res.json({ ok: true, captured: result });
   } catch (e) { res.status(500).json({ error: e.message }); }
+  finally { _preauthInFlight.delete(lockKey); }
 } : notReady);
 
 // Release a held pre-auth (group failed to fill, customer cancelled, etc.)
@@ -10773,9 +10910,19 @@ app.post("/api/orders/:id/capture-preauth", adminMiddleware, adminFreshAuth, AUT
 // addition to Authorization Bearer. Removed — only the standard Bearer
 // header is verified, simplifying CSRF reasoning and avoiding the
 // inconsistency-driven bug class.
+// SECURITY (red-team round 2 — M-R2-4): release-preauth now checks the
+// cancellation actually succeeded before flipping DB state, and reuses the
+// _preauthInFlight lock declared above (shared with capture-preauth) to
+// prevent the "concurrent capture+release" race.
 app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
+  const orderId = req.params.id;
+  const lockKey = `preauth:${orderId}`;
+  if (_preauthInFlight.has(lockKey)) {
+    return res.status(409).json({ error: "Pre-auth operation already in progress for this order" });
+  }
+  _preauthInFlight.add(lockKey);
   try {
-    const order = _prodDb.getOrder(req.params.id);
+    const order = _prodDb.getOrder(orderId);
     if (!order) return res.status(404).json({ error: "Not found" });
     const bearer = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
     if (!bearer || bearer.length < 20) return res.status(401).json({ error: "Auth required" });
@@ -10790,11 +10937,19 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
     const txs = _prodDb.listTransactions({ orderId: order.id });
     const preauth = txs.find(t => t.type === "preauth" && t.status === "held");
     if (!preauth) return res.status(400).json({ error: "No pre-auth to release" });
-    await _paySvc.cancelPaymentIntent({ paymentIntentId: preauth.paymentIntentId, reason: req.body?.reason || "abandoned" });
+    const result = await _paySvc.cancelPaymentIntent({
+      paymentIntentId: preauth.paymentIntentId,
+      reason: req.body?.reason || "abandoned",
+    });
+    if (!result || !result.ok) {
+      audit("RELEASE_PREAUTH_FAILED", req, { orderId, intentId: preauth.paymentIntentId });
+      return res.status(502).json({ error: "Failed to release pre-auth at payment provider", details: result?.error });
+    }
     _prodDb.updateTransaction(preauth.id, { status: "released", notes: "Released — group did not close or user cancelled" });
     _prodDb.updateOrder(order.id, { paymentStatus: "released", status: "cancelled" });
     res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
+  finally { _preauthInFlight.delete(lockKey); }
 } : notReady);
 
 // ─────────────────────────────────────────────────────────────────
@@ -10839,27 +10994,26 @@ app.post("/api/deals/:dealId/bids",
     return res.status(400).json({ error: "Invalid amount" });
   }
   if (!supplierId)                       return res.status(400).json({ error: "Missing supplierId" });
-  // Identity verification: the body's supplierId must match the caller's
-  // verified identity from the x-supplier-* headers (or admin token).
-  // Without this anyone could place a bid pretending to be another supplier.
-  const headerEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-  const headerId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-  const adminTok    = req.headers.authorization?.replace("Bearer ", "");
-  let isAdmin = false;
-  if (adminTok && adminTok.length > 20 && AUTH_READY) {
-    try { isAdmin = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* */ }
+  // SECURITY (red-team round 2 — C-R2-3): the previous "verification" was a
+  // tautology — header and body are both attacker-controlled, and the
+  // `guest-supplier` literal acted as an unconditional bypass that let
+  // anonymous callers inject ₪1 bids and corrupt the deal-close winner.
+  // Now require a real Bearer JWT, resolve the supplier from it, and PIN
+  // `supplierId` from the verified record — body value is ignored.
+  const ident = _resolveVerifiedSupplier(req);
+  if (ident.error) {
+    audit("IDOR_BLOCKED", req, { endpoint: "bid-create", reason: ident.error });
+    return res.status(ident.code || 401).json({ error: ident.error });
   }
-  if (!isAdmin) {
-    const claimed = String(supplierId).toLowerCase();
-    const matches = (headerEmail && headerEmail === claimed) || (headerId && headerId === claimed) || claimed === "guest-supplier";
-    if (!matches) {
-      audit("IDOR_BLOCKED", req, { endpoint: "bid-create", claimed, headerEmail, headerId });
-      return res.status(403).json({ error: "Forbidden — supplierId in body must match your authenticated identity" });
-    }
+  let resolvedSupplierId = supplierId;
+  let resolvedSupplierName = supplierName;
+  if (!ident.admin) {
+    resolvedSupplierId   = ident.supplier.id;
+    resolvedSupplierName = ident.supplier.businessName || ident.supplier.contactEmail || ident.supplier.email;
   }
   // Enforce the "downward-only update" rule on the server too, so a tampered
   // client can't raise its bid by skipping the UI gate.
-  const existing  = (getDealBids ? getDealBids(dealId) : []).filter(b => b.supplierId === supplierId);
+  const existing  = (getDealBids ? getDealBids(dealId) : []).filter(b => b.supplierId === resolvedSupplierId);
   const lowestMine = existing.reduce((m, b) => Math.min(m, b.amount || Infinity), Infinity);
   if (Number.isFinite(lowestMine) && amt >= lowestMine) {
     return res.status(409).json({
@@ -10876,14 +11030,14 @@ app.post("/api/deals/:dealId/bids",
   );
   const list = addDealBid(dealId, {
     amount:       amt,
-    supplierId,
-    supplierName: String(supplierName || "").slice(0, 80),
+    supplierId:   resolvedSupplierId,
+    supplierName: String(resolvedSupplierName || "").slice(0, 80),
     code:         String(code || "").slice(0, 40),
     time:         String(time || "עכשיו").slice(0, 30),
   });
   // Notify the dethroned supplier
   try {
-    if (pushSupplierNotification && prevLeader.supplierId && prevLeader.supplierId !== supplierId && amt < prevLeader.amount) {
+    if (pushSupplierNotification && prevLeader.supplierId && prevLeader.supplierId !== resolvedSupplierId && amt < prevLeader.amount) {
       pushSupplierNotification(prevLeader.supplierId, {
         type:    "undercut",
         title:   "💸 מתחרה ירד מתחת להצעתך",
@@ -11151,28 +11305,20 @@ app.post("/api/deals/:dealId/bids/:bidId/cancel",
   express.json({ limit: "8kb" }), (req, res) => {
   if (!cancelDealBid) return res.status(503).json({ error: "DB not ready" });
   const { dealId, bidId } = req.params;
-  const { supplierId, reason } = req.body || {};
-  if (!supplierId)            return res.status(400).json({ error: "Missing supplierId" });
+  const { reason } = req.body || {};
   const cleanReason = String(reason || "").trim();
   if (cleanReason.length < 3) return res.status(400).json({ error: "Reason required (≥3 chars)" });
-  // Identity verification — same model as bid create. Without this, an
-  // attacker could cancel any supplier's bids by knowing the bid id.
-  const headerEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-  const headerId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-  const adminTok    = req.headers.authorization?.replace("Bearer ", "");
-  let isAdmin = false;
-  if (adminTok && adminTok.length > 20 && AUTH_READY) {
-    try { isAdmin = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* */ }
+  // SECURITY (red-team round 2 — C-R2-3): JWT-based identity. supplierId is
+  // pinned from the verified supplier record, not from the body — so a
+  // bid id is no longer enough to cancel a rival supplier's bids.
+  const ident = _resolveVerifiedSupplier(req);
+  if (ident.error) {
+    audit("IDOR_BLOCKED", req, { endpoint: "bid-cancel", reason: ident.error });
+    return res.status(ident.code || 401).json({ error: ident.error });
   }
-  if (!isAdmin) {
-    const claimed = String(supplierId).toLowerCase();
-    const matches = (headerEmail && headerEmail === claimed) || (headerId && headerId === claimed) || claimed === "guest-supplier";
-    if (!matches) {
-      audit("IDOR_BLOCKED", req, { endpoint: "bid-cancel", claimed, headerEmail, headerId });
-      return res.status(403).json({ error: "Forbidden — supplierId must match your authenticated identity" });
-    }
-  }
-  const result = cancelDealBid(dealId, bidId, supplierId, cleanReason);
+  const verifiedSupplierId = ident.admin ? (req.body?.supplierId) : ident.supplier.id;
+  if (!verifiedSupplierId) return res.status(400).json({ error: "Missing supplierId (admin must specify in body)" });
+  const result = cancelDealBid(dealId, bidId, verifiedSupplierId, cleanReason);
   if (!result.ok) return res.status(404).json({ error: "Bid not found or not yours" });
   res.json({ ok: true, bids: result.bids, cancelled: result.cancelled });
 });
@@ -11452,20 +11598,20 @@ app.post("/api/deals/:dealId/questions/:qId/answer", express.json({ limit: "8kb"
   // `answeredBy` stored on the question is set from the verified identity,
   // not from the body — so a supplier can't impersonate someone else.
   if (!AUTH_READY) return res.status(503).json({ error: "Auth not ready" });
-  const supplierEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-  const supplierId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-  const adminTok      = req.headers.authorization?.replace("Bearer ", "");
-  let isAdmin = false;
-  if (adminTok && adminTok.length > 20) {
-    try { isAdmin = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* fall through */ }
-  }
-  if (!isAdmin && !supplierEmail && !supplierId) {
-    return res.status(401).json({ error: "Authenticated supplier required" });
+  // SECURITY (red-team round 2 — H-R2-1): JWT-based identity. Previously
+  // the `answeredBy` field was set to whatever x-supplier-email header the
+  // caller sent — anyone could defame a rival by posting forged answers
+  // attributed to their email.
+  const ident = _resolveVerifiedSupplier(req);
+  if (ident.error) {
+    audit("IDOR_BLOCKED", req, { endpoint: "question-answer", reason: ident.error });
+    return res.status(ident.code || 401).json({ error: ident.error });
   }
   const { answer } = req.body || {};
   if (!answer || String(answer).trim().length < 2) return res.status(400).json({ error: "Answer too short" });
-  // Stamp the verified identity as the answerer — not whatever the body says
-  const verifiedBy = isAdmin ? "Bundly Admin" : (supplierEmail || supplierId);
+  const verifiedBy = ident.admin
+    ? "Bundly Admin"
+    : (ident.supplier.businessName || ident.supplier.email || ident.supplier.id);
   const updated = answerDealQuestion(req.params.dealId, req.params.qId, { answer, answeredBy: verifiedBy });
   if (!updated) return res.status(404).json({ error: "Not found" });
   res.json({ ok: true, question: updated });
@@ -11481,23 +11627,26 @@ app.get("/api/suppliers/:supplierId/invoices", requireSupplierMatch, (req, res) 
 app.post("/api/orders/:orderId/invoice", express.json({ limit: "16kb" }), (req, res) => {
   if (!createInvoice) return res.status(503).json({ error: "DB not ready" });
   if (!AUTH_READY)    return res.status(503).json({ error: "Auth not ready" });
-  // Authorization: only the order's supplier (or admin) may issue the
-  // invoice. Without this, anyone could forge financial documents in any
-  // supplier's name — a real legal/audit problem.
   const order = _prodDb?.getOrder?.(req.params.orderId);
   if (!order) return res.status(404).json({ error: "Order not found" });
-
-  const adminTok = req.headers.authorization?.replace("Bearer ", "");
-  let isAdmin = false;
-  if (adminTok && adminTok.length > 20) {
-    try { isAdmin = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS).role === "admin"; } catch { /* */ }
+  // SECURITY (red-team round 2 — H-R2-2): legal/tax documents must not be
+  // creatable on header trust. Bearer JWT now resolves to a real supplier;
+  // header values are ignored. Without this, anyone who knew an order id +
+  // a supplier email could forge an invoice in the victim's name.
+  const ident = _resolveVerifiedSupplier(req);
+  if (ident.error) {
+    audit("IDOR_BLOCKED", req, { endpoint: "invoice", orderId: req.params.orderId, reason: ident.error });
+    return res.status(ident.code || 401).json({ error: ident.error });
   }
-  if (!isAdmin) {
-    const supplierEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-    const supplierId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-    const orderSupId    = String(order.supplierId || "").toLowerCase();
-    if (!orderSupId || (orderSupId !== supplierEmail && orderSupId !== supplierId)) {
-      audit("IDOR_BLOCKED", req, { endpoint: "invoice", orderId: req.params.orderId });
+  if (!ident.admin) {
+    const sup = ident.supplier;
+    const orderSupId = String(order.supplierId || "").toLowerCase();
+    const matches =
+      String(sup.id || "").toLowerCase() === orderSupId ||
+      String(sup.businessName || "") === order.supplierId ||
+      String(sup.email || "").toLowerCase() === orderSupId;
+    if (!matches) {
+      audit("IDOR_BLOCKED", req, { endpoint: "invoice", orderId: req.params.orderId, supplierId: sup.id });
       return res.status(403).json({ error: "Forbidden — not your order" });
     }
   }
@@ -11555,10 +11704,41 @@ app.post("/api/orders/:orderId/invoice", express.json({ limit: "16kb" }), (req, 
   });
   res.json({ ok: true, invoice: inv });
 });
-app.get("/api/invoices/:invoiceId", (req, res) => {
+// SECURITY (red-team round 2 — H-R2-3): invoice endpoint requires auth +
+// ownership check. Previously fully unauthenticated — invoice IDs are short
+// enough to enumerate, and the response contains customer name, address,
+// supplier tax id, items, and total. Auth pathways accepted:
+//   - admin JWT
+//   - customer JWT where invoice.customerId / order.userId matches req.user.id
+//   - supplier JWT (via _resolveVerifiedSupplier) matching invoice.supplierId
+app.get("/api/invoices/:invoiceId", AUTH_READY ? (req, res) => {
   if (!getInvoice) return res.json(null);
-  res.json(getInvoice(req.params.invoiceId));
-});
+  const inv = getInvoice(req.params.invoiceId);
+  if (!inv) return res.status(404).json({ error: "Invoice not found" });
+
+  const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+  let payload = null;
+  if (tok && tok.length > 20) {
+    try { payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS); }
+    catch { payload = null; }
+    if (payload && isJwtRevoked?.(payload.jti)) payload = null;
+  }
+  // Admin can read anything
+  if (payload?.role === "admin") return res.json(inv);
+  // Customer: invoice.customerId or related order.userId matches
+  if (payload?.id != null) {
+    const matchesCustomer = String(inv.customerId || "") === String(payload.id) ||
+                            String(_prodDb?.getOrder?.(inv.orderId)?.userId || "") === String(payload.id);
+    if (matchesCustomer) return res.json(inv);
+    // Supplier path: re-use the verified-supplier helper
+    const ident = _resolveVerifiedSupplier(req);
+    if (ident.supplier && String(ident.supplier.id) === String(inv.supplierId)) {
+      return res.json(inv);
+    }
+  }
+  audit("IDOR_BLOCKED", req, { endpoint: "invoice-get", invoiceId: req.params.invoiceId });
+  return res.status(403).json({ error: "Forbidden — invoice not accessible to this account" });
+} : notReady);
 
 // ─────────────────────────────────────────────────────────────────
 //  PERSONALIZATION — track interactions + AI-powered recommendations
@@ -11880,15 +12060,52 @@ app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
 // POST /api/deals/:id/save-payment-method
 // Called by the frontend AFTER stripe.confirmCardSetup succeeds, so the
 // server can record the resulting PaymentMethod id on the join record.
-app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? (req, res) => {
+//
+// SECURITY (red-team round 2 — H-R2-6): verify with Stripe that the
+// claimed paymentMethodId really came from this user's SetupIntent and
+// is attached to their Stripe customer. Without this check, a malicious
+// client could POST any `pm_*` id (e.g. one harvested from a different
+// account's client_secret leak) and have it stored as their saved card
+// — later off-session charges would attempt to charge a card the user
+// doesn't own (Stripe rejects, but cardLast4/cardBrand display data is
+// still falsified for repudiation purposes).
+app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? async (req, res) => {
   try {
     const dealId = req.params.id;
     const { paymentMethodId, cardLast4, cardBrand } = req.body || {};
     if (!paymentMethodId) return res.status(400).json({ error: "paymentMethodId required" });
+    if (typeof paymentMethodId !== "string" || !/^pm_[A-Za-z0-9_]{8,}$/.test(paymentMethodId)) {
+      return res.status(400).json({ error: "Invalid paymentMethodId format" });
+    }
+
+    const join = (_prodDb.listJoinedDeals(req.user.id) || []).find(j => String(j.dealId) === String(dealId));
+    if (!join) return res.status(404).json({ error: "Not a member of this deal" });
+
+    // If we have a real Stripe key + the join carries a setupIntentId, verify
+    // ownership server-side. In stub mode (no Stripe key) we trust the body.
+    if (_paySvc?.PAYMENT_READY && join.setupIntentId && !String(join.setupIntentId).startsWith("seti_stub_")) {
+      try {
+        const stripeMod = (await import("stripe")).default;
+        const stripe = new stripeMod(process.env.STRIPE_SECRET_KEY);
+        const si = await stripe.setupIntents.retrieve(join.setupIntentId);
+        if (si.payment_method !== paymentMethodId) {
+          audit("PM_OWNERSHIP_MISMATCH", req, { dealId, claimed: paymentMethodId, real: si.payment_method });
+          return res.status(403).json({ error: "Payment method does not match your SetupIntent" });
+        }
+        if (join.stripeCustomerId && si.customer && si.customer !== join.stripeCustomerId) {
+          audit("PM_CUSTOMER_MISMATCH", req, { dealId, joinCust: join.stripeCustomerId, siCust: si.customer });
+          return res.status(403).json({ error: "Customer mismatch" });
+        }
+      } catch (e) {
+        console.warn(`[save-pm] Stripe verify failed: ${e.message} — refusing`);
+        return res.status(502).json({ error: "Payment verification unavailable" });
+      }
+    }
+
     _prodDb.updateJoinedDealPayment?.(req.user.id, dealId, {
       paymentMethodId,
-      cardLast4: String(cardLast4 || "").slice(0, 4),
-      cardBrand: String(cardBrand || "").slice(0, 30),
+      cardLast4: String(cardLast4 || "").slice(0, 4).replace(/[^0-9]/g, ""),
+      cardBrand: String(cardBrand || "").slice(0, 30).replace(/[^a-zA-Z]/g, ""),
       savedAt:   new Date().toISOString(),
     });
     res.json({ ok: true });
@@ -11925,6 +12142,25 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
       return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
     }
     if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+
+    // SECURITY (red-team round 2 — H-R2-5): deals must be CLOSED before we
+    // charge the off-session card. Without this gate, a customer (or a
+    // phished link) could fire charge-confirmed while the group is still
+    // filling — paying full price for a group that may never reach its
+    // minimum, with no automated refund path (release-preauth only handles
+    // type:"preauth" transactions, not the "deal_close_charge" produced here).
+    {
+      const snap0 = _prodDb.load();
+      const deal0 = (snap0.deals || []).find(d => String(d.id) === String(dealId));
+      if (!deal0) return res.status(404).json({ error: "Deal not found" });
+      const status0 = String(deal0.status || "").toLowerCase();
+      if (status0 !== "closed" && status0 !== "confirmed") {
+        return res.status(409).json({
+          error: "Deal not closed — cannot charge yet",
+          dealStatus: status0 || "active",
+        });
+      }
+    }
 
     // ── Resolve trusted charge amount from server-side state ───────────
     // Priority: winning bid > deal.groupOffer > deal.marketMin > saved reservedAmount.
@@ -12077,9 +12313,18 @@ app.get("/api/suppliers/:id", AUTH_READY ? (req, res) => {
   try {
     const s = _prodDb.getSupplier(req.params.id);
     if (!s) return res.status(404).json({ error: "Not found" });
-    // Strip sensitive fields for public view
-    const { licenseDoc, bankAccount, ...publicFields } = s;
-    res.json({ ok: true, supplier: publicFields });
+    // SECURITY (red-team round 2 — L-R2-1): minimal public projection.
+    // Previously returned email/phone/address/ownerName/businessNumber
+    // for ANY supplier id with no auth — letting anyone scrape the full
+    // supplier directory for a competitor mailing list.
+    res.json({ ok: true, supplier: {
+      id:                 s.id,
+      businessName:       s.businessName,
+      primaryCategories:  s.primaryCategories,
+      rating:             s.rating,
+      logoUrl:            s.logoUrl,
+      kycStatus:          s.kycStatus,
+    }});
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
@@ -12224,13 +12469,30 @@ app.post("/api/disputes", authMiddleware, AUTH_READY ? (req, res) => {
 // ── General support tickets ────────────────────────────────────
 // Anyone can open a support ticket — authenticated users get their userId
 // auto-attached. Guests must provide contactEmail.
-app.post("/api/support/tickets", AUTH_READY ? (req, res) => {
+// SECURITY (red-team round 2 — H-R2-7): whitelist enum-like fields. Without
+// this, type/priority/category could contain HTML (e.g. `<img onerror>`)
+// and the admin tickets dashboard rendered them via template literal —
+// stored XSS against the admin browser.
+// SECURITY (red-team round 2 — M-R2-6): rate-limit ticket creation so an
+// anonymous attacker cannot flood the disputes table + admin dashboard.
+const _TICKET_ALLOWED_TYPE     = new Set(["general_support","order_dispute","refund_request","product_question","supplier_feedback","other"]);
+const _TICKET_ALLOWED_PRIORITY = new Set(["low","normal","high","urgent"]);
+const _TICKET_ALLOWED_CATEGORY = new Set(["other","billing","shipping","product","account","supplier","technical"]);
+app.post("/api/support/tickets",
+  rateLimit({ windowMs: 3600_000, max: 5, label: "ticket-create" }),
+  AUTH_READY ? (req, res) => {
   try {
-    const {
-      subject, description, category = "other", priority = "normal",
-      contactEmail = "", contactPhone = "", type = "general_support", reason = "support",
-    } = req.body || {};
+    const body = req.body || {};
+    const subject     = body.subject;
+    const description = body.description;
+    const contactEmail = String(body.contactEmail || "").slice(0, 200);
+    const contactPhone = String(body.contactPhone || "").slice(0, 50);
+    const type     = _TICKET_ALLOWED_TYPE.has(body.type) ? body.type : "general_support";
+    const priority = _TICKET_ALLOWED_PRIORITY.has(body.priority) ? body.priority : "normal";
+    const category = _TICKET_ALLOWED_CATEGORY.has(body.category) ? body.category : "other";
+    const reason   = String(body.reason || "support").slice(0, 100);
     if (!description || description.length < 5) return res.status(400).json({ error: "צריך לכתוב הסבר קצר" });
+    if (description.length > 5000) return res.status(400).json({ error: "הסבר ארוך מדי" });
 
     // Identify the user — auth header takes priority, else fall back to email
     let userId = null;
@@ -12506,7 +12768,13 @@ const _UPLOAD_ALLOWED = [
   /^product-db\/[a-z0-9_-]+\/(products|meta)\.json$/i,
   /^product-db\/[a-z0-9_-]+\/images\/[a-z0-9_.-]+\.(jpg|jpeg|png|webp|gif)$/i,
   /^product-img\/[a-z0-9_-]+\/[a-z0-9_.-]+\.(jpg|jpeg|png|webp|gif)$/i,
-  /^invoices\/\d{4}-\d{6}\.(json|html)$/,
+  // SECURITY (red-team round 2 — M-R2-8): only .json restore allowed.
+  // Previously .html was on the whitelist — a compromised/rogue admin
+  // could overwrite an issued invoice HTML with attacker-controlled
+  // markup served same-origin (steal localStorage via iframe srcdoc).
+  // HTML invoices are regenerated by _invoiceSvc.generateInvoice from
+  // the JSON anyway; no legitimate need to upload HTML directly.
+  /^invoices\/\d{4}-\d{6}\.json$/,
 ];
 
 app.post(

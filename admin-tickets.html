@@ -213,12 +213,12 @@ function renderList() {
     return `
       <div class="item ${cls}" onclick='selectTicket(${t.id})'>
         <div class="item-row">
-          <span class="pill ${t.status||'open'}">${STATUS_LBL[t.status]||t.status}</span>
-          <span class="pill ${t.priority||'normal'}">${PRIORITY_LBL[t.priority]||t.priority}</span>
+          <span class="pill ${escapeHtml(t.status||'open')}">${escapeHtml(STATUS_LBL[t.status]||t.status||'')}</span>
+          <span class="pill ${escapeHtml(t.priority||'normal')}">${escapeHtml(PRIORITY_LBL[t.priority]||t.priority||'')}</span>
           ${isBreach ? '<span class="pill sla-breach">SLA!</span>' : ''}
         </div>
         <div class="subject">${escapeHtml(t.subject || ('#' + t.id + ' — ' + (t.reason||'')))}</div>
-        <div class="meta">#${t.id} · ${TYPE_LBL[t.type]||t.type||'—'} · ${(t.messages||[]).length} הודעות · ${new Date(t.createdAt).toLocaleDateString('he-IL')}</div>
+        <div class="meta">#${escapeHtml(String(t.id))} · ${escapeHtml(TYPE_LBL[t.type]||t.type||'—')} · ${(t.messages||[]).length} הודעות · ${new Date(t.createdAt).toLocaleDateString('he-IL')}</div>
       </div>`;
   }).join("");
   document.getElementById("list").innerHTML = html || '<p style="text-align:center;color:var(--muted);padding:30px">אין תיקים</p>';
@@ -241,9 +241,9 @@ function renderDetail() {
   const cannedOpts = cannedResponses.map(c => `<option value="${c.id}">${escapeHtml(c.title)}</option>`).join("");
   document.getElementById("detail").innerHTML = `
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
-      <span class="pill ${t.status||'open'}">${STATUS_LBL[t.status]||t.status}</span>
-      <span class="pill ${t.priority||'normal'}">${PRIORITY_LBL[t.priority]||t.priority}</span>
-      <span style="font-size:11px;color:var(--muted)">#${t.id} · ${TYPE_LBL[t.type]||t.type||'—'}</span>
+      <span class="pill ${escapeHtml(t.status||'open')}">${escapeHtml(STATUS_LBL[t.status]||t.status||'')}</span>
+      <span class="pill ${escapeHtml(t.priority||'normal')}">${escapeHtml(PRIORITY_LBL[t.priority]||t.priority||'')}</span>
+      <span style="font-size:11px;color:var(--muted)">#${escapeHtml(String(t.id))} · ${escapeHtml(TYPE_LBL[t.type]||t.type||'—')}</span>
     </div>
     <h2 style="font-size:18px;margin:0 0 4px">${escapeHtml(t.subject || t.reason || '#' + t.id)}</h2>
     <p style="font-size:12px;color:var(--muted);margin:0 0 12px">

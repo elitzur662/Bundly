@@ -85,7 +85,12 @@ export async function createPaymentIntent({ amount, currency = "ils", orderId, u
  * Called when a group successfully reaches its minimum participants.
  */
 export async function captureManualPayment({ paymentIntentId, amount = null, idempotencyKey = null }) {
-  if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
+  // SECURITY (red-team round 2 — C-R2-1): the `pi_stub_*` prefix bypass was a
+  // production back-door. When STRIPE_READY=true (real key), attacker could
+  // pass any `pi_stub_<garbage>` and get `{ok:true, status:"succeeded"}` back
+  // — letting them flip an order to "paid" without actually paying Stripe.
+  // Stub mode is now gated EXCLUSIVELY on !STRIPE_READY.
+  if (!STRIPE_READY) {
     console.log(`[payment] STUB capture ${paymentIntentId}${amount ? ` — ₪${amount}` : ""}`);
     return { ok: true, stub: true, status: "succeeded", amount };
   }
@@ -104,7 +109,7 @@ export async function captureManualPayment({ paymentIntentId, amount = null, ide
  * Returns the held funds to the customer's bank within 7 days.
  */
 export async function cancelPaymentIntent({ paymentIntentId, reason = "abandoned" }) {
-  if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
+  if (!STRIPE_READY) {
     console.log(`[payment] STUB cancel ${paymentIntentId} (${reason})`);
     return { ok: true, stub: true, status: "canceled" };
   }
@@ -119,7 +124,7 @@ export async function cancelPaymentIntent({ paymentIntentId, reason = "abandoned
  * In stub mode, always returns success.
  */
 export async function retrievePaymentIntent(paymentIntentId) {
-  if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
+  if (!STRIPE_READY) {
     return { ok: true, stub: true, id: paymentIntentId, status: "succeeded", amount: 0 };
   }
   const stripe = await _getStripe();
@@ -273,7 +278,7 @@ export async function chargeOffSession({
  * Issue a refund against a payment intent.
  */
 export async function refundPayment({ paymentIntentId, amount = null, reason = "requested_by_customer", idempotencyKey = null }) {
-  if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
+  if (!STRIPE_READY) {
     const fakeRefundId = `re_stub_${Date.now()}`;
     console.log(`[payment] STUB refund ${fakeRefundId} for ${paymentIntentId}`);
     return { ok: true, stub: true, refundId: fakeRefundId, status: "succeeded", amount };
