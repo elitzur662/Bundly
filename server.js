@@ -10002,8 +10002,19 @@ app.get("/api/auth/me", authMiddleware, AUTH_READY ? (req, res) => {
 
 // PATCH /api/auth/profile — strict whitelist to prevent mass-assignment attacks.
 // Without this, a client could send {role:"admin", id:1} and elevate privileges.
+//
+// SECURITY (audit C-A1): "email" REMOVED from the allowed list. The
+// supplier-auth middleware authorises by matching the logged-in user's
+// email against a registered supplier — letting users edit their own
+// email lets any logged-in customer pivot to any supplier identity:
+//   1. customer POSTs PATCH /api/auth/profile {email:"victim@x.com"}
+//   2. customer hits supplier endpoints — middleware sees user.email==
+//      victim@x.com, matches the victim supplier → access granted.
+// Email changes must go through a separate /api/auth/change-email flow
+// that re-verifies the new address via OTP (not yet built — for now
+// email is immutable post-registration; admins can change it via DB).
 const PROFILE_ALLOWED_FIELDS = new Set([
-  "name", "firstName", "lastName", "email",
+  "name", "firstName", "lastName",
   "city", "street", "buildingNum", "apartmentNum", "zip",
   "preferences",
 ]);
@@ -10013,9 +10024,12 @@ app.patch("/api/auth/profile", authMiddleware, AUTH_READY ? (req, res) => {
   for (const k of Object.keys(body)) {
     if (PROFILE_ALLOWED_FIELDS.has(k)) safe[k] = body[k];
   }
-  // Validate length / type for the most common abuse vectors
-  if (safe.email && (typeof safe.email !== "string" || safe.email.length > 200)) {
-    return res.status(400).json({ error: "Invalid email" });
+  // Explicit reject — fail loud so the frontend learns to use a dedicated
+  // email-change flow.
+  if (body.email !== undefined) {
+    return res.status(403).json({
+      error: "Email cannot be changed via profile. Contact support to update your registered email.",
+    });
   }
   if (safe.name && (typeof safe.name !== "string" || safe.name.length > 100)) {
     return res.status(400).json({ error: "Name too long" });
@@ -11750,10 +11764,26 @@ app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? (req
 // User opens the deal (or a confirm link from the close-notification email)
 // and approves the charge. We then run off-session charge against the
 // PaymentMethod we stored on the join record.
+//
+// SECURITY (audit C-NEW-1): the charged amount MUST come from the trusted
+// server-side deal state — never from req.body. Before this fix a user
+// could POST { amount: 1 } and pay ₪1 for a ₪5000 group buy. We resolve
+// the trusted price from the closed deal's winning bid, falling back to
+// the deal's groupOffer / marketMin in that order, then cross-check
+// against the reservedAmount on the join record. body.amount is ignored.
+//
+// SECURITY (audit H-NEW-1): added per-(deal,user) lock to prevent
+// concurrent double-charge from a fast double-click / parallel script.
+const _chargeInFlight = new Set();
 app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (req, res) => {
+  const dealId = req.params.id;
+  const userId = req.user.id;
+  const lockKey = `chargeConfirmed:${dealId}:${userId}`;
+  if (_chargeInFlight.has(lockKey)) {
+    return res.status(409).json({ error: "Charge already in progress for this deal" });
+  }
+  _chargeInFlight.add(lockKey);
   try {
-    const dealId = req.params.id;
-    const userId = req.user.id;
     const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
     if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
     if (!join.paymentMethodId || !join.stripeCustomerId) {
@@ -11761,15 +11791,58 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
     }
     if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
 
-    const amount = Number(req.body?.amount || join.reservedAmount || 0);
-    if (amount < 1) return res.status(400).json({ error: "Invalid charge amount" });
+    // ── Resolve trusted charge amount from server-side state ───────────
+    // Priority: winning bid > deal.groupOffer > deal.marketMin > saved reservedAmount.
+    // req.body.amount is IGNORED — the previous version accepted it and was
+    // the audit C-NEW-1 vulnerability.
+    let trustedAmount = 0;
+    let amountSource = "none";
+    try {
+      const snap = _prodDb.load();
+      const deal = (snap.deals || []).find(d => String(d.id) === String(dealId));
+      if (deal) {
+        const winningBid = Array.isArray(deal.bids) && deal.bids.length > 0
+          ? Math.min(...deal.bids.map(b => Number(b.amount) || Infinity).filter(n => n > 0 && n !== Infinity))
+          : 0;
+        if (winningBid > 0) { trustedAmount = winningBid; amountSource = "winning-bid"; }
+        else if (Number(deal.groupOffer) > 0) { trustedAmount = Number(deal.groupOffer); amountSource = "group-offer"; }
+        else if (Number(deal.marketMin) > 0)  { trustedAmount = Number(deal.marketMin);  amountSource = "market-min"; }
+      }
+    } catch (e) {
+      console.warn("[charge-confirmed] deal lookup failed:", e.message);
+    }
+    if (trustedAmount < 1 && Number(join.reservedAmount) > 0) {
+      // Last resort: the amount the user agreed to at SetupIntent time.
+      trustedAmount = Number(join.reservedAmount);
+      amountSource = "reserved-amount";
+    }
+    if (trustedAmount < 1 || trustedAmount > 200000) {
+      return res.status(400).json({ error: "Deal price not finalised — cannot charge" });
+    }
+
+    // Cross-check against reservedAmount: if the customer agreed to ₪X and
+    // the trusted price is much higher, refuse and require fresh consent.
+    if (Number(join.reservedAmount) > 0 && trustedAmount > Number(join.reservedAmount) * 1.1) {
+      return res.status(409).json({
+        error: "Final price exceeds your reservation by more than 10% — needs fresh approval",
+        reservedAmount: Number(join.reservedAmount),
+        trustedAmount,
+      });
+    }
+
+    const amount = trustedAmount;
+    console.log(`[charge-confirmed] deal=${dealId} user=${userId} amount=₪${amount} source=${amountSource}`);
 
     const charge = await _paySvc.chargeOffSession({
       customerId:      join.stripeCustomerId,
       paymentMethodId: join.paymentMethodId,
       amount,
       currency:        "ils",
-      orderId:         `deal-${dealId}-${userId}-${Date.now()}`,
+      // Idempotency: stable orderId per (deal,user) so Stripe dedupes on
+      // duplicate intent creation. Was using Date.now() which made every
+      // call a fresh intent (H-NEW-1 / I-NEW-1).
+      orderId:         `deal-${dealId}-${userId}`,
+      idempotencyKey:  `charge:${dealId}:${userId}`,
       userId,
       description:     `Bundly deal ${dealId} — confirmed by customer`,
     });
@@ -11815,6 +11888,8 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
   } catch (e) {
     console.error("[charge-confirmed] error:", e.message);
     res.status(500).json({ error: e.message });
+  } finally {
+    _chargeInFlight.delete(lockKey);
   }
 } : notReady);
 
