@@ -5940,10 +5940,23 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   const sidEnc = encodeURIComponent(sid);
   // Identity headers attached to every supplier-scoped request so the
   // server's `requireSupplierMatch` middleware lets it through.
-  const supplierAuthHeaders = useMemo(() => ({
-    "x-supplier-email": (supplier?.email || "").toLowerCase(),
-    "x-supplier-id":    (supplier?.id || sid).toString().toLowerCase(),
-  }), [supplier?.email, supplier?.id, sid]);
+  //
+  // SECURITY NOTE: the server no longer trusts the x-supplier-* headers
+  // alone — they're hints. The Authorization Bearer (the customer JWT
+  // whose user.email matches a registered supplier) is the real auth.
+  // Suppliers must log in to Bundly as customers with the same email
+  // they registered with as a supplier. Without a Bearer the server
+  // returns 401.
+  const supplierAuthHeaders = useMemo(() => {
+    const customerToken = typeof localStorage !== "undefined"
+      ? localStorage.getItem("bundly_token") || ""
+      : "";
+    return {
+      "x-supplier-email": (supplier?.email || "").toLowerCase(),
+      "x-supplier-id":    (supplier?.id || sid).toString().toLowerCase(),
+      ...(customerToken && { "Authorization": "Bearer " + customerToken }),
+    };
+  }, [supplier?.email, supplier?.id, sid]);
   const supplierFetch = useCallback((url, opts = {}) => {
     return fetch(url, {
       ...opts,
@@ -6152,10 +6165,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
   const updateOrderStatus = async (orderId, status, trackingNumber = null) => {
     try {
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
       const res = await fetch(`/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          ...(customerToken && { "Authorization": "Bearer " + customerToken }),
           ...(supplier?.email && { "x-supplier-email": supplier.email }),
         },
         body: JSON.stringify({ status, trackingNumber }),
@@ -20237,6 +20252,8 @@ export default function App() {
     if (!currentSupplier?.email && !currentSupplier?.id) return;
     try {
       const headers = {};
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerToken)          headers["Authorization"]    = "Bearer " + customerToken;
       if (currentSupplier?.email) headers["x-supplier-email"] = currentSupplier.email.toLowerCase();
       if (currentSupplier?.id)    headers["x-supplier-id"]    = String(currentSupplier.id).toLowerCase();
       const r = await fetch("/api/personal-requests", { headers });
@@ -20415,6 +20432,8 @@ export default function App() {
     }));
     try {
       const supplierHeaders = {};
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerToken)                supplierHeaders["Authorization"]    = "Bearer " + customerToken;
       if (supplierId)                   supplierHeaders["x-supplier-id"]    = String(supplierId).toLowerCase();
       if (currentSupplier?.email)       supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
       const res = await fetch(`/api/deals/${encodeURIComponent(dealId)}/bids/${encodeURIComponent(bidId)}/cancel`, {
@@ -20464,7 +20483,9 @@ export default function App() {
     // pull it from the supplier object that was used to construct the bid.
     try {
       const supplierHeaders = {};
-      if (bid.supplierId)   supplierHeaders["x-supplier-id"]    = String(bid.supplierId).toLowerCase();
+      const customerTokenForBid = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerTokenForBid) supplierHeaders["Authorization"]    = "Bearer " + customerTokenForBid;
+      if (bid.supplierId)      supplierHeaders["x-supplier-id"]    = String(bid.supplierId).toLowerCase();
       if (currentSupplier?.email) supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
       const res = await fetch(`/api/deals/${encodeURIComponent(dealId)}/bids`, {
         method:  "POST",
