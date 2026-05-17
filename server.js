@@ -481,6 +481,31 @@ app.post("/api/client-error",
 import { statSync as _hcStat } from "node:fs";
 import * as _v8 from "node:v8";
 import { randomInt as _secureRandomInt } from "node:crypto";
+import { lookup as _dnsLookup } from "node:dns/promises";
+
+// SSRF guard — resolve hostname, reject any URL pointing at a private,
+// loopback, or link-local IP. Used before every server-side fetch of a
+// user/provider-supplied URL (DFS image search, product-image proxy, etc).
+// Returns true ONLY when the URL is HTTPS/HTTP, public DNS, and resolves
+// to a non-private address.
+async function _isSafeRemoteUrl(u) {
+  let parsed;
+  try { parsed = new URL(u); } catch { return false; }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+  const host = parsed.hostname;
+  // Block obviously local hostnames before we even DNS-resolve.
+  if (/^(localhost|127\.|0\.0\.0\.0|::1|fe80:|fd[0-9a-f]{2}:)/i.test(host)) return false;
+  if (/\.(local|internal|localhost)$/i.test(host)) return false;
+  try {
+    const { address } = await _dnsLookup(host);
+    // IPv4 private + loopback + link-local
+    if (/^(10\.|127\.|169\.254\.|192\.168\.|0\.)/.test(address)) return false;
+    if (/^172\.(1[6-9]|2\d|3[01])\./.test(address)) return false;
+    // IPv6 private/loopback
+    if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168)/i.test(address)) return false;
+  } catch { return false; /* unresolvable → reject */ }
+  return true;
+}
 const _hcDistPath = process.cwd() + "/dist/index.html";
 app.get("/api/health", (_req, res) => {
   const checks = { dist: "unknown", heap: "unknown", db: "unknown" };
@@ -1407,10 +1432,16 @@ app.get("/api/product-images", async (req, res) => {
 
     for (let i = 0; i < remoteUrls.length && localPaths.length < 5; i++) {
       try {
+        // M4 (audit): SSRF guard — DataForSEO could (today or via account
+        // compromise / provider swap) return URLs pointing at internal
+        // infrastructure (AWS metadata 169.254.169.254, local Redis on
+        // localhost, internal admin endpoints). Filter scheme + resolved IP.
+        if (!(await _isSafeRemoteUrl(remoteUrls[i]))) continue;
         const resp = await axios.get(remoteUrls[i], {
           responseType: "arraybuffer", timeout: 8000,
           headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
           maxContentLength: 10 * 1024 * 1024,
+          maxRedirects: 0,   // don't follow redirects — those bypass the IP check
         });
         const buf = Buffer.from(resp.data);
         const isImg = buf.length > 5000 && (
@@ -9520,38 +9551,87 @@ function _signToken(payload, opts) {
   return jwt.sign({ ...payload, jti: randomToken(16) }, JWT_SECRET, opts);
 }
 
-// Soft authorization for supplier-scoped endpoints. Suppliers don't have JWT
-// sessions yet (the existing pattern uses an `x-supplier-email` header for
-// /api/orders/:id/status). We reuse the same convention: caller must send
-// either the matching supplier email, or an admin Bearer token. Anonymous
-// access is rejected because these endpoints expose business data (bank
-// details, inventory cost, sales analytics).
+// Authorization for supplier-scoped endpoints.
+//
+// SECURITY HISTORY: The previous implementation accepted attacker-supplied
+// `x-supplier-email` / `x-supplier-id` headers and checked them against the
+// URL path — a tautology (attacker controls both). Audit findings C2 + H3
+// exploit this for full cross-supplier read/write (earnings, KYC, listings,
+// auto-bid rules). Rebuilt to require a real JWT.
+//
+// Accepted credentials, in order:
+//   1. Admin Bearer JWT (`role:"admin"`) — read-anywhere override.
+//   2. Customer Bearer JWT whose linked user record has `email` matching
+//      the supplier's registered email. This is the "the supplier logged
+//      into the customer side of Bundly with the same email" pathway.
+//   3. `guest-supplier` URL param + no other identity — kept for the demo
+//      flow that explores the supplier UI without registration. These
+//      sessions don't touch real supplier data anyway.
+//
+// The legacy x-supplier-email / x-supplier-id headers are NO LONGER trusted
+// on their own. They're still useful as hints for backward-compat fetch
+// utilities, but the Bearer JWT must validate the claimed identity.
 function requireSupplierMatch(req, res, next) {
   if (!AUTH_READY) return res.status(503).json({ error: "Auth not ready" });
   const supplierIdParam = req.params.supplierId;
   if (!supplierIdParam) return res.status(400).json({ error: "Missing supplierId in path" });
+  const wantedLower = String(supplierIdParam).toLowerCase();
 
-  // Admin override — admin tokens can read any supplier's data
-  const adminTok = req.headers.authorization?.replace("Bearer ", "");
-  if (adminTok && adminTok.length > 20) {
+  // ── 3) guest-supplier demo path — no real data exposed ─────────────────
+  if (wantedLower === "guest-supplier") {
+    const hdrId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
+    if (hdrId === "guest-supplier" || hdrId === "") return next();
+  }
+
+  // ── Parse Bearer JWT ───────────────────────────────────────────────────
+  const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+  if (!tok || tok.length < 20) {
+    audit("IDOR_BLOCKED", req, { endpoint: "supplier-scoped", supplierId: supplierIdParam, reason: "no-bearer" });
+    return res.status(401).json({ error: "Authorization Bearer token required for supplier endpoints" });
+  }
+
+  let payload;
+  try { payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS); }
+  catch {
+    audit("AUTH_INVALID", req, { endpoint: "supplier-scoped" });
+    return res.status(401).json({ error: "Invalid token" });
+  }
+  if (isJwtRevoked?.(payload?.jti)) {
+    audit("JWT_REVOKED_USE", req, { jti: payload?.jti });
+    return res.status(401).json({ error: "Token revoked" });
+  }
+
+  // ── 1) Admin override ─────────────────────────────────────────────────
+  if (payload?.role === "admin") return next();
+
+  // ── 2) Customer JWT — look up user, match email to supplier record ────
+  if (payload?.id != null) {
     try {
-      const payload = jwt.verify(adminTok, JWT_SECRET, JWT_OPTS);
-      if (payload?.role === "admin") return next();
-    } catch { /* fall through to supplier check */ }
+      const snap = _prodDb.load();
+      const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
+      const userEmail = (user?.email || "").toLowerCase().trim();
+      if (userEmail) {
+        const suppliers = snap.suppliers || [];
+        const supplierMatch = suppliers.find(s =>
+          (s.email && s.email.toLowerCase() === userEmail) ||
+          (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
+        );
+        if (supplierMatch) {
+          const matchedId    = String(supplierMatch.id || "").toLowerCase();
+          const matchedEmail = String(supplierMatch.email || supplierMatch.contactEmail || "").toLowerCase();
+          if (matchedId === wantedLower || matchedEmail === wantedLower) {
+            req.supplier = supplierMatch;
+            return next();
+          }
+        }
+      }
+    } catch (e) {
+      console.warn(`[supplier-auth] lookup error: ${e.message}`);
+    }
   }
 
-  // Supplier identity check — header must match the URL param
-  const headerEmail = (req.headers["x-supplier-email"] || "").toString().toLowerCase().trim();
-  const headerId    = (req.headers["x-supplier-id"]    || "").toString().toLowerCase().trim();
-  // Allow guest-supplier sessions explicitly (they have id "guest-supplier")
-  // since the demo flow doesn't provision per-guest tokens.
-  if (supplierIdParam === "guest-supplier" && (headerId === "guest-supplier" || headerEmail === "")) {
-    return next();
-  }
-  if (headerEmail && headerEmail === supplierIdParam.toLowerCase()) return next();
-  if (headerId    && headerId    === supplierIdParam.toLowerCase()) return next();
   audit("IDOR_BLOCKED", req, { endpoint: "supplier-scoped", supplierId: supplierIdParam });
-  return res.status(403).json({ error: "Forbidden — supplier mismatch. Send x-supplier-email or x-supplier-id header." });
+  return res.status(403).json({ error: "Forbidden — supplier identity check failed. Log in with the same email registered on the supplier account." });
 }
 
 // Soft authorization for user-scoped endpoints. Verifies the URL's :userId
@@ -10106,18 +10186,66 @@ app.post("/api/personal-requests", AUTH_READY ? (req, res) => {
 // PATCH /api/personal-requests/:id — supplier submits offer
 // Body: { offerPrice, offerSupplier, status? }
 // Fires SMS + email to the customer if phone/email are present.
-app.patch("/api/personal-requests/:id", AUTH_READY ? async (req, res) => {
+//
+// SECURITY (audit C1): Was unauthenticated — anyone could spoof an offer,
+// trigger SMS/email to the customer with attacker-controlled supplier name,
+// and burn the Twilio quota. Now requires a Bearer JWT and PINS the
+// offering supplier identity to the authenticated user. Body-supplied
+// `offerSupplierId` is ignored; the verified identity is used instead.
+app.patch("/api/personal-requests/:id",
+  rateLimit({ windowMs: 60_000, max: 10, label: "personal-req-offer" }),
+  AUTH_READY ? async (req, res) => {
   try {
-    const { offerPrice, offerSupplier, offerSupplierId, status } = req.body || {};
+    // Authorisation: admin token OR customer token whose email matches a
+    // registered supplier. Mirrors requireSupplierMatch's logic but here
+    // we don't have a supplierId in the path — we DERIVE it from the JWT.
+    const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+    if (!tok || tok.length < 20) {
+      return res.status(401).json({ error: "Authorization Bearer token required" });
+    }
+    let payload;
+    try { payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS); }
+    catch { return res.status(401).json({ error: "Invalid token" }); }
+    if (isJwtRevoked?.(payload?.jti)) return res.status(401).json({ error: "Token revoked" });
+
+    let verifiedSupplier = null;
+    if (payload.role === "admin") {
+      // Admin can submit on behalf of any supplier — but only the supplierId
+      // they specify in the body, never the spoofable offerSupplier display name.
+      const reqBodyId = (req.body?.offerSupplierId || "").toString().trim();
+      if (!reqBodyId) return res.status(400).json({ error: "Admin must specify offerSupplierId in body" });
+      verifiedSupplier = _prodDb.load().suppliers?.find(s => String(s.id) === reqBodyId);
+      if (!verifiedSupplier) return res.status(400).json({ error: "Unknown supplier id" });
+    } else if (payload.id != null) {
+      const snap = _prodDb.load();
+      const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
+      const userEmail = (user?.email || "").toLowerCase().trim();
+      if (!userEmail) return res.status(403).json({ error: "Account has no email — register as a supplier first" });
+      verifiedSupplier = (snap.suppliers || []).find(s =>
+        (s.email && s.email.toLowerCase() === userEmail) ||
+        (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
+      );
+      if (!verifiedSupplier) return res.status(403).json({ error: "Not registered as a supplier" });
+      if (verifiedSupplier.kycStatus && verifiedSupplier.kycStatus !== "approved") {
+        return res.status(403).json({ error: "Supplier account pending KYC approval" });
+      }
+    } else {
+      return res.status(401).json({ error: "Token missing identity" });
+    }
+
+    const { offerPrice, status } = req.body || {};
     const id = Number(req.params.id);
     const existing = getPersonalRequest(id);
     if (!existing) return res.status(404).json({ error: "Request not found" });
     const isOffer = Number.isFinite(Number(offerPrice)) && Number(offerPrice) > 0;
+    // Pin the supplier identity to the verified record — ignore body fields.
+    const verifiedName = verifiedSupplier.businessName || verifiedSupplier.name || "ספק מאומת";
+    const verifiedId   = verifiedSupplier.id;
     const updated = updatePersonalRequest(id, {
       ...(isOffer && {
         offerPrice:      Number(offerPrice),
-        offerSupplier:   offerSupplier || "ספק",
-        offerSupplierId: offerSupplierId || null,
+        offerSupplier:   verifiedName,
+        offerSupplierId: verifiedId,
         offerAt:         new Date().toISOString(),
         status:          "offered",
       }),
@@ -10514,22 +10642,23 @@ app.post("/api/orders/:id/capture-preauth", adminMiddleware, AUTH_READY ? async 
 } : notReady);
 
 // Release a held pre-auth (group failed to fill, customer cancelled, etc.)
+// M7 (audit): was accepting a non-standard `x-user-token` header in
+// addition to Authorization Bearer. Removed — only the standard Bearer
+// header is verified, simplifying CSRF reasoning and avoiding the
+// inconsistency-driven bug class.
 app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
   try {
     const order = _prodDb.getOrder(req.params.id);
     if (!order) return res.status(404).json({ error: "Not found" });
-    // User can release their own; admin can release anyone's
-    const adminToken = req.headers.authorization?.replace("Bearer ", "");
-    let isAdmin = false;
-    if (adminToken) { try { isAdmin = jwt.verify(adminToken, JWT_SECRET, JWT_OPTS).role === "admin"; } catch {} }
-    if (!isAdmin) {
-      // Check user ownership
-      const userToken = req.headers["x-user-token"] || adminToken;
-      if (!userToken) return res.status(401).json({ error: "Auth required" });
-      try {
-        const u = jwt.verify(userToken, JWT_SECRET, JWT_OPTS);
-        if (order.userId !== u.id) return res.status(403).json({ error: "Not your order" });
-      } catch { return res.status(401).json({ error: "Invalid token" }); }
+    const bearer = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+    if (!bearer || bearer.length < 20) return res.status(401).json({ error: "Auth required" });
+    let payload;
+    try { payload = jwt.verify(bearer, JWT_SECRET, JWT_OPTS); }
+    catch { return res.status(401).json({ error: "Invalid token" }); }
+    if (isJwtRevoked?.(payload?.jti)) return res.status(401).json({ error: "Token revoked" });
+    const isAdmin = payload?.role === "admin";
+    if (!isAdmin && order.userId !== payload?.id) {
+      return res.status(403).json({ error: "Not your order" });
     }
     const txs = _prodDb.listTransactions({ orderId: order.id });
     const preauth = txs.find(t => t.type === "preauth" && t.status === "held");
@@ -10723,7 +10852,9 @@ function runAutoBidEvaluator({ dealId, dealMeta = {}, currentLow, excludeSupplie
 // Else: refund + notify joiners about cancellation. The actual capture of
 // pre-auths and order creation happens in the orders flow; here we just
 // emit notifications and return the winner id so the client can dispatch.
-app.post("/api/deals/:dealId/close", express.json({ limit: "8kb" }), (req, res) => {
+// M1 (audit): admin-only — was unauthenticated; first caller "won" the deal
+// for whichever supplier they chose by feeding their preferred dealMeta.
+app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb" }), (req, res) => {
   if (!getDealBids) return res.status(503).json({ error: "DB not ready" });
   const dealId = req.params.dealId;
   const { participants = 0, minParticipants = 0, dealMeta = {} } = req.body || {};
@@ -10855,7 +10986,11 @@ function _capClosedDeals(map) {
 // or whenever a deal's metadata changes. The server evaluates all active
 // rules against the deal and fires matching bids. Body: { dealId, dealMeta:{category,brand,name}, currentLow }
 const _autoBidScanCooldown = new Map(); // dealId → ts of last scan
-app.post("/api/auto-bid/scan", express.json({ limit: "8kb" }), (req, res) => {
+// H1 (audit): was unauthenticated — anyone could trigger auto-bid evaluator
+// with attacker-chosen dealMeta/currentLow and probe every supplier's price
+// floor. Restricted to admin tokens; the legitimate internal trigger fires
+// inline from addDealBid (server.js:10604) and doesn't need this route.
+app.post("/api/auto-bid/scan", adminMiddleware, express.json({ limit: "8kb" }), (req, res) => {
   const { dealId, dealMeta = {}, currentLow } = req.body || {};
   if (!dealId) return res.status(400).json({ error: "Missing dealId" });
   // Server-side cooldown: a single deal is scanned at most once a minute,
@@ -11534,12 +11669,14 @@ async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
 }
 
 // POST /api/deals/:id/hold-spot — was: ₪25 hold. Now: save card for free.
-app.post("/api/deals/:id/hold-spot", AUTH_READY ? async (req, res) => {
+// SECURITY (audit H2): now requires Bearer auth — was creating a Stripe
+// Customer + SetupIntent per anonymous request, so any attacker could
+// flood Stripe with throwaway customer objects + bloat transactions DB.
+app.post("/api/deals/:id/hold-spot", authMiddleware, AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
-  let userId = null;
-  const tok = req.headers.authorization?.replace("Bearer ", "");
-  if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
-  const lockKey = `hold:${dealId}:${userId || req.ip}`;
+  const userId = req.user?.id || null;
+  if (!userId) return res.status(401).json({ error: "Login required" });
+  const lockKey = `hold:${dealId}:${userId}`;
   if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
   _depositInFlight.add(lockKey);
   try {
@@ -11744,8 +11881,19 @@ app.patch("/api/admin/suppliers/:id/kyc", adminMiddleware, AUTH_READY ? (req, re
 } : notReady);
 
 // ── Supplier-facing: orders, earnings, reviews ──────────────────
-// Supplier identifies with their email (no separate auth yet; matches guest-supplier model)
-app.get("/api/suppliers/by-email/:email/orders", AUTH_READY ? (req, res) => {
+// Audit C2 fix — these expose business-confidential data (order list,
+// earnings + transactions, full review stream). Previously had ZERO auth
+// — anyone who guessed/scraped a supplier email could read it all.
+// requireSupplierMatchOnEmail adapts the email-based URL to the standard
+// supplierId middleware (rewrites req.params.supplierId in-place).
+function requireSupplierMatchOnEmail(req, res, next) {
+  const emailParam = decodeURIComponent(req.params.email || "").toLowerCase().trim();
+  if (!emailParam) return res.status(400).json({ error: "Missing email" });
+  req.params.supplierId = emailParam;
+  return requireSupplierMatch(req, res, next);
+}
+
+app.get("/api/suppliers/by-email/:email/orders", requireSupplierMatchOnEmail, AUTH_READY ? (req, res) => {
   try {
     const email = decodeURIComponent(req.params.email).toLowerCase();
     const supplier = _prodDb.getSupplierByEmail(email);
@@ -11756,7 +11904,7 @@ app.get("/api/suppliers/by-email/:email/orders", AUTH_READY ? (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
-app.get("/api/suppliers/by-email/:email/earnings", AUTH_READY ? (req, res) => {
+app.get("/api/suppliers/by-email/:email/earnings", requireSupplierMatchOnEmail, AUTH_READY ? (req, res) => {
   try {
     const email = decodeURIComponent(req.params.email).toLowerCase();
     const supplier = _prodDb.getSupplierByEmail(email);
@@ -11769,7 +11917,7 @@ app.get("/api/suppliers/by-email/:email/earnings", AUTH_READY ? (req, res) => {
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
-app.get("/api/suppliers/by-email/:email/reviews", AUTH_READY ? (req, res) => {
+app.get("/api/suppliers/by-email/:email/reviews", requireSupplierMatchOnEmail, AUTH_READY ? (req, res) => {
   try {
     const email = decodeURIComponent(req.params.email).toLowerCase();
     const supplier = _prodDb.getSupplierByEmail(email);

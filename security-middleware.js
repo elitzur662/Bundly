@@ -489,7 +489,15 @@ setInterval(_purgeUsedCaptcha, 60_000).unref?.();
 
 export async function verifyCaptcha(token, remoteIp = null) {
   const secret = process.env.HCAPTCHA_SECRET;
-  if (!secret) return { ok: true, skipped: true }; // disabled in dev
+  if (!secret) {
+    // H5 (audit): silent bypass in production was a CAPTCHA-defeats-bot
+    // protection failure. In production, missing secret must FAIL closed.
+    if (IS_PROD) {
+      console.warn("[captcha] HCAPTCHA_SECRET missing in production — rejecting");
+      return { ok: false, error: "Captcha service unavailable", reason: "no-secret" };
+    }
+    return { ok: true, skipped: true }; // disabled only in dev
+  }
   if (!token) return { ok: false, error: "Missing captcha token" };
   // Replay defense — hCaptcha tokens are single-use by design; we enforce
   if (_usedCaptchaTokens.has(token)) {
