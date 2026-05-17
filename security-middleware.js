@@ -10,7 +10,7 @@
  * if node_modules is incomplete. Optional deps (helmet, express-rate-limit)
  * are detected and used when present for stronger guarantees.
  */
-import { timingSafeEqual, randomBytes, createHmac } from "node:crypto";
+import { timingSafeEqual, randomBytes, createHmac, createHash } from "node:crypto";
 import { appendFile } from "node:fs";
 
 const IS_PROD = process.env.NODE_ENV === "production";
@@ -44,17 +44,40 @@ if (process.env.REDIS_URL) {
 // Defense: sanitize EVERY string field — replace CR/LF/escape sequences so an
 // attacker can't inject fake log entries via User-Agent, path, or details.
 const AUDIT_FILE = process.cwd() + "/security.log";
-function _sanitizeLogValue(v) {
+
+// SECURITY (audit F12): redact PII before writing to security.log. The log
+// goes to disk (Render persistent volume + any log-shipping tail) and is
+// retained for forensics — we MUST avoid storing plaintext emails, phones,
+// passwords, OTPs, JWT bodies, Stripe IDs. Hashing preserves correlation
+// across log lines without storing the secret itself.
+const _PII_KEYS = new Set([
+  "password", "pw", "token", "jwt", "bearer", "secret", "apiKey", "api_key",
+  "otp", "otpCode", "captchaToken",
+  "email", "phone", "phoneNumber", "mobile",
+  "paymentIntentId", "stripeCustomerId", "paymentMethodId", "setupIntentId",
+  "bankAccount", "iban", "ssn", "taxId",
+  "address", "street", "zip", "postal",
+]);
+function _hashPII(v) {
+  try {
+    const h = createHash("sha256").update(String(v)).digest("hex");
+    return `redacted:${h.slice(0, 8)}`;
+  } catch {
+    return "redacted";
+  }
+}
+function _sanitizeLogValue(v, keyHint = "") {
   if (v == null) return v;
   if (typeof v === "string") {
+    if (keyHint && _PII_KEYS.has(keyHint)) return _hashPII(v);
     // Strip ALL control chars (0x00-0x1F + 0x7F) — prevents log injection
     // and binary garbage that breaks log parsers.
     return v.replace(/[\x00-\x1F\x7F]/g, "?").slice(0, 500);
   }
-  if (Array.isArray(v)) return v.map(_sanitizeLogValue);
+  if (Array.isArray(v)) return v.map(x => _sanitizeLogValue(x, keyHint));
   if (typeof v === "object") {
     const out = {};
-    for (const [k, val] of Object.entries(v)) out[k] = _sanitizeLogValue(val);
+    for (const [k, val] of Object.entries(v)) out[k] = _sanitizeLogValue(val, k);
     return out;
   }
   return v;
@@ -478,18 +501,27 @@ export async function isLocked(ip, identity = null) {
 
 // ── Signed URL utilities (HMAC-SHA256) ────────────────────────────
 // Generates short-lived, tamper-proof URLs for sensitive downloads (invoices,
-// private images). Format: path?exp=<unix_ts>&sig=<hex>
+// private images). Format: path?exp=<unix_ts>&sig=<hex>[&aud=<userId>]
+//
+// SECURITY (audit M-NEW-2): optional `audUserId` binds the URL to a specific
+// recipient. The user id is folded into the HMAC payload so an attacker who
+// snatches a URL out of one user's history cannot replay it against another
+// account when a session is present (see /invoices/:filename verifier — if
+// the request carries Authorization, req.user.id MUST equal aud).
 const URL_SIGN_SECRET = process.env.URL_SIGN_SECRET || process.env.JWT_SECRET || "bundly-fallback-signing";
-export function signUrl(path, ttlSeconds = 300) {
+export function signUrl(path, ttlSeconds = 300, audUserId = null) {
   const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
-  const sig = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}`).digest("hex").slice(0, 32);
-  return `${path}${path.includes("?") ? "&" : "?"}exp=${exp}&sig=${sig}`;
+  const aud = audUserId == null ? "" : String(audUserId);
+  const sig = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}|${aud}`).digest("hex").slice(0, 32);
+  const sep = path.includes("?") ? "&" : "?";
+  return `${path}${sep}exp=${exp}&sig=${sig}${aud ? `&aud=${encodeURIComponent(aud)}` : ""}`;
 }
-export function verifySignedUrl(path, exp, sig) {
+export function verifySignedUrl(path, exp, sig, audUserId = null) {
   if (!exp || !sig) return false;
   const expNum = Number(exp);
   if (isNaN(expNum) || expNum < Math.floor(Date.now() / 1000)) return false; // expired
-  const expected = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}`).digest("hex").slice(0, 32);
+  const aud = audUserId == null ? "" : String(audUserId);
+  const expected = createHmac("sha256", URL_SIGN_SECRET).update(`${path}|${exp}|${aud}`).digest("hex").slice(0, 32);
   return safeEqual(expected, String(sig));
 }
 
