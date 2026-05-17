@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo, Fragment } from "react";
 import { createPortal } from "react-dom";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import {
   Users, Search, Globe, Sparkles, ChevronDown, Lock, Send,
   CheckCircle, Check, Settings, Heart, Share2, Phone, Mail, Building2,
@@ -698,11 +699,15 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
 }
 
 function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
-  // Pick the hottest deal (most participants, hot:true preferred)
-  const hotDeals = deals.filter(d => d.hot);
-  const deal = hotDeals.length > 0
-    ? hotDeals.reduce((a, b) => b.participants > a.participants ? b : a)
-    : deals.reduce((a, b) => b.participants > a.participants ? b : a);
+  // Pick the hottest deal (most participants, hot:true preferred).
+  // Guard against empty `deals` — after launch-hardening hid the seeded
+  // demo deals in prod, this array starts empty until /api/deals hydrates,
+  // and reduce-without-initial-value would throw on first render.
+  const hotDeals = (deals || []).filter(d => d.hot);
+  const pool = hotDeals.length > 0 ? hotDeals : (deals || []);
+  const deal = pool.length === 0
+    ? null
+    : pool.reduce((a, b) => b.participants > a.participants ? b : a);
 
   const [countdown, setCountdown] = useState({ h: 0, m: 0, s: 0 });
   useEffect(() => {
@@ -1615,6 +1620,14 @@ function AuthModal({ t, onSuccess, onClose }) {
   const [isNew, setIsNew]     = useState(false);
   const [token, setToken]     = useState("");
 
+  // hCaptcha — widget renders only when a site key is configured (so dev
+  // installs without HCAPTCHA env keep working). Token resets after each
+  // submit (hCaptcha tokens are single-use).
+  const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef(null);
+  const resetCaptcha = () => { try { captchaRef.current?.resetCaptcha?.(); } catch {} setCaptchaToken(""); };
+
   // ── Existing user: check phone+email then send OTP ───────────
   const handleExistingLogin = async () => {
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
@@ -1632,10 +1645,11 @@ function AuthModal({ t, onSuccess, onClose }) {
         if (checkData.reason === "mismatch") throw new Error("האימייל לא תואם למספר הנייד במערכת.");
         throw new Error("שגיאה באימות");
       }
-      // Phone exists — send OTP
-      const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone }) });
+      // Phone exists — send OTP (with captcha token if widget enabled)
+      if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("נא לאשר שאינך רובוט"); setLoading(false); return; }
+      const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, captchaToken }) });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "שגיאה בשליחה");
+      if (!res.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה בשליחה"); }
       if (data.devCode) setDevCode(data.devCode);
       setStep("otp");
     } catch(e) { setError(e.message); }
@@ -1645,11 +1659,12 @@ function AuthModal({ t, onSuccess, onClose }) {
   // ── New user: send OTP ───────────────────────────────────────
   const handleNewSendOtp = async () => {
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
+    if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("נא לאשר שאינך רובוט"); return; }
     setError(""); setLoading(true);
     try {
-      const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone }) });
+      const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, captchaToken }) });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "שגיאה בשליחה");
+      if (!res.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה בשליחה"); }
       if (data.devCode) setDevCode(data.devCode);
       setStep("otp");
     } catch(e) { setError(e.message); }
@@ -1836,6 +1851,11 @@ function AuthModal({ t, onSuccess, onClose }) {
                 className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" dir="ltr"
                 onKeyDown={e => e.key==="Enter" && handleExistingLogin()} />
             </div>
+            {HCAPTCHA_SITE_KEY && (
+              <div className="flex justify-center">
+                <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
+              </div>
+            )}
             <Btn onClick={handleExistingLogin} disabled={loading} className="w-full" size="lg">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Phone className="w-4 h-4" />שלח קוד אימות</>}
             </Btn>
@@ -1882,6 +1902,11 @@ function AuthModal({ t, onSuccess, onClose }) {
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center text-lg font-mono tracking-widest"
                 onKeyDown={e => e.key==="Enter" && handleNewSendOtp()} />
             </div>
+            {HCAPTCHA_SITE_KEY && (
+              <div className="flex justify-center">
+                <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
+              </div>
+            )}
             <Btn onClick={handleNewSendOtp} disabled={loading} className="w-full" size="lg">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Phone className="w-4 h-4" />שלח קוד SMS</>}
             </Btn>
