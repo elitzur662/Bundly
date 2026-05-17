@@ -1646,7 +1646,7 @@ function AuthModal({ t, onSuccess, onClose }) {
         throw new Error("שגיאה באימות");
       }
       // Phone exists — send OTP (with captcha token if widget enabled)
-      if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("נא לאשר שאינך רובוט"); setLoading(false); return; }
+      if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); setLoading(false); return; }
       const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, captchaToken }) });
       const data = await res.json();
       if (!res.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה בשליחה"); }
@@ -1659,7 +1659,7 @@ function AuthModal({ t, onSuccess, onClose }) {
   // ── New user: send OTP ───────────────────────────────────────
   const handleNewSendOtp = async () => {
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
-    if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("נא לאשר שאינך רובוט"); return; }
+    if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return; }
     setError(""); setLoading(true);
     try {
       const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, captchaToken }) });
