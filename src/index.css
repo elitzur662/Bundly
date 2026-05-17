@@ -164,20 +164,37 @@ input[inputmode="numeric"], input[inputmode="email"], input[inputmode="tel"] {
 }
 .bell-ring { animation: bellRing 0.7s ease-in-out; transform-origin: 50% 18%; }
 
-/* "How it works" navbar CTA — soft attention-grabbing pulse so first-time
-   visitors notice the on-ramp. Gentle (1.0 → 1.06) so it doesn't feel
-   jittery; runs forever but at low frequency (2.4s cycle). */
+/* "איך זה עובד" CTA — classic, refined pulse.
+   Previous version: 6% scale + purple→pink shadow color shift = jittery,
+   "uneven" feel. This version: 2.2% scale, single-color shadow with an
+   outward glow ring that softly breathes on the peak. 3.2s cycle on a
+   smooth cubic-bezier reads as elegant attention, not "look at me" noise. */
 @keyframes howItWorksPulse {
-  0%, 100% { transform: scale(1);    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35); }
-  50%      { transform: scale(1.06); box-shadow: 0 6px 22px rgba(217, 70, 239, 0.55); }
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 4px 14px rgba(139, 92, 246, 0.28),
+      0 0 0 0   rgba(139, 92, 246, 0.00);
+  }
+  50% {
+    transform: scale(1.022);
+    box-shadow:
+      0 6px 18px rgba(139, 92, 246, 0.42),
+      0 0 0 6px  rgba(139, 92, 246, 0.08);
+  }
 }
 .how-it-works-pulse {
-  animation: howItWorksPulse 2.4s ease-in-out infinite;
+  animation: howItWorksPulse 3.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   transform-origin: center;
+  will-change: transform, box-shadow;
 }
 .how-it-works-pulse:hover {
   animation-play-state: paused;
-  transform: scale(1.08);
+  transform: scale(1.04);
+  box-shadow:
+    0 8px 22px rgba(139, 92, 246, 0.50),
+    0 0 0 8px  rgba(139, 92, 246, 0.10);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
   .how-it-works-pulse { animation: none; }

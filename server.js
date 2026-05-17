@@ -10,12 +10,18 @@
  * Start: node server.js  (from the groupbuy-app folder)
  */
 
+// dotenv MUST load before any other import that reads process.env at
+// module-init time (activity-log.js TG_TOKEN, email-service.js transporter,
+// payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
+// top of the file, so a later `dotenv.config()` call runs AFTER those modules
+// have already snapshotted env vars as "". Side-effect import runs first.
+import "dotenv/config";
+
 import express from "express";
 // import cors from "cors"; // replaced by strictCors in security-middleware.js
 import axios from "axios";
 import * as cheerio from "cheerio";
 import OpenAI from "openai";
-import dotenv from "dotenv";
 import https from "https";
 import _httpsProxyAgentPkg from "https-proxy-agent";
 const { HttpsProxyAgent } = _httpsProxyAgentPkg;
@@ -37,7 +43,7 @@ import { syncAll as zapBulkScrapeAll } from "./db-sync-runner.js";
 // ── Categorize: spec → filterTags normalizer (shared with bulk tagger) ────────
 import { tagsFromZapSpecs, inferCategory as inferCategoryFromName } from "./categorize.js";
 
-dotenv.config();
+// dotenv loaded via side-effect import at top of file (see comment there).
 
 // ─────────────────────────────────────────────────────────────────
 //  GLOBAL UTILITY — strip HTML direction marks & entities from scraped text
@@ -193,6 +199,33 @@ _assertStrongSecret("JWT_SECRET", process.env.JWT_SECRET, 32);
 _assertStrongSecret("URL_SIGN_SECRET", process.env.URL_SIGN_SECRET, 32);
 _assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
 const JWT_SECRET = process.env.JWT_SECRET;
+
+// LAUNCH HARDENING — in production, refuse to start if any required external
+// service env var is missing. The previous behavior was to silently fall back
+// to stubs (fake Stripe IDs, OTP printed to stdout, emails dropped silently).
+// That's safe-ish in dev but a public-launch landmine: customers would think
+// they paid / received an OTP / got an email when the system was no-op.
+if (process.env.NODE_ENV === "production") {
+  const REQUIRED_PROD_ENV = [
+    "STRIPE_SECRET_KEY",       // payment-service stubs without this
+    "STRIPE_PUBLISHABLE_KEY",  // frontend needs this exposed via /api/stripe-public-key
+    "STRIPE_WEBHOOK_SECRET",   // webhook signature verification
+    "TWILIO_SID",              // SMS OTP (sms-service.js bails silently)
+    "TWILIO_TOKEN",
+    "TWILIO_FROM",
+    "HCAPTCHA_SECRET",         // captcha (security-middleware verifyCaptcha)
+    "EMAIL_USER",              // OTP email + notifications
+    "EMAIL_PASS",
+    "ALLOWED_ORIGINS",         // CORS allowlist
+  ];
+  const missing = REQUIRED_PROD_ENV.filter(k => !process.env[k]);
+  if (missing.length > 0) {
+    console.error(`❌ FATAL: production launch requires these env vars: ${missing.join(", ")}`);
+    console.error(`   Without them, the system silently falls back to stubs (fake payments,`);
+    console.error(`   OTP printed to stdout, emails dropped). Set them in Render → Environment.`);
+    process.exit(1);
+  }
+}
 
 // ── In-memory OTP rate limiter: max 3 OTPs per phone per hour + max 10 per IP per hour ──
 const _otpRateLimitMap = new Map(); // phone → [timestamp, ...]
@@ -406,6 +439,25 @@ app.post(
 
 app.use(express.json({ limit: "1mb", strict: true }));
 app.use(express.urlencoded({ extended: false, limit: "1mb" }));
+
+// LAUNCH HARDENING: sanitize 4xx/5xx JSON error bodies in production. Many
+// route handlers do `res.status(500).json({ error: e.message })`, which
+// leaks internal details (file paths, stack hints, SQL fragments). This
+// interceptor replaces the body with a generic message in prod while
+// keeping the detailed message for the server logs.
+if (process.env.NODE_ENV === "production") {
+  app.use((req, res, next) => {
+    const origJson = res.json.bind(res);
+    res.json = function (body) {
+      if (res.statusCode === 500 && body && typeof body === "object" && body.error) {
+        try { console.error(`[500] ${req.method} ${req.path} — ${String(body.error).slice(0, 300)}`); } catch {}
+        return origJson({ error: "Internal server error" });
+      }
+      return origJson(body);
+    };
+    next();
+  });
+}
 // 9. Block prototype pollution in req.body + req.query
 app.use(preventPrototypePollution);
 // 9b. Collapse HTTP-parameter-pollution arrays into first value (defends string-typed handlers)
@@ -9630,33 +9682,16 @@ function _signToken(payload, opts) {
 //   2. Customer Bearer JWT whose linked user record has `email` matching
 //      the supplier's registered email. This is the "the supplier logged
 //      into the customer side of Bundly with the same email" pathway.
-//   3. `guest-supplier` URL param + no other identity — kept for the demo
-//      flow that explores the supplier UI without registration. These
-//      sessions don't touch real supplier data anyway.
-//
-// The legacy x-supplier-email / x-supplier-id headers are NO LONGER trusted
-// on their own. They're still useful as hints for backward-compat fetch
-// utilities, but the Bearer JWT must validate the claimed identity.
+// LAUNCH HARDENING: the `guest-supplier` demo path is GONE. Every request
+// to a supplier-scoped endpoint must carry a Bearer JWT linked to a real,
+// KYC-approved supplier record.
 function requireSupplierMatch(req, res, next) {
   if (!AUTH_READY) return res.status(503).json({ error: "Auth not ready" });
   const supplierIdParam = req.params.supplierId;
   if (!supplierIdParam) return res.status(400).json({ error: "Missing supplierId in path" });
   const wantedLower = String(supplierIdParam).toLowerCase();
-
-  // ── 3) guest-supplier demo path — read-only ────────────────────────────
-  // SECURITY (red-team round 2 — L-R2-7): the demo path now refuses any
-  // write method. Previous behavior let anonymous callers POST/PATCH/DELETE
-  // against "guest-supplier" resources, polluting shared demo data and
-  // exposing the routes to analytics/scraper abuse.
   if (wantedLower === "guest-supplier") {
-    const hdrId = (req.headers["x-supplier-id"] || "").toString().toLowerCase().trim();
-    if (hdrId === "guest-supplier" || hdrId === "") {
-      const isWrite = req.method !== "GET" && req.method !== "HEAD";
-      if (isWrite) {
-        return res.status(403).json({ error: "Guest supplier is read-only — sign up to perform this action" });
-      }
-      return next();
-    }
+    return res.status(403).json({ error: "Demo supplier removed — sign up at bundly.co.shop@gmail.com" });
   }
 
   // ── Parse Bearer JWT ───────────────────────────────────────────────────
@@ -10035,20 +10070,26 @@ app.post("/api/auth/send-otp",
   const code = String(_secureRandomInt(100000, 1_000_000));
   saveOtp(normalized, code);
 
-  // No Twilio configured → dev mode: return code directly
+  // LAUNCH HARDENING: don't print OTPs to stdout in production. In dev,
+  // expose via the returned devCode (development sessions only — the prod
+  // boot-time guard refuses to start without TWILIO_SID/TOKEN/FROM so
+  // this branch is dev-only).
   if (!process.env.TWILIO_SID) {
-    console.log(`[DEV] OTP for ${normalized}: ${code}`);
+    if (process.env.NODE_ENV === "production") {
+      // Defensive: should never reach here in prod (boot guard already
+      // exited), but if env was unset post-boot, refuse to leak code.
+      return res.status(503).json({ error: "SMS service unavailable" });
+    }
     return res.json({ ok: true, devCode: code });
   }
 
-  // Twilio configured → send real SMS
-  try {
-    await sendOtpSms(normalized, code);
-    res.json({ ok: true });
-  } catch (e) {
-    console.error("[SMS error]", e.message);
-    res.status(500).json({ error: "שגיאה בשליחת SMS — בדוק הגדרות Twilio" });
+  // Twilio configured → send real SMS. Surface ANY failure to the caller
+  // — never let the OTP step succeed silently when the SMS never went out.
+  const result = await sendOtpSms(normalized, code);
+  if (!result || result.ok !== true) {
+    return res.status(502).json({ error: "שגיאה בשליחת SMS — נסה/י שוב" });
   }
+  res.json({ ok: true });
 } : notReady);
 
 // POST /api/auth/verify-otp
@@ -10134,48 +10175,14 @@ app.post("/api/auth/verify-otp",
   res.json({ ok: true, token, user: { id: user.id, name: user.name, firstName: user.firstName, lastName: user.lastName, phone: user.phone, email: user.email, city: user.city, street: user.street, buildingNum: user.buildingNum, apartmentNum: user.apartmentNum }, isNew });
 } : notReady);
 
-// POST /api/auth/test-login — quick demo login that bypasses OTP.
-// Creates (or returns) a fixed test user so the team can iterate on features
-// end-to-end without waiting for SMS. Rate-limited per IP to prevent abuse.
-// Disabled in production unless ALLOW_TEST_LOGIN=true is explicitly set —
-// staging/prod environments shouldn't expose this without intent.
-app.post("/api/auth/test-login",
-  rateLimit({ windowMs: 60_000, max: 10, label: "auth-test-login" }),
-  AUTH_READY ? (req, res) => {
-    const allowed = process.env.NODE_ENV !== "production"
-                 || process.env.ALLOW_TEST_LOGIN === "true";
-    if (!allowed) {
-      return res.status(403).json({ error: "Test login disabled in production" });
-    }
-    try {
-      // Synthetic phone in the +972-555 range (won't collide with real users)
-      const testPhone = "+972555000000";
-      const user = upsertUser({
-        phone: testPhone,
-        name: "Demo User",
-        email: "demo@bundly.co",
-      });
-      const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "7d", algorithm: "HS256" });
-      audit("TEST_LOGIN", req, { userId: user.id });
-      res.json({
-        ok: true,
-        token,
-        user: {
-          id: user.id, name: user.name || "Demo User",
-          firstName: user.firstName || "Demo",
-          lastName: user.lastName || "User",
-          phone: user.phone, email: user.email,
-          city: user.city, street: user.street,
-          buildingNum: user.buildingNum, apartmentNum: user.apartmentNum,
-        },
-        isNew: false,
-        testLogin: true,
-      });
-    } catch (e) {
-      console.error("[test-login] error:", e.message);
-      res.status(500).json({ error: e.message });
-    }
-  } : notReady);
+// LAUNCH HARDENING: /api/auth/test-login REMOVED. The previous "disabled
+// in production unless ALLOW_TEST_LOGIN=true" guard was a single env-var
+// away from a public OTP-bypass account-takeover. For local QA, register
+// a phone via the normal flow; the dev-mode devCode is returned in the
+// /api/auth/send-otp response.
+app.post("/api/auth/test-login", (req, res) => {
+  res.status(410).json({ error: "Endpoint removed" });
+});
 
 // GET /api/auth/me
 app.get("/api/auth/me", authMiddleware, AUTH_READY ? (req, res) => {

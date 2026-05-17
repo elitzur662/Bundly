@@ -1807,49 +1807,12 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </button>
 
-            {/* ── Quick test login — bypasses OTP. Hidden in production unless
-                  the page is loaded from localhost (preserves dev access).   */}
-            {(() => {
-              const isLocalhost = typeof window !== "undefined" &&
-                /^(localhost|127\.0\.0\.1|192\.168\.|10\.)/.test(window.location.hostname);
-              const showTestLogin = !import.meta.env.PROD || isLocalhost
-                                 || import.meta.env.VITE_ALLOW_TEST_LOGIN === "true";
-              if (!showTestLogin) return null;
-              return (
-                <div className="pt-2 mt-2 border-t border-dashed border-gray-200">
-                  <p className="text-[10px] text-gray-400 text-center mb-2 font-medium uppercase tracking-wide">
-                    למפתחים / בדיקה מהירה
-                  </p>
-                  <button
-                    onClick={async () => {
-                      if (loading) return;
-                      setError(""); setLoading(true);
-                      try {
-                        const res = await fetch("/api/auth/test-login", { method: "POST", headers: { "Content-Type": "application/json" } });
-                        const data = await res.json();
-                        if (!res.ok || !data.ok) throw new Error(data.error || "התחברות בדיקה נכשלה");
-                        localStorage.setItem("bundly_token", data.token);
-                        onSuccess(data.user);
-                      } catch (e) {
-                        setError(e.message);
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                    disabled={loading}
-                    className="w-full flex items-center gap-3 p-3 border border-dashed border-gray-300 rounded-xl hover:border-amber-400 hover:bg-amber-50 transition-all group"
-                  >
-                    <div className="w-9 h-9 bg-amber-100 rounded-full flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                      <Zap className="w-4 h-4 text-amber-600" />
-                    </div>
-                    <div className="text-right flex-1">
-                      <p className="font-bold text-gray-700 text-sm">כניסה לבדיקה (ללא OTP)</p>
-                      <p className="text-[11px] text-gray-400">התחבר כמשתמש דמה — לא נשלח SMS</p>
-                    </div>
-                  </button>
-                </div>
-              );
-            })()}
+            {/* LAUNCH HARDENING: test-login UI removed entirely. The previous
+                "dev-only" gate (showTestLogin based on localhost/PROD/env flag)
+                still rendered on staging boxes and any localhost session, and
+                in production builds it relied on the absence of a single env
+                var. Real launch = real OTP only. Restore from git history if
+                you need it back for local QA. */}
           </div>
         )}
 
@@ -2580,12 +2543,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </button>
             </div>
           ) : (
-            <>
-              <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
-              <Btn onClick={onSupplierDashClick || (() => setMode("suppliers"))} variant="ghost" size="sm" className="hidden md:inline-flex">
-                <Building2 className="w-3.5 h-3.5" />כניסת ספקים
-              </Btn>
-            </>
+            <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
           )}
           {/* Mobile hamburger — always last. Wrapped in event-stop to ensure
                 clicks aren't swallowed by accidental parent handlers. */}
@@ -5867,23 +5825,12 @@ function OwnerLoginModal({ t, onSuccess, onClose }) {
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER LOGIN MODAL
 // ─────────────────────────────────────────────────────────────────
-const SUPPLIER_ACCOUNTS = {
-  "ספק": { id:"sup1", name:"ספק רשמי 01" },
-  "demo": { id:"sup1", name:"ספק רשמי 01" },
-};
+// LAUNCH HARDENING: removed the hardcoded SUPPLIER_ACCOUNTS map (passwords
+// "ספק" / "demo" → sup1) and the "התחבר ללא הרשמה" guest button. Suppliers
+// must now log in via the standard supplier-registration → admin-approval
+// → Bearer JWT flow.
 
 function SupplierLoginModal({ onSuccess, onClose }) {
-  const [pw, setPw] = useState("");
-  const [err, setErr] = useState(false);
-  const tryLogin = () => {
-    const acc = SUPPLIER_ACCOUNTS[pw.trim()];
-    if (acc) onSuccess(acc);
-    else setErr(true);
-  };
-  // TEMPORARY — quick access for QA without a real account
-  const loginAsGuest = () => {
-    onSuccess({ id: "guest-supplier", name: "ספק אורח (בדיקה)", isGuest: true });
-  };
   return (
     <Modal onClose={onClose}>
       <div className="p-6 space-y-4">
@@ -5893,29 +5840,13 @@ function SupplierLoginModal({ onSuccess, onClose }) {
           </h3>
           <button onClick={onClose} aria-label="סגור" className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-lg"><X className="w-4 h-4 text-gray-400" /></button>
         </div>
-        <p className="text-xs text-gray-400">הזן את קוד הגישה שקיבלת מ-Bundly</p>
-        {err && <p className="text-red-500 text-sm text-center">קוד שגוי</p>}
-        <input type="password" placeholder="קוד גישה" value={pw}
-          onChange={e => { setPw(e.target.value); setErr(false); }}
-          onKeyDown={e => e.key === "Enter" && tryLogin()}
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-        <Btn className="w-full" onClick={tryLogin}>כניסה לדשבורד</Btn>
-
-        {/* Divider */}
-        <div className="flex items-center gap-3 py-1">
-          <div className="flex-1 h-px bg-gray-200" />
-          <span className="text-[10px] text-gray-400 font-bold">או</span>
-          <div className="flex-1 h-px bg-gray-200" />
-        </div>
-
-        {/* TEMPORARY guest login — for QA/testing without signup */}
-        <button
-          onClick={loginAsGuest}
-          className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 border-2 border-amber-200 border-dashed text-amber-700 font-black rounded-xl text-sm transition active:scale-[0.98]"
-        >
-          🧪 <span>התחבר ללא הרשמה לצורך בדיקה</span>
-        </button>
-        <p className="text-center text-[10px] text-gray-400">זמני — לבדיקת המערכת. סיסמת דמו: <strong>ספק</strong></p>
+        <p className="text-sm text-gray-600 text-center py-2">
+          כניסת ספקים מתבצעת דרך הכניסה הראשית של Bundly עם הטלפון/המייל הרשומים על חשבון הספק.
+        </p>
+        <p className="text-xs text-gray-400 text-center">
+          עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co.shop@gmail.com</strong>
+        </p>
+        <Btn className="w-full" onClick={onClose}>סגור</Btn>
       </div>
     </Modal>
   );
@@ -19678,11 +19609,15 @@ export default function App() {
   const [mode, setMode] = useState("home");
   // Scroll to top whenever the main view mode changes
   useEffect(() => { window.scrollTo({ top: 0 }); }, [mode]);
-  // Mark hardcoded initial deals as demo so UI can badge them clearly.
-  // In production, hide demo deals entirely by setting VITE_HIDE_DEMO_DEALS=true
+  // LAUNCH HARDENING: demo deals are now HIDDEN BY DEFAULT in production
+  // builds and shown only in explicit dev mode (`import.meta.env.DEV`).
+  // Previously demo deals leaked into prod whenever VITE_HIDE_DEMO_DEALS
+  // wasn't set, which was easy to miss. Real deals come from the server
+  // (GET /api/deals) and are hydrated separately.
   const [deals, setDeals] = useState(() => {
-    const flagged = INITIAL_DEALS.map(d => ({ ...d, _demo: true }));
-    return import.meta.env.VITE_HIDE_DEMO_DEALS === "true" ? [] : flagged;
+    if (!import.meta.env.DEV) return [];
+    if (import.meta.env.VITE_HIDE_DEMO_DEALS === "true") return [];
+    return INITIAL_DEALS.map(d => ({ ...d, _demo: true }));
   });
 
   // Hydrate persisted supplier bids from the server so reloads don't lose
@@ -21080,11 +21015,6 @@ export default function App() {
       {showSupplier && <SupplierModal t={t} categories={cats}
         onSubmit={s=>{setPendingSuppliers(p=>[s,...p]);setShowSupplier(false);notify(t.supplierSent);}}
         onClose={()=>setShowSupplier(false)}
-        onGuestLogin={() => {
-          setCurrentSupplier({ id: "guest-supplier", name: "ספק אורח (בדיקה)", isGuest: true });
-          setShowSupplier(false);
-          setMode("supplier-dashboard");
-        }}
       />}
       {showOwnerLogin && <OwnerLoginModal t={t} onSuccess={()=>{setOwnerLoggedIn(true);setShowOwnerLogin(false);setMode("owner");}} onClose={()=>setShowOwnerLogin(false)} />}
       {showSupplierLogin && <SupplierLoginModal onSuccess={acc=>{setCurrentSupplier(acc);setShowSupplierLogin(false);setMode("supplier-dashboard");}} onClose={()=>setShowSupplierLogin(false)} />}
