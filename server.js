@@ -9620,6 +9620,21 @@ function requireSupplierMatch(req, res, next) {
           const matchedId    = String(supplierMatch.id || "").toLowerCase();
           const matchedEmail = String(supplierMatch.email || supplierMatch.contactEmail || "").toLowerCase();
           if (matchedId === wantedLower || matchedEmail === wantedLower) {
+            // KYC gate — only approved suppliers can act on real data.
+            // The public "supplier verification" promise is enforced here:
+            // an unapproved supplier hitting any supplier-scoped endpoint
+            // gets 403 with a clear "pending approval" message.
+            // Pending suppliers can still update their own profile via the
+            // KYC-upload routes (which use a separate, less strict guard).
+            const status = (supplierMatch.kycStatus || "").toLowerCase();
+            if (status && status !== "approved") {
+              audit("SUPPLIER_KYC_BLOCKED", req, { supplierId: supplierMatch.id, status });
+              return res.status(403).json({
+                error: "Supplier account pending verification",
+                message: "החשבון שלך עדיין בתהליך אימות. תוכל לפעול בפלטפורמה אחרי שצוות Bundly יאשר את המסמכים.",
+                kycStatus: status || "pending",
+              });
+            }
             req.supplier = supplierMatch;
             return next();
           }
