@@ -158,21 +158,41 @@ const FORBIDDEN_SECRETS = new Set([
   "secret",
   "",
 ]);
+// Substrings that almost always indicate a placeholder / dev value even when
+// the exact string isn't in the FORBIDDEN_SECRETS set. Caught by audit C3+L1.
+const _WEAK_SUBSTRINGS = ["change-me", "change_me", "admin123", "bundly-super",
+  "fallback", "placeholder", "your-secret", "your_secret", "example", "demo-",
+  "test-secret", "default-secret", "local-dev"];
 function _assertStrongSecret(name, value, minLen = 32) {
-  if (process.env.NODE_ENV !== "production") return;
-  if (!value || FORBIDDEN_SECRETS.has(value) || value.length < minLen) {
-    console.error(`❌ FATAL: ${name} is missing, default, or too short (< ${minLen} chars). Generate with: openssl rand -hex 32`);
+  // Was: gated on NODE_ENV === "production". Removed — staging/preview boxes
+  // were running with the literal fallback below, which meant anyone could
+  // forge a JWT against the publicly-known seed.
+  if (!value) {
+    console.error(`❌ FATAL: ${name} is not set. Generate with: openssl rand -hex 32`);
     process.exit(1);
   }
+  if (FORBIDDEN_SECRETS.has(value)) {
+    console.error(`❌ FATAL: ${name} matches a known weak default. Generate with: openssl rand -hex 32`);
+    process.exit(1);
+  }
+  if (value.length < minLen) {
+    console.error(`❌ FATAL: ${name} is too short (< ${minLen} chars). Generate with: openssl rand -hex 32`);
+    process.exit(1);
+  }
+  const lowered = value.toLowerCase();
+  for (const sub of _WEAK_SUBSTRINGS) {
+    if (lowered.includes(sub)) {
+      console.error(`❌ FATAL: ${name} contains weak substring "${sub}". Generate with: openssl rand -hex 32`);
+      process.exit(1);
+    }
+  }
 }
-const JWT_SECRET = process.env.JWT_SECRET || ("bundly" + "-super-secret-2024");
+// IMPORTANT: assignment uses ONLY the env value — no fallback string. If the
+// env is missing/weak, _assertStrongSecret below exits before any token is signed.
 _assertStrongSecret("JWT_SECRET", process.env.JWT_SECRET, 32);
 _assertStrongSecret("URL_SIGN_SECRET", process.env.URL_SIGN_SECRET, 32);
 _assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
-
-if (!process.env.JWT_SECRET && process.env.NODE_ENV !== "production") {
-  console.warn("⚠️  JWT_SECRET not set — using insecure default (dev only, not for production).");
-}
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // ── In-memory OTP rate limiter: max 3 OTPs per phone per hour + max 10 per IP per hour ──
 const _otpRateLimitMap = new Map(); // phone → [timestamp, ...]
@@ -272,7 +292,15 @@ app.post(
   async (req, res) => {
     // Stub mode (no Stripe key configured) — accept and ignore so dev environments
     // don't 500 if Stripe sends test events to a deployed-but-not-yet-keyed instance.
-    if (!_paySvc) return res.status(200).json({ received: true, stub: true });
+    // In production this would mean payment-service failed to load — reject loudly
+    // rather than silently accept arbitrary unsigned webhook payloads. (L7 audit.)
+    if (!_paySvc) {
+      if (process.env.NODE_ENV === "production") {
+        console.error("[stripe-webhook] _paySvc null in production — service misconfigured");
+        return res.status(503).json({ error: "Payments service unavailable" });
+      }
+      return res.status(200).json({ received: true, stub: true });
+    }
 
     const sig = req.headers["stripe-signature"];
     if (!sig) return res.status(400).json({ error: "Missing stripe-signature header" });
@@ -452,6 +480,7 @@ app.post("/api/client-error",
 // Any failure returns 503 so the LB rotates around the bad pod immediately.
 import { statSync as _hcStat } from "node:fs";
 import * as _v8 from "node:v8";
+import { randomInt as _secureRandomInt } from "node:crypto";
 const _hcDistPath = process.cwd() + "/dist/index.html";
 app.get("/api/health", (_req, res) => {
   const checks = { dist: "unknown", heap: "unknown", db: "unknown" };
@@ -2113,7 +2142,12 @@ function _releaseWizardPrewarmLock() {
   try { if (existsSync(WIZARD_PREWARM_LOCK)) unlinkSync(WIZARD_PREWARM_LOCK); } catch (_) {}
 }
 
-app.get("/api/wizard-questions", async (req, res) => {
+app.get("/api/wizard-questions",
+  // Rate limit: cache hits are cheap but misses cost a GPT-4o-mini call. Per
+  // audit (M2): attacker spraying unique queries previously burned OpenAI
+  // credit. 20/min/IP keeps it well above any real browsing pattern.
+  rateLimit({ windowMs: 60_000, max: 20, label: "wizard-questions" }),
+  async (req, res) => {
   const { q } = req.query;
   if (!q || q.trim().length < 2) return res.status(400).json({ error: "Query too short" });
 
@@ -2174,7 +2208,10 @@ function _saveDescCache() {
   try { _descWr(_DESC_CACHE_FILE, JSON.stringify(Object.fromEntries(_productDescCache), null, 2), "utf8"); } catch {}
 }
 
-app.get("/api/product-description", async (req, res) => {
+app.get("/api/product-description",
+  // Cache absorbs most repeats but novel `name` query → GPT call. 30/min/IP.
+  rateLimit({ windowMs: 60_000, max: 30, label: "product-desc" }),
+  async (req, res) => {
   const { name, specs, price } = req.query;
   if (!name || name.trim().length < 1) {
     return res.status(400).json({ ok: false, error: "Missing product name" });
@@ -9715,7 +9752,11 @@ app.post("/api/auth/send-otp",
   if (!checkOtpRateLimit(normalized, req.ip)) {
     return res.status(429).json({ error: "יותר מדי בקשות — נסה שוב בעוד שעה" });
   }
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  // OTPs MUST come from a CSPRNG. Math.random() is xorshift128+ — observable
+  // outputs (e.g. attacker requesting OTPs for their own phone) reveal the
+  // internal state and let an attacker predict subsequent OTPs for other
+  // numbers. Caught by security audit (H4).
+  const code = String(_secureRandomInt(100000, 1_000_000));
   saveOtp(normalized, code);
 
   // No Twilio configured → dev mode: return code directly
@@ -11785,8 +11826,14 @@ app.post("/api/support/tickets", AUTH_READY ? (req, res) => {
     try {
       const auth = req.headers.authorization || "";
       if (auth.startsWith("Bearer ") && jwt) {
-        const decoded = jwt.verify(auth.slice(7), JWT_SECRET);
-        userId = decoded?.id || null;
+        // Always pin to HS256 — defence-in-depth against alg-confusion if the
+        // lib is ever downgraded. (H6 audit finding.)
+        const decoded = jwt.verify(auth.slice(7), JWT_SECRET, JWT_OPTS);
+        // Don't accept admin tokens as regular user identity here — they
+        // shouldn't be opening support tickets on behalf of arbitrary users.
+        if (decoded?.role !== "admin") {
+          userId = decoded?.id || null;
+        }
       }
     } catch (_) {}
     if (!userId && !contactEmail) {

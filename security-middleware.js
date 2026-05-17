@@ -201,13 +201,18 @@ export function enforceHttps(req, res, next) {
 // ── CORS with origin whitelist ────────────────────────────────────
 // Replaces unconfigured cors() which allowed all origins.
 export function strictCors(allowedOrigins = []) {
-  const defaults = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3002",
-    "https://bundly.co.il",
-    "https://www.bundly.co.il",
+  // Production origins only — apex + www of the canonical domain.
+  // Dev ports added back below only when NODE_ENV !== "production" so an
+  // attacker can't trick a victim with a malicious localhost:3000 service
+  // into making credentialed cross-origin calls against prod. (M3 audit.)
+  const prodDefaults = [
+    "https://bundly.co",      "https://www.bundly.co",
+    "https://bundly.co.il",   "https://www.bundly.co.il",
   ];
+  const devDefaults = [
+    "http://localhost:3000", "http://localhost:3001", "http://localhost:3002",
+  ];
+  const defaults = IS_PROD ? prodDefaults : [...prodDefaults, ...devDefaults];
   const whitelist = new Set([...defaults, ...allowedOrigins]);
   return (req, res, next) => {
     const origin = req.headers.origin;
