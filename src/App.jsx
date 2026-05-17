@@ -16254,12 +16254,6 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
               </button>
-              <button type="button"
-                onClick={() => document.getElementById('sl-demand').scrollIntoView({ behavior:'smooth' })}
-                className="flex items-center gap-2 px-7 py-4 rounded-2xl font-bold text-white/80 hover:text-white border border-white/20 hover:border-white/40 transition backdrop-blur-sm bg-white/5">
-                <Search className="w-4 h-4" />
-                בדוק ביקוש למוצר שלך
-              </button>
             </div>
           </div>
         </div>
@@ -16323,117 +16317,7 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
         </div>
       </section>
 
-      {/* ── DEMAND CHECKER ──────────────────────────────── */}
-      <section id="sl-demand" className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-4 py-1.5 text-sm font-bold mb-6">
-            <Sparkles className="w-3.5 h-3.5" /> בדיקת ביקוש — חינם
-          </div>
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3">
-            יש לך מוצר? בוא נבדוק אם השוק רוצה אותו
-          </h2>
-          <p className="text-gray-500 mb-8">לפני שאתה מתחייב למלאי — ראה כמה קונים מחכים</p>
-
-          <div className="bg-white rounded-3xl shadow-xl p-6 border border-indigo-50">
-            <div className="flex gap-3 mb-4" ref={demandContainerRef}>
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={demandQuery}
-                  onChange={e => { setDemandQuery(e.target.value); setDemandResult(null); }}
-                  onKeyDown={e => {
-                    if (e.key === "ArrowDown") { e.preventDefault(); setDemandActiveSug(p => Math.min(p+1, demandSugs.length-1)); }
-                    else if (e.key === "ArrowUp") { e.preventDefault(); setDemandActiveSug(p => Math.max(p-1, -1)); }
-                    else if (e.key === "Enter") {
-                      if (demandActiveSug >= 0 && demandSugs[demandActiveSug]) {
-                        handleDemandSuggestionClick(demandSugs[demandActiveSug]);
-                      } else if (demandSelectedProduct || demandPropose) {
-                        handleDemandCheck();
-                      }
-                    } else if (e.key === "Escape") setDemandShowSug(false);
-                  }}
-                  onFocus={() => demandSugs.length > 0 && setDemandShowSug(true)}
-                  placeholder="שם מוצר — לדוגמה: שואב רובוטי, מזגן נייד..."
-                  className="w-full border border-gray-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-right"
-                  autoComplete="off"
-                />
-                {demandShowSug && (
-                  <AutocompleteDropdown
-                    suggestions={demandSugs}
-                    activeSug={demandActiveSug}
-                    setActiveSug={setDemandActiveSug}
-                    small
-                    onSelect={handleDemandSuggestionClick}
-                  />
-                )}
-              </div>
-              <button type="button" onClick={handleDemandCheck}
-                disabled={demandLoading || (!demandSelectedProduct && !demandPropose)}
-                title={!demandSelectedProduct && !demandPropose ? "בחר מוצר מהרשימה" : ""}
-                className="px-5 py-3 rounded-2xl font-bold text-white text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
-                style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
-                {demandLoading ? <BundlySpinner size={18} /> : <><Search className="w-4 h-4" />{demandPropose ? "הצע מוצר" : "בדוק"}</>}
-              </button>
-            </div>
-
-            {/* Hint when supplier typed something but hasn't picked yet */}
-            {demandQuery.trim().length >= 2 && !demandSelectedProduct && !demandPropose && !demandShowSug && (
-              <p className="text-[11px] text-amber-600 mb-2 text-right">
-                ⚠️ בחר מוצר מהרשימה — חייב להיות מוצר אמיתי מהאתר.
-              </p>
-            )}
-            {demandPropose && (
-              <p className="text-[11px] text-amber-700 mb-2 text-right font-semibold">
-                🔥 אתה עומד להציע מוצר חדש: "<strong>{demandQuery}</strong>"
-              </p>
-            )}
-            {demandSelectedProduct && (
-              <p className="text-[11px] text-emerald-700 mb-2 text-right font-semibold">
-                ✓ מוצר נבחר: <strong>{demandSelectedProduct.name}</strong>
-              </p>
-            )}
-            <div className="flex flex-wrap gap-2 mb-2">
-              {demandExamples.map((ex, i) => (
-                <button key={i} type="button"
-                  onClick={() => { setDemandQuery(ex); }}
-                  className="text-xs px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition font-medium">
-                  {ex}
-                </button>
-              ))}
-            </div>
-
-            {demandResult && (
-              <div className="mt-5 rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 p-5 text-right">
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full ${demandResult.score === "גבוה" ? "bg-emerald-100 text-emerald-700" : demandResult.score === "בינוני" ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-600"}`}>
-                    ביקוש {demandResult.score}
-                  </span>
-                  <h4 className="font-black text-gray-800 text-sm">{demandResult.query}</h4>
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-indigo-600">{demandResult.count}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">קונים פוטנציאליים</div>
-                  </div>
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-violet-600">{Math.floor(demandResult.count * 0.4)}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">בקשות פעילות</div>
-                  </div>
-                  <div className="text-center bg-white rounded-xl p-3">
-                    <div className="text-2xl font-black text-emerald-600">{demandResult.trend}</div>
-                    <div className="text-xs text-gray-500 mt-0.5">מגמה</div>
-                  </div>
-                </div>
-                <button type="button" onClick={onJoin}
-                  className="mt-4 w-full py-3 rounded-2xl font-bold text-white text-sm transition"
-                  style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)" }}>
-                  פתח קבוצה עבור {demandResult.query} ←
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
+      {/* DEMAND CHECKER section removed — kept handlers/state above for potential reuse */}
 
       {/* ── FEATURES GRID ───────────────────────────────── */}
       <section className="bg-white py-20 px-4">
@@ -16594,12 +16478,6 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
               style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 48px rgba(192,38,211,0.5)" }}>
               <Building2 className="w-6 h-6" />
               הצטרף עכשיו — חינם
-            </button>
-            <button type="button"
-              onClick={() => document.getElementById('sl-demand').scrollIntoView({ behavior:'smooth' })}
-              className="flex items-center gap-2 px-8 py-5 rounded-2xl font-bold text-white/80 border border-white/20 hover:border-white/40 transition text-lg">
-              <Search className="w-5 h-5" />
-              בדוק ביקוש קודם
             </button>
           </div>
           <p className="text-white/30 text-sm mt-6">מצטרפים לצד הספקים שכבר מוכרים בBundly</p>
