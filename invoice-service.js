@@ -16,6 +16,18 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, openSync, closeSync } from "node:fs";
 
+// SECURITY (audit M-NEW-1): every user-controlled string interpolated into
+// the invoice HTML below MUST go through this helper. Supplier business
+// names, customer names, item descriptions are stored as-typed; without
+// escaping, a supplier registering with a businessName containing `<script>`
+// or `<a href="evil.tld">` would get that link embedded in every invoice
+// HTML on disk (served at /invoices/:filename under our origin).
+function _esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
 // Invoices are tax records — they MUST persist across deploys. On Render the
 // persistent disk is mounted at DATA_DIR; locally we fall back to project dir.
 const INVOICE_DIR  = (process.env.DATA_DIR || process.cwd()) + "/invoices";
@@ -94,28 +106,28 @@ function _buildHtmlInvoice(inv) {
   <div class="header">
     <div>
       <h1>🧾 חשבונית מס</h1>
-      <p style="color:#6b7280;margin:4px 0 0">מספר: <strong>${inv.invoiceNumber}</strong></p>
+      <p style="color:#6b7280;margin:4px 0 0">מספר: <strong>${_esc(inv.invoiceNumber)}</strong></p>
     </div>
     <div class="meta">
       <p><strong>תאריך:</strong> ${new Date(inv.issuedAt).toLocaleDateString("he-IL")}</p>
-      <p><strong>הזמנה:</strong> #${inv.orderId}</p>
+      <p><strong>הזמנה:</strong> #${_esc(inv.orderId)}</p>
     </div>
   </div>
 
   <div class="two-col">
     <div class="block">
       <h3>מוכר</h3>
-      <p><strong>${inv.seller.businessName}</strong></p>
-      <p>ח.פ / ע.מ: ${inv.seller.businessNumber || "—"}</p>
-      <p>${inv.seller.address || ""}</p>
-      <p>${inv.seller.email || ""}</p>
+      <p><strong>${_esc(inv.seller.businessName)}</strong></p>
+      <p>ח.פ / ע.מ: ${_esc(inv.seller.businessNumber || "—")}</p>
+      <p>${_esc(inv.seller.address || "")}</p>
+      <p>${_esc(inv.seller.email || "")}</p>
     </div>
     <div class="block">
       <h3>קונה</h3>
-      <p><strong>${inv.buyer.name}</strong></p>
-      <p>${inv.buyer.phone || ""}</p>
-      <p>${inv.buyer.email || ""}</p>
-      ${inv.buyer.address ? `<p>${inv.buyer.address.street || ""} ${inv.buyer.address.building || ""}, ${inv.buyer.address.city || ""}</p>` : ""}
+      <p><strong>${_esc(inv.buyer.name)}</strong></p>
+      <p>${_esc(inv.buyer.phone || "")}</p>
+      <p>${_esc(inv.buyer.email || "")}</p>
+      ${inv.buyer.address ? `<p>${_esc(inv.buyer.address.street || "")} ${_esc(inv.buyer.address.building || "")}, ${_esc(inv.buyer.address.city || "")}</p>` : ""}
     </div>
   </div>
 
@@ -123,7 +135,7 @@ function _buildHtmlInvoice(inv) {
     <thead><tr><th>תיאור</th><th>כמות</th><th>מחיר יחידה (כולל מע"מ)</th><th>סה"כ</th></tr></thead>
     <tbody>
       ${inv.items.map(it => `
-        <tr><td>${it.description}</td><td>${it.quantity}</td><td>₪${_fmt(it.unitPrice)}</td><td>₪${_fmt(it.total)}</td></tr>
+        <tr><td>${_esc(it.description)}</td><td>${Number(it.quantity) || 0}</td><td>₪${_fmt(it.unitPrice)}</td><td>₪${_fmt(it.total)}</td></tr>
       `).join("")}
     </tbody>
   </table>

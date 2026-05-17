@@ -44,7 +44,7 @@ async function _getStripe() {
  *
  * STUB MODE (no Stripe key): returns fake IDs so the flow can be tested.
  */
-export async function createPaymentIntent({ amount, currency = "ils", orderId, userId, description = "", captureMethod = "automatic" }) {
+export async function createPaymentIntent({ amount, currency = "ils", orderId, userId, description = "", captureMethod = "automatic", idempotencyKey = null }) {
   if (!STRIPE_READY) {
     const fakeId = `pi_stub_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     console.log(`[payment] STUB ${captureMethod} intent ${fakeId} for order ${orderId} — ₪${amount}`);
@@ -67,7 +67,7 @@ export async function createPaymentIntent({ amount, currency = "ils", orderId, u
     capture_method: captureMethod, // "automatic" | "manual"
     metadata: { orderId: String(orderId || ""), userId: String(userId || ""), bundlyType: captureMethod === "manual" ? "preauth" : "charge" },
     description: description || `Bundly order ${orderId}`,
-  });
+  }, idempotencyKey ? { idempotencyKey } : undefined);
 
   return {
     ok: true,
@@ -84,16 +84,18 @@ export async function createPaymentIntent({ amount, currency = "ils", orderId, u
  * Capture a previously-authorized payment (manual capture mode).
  * Called when a group successfully reaches its minimum participants.
  */
-export async function captureManualPayment({ paymentIntentId, amount = null }) {
+export async function captureManualPayment({ paymentIntentId, amount = null, idempotencyKey = null }) {
   if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
     console.log(`[payment] STUB capture ${paymentIntentId}${amount ? ` — ₪${amount}` : ""}`);
     return { ok: true, stub: true, status: "succeeded", amount };
   }
   const stripe = await _getStripe();
   if (!stripe) return { ok: false };
-  const intent = await stripe.paymentIntents.capture(paymentIntentId, {
-    ...(amount != null && { amount_to_capture: Math.round(Number(amount) * 100) }),
-  });
+  const intent = await stripe.paymentIntents.capture(
+    paymentIntentId,
+    { ...(amount != null && { amount_to_capture: Math.round(Number(amount) * 100) }) },
+    idempotencyKey ? { idempotencyKey } : undefined,
+  );
   return { ok: true, status: intent.status, amount: intent.amount };
 }
 
@@ -219,7 +221,7 @@ export async function createSetupIntent({ customerId, userId, dealId = null, des
  */
 export async function chargeOffSession({
   customerId, paymentMethodId, amount, currency = "ils",
-  orderId = null, userId = null, description = "",
+  orderId = null, userId = null, description = "", idempotencyKey = null,
 }) {
   if (!STRIPE_READY) {
     const fakeId = `pi_offsession_stub_${Date.now()}`;
@@ -242,7 +244,7 @@ export async function chargeOffSession({
       confirm:        true,
       description:    description || `Bundly order ${orderId || ""}`,
       metadata:       { orderId: String(orderId || ""), userId: String(userId || ""), bundlyType: "deal_close_charge" },
-    });
+    }, idempotencyKey ? { idempotencyKey } : undefined);
     return {
       ok: true,
       paymentIntentId: intent.id,
@@ -270,7 +272,7 @@ export async function chargeOffSession({
 /**
  * Issue a refund against a payment intent.
  */
-export async function refundPayment({ paymentIntentId, amount = null, reason = "requested_by_customer" }) {
+export async function refundPayment({ paymentIntentId, amount = null, reason = "requested_by_customer", idempotencyKey = null }) {
   if (!STRIPE_READY || paymentIntentId.startsWith("pi_stub_")) {
     const fakeRefundId = `re_stub_${Date.now()}`;
     console.log(`[payment] STUB refund ${fakeRefundId} for ${paymentIntentId}`);
@@ -282,7 +284,7 @@ export async function refundPayment({ paymentIntentId, amount = null, reason = "
     payment_intent: paymentIntentId,
     ...(amount != null && { amount: Math.round(Number(amount) * 100) }),
     reason,
-  });
+  }, idempotencyKey ? { idempotencyKey } : undefined);
   return { ok: true, refundId: refund.id, status: refund.status, amount: refund.amount };
 }
 

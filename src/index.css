@@ -164,6 +164,25 @@ input[inputmode="numeric"], input[inputmode="email"], input[inputmode="tel"] {
 }
 .bell-ring { animation: bellRing 0.7s ease-in-out; transform-origin: 50% 18%; }
 
+/* "How it works" navbar CTA — soft attention-grabbing pulse so first-time
+   visitors notice the on-ramp. Gentle (1.0 → 1.06) so it doesn't feel
+   jittery; runs forever but at low frequency (2.4s cycle). */
+@keyframes howItWorksPulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35); }
+  50%      { transform: scale(1.06); box-shadow: 0 6px 22px rgba(217, 70, 239, 0.55); }
+}
+.how-it-works-pulse {
+  animation: howItWorksPulse 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.how-it-works-pulse:hover {
+  animation-play-state: paused;
+  transform: scale(1.08);
+}
+@media (prefers-reduced-motion: reduce) {
+  .how-it-works-pulse { animation: none; }
+}
+
 /* Nicer modal slide-up animation on mobile */
 @keyframes slideUpMobile {
   from { transform: translateY(100%); opacity: 0; }

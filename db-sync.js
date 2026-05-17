@@ -17,10 +17,33 @@ import axios from "axios";
 import https from "https";
 import fs from "fs";
 import path from "path";
+import dns from "dns";
+import { promisify } from "util";
 import { fileURLToPath } from "url";
 import { createWriteStream } from "fs";
 import { getKspCategoryAll, KSP_CAT_TAG_MAP } from "./ksp-scraper.js";
 import { getBugCategory } from "./bug-scraper.js";
+
+const _dnsLookup = promisify(dns.lookup);
+// SECURITY (audit scrapers #2): SSRF guard for scraped image URLs. Mirrors
+// the same check in server.js — reject URLs that resolve to private/loopback
+// addresses to prevent a poisoned listing from forcing the sync process to
+// pull from internal infra (AWS metadata, internal DBs, etc.).
+async function _isSafeRemoteImageUrl(u) {
+  let parsed;
+  try { parsed = new URL(u); } catch { return false; }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+  const host = parsed.hostname;
+  if (/^(localhost|127\.|0\.0\.0\.0|::1|fe80:|fd[0-9a-f]{2}:)/i.test(host)) return false;
+  if (/\.(local|internal|localhost)$/i.test(host)) return false;
+  try {
+    const { address } = await _dnsLookup(host);
+    if (/^(10\.|127\.|169\.254\.|192\.168\.|0\.)/.test(address)) return false;
+    if (/^172\.(1[6-9]|2\d|3[01])\./.test(address)) return false;
+    if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168)/i.test(address)) return false;
+  } catch { return false; }
+  return true;
+}
 
 // WiseBuy uses a certificate that some Node.js installs can't verify.
 // Using a dedicated agent with rejectUnauthorized:false is safe here
@@ -1334,8 +1357,9 @@ async function scrapeBugCategory(zapSog) {
 
 async function downloadImage(url, destPath) {
   if (!url || fs.existsSync(destPath)) return true; // already downloaded
+  if (!(await _isSafeRemoteImageUrl(url))) return false;
   try {
-    const resp = await axios.get(url, { responseType: "stream", timeout: 15000, headers: HEADERS, validateStatus: s => s === 200 });
+    const resp = await axios.get(url, { responseType: "stream", timeout: 15000, headers: HEADERS, validateStatus: s => s === 200, maxContentLength: 5 * 1024 * 1024 });
     await new Promise((resolve, reject) => {
       const stream = createWriteStream(destPath);
       resp.data.pipe(stream);

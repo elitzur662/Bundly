@@ -16,6 +16,28 @@ const BRAND_COLOR = "#4F46E5"; // indigo-600
 const BRAND_NAME  = "Bundly";
 const BRAND_LOGO  = "🛒";
 
+// SECURITY (audit M-NEW-1): every user-controlled string interpolated into
+// our email/invoice HTML MUST go through this helper. Order/product/supplier
+// names are attacker-influenced — a supplier registering with a businessName
+// of `<a href="https://evil.tld/phish">לחץ לזיכוי</a>` previously got their
+// link rendered inside every customer email and every on-disk invoice HTML
+// (served at /invoices/:filename under our origin, so cookies are in scope).
+// `_esc` covers the 5 HTML-meaningful chars; for URLs use `_safeUrl`.
+function _esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+function _safeUrl(u) {
+  const s = String(u || "").trim();
+  if (!s) return "";
+  // Only allow absolute http/https URLs in email/invoice context. mailto: is
+  // valid but we don't currently need it from user input; tel: same. Reject
+  // javascript:/data:/file: outright.
+  if (!/^https?:\/\//i.test(s)) return "";
+  return _esc(s);
+}
+
 function baseTemplate(content) {
   return `
 <!DOCTYPE html>
@@ -81,7 +103,7 @@ export async function sendWelcomeEmail(to, name) {
     to,
     subject: `ברוכים הבאים ל-${BRAND_NAME}! 🎉`,
     html: baseTemplate(`
-      <h2>היי ${name || ""}! ברוכים הבאים 👋</h2>
+      <h2>היי ${_esc(name || "")}! ברוכים הבאים 👋</h2>
       <p>שמחים שהצטרפת ל-<strong>Bundly</strong> — המקום שבו קבוצות קונים ביחד וחוסכים ביחד.</p>
       <div class="highlight">
         <p style="margin:0;font-weight:700;color:#3730a3">מה אפשר לעשות עכשיו?</p>
@@ -106,17 +128,17 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
   await transporter.sendMail({
     from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
     to,
-    subject: `📉 ירידת מחיר! ${productName} — עכשיו ₪${newPrice.toLocaleString()}`,
+    subject: `📉 ירידת מחיר! ${_esc(productName)} — עכשיו ₪${newPrice.toLocaleString()}`,
     html: baseTemplate(`
       <h2>📉 ירידת מחיר!</h2>
       <p>המוצר שעקבת אחריו ירד במחיר:</p>
       <div class="highlight">
-        <p style="margin:0 0 4px;font-weight:700">${productName}</p>
+        <p style="margin:0 0 4px;font-weight:700">${_esc(productName)}</p>
         <p style="margin:0;text-decoration:line-through;color:#9ca3af;font-size:13px">₪${oldPrice.toLocaleString()}</p>
         <p class="price">₪${newPrice.toLocaleString()}</p>
         <span class="badge">חיסכון של ${pct}% — ₪${saving.toLocaleString()}</span>
       </div>
-      ${link ? `<a class="btn" href="${link}">לצפייה בדיל ←</a>` : ""}
+      ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
     `),
   });
 }
@@ -134,16 +156,16 @@ export async function sendSupplierOfferEmail(to, { productName, offerPrice, supp
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `${header} — ${productName} ₪${Number(offerPrice).toLocaleString()}`,
+      subject: `${header} — ${_esc(productName)} ₪${Number(offerPrice).toLocaleString()}`,
       html: baseTemplate(`
         <h2>${header}</h2>
         <p>קיבלת הצעת מחיר חדשה על הבקשה ששלחת:</p>
         <div class="highlight">
-          ${productImage ? `<img src="${productImage}" alt="" style="max-width:120px;border-radius:8px;display:block;margin:0 auto 10px"/>` : ""}
-          <p style="margin:0 0 4px;font-weight:700">${productName}</p>
+          ${_safeUrl(productImage) ? `<img src="${_safeUrl(productImage)}" alt="" style="max-width:120px;border-radius:8px;display:block;margin:0 auto 10px"/>` : ""}
+          <p style="margin:0 0 4px;font-weight:700">${_esc(productName)}</p>
           ${savingsBlock}
           <p class="price">₪${Number(offerPrice).toLocaleString()}</p>
-          <p style="margin:6px 0 0;color:#6b7280;font-size:13px">מספק: <strong>${supplierName || "ספק"}</strong></p>
+          <p style="margin:6px 0 0;color:#6b7280;font-size:13px">מספק: <strong>${_esc(supplierName || "ספק")}</strong></p>
         </div>
         <p style="color:#6b7280;font-size:13px">פתח את האפליקציה כדי לאשר או לדחות את ההצעה.</p>
       `),
@@ -168,14 +190,14 @@ export async function sendOrderStatusEmail(to, { orderId, productName, status, t
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `${meta.emoji} ${meta.title} — הזמנה #${orderId}`,
+      subject: `${meta.emoji} ${meta.title} — הזמנה #${_esc(orderId)}`,
       html: baseTemplate(`
         <h2>${meta.emoji} ${meta.title}</h2>
         <p>${meta.body}</p>
         <div class="highlight">
-          <p style="margin:0 0 4px;font-weight:700">${productName}</p>
-          <p style="margin:0;color:#6b7280;font-size:13px">הזמנה #${orderId}</p>
-          ${trackingNumber ? `<p style="margin:8px 0 0;font-size:13px">מספר מעקב: <strong>${trackingNumber}</strong></p>` : ""}
+          <p style="margin:0 0 4px;font-weight:700">${_esc(productName)}</p>
+          <p style="margin:0;color:#6b7280;font-size:13px">הזמנה #${_esc(orderId)}</p>
+          ${trackingNumber ? `<p style="margin:8px 0 0;font-size:13px">מספר מעקב: <strong>${_esc(trackingNumber)}</strong></p>` : ""}
         </div>
       `),
     });
@@ -194,13 +216,13 @@ export async function sendKycDecisionEmail(to, { businessName, approved, rejectR
       html: baseTemplate(
         approved
           ? `<h2>✅ ברוכים הבאים ל-Bundly!</h2>
-             <p>שלום ${businessName},</p>
+             <p>שלום ${_esc(businessName)},</p>
              <p>בקשת ההצטרפות שלך אושרה. החשבון שלך פעיל ואת/ה יכול/ה להתחיל לקבל בקשות מלקוחות.</p>
              <a class="btn" href="https://bundly.co.il/suppliers">היכנס לדשבורד ←</a>`
           : `<h2>⚠️ בקשת ההצטרפות שלך נדחתה</h2>
-             <p>שלום ${businessName},</p>
+             <p>שלום ${_esc(businessName)},</p>
              <p>לצערנו, לא הצלחנו לאשר את בקשת ההצטרפות שלך.</p>
-             ${rejectReason ? `<div class="highlight"><strong>סיבה:</strong> ${rejectReason}</div>` : ""}
+             ${rejectReason ? `<div class="highlight"><strong>סיבה:</strong> ${_esc(rejectReason)}</div>` : ""}
              <p>את/ה יכול/ה לפנות אלינו לבירור נוסף.</p>`
       ),
     });
@@ -219,12 +241,12 @@ export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resol
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `תיק תמיכה #${disputeId} — עודכן`,
+      subject: `תיק תמיכה #${_esc(disputeId)} — עודכן`,
       html: baseTemplate(`
         <h2>תיק תמיכה ${resolution === "rejected" ? "נסגר" : "נפתר"}</h2>
         <p>${msg[resolution] || "התיק עודכן"}</p>
         <div class="highlight">
-          <p style="margin:0;font-weight:700">הזמנה #${orderId} · תיק #${disputeId}</p>
+          <p style="margin:0;font-weight:700">הזמנה #${_esc(orderId)} · תיק #${_esc(disputeId)}</p>
         </div>
       `),
     });
@@ -237,15 +259,15 @@ export async function sendDealActivatedEmail(to, { productName, price, participa
   await transporter.sendMail({
     from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
     to,
-    subject: `✅ הדיל הופעל! ${productName}`,
+    subject: `✅ הדיל הופעל! ${_esc(productName)}`,
     html: baseTemplate(`
       <h2>✅ הדיל שלך הופעל!</h2>
-      <p>${participants} משתתפים הצטרפו לדיל — הספקים מתחילים להתחרות!</p>
+      <p>${Number(participants) || 0} משתתפים הצטרפו לדיל — הספקים מתחילים להתחרות!</p>
       <div class="highlight">
-        <p style="margin:0;font-weight:700">${productName}</p>
+        <p style="margin:0;font-weight:700">${_esc(productName)}</p>
         <p class="price">₪${price?.toLocaleString()}</p>
       </div>
-      ${link ? `<a class="btn" href="${link}">לצפייה בדיל ←</a>` : ""}
+      ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
     `),
   });
 }
@@ -264,6 +286,7 @@ export async function sendDealMemberJoinedEmail(to, {
   const remaining = targetCount && currentCount < targetCount
     ? Math.max(0, targetCount - currentCount)
     : 0;
+  const safeProductName = _esc(productName);
   const subject = remaining > 0
     ? `🎉 עוד משתתף הצטרף — ${currentCount} כבר בסבב של ${productName}`
     : `🔥 הסבב מתמלא! ${currentCount} משתתפים על ${productName}`;
@@ -284,13 +307,13 @@ export async function sendDealMemberJoinedEmail(to, {
     to,
     subject,
     html: baseTemplate(`
-      <h2>🎉 ${joinerName || "משתתף חדש"} הצטרף לסבב</h2>
+      <h2>🎉 ${_esc(joinerName || "משתתף חדש")} הצטרף לסבב</h2>
       <div class="highlight">
-        <p style="margin:0;font-weight:700">${productName}</p>
+        <p style="margin:0;font-weight:700">${safeProductName}</p>
         ${progressBar}
       </div>
       ${cta}
-      ${link ? `<a class="btn" href="${link}">לצפייה בסבב ←</a>` : ""}
+      ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בסבב ←</a>` : ""}
       <p style="font-size:11px;color:#9ca3af;text-align:center;margin-top:18px">
         עדכון זה נשלח כי הצטרפת לסבב. ניתן להפסיק עדכונים בכל עת מ"הסבבים שלי" באתר.
       </p>

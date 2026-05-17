@@ -2522,11 +2522,11 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             href="/how-it-works.html"
             target="_blank"
             rel="noopener"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 hover:bg-violet-100 transition-all border border-violet-100"
+            className="how-it-works-pulse flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 transition-all shadow-md shadow-violet-300/50 border border-violet-400/30"
             title="איך זה עובד?"
           >
-            <Sparkles className="w-4 h-4" />
-            <span>איך זה עובד?</span>
+            <Sparkles className="w-4 h-4 animate-pulse" />
+            <span className="font-black">איך זה עובד?</span>
           </a>
           {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
         </div>
@@ -3566,19 +3566,27 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
                 </div>
               )}
 
-              {/* Store list */}
+              {/* Price ladder — anonymised (no store names). Per brand
+                  request: don't reveal that prices come from external
+                  retailers; show only positional ranking + price. */}
               {(product.stores || []).length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs font-bold text-gray-500 mb-2">מחירים לפי חנות:</p>
+                  <p className="text-xs font-bold text-gray-500 mb-2">השוואת מחירים בשוק:</p>
                   <div className="space-y-1.5">
-                    {[...(product.stores || [])].filter(s => s.price > 0).sort((a, b) => a.price - b.price).slice(0, 5).map((store, i) => (
-                      <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${i === 0 ? "bg-emerald-50 border border-emerald-100" : "bg-gray-50 border border-gray-100"}`}>
-                        <span className={`text-xs font-semibold ${i === 0 ? "text-emerald-700" : "text-gray-700"}`}>
-                          {i === 0 && <span className="mr-1">🥇</span>}{store.name}
-                        </span>
-                        <span className={`text-sm font-black ${i === 0 ? "text-emerald-700" : "text-gray-800"}`}>₪{(store.price).toLocaleString()}</span>
-                      </div>
-                    ))}
+                    {[...(product.stores || [])].filter(s => s.price > 0).sort((a, b) => a.price - b.price).slice(0, 5).map((store, i) => {
+                      const rankLabel = i === 0 ? "המחיר הזול ביותר בשוק"
+                                      : i === 1 ? "מחיר שני בשוק"
+                                      : i === 2 ? "מחיר שלישי בשוק"
+                                      : `מקום ${i + 1}`;
+                      return (
+                        <div key={i} className={`flex items-center justify-between px-3 py-2 rounded-xl ${i === 0 ? "bg-emerald-50 border border-emerald-100" : "bg-gray-50 border border-gray-100"}`}>
+                          <span className={`text-xs font-semibold ${i === 0 ? "text-emerald-700" : "text-gray-700"}`}>
+                            {i === 0 && <span className="mr-1">🥇</span>}{rankLabel}
+                          </span>
+                          <span className={`text-sm font-black ${i === 0 ? "text-emerald-700" : "text-gray-800"}`}>₪{(store.price).toLocaleString()}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -5932,10 +5940,23 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   const sidEnc = encodeURIComponent(sid);
   // Identity headers attached to every supplier-scoped request so the
   // server's `requireSupplierMatch` middleware lets it through.
-  const supplierAuthHeaders = useMemo(() => ({
-    "x-supplier-email": (supplier?.email || "").toLowerCase(),
-    "x-supplier-id":    (supplier?.id || sid).toString().toLowerCase(),
-  }), [supplier?.email, supplier?.id, sid]);
+  //
+  // SECURITY NOTE: the server no longer trusts the x-supplier-* headers
+  // alone — they're hints. The Authorization Bearer (the customer JWT
+  // whose user.email matches a registered supplier) is the real auth.
+  // Suppliers must log in to Bundly as customers with the same email
+  // they registered with as a supplier. Without a Bearer the server
+  // returns 401.
+  const supplierAuthHeaders = useMemo(() => {
+    const customerToken = typeof localStorage !== "undefined"
+      ? localStorage.getItem("bundly_token") || ""
+      : "";
+    return {
+      "x-supplier-email": (supplier?.email || "").toLowerCase(),
+      "x-supplier-id":    (supplier?.id || sid).toString().toLowerCase(),
+      ...(customerToken && { "Authorization": "Bearer " + customerToken }),
+    };
+  }, [supplier?.email, supplier?.id, sid]);
   const supplierFetch = useCallback((url, opts = {}) => {
     return fetch(url, {
       ...opts,
@@ -6144,10 +6165,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
   const updateOrderStatus = async (orderId, status, trackingNumber = null) => {
     try {
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
       const res = await fetch(`/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          ...(customerToken && { "Authorization": "Bearer " + customerToken }),
           ...(supplier?.email && { "x-supplier-email": supplier.email }),
         },
         body: JSON.stringify({ status, trackingNumber }),
@@ -10336,12 +10359,16 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                   <TrendingDown className="w-4 h-4 text-indigo-500" />{t.psCurrentPrice} — {t.psCheapest}
                 </h3>
                 <div className="space-y-2">
-                  {[...result.suppliers].sort((a,b)=>a.price-b.price).map((s, i) => (
+                  {[...result.suppliers].sort((a,b)=>a.price-b.price).map((s, i) => {
+                    const rankSub = i === 0 ? "המחיר הזול ביותר בשוק"
+                                  : i === 1 ? "מחיר שני בשוק"
+                                  : `מקום ${i + 1}`;
+                    return (
                     <div key={i} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl ${i===0?"bg-indigo-50 border border-indigo-100":"bg-gray-50"}`}>
                       <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 ${i===0?"bg-indigo-600 text-white":"bg-gray-200 text-gray-500"}`}>{i===0?"★":i+1}</span>
                       <div className="flex-1 min-w-0">
                         <p className={`font-black text-base leading-tight ${i===0?"text-indigo-700":"text-gray-500"}`}>₪{s.price?.toLocaleString()}</p>
-                        {s.name && <p className="text-[11px] text-gray-400 truncate">{s.name}</p>}
+                        <p className="text-[11px] text-gray-400 truncate">{rankSub}</p>
                       </div>
                       {s.link && isIsraeliLink(s.link)
                         ? <a href={s.link} target="_blank" rel="noopener noreferrer"
@@ -10351,7 +10378,8 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                         : null
                       }
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
               </div>
             )}
@@ -10747,7 +10775,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                 <p className="text-3xl font-black text-gray-900 leading-none mt-1">
                   {priceMin > 0 ? `₪${priceMin.toLocaleString()}` : "—"}
                 </p>
-                {cheapest && <p className="text-[11px] text-gray-400 mt-0.5">{cheapest.source || cheapest.name}</p>}
+                {cheapest && <p className="text-[11px] text-gray-400 mt-0.5">מתוך השוואת מחירים בשוק</p>}
               </div>
               {groupTarget > 0 && (
                 <div className="text-left">
@@ -10784,17 +10812,26 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               </button>
               {showAllStores && (
                 <div className="mt-2 space-y-1.5">
-                  {pricedSup.slice(0, 8).map((s, i) => (
-                    <a key={i} href={storeLink(s)} target="_blank" rel="noopener noreferrer"
-                      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition group ${
-                        i === 0 ? "bg-gradient-to-l from-emerald-500 to-teal-600 text-white shadow-md" : "bg-white border border-gray-100 hover:border-emerald-200"
-                      }`}>
-                      <span className={`text-sm font-black ${i === 0 ? "text-white" : "text-gray-300"}`}>{i === 0 ? "🥇" : i + 1}</span>
-                      <span className={`flex-1 text-sm font-bold truncate ${i === 0 ? "text-white" : "text-gray-700"}`}>{s.source || s.name}</span>
-                      <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{s.price.toLocaleString()}</span>
-                      <ExternalLink className={`w-3 h-3 ${i === 0 ? "text-white/60" : "text-gray-300"}`} />
-                    </a>
-                  ))}
+                  {pricedSup.slice(0, 8).map((s, i) => {
+                    // Anonymised rank label — never show store names to the
+                    // customer. Brand keeps the appearance of a curated
+                    // market comparison, not a price-scraping aggregator.
+                    const rankLabel = i === 0 ? "המחיר הזול ביותר בשוק"
+                                    : i === 1 ? "מחיר שני בשוק"
+                                    : i === 2 ? "מחיר שלישי בשוק"
+                                    : `מקום ${i + 1}`;
+                    return (
+                      <a key={i} href={storeLink(s)} target="_blank" rel="noopener noreferrer"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition group ${
+                          i === 0 ? "bg-gradient-to-l from-emerald-500 to-teal-600 text-white shadow-md" : "bg-white border border-gray-100 hover:border-emerald-200"
+                        }`}>
+                        <span className={`text-sm font-black ${i === 0 ? "text-white" : "text-gray-300"}`}>{i === 0 ? "🥇" : i + 1}</span>
+                        <span className={`flex-1 text-sm font-bold truncate ${i === 0 ? "text-white" : "text-gray-700"}`}>{rankLabel}</span>
+                        <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{s.price.toLocaleString()}</span>
+                        <ExternalLink className={`w-3 h-3 ${i === 0 ? "text-white/60" : "text-gray-300"}`} />
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -20215,6 +20252,8 @@ export default function App() {
     if (!currentSupplier?.email && !currentSupplier?.id) return;
     try {
       const headers = {};
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerToken)          headers["Authorization"]    = "Bearer " + customerToken;
       if (currentSupplier?.email) headers["x-supplier-email"] = currentSupplier.email.toLowerCase();
       if (currentSupplier?.id)    headers["x-supplier-id"]    = String(currentSupplier.id).toLowerCase();
       const r = await fetch("/api/personal-requests", { headers });
@@ -20393,6 +20432,8 @@ export default function App() {
     }));
     try {
       const supplierHeaders = {};
+      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerToken)                supplierHeaders["Authorization"]    = "Bearer " + customerToken;
       if (supplierId)                   supplierHeaders["x-supplier-id"]    = String(supplierId).toLowerCase();
       if (currentSupplier?.email)       supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
       const res = await fetch(`/api/deals/${encodeURIComponent(dealId)}/bids/${encodeURIComponent(bidId)}/cancel`, {
@@ -20442,7 +20483,9 @@ export default function App() {
     // pull it from the supplier object that was used to construct the bid.
     try {
       const supplierHeaders = {};
-      if (bid.supplierId)   supplierHeaders["x-supplier-id"]    = String(bid.supplierId).toLowerCase();
+      const customerTokenForBid = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      if (customerTokenForBid) supplierHeaders["Authorization"]    = "Bearer " + customerTokenForBid;
+      if (bid.supplierId)      supplierHeaders["x-supplier-id"]    = String(bid.supplierId).toLowerCase();
       if (currentSupplier?.email) supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
       const res = await fetch(`/api/deals/${encodeURIComponent(dealId)}/bids`, {
         method:  "POST",
@@ -20601,6 +20644,21 @@ export default function App() {
   const handleSupplierDashClick = () => currentSupplier ? setMode("supplier-dashboard") : setShowSupplierLogin(true);
 
   const handleLogout = () => {
+    // SECURITY (audit C-A3): call /api/auth/logout so the server can
+    // revoke the JTI before we drop the token locally. Without this,
+    // a stolen token (XSS, lingering tab, shared device) remains valid
+    // server-side for the full 30-day lifetime. Fire-and-forget — the
+    // local cleanup runs regardless of server reachability.
+    try {
+      const token = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : null;
+      if (token) {
+        fetch("/api/auth/logout", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token },
+          keepalive: true, // delivers even if the page is unloading
+        }).catch(() => {});
+      }
+    } catch (_) {}
     // Clear ALL user-specific state so the next user on this device doesn't
     // inherit the previous user's data (wishlist, products, search history).
     localStorage.removeItem("bundly_token");
