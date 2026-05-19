@@ -221,3 +221,21 @@ input[inputmode="numeric"], input[inputmode="email"], input[inputmode="tel"] {
   bottom: 0;
   padding-bottom: env(safe-area-inset-bottom, 8px);
 }
+
+/* Cart icon bounce — triggered by flyToCart() when a product lands in the
+   navbar cart. Short, snappy scale-up acknowledgement. */
+@keyframes cartBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  70%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+.cart-bounce {
+  animation: cartBounce 320ms cubic-bezier(.22,.68,0,1.15);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-bounce {
+    animation: cartBounce 160ms ease-out;
+  }
+}
+

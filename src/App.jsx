@@ -4460,11 +4460,11 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
     }
     return (
       <div className="flex items-center gap-2">
-        <button onClick={() => onSelectTier("committed")}
+        <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
           הגשת הזמנה לסבב
         </button>
-        <button onClick={() => onSelectTier("interested")}
+        <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
           className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
           עדכונים
         </button>
@@ -4512,7 +4512,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
           </div>
         </div>
         {/* Upgrade to formal order */}
-        <button onClick={() => onSelectTier("committed")}
+        <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
           <span>הגשת הזמנה רשמית לסבב</span>
           <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
@@ -4551,7 +4551,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
 
       {/* Primary action — formal submission */}
       <button
-        onClick={() => onSelectTier("committed")}
+        onClick={(e) => onSelectTier("committed", e.currentTarget)}
         className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
       >
         <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
@@ -4869,7 +4869,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     }
   }, [user]);
 
-  const handleSelectTier = (tier) => {
+  const handleSelectTier = (tier, sourceEl = null) => {
     if (!user) {
       pendingTierRef.current = tier;
       if (notify) notify("עליך להתחבר קודם");
@@ -4878,7 +4878,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       return;
     }
     if (tier === "interested") {
-      onJoin(deal.id, tier);
+      onJoin(deal.id, tier, sourceEl);
       setJoinedTier(tier);
       return;
     }
@@ -5233,7 +5233,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 הסכום מקוזז מהמחיר הסופי בהגשת הזמנה רשמית, או מוחזר במלואו אם הסבב לא ייסגר.
               </p>
               <button
-                onClick={() => handleSelectTier("committed")}
+                onClick={(e) => handleSelectTier("committed", e.currentTarget)}
                 className="mt-3 w-full py-2.5 bg-white text-indigo-700 hover:bg-indigo-50 font-black rounded-xl text-xs shadow active:scale-[0.98] transition flex items-center justify-center gap-1.5">
                 הגשת הזמנה רשמית — נעילת מחיר ₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}
               </button>
@@ -17932,7 +17932,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
             </div>
           ) : (
             <button
-              onClick={() => { setJoined(true); onJoin?.(bundle); }}
+              onClick={(e) => { setJoined(true); onJoin?.(bundle, e.currentTarget); }}
               className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black rounded-2xl text-sm transition shadow-lg shadow-indigo-200/50 active:scale-[0.98] flex items-center justify-center gap-2"
             >
               <Package className="w-4 h-4" />
@@ -20286,7 +20286,7 @@ export default function App() {
       try { flyToCart(sourceEl); } catch {}
     }
   };
-  const handleJoin = (id, tier = "committed") => {
+  const handleJoin = (id, tier = "committed", sourceEl = null) => {
     // Login gate for ALL tiers — even "interested"/"watching" need a user
     // identity so we can notify them when the deal moves, and so the count
     // we show isn't gameable by anonymous spam clicks.
@@ -20322,7 +20322,7 @@ export default function App() {
     notify(tierMsg);
     // Save to "המוצרים שלי"
     const deal = deals.find(d => d.id === id);
-    if (deal) addToMyProducts({ name: deal.name?.he || deal.name?.en, image: deal.image, tier, action: "joined_deal", catIdx: deal.catIdx, price: deal.groupOffer || deal.marketMin });
+    if (deal) addToMyProducts({ name: deal.name?.he || deal.name?.en, image: deal.image, tier, action: "joined_deal", catIdx: deal.catIdx, price: deal.groupOffer || deal.marketMin }, null, sourceEl);
   };
   const handleCancelBid = async (dealId, bidId, supplierId, reason) => {
     // Capture the pre-cancellation snapshot so we can roll back if the
@@ -20907,7 +20907,7 @@ export default function App() {
           onBack={closeCategory}
           onReSearch={openCategory}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-          onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); }}
+          onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); }}
           onRequestSupplierPrice={handleRequestSupplierPrice}
           demandPools={demandPools}
           initialFilters={categoryInitialFilters}
@@ -20924,7 +20924,7 @@ export default function App() {
             onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); setCategoryQuery(null); }}
             onBack={() => setSearchResult(null)}
             onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-            onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+            onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
             onRequestSupplierPrice={handleRequestSupplierPrice}
             demandPools={demandPools}
             onGoHome={goHome}
@@ -21031,7 +21031,7 @@ export default function App() {
           onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
           onBack={null}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-          onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+          onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
           onRequestSupplierPrice={handleRequestSupplierPrice}
           demandPools={demandPools}
           onGoHome={goHome}
@@ -21048,7 +21048,7 @@ export default function App() {
           bundle={selectedBundle}
           isSaved={savedBundles.includes(selectedBundle.id)}
           onClose={() => setSelectedBundle(null)}
-          onJoin={(bundle) => {
+          onJoin={(bundle, sourceEl) => {
             addToMyProducts({
               name: bundle.title,
               image: bundle.products[0]?.image || "",
@@ -21056,7 +21056,7 @@ export default function App() {
               action: "joined_deal",
               catIdx: bundle.catIdx,
               price: bundle.bundlePrice,
-            });
+            }, null, sourceEl);
             notify(`✅ הצטרפת לחבילה: ${bundle.title}`);
           }}
           onSave={(bundle, isSaved) => {
@@ -21520,7 +21520,7 @@ export default function App() {
               onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
               onBack={() => setSearchResult(null)}
               onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-              onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+              onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
               onRequestSupplierPrice={handleRequestSupplierPrice}
               demandPools={demandPools}
               onGoHome={goHome}
