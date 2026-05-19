@@ -143,12 +143,29 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
   );
 }
 
+// Safe localStorage accessor — iOS Safari private mode throws SecurityError
+// on every localStorage operation, which used to crash the whole app at
+// module-init. Wrap every read/write in try/catch. (round 3 P0 fix.)
+function _safeLS(key) {
+  try { return typeof localStorage !== "undefined" ? localStorage.getItem(key) : null; }
+  catch { return null; }
+}
+function _safeLSSet(key, value) {
+  try { if (typeof localStorage !== "undefined") localStorage.setItem(key, value); }
+  catch { /* private mode / quota — silent */ }
+}
+function _safeLSRemove(key) {
+  try { if (typeof localStorage !== "undefined") localStorage.removeItem(key); }
+  catch { /* silent */ }
+}
+function _getToken() { return _safeLS("bundly_token"); }
+
 // Clean product names: strip HTML entities, RTL/LTR marks, extra spaces
 // ── Auth-aware fetch: auto-refreshes token on TOKEN_EXPIRED, logs out on failure.
 //      Also enforces a default 20s timeout so mobile users on slow 3G don't hang
 //      forever — pass `timeout: <ms>` in options to override per-call.            ──
 async function fetchWithAuth(url, options = {}) {
-  const token = localStorage.getItem("bundly_token");
+  const token = _getToken();
   const timeoutMs = options.timeout || 20_000;
 
   // Set up timeout via AbortController if no signal was passed
@@ -186,11 +203,11 @@ async function fetchWithAuth(url, options = {}) {
           });
           if (refreshRes.ok) {
             const refreshData = await refreshRes.json();
-            localStorage.setItem("bundly_token", refreshData.token);
+            _safeLSSet("bundly_token", refreshData.token);
             return fetch(url, { ...options, headers: { ...(options.headers || {}), Authorization: `Bearer ${refreshData.token}` } });
           }
         }
-        localStorage.removeItem("bundly_token");
+        _safeLSRemove("bundly_token");
         window.dispatchEvent(new CustomEvent("bundly:auth-expired"));
       } catch { /* ignore */ }
     }
@@ -728,14 +745,21 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
   }, []);
 
   if (!deal) return null;
-  const name = cleanName(deal.name[lang] || deal.name.en);
+  // BUG FIX (round 3 P0): defensive defaults for every numeric field —
+  // any deal coming back from /api/deals that omits `groupOffer`,
+  // `marketMax`, or `discount` would otherwise crash with
+  // "Cannot read properties of undefined (reading 'toLocaleString')".
+  const name = cleanName(deal.name?.[lang] || deal.name?.en || deal.name || "");
   const pad = n => String(n).padStart(2, "0");
   const bestPrice = deal.bids?.length > 0
-    ? Math.min(...deal.bids.map(b => b.amount))
-    : deal.groupOffer;
-  const tiers = makeTiers(deal.marketMin);
-  const next = nextTier(tiers, deal.participants);
-  const toNext = next ? next.people - deal.participants : 0;
+    ? Math.min(...deal.bids.map(b => Number(b.amount) || Infinity))
+    : (deal.groupOffer || deal.marketMin || 0);
+  const _bestPrice = Number.isFinite(bestPrice) && bestPrice > 0 ? bestPrice : (deal.marketMin || 0);
+  const marketMax = Number(deal.marketMax) || _bestPrice;
+  const discount  = Number(deal.discount)  || (marketMax > _bestPrice ? Math.round((1 - _bestPrice / marketMax) * 100) : 0);
+  const tiers = makeTiers(deal.marketMin || _bestPrice);
+  const next = nextTier(tiers, deal.participants || 0);
+  const toNext = next ? next.people - (deal.participants || 0) : 0;
 
   return (
     <div className="relative overflow-hidden rounded-2xl mb-6 sm:mb-8 shadow-xl"
@@ -767,10 +791,10 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
           <div className="flex-1 min-w-0">
             <h3 className="text-base sm:text-lg font-black mb-1 leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{name}</h3>
             <div className="flex items-baseline gap-2 mb-2.5 sm:mb-3 flex-wrap">
-              <span className="text-2xl sm:text-3xl font-black">₪{bestPrice.toLocaleString()}</span>
-              <span className="text-xs sm:text-sm line-through opacity-60">₪{deal.marketMax.toLocaleString()}</span>
+              <span className="text-2xl sm:text-3xl font-black">₪{_bestPrice.toLocaleString()}</span>
+              <span className="text-xs sm:text-sm line-through opacity-60">₪{marketMax.toLocaleString()}</span>
               <span className="bg-white/25 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
-                חיסכון {deal.discount}%
+                חיסכון {discount}%
               </span>
             </div>
 
@@ -1681,7 +1705,7 @@ function AuthModal({ t, onSuccess, onClose }) {
       const res  = await fetch("/api/auth/verify-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, code: otp }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "קוד שגוי");
-      localStorage.setItem("bundly_token", data.token);
+      _safeLSSet("bundly_token", data.token);
       setToken(data.token);
       setIsNew(data.isNew);
 
@@ -4617,7 +4641,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
   const name = cleanName(deal.name[lang] || deal.name.en);
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
-  const sortedBids = [...deal.bids].sort((a,b) => a.amount - b.amount);
+  const sortedBids = [...(deal.bids || [])].sort((a,b) => a.amount - b.amount);
   const bestBid = sortedBids[0];
   const closingSoon = deal.daysLeft <= 2;
   const savings = deal.marketMax - (bestBid?.amount || deal.groupOffer);
@@ -4793,7 +4817,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
   const alternatives = getAlternatives(deal, allDeals, lang).slice(0, 4);
-  const sortedBids = [...deal.bids].sort((a,b) => a.amount - b.amount);
+  const sortedBids = [...(deal.bids || [])].sort((a,b) => a.amount - b.amount);
   const bestBid = sortedBids[0];
   const [joinedTier, setJoinedTier] = useState(null);
   const [depositInfo, setDepositInfo] = useState(null); // { tier, amount } when DepositModal is open
@@ -5437,7 +5461,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           deal={deal}
           tier={depositInfo.tier}
           depositAmount={depositInfo.amount}
-          token={user?.token || (typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : null)}
+          token={user?.token || _getToken()}
           onClose={() => setDepositInfo(null)}
           onSuccess={handleDepositSuccess}
         />
@@ -5943,7 +5967,7 @@ function SupplierLoginModal({ onSuccess, onClose }) {
       const res = await fetch("/api/auth/demo-supplier-login", { method: "POST" });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "כניסת הדגמה נכשלה");
-      localStorage.setItem("bundly_token", data.token);
+      _safeLSSet("bundly_token", data.token);
       // BUG FIX (round 3 P1): pass BOTH the supplier object AND the
       // backing user record so the parent can call setUser too. Without
       // setUser, `user`-gated UI (profile modal, handleSelectTier
@@ -6034,7 +6058,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   // returns 401.
   const supplierAuthHeaders = useMemo(() => {
     const customerToken = typeof localStorage !== "undefined"
-      ? localStorage.getItem("bundly_token") || ""
+      ? _getToken() || ""
       : "";
     return {
       "x-supplier-email": (supplier?.email || "").toLowerCase(),
@@ -6250,7 +6274,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
   const updateOrderStatus = async (orderId, status, trackingNumber = null) => {
     try {
-      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      const customerToken = _getToken() || "";
       const res = await fetch(`/api/orders/${orderId}/status`, {
         method: "PATCH",
         headers: {
@@ -6354,7 +6378,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
   const totalParticipants = myDeals.reduce((s, d) => s + d.participants, 0);
   const totalValue = myDeals.reduce((s, d) => {
-    const best = [...d.bids].sort((a,b) => a.amount - b.amount)[0];
+    const best = [...(d.bids || [])].sort((a,b) => a.amount - b.amount)[0];
     return s + (best?.amount || d.groupOffer) * d.participants;
   }, 0);
 
@@ -7074,7 +7098,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       <div className="space-y-4">
         {myDeals.map(d => {
           const status = getDealStatus(d);
-          const best = [...d.bids].sort((a,b) => a.amount - b.amount)[0];
+          const best = [...(d.bids || [])].sort((a,b) => a.amount - b.amount)[0];
           const price = best?.amount || d.groupOffer;
           const pct = Math.round((d.participants / d.maxParticipants) * 100);
           const minPct = Math.round((d.minParticipants / d.maxParticipants) * 100);
@@ -17809,6 +17833,10 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
 function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, onViewFullDetails }) {
   // Edit is always active — use local products state that auto-syncs to parent via onEdit
   const [prods, setProds] = useState(bundle.products);
+  // BUG FIX (round 3 P1): re-sync when parent passes a DIFFERENT bundle.
+  // useState's initializer only runs on first mount, so opening modal A,
+  // closing, then opening modal B would show A's products forever.
+  useEffect(() => { setProds(bundle.products); }, [bundle?.id]);
   const totalMarket = prods.reduce((s, p) => s + (p.marketPrice || 0), 0);
   const bundlePrice = Math.round(totalMarket * 0.76);
   const savePct = totalMarket > 0 ? Math.round(((totalMarket - bundlePrice) / totalMarket) * 100) : 0;
@@ -17825,7 +17853,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
     if (sendingToSuppliers || sentToSuppliers) return;
     setSendingToSuppliers(true);
     try {
-      const tok = localStorage.getItem("bundly_token") || "";
+      const tok = _getToken() || "";
       const desc = prods.map(p => `• ${p.name}${p.marketPrice ? ` (₪${p.marketPrice})` : ""}`).join("\n");
       const res = await fetch("/api/personal-requests", {
         method: "POST",
@@ -19721,7 +19749,7 @@ export default function App() {
     // verifies them. Anonymous ids (anon-*) are allowed without a token.
     const headers = { "Content-Type": "application/json" };
     if (user?.id) {
-      const tok = user?.token || (typeof localStorage !== "undefined" && localStorage.getItem("bundly_token"));
+      const tok = user?.token || (_getToken());
       if (tok) headers.Authorization = `Bearer ${tok}`;
     }
     fetch(`/api/users/${encodeURIComponent(trackerId)}/track`, {
@@ -19754,7 +19782,7 @@ export default function App() {
       // anonymous IDs are allowed without a token.
       const headers = { "Content-Type": "application/json" };
       if (user?.id) {
-        const tok = user?.token || (typeof localStorage !== "undefined" && localStorage.getItem("bundly_token"));
+        const tok = user?.token || (_getToken());
         if (tok) headers.Authorization = `Bearer ${tok}`;
       }
       const r = await fetch(`/api/users/${encodeURIComponent(trackerId)}/recommendations`, {
@@ -19952,7 +19980,7 @@ export default function App() {
 
   // Restore session from localStorage on first load
   useEffect(() => {
-    const token = localStorage.getItem("bundly_token");
+    const token = _getToken();
     if (!token) return;
     fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.text() : null)
@@ -20224,7 +20252,7 @@ export default function App() {
     if (!currentSupplier?.email && !currentSupplier?.id) return;
     try {
       const headers = {};
-      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      const customerToken = _getToken() || "";
       if (customerToken)          headers["Authorization"]    = "Bearer " + customerToken;
       if (currentSupplier?.email) headers["x-supplier-email"] = currentSupplier.email.toLowerCase();
       if (currentSupplier?.id)    headers["x-supplier-id"]    = String(currentSupplier.id).toLowerCase();
@@ -20267,7 +20295,7 @@ export default function App() {
 
   // Fetch cart from server on login (survives F5 and cross-device)
   useEffect(() => {
-    const token = user?.token || localStorage.getItem("bundly_token");
+    const token = user?.token || _getToken();
     if (!token) return;
     fetch("/api/user/saved-products", { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
@@ -20295,7 +20323,7 @@ export default function App() {
       try { flyToCart(sourceEl); } catch {}
     }
     // Sync to server if logged in
-    const token = user?.token || localStorage.getItem("bundly_token");
+    const token = user?.token || _getToken();
     if (!token) return;
     try {
       await fetch("/api/user/saved-products", {
@@ -20419,7 +20447,7 @@ export default function App() {
     }));
     try {
       const supplierHeaders = {};
-      const customerToken = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      const customerToken = _getToken() || "";
       if (customerToken)                supplierHeaders["Authorization"]    = "Bearer " + customerToken;
       if (supplierId)                   supplierHeaders["x-supplier-id"]    = String(supplierId).toLowerCase();
       if (currentSupplier?.email)       supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
@@ -20470,7 +20498,7 @@ export default function App() {
     // pull it from the supplier object that was used to construct the bid.
     try {
       const supplierHeaders = {};
-      const customerTokenForBid = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : "";
+      const customerTokenForBid = _getToken() || "";
       if (customerTokenForBid) supplierHeaders["Authorization"]    = "Bearer " + customerTokenForBid;
       if (bid.supplierId)      supplierHeaders["x-supplier-id"]    = String(bid.supplierId).toLowerCase();
       if (currentSupplier?.email) supplierHeaders["x-supplier-email"] = currentSupplier.email.toLowerCase();
@@ -20540,12 +20568,19 @@ export default function App() {
       daysLeft: 14,
       specs: result.specs || [],
       hot: false,
-      bids: (result.suppliers || []).slice(0, 3).map((s, i) => ({
-        id: Date.now() + i,
-        amount: s.price,
-        time: "עכשיו",
-        supplierId: `supplier_${i}`,
-      })),
+      // BUG FIX (round 3 P1): coerce price to Number. /api/search results
+      // can deliver `s.price` as a string ("1299"), which leaks into
+      // Math.min spreads downstream → NaN → "₪NaN" rendering and broken
+      // deposit calculation. Filter zero/NaN amounts so we never store
+      // a bid we can't display.
+      bids: (result.suppliers || []).slice(0, 3)
+        .map((s, i) => ({
+          id: Date.now() + i,
+          amount: Number(s.price) || 0,
+          time: "עכשיו",
+          supplierId: `supplier_${i}`,
+        }))
+        .filter(b => b.amount > 0),
     };
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
@@ -20637,7 +20672,7 @@ export default function App() {
     // server-side for the full 30-day lifetime. Fire-and-forget — the
     // local cleanup runs regardless of server reachability.
     try {
-      const token = typeof localStorage !== "undefined" ? localStorage.getItem("bundly_token") : null;
+      const token = _getToken();
       if (token) {
         fetch("/api/auth/logout", {
           method: "POST",
@@ -20648,7 +20683,7 @@ export default function App() {
     } catch (_) {}
     // Clear ALL user-specific state so the next user on this device doesn't
     // inherit the previous user's data (wishlist, products, search history).
-    localStorage.removeItem("bundly_token");
+    _safeLSRemove("bundly_token");
     localStorage.removeItem("bundly_searches");
     localStorage.removeItem("bundly_wishlist");
     // Also clear any cached profile drafts
@@ -20758,7 +20793,7 @@ export default function App() {
   // Poll orders count every 30s so supplier-updated order statuses reflect ("הגיע" etc.)
   const [activeOrdersCount, setActiveOrdersCount] = useState(0);
   useEffect(() => {
-    const token = user?.token || localStorage.getItem("bundly_token");
+    const token = user?.token || _getToken();
     if (!token) { setActiveOrdersCount(0); return; }
     const fetchCount = () => {
       fetch("/api/orders", { headers: { Authorization: `Bearer ${token}` } })
@@ -20900,7 +20935,7 @@ export default function App() {
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
         {universalBackBtn}
       </div>
@@ -21006,7 +21041,7 @@ export default function App() {
           />
         )}
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} onCategoryBrowse={() => { closeCategory(); setShowCategoryBrowse(true); }} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
         {universalBackBtn}
@@ -21063,7 +21098,7 @@ export default function App() {
       )}
 
       {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
-        {showProfile && user && <ProfileModal user={user} token={user.token || localStorage.getItem("bundly_token")} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
+        {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
       {showSupplier && <SupplierModal t={t} categories={cats}
         onSubmit={s=>{setPendingSuppliers(p=>[s,...p]);setShowSupplier(false);notify(t.supplierSent);}}
         onClose={()=>setShowSupplier(false)}
@@ -21621,7 +21656,7 @@ export default function App() {
       {mode === "offers" && (
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <OffersInboxPage
-            token={user?.token || localStorage.getItem("bundly_token")}
+            token={user?.token || _getToken()}
             onBack={() => setMode("home")}
             onOrderCreated={order => { notify(`✅ הזמנה #${order.id} נוצרה!`); setMode("orders"); }}
             notify={notify}
@@ -21633,7 +21668,7 @@ export default function App() {
       {mode === "orders" && (
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <OrdersPage
-            token={user?.token || localStorage.getItem("bundly_token")}
+            token={user?.token || _getToken()}
             onBack={() => setMode("home")}
             onLoginClick={() => setShowAuth(true)}
           />
