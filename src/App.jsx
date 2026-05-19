@@ -6657,8 +6657,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     .sort((a, b) => (b.participants || 0) - (a.participants || 0)),
     [deals]
   );
-  // Default to "all-active" — every active buying group on the platform, supplier can bid on any
-  const [activeTab, setActiveTab] = useState("all-active");
+  // Default to "overview" — supplier's home view with KPIs, leading deals, and activity feed
+  const [activeTab, setActiveTab] = useState("overview");
   const [allDealsCategoryFilter, setAllDealsCategoryFilter] = useState(null);
   const [hiddenMap, setHiddenMap] = useState(
     Object.fromEntries(myDeals.map(d => [d.id, d.hiddenPrice]))
@@ -6837,7 +6837,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── HERO STRIP — total active buying-group activity ── */}
+      {/* ── HERO STRIP — total active buying-group activity (hidden on overview to give it space) ── */}
+      {activeTab !== "overview" && (
       <div className="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 rounded-3xl p-5 mb-5 text-white shadow-xl relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-pink-400/20 rounded-full blur-3xl pointer-events-none" />
@@ -6857,10 +6858,17 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
           </button>
         </div>
       </div>
+      )}
 
+      {/* ── PRIMARY SECTION HEADER ── */}
+      <div className="flex items-center gap-2 mb-2 mt-1 px-1">
+        <span className="text-[11px] font-black text-gray-500 uppercase tracking-wider">🛒 מכירות וקבוצות</span>
+        <div className="flex-1 h-px bg-gray-200"></div>
+      </div>
       {/* ── PRIMARY: BUYING GROUPS — biggest, most prominent ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-3">
         {[
+          { key:"overview",     label:"סקירה",         icon:"🏠", count: 0, color:"from-blue-500 via-indigo-500 to-violet-500",   desc:"המסך הראשי שלך — סטטיסטיקות, הזמנות וקבוצות שמובילים בהן" },
           { key:"all-active",   label:"כל הקבוצות",    icon:"🛒", count: allActiveDeals.length, color:"from-indigo-500 via-violet-500 to-fuchsia-500", desc:"כל קבוצות הרכישה הפעילות בפלטפורמה — הגש הצעת מחיר",  hot:true },
           { key:"my-bids",      label:"ההצעות שלי",  icon:"📥", count: myBidDeals.length,     color:"from-violet-500 via-purple-500 to-fuchsia-500", desc:"קבוצות שאליהן הגשת הצעת מחיר — עקוב אחר התחרות" },
           { key:"demand-pools", label:"ביקושי קטגוריה", icon:"📊", count: poolEntries.length,    color:"from-emerald-500 via-teal-500 to-cyan-500",     desc:"ביקוש כללי לקטגוריה — שלח הצעות לדגמים פופולריים" },
@@ -6898,22 +6906,9 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         })}
       </div>
 
-      {/* ── SECONDARY: business operations — smaller, less visual weight ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-        {[
-          { key:"listings",        label:"המוצרים שלי", icon:"📤", count: listings.filter(l => l.active).length, color:"from-fuchsia-500 to-pink-600" },
-          { key:"questions",       label:"שאלות לקוחות", icon:"💬", count: 0, color:"from-blue-500 to-indigo-600" },
-          { key:"orders-received", label:"הזמנות",   icon:"🧾", count: supplierOrders.filter(o => o.status !== "delivered" && o.status !== "cancelled").length, color:"from-emerald-600 to-teal-700" },
-          { key:"earnings",        label:"הכנסות",    icon:"💰", count: 0,                                  color:"from-green-500 to-emerald-600" },
-          { key:"reviews",         label:"ביקורות",   icon:"⭐", count: supplierReviews.reviews.length,    color:"from-amber-500 to-yellow-600" },
-          { key:"analytics",       label:"אנליטיקה",  icon:"📈", count: 0,                                  color:"from-cyan-500 to-blue-600" },
-          { key:"auto-bid",        label:"אוטומציה",  icon:"🤖", count: autoBidRules.filter(r => r.active).length, color:"from-purple-500 to-indigo-600" },
-          { key:"inventory",       label:"מלאי",      icon:"📦", count: inventory.length,                  color:"from-rose-500 to-pink-600" },
-          { key:"import-catalog",  label:"ייבוא קטלוג", icon:"🔗", count: 0,                                  color:"from-sky-500 to-cyan-600" },
-          { key:"bundles",         label:"חבילות",    icon:"📦", count: bundles.length,                    color:"from-orange-500 to-red-600" },
-          // Profile is moved to the top strip, but we keep a small access tab
-          // here so deep-linking still works (e.g. when a banner pushes the user).
-        ].map(tab => {
+      {/* ── SECONDARY: business operations, grouped by purpose ── */}
+      {(() => {
+        const renderTabCard = (tab) => {
           const active = activeTab === tab.key;
           return (
             <button key={tab.key}
@@ -6934,8 +6929,221 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               </div>
             </button>
           );
-        })}
-      </div>
+        };
+        const sectionHeader = (label) => (
+          <div className="flex items-center gap-2 mt-4 mb-2 px-1">
+            <span className="text-[11px] font-black text-gray-500 uppercase tracking-wider">{label}</span>
+            <div className="flex-1 h-px bg-gray-200"></div>
+          </div>
+        );
+        const ordersGroup = [
+          { key:"orders-received", label:"הזמנות",   icon:"🧾", count: supplierOrders.filter(o => o.status !== "delivered" && o.status !== "cancelled").length, color:"from-emerald-600 to-teal-700" },
+          { key:"questions",       label:"שאלות לקוחות", icon:"💬", count: 0, color:"from-blue-500 to-indigo-600" },
+          { key:"reviews",         label:"ביקורות",   icon:"⭐", count: supplierReviews.reviews.length,    color:"from-amber-500 to-yellow-600" },
+        ];
+        const moneyGroup = [
+          { key:"earnings",        label:"הכנסות",    icon:"💰", count: 0,                                  color:"from-green-500 to-emerald-600" },
+          { key:"analytics",       label:"אנליטיקה",  icon:"📈", count: 0,                                  color:"from-cyan-500 to-blue-600" },
+        ];
+        const catalogGroup = [
+          { key:"listings",        label:"המוצרים שלי", icon:"📤", count: listings.filter(l => l.active).length, color:"from-fuchsia-500 to-pink-600" },
+          { key:"inventory",       label:"מלאי",      icon:"📦", count: inventory.length,                  color:"from-rose-500 to-pink-600" },
+          { key:"import-catalog",  label:"ייבוא קטלוג", icon:"🔗", count: 0,                                  color:"from-sky-500 to-cyan-600" },
+          { key:"bundles",         label:"חבילות",    icon:"📦", count: bundles.length,                    color:"from-orange-500 to-red-600" },
+        ];
+        const toolsGroup = [
+          { key:"auto-bid",        label:"אוטומציה",  icon:"🤖", count: autoBidRules.filter(r => r.active).length, color:"from-purple-500 to-indigo-600" },
+          { key:"profile",         label:"הגדרות",   icon:"⚙️", count: 0,                                  color:"from-slate-500 to-gray-700" },
+        ];
+        return (
+          <>
+            {sectionHeader("🧾 הזמנות ולקוחות")}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {ordersGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("💰 כספים וביצועים")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {moneyGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("📦 מוצרים וקטלוג")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {catalogGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("🤖 כלים והגדרות")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+              {toolsGroup.map(renderTabCard)}
+            </div>
+          </>
+        );
+      })()}
+
+      {/* ── OVERVIEW / HOME — supplier's main dashboard view ── */}
+      {activeTab === "overview" && (
+        <div className="space-y-5">
+          {/* KPI Cards — at-a-glance status */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <button onClick={() => setActiveTab("earnings")}
+              className="text-right bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-4 hover:shadow-md hover:border-emerald-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">💰</span>
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">ממתין להעברה</span>
+              </div>
+              <p className="text-2xl font-black text-emerald-800">₪{(supplierEarnings.totalPending || 0).toLocaleString()}</p>
+              <p className="text-[11px] font-bold text-emerald-700 mt-1">פרטים ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("orders-received")}
+              className="text-right bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4 hover:shadow-md hover:border-amber-300 transition active:scale-95 relative">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">📦</span>
+                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">לטיפול</span>
+              </div>
+              <p className="text-2xl font-black text-amber-800">
+                {supplierOrders.filter(o => o.status === "confirmed" || o.status === "placed").length}
+              </p>
+              <p className="text-[11px] font-bold text-amber-700 mt-1">פתח רשימה ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("my-bids")}
+              className="text-right bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl p-4 hover:shadow-md hover:border-indigo-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">🥇</span>
+                <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">מוביל ב-</span>
+              </div>
+              <p className="text-2xl font-black text-indigo-800">{analytics.leadingDeals} <span className="text-base font-bold text-indigo-600">קבוצות</span></p>
+              <p className="text-[11px] font-bold text-indigo-700 mt-1">ראה הצעות ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("reviews")}
+              className="text-right bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-100 rounded-2xl p-4 hover:shadow-md hover:border-yellow-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">⭐</span>
+                <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-wider">דירוג</span>
+              </div>
+              <p className="text-2xl font-black text-yellow-800">{supplierReviews.rating ? supplierReviews.rating.toFixed(1) : "—"}</p>
+              <p className="text-[11px] font-bold text-yellow-700 mt-1">{supplierReviews.reviews.length} ביקורות ←</p>
+            </button>
+          </div>
+
+          {/* Active leading deals widget */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm font-black text-gray-900">🏆 הקבוצות שאתה מוביל בהן</p>
+              {myBidDeals.filter(d => d.myBidIsLowest).length > 0 && (
+                <button onClick={() => setActiveTab("my-bids")} className="text-xs font-bold text-indigo-600 hover:underline">הכל ←</button>
+              )}
+            </div>
+            {(() => {
+              const leading = myBidDeals.filter(d => d.myBidIsLowest).slice(0, 3);
+              if (leading.length === 0) {
+                return (
+                  <div className="text-center py-8 text-gray-400">
+                    <p className="text-3xl mb-2">🎯</p>
+                    <p className="text-sm font-bold">אינך מוביל בשום קבוצה כרגע</p>
+                    <button onClick={() => setActiveTab("all-active")} className="mt-3 inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black px-4 py-2 rounded-lg transition">
+                      הצג קבוצות פעילות
+                    </button>
+                  </div>
+                );
+              }
+              return (
+                <div className="space-y-2">
+                  {leading.map(d => {
+                    const dealName = d.name?.he || d.name?.en || d.productName || "קבוצה";
+                    const min = d.minParticipants || 10;
+                    const pct = Math.min(100, Math.round(((d.participants || 0) / min) * 100));
+                    return (
+                      <div key={d.id} className="bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-3">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-bold text-gray-900 truncate">{dealName}</p>
+                            <p className="text-[10px] text-gray-500">{d.participants || 0}/{min} משתתפים · ההצעה שלך: ₪{(d.myBid?.amount || 0).toLocaleString()}</p>
+                          </div>
+                          <span className="text-[10px] font-black bg-emerald-500 text-white px-2 py-0.5 rounded-full flex-shrink-0">מוביל</span>
+                        </div>
+                        <div className="w-full bg-white rounded-full h-1.5 overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500" style={{ width: `${pct}%` }} />
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-1">{pct}% מהיעד</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Recent activity feed */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <p className="text-sm font-black text-gray-900 mb-3">📋 פעילות אחרונה</p>
+            {(() => {
+              const events = [
+                ...(notifications.items || []).slice(0, 5).map(n => ({
+                  type: "notif",
+                  id: `n-${n.id}`,
+                  time: n.createdAt,
+                  title: n.title || "התראה",
+                  desc: n.message || "",
+                })),
+                ...(supplierOrders || []).slice(0, 5).map(o => ({
+                  type: "order",
+                  id: `o-${o.id}`,
+                  time: o.createdAt,
+                  title: `הזמנה #${o.id}`,
+                  desc: `${o.productName || ""} · ₪${(o.totalAmount || 0).toLocaleString()}`,
+                })),
+              ]
+                .filter(e => e.time)
+                .sort((a, b) => new Date(b.time) - new Date(a.time))
+                .slice(0, 6);
+              if (events.length === 0) {
+                return <p className="text-center text-sm text-gray-400 py-6">אין פעילות עדיין</p>;
+              }
+              return (
+                <div className="space-y-1">
+                  {events.map(e => (
+                    <div key={e.id} className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
+                      <span className="text-lg flex-shrink-0">{e.type === "order" ? "🧾" : "🔔"}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-gray-900 truncate">{e.title}</p>
+                        <p className="text-[10px] text-gray-500 truncate">{e.desc}</p>
+                      </div>
+                      <span className="text-[10px] text-gray-400 flex-shrink-0 whitespace-nowrap">
+                        {new Date(e.time).toLocaleDateString("he-IL", { day: "numeric", month: "short" })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Quick actions */}
+          <div>
+            <p className="text-[11px] font-black text-gray-500 uppercase tracking-wider mb-2 px-1">פעולות מהירות</p>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              <button onClick={() => setActiveTab("all-active")}
+                className="bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right">
+                <p className="text-2xl mb-1">🛒</p>
+                <p className="text-sm">קבוצות פעילות</p>
+                <p className="text-[10px] opacity-80 mt-0.5">הגש הצעת מחיר חדשה</p>
+              </button>
+              <button onClick={() => setActiveTab("inventory")}
+                className="bg-gradient-to-br from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right">
+                <p className="text-2xl mb-1">📦</p>
+                <p className="text-sm">נהל מלאי</p>
+                <p className="text-[10px] opacity-80 mt-0.5">{inventory.length} פריטים</p>
+              </button>
+              <button onClick={() => setActiveTab("import-catalog")}
+                className="bg-gradient-to-br from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right col-span-2 lg:col-span-1">
+                <p className="text-2xl mb-1">🔗</p>
+                <p className="text-sm">ייבא קטלוג</p>
+                <p className="text-[10px] opacity-80 mt-0.5">CSV או Feed URL</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── ORDERS RECEIVED ── */}
       {activeTab === "orders-received" && (
@@ -9309,7 +9517,13 @@ function SupplierProfilePanel({ profile, supplier, onSave }) {
   }, [form, isDirty, draftStorageKey]);
 
   const ZONES = ["צפון","חיפה והקריות","שרון","גוש דן","ירושלים","שפלה","דרום","אילת","יו״ש"];
-  const CAT_OPTS = ["מקררים","מכונות כביסה","תנורים","מזגנים","מיקרוגלים","מדיחי כלים","טלוויזיות","סמארטפונים","טאבלטים","מחשבים ניידים","מחשבים נייחים","אוזניות","רמקולים","שואבי אבק","מוצרי טיפוח","ריהוט","אופניים"];
+  // Categories synced from HOME_CATEGORIES (single source of truth for category list,
+  // used across user-facing filters + supplier targeting) + extras the global list
+  // doesn't cover but suppliers commonly stock.
+  const CAT_OPTS = [...new Set([
+    ...HOME_CATEGORIES.map(c => c.name),
+    "מחשבים נייחים", "רמקולים", "מוצרי טיפוח", "ריהוט", "אופניים", "שואבי אבק",
+  ])];
 
   // Wrapper that marks the form dirty on every change so the auto-resync
   // effect won't clobber unsaved edits.
