@@ -2511,13 +2511,11 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
-  // landing page is customer-facing MARKETING — a prospective supplier
-  // browsing it is still also a customer; their cart/notifications/etc
-  // must remain visible. BUG FIX (round 3 P1 regression): a previous
-  // change widened this to include mode==="suppliers", which stripped
-  // the customer navbar (and the #navbar-cart-target needed for the
-  // fly-to-cart animation) from the supplier landing.
-  const isSupplierMode = mode === "supplier-dashboard";
+  // landing page is also a supplier-context page — the founder asked for
+  // COMPLETE separation: no customer cart / offers / orders on /לספקים
+  // either, only on customer-area pages. (Re-broadened after the
+  // round-4 regression-agent flip-flop.)
+  const isSupplierMode = mode === "supplier-dashboard" || mode === "suppliers";
 
   const navItem = (m, icon, label) => (
     <button
@@ -2638,9 +2636,10 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               <button onClick={onProfileClick} title="הגדרות" className="hidden md:flex p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition">
                 <Settings className="w-4 h-4" />
               </button>
-              <button onClick={onOwnerClick} className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-100 transition">
-                {t.ownerPanel}
-              </button>
+              {/* Admin/Owner panel button removed from navbar — accessible
+                  via the OwnerLogin password gate at /?owner or by clicking
+                  the small admin link inside Profile. Customers shouldn't
+                  see "ניהול" in the top bar. */}
               <button onClick={onLogout} className="hidden md:flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition px-2 py-1.5 rounded-xl hover:bg-red-50">
                 <LogOut className="w-3.5 h-3.5" />{t.logout}
               </button>
@@ -2746,10 +2745,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
                     <User className="w-5 h-5" />הפרופיל שלי
                   </button>
-                  <button onClick={() => { closeMenu(); onOwnerClick?.(); }}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
-                    <Shield className="w-5 h-5" />{t.ownerPanel}
-                  </button>
+                  {/* Owner panel entry removed — admin access via /?owner only. */}
                 </>
               )}
 
@@ -16461,6 +16457,31 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
               </button>
+              {/* Demo-supplier — visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
+                  Quick path into a synthetic supplier dashboard for live
+                  sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER. */}
+              {import.meta.env.VITE_ALLOW_DEMO_SUPPLIER === "true" && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch("/api/auth/demo-supplier-login", { method: "POST" });
+                      const data = await res.json();
+                      if (!res.ok || !data.ok) {
+                        alert("כניסת הדגמה נכשלה: " + (data.error || "נסה שוב"));
+                        return;
+                      }
+                      _safeLSSet("bundly_token", data.token);
+                      // Hard reload so the App state picks up the new user + supplier from /api/auth/me
+                      window.location.href = "/?supplier-demo=1";
+                    } catch (e) { alert("שגיאה: " + e.message); }
+                  }}
+                  className="flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-base border-2 border-dashed border-amber-400 text-amber-200 hover:bg-amber-500/10 transition"
+                  title="כניסת ספק להדגמה — מצב הדגמה, לא שומר נתונים אמיתיים"
+                >
+                  🧪 כניסת ספק להדגמה
+                </button>
+              )}
             </div>
           </div>
         </div>
