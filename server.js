@@ -10201,6 +10201,77 @@ app.post("/api/auth/test-login", (req, res) => {
   res.status(410).json({ error: "Endpoint removed" });
 });
 
+// ─────────────────────────────────────────────────────────────────
+// DEMO SUPPLIER LOGIN — opt-in only, for live demos / sales meetings.
+//
+// Issues a JWT linked to a synthetic "ספק הדגמה" supplier record with
+// kycStatus=approved. Hidden behind ALLOW_DEMO_SUPPLIER=true env var,
+// which the boot guard does NOT auto-set in production. If the founder
+// turns it on, anyone who hits this URL gets supplier dashboard access,
+// so the rule is: ON only for the duration of a demo, OFF the rest of
+// the time. Audited so we can spot accidental use.
+//
+// To use locally for the supplier meeting:
+//   1. Add ALLOW_DEMO_SUPPLIER=true + VITE_ALLOW_DEMO_SUPPLIER=true
+//      to .env
+//   2. Restart `npm start`
+//   3. On the login modal, the "כניסת ספק להדגמה" button appears
+// ─────────────────────────────────────────────────────────────────
+app.post("/api/auth/demo-supplier-login",
+  rateLimit({ windowMs: 60_000, max: 10, label: "demo-supplier-login" }),
+  AUTH_READY ? (req, res) => {
+    if (process.env.ALLOW_DEMO_SUPPLIER !== "true") {
+      return res.status(403).json({ error: "Demo supplier login disabled" });
+    }
+    try {
+      const demoPhone = "+972500000000";
+      const demoEmail = "demo-supplier@bundly.co";
+      // 1) Upsert the synthetic user behind the demo supplier.
+      const user = upsertUser({
+        phone: demoPhone,
+        email: demoEmail,
+        name: "ספק הדגמה",
+        firstName: "ספק",
+        lastName: "הדגמה",
+      });
+      // 2) Make sure the supplier record exists + KYC-approved so
+      //    _resolveVerifiedSupplier accepts it.
+      const snap = _prodDb.load();
+      let supplier = (snap.suppliers || []).find(
+        s => (s.email || "").toLowerCase() === demoEmail
+      );
+      if (!supplier) {
+        supplier = _prodDb.createSupplier({
+          businessName: "ספק הדגמה — Bundly Demo",
+          businessNumber: "000000000",
+          ownerName: "ספק הדגמה",
+          email: demoEmail,
+          phone: demoPhone,
+          address: "תל אביב",
+          category: "כללי",
+          description: "חשבון להדגמה — נוצר אוטומטית. אינו ספק אמיתי.",
+          bankAccount: "",
+        });
+        // Approve KYC so requireSupplierMatch / _resolveVerifiedSupplier
+        // accept the demo session.
+        try { _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" }); }
+        catch (_) {}
+      }
+      const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "1h", algorithm: "HS256" });
+      audit("DEMO_SUPPLIER_LOGIN", req, { userId: user.id, supplierId: supplier.id });
+      res.json({
+        ok:       true,
+        token,
+        user:     { id: user.id, name: user.name, email: user.email, phone: user.phone },
+        supplier: { id: supplier.id, name: supplier.businessName, email: supplier.email, businessName: supplier.businessName },
+        demo:     true,
+      });
+    } catch (e) {
+      console.error("[demo-supplier-login] error:", e.message);
+      res.status(500).json({ error: "Demo login failed" });
+    }
+  } : notReady);
+
 // GET /api/auth/me
 app.get("/api/auth/me", authMiddleware, AUTH_READY ? (req, res) => {
   const user = getUserByPhone(req.user.phone);

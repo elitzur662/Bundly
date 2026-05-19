@@ -5910,6 +5910,36 @@ function OwnerLoginModal({ t, onSuccess, onClose }) {
 // → Bearer JWT flow.
 
 function SupplierLoginModal({ onSuccess, onClose }) {
+  const [demoLoading, setDemoLoading] = useState(false);
+  const [demoErr, setDemoErr] = useState("");
+  // Demo-supplier button is gated by an explicit build-time flag so it
+  // never appears unless the founder turned it on for a live demo. The
+  // server side rejects the call too when ALLOW_DEMO_SUPPLIER!=="true",
+  // so even a stale build can't grant access in production.
+  const showDemo = import.meta.env.VITE_ALLOW_DEMO_SUPPLIER === "true";
+
+  const handleDemoLogin = async () => {
+    if (demoLoading) return;
+    setDemoErr(""); setDemoLoading(true);
+    try {
+      const res = await fetch("/api/auth/demo-supplier-login", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "כניסת הדגמה נכשלה");
+      localStorage.setItem("bundly_token", data.token);
+      onSuccess?.({
+        id:           data.supplier.id,
+        name:         data.supplier.businessName,
+        businessName: data.supplier.businessName,
+        email:        data.supplier.email,
+        isDemo:       true,
+      });
+    } catch (e) {
+      setDemoErr(e.message);
+    } finally {
+      setDemoLoading(false);
+    }
+  };
+
   return (
     <Modal onClose={onClose}>
       <div className="p-6 space-y-4">
@@ -5926,6 +5956,25 @@ function SupplierLoginModal({ onSuccess, onClose }) {
           עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co.shop@gmail.com</strong>
         </p>
         <Btn className="w-full" onClick={onClose}>סגור</Btn>
+
+        {showDemo && (
+          <div className="pt-3 mt-3 border-t border-dashed border-gray-200 space-y-2">
+            <p className="text-[10px] text-gray-400 text-center font-bold uppercase tracking-wide">
+              מצב הדגמה — לפגישות עם ספקים
+            </p>
+            {demoErr && <p className="text-xs text-red-500 text-center">{demoErr}</p>}
+            <button
+              onClick={handleDemoLogin}
+              disabled={demoLoading}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 border-2 border-amber-200 border-dashed text-amber-700 font-black rounded-xl text-sm transition active:scale-[0.98] disabled:opacity-50"
+            >
+              🧪 {demoLoading ? "מתחבר..." : "כניסת ספק להדגמה"}
+            </button>
+            <p className="text-[10px] text-gray-400 text-center">
+              חשבון סינתטי לבדיקה. נוצר אוטומטית בשרת. אינו ספק אמיתי.
+            </p>
+          </div>
+        )}
       </div>
     </Modal>
   );
