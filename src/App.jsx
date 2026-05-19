@@ -16255,7 +16255,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER LANDING PAGE
 // ─────────────────────────────────────────────────────────────────
-function SupplierLandingPage({ t, onJoin, setMode }) {
+function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
   const [openFaq, setOpenFaq] = useState(null);
   const [demandQuery, setDemandQuery] = useState("");
   const [demandResult, setDemandResult] = useState(null);
@@ -16459,7 +16459,9 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
               </button>
               {/* Demo-supplier — visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
                   Quick path into a synthetic supplier dashboard for live
-                  sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER. */}
+                  sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER.
+                  Hands the result to the App-level onDemoLogin so it can set
+                  user + currentSupplier + mode in-React without a reload. */}
               {import.meta.env.VITE_ALLOW_DEMO_SUPPLIER === "true" && (
                 <button
                   type="button"
@@ -16472,8 +16474,11 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                         return;
                       }
                       _safeLSSet("bundly_token", data.token);
-                      // Hard reload so the App state picks up the new user + supplier from /api/auth/me
-                      window.location.href = "/?supplier-demo=1";
+                      if (typeof onDemoLogin === "function") {
+                        onDemoLogin({ user: data.user, supplier: data.supplier, token: data.token });
+                      } else {
+                        window.location.href = "/?supplier-demo=1";
+                      }
                     } catch (e) { alert("שגיאה: " + e.message); }
                   }}
                   className="flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-base border-2 border-dashed border-amber-400 text-amber-200 hover:bg-amber-500/10 transition"
@@ -21806,7 +21811,24 @@ export default function App() {
       )}
 
       {mode === "suppliers" && (
-        <SupplierLandingPage t={t} onJoin={() => setShowSupplier(true)} setMode={setMode} />
+        <SupplierLandingPage
+          t={t}
+          onJoin={() => setShowSupplier(true)}
+          setMode={setMode}
+          onDemoLogin={({ user: demoUser, supplier, token }) => {
+            // Lift the demo session into App-level state so the supplier
+            // navbar + dashboard render immediately (no reload needed).
+            setUser({ ...demoUser, token });
+            setCurrentSupplier({
+              id:           supplier.id,
+              name:         supplier.businessName,
+              businessName: supplier.businessName,
+              email:        supplier.email,
+              isDemo:       true,
+            });
+            setMode("supplier-dashboard");
+          }}
+        />
       )}
 
       <Footer t={t} setMode={setMode} />
