@@ -10125,7 +10125,7 @@ app.post("/api/auth/check-existing",
 app.post("/api/auth/send-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-send" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, captchaToken } = req.body;
+  const { phone, captchaToken } = req.body || {};  // BUG FIX: body-less curl crashed handler
   if (!phone) return res.status(400).json({ error: "Phone required" });
   if (!validatePhone(phone)) return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
   // CAPTCHA check (only enforced if HCAPTCHA_SECRET is set in .env)
@@ -10196,7 +10196,7 @@ function _isOtpLocked(phone) {
 app.post("/api/auth/verify-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-verify" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, code, name, email } = req.body;
+  const { phone, code, name, email } = req.body || {};  // BUG FIX: body-less request crashed
   if (!phone || !code) return res.status(400).json({ error: "Phone and code required" });
   const normalized = normalizePhone(phone);
   if (_isOtpLocked(normalized)) {
@@ -10331,7 +10331,17 @@ app.post("/api/auth/demo-supplier-login",
       res.json({
         ok:       true,
         token,
-        user:     { id: user.id, name: user.name, email: user.email, phone: user.phone },
+        // BUG FIX (round 4 P1): include firstName/lastName so the user
+        // shape matches /api/auth/me. Without these, `Welcome ${user.firstName}`
+        // rendered "Welcome undefined" between login and first /me poll.
+        user: {
+          id:        user.id,
+          name:      user.name,
+          firstName: user.firstName || "ספק",
+          lastName:  user.lastName  || "הדגמה",
+          email:     user.email,
+          phone:     user.phone,
+        },
         supplier: { id: supplier.id, name: supplier.businessName, email: supplier.email, businessName: supplier.businessName },
         demo:     true,
       });
@@ -10785,6 +10795,30 @@ app.get("/api/stripe-public-key", (_req, res) => {
 app.get("/api/user/joined-deals", authMiddleware, AUTH_READY ? (req, res) => {
   try { res.json({ ok: true, joined: _prodDb.listJoinedDeals(req.user.id) }); }
   catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// BUG FIX (round 4 P0 — dark charge flow): the customer needs a way to
+// discover their deal closed and approve the off-session charge. Returns
+// the list of joins where tier="committed", chargeStatus !== "succeeded",
+// and the deal has been closed via setAutomationFlag("closed-deals", ...).
+app.get("/api/user/pending-charges", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const joins = (_prodDb.listJoinedDeals(req.user.id) || [])
+      .filter(j => j.tier === "committed" && j.chargeStatus !== "succeeded");
+    if (joins.length === 0) return res.json({ ok: true, pending: [] });
+    const closedMap = (typeof getAutomationFlag === "function" ? getAutomationFlag("closed-deals") : null) || {};
+    const pending = joins
+      .filter(j => closedMap[j.dealId] && closedMap[j.dealId].status === "filled")
+      .map(j => ({
+        dealId:       j.dealId,
+        productName:  j.productName || "",
+        productImage: j.productImage || "",
+        amount:       Number(j.reservedAmount) || 0,
+        chargeStatus: j.chargeStatus || null,
+        nextActionUrl: j.chargeNextActionUrl || null,
+      }));
+    res.json({ ok: true, pending });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
 app.post("/api/user/joined-deals", authMiddleware, AUTH_READY ? (req, res) => {
@@ -11409,6 +11443,43 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
     closedDeals[dealId] = { status: "filled", at: new Date().toISOString(), winnerId: winner?.supplierId || null, ordersCreated: createdOrders };
     _capClosedDeals(closedDeals);
     setAutomationFlag?.(closedDealsKey, closedDeals);
+
+    // BUG FIX (round 4 P0): committed customers MUST be told the deal closed
+    // so they can approve the off-session charge. Without this, the deal
+    // closes silently and the customer never lands on /charge-confirmed →
+    // supplier ships, money never moves, chargeback risk. Fire SMS + email
+    // (non-blocking — response returns regardless).
+    try {
+      const joins = _prodDb.listJoinedDealsByDealId
+        ? _prodDb.listJoinedDealsByDealId(dealId)
+        : (_prodDb.load().joinedDeals || []).filter(j => String(j.dealId) === String(dealId));
+      const userMap = new Map((_prodDb.load().users || []).map(u => [Number(u.id), u]));
+      const safeName = dealMeta.name || "המוצר שבחרת";
+      const link = `https://bundly.co/deal/${dealId}?approve=1`;
+      for (const j of joins) {
+        if (j.tier !== "committed") continue;
+        const u = userMap.get(Number(j.userId));
+        if (!u) continue;
+        if (u.email) {
+          globalThis._notif?.sendOrderStatusEmail?.(u.email, {
+            orderId:     dealId,
+            productName: safeName,
+            status:      "awaiting_approval",
+            link,
+          }).catch(() => {});
+        }
+        if (u.phone) {
+          globalThis._notif?.sendOrderStatusSms?.(u.phone, {
+            orderId:     dealId,
+            productName: safeName,
+            status:      "awaiting_approval",
+          }).catch(() => {});
+        }
+      }
+    } catch (e) {
+      console.warn(`[deal-close] customer notify failed: ${e.message}`);
+    }
+
     return res.json({ ok: true, status: "filled", winnerId: winner?.supplierId || null, winnerBid: winner || null, ordersCreated: createdOrders });
   } else {
     // Cancelled — notify all bidders in ONE bulk write
@@ -12324,12 +12395,40 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
   try {
     const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
     if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
+    // BUG FIX (round 4 P0): SetupIntent fallback. If the customer confirmed
+    // their card in the Stripe iframe but the follow-up POST /save-payment-
+    // method failed (network drop, tab close), the join row has setupIntentId
+    // + stripeCustomerId but no paymentMethodId. Before this fix, that
+    // customer was stranded with 400 "no card saved" and no recovery —
+    // supplier shipped, no charge ever happened. Now we retrieve the
+    // SetupIntent from Stripe and harvest the payment_method ourselves.
+    if (!join.paymentMethodId && join.setupIntentId && join.stripeCustomerId
+        && _paySvc?.PAYMENT_READY && !String(join.setupIntentId).startsWith("seti_stub_")) {
+      try {
+        const stripeMod = (await import("stripe")).default;
+        const stripe   = new stripeMod(process.env.STRIPE_SECRET_KEY);
+        const si       = await stripe.setupIntents.retrieve(join.setupIntentId);
+        if (si.status === "succeeded" && si.payment_method && si.customer === join.stripeCustomerId) {
+          _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+            paymentMethodId: si.payment_method,
+            savedAt:         new Date().toISOString(),
+            recoveredFrom:   "setup-intent-fallback",
+          });
+          join.paymentMethodId = si.payment_method;
+        }
+      } catch (e) {
+        console.warn(`[charge-confirmed] SetupIntent fallback failed for user=${userId} deal=${dealId}: ${e.message}`);
+      }
+    }
     if (!join.paymentMethodId || !join.stripeCustomerId) {
       return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
     }
     // Only short-circuit if the charge actually completed. Pending 3DS
     // leaves chargedAt null so the user can retry.
-    if (join.chargedAt && join.chargeStatus === "succeeded") {
+    // BUG FIX (round 4 P1): legacy rows (charged before the chargeStatus
+    // field existed) have chargedAt set but no chargeStatus. Treat absent
+    // chargeStatus as succeeded for backward compatibility.
+    if (join.chargedAt && (join.chargeStatus === "succeeded" || !("chargeStatus" in join))) {
       return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
     }
 
@@ -12514,7 +12613,12 @@ app.post("/api/orders/:id/confirm-payment",
     const piOrderId = String(intent.metadata?.orderId || "");
     const piUserId  = String(intent.metadata?.userId  || "");
     const expectedAmount = Math.round(Number(existing.totalAmount || 0) * 100);
-    if (piOrderId !== String(existing.id) || piUserId !== String(req.user.id) || (intent.amount && intent.amount !== expectedAmount)) {
+    // BUG FIX (round 4 P1): allow ±2 agora tolerance — totalAmount can drift
+    // from PI amount by 1 agora due to floor/round/ceil divergence between
+    // bid time and charge time. Strict !== was bouncing legitimate paid
+    // customers with a 1-agora rounding gap.
+    const amountMismatch = intent.amount && Math.abs(intent.amount - expectedAmount) > 2;
+    if (piOrderId !== String(existing.id) || piUserId !== String(req.user.id) || amountMismatch) {
       audit("CONFIRM_PAYMENT_PI_MISMATCH", req, {
         orderId: existing.id, claimedPi: paymentIntentId,
         piOrderId, piUserId, piAmount: intent.amount, expectedAmount,
@@ -12737,6 +12841,8 @@ app.post("/api/support/tickets",
     const priority = _TICKET_ALLOWED_PRIORITY.has(body.priority) ? body.priority : "normal";
     const category = _TICKET_ALLOWED_CATEGORY.has(body.category) ? body.category : "other";
     const reason   = String(body.reason || "support").slice(0, 100);
+    if (typeof description !== "string") return res.status(400).json({ error: "description must be a string" });
+    if (typeof subject !== "string" && subject != null) return res.status(400).json({ error: "subject must be a string" });
     if (!description || description.length < 5) return res.status(400).json({ error: "צריך לכתוב הסבר קצר" });
     if (description.length > 5000) return res.status(400).json({ error: "הסבר ארוך מדי" });
 
@@ -13129,30 +13235,37 @@ app.get("/api/reviews/:supplierId", AUTH_READY ? (req, res) => {
 //
 // Signed URLs allow email links to work without requiring the recipient to be logged in,
 // while still preventing enumeration attacks.
-app.get("/api/orders/:orderId/invoice-url", authMiddleware, AUTH_READY ? (req, res) => {
+app.get("/api/orders/:orderId/invoice-url", authMiddleware, AUTH_READY ? async (req, res) => {
   try {
     const order = _prodDb.getOrder(req.params.orderId);
     if (!order || order.userId !== req.user.id) return res.status(404).json({ error: "Order not found" });
-    // Scan invoices dir for matching orderId. BUG FIX: was `const { readdirSync } =
-    // require ? null : null` which throws ReferenceError in ESM (no `require`),
-    // making this endpoint return 500 for every caller. dynamic import below
-    // provides fs cleanly.
-    import("node:fs").then(fs => {
-      const files = fs.readdirSync((process.env.DATA_DIR || process.cwd()) + "/invoices").filter(f => /^\d{4}-\d{6}\.json$/.test(f));
-      const match = files.find(f => {
-        try {
-          const inv = JSON.parse(fs.readFileSync((process.env.DATA_DIR || process.cwd()) + "/invoices/" + f, "utf8"));
-          return inv.orderId === order.id;
-        } catch { return false; }
-      });
-      if (!match) return res.status(404).json({ error: "Invoice not generated yet" });
-      const htmlName = match.replace(".json", ".html");
-      // Bind the link to the order's owner so a forwarded/leaked URL can't
-      // be redeemed while logged in as a different user (audit M-NEW-2).
-      const signed = signUrl(`/invoices/${htmlName}`, 300, order.userId);
-      res.json({ ok: true, url: signed });
+    // BUG FIX (round 4 P0): previous fix replaced an ESM-require crash with
+    // a `import("node:fs").then(...)` chain — but the .then was OUTSIDE the
+    // try/catch (the try returned synchronously the moment the promise was
+    // created). Any sync throw inside the .then (missing invoices/ dir on
+    // a fresh deploy, malformed JSON) escaped as UnhandledPromiseRejection
+    // and the client request hung until proxy timeout. Now: full async/await
+    // inside one try/catch.
+    const fs = await import("node:fs");
+    const invDir = (process.env.DATA_DIR || process.cwd()) + "/invoices";
+    if (!fs.existsSync(invDir)) {
+      return res.status(404).json({ error: "Invoice not generated yet" });
+    }
+    const files = fs.readdirSync(invDir).filter(f => /^\d{4}-\d{6}\.json$/.test(f));
+    const match = files.find(f => {
+      try {
+        const inv = JSON.parse(fs.readFileSync(invDir + "/" + f, "utf8"));
+        return inv.orderId === order.id;
+      } catch { return false; }
     });
-  } catch (e) { res.status(500).json({ error: e.message }); }
+    if (!match) return res.status(404).json({ error: "Invoice not generated yet" });
+    const htmlName = match.replace(".json", ".html");
+    const signed = signUrl(`/invoices/${htmlName}`, 300, order.userId);
+    res.json({ ok: true, url: signed });
+  } catch (e) {
+    console.error("[invoice-url] error:", e.message);
+    res.status(500).json({ error: e.message });
+  }
 } : notReady);
 
 // Invoice download — verifies HMAC signature instead of auth token (so email links work)
@@ -13939,7 +14052,7 @@ app.post("/api/chat",
     return res.status(503).json({ error: "OpenAI API key not configured" });
   }
 
-  const { messages = [], deals = [], context = "customer", supplierName = "" } = req.body;
+  const { messages = [], deals = [], context = "customer", supplierName = "" } = req.body || {};
   if (!messages.length) return res.status(400).json({ error: "No messages provided" });
 
   // ── Supplier persona: strategy/pricing/wins, not product recommendations.

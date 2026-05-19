@@ -3640,7 +3640,7 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
                   </div>
                   <p className="text-3xl font-black text-blue-700">₪{(product.priceAvg || Math.round(((product.priceMin || 0) + (product.priceMax || 0)) / 2)).toLocaleString()}</p>
                   {product.priceMax > product.priceMin && (
-                    <p className="text-xs text-gray-400 mt-0.5">טווח מחירים: ₪{(product.priceMin).toLocaleString()} – ₪{(product.priceMax).toLocaleString()}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">טווח מחירים: ₪{Number(product.priceMin || 0).toLocaleString()} – ₪{Number(product.priceMax || 0).toLocaleString()}</p>
                   )}
                 </div>
               )}
@@ -3979,7 +3979,7 @@ function DemandPoolPage({ catIdx, pool, poolName, catIcon, onJoin, onAddNew, onC
                     ) : product?.priceMin > 0 ? (
                       <div>
                         <p className="text-[10px] text-gray-400">ממחיר</p>
-                        <p className="text-base font-black text-emerald-600">₪{(product.priceMin).toLocaleString()}</p>
+                        <p className="text-base font-black text-emerald-600">₪{Number(product.priceMin || 0).toLocaleString()}</p>
                       </div>
                     ) : (
                       <p className="text-[10px] text-gray-400">מחיר לא זמין</p>
@@ -4728,7 +4728,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
                 ₪{(bestBid?.amount || deal.groupOffer).toLocaleString()}
               </span>
               <span className="text-xs text-gray-400 line-through pb-0.5">
-                ₪{deal.marketMax.toLocaleString()}
+                ₪{Number(deal.marketMax || 0).toLocaleString()}
               </span>
             </>
           )}
@@ -5153,8 +5153,8 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
                 <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">מחיר בשוק</p>
-                <p className="text-xl font-black text-gray-400 line-through">₪{deal.marketMax.toLocaleString()}</p>
-                <p className="text-[11px] text-gray-400 mt-1">₪{deal.marketMin.toLocaleString()} – ₪{deal.marketMax.toLocaleString()}</p>
+                <p className="text-xl font-black text-gray-400 line-through">₪{Number(deal.marketMax || 0).toLocaleString()}</p>
+                <p className="text-[11px] text-gray-400 mt-1">₪{Number(deal.marketMin || 0).toLocaleString()} – ₪{Number(deal.marketMax || 0).toLocaleString()}</p>
               </div>
               <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl p-4 text-center shadow-lg relative overflow-hidden">
                 <div className="absolute -top-3 -right-3 w-16 h-16 bg-white/10 rounded-full blur-lg" />
@@ -5235,9 +5235,15 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
 
         {/* ══ COMMITTED — Locked-in price banner ══ */}
         {joinedTier === "committed" && !priceHidden && (() => {
-          const finalPrice = bestBid?.amount || deal.groupOffer;
+          const finalPrice = Number(bestBid?.amount || deal.groupOffer) || 0;
           const deposit = Math.round(finalPrice * 0.25);
           const remaining = finalPrice - deposit;
+          // BUG FIX (round 4 P0): when the deal is closed and the user is
+          // committed, they need an explicit "approve charge" button or the
+          // off-session charge is never triggered. dealStatus comes from
+          // /api/deals/:id state — "closed" / "filled" both indicate the
+          // group reached its minimum and the customer must approve.
+          const dealClosed = ["closed", "filled"].includes(String(deal.status || "").toLowerCase());
           return (
             <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-lg p-5 text-white relative overflow-hidden">
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
@@ -5245,17 +5251,47 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 <Lock className="w-5 h-5 text-white" />
               </div>
               <div className="relative pr-14">
-                <p className="text-xs text-emerald-100 font-bold mb-1">🔒 המחיר נעול — מקדמה הוקפאה</p>
+                <p className="text-xs text-emerald-100 font-bold mb-1">
+                  {dealClosed ? "🎉 הקבוצה נסגרה — נדרש אישור חיוב" : "🔒 המחיר נעול — מקדמה הוקפאה"}
+                </p>
                 <p className="text-3xl font-black tracking-tight">₪{finalPrice.toLocaleString()}</p>
                 <div className="flex items-center gap-3 text-[11px] text-emerald-50 mt-2 bg-white/10 rounded-lg px-3 py-2">
-                  <div><span className="text-emerald-200">מקדמה:</span> <strong>₪{deposit.toLocaleString()}</strong> (הוקפאה)</div>
+                  <div><span className="text-emerald-200">מקדמה:</span> <strong>₪{deposit.toLocaleString()}</strong></div>
                   <div className="text-emerald-300">|</div>
                   <div><span className="text-emerald-200">יתרה לסגירה:</span> <strong>₪{remaining.toLocaleString()}</strong></div>
                 </div>
-                <p className="text-[10px] text-emerald-200 mt-2">
-                  ✓ אם המחיר הקבוצתי יורד עוד — תקבל את המחיר הנמוך
-                  <br />✓ אם הקבוצה לא מתמלאת — המקדמה משוחררת אוטומטית תוך 7 ימים
-                </p>
+                {dealClosed ? (
+                  <button
+                    onClick={async () => {
+                      try {
+                        const tok = _getToken();
+                        const r = await fetch(`/api/deals/${deal.id}/charge-confirmed`, {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
+                          body: JSON.stringify({}),
+                        });
+                        const d = await r.json();
+                        if (d.requiresAction && d.nextActionUrl) {
+                          window.location.href = d.nextActionUrl;
+                          return;
+                        }
+                        if (d.ok) {
+                          alert("✅ התשלום אושר. תקבל חשבונית במייל.");
+                          window.location.reload();
+                        } else {
+                          alert("שגיאה באישור: " + (d.error || "נסה שוב"));
+                        }
+                      } catch (e) { alert("שגיאה: " + e.message); }
+                    }}
+                    className="mt-3 w-full py-3 bg-white text-emerald-700 font-black rounded-xl text-sm hover:bg-emerald-50 transition active:scale-[0.98]">
+                    אשר חיוב כעת — ₪{finalPrice.toLocaleString()}
+                  </button>
+                ) : (
+                  <p className="text-[10px] text-emerald-200 mt-2">
+                    ✓ אם המחיר הקבוצתי יורד עוד — תקבל את המחיר הנמוך
+                    <br />✓ אם הקבוצה לא מתמלאת — המקדמה משוחררת אוטומטית
+                  </p>
+                )}
               </div>
             </div>
           );
@@ -5659,7 +5695,7 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
 
   useEffect(() => {
     // Fetch all prod-level data on mount
-    const adminToken = localStorage.getItem("bundly_admin_token");
+    const adminToken = _safeLS("bundly_admin_token");
     const adminHeaders = adminToken ? { Authorization: `Bearer ${adminToken}` } : {};
     fetch("/api/admin/suppliers?kycStatus=pending", { headers: adminHeaders }).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setKycQueue(d.suppliers || []); }).catch(() => {});
     fetch("/api/admin/transactions", { headers: adminHeaders }).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setTransactions(d.transactions || []); }).catch(() => {});
@@ -5667,7 +5703,7 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
   }, []);
 
   const adminHeaders = () => {
-    const t = localStorage.getItem("bundly_admin_token");
+    const t = _safeLS("bundly_admin_token");
     return { "Content-Type": "application/json", ...(t && { Authorization: `Bearer ${t}` }) };
   };
   const approveKyc = async (id) => {
@@ -5920,7 +5956,7 @@ function OwnerLoginModal({ t, onSuccess, onClose }) {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "סיסמה שגויה");
       // Save admin token separately so it doesn't collide with user token
-      localStorage.setItem("bundly_admin_token", data.token);
+      _safeLSSet("bundly_admin_token", data.token);
       onSuccess();
     } catch (e) { setErr(e.message); setLoading(false); }
   };
@@ -9968,19 +10004,31 @@ function SupplierKYCModal({ onClose, onSuccess }) {
   const upd = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
   const updBank = k => e => setForm(p => ({ ...p, bankAccount: { ...p.bankAccount, [k]: e.target.value } }));
 
+  // BUG FIX (audit round 4 P0): the FIRST supplier-registration modal
+  // (SupplierModal) got the hCaptcha widget last round, but this second
+  // KYC modal was missed — once HCAPTCHA_SECRET is set in prod, every
+  // POST /api/suppliers/register from THIS modal returns 403 silently.
+  const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef(null);
+  const resetCaptcha = () => { try { captchaRef.current?.resetCaptcha?.(); } catch {} setCaptchaToken(""); };
+
   const submit = async () => {
     if (!form.businessName || !form.email || !form.phone || !form.businessNumber) {
       setError("שדות חובה חסרים"); return;
+    }
+    if (HCAPTCHA_SITE_KEY && !captchaToken) {
+      setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return;
     }
     setSubmitting(true); setError("");
     try {
       const res = await fetch("/api/suppliers/register", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, captchaToken }),
       });
       const data = await res.json();
       if (res.status === 409) throw new Error("המייל הזה כבר רשום במערכת. אם אתה הבעלים, התחבר למערכת במקום להירשם שוב.");
-      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה ברישום");
+      if (!res.ok || !data.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה ברישום"); }
       setSuccess(true);
       setTimeout(() => onSuccess?.(), 3000);
     } catch (e) { setError(e.message); setSubmitting(false); }
@@ -10059,6 +10107,11 @@ function SupplierKYCModal({ onClose, onSuccess }) {
             ⚠️ רישיון עסק תקף יתבקש לאחר אישור ראשוני. הבקשה תעבור בדיקה תוך 24-48 שעות.
           </div>
           {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
+          {HCAPTCHA_SITE_KEY && (
+            <div className="flex justify-center pt-2">
+              <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
+            </div>
+          )}
           <button onClick={submit} disabled={submitting}
             className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
             {submitting ? "שולח..." : "שלח לאישור"}
@@ -19721,6 +19774,28 @@ export default function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
+  // BUG FIX (round 4 P0): customer-side discovery of "your deal closed,
+  // please approve charge". Without this, the deal closes silently and
+  // the customer never lands on charge-confirmed. Fetched on user load
+  // + on mode change so the banner refreshes after the user closes the
+  // deal page.
+  const [pendingCharges, setPendingCharges] = useState([]);
+  useEffect(() => {
+    if (!user) { setPendingCharges([]); return; }
+    let cancelled = false;
+    (async () => {
+      try {
+        const tok = _getToken();
+        if (!tok) return;
+        const r = await fetch("/api/user/pending-charges", { headers: { Authorization: `Bearer ${tok}` } });
+        if (!r.ok) return;
+        const d = await r.json();
+        if (!cancelled) setPendingCharges(Array.isArray(d.pending) ? d.pending : []);
+      } catch {}
+    })();
+    return () => { cancelled = true; };
+  }, [user?.id, mode]);
+
   // Wrap setSelectedDeal so every deal open is logged for personalization.
   // Components keep calling setSelectedDeal as before; the wrapper transparently
   // records a "click" event with the deal's metadata.
@@ -19868,7 +19943,7 @@ export default function App() {
       // /api/auto-bid/scan now requires admin auth — fire only if we have an
       // admin token cached. Anonymous customers shouldn't trigger this; the
       // server's hourly cron handles auto-bid evaluation for regular users.
-      const _adminTok = localStorage.getItem("bundly_admin_token");
+      const _adminTok = _safeLS("bundly_admin_token");
       if (startLow > 0 && _adminTok) {
         fetch(`/api/auto-bid/scan`, {
           method:  "POST",
@@ -21067,6 +21142,32 @@ export default function App() {
         <>
           <Navbar {...navProps} />
           <TrustStrip t={t} />
+          {pendingCharges.length > 0 && (
+            <div className="bg-gradient-to-l from-amber-500 to-orange-500 text-white shadow-md">
+              <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-xl flex-shrink-0">🎉</span>
+                  <div className="text-sm font-bold leading-tight">
+                    {pendingCharges.length === 1
+                      ? <>הקבוצה של <strong>{pendingCharges[0].productName || "המוצר שלך"}</strong> נסגרה! נדרש אישור חיוב.</>
+                      : <>{pendingCharges.length} קבוצות שלך נסגרו! נדרש אישור חיוב.</>}
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    const p = pendingCharges[0];
+                    if (p?.dealId) {
+                      const deal = (deals || []).find(d => String(d.id) === String(p.dealId));
+                      if (deal && typeof openDeal === "function") openDeal(deal);
+                      else setMode("orders");
+                    }
+                  }}
+                  className="px-4 py-2 bg-white text-orange-600 font-black rounded-xl text-sm whitespace-nowrap hover:bg-amber-50 transition shadow-sm">
+                  אשר חיוב ←
+                </button>
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -21536,7 +21637,7 @@ export default function App() {
 
       {mode === "owner" && ownerLoggedIn && (
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <OwnerDashboard t={t} deals={deals} requests={personalRequests} pendingSuppliers={pendingSuppliers} onSendOffer={(id,price)=>{setPersonalRequests(p=>p.map(r=>r.id===id?{...r,offerPrice:price}:r));notify(t.offerSent);}} onAddBid={handleAddBid} onApprove={handleApprove} onReject={handleReject} onLogout={()=>{localStorage.removeItem("bundly_admin_token");setOwnerLoggedIn(false);setMode("deals");}} />
+          <OwnerDashboard t={t} deals={deals} requests={personalRequests} pendingSuppliers={pendingSuppliers} onSendOffer={(id,price)=>{setPersonalRequests(p=>p.map(r=>r.id===id?{...r,offerPrice:price}:r));notify(t.offerSent);}} onAddBid={handleAddBid} onApprove={handleApprove} onReject={handleReject} onLogout={()=>{_safeLSRemove("bundly_admin_token");setOwnerLoggedIn(false);setMode("deals");}} />
         </main>
       )}
 
