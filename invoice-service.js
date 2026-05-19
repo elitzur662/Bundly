@@ -14,7 +14,7 @@
  * under concurrent requests. For absolute correctness at scale, migrate to
  * an auto-increment column in a real database.
  */
-import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, openSync, closeSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, renameSync, openSync, closeSync, unlinkSync } from "node:fs";
 
 // SECURITY (audit M-NEW-1): every user-controlled string interpolated into
 // the invoice HTML below MUST go through this helper. Supplier business
@@ -55,11 +55,21 @@ function _acquireLock() {
   return false;
 }
 function _releaseLock() {
-  try { require("node:fs").unlinkSync(LOCK_FILE); } catch {}
+  // BUG FIX: was `require("node:fs").unlinkSync(LOCK_FILE)` — `require` does not
+  // exist in ESM, so this threw synchronously every call, the catch swallowed it,
+  // and the lock file NEVER got removed. The next caller's _acquireLock spun for
+  // 1.5s, _bailed silently (its bool return was ignored), and the counter was
+  // mutated from STALE counter.json — two concurrent invoices could end up with
+  // the same number (tax-law violation). Now uses the proper ESM import.
+  try { unlinkSync(LOCK_FILE); } catch {}
 }
 
 function _nextInvoiceNumber() {
-  _acquireLock();
+  // _acquireLock returns false on timeout — refuse to issue a number rather
+  // than racing the counter. Caller surfaces the 503 to the operator.
+  if (!_acquireLock()) {
+    throw new Error("Invoice counter locked — try again in a moment");
+  }
   try {
     let counter;
     try { counter = JSON.parse(readFileSync(COUNTER_FILE, "utf8")); }

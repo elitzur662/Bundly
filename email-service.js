@@ -82,22 +82,25 @@ function baseTemplate(content) {
 // ── OTP Email ──────────────────────────────────────────────────────
 export async function sendOtpEmail(to, code) {
   if (!process.env.EMAIL_USER) return;
-  await transporter.sendMail({
-    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
-    to,
-    subject: `${code} — קוד האימות שלך ב-${BRAND_NAME}`,
-    html: baseTemplate(`
-      <h2>קוד האימות שלך</h2>
-      <p>הכנס את הקוד הבא כדי לסיים את ההרשמה:</p>
-      <div class="otp-box">${code}</div>
-      <p style="color:#9ca3af;font-size:13px">הקוד תקף ל-5 דקות. אם לא ביקשת קוד — התעלם מהודעה זו.</p>
-    `),
-  });
+  try {
+    await transporter.sendMail({
+      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+      to,
+      subject: `${code} — קוד האימות שלך ב-${BRAND_NAME}`,
+      html: baseTemplate(`
+        <h2>קוד האימות שלך</h2>
+        <p>הכנס את הקוד הבא כדי לסיים את ההרשמה:</p>
+        <div class="otp-box">${code}</div>
+        <p style="color:#9ca3af;font-size:13px">הקוד תקף ל-5 דקות. אם לא ביקשת קוד — התעלם מהודעה זו.</p>
+      `),
+    });
+  } catch (e) { console.warn("[Email] OTP send failed:", e.message); }
 }
 
 // ── Welcome Email ──────────────────────────────────────────────────
 export async function sendWelcomeEmail(to, name) {
   if (!process.env.EMAIL_USER || !to) return;
+  try {
   await transporter.sendMail({
     from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
     to,
@@ -118,6 +121,7 @@ export async function sendWelcomeEmail(to, name) {
       <p>צוות Bundly</p>
     `),
   });
+  } catch (e) { console.warn("[Email] welcome failed:", e.message); }
 }
 
 // ── Price Drop Alert ───────────────────────────────────────────────
@@ -125,6 +129,7 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
   if (!process.env.EMAIL_USER || !to) return;
   const saving = oldPrice - newPrice;
   const pct = Math.round((saving / oldPrice) * 100);
+  try {
   await transporter.sendMail({
     from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
     to,
@@ -141,6 +146,7 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
       ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
     `),
   });
+  } catch (e) { console.warn("[Email] price-drop failed:", e.message); }
 }
 
 // ── Supplier Offer Alert ───────────────────────────────────────────
@@ -256,20 +262,22 @@ export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resol
 // ── Deal Activated Alert ───────────────────────────────────────────
 export async function sendDealActivatedEmail(to, { productName, price, participants, link }) {
   if (!process.env.EMAIL_USER || !to) return;
-  await transporter.sendMail({
-    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
-    to,
-    subject: `✅ הדיל הופעל! ${_esc(productName)}`,
-    html: baseTemplate(`
-      <h2>✅ הדיל שלך הופעל!</h2>
-      <p>${Number(participants) || 0} משתתפים הצטרפו לדיל — הספקים מתחילים להתחרות!</p>
-      <div class="highlight">
-        <p style="margin:0;font-weight:700">${_esc(productName)}</p>
-        <p class="price">₪${price?.toLocaleString()}</p>
-      </div>
-      ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
-    `),
-  });
+  try {
+    await transporter.sendMail({
+      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+      to,
+      subject: `✅ הדיל הופעל! ${_esc(productName)}`,
+      html: baseTemplate(`
+        <h2>✅ הדיל שלך הופעל!</h2>
+        <p>${Number(participants) || 0} משתתפים הצטרפו לדיל — הספקים מתחילים להתחרות!</p>
+        <div class="highlight">
+          <p style="margin:0;font-weight:700">${_esc(productName)}</p>
+          <p class="price">₪${price?.toLocaleString()}</p>
+        </div>
+        ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
+      `),
+    });
+  } catch (e) { console.warn("[Email] deal-activated failed:", e.message); }
 }
 
 // Fired when a NEW member joins a deal — emails every existing member so
@@ -307,21 +315,23 @@ export async function sendDealMemberJoinedEmail(to, {
   const cta = remaining > 0
     ? `<p style="font-size:15px;margin-top:14px">עוד <strong>${remaining}</strong> משתתפים ונפעיל מחיר קבוצתי נמוך יותר. שתפו עם חברים — כל מצטרף מקרב את כולם להנחה.</p>`
     : `<p style="font-size:15px;margin-top:14px">הקבוצה כבר מספיק גדולה כדי להפעיל מחיר נמוך — אנחנו ניצור קשר ברגע שהסבב נסגר.</p>`;
-  await transporter.sendMail({
-    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
-    to,
-    subject,
-    html: baseTemplate(`
-      <h2>🎉 ${_esc(joinerName || "משתתף חדש")} הצטרף לסבב</h2>
-      <div class="highlight">
-        <p style="margin:0;font-weight:700">${safeProductName}</p>
-        ${progressBar}
-      </div>
-      ${cta}
-      ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בסבב ←</a>` : ""}
-      <p style="font-size:11px;color:#9ca3af;text-align:center;margin-top:18px">
-        עדכון זה נשלח כי הצטרפת לסבב. ניתן להפסיק עדכונים בכל עת מ"הסבבים שלי" באתר.
-      </p>
-    `),
-  });
+  try {
+    await transporter.sendMail({
+      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      html: baseTemplate(`
+        <h2>🎉 ${_esc(joinerName || "משתתף חדש")} הצטרף לסבב</h2>
+        <div class="highlight">
+          <p style="margin:0;font-weight:700">${safeProductName}</p>
+          ${progressBar}
+        </div>
+        ${cta}
+        ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בסבב ←</a>` : ""}
+        <p style="font-size:11px;color:#9ca3af;text-align:center;margin-top:18px">
+          עדכון זה נשלח כי הצטרפת לסבב. ניתן להפסיק עדכונים בכל עת מ"הסבבים שלי" באתר.
+        </p>
+      `),
+    });
+  } catch (e) { console.warn("[Email] member-joined failed:", e.message); }
 }

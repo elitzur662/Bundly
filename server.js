@@ -424,10 +424,19 @@ app.post(
           const pi = charge.payment_intent;
           const refundedAmount = (charge.amount_refunded || 0) / 100;
           console.log(`${logTag} ↳ refunded ₪${refundedAmount} on PI ${pi}`);
+          // BUG FIX (round 3 P0 — ledger corruption): the previous loop
+          // updated EVERY tx with that PI — including the newly-created
+          // type:"refund" row from the admin-dispute branch. Both the
+          // charge AND the refund got flipped to status:"refunded", and
+          // subsequent dedup queries like txs.find(t=>t.type==="charge"
+          // && t.status==="succeeded") returned nothing → re-refund
+          // possible. Restrict the flip to charge rows only; refund row
+          // is already created at status:"succeeded" by the dispute
+          // handler.
           if (_prodDb && pi) {
             const txs = _prodDb.listTransactions?.() || [];
             for (const t of txs) {
-              if (t.paymentIntentId === pi) {
+              if (t.paymentIntentId === pi && t.type === "charge") {
                 _prodDb.updateTransaction?.(t.id, { status: "refunded", refundedAmount, refundedAt: new Date().toISOString() });
               }
             }
@@ -5107,10 +5116,19 @@ ${resultsSummary}
     if (finalProducts) send({ type: "final", products: finalProducts });
     send({ type: "done", total: (finalProducts||[]).length });
     res.end();
+    closed = true;  // mark closed so the catch below can't double-end
 
   } catch (err) {
     console.error("Stream search error:", err.message);
-    if (!closed) { send({ type: "error", message: err.message }); res.end(); }
+    // BUG FIX (round 3 P0): res.end() was being called twice when an
+    // error fired AFTER the success-path res.end(). `closed` only
+    // tracked client aborts (req.on("close")), not server-side ends,
+    // so we sent another payload and called end() → ERR_HTTP_HEADERS_SENT
+    // → unhandledRejection. Now also check res.writableEnded.
+    if (!closed && !res.writableEnded) {
+      try { send({ type: "error", message: err.message }); } catch {}
+      try { res.end(); } catch {}
+    }
   }
 });
 
@@ -7685,6 +7703,24 @@ const ZAP_PRICES_CACHE    = new Map();
 const ZAP_PRICES_TTL_MS   = 12 * 60 * 60 * 1000; // 12 hours (nightly refresh keeps fresh)
 const PREWARM_PRICES_PER_CAT = 200;
 
+// BUG FIX (round 3 P0 memory leak): TTL was enforced only at read time —
+// entries that were never re-read sat in RAM forever. With ~thousands of
+// model price entries pre-loaded on boot + 4K/day from trickle, RSS grew
+// until Render restarted the dyno. Active purger every 30 min.
+setInterval(() => {
+  const now = Date.now();
+  try {
+    for (const [k, v] of ZAP_PRICES_CACHE) {
+      if (!v?.ts || (now - v.ts) > ZAP_PRICES_TTL_MS) ZAP_PRICES_CACHE.delete(k);
+    }
+  } catch {}
+  try {
+    for (const [k, v] of ZAP_CAT_CACHE) {
+      if (!v?.ts || (now - v.ts) > ZAP_CAT_TTL_MS) ZAP_CAT_CACHE.delete(k);
+    }
+  } catch {}
+}, 30 * 60_000).unref?.();
+
 // Populate ZAP_PRICES_CACHE (L1) from JSON store on startup so prewarm can skip fresh models.
 // ONE-TIME MIGRATION: purge poisoned entries from the trickle KSP fuzzy
 // fallback (pre-0.8-threshold). Those were saved with `title` copied from a
@@ -9748,15 +9784,15 @@ function requireSupplierMatch(req, res, next) {
           const matchedId    = String(supplierMatch.id || "").toLowerCase();
           const matchedEmail = String(supplierMatch.email || supplierMatch.contactEmail || "").toLowerCase();
           if (matchedId === wantedLower || matchedEmail === wantedLower) {
-            // KYC gate — only approved suppliers can act on real data.
-            // The public "supplier verification" promise is enforced here:
-            // an unapproved supplier hitting any supplier-scoped endpoint
-            // gets 403 with a clear "pending approval" message.
-            // Pending suppliers can still update their own profile via the
-            // KYC-upload routes (which use a separate, less strict guard).
+            // KYC gate — only EXPLICITLY-APPROVED suppliers can act.
+            // BUG FIX (round 3 P1): previous gate was `if (status && status
+            // !== "approved")` — when status was empty/null (newly-created
+            // supplier before KYC was set), the truthy check skipped, and
+            // the unapproved supplier passed. Now: anything other than
+            // exactly "approved" is rejected.
             const status = (supplierMatch.kycStatus || "").toLowerCase();
-            if (status && status !== "approved") {
-              audit("SUPPLIER_KYC_BLOCKED", req, { supplierId: supplierMatch.id, status });
+            if (status !== "approved") {
+              audit("SUPPLIER_KYC_BLOCKED", req, { supplierId: supplierMatch.id, status: status || "pending" });
               return res.status(403).json({
                 error: "Supplier account pending verification",
                 message: "החשבון שלך עדיין בתהליך אימות. תוכל לפעול בפלטפורמה אחרי שצוות Bundly יאשר את המסמכים.",
@@ -9810,8 +9846,10 @@ function _resolveVerifiedSupplier(req) {
     );
     if (!supplier) return { error: "No supplier registered for this account", code: 403 };
     const status = (supplier.kycStatus || "").toLowerCase();
-    if (status && status !== "approved") {
-      return { error: "Supplier account pending verification", code: 403, kycStatus: status };
+    // BUG FIX (round 3 P1): require explicit "approved" — empty/null no
+    // longer skips the gate.
+    if (status !== "approved") {
+      return { error: "Supplier account pending verification", code: 403, kycStatus: status || "pending" };
     }
     return { supplier, payload };
   } catch (e) {
@@ -9840,6 +9878,28 @@ function _checkAnonRate(req) {
   // 60 requests / minute per IP across all anon endpoints
   return rec.count <= 60;
 }
+// BUG FIX (round 3 P0 memory leak): _anonBucket / _otpFailures /
+// _personalReqDaily were keyed on IP+phone with no purge. Render
+// 512MB tier would crawl after ~1K unique IPs/day. Add a single
+// purger that drops expired entries every 2 hours and caps map size.
+setInterval(() => {
+  const now = Date.now();
+  const CAP = 10000;
+  const purgeOne = (map, getExpiry) => {
+    for (const [k, v] of map) {
+      const exp = getExpiry(v);
+      if (exp && exp < now) map.delete(k);
+    }
+    if (map.size > CAP) {
+      const overage = map.size - CAP;
+      let i = 0;
+      for (const k of map.keys()) { if (i++ >= overage) break; map.delete(k); }
+    }
+  };
+  try { purgeOne(_anonBucket, v => v?.resetAt); } catch {}
+  try { if (typeof _otpFailures !== "undefined") purgeOne(_otpFailures, v => v?.lockedUntil || 0); } catch {}
+  try { if (typeof _personalReqDaily !== "undefined") purgeOne(_personalReqDaily, v => v?.resetAt); } catch {}
+}, 2 * 60 * 60_000).unref?.();
 function requireUserMatchOrAnon(req, res, next) {
   const userIdParam = req.params.userId;
   if (!userIdParam) return res.status(400).json({ error: "Missing userId" });
@@ -10065,7 +10125,7 @@ app.post("/api/auth/check-existing",
 app.post("/api/auth/send-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-send" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, captchaToken } = req.body;
+  const { phone, captchaToken } = req.body || {};  // BUG FIX: body-less curl crashed handler
   if (!phone) return res.status(400).json({ error: "Phone required" });
   if (!validatePhone(phone)) return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
   // CAPTCHA check (only enforced if HCAPTCHA_SECRET is set in .env)
@@ -10136,7 +10196,7 @@ function _isOtpLocked(phone) {
 app.post("/api/auth/verify-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-verify" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, code, name, email } = req.body;
+  const { phone, code, name, email } = req.body || {};  // BUG FIX: body-less request crashed
   if (!phone || !code) return res.status(400).json({ error: "Phone and code required" });
   const normalized = normalizePhone(phone);
   if (_isOtpLocked(normalized)) {
@@ -10200,6 +10260,96 @@ app.post("/api/auth/verify-otp",
 app.post("/api/auth/test-login", (req, res) => {
   res.status(410).json({ error: "Endpoint removed" });
 });
+
+// ─────────────────────────────────────────────────────────────────
+// DEMO SUPPLIER LOGIN — opt-in only, for live demos / sales meetings.
+//
+// Issues a JWT linked to a synthetic "ספק הדגמה" supplier record with
+// kycStatus=approved. Hidden behind ALLOW_DEMO_SUPPLIER=true env var,
+// which the boot guard does NOT auto-set in production. If the founder
+// turns it on, anyone who hits this URL gets supplier dashboard access,
+// so the rule is: ON only for the duration of a demo, OFF the rest of
+// the time. Audited so we can spot accidental use.
+//
+// To use locally for the supplier meeting:
+//   1. Add ALLOW_DEMO_SUPPLIER=true + VITE_ALLOW_DEMO_SUPPLIER=true
+//      to .env
+//   2. Restart `npm start`
+//   3. On the login modal, the "כניסת ספק להדגמה" button appears
+// ─────────────────────────────────────────────────────────────────
+app.post("/api/auth/demo-supplier-login",
+  rateLimit({ windowMs: 60_000, max: 10, label: "demo-supplier-login" }),
+  AUTH_READY ? (req, res) => {
+    if (process.env.ALLOW_DEMO_SUPPLIER !== "true") {
+      return res.status(403).json({ error: "Demo supplier login disabled" });
+    }
+    try {
+      const demoPhone = "+972500000000";
+      const demoEmail = "demo-supplier@bundly.co";
+      // 1) Upsert the synthetic user behind the demo supplier.
+      const user = upsertUser({
+        phone: demoPhone,
+        email: demoEmail,
+        name: "ספק הדגמה",
+        firstName: "ספק",
+        lastName: "הדגמה",
+      });
+      // 2) Make sure the supplier record exists + KYC-approved so
+      //    _resolveVerifiedSupplier accepts it.
+      const snap = _prodDb.load();
+      let supplier = (snap.suppliers || []).find(
+        s => (s.email || "").toLowerCase() === demoEmail
+      );
+      if (!supplier) {
+        supplier = _prodDb.createSupplier({
+          businessName: "ספק הדגמה — Bundly Demo",
+          businessNumber: "000000000",
+          ownerName: "ספק הדגמה",
+          email: demoEmail,
+          phone: demoPhone,
+          address: "תל אביב",
+          category: "כללי",
+          description: "חשבון להדגמה — נוצר אוטומטית. אינו ספק אמיתי.",
+          bankAccount: "",
+        });
+      }
+      // ALWAYS ensure kycStatus="approved" on every demo login — self-healing.
+      // BUG FIX (round 3 P1): previously the KYC-approve call was nested
+      // inside `if (!supplier)`. If the first call's updateSupplier failed
+      // silently, the row stayed "pending" forever and every subsequent
+      // demo session got 403 from _resolveVerifiedSupplier — bricking
+      // the demo until the row was manually deleted.
+      if ((supplier?.kycStatus || "").toLowerCase() !== "approved") {
+        try { _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" }); }
+        catch (_) {}
+        // Re-load to reflect the update before issuing the token.
+        const snap2 = _prodDb.load();
+        supplier = (snap2.suppliers || []).find(s => s.id === supplier.id) || supplier;
+      }
+      const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "1h", algorithm: "HS256" });
+      audit("DEMO_SUPPLIER_LOGIN", req, { userId: user.id, supplierId: supplier.id });
+      res.json({
+        ok:       true,
+        token,
+        // BUG FIX (round 4 P1): include firstName/lastName so the user
+        // shape matches /api/auth/me. Without these, `Welcome ${user.firstName}`
+        // rendered "Welcome undefined" between login and first /me poll.
+        user: {
+          id:        user.id,
+          name:      user.name,
+          firstName: user.firstName || "ספק",
+          lastName:  user.lastName  || "הדגמה",
+          email:     user.email,
+          phone:     user.phone,
+        },
+        supplier: { id: supplier.id, name: supplier.businessName, email: supplier.email, businessName: supplier.businessName },
+        demo:     true,
+      });
+    } catch (e) {
+      console.error("[demo-supplier-login] error:", e.message);
+      res.status(500).json({ error: "Demo login failed" });
+    }
+  } : notReady);
 
 // GET /api/auth/me
 app.get("/api/auth/me", authMiddleware, AUTH_READY ? (req, res) => {
@@ -10490,7 +10640,8 @@ app.patch("/api/personal-requests/:id",
         (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
       );
       if (!verifiedSupplier) return res.status(403).json({ error: "Not registered as a supplier" });
-      if (verifiedSupplier.kycStatus && verifiedSupplier.kycStatus !== "approved") {
+      // BUG FIX (round 3 P1): empty kycStatus must be rejected too.
+      if ((verifiedSupplier.kycStatus || "").toLowerCase() !== "approved") {
         return res.status(403).json({ error: "Supplier account pending KYC approval" });
       }
     } else {
@@ -10505,6 +10656,24 @@ app.patch("/api/personal-requests/:id",
     // Pin the supplier identity to the verified record — ignore body fields.
     const verifiedName = verifiedSupplier.businessName || verifiedSupplier.name || "ספק מאומת";
     const verifiedId   = verifiedSupplier.id;
+    // BUG FIX (round 3 P1): the non-offer status branch previously accepted
+    // ANY string. A rival supplier could PATCH `{status:"rejected"}` to flip
+    // a competitor's open request to rejected — customer's UI showed
+    // "request rejected" though they never declined. Now: only allow the
+    // current offering supplier to set "withdrawn", and only from offered.
+    let allowedStatusUpdate = null;
+    if (status && !isOffer) {
+      const isOwner = String(existing.offerSupplierId || "") === String(verifiedId);
+      if (status === "withdrawn" && isOwner && existing.status === "offered") {
+        allowedStatusUpdate = "withdrawn";
+      } else {
+        audit("PERSONAL_REQ_STATUS_BLOCKED", req, {
+          requestId: id, attempted: status, supplierId: verifiedId,
+          isOwner, currentStatus: existing.status,
+        });
+        return res.status(403).json({ error: "Cannot mutate request status from this account" });
+      }
+    }
     const updated = updatePersonalRequest(id, {
       ...(isOffer && {
         offerPrice:      Number(offerPrice),
@@ -10513,7 +10682,7 @@ app.patch("/api/personal-requests/:id",
         offerAt:         new Date().toISOString(),
         status:          "offered",
       }),
-      ...(status && !isOffer && { status }),
+      ...(allowedStatusUpdate && { status: allowedStatusUpdate }),
     });
     if (!updated) return res.status(404).json({ error: "Request not found" });
 
@@ -10626,6 +10795,30 @@ app.get("/api/stripe-public-key", (_req, res) => {
 app.get("/api/user/joined-deals", authMiddleware, AUTH_READY ? (req, res) => {
   try { res.json({ ok: true, joined: _prodDb.listJoinedDeals(req.user.id) }); }
   catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// BUG FIX (round 4 P0 — dark charge flow): the customer needs a way to
+// discover their deal closed and approve the off-session charge. Returns
+// the list of joins where tier="committed", chargeStatus !== "succeeded",
+// and the deal has been closed via setAutomationFlag("closed-deals", ...).
+app.get("/api/user/pending-charges", authMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const joins = (_prodDb.listJoinedDeals(req.user.id) || [])
+      .filter(j => j.tier === "committed" && j.chargeStatus !== "succeeded");
+    if (joins.length === 0) return res.json({ ok: true, pending: [] });
+    const closedMap = (typeof getAutomationFlag === "function" ? getAutomationFlag("closed-deals") : null) || {};
+    const pending = joins
+      .filter(j => closedMap[j.dealId] && closedMap[j.dealId].status === "filled")
+      .map(j => ({
+        dealId:       j.dealId,
+        productName:  j.productName || "",
+        productImage: j.productImage || "",
+        amount:       Number(j.reservedAmount) || 0,
+        chargeStatus: j.chargeStatus || null,
+        nextActionUrl: j.chargeNextActionUrl || null,
+      }));
+    res.json({ ok: true, pending });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
 app.post("/api/user/joined-deals", authMiddleware, AUTH_READY ? (req, res) => {
@@ -10964,6 +11157,7 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
     const result = await _paySvc.cancelPaymentIntent({
       paymentIntentId: preauth.paymentIntentId,
       reason: req.body?.reason || "abandoned",
+      idempotencyKey: `release-preauth-${order.id}`,
     });
     if (!result || !result.ok) {
       audit("RELEASE_PREAUTH_FAILED", req, { orderId, intentId: preauth.paymentIntentId });
@@ -11249,6 +11443,43 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
     closedDeals[dealId] = { status: "filled", at: new Date().toISOString(), winnerId: winner?.supplierId || null, ordersCreated: createdOrders };
     _capClosedDeals(closedDeals);
     setAutomationFlag?.(closedDealsKey, closedDeals);
+
+    // BUG FIX (round 4 P0): committed customers MUST be told the deal closed
+    // so they can approve the off-session charge. Without this, the deal
+    // closes silently and the customer never lands on /charge-confirmed →
+    // supplier ships, money never moves, chargeback risk. Fire SMS + email
+    // (non-blocking — response returns regardless).
+    try {
+      const joins = _prodDb.listJoinedDealsByDealId
+        ? _prodDb.listJoinedDealsByDealId(dealId)
+        : (_prodDb.load().joinedDeals || []).filter(j => String(j.dealId) === String(dealId));
+      const userMap = new Map((_prodDb.load().users || []).map(u => [Number(u.id), u]));
+      const safeName = dealMeta.name || "המוצר שבחרת";
+      const link = `https://bundly.co/deal/${dealId}?approve=1`;
+      for (const j of joins) {
+        if (j.tier !== "committed") continue;
+        const u = userMap.get(Number(j.userId));
+        if (!u) continue;
+        if (u.email) {
+          globalThis._notif?.sendOrderStatusEmail?.(u.email, {
+            orderId:     dealId,
+            productName: safeName,
+            status:      "awaiting_approval",
+            link,
+          }).catch(() => {});
+        }
+        if (u.phone) {
+          globalThis._notif?.sendOrderStatusSms?.(u.phone, {
+            orderId:     dealId,
+            productName: safeName,
+            status:      "awaiting_approval",
+          }).catch(() => {});
+        }
+      }
+    } catch (e) {
+      console.warn(`[deal-close] customer notify failed: ${e.message}`);
+    }
+
     return res.json({ ok: true, status: "filled", winnerId: winner?.supplierId || null, winnerBid: winner || null, ordersCreated: createdOrders });
   } else {
     // Cancelled — notify all bidders in ONE bulk write
@@ -12060,11 +12291,13 @@ app.post("/api/deals/:id/hold-spot", authMiddleware, AUTH_READY ? async (req, re
 } : notReady);
 
 // POST /api/deals/:id/commit-deposit — was: 25% hold. Now: save card for free.
-app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
+// BUG FIX (round 3 P1): inline jwt.verify never consulted isJwtRevoked nor
+// blocked admin tokens. Switched to authMiddleware which already enforces
+// both. Eliminates the auth-bypass after logout that the inline path
+// inherited.
+app.post("/api/deals/:id/commit-deposit", authMiddleware, AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
-  let userId = null;
-  const tok = req.headers.authorization?.replace("Bearer ", "");
-  if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
+  const userId = req.user.id;
   if (!userId) return res.status(401).json({ error: "Auth required for commit-deposit" });
   const lockKey = `commit:${dealId}:${userId}`;
   if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
@@ -12162,10 +12395,42 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
   try {
     const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
     if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
+    // BUG FIX (round 4 P0): SetupIntent fallback. If the customer confirmed
+    // their card in the Stripe iframe but the follow-up POST /save-payment-
+    // method failed (network drop, tab close), the join row has setupIntentId
+    // + stripeCustomerId but no paymentMethodId. Before this fix, that
+    // customer was stranded with 400 "no card saved" and no recovery —
+    // supplier shipped, no charge ever happened. Now we retrieve the
+    // SetupIntent from Stripe and harvest the payment_method ourselves.
+    if (!join.paymentMethodId && join.setupIntentId && join.stripeCustomerId
+        && _paySvc?.PAYMENT_READY && !String(join.setupIntentId).startsWith("seti_stub_")) {
+      try {
+        const stripeMod = (await import("stripe")).default;
+        const stripe   = new stripeMod(process.env.STRIPE_SECRET_KEY);
+        const si       = await stripe.setupIntents.retrieve(join.setupIntentId);
+        if (si.status === "succeeded" && si.payment_method && si.customer === join.stripeCustomerId) {
+          _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+            paymentMethodId: si.payment_method,
+            savedAt:         new Date().toISOString(),
+            recoveredFrom:   "setup-intent-fallback",
+          });
+          join.paymentMethodId = si.payment_method;
+        }
+      } catch (e) {
+        console.warn(`[charge-confirmed] SetupIntent fallback failed for user=${userId} deal=${dealId}: ${e.message}`);
+      }
+    }
     if (!join.paymentMethodId || !join.stripeCustomerId) {
       return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
     }
-    if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+    // Only short-circuit if the charge actually completed. Pending 3DS
+    // leaves chargedAt null so the user can retry.
+    // BUG FIX (round 4 P1): legacy rows (charged before the chargeStatus
+    // field existed) have chargedAt set but no chargeStatus. Treat absent
+    // chargeStatus as succeeded for backward compatibility.
+    if (join.chargedAt && (join.chargeStatus === "succeeded" || !("chargeStatus" in join))) {
+      return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+    }
 
     // SECURITY (red-team round 2 — H-R2-5): deals must be CLOSED before we
     // charge the off-session card. Without this gate, a customer (or a
@@ -12258,12 +12523,37 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
 
     if (!charge.ok) return res.status(402).json({ error: charge.error, code: charge.code });
 
-    _prodDb.updateJoinedDealPayment?.(userId, dealId, {
-      chargedAt:       new Date().toISOString(),
-      lastChargeTxId:  tx?.id || null,
-      lastPaymentIntentId: charge.paymentIntentId,
-      chargeStatus:    charge.status,
-    });
+    // BUG FIX (round 3 P1 — 3DS silent free order): a charge that needs
+    // 3DS comes back ok:true status:"requires_action" with no money
+    // moved. Previous code stamped chargedAt regardless, so the early-
+    // return guard at the top of this handler ("if (join.chargedAt)
+    // return alreadyCharged:true") prevented any retry — user closed
+    // the 3DS tab, supplier shipped, customer was never billed.
+    // Now we only stamp chargedAt on actual succeeded charges. For
+    // requires_action we store the nextActionUrl so the frontend can
+    // surface a "complete 3DS" CTA.
+    if (charge.status === "succeeded") {
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        chargedAt:       new Date().toISOString(),
+        lastChargeTxId:  tx?.id || null,
+        lastPaymentIntentId: charge.paymentIntentId,
+        chargeStatus:    charge.status,
+      });
+    } else {
+      // 3DS in progress / other non-final state.
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        lastChargeTxId:      tx?.id || null,
+        lastPaymentIntentId: charge.paymentIntentId,
+        chargeStatus:        charge.status,
+        chargeNextActionUrl: charge.nextActionUrl || null,
+      });
+      return res.json({
+        ok:           true,
+        requiresAction: true,
+        nextActionUrl: charge.nextActionUrl || null,
+        status:       charge.status,
+      });
+    }
 
     try {
       logActivity("deal_charge_confirmed", {
@@ -12289,9 +12579,21 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
 } : notReady);
 
 // Confirm payment succeeded (called after Stripe confirms)
-app.post("/api/orders/:id/confirm-payment", authMiddleware, AUTH_READY ? async (req, res) => {
+//
+// SECURITY (bug-hunt round 3 — P0 free-order): previous version flipped
+// paymentStatus="paid" if Stripe returned status:"succeeded" for the supplied
+// pi_*, with NO check that the PI's metadata.orderId matched THIS order, that
+// the amount matched, or that a matching local charge tx existed. An attacker
+// with any succeeded pi_* id (their own ₪1 charge, or one leaked from a
+// browser network log) could mark ANY of their unpaid orders as paid →
+// free product. Now: rate-limited, _paySvc gated, metadata+amount cross-
+// checked, charge-tx must exist.
+app.post("/api/orders/:id/confirm-payment",
+  rateLimit({ windowMs: 60_000, max: 10, label: "confirm-payment" }),
+  authMiddleware,
+  AUTH_READY ? async (req, res) => {
   try {
-    // IDOR: only the order owner can confirm its payment
+    if (!_paySvc) return res.status(503).json({ error: "Payments unavailable" });
     const existing = _prodDb.getOrder(req.params.id);
     if (!existing) return res.status(404).json({ error: "Not found" });
     if (!ownsResource(req.user, existing, "userId")) {
@@ -12303,12 +12605,36 @@ app.post("/api/orders/:id/confirm-payment", authMiddleware, AUTH_READY ? async (
       return res.status(400).json({ error: "Invalid paymentIntentId" });
     }
     const intent = await _paySvc.retrievePaymentIntent(paymentIntentId);
-    if (intent.status === "succeeded") {
-      _prodDb.updateOrder(req.params.id, { paymentStatus: "paid", status: "confirmed" });
-      const txs = _prodDb.listTransactions({ orderId: req.params.id });
-      const charge = txs.find(t => t.type === "charge" && t.paymentIntentId === paymentIntentId);
-      if (charge) _prodDb.updateTransaction(charge.id, { status: "succeeded" });
+    if (intent.status !== "succeeded") {
+      return res.json({ ok: false, intent, reason: "not-succeeded" });
     }
+    // Cross-check: the PI MUST belong to this order + this user, and the
+    // amount must match. Otherwise reject 403.
+    const piOrderId = String(intent.metadata?.orderId || "");
+    const piUserId  = String(intent.metadata?.userId  || "");
+    const expectedAmount = Math.round(Number(existing.totalAmount || 0) * 100);
+    // BUG FIX (round 4 P1): allow ±2 agora tolerance — totalAmount can drift
+    // from PI amount by 1 agora due to floor/round/ceil divergence between
+    // bid time and charge time. Strict !== was bouncing legitimate paid
+    // customers with a 1-agora rounding gap.
+    const amountMismatch = intent.amount && Math.abs(intent.amount - expectedAmount) > 2;
+    if (piOrderId !== String(existing.id) || piUserId !== String(req.user.id) || amountMismatch) {
+      audit("CONFIRM_PAYMENT_PI_MISMATCH", req, {
+        orderId: existing.id, claimedPi: paymentIntentId,
+        piOrderId, piUserId, piAmount: intent.amount, expectedAmount,
+      });
+      return res.status(403).json({ error: "PaymentIntent does not match this order" });
+    }
+    // A local charge tx must exist with that PI — otherwise we have no
+    // matching server-side state to confirm.
+    const txs = _prodDb.listTransactions({ orderId: req.params.id });
+    const charge = txs.find(t => t.type === "charge" && t.paymentIntentId === paymentIntentId);
+    if (!charge) {
+      audit("CONFIRM_PAYMENT_NO_TX", req, { orderId: existing.id, claimedPi: paymentIntentId });
+      return res.status(409).json({ error: "No matching charge transaction — cannot confirm" });
+    }
+    _prodDb.updateOrder(req.params.id, { paymentStatus: "paid", status: "confirmed" });
+    _prodDb.updateTransaction(charge.id, { status: "succeeded" });
     res.json({ ok: true, intent });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
@@ -12515,6 +12841,8 @@ app.post("/api/support/tickets",
     const priority = _TICKET_ALLOWED_PRIORITY.has(body.priority) ? body.priority : "normal";
     const category = _TICKET_ALLOWED_CATEGORY.has(body.category) ? body.category : "other";
     const reason   = String(body.reason || "support").slice(0, 100);
+    if (typeof description !== "string") return res.status(400).json({ error: "description must be a string" });
+    if (typeof subject !== "string" && subject != null) return res.status(400).json({ error: "subject must be a string" });
     if (!description || description.length < 5) return res.status(400).json({ error: "צריך לכתוב הסבר קצר" });
     if (description.length > 5000) return res.status(400).json({ error: "הסבר ארוך מדי" });
 
@@ -12745,7 +13073,24 @@ app.patch("/api/admin/disputes/:id", adminMiddleware, adminFreshAuth, AUTH_READY
           amount: -charge.amount, type: "refund", status: refund.ok ? "succeeded" : "failed",
           paymentIntentId: charge.paymentIntentId,
         });
-        _prodDb.updateOrder(dispute.orderId, { paymentStatus: "refunded", status: "cancelled" });
+        // BUG FIX (round 3 P0 — false-refund): previously this ran
+        // UNCONDITIONALLY. If Stripe refunded failed (network blip,
+        // already-disputed charge, currency mismatch), the order was
+        // still flipped to paymentStatus="refunded", the customer was
+        // emailed "we refunded you", and the supplier was debited
+        // (chargeback came in later). Now we only flip on real
+        // success — failure surfaces a 502 to the admin so they can
+        // investigate and retry.
+        if (refund.ok) {
+          _prodDb.updateOrder(dispute.orderId, { paymentStatus: "refunded", status: "cancelled" });
+        } else {
+          _refundInFlight.delete(refundLockKey);
+          audit("DISPUTE_REFUND_FAILED", req, { disputeId: dispute.id, error: refund.error });
+          return res.status(502).json({
+            error: "Stripe refund failed — order NOT flipped to refunded",
+            details: refund.error,
+          });
+        }
       }
       _refundInFlight.delete(refundLockKey);
     }
@@ -12890,29 +13235,37 @@ app.get("/api/reviews/:supplierId", AUTH_READY ? (req, res) => {
 //
 // Signed URLs allow email links to work without requiring the recipient to be logged in,
 // while still preventing enumeration attacks.
-app.get("/api/orders/:orderId/invoice-url", authMiddleware, AUTH_READY ? (req, res) => {
+app.get("/api/orders/:orderId/invoice-url", authMiddleware, AUTH_READY ? async (req, res) => {
   try {
     const order = _prodDb.getOrder(req.params.orderId);
     if (!order || order.userId !== req.user.id) return res.status(404).json({ error: "Order not found" });
-    // Find the invoice for this order
-    const { readdirSync } = require ? null : null; // ESM-safe lookup below
-    // Scan invoices dir for matching orderId
-    import("node:fs").then(fs => {
-      const files = fs.readdirSync((process.env.DATA_DIR || process.cwd()) + "/invoices").filter(f => /^\d{4}-\d{6}\.json$/.test(f));
-      const match = files.find(f => {
-        try {
-          const inv = JSON.parse(fs.readFileSync((process.env.DATA_DIR || process.cwd()) + "/invoices/" + f, "utf8"));
-          return inv.orderId === order.id;
-        } catch { return false; }
-      });
-      if (!match) return res.status(404).json({ error: "Invoice not generated yet" });
-      const htmlName = match.replace(".json", ".html");
-      // Bind the link to the order's owner so a forwarded/leaked URL can't
-      // be redeemed while logged in as a different user (audit M-NEW-2).
-      const signed = signUrl(`/invoices/${htmlName}`, 300, order.userId);
-      res.json({ ok: true, url: signed });
+    // BUG FIX (round 4 P0): previous fix replaced an ESM-require crash with
+    // a `import("node:fs").then(...)` chain — but the .then was OUTSIDE the
+    // try/catch (the try returned synchronously the moment the promise was
+    // created). Any sync throw inside the .then (missing invoices/ dir on
+    // a fresh deploy, malformed JSON) escaped as UnhandledPromiseRejection
+    // and the client request hung until proxy timeout. Now: full async/await
+    // inside one try/catch.
+    const fs = await import("node:fs");
+    const invDir = (process.env.DATA_DIR || process.cwd()) + "/invoices";
+    if (!fs.existsSync(invDir)) {
+      return res.status(404).json({ error: "Invoice not generated yet" });
+    }
+    const files = fs.readdirSync(invDir).filter(f => /^\d{4}-\d{6}\.json$/.test(f));
+    const match = files.find(f => {
+      try {
+        const inv = JSON.parse(fs.readFileSync(invDir + "/" + f, "utf8"));
+        return inv.orderId === order.id;
+      } catch { return false; }
     });
-  } catch (e) { res.status(500).json({ error: e.message }); }
+    if (!match) return res.status(404).json({ error: "Invoice not generated yet" });
+    const htmlName = match.replace(".json", ".html");
+    const signed = signUrl(`/invoices/${htmlName}`, 300, order.userId);
+    res.json({ ok: true, url: signed });
+  } catch (e) {
+    console.error("[invoice-url] error:", e.message);
+    res.status(500).json({ error: e.message });
+  }
 } : notReady);
 
 // Invoice download — verifies HMAC signature instead of auth token (so email links work)
@@ -13699,7 +14052,7 @@ app.post("/api/chat",
     return res.status(503).json({ error: "OpenAI API key not configured" });
   }
 
-  const { messages = [], deals = [], context = "customer", supplierName = "" } = req.body;
+  const { messages = [], deals = [], context = "customer", supplierName = "" } = req.body || {};
   if (!messages.length) return res.status(400).json({ error: "No messages provided" });
 
   // ── Supplier persona: strategy/pricing/wins, not product recommendations.
