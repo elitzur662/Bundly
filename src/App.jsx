@@ -6063,6 +6063,311 @@ function SupplierLoginModal({ onSuccess, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  IMPORT CATALOG — CSV upload + Product Feed URL config
+//
+//  Two on-ramps for syncing the supplier's existing catalog into Bundly:
+//    1. Drop a CSV (one-shot import) → preview → commit
+//    2. Paste a Product Feed URL (auto-detect CSV/JSON/XML) → polled every 6h
+//
+//  Both write through /api/suppliers/:id/inventory which already powers
+//  the supplier's standard inventory tab.
+// ─────────────────────────────────────────────────────────────────
+function ImportCatalogPanel({ supplierId, headers, onNotify }) {
+  const [tab, setTab] = useState("csv");
+  // CSV state
+  const [csvFile, setCsvFile] = useState(null);
+  const [csvPreview, setCsvPreview] = useState(null); // {validCount, invalidCount, preview, errors, headers}
+  const [csvBusy, setCsvBusy] = useState(false);
+  const [csvErr, setCsvErr] = useState("");
+  // Feed URL state
+  const [feed, setFeed] = useState(null); // {feedUrl, feedFormat, feedLastSync, feedLastSyncCount, feedLastError}
+  const [feedUrl, setFeedUrl] = useState("");
+  const [feedFormat, setFeedFormat] = useState("auto");
+  const [feedBusy, setFeedBusy] = useState(false);
+  const [feedErr, setFeedErr] = useState("");
+
+  // Load existing feed config on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { headers });
+        const d = await r.json();
+        if (cancelled) return;
+        if (d.ok) {
+          setFeed(d);
+          if (d.feedUrl)    setFeedUrl(d.feedUrl);
+          if (d.feedFormat) setFeedFormat(d.feedFormat);
+        }
+      } catch {}
+    })();
+    return () => { cancelled = true; };
+  }, [supplierId]);
+
+  // ── CSV preview (commit=0) ──
+  const csvPreviewFile = async () => {
+    if (!csvFile) return;
+    setCsvBusy(true); setCsvErr(""); setCsvPreview(null);
+    try {
+      const text = await csvFile.text();
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/inventory/import-csv?commit=0`, {
+        method:  "POST",
+        headers: { ...headers, "Content-Type": "text/csv" },
+        body:    text,
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "Preview failed");
+      setCsvPreview(d);
+    } catch (e) { setCsvErr(e.message); }
+    finally   { setCsvBusy(false); }
+  };
+
+  // ── CSV commit ──
+  const csvCommit = async () => {
+    if (!csvFile || !csvPreview) return;
+    setCsvBusy(true); setCsvErr("");
+    try {
+      const text = await csvFile.text();
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/inventory/import-csv?commit=1`, {
+        method:  "POST",
+        headers: { ...headers, "Content-Type": "text/csv" },
+        body:    text,
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "Import failed");
+      onNotify?.(`✅ יובאו ${d.count} מוצרים${d.invalid ? `, ${d.invalid} שגויים דולגו` : ""}`);
+      setCsvFile(null); setCsvPreview(null);
+    } catch (e) { setCsvErr(e.message); }
+    finally   { setCsvBusy(false); }
+  };
+
+  // ── Feed URL save (PUT) ──
+  const saveFeedUrl = async () => {
+    if (!feedUrl || !/^https?:\/\//i.test(feedUrl)) {
+      setFeedErr("URL לא תקין — נדרשת כתובת http:// או https://"); return;
+    }
+    setFeedBusy(true); setFeedErr("");
+    try {
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, {
+        method:  "PUT",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body:    JSON.stringify({ url: feedUrl, format: feedFormat }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
+      onNotify?.(`✅ Feed הוגדר — ${d.synced} מוצרים סונכרנו (${d.detectedFmt})${d.invalid ? `, ${d.invalid} דולגו` : ""}`);
+      // Refresh status
+      const s = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { headers });
+      const sd = await s.json();
+      if (sd.ok) setFeed(sd);
+    } catch (e) { setFeedErr(e.message); }
+    finally   { setFeedBusy(false); }
+  };
+
+  const deleteFeedUrl = async () => {
+    if (!confirm("להסיר את ה-Feed?")) return;
+    setFeedBusy(true);
+    try {
+      await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { method: "DELETE", headers });
+      setFeedUrl(""); setFeed(null);
+      onNotify?.("✅ Feed הוסר");
+    } catch (e) { setFeedErr(e.message); }
+    finally   { setFeedBusy(false); }
+  };
+
+  const csvTemplate = `name,sku,price,qty,image_url,description,category,brand
+שואב רובוטי דגם A,SKU-001,1299,15,https://example.com/p1.jpg,"שואב חכם עם מפת בית",ניקיון,Roomba
+מקרר 500 ליטר,SKU-002,3990,5,https://example.com/p2.jpg,"מקפיא תחתון",מטבח,Samsung`;
+
+  return (
+    <div className="space-y-5" dir="rtl">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-sky-50 to-cyan-50 border border-sky-100 rounded-2xl p-5">
+        <h2 className="text-xl font-black text-sky-900 mb-1">🔗 ייבוא קטלוג</h2>
+        <p className="text-sm text-sky-700">סנכרן את כל המוצרים מהאתר שלך ל-Bundly. שתי דרכים — חד-פעמי או אוטומטי.</p>
+      </div>
+
+      {/* Tab toggle */}
+      <div className="flex gap-2 border-b border-gray-200">
+        <button onClick={() => setTab("csv")}
+          className={`px-4 py-2.5 font-bold text-sm border-b-2 transition ${tab === "csv" ? "border-sky-600 text-sky-700" : "border-transparent text-gray-500 hover:text-gray-800"}`}>
+          📤 העלאת CSV (חד-פעמי)
+        </button>
+        <button onClick={() => setTab("feed")}
+          className={`px-4 py-2.5 font-bold text-sm border-b-2 transition ${tab === "feed" ? "border-sky-600 text-sky-700" : "border-transparent text-gray-500 hover:text-gray-800"}`}>
+          📡 Feed URL (אוטומטי)
+        </button>
+      </div>
+
+      {/* ─── CSV tab ─── */}
+      {tab === "csv" && (
+        <div className="space-y-4">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+            <div>
+              <h3 className="font-black text-gray-900 mb-1">העלה קובץ CSV</h3>
+              <p className="text-xs text-gray-500">
+                שורה ראשונה — כותרות עמודות (אנגלית או עברית). נדרש: <strong>name</strong>, <strong>price</strong>.
+                אופציונלי: sku, qty, image_url, description, category, brand.
+              </p>
+            </div>
+            <a
+              href={`data:text/csv;charset=utf-8,${encodeURIComponent(csvTemplate)}`}
+              download="bundly-catalog-template.csv"
+              className="inline-flex items-center gap-2 text-xs text-sky-600 hover:text-sky-800 hover:underline font-semibold"
+            >
+              ⬇️ הורד תבנית CSV ריקה
+            </a>
+            <input
+              type="file"
+              accept=".csv,text/csv,text/plain"
+              onChange={e => { setCsvFile(e.target.files?.[0] || null); setCsvPreview(null); setCsvErr(""); }}
+              className="block w-full text-sm border border-gray-200 rounded-xl px-3 py-2"
+            />
+            {csvFile && (
+              <div className="text-xs text-gray-600">
+                ✓ נבחר: <strong>{csvFile.name}</strong> ({Math.round(csvFile.size / 1024)} KB)
+              </div>
+            )}
+            {csvErr && <p className="text-sm text-red-600 font-semibold">⚠️ {csvErr}</p>}
+            <div className="flex gap-2">
+              <button onClick={csvPreviewFile} disabled={!csvFile || csvBusy}
+                className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                {csvBusy ? "מנתח..." : "תצוגה מקדימה"}
+              </button>
+              {csvPreview && csvPreview.validCount > 0 && (
+                <button onClick={csvCommit} disabled={csvBusy}
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                  {csvBusy ? "מייבא..." : `✓ ייבא ${csvPreview.validCount} מוצרים`}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Preview results */}
+          {csvPreview && (
+            <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">
+              <div className="flex items-center gap-4 text-sm">
+                <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full font-bold">
+                  ✓ {csvPreview.validCount} תקינים
+                </span>
+                {csvPreview.invalidCount > 0 && (
+                  <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full font-bold">
+                    ✗ {csvPreview.invalidCount} שגויים
+                  </span>
+                )}
+                <span className="text-xs text-gray-500">סה"כ שורות בקובץ: {csvPreview.totalRows}</span>
+              </div>
+
+              {csvPreview.preview?.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-sm text-gray-900 mb-2">תצוגה מקדימה — 20 ראשונים:</h4>
+                  <div className="overflow-x-auto max-h-64 overflow-y-auto border border-gray-100 rounded-lg">
+                    <table className="w-full text-xs">
+                      <thead className="bg-gray-50 sticky top-0">
+                        <tr><th className="text-right p-2">שם</th><th className="text-right p-2">מק"ט</th><th className="text-right p-2">מחיר</th><th className="text-right p-2">מלאי</th></tr>
+                      </thead>
+                      <tbody>
+                        {csvPreview.preview.map((p, i) => (
+                          <tr key={i} className="border-t border-gray-100">
+                            <td className="p-2">{p.name}</td>
+                            <td className="p-2 font-mono text-[10px]">{p.sku}</td>
+                            <td className="p-2">₪{Number(p.price || 0).toLocaleString()}</td>
+                            <td className="p-2">{p.qty || 0}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {csvPreview.errors?.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-sm text-red-700 mb-2">שגיאות (20 ראשונות):</h4>
+                  <ul className="text-xs space-y-1 max-h-32 overflow-y-auto">
+                    {csvPreview.errors.map((er, i) => (
+                      <li key={i} className="text-red-600">שורה {er.rowIdx}: {er.error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── Feed URL tab ─── */}
+      {tab === "feed" && (
+        <div className="space-y-4">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+            <div>
+              <h3 className="font-black text-gray-900 mb-1">Feed URL — סנכרון אוטומטי</h3>
+              <p className="text-xs text-gray-500">
+                ספק את כתובת ה-Feed של האתר שלך. Bundly מסנכרנת אוטומטית כל 6 שעות.
+                תומך ב-CSV, JSON, XML/RSS/Atom (Shopify, WooCommerce, Google Merchant).
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">URL</label>
+              <input
+                type="url"
+                dir="ltr"
+                value={feedUrl}
+                onChange={e => setFeedUrl(e.target.value)}
+                placeholder="https://your-store.com/products.xml"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono text-right"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">פורמט</label>
+              <select value={feedFormat} onChange={e => setFeedFormat(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm">
+                <option value="auto">זיהוי אוטומטי (מומלץ)</option>
+                <option value="csv">CSV</option>
+                <option value="json">JSON</option>
+                <option value="xml">XML / RSS / Atom</option>
+              </select>
+            </div>
+            {feedErr && <p className="text-sm text-red-600 font-semibold">⚠️ {feedErr}</p>}
+            <div className="flex gap-2">
+              <button onClick={saveFeedUrl} disabled={feedBusy}
+                className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                {feedBusy ? "מסנכרן..." : feed?.feedUrl ? "עדכן + סנכרן עכשיו" : "שמור + סנכרן"}
+              </button>
+              {feed?.feedUrl && (
+                <button onClick={deleteFeedUrl} disabled={feedBusy}
+                  className="px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-bold rounded-xl text-sm disabled:opacity-50">
+                  🗑️ הסר Feed
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Status card */}
+          {feed?.feedUrl && (
+            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 space-y-2">
+              <p className="text-sm font-black text-emerald-900">✓ Feed פעיל</p>
+              <div className="text-xs text-emerald-800 space-y-1">
+                {feed.feedLastSync && (
+                  <p><strong>סנכרון אחרון:</strong> {new Date(feed.feedLastSync).toLocaleString("he-IL")}</p>
+                )}
+                <p><strong>מוצרים שסונכרנו:</strong> {feed.feedLastSyncCount || 0}</p>
+                {feed.feedLastError && (
+                  <p className="text-red-700"><strong>שגיאה אחרונה:</strong> {feed.feedLastError}</p>
+                )}
+              </div>
+              <p className="text-[11px] text-emerald-700 mt-2">
+                ⏱️ הסנכרון הבא יקרה תוך 6 שעות. אפשר להפעיל ידנית בכל עת דרך כפתור "עדכן + סנכרן עכשיו".
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  SUPPLIER DASHBOARD — private view of the supplier's deals
 // ─────────────────────────────────────────────────────────────────
 function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, personalRequests = [], bundles = [], onSelectBundle, onUpdateRequest, onNotify, onAddBid, onCancelBid }) {
@@ -6604,6 +6909,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
           { key:"analytics",       label:"אנליטיקה",  icon:"📈", count: 0,                                  color:"from-cyan-500 to-blue-600" },
           { key:"auto-bid",        label:"אוטומציה",  icon:"🤖", count: autoBidRules.filter(r => r.active).length, color:"from-purple-500 to-indigo-600" },
           { key:"inventory",       label:"מלאי",      icon:"📦", count: inventory.length,                  color:"from-rose-500 to-pink-600" },
+          { key:"import-catalog",  label:"ייבוא קטלוג", icon:"🔗", count: 0,                                  color:"from-sky-500 to-cyan-600" },
           { key:"bundles",         label:"חבילות",    icon:"📦", count: bundles.length,                    color:"from-orange-500 to-red-600" },
           // Profile is moved to the top strip, but we keep a small access tab
           // here so deep-linking still works (e.g. when a banner pushes the user).
@@ -7543,6 +7849,11 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             </div>
           )}
         </div>
+      )}
+
+      {/* ── IMPORT CATALOG tab — CSV upload + Feed URL config ── */}
+      {activeTab === "import-catalog" && (
+        <ImportCatalogPanel supplierId={sid} headers={supplierAuthHeaders} onNotify={onNotify} />
       )}
 
       {/* ── BUNDLES tab — show all bundles (moving home, kitchen, etc.) ── */}
