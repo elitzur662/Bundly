@@ -424,10 +424,19 @@ app.post(
           const pi = charge.payment_intent;
           const refundedAmount = (charge.amount_refunded || 0) / 100;
           console.log(`${logTag} ↳ refunded ₪${refundedAmount} on PI ${pi}`);
+          // BUG FIX (round 3 P0 — ledger corruption): the previous loop
+          // updated EVERY tx with that PI — including the newly-created
+          // type:"refund" row from the admin-dispute branch. Both the
+          // charge AND the refund got flipped to status:"refunded", and
+          // subsequent dedup queries like txs.find(t=>t.type==="charge"
+          // && t.status==="succeeded") returned nothing → re-refund
+          // possible. Restrict the flip to charge rows only; refund row
+          // is already created at status:"succeeded" by the dispute
+          // handler.
           if (_prodDb && pi) {
             const txs = _prodDb.listTransactions?.() || [];
             for (const t of txs) {
-              if (t.paymentIntentId === pi) {
+              if (t.paymentIntentId === pi && t.type === "charge") {
                 _prodDb.updateTransaction?.(t.id, { status: "refunded", refundedAmount, refundedAt: new Date().toISOString() });
               }
             }
@@ -9748,15 +9757,15 @@ function requireSupplierMatch(req, res, next) {
           const matchedId    = String(supplierMatch.id || "").toLowerCase();
           const matchedEmail = String(supplierMatch.email || supplierMatch.contactEmail || "").toLowerCase();
           if (matchedId === wantedLower || matchedEmail === wantedLower) {
-            // KYC gate — only approved suppliers can act on real data.
-            // The public "supplier verification" promise is enforced here:
-            // an unapproved supplier hitting any supplier-scoped endpoint
-            // gets 403 with a clear "pending approval" message.
-            // Pending suppliers can still update their own profile via the
-            // KYC-upload routes (which use a separate, less strict guard).
+            // KYC gate — only EXPLICITLY-APPROVED suppliers can act.
+            // BUG FIX (round 3 P1): previous gate was `if (status && status
+            // !== "approved")` — when status was empty/null (newly-created
+            // supplier before KYC was set), the truthy check skipped, and
+            // the unapproved supplier passed. Now: anything other than
+            // exactly "approved" is rejected.
             const status = (supplierMatch.kycStatus || "").toLowerCase();
-            if (status && status !== "approved") {
-              audit("SUPPLIER_KYC_BLOCKED", req, { supplierId: supplierMatch.id, status });
+            if (status !== "approved") {
+              audit("SUPPLIER_KYC_BLOCKED", req, { supplierId: supplierMatch.id, status: status || "pending" });
               return res.status(403).json({
                 error: "Supplier account pending verification",
                 message: "החשבון שלך עדיין בתהליך אימות. תוכל לפעול בפלטפורמה אחרי שצוות Bundly יאשר את המסמכים.",
@@ -9810,8 +9819,10 @@ function _resolveVerifiedSupplier(req) {
     );
     if (!supplier) return { error: "No supplier registered for this account", code: 403 };
     const status = (supplier.kycStatus || "").toLowerCase();
-    if (status && status !== "approved") {
-      return { error: "Supplier account pending verification", code: 403, kycStatus: status };
+    // BUG FIX (round 3 P1): require explicit "approved" — empty/null no
+    // longer skips the gate.
+    if (status !== "approved") {
+      return { error: "Supplier account pending verification", code: 403, kycStatus: status || "pending" };
     }
     return { supplier, payload };
   } catch (e) {
@@ -10252,10 +10263,19 @@ app.post("/api/auth/demo-supplier-login",
           description: "חשבון להדגמה — נוצר אוטומטית. אינו ספק אמיתי.",
           bankAccount: "",
         });
-        // Approve KYC so requireSupplierMatch / _resolveVerifiedSupplier
-        // accept the demo session.
+      }
+      // ALWAYS ensure kycStatus="approved" on every demo login — self-healing.
+      // BUG FIX (round 3 P1): previously the KYC-approve call was nested
+      // inside `if (!supplier)`. If the first call's updateSupplier failed
+      // silently, the row stayed "pending" forever and every subsequent
+      // demo session got 403 from _resolveVerifiedSupplier — bricking
+      // the demo until the row was manually deleted.
+      if ((supplier?.kycStatus || "").toLowerCase() !== "approved") {
         try { _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" }); }
         catch (_) {}
+        // Re-load to reflect the update before issuing the token.
+        const snap2 = _prodDb.load();
+        supplier = (snap2.suppliers || []).find(s => s.id === supplier.id) || supplier;
       }
       const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "1h", algorithm: "HS256" });
       audit("DEMO_SUPPLIER_LOGIN", req, { userId: user.id, supplierId: supplier.id });
@@ -10561,7 +10581,8 @@ app.patch("/api/personal-requests/:id",
         (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
       );
       if (!verifiedSupplier) return res.status(403).json({ error: "Not registered as a supplier" });
-      if (verifiedSupplier.kycStatus && verifiedSupplier.kycStatus !== "approved") {
+      // BUG FIX (round 3 P1): empty kycStatus must be rejected too.
+      if ((verifiedSupplier.kycStatus || "").toLowerCase() !== "approved") {
         return res.status(403).json({ error: "Supplier account pending KYC approval" });
       }
     } else {
@@ -12360,9 +12381,21 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
 } : notReady);
 
 // Confirm payment succeeded (called after Stripe confirms)
-app.post("/api/orders/:id/confirm-payment", authMiddleware, AUTH_READY ? async (req, res) => {
+//
+// SECURITY (bug-hunt round 3 — P0 free-order): previous version flipped
+// paymentStatus="paid" if Stripe returned status:"succeeded" for the supplied
+// pi_*, with NO check that the PI's metadata.orderId matched THIS order, that
+// the amount matched, or that a matching local charge tx existed. An attacker
+// with any succeeded pi_* id (their own ₪1 charge, or one leaked from a
+// browser network log) could mark ANY of their unpaid orders as paid →
+// free product. Now: rate-limited, _paySvc gated, metadata+amount cross-
+// checked, charge-tx must exist.
+app.post("/api/orders/:id/confirm-payment",
+  rateLimit({ windowMs: 60_000, max: 10, label: "confirm-payment" }),
+  authMiddleware,
+  AUTH_READY ? async (req, res) => {
   try {
-    // IDOR: only the order owner can confirm its payment
+    if (!_paySvc) return res.status(503).json({ error: "Payments unavailable" });
     const existing = _prodDb.getOrder(req.params.id);
     if (!existing) return res.status(404).json({ error: "Not found" });
     if (!ownsResource(req.user, existing, "userId")) {
@@ -12374,12 +12407,31 @@ app.post("/api/orders/:id/confirm-payment", authMiddleware, AUTH_READY ? async (
       return res.status(400).json({ error: "Invalid paymentIntentId" });
     }
     const intent = await _paySvc.retrievePaymentIntent(paymentIntentId);
-    if (intent.status === "succeeded") {
-      _prodDb.updateOrder(req.params.id, { paymentStatus: "paid", status: "confirmed" });
-      const txs = _prodDb.listTransactions({ orderId: req.params.id });
-      const charge = txs.find(t => t.type === "charge" && t.paymentIntentId === paymentIntentId);
-      if (charge) _prodDb.updateTransaction(charge.id, { status: "succeeded" });
+    if (intent.status !== "succeeded") {
+      return res.json({ ok: false, intent, reason: "not-succeeded" });
     }
+    // Cross-check: the PI MUST belong to this order + this user, and the
+    // amount must match. Otherwise reject 403.
+    const piOrderId = String(intent.metadata?.orderId || "");
+    const piUserId  = String(intent.metadata?.userId  || "");
+    const expectedAmount = Math.round(Number(existing.totalAmount || 0) * 100);
+    if (piOrderId !== String(existing.id) || piUserId !== String(req.user.id) || (intent.amount && intent.amount !== expectedAmount)) {
+      audit("CONFIRM_PAYMENT_PI_MISMATCH", req, {
+        orderId: existing.id, claimedPi: paymentIntentId,
+        piOrderId, piUserId, piAmount: intent.amount, expectedAmount,
+      });
+      return res.status(403).json({ error: "PaymentIntent does not match this order" });
+    }
+    // A local charge tx must exist with that PI — otherwise we have no
+    // matching server-side state to confirm.
+    const txs = _prodDb.listTransactions({ orderId: req.params.id });
+    const charge = txs.find(t => t.type === "charge" && t.paymentIntentId === paymentIntentId);
+    if (!charge) {
+      audit("CONFIRM_PAYMENT_NO_TX", req, { orderId: existing.id, claimedPi: paymentIntentId });
+      return res.status(409).json({ error: "No matching charge transaction — cannot confirm" });
+    }
+    _prodDb.updateOrder(req.params.id, { paymentStatus: "paid", status: "confirmed" });
+    _prodDb.updateTransaction(charge.id, { status: "succeeded" });
     res.json({ ok: true, intent });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
@@ -12816,7 +12868,24 @@ app.patch("/api/admin/disputes/:id", adminMiddleware, adminFreshAuth, AUTH_READY
           amount: -charge.amount, type: "refund", status: refund.ok ? "succeeded" : "failed",
           paymentIntentId: charge.paymentIntentId,
         });
-        _prodDb.updateOrder(dispute.orderId, { paymentStatus: "refunded", status: "cancelled" });
+        // BUG FIX (round 3 P0 — false-refund): previously this ran
+        // UNCONDITIONALLY. If Stripe refunded failed (network blip,
+        // already-disputed charge, currency mismatch), the order was
+        // still flipped to paymentStatus="refunded", the customer was
+        // emailed "we refunded you", and the supplier was debited
+        // (chargeback came in later). Now we only flip on real
+        // success — failure surfaces a 502 to the admin so they can
+        // investigate and retry.
+        if (refund.ok) {
+          _prodDb.updateOrder(dispute.orderId, { paymentStatus: "refunded", status: "cancelled" });
+        } else {
+          _refundInFlight.delete(refundLockKey);
+          audit("DISPUTE_REFUND_FAILED", req, { disputeId: dispute.id, error: refund.error });
+          return res.status(502).json({
+            error: "Stripe refund failed — order NOT flipped to refunded",
+            details: refund.error,
+          });
+        }
       }
       _refundInFlight.delete(refundLockKey);
     }
@@ -12965,9 +13034,10 @@ app.get("/api/orders/:orderId/invoice-url", authMiddleware, AUTH_READY ? (req, r
   try {
     const order = _prodDb.getOrder(req.params.orderId);
     if (!order || order.userId !== req.user.id) return res.status(404).json({ error: "Order not found" });
-    // Find the invoice for this order
-    const { readdirSync } = require ? null : null; // ESM-safe lookup below
-    // Scan invoices dir for matching orderId
+    // Scan invoices dir for matching orderId. BUG FIX: was `const { readdirSync } =
+    // require ? null : null` which throws ReferenceError in ESM (no `require`),
+    // making this endpoint return 500 for every caller. dynamic import below
+    // provides fs cleanly.
     import("node:fs").then(fs => {
       const files = fs.readdirSync((process.env.DATA_DIR || process.cwd()) + "/invoices").filter(f => /^\d{4}-\d{6}\.json$/.test(f));
       const match = files.find(f => {

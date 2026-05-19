@@ -2092,8 +2092,19 @@ function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
   const [error, setError] = useState("");
   const f = v => e => setForm(p => ({ ...p, [v]: e.target.value }));
 
+  // BUG FIX (round 3 P0 regression): /api/suppliers/register requires a
+  // hCaptcha token in production (HCAPTCHA_SECRET gates verifyCaptcha to
+  // fail-closed). The previous form did not render the widget or send the
+  // token, so 100% of supplier registrations failed with 403
+  // "אישור אנטי-בוטים נדרש". Now wire the same widget as AuthModal.
+  const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef(null);
+  const resetCaptcha = () => { try { captchaRef.current?.resetCaptcha?.(); } catch {} setCaptchaToken(""); };
+
   const handleSubmit = async () => {
     if (!form.bizName || !form.bizNum || !form.bizContact || !form.bizPhone || !form.bizEmail) { setError(t.fillAll); return; }
+    if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return; }
     setError("");
     try {
       const res = await fetch("/api/suppliers/register", {
@@ -2107,11 +2118,12 @@ function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
           address:        form.bizAddr,
           category:       form.bizCategory,
           description:    form.bizDesc,
+          captchaToken,
         }),
       });
       const data = await res.json();
       if (res.status === 409) throw new Error("המייל הזה כבר רשום במערכת. אם אתה הבעלים של העסק — התחבר במקום להירשם שוב.");
-      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה");
+      if (!res.ok || !data.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה"); }
       // Also keep local pending supplier for legacy OwnerDashboard
       onSubmit?.({ ...form, id: `s${data.supplier.id}`, timestamp: new Date().toISOString(), status: "pending" });
       setSent(true);
@@ -2173,6 +2185,11 @@ function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
               <label className="block text-sm font-medium text-gray-700 mb-1">{t.bizDesc}</label>
               <textarea rows={3} value={form.bizDesc} onChange={f("bizDesc")} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none" />
             </div>
+            {HCAPTCHA_SITE_KEY && (
+              <div className="flex justify-center pt-2">
+                <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
+              </div>
+            )}
             <Btn onClick={handleSubmit} className="w-full" size="lg"><Building2 className="w-4 h-4" />{t.submitSupplier}</Btn>
           </div>
         )}
@@ -2469,13 +2486,14 @@ function LangSelector({ lang, setLang }) {
 function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
-  // Detect supplier-context routes. Covers both the supplier dashboard
-  // (active supplier session) and the supplier landing page (anonymous
-  // visitor exploring "מה Bundly מציעה לספקים"). On either, the navbar
-  // strips out every customer-only affordance (cart, offers, orders,
-  // search, deals, personal-request CTAs) so a supplier-focused area
-  // never bleeds customer notifications.
-  const isSupplierMode = mode === "supplier-dashboard" || mode === "suppliers";
+  // Detect supplier-mode = the supplier dashboard only. The /לספקים
+  // landing page is customer-facing MARKETING — a prospective supplier
+  // browsing it is still also a customer; their cart/notifications/etc
+  // must remain visible. BUG FIX (round 3 P1 regression): a previous
+  // change widened this to include mode==="suppliers", which stripped
+  // the customer navbar (and the #navbar-cart-target needed for the
+  // fly-to-cart animation) from the supplier landing.
+  const isSupplierMode = mode === "supplier-dashboard";
 
   const navItem = (m, icon, label) => (
     <button
@@ -5926,12 +5944,20 @@ function SupplierLoginModal({ onSuccess, onClose }) {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "כניסת הדגמה נכשלה");
       localStorage.setItem("bundly_token", data.token);
+      // BUG FIX (round 3 P1): pass BOTH the supplier object AND the
+      // backing user record so the parent can call setUser too. Without
+      // setUser, `user`-gated UI (profile modal, handleSelectTier
+      // guards, etc) treats the demo session as logged-out even though
+      // the JWT is in localStorage.
       onSuccess?.({
         id:           data.supplier.id,
         name:         data.supplier.businessName,
         businessName: data.supplier.businessName,
         email:        data.supplier.email,
         isDemo:       true,
+        // Attached for the parent to lift onto setUser. The customer
+        // login flow does the equivalent at App.jsx:1684.
+        _demoUser:    { ...data.user, token: data.token },
       });
     } catch (e) {
       setDemoErr(e.message);
@@ -21043,7 +21069,16 @@ export default function App() {
         onClose={()=>setShowSupplier(false)}
       />}
       {showOwnerLogin && <OwnerLoginModal t={t} onSuccess={()=>{setOwnerLoggedIn(true);setShowOwnerLogin(false);setMode("owner");}} onClose={()=>setShowOwnerLogin(false)} />}
-      {showSupplierLogin && <SupplierLoginModal onSuccess={acc=>{setCurrentSupplier(acc);setShowSupplierLogin(false);setMode("supplier-dashboard");}} onClose={()=>setShowSupplierLogin(false)} />}
+      {showSupplierLogin && <SupplierLoginModal onSuccess={acc=>{
+        setCurrentSupplier(acc);
+        // BUG FIX (round 3): lift the demo user onto setUser so user-
+        // gated flows see the session as logged-in. Real (non-demo)
+        // supplier login goes through the main customer login flow,
+        // which already calls setUser there.
+        if (acc?._demoUser) setUser(acc._demoUser);
+        setShowSupplierLogin(false);
+        setMode("supplier-dashboard");
+      }} onClose={()=>setShowSupplierLogin(false)} />}
 
       {selectedPool && (
         <DemandPoolPage
