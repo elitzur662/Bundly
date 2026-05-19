@@ -108,14 +108,22 @@ export async function captureManualPayment({ paymentIntentId, amount = null, ide
  * Release / cancel a held authorization (called when group fails to fill).
  * Returns the held funds to the customer's bank within 7 days.
  */
-export async function cancelPaymentIntent({ paymentIntentId, reason = "abandoned" }) {
+export async function cancelPaymentIntent({ paymentIntentId, reason = "abandoned", idempotencyKey = null }) {
   if (!STRIPE_READY) {
     console.log(`[payment] STUB cancel ${paymentIntentId} (${reason})`);
     return { ok: true, stub: true, status: "canceled" };
   }
   const stripe = await _getStripe();
   if (!stripe) return { ok: false };
-  const intent = await stripe.paymentIntents.cancel(paymentIntentId, { cancellation_reason: reason });
+  // BUG FIX (round 3 P1): forward idempotencyKey so double-click /
+  // retry doesn't hit Stripe's "payment_intent_unexpected_state" on the
+  // second call (which would surface to caller as ok:false and leave
+  // the DB in `held` while Stripe is actually canceled).
+  const intent = await stripe.paymentIntents.cancel(
+    paymentIntentId,
+    { cancellation_reason: reason },
+    idempotencyKey ? { idempotencyKey } : undefined,
+  );
   return { ok: true, status: intent.status };
 }
 

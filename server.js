@@ -5116,10 +5116,19 @@ ${resultsSummary}
     if (finalProducts) send({ type: "final", products: finalProducts });
     send({ type: "done", total: (finalProducts||[]).length });
     res.end();
+    closed = true;  // mark closed so the catch below can't double-end
 
   } catch (err) {
     console.error("Stream search error:", err.message);
-    if (!closed) { send({ type: "error", message: err.message }); res.end(); }
+    // BUG FIX (round 3 P0): res.end() was being called twice when an
+    // error fired AFTER the success-path res.end(). `closed` only
+    // tracked client aborts (req.on("close")), not server-side ends,
+    // so we sent another payload and called end() → ERR_HTTP_HEADERS_SENT
+    // → unhandledRejection. Now also check res.writableEnded.
+    if (!closed && !res.writableEnded) {
+      try { send({ type: "error", message: err.message }); } catch {}
+      try { res.end(); } catch {}
+    }
   }
 });
 
@@ -7694,6 +7703,24 @@ const ZAP_PRICES_CACHE    = new Map();
 const ZAP_PRICES_TTL_MS   = 12 * 60 * 60 * 1000; // 12 hours (nightly refresh keeps fresh)
 const PREWARM_PRICES_PER_CAT = 200;
 
+// BUG FIX (round 3 P0 memory leak): TTL was enforced only at read time —
+// entries that were never re-read sat in RAM forever. With ~thousands of
+// model price entries pre-loaded on boot + 4K/day from trickle, RSS grew
+// until Render restarted the dyno. Active purger every 30 min.
+setInterval(() => {
+  const now = Date.now();
+  try {
+    for (const [k, v] of ZAP_PRICES_CACHE) {
+      if (!v?.ts || (now - v.ts) > ZAP_PRICES_TTL_MS) ZAP_PRICES_CACHE.delete(k);
+    }
+  } catch {}
+  try {
+    for (const [k, v] of ZAP_CAT_CACHE) {
+      if (!v?.ts || (now - v.ts) > ZAP_CAT_TTL_MS) ZAP_CAT_CACHE.delete(k);
+    }
+  } catch {}
+}, 30 * 60_000).unref?.();
+
 // Populate ZAP_PRICES_CACHE (L1) from JSON store on startup so prewarm can skip fresh models.
 // ONE-TIME MIGRATION: purge poisoned entries from the trickle KSP fuzzy
 // fallback (pre-0.8-threshold). Those were saved with `title` copied from a
@@ -9851,6 +9878,28 @@ function _checkAnonRate(req) {
   // 60 requests / minute per IP across all anon endpoints
   return rec.count <= 60;
 }
+// BUG FIX (round 3 P0 memory leak): _anonBucket / _otpFailures /
+// _personalReqDaily were keyed on IP+phone with no purge. Render
+// 512MB tier would crawl after ~1K unique IPs/day. Add a single
+// purger that drops expired entries every 2 hours and caps map size.
+setInterval(() => {
+  const now = Date.now();
+  const CAP = 10000;
+  const purgeOne = (map, getExpiry) => {
+    for (const [k, v] of map) {
+      const exp = getExpiry(v);
+      if (exp && exp < now) map.delete(k);
+    }
+    if (map.size > CAP) {
+      const overage = map.size - CAP;
+      let i = 0;
+      for (const k of map.keys()) { if (i++ >= overage) break; map.delete(k); }
+    }
+  };
+  try { purgeOne(_anonBucket, v => v?.resetAt); } catch {}
+  try { if (typeof _otpFailures !== "undefined") purgeOne(_otpFailures, v => v?.lockedUntil || 0); } catch {}
+  try { if (typeof _personalReqDaily !== "undefined") purgeOne(_personalReqDaily, v => v?.resetAt); } catch {}
+}, 2 * 60 * 60_000).unref?.();
 function requireUserMatchOrAnon(req, res, next) {
   const userIdParam = req.params.userId;
   if (!userIdParam) return res.status(400).json({ error: "Missing userId" });
@@ -10597,6 +10646,24 @@ app.patch("/api/personal-requests/:id",
     // Pin the supplier identity to the verified record — ignore body fields.
     const verifiedName = verifiedSupplier.businessName || verifiedSupplier.name || "ספק מאומת";
     const verifiedId   = verifiedSupplier.id;
+    // BUG FIX (round 3 P1): the non-offer status branch previously accepted
+    // ANY string. A rival supplier could PATCH `{status:"rejected"}` to flip
+    // a competitor's open request to rejected — customer's UI showed
+    // "request rejected" though they never declined. Now: only allow the
+    // current offering supplier to set "withdrawn", and only from offered.
+    let allowedStatusUpdate = null;
+    if (status && !isOffer) {
+      const isOwner = String(existing.offerSupplierId || "") === String(verifiedId);
+      if (status === "withdrawn" && isOwner && existing.status === "offered") {
+        allowedStatusUpdate = "withdrawn";
+      } else {
+        audit("PERSONAL_REQ_STATUS_BLOCKED", req, {
+          requestId: id, attempted: status, supplierId: verifiedId,
+          isOwner, currentStatus: existing.status,
+        });
+        return res.status(403).json({ error: "Cannot mutate request status from this account" });
+      }
+    }
     const updated = updatePersonalRequest(id, {
       ...(isOffer && {
         offerPrice:      Number(offerPrice),
@@ -10605,7 +10672,7 @@ app.patch("/api/personal-requests/:id",
         offerAt:         new Date().toISOString(),
         status:          "offered",
       }),
-      ...(status && !isOffer && { status }),
+      ...(allowedStatusUpdate && { status: allowedStatusUpdate }),
     });
     if (!updated) return res.status(404).json({ error: "Request not found" });
 
@@ -11056,6 +11123,7 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
     const result = await _paySvc.cancelPaymentIntent({
       paymentIntentId: preauth.paymentIntentId,
       reason: req.body?.reason || "abandoned",
+      idempotencyKey: `release-preauth-${order.id}`,
     });
     if (!result || !result.ok) {
       audit("RELEASE_PREAUTH_FAILED", req, { orderId, intentId: preauth.paymentIntentId });
@@ -12152,11 +12220,13 @@ app.post("/api/deals/:id/hold-spot", authMiddleware, AUTH_READY ? async (req, re
 } : notReady);
 
 // POST /api/deals/:id/commit-deposit — was: 25% hold. Now: save card for free.
-app.post("/api/deals/:id/commit-deposit", AUTH_READY ? async (req, res) => {
+// BUG FIX (round 3 P1): inline jwt.verify never consulted isJwtRevoked nor
+// blocked admin tokens. Switched to authMiddleware which already enforces
+// both. Eliminates the auth-bypass after logout that the inline path
+// inherited.
+app.post("/api/deals/:id/commit-deposit", authMiddleware, AUTH_READY ? async (req, res) => {
   const dealId = req.params.id;
-  let userId = null;
-  const tok = req.headers.authorization?.replace("Bearer ", "");
-  if (tok) { try { userId = jwt.verify(tok, JWT_SECRET, JWT_OPTS).id; } catch {} }
+  const userId = req.user.id;
   if (!userId) return res.status(401).json({ error: "Auth required for commit-deposit" });
   const lockKey = `commit:${dealId}:${userId}`;
   if (_depositInFlight.has(lockKey)) return res.status(409).json({ error: "Request already in progress" });
@@ -12257,7 +12327,11 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
     if (!join.paymentMethodId || !join.stripeCustomerId) {
       return res.status(400).json({ error: "אין כרטיס שמור — חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
     }
-    if (join.chargedAt) return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+    // Only short-circuit if the charge actually completed. Pending 3DS
+    // leaves chargedAt null so the user can retry.
+    if (join.chargedAt && join.chargeStatus === "succeeded") {
+      return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
+    }
 
     // SECURITY (red-team round 2 — H-R2-5): deals must be CLOSED before we
     // charge the off-session card. Without this gate, a customer (or a
@@ -12350,12 +12424,37 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
 
     if (!charge.ok) return res.status(402).json({ error: charge.error, code: charge.code });
 
-    _prodDb.updateJoinedDealPayment?.(userId, dealId, {
-      chargedAt:       new Date().toISOString(),
-      lastChargeTxId:  tx?.id || null,
-      lastPaymentIntentId: charge.paymentIntentId,
-      chargeStatus:    charge.status,
-    });
+    // BUG FIX (round 3 P1 — 3DS silent free order): a charge that needs
+    // 3DS comes back ok:true status:"requires_action" with no money
+    // moved. Previous code stamped chargedAt regardless, so the early-
+    // return guard at the top of this handler ("if (join.chargedAt)
+    // return alreadyCharged:true") prevented any retry — user closed
+    // the 3DS tab, supplier shipped, customer was never billed.
+    // Now we only stamp chargedAt on actual succeeded charges. For
+    // requires_action we store the nextActionUrl so the frontend can
+    // surface a "complete 3DS" CTA.
+    if (charge.status === "succeeded") {
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        chargedAt:       new Date().toISOString(),
+        lastChargeTxId:  tx?.id || null,
+        lastPaymentIntentId: charge.paymentIntentId,
+        chargeStatus:    charge.status,
+      });
+    } else {
+      // 3DS in progress / other non-final state.
+      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
+        lastChargeTxId:      tx?.id || null,
+        lastPaymentIntentId: charge.paymentIntentId,
+        chargeStatus:        charge.status,
+        chargeNextActionUrl: charge.nextActionUrl || null,
+      });
+      return res.json({
+        ok:           true,
+        requiresAction: true,
+        nextActionUrl: charge.nextActionUrl || null,
+        status:       charge.status,
+      });
+    }
 
     try {
       logActivity("deal_charge_confirmed", {

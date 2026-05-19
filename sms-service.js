@@ -71,11 +71,13 @@ export async function sendOtpSms(phone, code) {
 export async function sendPriceDropSms(phone, { productName, newPrice }) {
   const client = getClient();
   if (!client || !phone) return;
-  await client.messages.create({
-    body: `📉 Bundly: ${productName} ירד ל-₪${newPrice.toLocaleString()}! פתח האפליקציה לפרטים.`,
-    from: process.env.TWILIO_FROM,
-    to:   normalizePhone(phone),
-  });
+  try {
+    await client.messages.create({
+      body: `📉 Bundly: ${productName} ירד ל-₪${newPrice.toLocaleString()}! פתח האפליקציה לפרטים.`,
+      from: process.env.TWILIO_FROM,
+      to:   normalizePhone(phone),
+    });
+  } catch (e) { console.warn("[SMS] price-drop failed:", e.message); }
 }
 
 // ── Supplier Offer SMS ────────────────────────────────────────────
@@ -122,9 +124,11 @@ export async function sendOrderStatusSms(phone, { orderId, productName, status, 
 export async function sendDealActivatedSms(phone, { productName, participants }) {
   const client = getClient();
   if (!client || !phone) return;
-  await client.messages.create({
-    body: `✅ Bundly: הדיל "${productName}" הופעל! ${participants} משתתפים. פתח האפליקציה לפרטים.`,
-    from: process.env.TWILIO_FROM,
-    to:   normalizePhone(phone),
-  });
+  try {
+    await client.messages.create({
+      body: `✅ Bundly: הדיל "${productName}" הופעל! ${participants} משתתפים. פתח האפליקציה לפרטים.`,
+      from: process.env.TWILIO_FROM,
+      to:   normalizePhone(phone),
+    });
+  } catch (e) { console.warn("[SMS] deal-activated failed:", e.message); }
 }

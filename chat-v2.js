@@ -18,6 +18,17 @@ import { fileURLToPath } from "node:url";
 const __dir = dirname(fileURLToPath(import.meta.url));
 const TICKETS_FILE = join(__dir, "tickets.json");
 
+// Module-scope singleton — was being re-instantiated on every request,
+// leaking sockets / Undici dispatchers under chat load (bug-hunt round 3 P1).
+// Lazy-init so module load doesn't throw when OPENAI_API_KEY is unset.
+let _openaiClient = null;
+function _getOpenAI() {
+  if (_openaiClient) return _openaiClient;
+  if (!process.env.OPENAI_API_KEY) return null;
+  _openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return _openaiClient;
+}
+
 const MODEL = process.env.CHAT_MODEL || "gpt-4o-mini";
 const MAX_USER_MSG = 500;     // chars
 const MAX_HISTORY  = 10;      // messages
@@ -380,7 +391,10 @@ export function registerChatV2(app, deps) {
         { role: "user", content: `<user_message>${userMsg}</user_message>` },
       ];
 
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openai = _getOpenAI();
+      if (!openai) {
+        return res.status(503).json({ error: "AI assistant unavailable" });
+      }
       const ctx = { userId };
 
       // Phase 1: tool-calling loop. NO response_format here — strict json_schema
