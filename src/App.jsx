@@ -7,7 +7,7 @@ import {
   MapPin, X, Eye, EyeOff, Shield, ArrowLeft, Clock, TrendingDown, TrendingUp,
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
   BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, User,
-  SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu
+  SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { findDealForProduct, productNamesMatch } from "./dealMatch.js";
@@ -23,6 +23,7 @@ import { makeTiers, activeTier, nextTier, getDealStatus, getAlternatives } from 
 import BundlySpinner from "./components/common/BundlySpinner.jsx";
 import BundlyRoadLoader from "./components/common/BundlyRoadLoader.jsx";
 import AccessibilityWidget from "./components/common/AccessibilityWidget.jsx";
+import { flyToCart } from "./animations/flyToCart.js";
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -1216,9 +1217,10 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
     setSuccessType(null);
   };
 
-  const handleJoinPool = () => {
-    if (onDirectJoinPool) onDirectJoinPool(catIdx, productName);
-    else onAddToPool?.(catIdx, productName);
+  const handleJoinPool = (e) => {
+    const srcEl = e?.currentTarget || null;
+    if (onDirectJoinPool) onDirectJoinPool(catIdx, productName, srcEl);
+    else onAddToPool?.(catIdx, productName, srcEl);
     setSuccessType("pool");
   };
 
@@ -2464,9 +2466,17 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, unreadOffersCount = 0, activeOrdersCount = 0 }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
+  // Detect supplier-context routes. Covers both the supplier dashboard
+  // (active supplier session) and the supplier landing page (anonymous
+  // visitor exploring "מה Bundly מציעה לספקים"). On either, the navbar
+  // strips out every customer-only affordance (cart, offers, orders,
+  // search, deals, personal-request CTAs) so a supplier-focused area
+  // never bleeds customer notifications.
+  const isSupplierMode = mode === "supplier-dashboard" || mode === "suppliers";
+
   const navItem = (m, icon, label) => (
     <button
       onClick={() => setMode(m)}
@@ -2495,32 +2505,57 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             style={{ background: "linear-gradient(135deg, #9333ea, #c026d3)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             {BRAND_NAME}
           </span>
+          {isSupplierMode && (
+            <span className="hidden sm:inline-flex items-center gap-1 mr-2 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold border border-indigo-100">
+              <Building2 className="w-3 h-3" />
+              אזור הספק
+            </span>
+          )}
         </button>
 
         <div className="flex-1" />
 
-        {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {navItem("search", <Search className="w-4 h-4" />, t.navSearch)}
-          {navItem("deals", <Tag className="w-4 h-4" />, t.activeGroups)}
-          {navItem("personal", <Send className="w-4 h-4" />, t.personalRequest)}
-          {/* External link — opens the static how-it-works page in a new tab.
-              Visible on desktop and the mobile dropdown (see below). */}
-          <a
-            href="/how-it-works.html"
-            target="_blank"
-            rel="noopener"
-            className="how-it-works-pulse flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 transition-all shadow-md shadow-violet-300/50 border border-violet-400/30"
-            title="איך זה עובד?"
-          >
-            <Sparkles className="w-4 h-4 animate-pulse" />
-            <span className="font-black">איך זה עובד?</span>
-          </a>
-          {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
-        </div>
+        {/* Desktop nav — supplier vs customer */}
+        {isSupplierMode ? (
+          /* SUPPLIER nav: business name + clean exit. No customer pages. */
+          <div className="hidden md:flex items-center gap-2">
+            {currentSupplier?.businessName && (
+              <span className="text-sm font-bold text-gray-700 px-3 py-2 rounded-xl bg-gray-50">
+                {currentSupplier.businessName}
+              </span>
+            )}
+            <button
+              onClick={() => onGoHome ? onGoHome() : setMode("home")}
+              title="חזרה לאתר הלקוחות"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-gray-500 hover:text-gray-900 hover:bg-gray-50/80 transition-all"
+            >
+              <Home className="w-4 h-4" />
+              <span>חזרה לאתר</span>
+            </button>
+          </div>
+        ) : (
+          /* CUSTOMER nav: search, deals, personal request, suppliers CTA. */
+          <div className="hidden md:flex items-center gap-1">
+            {navItem("search", <Search className="w-4 h-4" />, t.navSearch)}
+            {navItem("deals", <Tag className="w-4 h-4" />, t.activeGroups)}
+            {navItem("personal", <Send className="w-4 h-4" />, t.personalRequest)}
+            <a
+              href="/how-it-works.html"
+              target="_blank"
+              rel="noopener"
+              className="how-it-works-pulse flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 transition-all shadow-md shadow-violet-300/50 border border-violet-400/30"
+              title="איך זה עובד?"
+            >
+              <Sparkles className="w-4 h-4 animate-pulse" />
+              <span className="font-black">איך זה עובד?</span>
+            </a>
+            {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
+          </div>
+        )}
 
         <div className="flex items-center gap-2">
-          {user && (
+          {/* CUSTOMER-only action icons (cart, offers, orders) — hidden in supplier mode */}
+          {!isSupplierMode && user && (
             <>
               <button onClick={() => setMode("offers")} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="ההצעות שלי">
                 <Mail className="w-5 h-5 text-gray-600" />
@@ -2540,13 +2575,14 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </button>
             </>
           )}
-          {/* Cart icon — always visible with red badge */}
-          <button onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="השמורים שלי">
-            <ShoppingCart className="w-5 h-5 text-gray-600" />
-            <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm">
-              {savedCount}
-            </span>
-          </button>
+          {!isSupplierMode && (
+            <button id="navbar-cart-target" onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="השמורים שלי">
+              <ShoppingCart className="w-5 h-5 text-gray-600" />
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm">
+                {savedCount}
+              </span>
+            </button>
+          )}
           <div className="hidden sm:block"><LangSelector lang={lang} setLang={setLang} /></div>
           {user ? (
             <div className="flex items-center gap-2">
@@ -2612,34 +2648,52 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </button>
             </div>
             <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-              {/* Primary navigation */}
-              {[
-                { m: "search",    icon: <Search className="w-5 h-5" />,     label: t.navSearch },
-                { m: "deals",     icon: <Tag className="w-5 h-5" />,        label: t.activeGroups },
-                { m: "personal",  icon: <Send className="w-5 h-5" />,       label: t.personalRequest },
-                { m: "suppliers", icon: <Building2 className="w-5 h-5" />,  label: "לספקים", highlight: true },
-              ].map(({ m, icon, label, highlight }) => (
-                <button key={m} onClick={() => { closeMenu(); setMode(m); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition min-h-[44px] ${
-                    mode === m
-                      ? "bg-indigo-50 text-indigo-700"
-                      : highlight
-                        ? "text-emerald-700 bg-emerald-50/50 hover:bg-emerald-50 border border-emerald-100"
-                        : "text-gray-600 hover:bg-gray-50"
-                  }`}>
-                  {icon}{label}
-                </button>
-              ))}
-              {/* "How it works" — opens a new tab, doesn't change mode. */}
-              <a
-                href="/how-it-works.html"
-                target="_blank"
-                rel="noopener"
-                onClick={closeMenu}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 border border-violet-100 hover:bg-violet-100 min-h-[44px]"
-              >
-                <Sparkles className="w-5 h-5" />איך זה עובד?
-              </a>
+              {/* Primary navigation — branches on supplier vs customer mode
+                  so the supplier doesn't see customer pages cluttering the
+                  drawer (and vice-versa). */}
+              {isSupplierMode ? (
+                <>
+                  {currentSupplier?.businessName && (
+                    <div className="px-4 py-3 rounded-xl bg-indigo-50 border border-indigo-100 mb-2">
+                      <p className="text-[10px] font-bold text-indigo-500 uppercase tracking-wider mb-0.5">אזור הספק</p>
+                      <p className="text-sm font-black text-indigo-900">{currentSupplier.businessName}</p>
+                    </div>
+                  )}
+                  <button onClick={() => { closeMenu(); onGoHome ? onGoHome() : setMode("home"); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
+                    <Home className="w-5 h-5" />חזרה לאתר הלקוחות
+                  </button>
+                </>
+              ) : (
+                <>
+                  {[
+                    { m: "search",    icon: <Search className="w-5 h-5" />,     label: t.navSearch },
+                    { m: "deals",     icon: <Tag className="w-5 h-5" />,        label: t.activeGroups },
+                    { m: "personal",  icon: <Send className="w-5 h-5" />,       label: t.personalRequest },
+                    { m: "suppliers", icon: <Building2 className="w-5 h-5" />,  label: "לספקים", highlight: true },
+                  ].map(({ m, icon, label, highlight }) => (
+                    <button key={m} onClick={() => { closeMenu(); setMode(m); }}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition min-h-[44px] ${
+                        mode === m
+                          ? "bg-indigo-50 text-indigo-700"
+                          : highlight
+                            ? "text-emerald-700 bg-emerald-50/50 hover:bg-emerald-50 border border-emerald-100"
+                            : "text-gray-600 hover:bg-gray-50"
+                      }`}>
+                      {icon}{label}
+                    </button>
+                  ))}
+                  <a
+                    href="/how-it-works.html"
+                    target="_blank"
+                    rel="noopener"
+                    onClick={closeMenu}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-violet-700 bg-violet-50 border border-violet-100 hover:bg-violet-100 min-h-[44px]"
+                  >
+                    <Sparkles className="w-5 h-5" />איך זה עובד?
+                  </a>
+                </>
+              )}
 
               {/* User-specific links */}
               {user && (
@@ -4406,11 +4460,11 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
     }
     return (
       <div className="flex items-center gap-2">
-        <button onClick={() => onSelectTier("committed")}
+        <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
           הגשת הזמנה לסבב
         </button>
-        <button onClick={() => onSelectTier("interested")}
+        <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
           className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
           עדכונים
         </button>
@@ -4458,7 +4512,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
           </div>
         </div>
         {/* Upgrade to formal order */}
-        <button onClick={() => onSelectTier("committed")}
+        <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
           <span>הגשת הזמנה רשמית לסבב</span>
           <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
@@ -4497,7 +4551,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
 
       {/* Primary action — formal submission */}
       <button
-        onClick={() => onSelectTier("committed")}
+        onClick={(e) => onSelectTier("committed", e.currentTarget)}
         className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
       >
         <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
@@ -4570,7 +4624,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
         />
         {/* Wishlist */}
         <button
-          onClick={e => { e.stopPropagation(); onWishlist(deal.id); }}
+          onClick={e => { e.stopPropagation(); onWishlist(deal.id, e.currentTarget); }}
           className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-sm border transition-all ${
             wishlisted
               ? "bg-red-500 border-red-500 text-white scale-105"
@@ -4815,7 +4869,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     }
   }, [user]);
 
-  const handleSelectTier = (tier) => {
+  const handleSelectTier = (tier, sourceEl = null) => {
     if (!user) {
       pendingTierRef.current = tier;
       if (notify) notify("עליך להתחבר קודם");
@@ -4824,7 +4878,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       return;
     }
     if (tier === "interested") {
-      onJoin(deal.id, tier);
+      onJoin(deal.id, tier, sourceEl);
       setJoinedTier(tier);
       return;
     }
@@ -5179,7 +5233,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 הסכום מקוזז מהמחיר הסופי בהגשת הזמנה רשמית, או מוחזר במלואו אם הסבב לא ייסגר.
               </p>
               <button
-                onClick={() => handleSelectTier("committed")}
+                onClick={(e) => handleSelectTier("committed", e.currentTarget)}
                 className="mt-3 w-full py-2.5 bg-white text-indigo-700 hover:bg-indigo-50 font-black rounded-xl text-xs shadow active:scale-[0.98] transition flex items-center justify-center gap-1.5">
                 הגשת הזמנה רשמית — נעילת מחיר ₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}
               </button>
@@ -17878,7 +17932,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
             </div>
           ) : (
             <button
-              onClick={() => { setJoined(true); onJoin?.(bundle); }}
+              onClick={(e) => { setJoined(true); onJoin?.(bundle, e.currentTarget); }}
               className="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black rounded-2xl text-sm transition shadow-lg shadow-indigo-200/50 active:scale-[0.98] flex items-center justify-center gap-2"
             >
               <Package className="w-4 h-4" />
@@ -20150,12 +20204,21 @@ export default function App() {
       .catch(() => {});
   }, [user?.id]);
 
-  const addToMyProducts = async (product, fullResult) => {
+  const addToMyProducts = async (product, fullResult, sourceEl) => {
     const key = (product.name || product.productName || "").toLowerCase();
+    let alreadySaved = false;
     setMyProducts(prev => {
-      if (prev.some(p => (p.name || p.productName || "").toLowerCase() === key)) return prev;
+      if (prev.some(p => (p.name || p.productName || "").toLowerCase() === key)) {
+        alreadySaved = true;
+        return prev;
+      }
       return [...prev, { ...product, addedAt: Date.now(), _cachedResult: fullResult || null }];
     });
+    // Visual fly-to-cart feedback — only when the product is newly added and
+    // we have a source element to fly from. Purely decorative, never blocks.
+    if (sourceEl && !alreadySaved) {
+      try { flyToCart(sourceEl); } catch {}
+    }
     // Sync to server if logged in
     const token = user?.token || localStorage.getItem("bundly_token");
     if (!token) return;
@@ -20207,17 +20270,23 @@ export default function App() {
     return (!searchQ || name.includes(searchQ.toLowerCase())) && (catFilter === null || d.catIdx === catFilter);
   });
 
-  const handleWishlist = id => {
+  const handleWishlist = (id, sourceEl) => {
+    let added = false;
     setWishlist(p => {
-      const next = p.includes(id) ? p.filter(x => x !== id) : [...p, id];
+      added = !p.includes(id);
+      const next = added ? [...p, id] : p.filter(x => x !== id);
       // Persist locally so the wishlist survives page refresh
       try { localStorage.setItem("bundly_wishlist", JSON.stringify(next)); } catch {}
       return next;
     });
     const d = deals.find(x => x.id === id);
     if (d) trackEvent({ type: "wishlist", dealId: d.id, productName: d.name?.he || d.productName, category: d.catName || d.category, brand: d.brand, price: d.groupOffer || d.marketMin });
+    // Only animate on ADD — un-wishlisting shouldn't fling anything to the cart.
+    if (added && sourceEl) {
+      try { flyToCart(sourceEl); } catch {}
+    }
   };
-  const handleJoin = (id, tier = "committed") => {
+  const handleJoin = (id, tier = "committed", sourceEl = null) => {
     // Login gate for ALL tiers — even "interested"/"watching" need a user
     // identity so we can notify them when the deal moves, and so the count
     // we show isn't gameable by anonymous spam clicks.
@@ -20253,7 +20322,7 @@ export default function App() {
     notify(tierMsg);
     // Save to "המוצרים שלי"
     const deal = deals.find(d => d.id === id);
-    if (deal) addToMyProducts({ name: deal.name?.he || deal.name?.en, image: deal.image, tier, action: "joined_deal", catIdx: deal.catIdx, price: deal.groupOffer || deal.marketMin });
+    if (deal) addToMyProducts({ name: deal.name?.he || deal.name?.en, image: deal.image, tier, action: "joined_deal", catIdx: deal.catIdx, price: deal.groupOffer || deal.marketMin }, null, sourceEl);
   };
   const handleCancelBid = async (dealId, bidId, supplierId, reason) => {
     // Capture the pre-cancellation snapshot so we can roll back if the
@@ -20627,7 +20696,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, unreadOffersCount, activeOrdersCount };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, unreadOffersCount, activeOrdersCount, currentSupplier };
 
   // ── Query disambiguation: some generic queries need sub-category selection first ──
   const _DISAMBIG_TOASTER = {
@@ -20838,7 +20907,7 @@ export default function App() {
           onBack={closeCategory}
           onReSearch={openCategory}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-          onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); }}
+          onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); }}
           onRequestSupplierPrice={handleRequestSupplierPrice}
           demandPools={demandPools}
           initialFilters={categoryInitialFilters}
@@ -20855,7 +20924,7 @@ export default function App() {
             onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); setCategoryQuery(null); }}
             onBack={() => setSearchResult(null)}
             onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-            onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+            onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
             onRequestSupplierPrice={handleRequestSupplierPrice}
             demandPools={demandPools}
             onGoHome={goHome}
@@ -20962,7 +21031,7 @@ export default function App() {
           onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
           onBack={null}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-          onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+          onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
           onRequestSupplierPrice={handleRequestSupplierPrice}
           demandPools={demandPools}
           onGoHome={goHome}
@@ -20979,7 +21048,7 @@ export default function App() {
           bundle={selectedBundle}
           isSaved={savedBundles.includes(selectedBundle.id)}
           onClose={() => setSelectedBundle(null)}
-          onJoin={(bundle) => {
+          onJoin={(bundle, sourceEl) => {
             addToMyProducts({
               name: bundle.title,
               image: bundle.products[0]?.image || "",
@@ -20987,7 +21056,7 @@ export default function App() {
               action: "joined_deal",
               catIdx: bundle.catIdx,
               price: bundle.bundlePrice,
-            });
+            }, null, sourceEl);
             notify(`✅ הצטרפת לחבילה: ${bundle.title}`);
           }}
           onSave={(bundle, isSaved) => {
@@ -21451,7 +21520,7 @@ export default function App() {
               onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
               onBack={() => setSearchResult(null)}
               onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-              onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
+              onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
               onRequestSupplierPrice={handleRequestSupplierPrice}
               demandPools={demandPools}
               onGoHome={goHome}
