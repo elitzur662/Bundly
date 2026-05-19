@@ -19898,8 +19898,16 @@ export default function App() {
   // event for, POST /api/deals/:id/close so the server can fire winner /
   // runner-up / cancellation notifications. Prevents the same deal from
   // being closed twice via a Set ref.
+  //
+  // BUG FIX: /api/deals/:id/close requires adminMiddleware. Anonymous
+  // customers were spamming it with 401s on every page load (visible in
+  // console: "POST /api/deals/10/close 401"). Gated on the presence of
+  // an admin token in localStorage — the server-side cron handles
+  // deal-close for regular users.
   const _closedDealsRef = useRef(new Set());
   useEffect(() => {
+    const adminTok = _safeLS("bundly_admin_token");
+    if (!adminTok) return;  // only the admin client fires this
     const tick = () => {
       const now = Date.now();
       (deals || []).forEach(d => {
@@ -19915,7 +19923,7 @@ export default function App() {
         }
         fetch(`/api/deals/${encodeURIComponent(d.id)}/close`, {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${adminTok}` },
           body:    JSON.stringify({
             participants:    d.participants    || 0,
             minParticipants: d.minParticipants || 0,
