@@ -10297,12 +10297,15 @@ app.post("/api/auth/demo-supplier-login",
         firstName: "ספק",
         lastName: "הדגמה",
       });
-      // 2) Make sure the supplier record exists + KYC-approved so
-      //    _resolveVerifiedSupplier accepts it.
-      const snap = _prodDb.load();
-      let supplier = (snap.suppliers || []).find(
-        s => (s.email || "").toLowerCase() === demoEmail
-      );
+      // 2) Make sure the supplier record exists + KYC-approved.
+      // BUG FIX (round 4 P0): the prior version called `_prodDb.load()` —
+      // but db.js only exports its typed CRUD helpers; `load` is a private
+      // module-level function and was undefined on the imported namespace.
+      // Use `getSupplierByEmail` / `listSuppliers` / `updateSupplier`
+      // instead (all properly exported).
+      let supplier = _prodDb.getSupplierByEmail
+        ? _prodDb.getSupplierByEmail(demoEmail)
+        : (_prodDb.listSuppliers?.() || []).find(s => (s.email || "").toLowerCase() === demoEmail);
       if (!supplier) {
         supplier = _prodDb.createSupplier({
           businessName: "ספק הדגמה — Bundly Demo",
@@ -10317,17 +10320,15 @@ app.post("/api/auth/demo-supplier-login",
         });
       }
       // ALWAYS ensure kycStatus="approved" on every demo login — self-healing.
-      // BUG FIX (round 3 P1): previously the KYC-approve call was nested
-      // inside `if (!supplier)`. If the first call's updateSupplier failed
-      // silently, the row stayed "pending" forever and every subsequent
-      // demo session got 403 from _resolveVerifiedSupplier — bricking
-      // the demo until the row was manually deleted.
       if ((supplier?.kycStatus || "").toLowerCase() !== "approved") {
-        try { _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" }); }
-        catch (_) {}
-        // Re-load to reflect the update before issuing the token.
-        const snap2 = _prodDb.load();
-        supplier = (snap2.suppliers || []).find(s => s.id === supplier.id) || supplier;
+        try {
+          const updated = _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" });
+          if (updated) supplier = updated;
+          else supplier = { ...supplier, kycStatus: "approved" };
+        } catch (e) {
+          console.warn("[demo-supplier-login] kyc update failed:", e.message);
+          supplier = { ...supplier, kycStatus: "approved" };  // best effort for response
+        }
       }
       const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "1h", algorithm: "HS256" });
       audit("DEMO_SUPPLIER_LOGIN", req, { userId: user.id, supplierId: supplier.id });
