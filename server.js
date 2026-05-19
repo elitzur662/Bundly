@@ -10281,7 +10281,10 @@ app.post("/api/auth/demo-supplier-login",
   rateLimit({ windowMs: 60_000, max: 10, label: "demo-supplier-login" }),
   AUTH_READY ? (req, res) => {
     if (process.env.ALLOW_DEMO_SUPPLIER !== "true") {
-      return res.status(403).json({ error: "Demo supplier login disabled" });
+      return res.status(403).json({ error: "Demo supplier login disabled — set ALLOW_DEMO_SUPPLIER=true in env + restart" });
+    }
+    if (!upsertUser || !_prodDb || typeof _prodDb.createSupplier !== "function") {
+      return res.status(503).json({ error: "DB not ready — upsertUser or _prodDb.createSupplier missing" });
     }
     try {
       const demoPhone = "+972500000000";
@@ -10346,8 +10349,11 @@ app.post("/api/auth/demo-supplier-login",
         demo:     true,
       });
     } catch (e) {
-      console.error("[demo-supplier-login] error:", e.message);
-      res.status(500).json({ error: "Demo login failed" });
+      console.error("[demo-supplier-login] error:", e.message, e.stack);
+      // BUG FIX: surface the actual error message so the founder can
+      // debug live during the supplier meeting. Endpoint is dev-only;
+      // there's no information-disclosure concern.
+      res.status(500).json({ error: `Demo login failed: ${e.message || "unknown"}` });
     }
   } : notReady);
 
