@@ -11155,6 +11155,13 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
     catch { return res.status(401).json({ error: "Invalid token" }); }
     if (isJwtRevoked?.(payload?.jti)) return res.status(401).json({ error: "Token revoked" });
     const isAdmin = payload?.role === "admin";
+    // P1 fix: a supplier-role JWT must NOT be able to release another user's
+    // preauth — even if payload.id happens to match the order.userId. Only the
+    // owning customer or an admin can release.
+    const isCustomer = !payload?.role || payload.role === "customer" || payload.role === "user";
+    if (!isAdmin && !isCustomer) {
+      return res.status(403).json({ error: "Wrong role for this action" });
+    }
     if (!isAdmin && order.userId !== payload?.id) {
       return res.status(403).json({ error: "Not your order" });
     }
@@ -11282,7 +11289,10 @@ app.post("/api/deals/:dealId/bids",
       dealId,
       dealMeta:   req.body?.dealMeta || {},   // optional from client: category/brand/name
       currentLow: amt,
-      excludeSupplierId: supplierId,
+      // P1 fix: must use the JWT-verified id, not the body-supplied one.
+      // Otherwise a supplier whose admin overrode the body field could be
+      // counter-bid by their OWN auto-bid rule (self-undercut loop).
+      excludeSupplierId: resolvedSupplierId,
     });
   } catch (e) { console.warn(`[auto-bid] failed: ${e.message}`); }
   res.json({ ok: true, bids: list });
@@ -11376,6 +11386,15 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
   if (_alreadyFired("deal-closed", dealId, 7 * 24 * 3600_000)) {
     return res.json({ ok: true, status: "already_closed", idempotent: true });
   }
+  // P0 race fix: stamp the dealId as in-progress BEFORE any side-effects
+  // (notifications, order creation, SMS/email). Two clustered processes (the
+  // `[0]+[1]` dev setup, or any horizontal scale) that read the empty flag
+  // simultaneously would both materialize orders and double-charge customers.
+  // Persisting the marker immediately narrows the race to the single-digit-ms
+  // gap between the read above and this write — the final "filled" state at
+  // the bottom of the handler overwrites this placeholder.
+  closedDeals[dealId] = { status: "in_progress", at: new Date().toISOString() };
+  try { setAutomationFlag?.(closedDealsKey, closedDeals); } catch { /* best-effort */ }
   const bids = getDealBids(dealId);
   const filled = participants >= minParticipants && bids.length > 0;
   if (filled) {

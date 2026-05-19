@@ -6425,9 +6425,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     const email = supplier?.email;
     if (email) {
       const enc = encodeURIComponent(email.toLowerCase());
-      fetch(`/api/suppliers/by-email/${enc}/orders`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierOrders(d.orders || []); }).catch(() => {});
-      fetch(`/api/suppliers/by-email/${enc}/earnings`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierEarnings(d); }).catch(() => {});
-      fetch(`/api/suppliers/by-email/${enc}/reviews`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierReviews(d); }).catch(() => {});
+      // SECURITY: must use supplierFetch (sends Authorization: Bearer) — plain
+      // fetch hits requireSupplierMatchOnEmail → requireSupplierMatch which 401s
+      // without a Bearer, silently leaving Overview KPIs at zero forever.
+      supplierFetch(`/api/suppliers/by-email/${enc}/orders`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierOrders(d.orders || []); }).catch(() => {});
+      supplierFetch(`/api/suppliers/by-email/${enc}/earnings`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierEarnings(d); }).catch(() => {});
+      supplierFetch(`/api/suppliers/by-email/${enc}/reviews`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierReviews(d); }).catch(() => {});
     }
     supplierFetch(`/api/suppliers/${sidEnc}/profile`).then(r => r.ok ? r.json() : null).then(d => setProfile(d || null)).catch(() => {});
     supplierFetch(`/api/suppliers/${sidEnc}/inventory`).then(r => r.ok ? r.json() : []).then(d => setInventory(Array.isArray(d) ? d : [])).catch(() => {});
@@ -7296,7 +7299,48 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             </div>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-            <p className="text-sm font-black text-gray-900 mb-3">היסטוריית עסקאות</p>
+            <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+              <p className="text-sm font-black text-gray-900">היסטוריית עסקאות</p>
+              {supplierEarnings.transactions.length > 0 && (
+                <button
+                  onClick={() => {
+                    // CSV export compatible with Hashavshevet / iCount / Rivhit.
+                    // UTF-8 BOM ensures Hebrew renders correctly in Excel.
+                    const _csvEscape = (s) => {
+                      const v = String(s == null ? "" : s);
+                      return /[",\n\r]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+                    };
+                    const _typeHe = (t) => t === "charge" ? "תשלום לקוח"
+                                      : t === "payout"   ? "העברה לחשבון"
+                                      : t === "refund"   ? "החזר"
+                                      : t === "fee"      ? "עמלת פלטפורמה"
+                                      : t || "אחר";
+                    const headers = ["תאריך","סוג תנועה","הזמנה","סכום (₪)","סטטוס","מזהה עסקה"];
+                    const rows = supplierEarnings.transactions.map(tx => [
+                      new Date(tx.createdAt).toLocaleDateString("he-IL"),
+                      _typeHe(tx.type),
+                      tx.orderId || "",
+                      (tx.amount || 0).toFixed(2),
+                      tx.status || "",
+                      tx.id || "",
+                    ]);
+                    const csv = [headers, ...rows].map(r => r.map(_csvEscape).join(",")).join("\r\n");
+                    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `bundly-earnings-${new Date().toISOString().slice(0,10)}.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    onNotify?.("📊 הקובץ הורד");
+                  }}
+                  className="text-xs font-black px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg transition flex items-center gap-1.5">
+                  📊 ייצא CSV
+                </button>
+              )}
+            </div>
             {supplierEarnings.transactions.length === 0 ? (
               <p className="text-center text-gray-400 text-sm py-6">אין עסקאות עדיין</p>
             ) : (
@@ -7314,6 +7358,11 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                     </p>
                   </div>
                 ))}
+                {supplierEarnings.transactions.length > 20 && (
+                  <p className="text-center text-[11px] text-gray-400 pt-2">
+                    מציג 20 מתוך {supplierEarnings.transactions.length} · ייצא CSV לכולן
+                  </p>
+                )}
               </div>
             )}
           </div>
