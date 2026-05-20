@@ -247,6 +247,10 @@ if (process.env.NODE_ENV === "production") {
 // ── In-memory OTP rate limiter: max 3 OTPs per phone per hour + max 10 per IP per hour ──
 const _otpRateLimitMap = new Map(); // phone → [timestamp, ...]
 const _ipOtpRateLimitMap = new Map(); // ip → [timestamp, ...]
+
+// ── Idempotency lock for offer-accept: prevents a double-click (or duplicate
+// request) from creating two orders + two PaymentIntents for the same offer. ──
+const _offerAcceptInFlight = new Set(); // offerId (string) currently being processed
 function checkOtpRateLimit(phone, ip = null) {
   const now = Date.now();
   const windowMs = 60 * 60 * 1000;
@@ -579,6 +583,17 @@ import { lookup as _dnsLookup } from "node:dns/promises";
 // user/provider-supplied URL (DFS image search, product-image proxy, etc).
 // Returns true ONLY when the URL is HTTPS/HTTP, public DNS, and resolves
 // to a non-private address.
+// Lightweight SYNCHRONOUS syntactic check for a user-supplied http(s) URL.
+// Used for the supplier `paymentLink` — the link is only ever shown to the
+// customer (browser navigates to it); the server never fetches it, so no
+// SSRF/DNS check is needed here, just a well-formed http(s) URL.
+function _isValidHttpUrl(u) {
+  if (typeof u !== "string" || !u.trim()) return false;
+  let parsed;
+  try { parsed = new URL(u.trim()); } catch { return false; }
+  return parsed.protocol === "http:" || parsed.protocol === "https:";
+}
+
 async function _isSafeRemoteUrl(u) {
   let parsed;
   try { parsed = new URL(u); } catch { return false; }
@@ -10873,8 +10888,13 @@ app.get("/api/user/offers", authMiddleware, AUTH_READY ? (req, res) => {
 
 // Accept an offer — creates order + payment intent
 app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req, res) => {
+  let _lockKey = null;
   try {
     const { shippingAddress } = req.body || {};
+    // paymentOption: "bundly" (Bundly processes the card) | "supplier_direct"
+    // (customer pays the supplier on the supplier's own payment link).
+    const paymentOption = (req.body?.paymentOption === "supplier_direct")
+      ? "supplier_direct" : "bundly";
     if (!shippingAddress?.street || !shippingAddress?.city) {
       return res.status(400).json({ error: "חסרים פרטי משלוח (עיר + רחוב חובה)" });
     }
@@ -10886,7 +10906,64 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
     if (request.userId !== req.user.id) return res.status(403).json({ error: "Not your offer" });
     if (request.status !== "offered") return res.status(400).json({ error: "Not in offered state" });
 
-    // Create order
+    // Idempotency lock — a double-click (or duplicate request) must not create
+    // two orders / two PaymentIntents for the same offer.
+    _lockKey = String(req.params.id);
+    if (_offerAcceptInFlight.has(_lockKey)) {
+      _lockKey = null; // do NOT delete a key we didn't add
+      return res.status(409).json({ error: "הבקשה כבר בעיבוד — רגע אחד" });
+    }
+    _offerAcceptInFlight.add(_lockKey);
+
+    // ── Option 2: pay the supplier directly. Bundly never touches the card. ──
+    if (paymentOption === "supplier_direct") {
+      const supplierId = request.offerSupplierId || request.offerSupplier || null;
+      // The payment link is edited by suppliers via the profile endpoint, so
+      // it lives in the supplier-profile store; fall back to the registry.
+      let supplierPaymentLink = "";
+      try {
+        const prof = supplierId && _prodDb.getSupplierProfile
+          ? _prodDb.getSupplierProfile(supplierId) : null;
+        if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
+        if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
+          const reg = _prodDb.getSupplier(supplierId);
+          if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
+        }
+      } catch (_) {}
+      if (!_isValidHttpUrl(supplierPaymentLink)) {
+        return res.status(400).json({ error: "הספק לא הגדיר תשלום ישיר — בחר תשלום דרך Bundly" });
+      }
+      const order = _prodDb.createOrder({
+        userId:       req.user.id,
+        supplierId,
+        supplierName: request.offerSupplier || "ספק",
+        productName:  request.product,
+        productImage: request.productImage,
+        price:        request.offerPrice,
+        requestId:    request.id,
+        shippingAddress,
+        paymentOption: "supplier_direct",
+      });
+      _prodDb.updateOrder(order.id, { paymentStatus: "pending_supplier" });
+      _prodDb.updatePersonalRequest(req.params.id, { status: "accepted" });
+      try {
+        logActivity("order_placed", {
+          order_id: order.id,
+          product:  order.productName,
+          supplier: order.supplierName,
+          amount:   `₪${order.totalAmount}`,
+        });
+      } catch (_) {}
+      return res.json({
+        ok: true,
+        order,
+        paymentOption: "supplier_direct",
+        supplierPaymentLink,
+        message: "השלם את התשלום באתר הספק",
+      });
+    }
+
+    // ── Option 1 (default): Bundly processes the card. ──
     const order = _prodDb.createOrder({
       userId:       req.user.id,
       supplierId:   request.offerSupplierId || request.offerSupplier || null,
@@ -10896,18 +10973,32 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
       price:        request.offerPrice,
       requestId:    request.id,
       shippingAddress,
+      paymentOption: "bundly",
     });
 
     // Pre-authorize the card (manual capture) — funds held but NOT charged.
     // Will be captured automatically when the group reaches its minimum.
-    const payment = await _paySvc.createPaymentIntent({
-      amount:         order.totalAmount,
-      orderId:        order.id,
-      userId:         req.user.id,
-      description:    `${request.product} — Bundly (pre-auth)`,
-      captureMethod:  "manual",
-      idempotencyKey: `preauth-order-${order.id}`,
-    });
+    // A thrown Stripe error must NOT leave the order falsely "preauthorized".
+    let payment;
+    try {
+      payment = await _paySvc.createPaymentIntent({
+        amount:         order.totalAmount,
+        orderId:        order.id,
+        userId:         req.user.id,
+        description:    `${request.product} — Bundly (pre-auth)`,
+        captureMethod:  "manual",
+        idempotencyKey: `preauth-order-${order.id}`,
+      });
+    } catch (payErr) {
+      console.error("[offers/accept] createPaymentIntent threw:", payErr);
+      payment = { ok: false };
+    }
+
+    if (!payment || !payment.ok) {
+      // Payment failed — roll the order back so it is never treated as paid.
+      _prodDb.updateOrder(order.id, { status: "cancelled", paymentStatus: "failed" });
+      return res.status(402).json({ error: "תקלת תשלום — ההזמנה לא בוצעה. נסה שוב." });
+    }
 
     // Log as preauth transaction (will become "charge" when captured)
     _prodDb.createTransaction({
@@ -10939,13 +11030,16 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
       ok: true,
       order,
       payment,
+      paymentOption: "bundly",
       lockedInPrice:    order.totalAmount,
       lockedUntil:      new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString(),
       message:          "המחיר שלך נעול. הכרטיס לא חויב — יחויב רק כשהקבוצה תיסגר בהצלחה.",
     });
   } catch (e) {
     console.error("[offers/accept]", e);
-    res.status(500).json({ error: e.message });
+    res.status(500).json({ error: "שגיאת שרת — נסה שוב" });
+  } finally {
+    if (_lockKey) _offerAcceptInFlight.delete(_lockKey);
   }
 } : notReady);
 
@@ -11613,12 +11707,21 @@ app.get("/api/suppliers/:supplierId/profile", requireSupplierMatch, (req, res) =
 });
 app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.json({ limit: "32kb" }), (req, res) => {
   if (!upsertSupplierProfile) return res.status(503).json({ error: "DB not ready" });
-  // Whitelist allowed profile fields — never blindly accept req.body
+  // Whitelist allowed profile fields — never blindly accept req.body.
+  // commissionRate is intentionally excluded — it is Bundly's cut and must be
+  // admin-set only; a supplier must not be able to zero out its own commission.
   const ALLOWED = ["businessName","taxId","address","city","zip","phone",
     "bankAccount","bankBranch","bankNumber",
-    "primaryCategories","shippingZones","logoUrl","payoutDay","website","contactEmail"];
+    "primaryCategories","shippingZones","logoUrl","payoutDay","website","contactEmail",
+    "paymentLink"];
   const fields = {};
   for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
+  // Validate the direct-payment link: must be a syntactically valid http(s)
+  // URL. An empty string clears it (handled by upsertSupplierProfile).
+  if (typeof fields.paymentLink === "string" && fields.paymentLink.trim() !== ""
+      && !_isValidHttpUrl(fields.paymentLink)) {
+    return res.status(400).json({ error: "קישור התשלום אינו תקין — חובה כתובת http(s) מלאה" });
+  }
   const existing = getSupplierProfile ? getSupplierProfile(req.params.supplierId) : null;
   const profile = upsertSupplierProfile(req.params.supplierId, fields);
   // First time we ever see a businessName for this supplier → fire register event
@@ -12220,11 +12323,15 @@ app.get("/api/deals/:dealId/questions", (req, res) => {
 });
 app.post("/api/deals/:dealId/questions",
   rateLimit({ windowMs: 60_000, max: 10, label: "deal-question" }),
+  authMiddleware,
   express.json({ limit: "8kb" }), (req, res) => {
   if (!addDealQuestion) return res.status(503).json({ error: "DB not ready" });
-  const { question, askedBy } = req.body || {};
+  const { question } = req.body || {};
   if (!question || String(question).trim().length < 3) return res.status(400).json({ error: "Question too short" });
-  const entry = addDealQuestion(req.params.dealId, { question, askedBy: askedBy || "אורח" });
+  // SECURITY: the asker name comes from the verified JWT, never req.body —
+  // previously anyone could post a question attributed to any name.
+  const askedBy = req.user?.name || req.user?.firstName || "משתמש";
+  const entry = addDealQuestion(req.params.dealId, { question, askedBy });
   // Notify the deal owner (we can't always resolve owner here cheaply — skip for now)
   res.json({ ok: true, question: entry });
 });

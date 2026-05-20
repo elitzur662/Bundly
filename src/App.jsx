@@ -68,6 +68,15 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
           ? await stripe.confirmCardSetup(clientSecret, { payment_method: paymentMethodPayload })
           : await stripe.confirmCardPayment(clientSecret, { payment_method: paymentMethodPayload });
         if (result.error) return { ok: false, error: localizeStripeError(result.error) };
+        if (mode !== "setup") {
+          // 3DS / requires_action: confirmCardPayment resolves with no error
+          // even when the PaymentIntent still needs authentication. Only treat
+          // a terminal "money is secured" status as success.
+          const piStatus = result.paymentIntent?.status;
+          if (piStatus !== "succeeded" && piStatus !== "requires_capture") {
+            return { ok: false, error: "אימות התשלום לא הושלם — נסה שוב" };
+          }
+        }
         if (mode === "setup") {
           // Bubble up the PaymentMethod so the parent can ship it back to the
           // server. Stripe stores the full PM on the customer; we only persist
@@ -2593,6 +2602,10 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
           </div>
         )}
 
+        {/* Second spacer — together with the first one (after the logo) this
+            centers the nav group between the logo and the action icons. */}
+        <div className="flex-1" />
+
         <div className="flex items-center gap-2">
           {/* CUSTOMER-only action icons (cart, offers, orders) — hidden in supplier mode */}
           {!isSupplierMode && user && (
@@ -4934,14 +4947,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (notify) notify(tier === "committed" ? "✅ נעלת את המחיר! המקדמה הוקפאה." : "📍 המקום שלך שמור! פיקדון ₪25 הוקפא.");
   };
   const handleWhatsApp = () => {
-    // Deep-link URL: ?deal=<id>&q=<name> opens the exact deal when it
-    // exists on the recipient's session — and falls back to a category
-    // search for the product name when the deal id is session-local
-    // (Date.now()-style ids created from demand pools / one-off deals).
-    // Previously the recipient just landed on the home page if the deal
-    // wasn't in their INITIAL_DEALS list.
-    const productQ = encodeURIComponent(name);
-    const baseUrl = `${window.location.origin}/?deal=${deal.id}&q=${productQ}`;
+    // Stable product URL — /product/<key> re-resolves on the recipient's
+    // side (server lookup by Zap model id, or by product name), so the
+    // link always opens the product page itself, never the home page.
+    const productKey = deal.productKey || productKeyFrom(deal);
+    const baseUrl = `${window.location.origin}/product/${encodeURIComponent(productKey)}`;
     const price = (bestBid?.amount || deal.groupOffer || 0).toLocaleString();
     const lines = [
       `🛒 ${name}`,
@@ -5513,6 +5523,7 @@ function DealQA({ dealId, user }) {
   const [questions, setQuestions] = useState([]);
   const [draft, setDraft]         = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [postError, setPostError] = useState("");
 
   const refresh = useCallback(async () => {
     try {
@@ -5526,16 +5537,25 @@ function DealQA({ dealId, user }) {
 
   const post = async () => {
     if (!draft.trim() || draft.trim().length < 3 || submitting) return;
+    // Posting a question now requires being logged in — the server derives the
+    // asker name from the JWT, so an anonymous post would be rejected (401).
+    const tok = user?.token || _getToken();
+    if (!tok) { setPostError("יש להתחבר כדי לשאול שאלה"); return; }
     setSubmitting(true);
+    setPostError("");
     try {
       const r = await fetch(`/api/deals/${encodeURIComponent(dealId)}/questions`, {
         method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ question: draft.trim(), askedBy: user?.name || "אורח" }),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
+        body:    JSON.stringify({ question: draft.trim() }),
       });
       if (r.ok) {
         setDraft("");
         await refresh();
+      } else if (r.status === 401) {
+        setPostError("יש להתחבר כדי לשאול שאלה");
+      } else {
+        setPostError("שגיאה בשליחת השאלה — נסה שוב");
       }
     } finally { setSubmitting(false); }
   };
@@ -5588,6 +5608,7 @@ function DealQA({ dealId, user }) {
           {submitting ? "..." : "שלח"}
         </button>
       </div>
+      {postError && <p className="text-[11px] text-red-500 mt-2">{postError}</p>}
     </div>
   );
 }
@@ -6467,6 +6488,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       if (d?.ok) {
         setProfile(d.profile);
         onNotify?.("✅ הפרופיל נשמר");
+      } else {
+        onNotify?.("⚠️ " + (d?.error || "שמירת פרופיל נכשלה"));
       }
     } catch { onNotify?.("⚠️ שמירת פרופיל נכשלה"); }
   };
@@ -9526,6 +9549,7 @@ function SupplierProfilePanel({ profile, supplier, onSave }) {
     primaryCategories:  profile?.primaryCategories  || [],
     shippingZones:      profile?.shippingZones      || [],
     logoUrl:            profile?.logoUrl            || "",
+    paymentLink:        profile?.paymentLink        || "",
   });
   // Track whether the user has touched any field locally. We only re-sync
   // the form from the server when the form is "clean" — otherwise the user
@@ -9682,6 +9706,20 @@ function SupplierProfilePanel({ profile, supplier, onSave }) {
           <select value={form.payoutDay} onChange={e => updateForm(f => ({ ...f, payoutDay: Number(e.target.value) }))} className="w-full sm:w-32 border border-gray-200 rounded-lg px-3 py-2 text-sm">
             {[1, 5, 10, 15, 20, 25].map(d => <option key={d} value={d}>{d} בכל חודש</option>)}
           </select>
+        </div>
+      </div>
+
+      {/* Direct-payment link */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-2">
+        <p className="text-sm font-black text-gray-900">תשלום ישיר</p>
+        <div>
+          <label className="block text-[10px] font-bold text-gray-500 mb-1">קישור תשלום (לאופציית תשלום ישיר)</label>
+          <input value={form.paymentLink} onChange={e => updateForm(f => ({ ...f, paymentLink: e.target.value }))}
+            placeholder="https://..." dir="ltr"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+          <p className="text-[11px] text-gray-500 mt-1">
+            הדבק כאן קישור תשלום מאובטח שלך (Stripe Payment Link / PayPal / Cardcom וכו'). לקוחות שיבחרו 'תשלום ישיר לספק' יישלחו לקישור הזה.
+          </p>
         </div>
       </div>
 
@@ -10128,13 +10166,17 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 }
 
 function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
-  const [mode, setMode] = useState(null); // null | "accept" | "reject" | "locked"
+  const [mode, setMode] = useState(null); // null | "accept" | "reject" | "locked" | "supplier_redirect"
   const [shipping, setShipping] = useState({ city: "", street: "", building: "", apartment: "", zip: "" });
   const [cardName, setCardName] = useState("");
   const cardRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [lockInfo, setLockInfo] = useState(null); // { lockedInPrice, lockedUntil, order }
+  // Payment method choice: "bundly" (Bundly processes the card via Stripe) or
+  // "supplier_direct" (customer is sent to the supplier's own payment link).
+  const [paymentOption, setPaymentOption] = useState("bundly");
+  const [supplierInfo, setSupplierInfo] = useState(null); // { order, link } after supplier_direct accept
 
   const handleAccept = async () => {
     if (submitting) return; // Prevent double-click
@@ -10147,7 +10189,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
       const res = await fetch(`/api/user/offers/${offer.id}/accept`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ shippingAddress: shipping }),
+        body: JSON.stringify({ shippingAddress: shipping, paymentOption: "bundly" }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה");
@@ -10163,6 +10205,29 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
       if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
       setLockInfo({ lockedInPrice: data.lockedInPrice, lockedUntil: data.lockedUntil, order: data.order });
       setMode("locked");
+      setSubmitting(false);
+    } catch (e) { setError(e.message); setSubmitting(false); }
+  };
+
+  // Option 2 — pay the supplier directly. Bundly records the order but never
+  // touches the card; the customer is sent to the supplier's own payment link.
+  const handleSupplierDirect = async () => {
+    if (submitting) return;
+    if (!shipping.city || !shipping.street) { setError("חובה למלא עיר ורחוב"); return; }
+    if (shipping.zip && !/^\d{5,7}$/.test(shipping.zip.replace(/\s/g, ""))) { setError("מיקוד לא תקין (5-7 ספרות)"); return; }
+    setSubmitting(true); setError("");
+    try {
+      const res = await fetch(`/api/user/offers/${offer.id}/accept`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ shippingAddress: shipping, paymentOption: "supplier_direct" }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה");
+      const link = data.supplierPaymentLink;
+      if (link) { try { window.open(link, "_blank"); } catch (_) {} }
+      setSupplierInfo({ order: data.order, link });
+      setMode("supplier_redirect");
       setSubmitting(false);
     } catch (e) { setError(e.message); setSubmitting(false); }
   };
@@ -10219,6 +10284,27 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
 
           {mode === "accept" && (
             <div className="space-y-3">
+              {/* ── Payment method selector ── */}
+              <p className="text-sm font-bold text-gray-700">איך תרצה לשלם?</p>
+              <div className="grid grid-cols-1 gap-2">
+                <button type="button" onClick={() => { setPaymentOption("bundly"); setError(""); }}
+                  className={`text-right rounded-xl border-2 p-3 transition ${paymentOption === "bundly" ? "border-indigo-500 bg-indigo-50" : "border-gray-200 bg-white"}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${paymentOption === "bundly" ? "border-indigo-500 bg-indigo-500" : "border-gray-300"}`} />
+                    <span className="font-bold text-sm text-gray-900">תשלום מאובטח דרך Bundly</span>
+                  </div>
+                  <p className="text-[11px] text-gray-500 mt-1 pr-6">הכרטיס מוקפא עכשיו, מחויב רק כשהקבוצה נסגרת בהצלחה.</p>
+                </button>
+                <button type="button" onClick={() => { setPaymentOption("supplier_direct"); setError(""); }}
+                  className={`text-right rounded-xl border-2 p-3 transition ${paymentOption === "supplier_direct" ? "border-indigo-500 bg-indigo-50" : "border-gray-200 bg-white"}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${paymentOption === "supplier_direct" ? "border-indigo-500 bg-indigo-500" : "border-gray-300"}`} />
+                    <span className="font-bold text-sm text-gray-900">תשלום ישיר לספק</span>
+                  </div>
+                  <p className="text-[11px] text-gray-500 mt-1 pr-6">התשלום מתבצע ישירות מול הספק. בנדלי לא נוגעת בפרטי האשראי שלך.</p>
+                </button>
+              </div>
+
               <p className="text-sm font-bold text-gray-700">כתובת למשלוח</p>
               <div className="grid grid-cols-2 gap-2">
                 <input placeholder="עיר *" value={shipping.city} onChange={e=>setShipping({...shipping, city: e.target.value})}
@@ -10233,29 +10319,84 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                   className="col-span-2 border border-gray-200 rounded-xl px-3 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 min-h-[48px]" />
               </div>
 
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
-                <Lock className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                <div className="text-[11px] text-amber-900 leading-relaxed">
-                  <p className="font-bold mb-0.5">💳 הכרטיס שלך יוקפא — לא יחויב כעת</p>
-                  <p>הסכום יוקפא בכרטיס בלבד. החיוב בפועל יתבצע רק כשהקבוצה תיסגר בהצלחה. אם לא נגיע למינימום — הכרטיס משוחרר אוטומטית.</p>
-                </div>
-              </div>
+              {paymentOption === "bundly" && (
+                <>
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
+                    <Lock className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-[11px] text-amber-900 leading-relaxed">
+                      <p className="font-bold mb-0.5">💳 הכרטיס שלך יוקפא — לא יחויב כעת</p>
+                      <p>הסכום יוקפא בכרטיס בלבד. החיוב בפועל יתבצע רק כשהקבוצה תיסגר בהצלחה. אם לא נגיע למינימום — הכרטיס משוחרר אוטומטית.</p>
+                    </div>
+                  </div>
 
-              <div className="pt-1">
-                <StripeCardSection
-                  name={cardName}
-                  onNameChange={setCardName}
-                  cardRef={cardRef}
-                  disabled={submitting}
-                />
-              </div>
+                  <div className="pt-1">
+                    <StripeCardSection
+                      name={cardName}
+                      onNameChange={setCardName}
+                      cardRef={cardRef}
+                      disabled={submitting}
+                    />
+                  </div>
 
-              {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
-              <button onClick={handleAccept} disabled={submitting}
-                className="w-full py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
-                {submitting ? "מקפיא את המחיר..." : "🔒 נעל את המחיר — ₪" + offer.offerPrice.toLocaleString()}
+                  {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
+                  <button onClick={handleAccept} disabled={submitting}
+                    className="w-full py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
+                    {submitting ? "מקפיא את המחיר..." : "🔒 נעל את המחיר — ₪" + offer.offerPrice.toLocaleString()}
+                  </button>
+                  <p className="text-[10px] text-gray-400 text-center">בלחיצה אתה מאשר להקפיא את הסכום בכרטיס. החיוב בפועל רק כשהקבוצה תיסגר.</p>
+                </>
+              )}
+
+              {paymentOption === "supplier_direct" && (
+                <>
+                  <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex items-start gap-2">
+                    <Lock className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-[11px] text-indigo-900 leading-relaxed">
+                      <p className="font-bold mb-0.5">תשלום ישיר לספק</p>
+                      <p>נעביר אותך לעמוד התשלום המאובטח של הספק. בנדלי לא נוגעת בפרטי האשראי שלך — ההזמנה תירשם אצלנו לצורך מעקב.</p>
+                    </div>
+                  </div>
+
+                  {error && (
+                    <div className="text-xs text-red-500 font-semibold">
+                      <p>{error}</p>
+                      {/^הספק לא הגדיר תשלום ישיר/.test(error) && (
+                        <button type="button" onClick={() => { setPaymentOption("bundly"); setError(""); }}
+                          className="mt-1 underline text-indigo-600 font-bold">
+                          עבור לתשלום מאובטח דרך Bundly
+                        </button>
+                      )}
+                    </div>
+                  )}
+                  <button onClick={handleSupplierDirect} disabled={submitting}
+                    className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
+                    {submitting ? "מעבד..." : "המשך לתשלום מאובטח באתר הספק"}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+
+          {mode === "supplier_redirect" && supplierInfo && (
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-5 text-white text-center">
+                <Check className="w-10 h-10 mx-auto mb-2 text-white" />
+                <p className="text-sm font-black mb-1">נפתח עמוד התשלום של הספק</p>
+                <p className="text-[11px] text-indigo-100 leading-relaxed">
+                  ההזמנה נרשמה — מספר #{supplierInfo.order?.id}
+                  <br />השלם את התשלום באתר הספק כדי לסיים.
+                </p>
+              </div>
+              {supplierInfo.link && (
+                <a href={supplierInfo.link} target="_blank" rel="noreferrer"
+                  className="block w-full text-center py-3 border-2 border-indigo-200 text-indigo-700 font-bold rounded-xl text-sm transition hover:bg-indigo-50">
+                  לא נפתח? לחץ כאן לעמוד התשלום
+                </a>
+              )}
+              <button onClick={() => onAccepted?.(supplierInfo.order)}
+                className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition">
+                סיים והצג את ההזמנה
               </button>
-              <p className="text-[10px] text-gray-400 text-center">בלחיצה אתה מאשר להקפיא את הסכום בכרטיס. החיוב בפועל רק כשהקבוצה תיסגר.</p>
             </div>
           )}
 
@@ -13456,7 +13597,9 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       }
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "המוצר אינו זמין");
       const data = await res.json();
-      onResult({ ...data, _pageSog: pageSog });
+      // Carry a stable, re-resolvable product key so the deal opened from
+      // this result gets a permanent shareable URL (/product/<key>).
+      onResult({ ...data, _pageSog: pageSog, productKey: productKeyFrom({ ...product, productName: data.productName }) });
     } catch (e) {
       setError(e.message);
     } finally {
@@ -14461,7 +14604,8 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
       const res = await fetch(`/api/search?q=${encodeURIComponent(searchQ)}`);
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "שגיאה בחיפוש");
       const data = await res.json();
-      onResult({ ...data, _pageSog: pageSog });
+      // Carry a stable, re-resolvable product key for a shareable /product/<key> URL.
+      onResult({ ...data, _pageSog: pageSog, productKey: productKeyFrom({ ...product, productName: data.productName }) });
     } catch (e) {
       setError(e.message);
       setLoadingIdx(null);
@@ -20313,6 +20457,64 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  URL ROUTING
+//  Every public page and every product has its own real URL so links
+//  are shareable and the browser back/forward buttons work. The URL is
+//  the single source of truth, derived from `mode` + `selectedDeal`.
+//  Gated admin areas (owner / supplier dashboard) are intentionally NOT
+//  routed — they must not be reachable just by typing a URL.
+// ─────────────────────────────────────────────────────────────────
+const MODE_TO_PATH = {
+  home:       "/",
+  deals:      "/deals",
+  search:     "/search",
+  personal:   "/personal",
+  suppliers:  "/suppliers",
+  myproducts: "/saved",
+  wishlist:   "/wishlist",
+  offers:     "/offers",
+  orders:     "/orders",
+};
+const PATH_TO_MODE = Object.fromEntries(
+  Object.entries(MODE_TO_PATH).map(([m, p]) => [p, m])
+);
+
+function slugifyName(name) {
+  const s = String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")   // keep letters (incl. Hebrew) + digits
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return s || "item";
+}
+
+// A stable, re-resolvable product key: a numeric Zap model id when we have
+// one (resolvable via /api/zap-model), else a name slug (via /api/search).
+function productKeyFrom(src) {
+  if (!src) return null;
+  const mid = src._streamKey ?? src.modelId ?? src.productKey;
+  if (mid != null && /^\d+$/.test(String(mid))) return String(mid);
+  return slugifyName(src.productName || src.name?.he || src.name?.en || src.name);
+}
+
+// Parse a pathname into navigation state. Unknown paths fall back to home
+// (SPA-friendly — no hard 404 for app routes).
+function parsePath(pathname) {
+  const path = (pathname || "/").replace(/\/{2,}/g, "/").replace(/(.)\/+$/, "$1");
+  const m = path.match(/^\/product\/(.+)$/);
+  if (m) return { mode: null, productKey: decodeURIComponent(m[1]) };
+  return { mode: PATH_TO_MODE[path] || "home", productKey: null };
+}
+
+// Build the path for a navigation state. Returns null for gated modes that
+// must not own a URL — the caller then leaves the address bar untouched.
+function buildPath({ mode, productKey }) {
+  if (productKey) return `/product/${encodeURIComponent(productKey)}`;
+  return MODE_TO_PATH[mode] || null;
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  APP ROOT
 // ─────────────────────────────────────────────────────────────────
 export default function App() {
@@ -20320,7 +20522,12 @@ export default function App() {
   const t = T[lang];
   const cats = CATEGORIES[lang];
 
-  const [mode, setMode] = useState("home");
+  const [mode, setMode] = useState(() => {
+    // Seed from the URL so a deep link / refresh lands on the right page
+    // synchronously — no flash of the home page before the router runs.
+    try { return parsePath(window.location.pathname).mode || "home"; }
+    catch { return "home"; }
+  });
   // Scroll to top whenever the main view mode changes
   useEffect(() => { window.scrollTo({ top: 0 }); }, [mode]);
   // LAUNCH HARDENING: demo deals are now HIDDEN BY DEFAULT in production
@@ -20580,86 +20787,13 @@ export default function App() {
       });
     }
     setSelectedDeal(d);
-    // Reflect the open deal in the URL so:
-    //   1. Refresh keeps you on the same product page (URL is the source of truth)
-    //   2. Browser back/forward works naturally
-    //   3. The URL is shareable — paste it and the recipient lands on the same page
-    // Skip the push when this open was itself triggered by a popstate (history
-    // navigation already updated the URL) or when the URL already matches.
-    try {
-      if (d?.id != null && typeof window !== "undefined") {
-        const targetUrl = `${window.location.pathname}?deal=${encodeURIComponent(d.id)}${window.location.hash}`;
-        if (window.location.search !== `?deal=${encodeURIComponent(d.id)}`) {
-          window.history.pushState({ dealId: d.id }, "", targetUrl);
-        }
-      }
-    } catch { /* history API blocked — fail silent */ }
+    // The address bar is updated centrally by the URL router effect,
+    // which is keyed on `selectedDeal` — see the "URL ROUTER" block below.
   }, [trackEvent]);
 
-  // Deep-link handler: ?deal=<id> in the URL opens that exact deal on first
-  // load AND on every refresh. The URL is the source of truth — when present,
-  // we restore the deal; when absent, we close any open deal. Combined with
-  // popstate below, this gives natural browser navigation on every product.
-  useEffect(() => {
-    if (!Array.isArray(deals) || deals.length === 0) return;
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const dealParam = params.get("deal");
-      if (!dealParam) return;
-      // Only restore if we're not already showing this deal
-      if (selectedDeal && String(selectedDeal.id) === String(dealParam)) return;
-      const target = deals.find(d => String(d.id) === String(dealParam));
-      if (target) { setSelectedDeal(target); return; }
-      // Deal not in local list — likely a session-local ID (Date.now()-style)
-      // created by the original sharer. Fall back to a category search using
-      // the product name embedded in the share URL (?q=…) so the recipient
-      // lands on the relevant product instead of the home page.
-      const queryParam = params.get("q");
-      if (queryParam) {
-        // Clean up URL so a refresh doesn't keep firing the same fallback
-        try { window.history.replaceState({}, "", window.location.pathname); } catch (_) {}
-        openCategory(decodeURIComponent(queryParam));
-      }
-    } catch { /* URL parse errors — ignore */ }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deals]);
-
-  // Browser back/forward — keep selectedDeal in sync with the URL. Without
-  // this, pressing Back after opening a deal would change the URL but leave
-  // the deal page visible (state desync). When the URL no longer has ?deal=,
-  // close whatever deal is open.
-  useEffect(() => {
-    const onPopState = () => {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const dealParam = params.get("deal");
-        if (!dealParam) {
-          setSelectedDeal(null);
-          return;
-        }
-        const target = deals.find(d => String(d.id) === String(dealParam));
-        if (target) setSelectedDeal(target);
-      } catch { /* */ }
-    };
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, [deals]);
-
-  // Strip ?deal= from URL whenever we close the deal page through in-app
-  // navigation (clicking Back, switching tabs, going home, etc). Without
-  // this the URL would still show ?deal=X after closing → confusing if the
-  // user then refreshes (would re-open the closed deal).
-  useEffect(() => {
-    try {
-      if (typeof window === "undefined") return;
-      const params = new URLSearchParams(window.location.search);
-      const hasDeal = params.has("deal");
-      if (!selectedDeal && hasDeal) {
-        const cleanUrl = window.location.pathname + window.location.hash;
-        window.history.pushState({}, "", cleanUrl);
-      }
-    } catch { /* */ }
-  }, [selectedDeal]);
+  // Deep-link parsing, URL writing and back/forward sync all live together
+  // in the unified "URL ROUTER" block further down — it is placed there
+  // because it depends on handleAddDealFromSearch (defined below).
 
   // Restore session from localStorage on first load
   useEffect(() => {
@@ -21236,6 +21370,8 @@ export default function App() {
     const catMap = { "אלקטרוניקה": 0, "מחשבים": 1, "סמארטפונים": 2, "מכשירי חשמל": 3, "ריהוט": 4 };
     const newDeal = {
       id: Date.now(),
+      // Stable, re-resolvable key — powers the permanent /product/<key> URL.
+      productKey: result.productKey || productKeyFrom(result),
       name: { he: result.productName, en: result.productNameEn || result.productName, ar: result.productName, ru: result.productName },
       desc: { he: result.description || "", en: result.description || "", ar: result.description || "", ru: result.description || "" },
       image: result._preloadedImage || result.image || "",
@@ -21425,21 +21561,119 @@ export default function App() {
     if (mode !== "home")       { setMode("home"); return; }
   }, [showAuth, showCategoryBrowse, joinPoolModal, disambigModal, selectedDeal, searchResult, categoryQuery, mode]);
 
-  // ── Browser back-button integration ──
-  // Pushes a sentinel state on every navigation change so the browser/phone
-  // back gesture triggers our goBack(). Without this, swipe-back on iOS
-  // would close the whole tab instead of returning to the previous screen.
+  // ── URL ROUTER ──────────────────────────────────────────────────
+  // One coherent system: the address bar owns `mode` + `selectedDeal`, so
+  // every page and every product has a real, shareable URL and the browser
+  // back/forward buttons work. `mode` is seeded from the URL in its useState
+  // initialiser above; this block keeps URL and state in sync from then on.
+  // Soft overlays (modals, search/category results) keep the same URL and
+  // use a history sentinel so back peels them one layer at a time.
+  const overlayOpen = !!searchResult || !!categoryQuery || !!disambigModal
+                    || !!joinPoolModal || !!showCategoryBrowse || !!showAuth;
+
+  // True while a deep-linked /product/<key> (or legacy ?deal=/?q= link) is
+  // still being resolved — the write-effect must not overwrite the URL
+  // during that async window. Seeded synchronously so it is correct from
+  // the very first render (StrictMode double-invokes effects in dev).
+  const bootProductPending = useRef((() => {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      return !!parsePath(window.location.pathname).productKey
+          || sp.has("q") || sp.has("deal");
+    } catch { return false; }
+  })());
+
+  // Resolve a /product/<key> URL into an open deal: reuse a deal already in
+  // memory, otherwise fetch the product fresh from the server.
+  const resolveProductKey = useCallback(async (key) => {
+    if (!key) return;
+    if (selectedDeal && (selectedDeal.productKey === key || String(selectedDeal.id) === key)) return;
+    const local = deals.find(d => (d.productKey && d.productKey === key) || String(d.id) === key);
+    if (local) { setSelectedDeal(local); return; }
+    try {
+      const isModelId = /^\d+$/.test(key);
+      const url = isModelId
+        ? `/api/zap-model?modelId=${encodeURIComponent(key)}`
+        : `/api/search?q=${encodeURIComponent(key.replace(/-+/g, " "))}`;
+      const r = await fetch(url);
+      if (!r.ok) throw new Error("lookup failed");
+      const data = await r.json();
+      if (!data || !data.productName) throw new Error("not found");
+      handleAddDealFromSearch({ ...data, productKey: key });
+    } catch {
+      bootProductPending.current = false;
+      notify("המוצר לא זמין כרגע — נסה לחפש אותו");
+      setMode("home");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deals, selectedDeal]);
+
+  // Boot: `mode` is already seeded from the URL by useState, so here we only
+  // handle the async cases — deep-linked products and legacy share links.
+  const routeBooted = useRef(false);
   useEffect(() => {
-    if (canGoBack) {
-      // Push only if we don't already have a "bundly-nav" marker on top
-      if (!window.history.state || window.history.state.bundlyNav !== true) {
-        window.history.pushState({ bundlyNav: true }, "");
+    if (routeBooted.current) return;
+    routeBooted.current = true;
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const legacyQ = sp.get("q");
+      if (legacyQ || sp.has("deal")) {
+        // Legacy share link (/?deal=<id>&q=<name>) → resolve by product name.
+        const key = legacyQ ? slugifyName(decodeURIComponent(legacyQ)) : null;
+        window.history.replaceState({}, "", key ? buildPath({ productKey: key }) : "/");
+        bootProductPending.current = !!key;
+        if (key) resolveProductKey(key);
+        return;
+      }
+      const { productKey } = parsePath(window.location.pathname);
+      if (productKey) resolveProductKey(productKey);
+    } catch { /* history/URL unavailable — stay on home */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Write: mirror `mode` + `selectedDeal` into the address bar.
+  useEffect(() => {
+    // While a deep-linked product is still resolving, leave the URL alone.
+    if (bootProductPending.current) {
+      if (selectedDeal) bootProductPending.current = false;  // resolved
+      else return;
+    }
+    try {
+      const productKey = selectedDeal
+        ? (selectedDeal.productKey || productKeyFrom(selectedDeal))
+        : null;
+      const target = buildPath({ mode, productKey });
+      if (target && window.location.pathname !== target) {
+        window.history.pushState({}, "", target);
+      }
+    } catch { /* history API blocked — fail silent */ }
+  }, [mode, selectedDeal]);
+
+  // Back/forward: a single popstate handler. A soft overlay is peeled
+  // first (its sentinel is what got popped); otherwise the URL is the
+  // source of truth and we re-sync `mode` + product from it.
+  useEffect(() => {
+    if (overlayOpen) {
+      // Give the open overlay a history sentinel so "back" closes it.
+      if (!window.history.state || window.history.state.bundlyOverlay !== true) {
+        window.history.pushState({ bundlyOverlay: true }, "");
       }
     }
-    const onPop = () => { if (canGoBack) goBack(); };
+    const onPop = () => {
+      if (showAuth)            { setShowAuth(false); return; }
+      if (showCategoryBrowse)  { setShowCategoryBrowse(false); return; }
+      if (joinPoolModal)       { setJoinPoolModal(null); return; }
+      if (disambigModal)       { setDisambigModal(null); return; }
+      if (searchResult)        { setSearchResult(null); return; }
+      if (categoryQuery)       { setCategoryQuery(null); setCategoryInitialFilters(null); return; }
+      const { mode: m, productKey } = parsePath(window.location.pathname);
+      if (productKey) { resolveProductKey(productKey); }
+      else            { setSelectedDeal(null); setMode(m || "home"); }
+    };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
-  }, [canGoBack, goBack]);
+  }, [overlayOpen, showAuth, showCategoryBrowse, joinPoolModal, disambigModal,
+      searchResult, categoryQuery, resolveProductKey]);
 
   // ── Universal floating "Back" button ──
   // Rendered via portal so it sits above EVERY screen the App renders.
