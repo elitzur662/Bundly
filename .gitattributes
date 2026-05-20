@@ -1,0 +1,50 @@
+# Bundly — line-ending normalization
+#
+# WHY: without this, editors on Windows save with CRLF and editors on
+# Linux/Mac save with LF, and `git diff` shows every text file as
+# "modified" with thousands of lines changed even when no real edit was
+# made. That noise hides real diffs and makes review impossible.
+#
+# WHAT: `* text=auto` tells git to detect text files automatically and
+# store them with LF in the index (repo). On checkout, Windows users
+# still get CRLF in their working tree (git converts on the way out),
+# Linux/Mac users get LF — but the canonical form in the repo is LF.
+# This is what production (Render = Linux) actually reads.
+#
+# HOW TO ADOPT (one-time): after committing this file, run
+#   git add --renormalize .
+#   git commit -m "chore: normalize line endings to LF"
+# That re-stages every text file with the canonical EOL.
+
+* text=auto
+
+# Binary files — never normalize, never diff as text
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.webp   binary
+*.svg    binary
+*.pdf    binary
+*.xlsx   binary
+*.xls    binary
+*.zip    binary
+*.tar.gz binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.eot    binary
+*.mp4    binary
+*.mp3    binary
+*.db     binary
+*.sqlite binary
+
+# Shell scripts must keep LF even on Windows checkouts (bash on Linux
+# breaks on \r\n shebangs).
+*.sh     text eol=lf
+
+# Render expects LF for these (parsed by Linux YAML / shell tools).
+render.yaml          text eol=lf
+.github/**/*.yml     text eol=lf
+.github/**/*.yaml    text eol=lf
