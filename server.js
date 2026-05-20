@@ -1413,7 +1413,9 @@ app.get("/api/catalog-search", (req, res) => {
 //  Returns: { image: "https://..." | null }
 //  Cached in-memory — each model fetched only once per server session
 // ─────────────────────────────────────────────────────────────────
-app.get("/api/product-image", async (req, res) => {
+app.get("/api/product-image",
+  rateLimit({ windowMs: 60_000, max: 60, label: "product-image" }),
+  async (req, res) => {
   const { q } = req.query;
   if (!q || q.trim().length < 2) return res.json({ image: null });
   try {
@@ -1458,7 +1460,9 @@ function _cleanProductName(raw) {
     .replace(/\s+/g, " ").trim();
 }
 
-app.get("/api/product-images", async (req, res) => {
+app.get("/api/product-images",
+  rateLimit({ windowMs: 60_000, max: 60, label: "product-images" }),
+  async (req, res) => {
   const { q } = req.query;
   if (!q || q.trim().length < 2) return res.json({ ok: false, images: [] });
   const cacheKey = q.trim().toLowerCase();
@@ -2519,7 +2523,7 @@ app.get("/api/admin/reload-product-db", adminMiddleware, (req, res) => {
 // ─────────────────────────────────────────────────────────────────
 //  DEBUG: raw SerpAPI response
 // ─────────────────────────────────────────────────────────────────
-app.get("/api/debug-serp", async (req, res) => {
+app.get("/api/debug-serp", adminMiddleware, async (req, res) => {
   const { q = "iPhone 16 Pro" } = req.query;
   const login    = process.env.DATAFORSEO_LOGIN;
   const password = process.env.DATAFORSEO_PASSWORD;
@@ -2562,7 +2566,7 @@ app.get("/api/debug-serp", async (req, res) => {
 // ─────────────────────────────────────────────────────────────────
 //  DEBUG: Zap search
 // ─────────────────────────────────────────────────────────────────
-app.get("/api/debug-zap", async (req, res) => {
+app.get("/api/debug-zap", adminMiddleware, async (req, res) => {
   const { q = "iPhone 16 Pro 256GB" } = req.query;
   try {
     // Step 1: raw search HTML check — maxRedirects:0 so we can detect + handle manually
@@ -2805,7 +2809,7 @@ app.get("/api/test-jsonld/:modelid", async (req, res) => {
 // ─────────────────────────────────────────────────────────────────
 //  DEBUG: raw DataForSEO Images response
 // ─────────────────────────────────────────────────────────────────
-app.get("/api/debug-image", async (req, res) => {
+app.get("/api/debug-image", adminMiddleware, async (req, res) => {
   const { q = "iPhone 17 Pro Max" } = req.query;
   const login    = process.env.DATAFORSEO_LOGIN;
   const password = process.env.DATAFORSEO_PASSWORD;
@@ -8379,7 +8383,7 @@ async function _downloadImagesForProducts(slug, products) {
       const localPath = `images/${p.id}.${ext}`;
       const localFull = join(_PRODUCT_DB_DIR, slug, localPath);
       if (existsSync(localFull)) { p.image = localPath; dirty = true; continue; }
-      const r = await axios.get(p.imageUrl, { responseType: "arraybuffer", timeout: 8000, validateStatus: s => s < 500, maxContentLength: 5 * 1024 * 1024 });
+      const r = await axios.get(p.imageUrl, { responseType: "arraybuffer", timeout: 8000, validateStatus: s => s < 500, maxContentLength: 5 * 1024 * 1024, maxRedirects: 0 });
       if (r.status === 200 && r.data) {
         writeFileSync(localFull, Buffer.from(r.data));
         // Reflect in main array
@@ -9330,11 +9334,14 @@ ${resultsSummary}
 // Extract og:image from an Israeli store product page — most reliable source
 async function fetchOgImage(url) {
   if (!url) return null;
+  // SSRF guard — url is externally-influenced (store link from /api/search).
+  // Validate scheme + resolved IP before fetching; never follow redirects.
+  if (typeof _isSafeRemoteUrl === "function" && !(await _isSafeRemoteUrl(url))) return null;
   try {
     const { data: html } = await axios.get(url, {
       timeout: 10000,
       headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124" },
-      maxRedirects: 3,
+      maxRedirects: 0,
     });
     // Match og:image in either attribute order
     const m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
@@ -10026,24 +10033,58 @@ app.post("/api/admin/logout", adminMiddleware, (req, res) => {
 const adminFreshAuth = requireFreshAuth(audit, 30 * 60_000);
 
 // ── Admin login — brute-force protected + timing-safe compare ──
+// SECURITY (S5): the per-IP lockout above is defeated by IP rotation. The app
+// has a single admin account, so we also track a GLOBAL failed-attempt counter
+// for that account — after 10 global failures within a 30-min window, admin
+// login is locked regardless of source IP.
+const _adminGlobalLock = { count: 0, windowStart: 0, lockedUntil: 0 };
+const ADMIN_GLOBAL_MAX = 10;
+const ADMIN_GLOBAL_WINDOW = 30 * 60_000;
+function _isAdminGloballyLocked() { return _adminGlobalLock.lockedUntil > Date.now(); }
+function _trackAdminGlobalFailure() {
+  const now = Date.now();
+  if (now - _adminGlobalLock.windowStart > ADMIN_GLOBAL_WINDOW) {
+    _adminGlobalLock.windowStart = now;
+    _adminGlobalLock.count = 0;
+  }
+  _adminGlobalLock.count++;
+  if (_adminGlobalLock.count >= ADMIN_GLOBAL_MAX) {
+    _adminGlobalLock.lockedUntil = now + ADMIN_GLOBAL_WINDOW;
+    return true;
+  }
+  return false;
+}
+function _clearAdminGlobalFailures() {
+  _adminGlobalLock.count = 0;
+  _adminGlobalLock.windowStart = 0;
+  _adminGlobalLock.lockedUntil = 0;
+}
+
 app.post("/api/admin/login",
   rateLimit({ windowMs: 15 * 60_000, max: 10, label: "admin-login" }),
   AUTH_READY ? async (req, res) => {
     const { password } = req.body || {};
     const envPw = process.env.ADMIN_PASSWORD;
     if (!envPw) return res.status(503).json({ error: "ADMIN_PASSWORD not configured" });
-    // Account-lockout check (Redis or in-memory)
+    // Account-lockout check (Redis or in-memory) — per-IP …
     if (await isLocked(req.ip)) {
       audit("ADMIN_LOCKED", req);
+      return res.status(429).json({ error: "יותר מדי ניסיונות כושלים — נסה/י שוב בעוד 30 דקות" });
+    }
+    // … and global per-account (defeats IP rotation).
+    if (_isAdminGloballyLocked()) {
+      audit("ADMIN_LOCKED_GLOBAL", req);
       return res.status(429).json({ error: "יותר מדי ניסיונות כושלים — נסה/י שוב בעוד 30 דקות" });
     }
     // Constant-time compare (prevents timing attacks that reveal prefix)
     if (!password || typeof password !== "string" || !safeEqual(password, envPw)) {
       const { locked } = await trackFailedLogin(req.ip);
+      const globalLocked = _trackAdminGlobalFailure();
       audit("ADMIN_FAIL", req);
-      return res.status(401).json({ error: locked ? "ננעל לחצי שעה" : "סיסמה שגויה" });
+      return res.status(401).json({ error: (locked || globalLocked) ? "ננעל לחצי שעה" : "סיסמה שגויה" });
     }
     await clearFailedLogins(req.ip);
+    _clearAdminGlobalFailures();
     const token = _signToken({ role: "admin", id: 0 }, { expiresIn: "4h", algorithm: "HS256" });
     markFreshAuth(0);
     audit("ADMIN_LOGIN", req);
@@ -10194,9 +10235,12 @@ function _trackOtpFailure(phone) {
   const rec = _otpFailures.get(phone) || { count: 0, lockedUntil: 0 };
   if (rec.lockedUntil > now) return { locked: true };
   rec.count++;
-  if (rec.count >= 5) {
+  // Lock after 3 failed attempts. NOTE: the count is intentionally NOT reset
+  // when the lock expires — repeated abuse keeps the account locked, while a
+  // legitimate user who mistypes once or twice still has attempts left.
+  if (rec.count >= 3) {
     rec.lockedUntil = now + 30 * 60 * 1000; // 30-min lockout per phone
-    rec.count = 0;
+    _otpFailures.set(phone, rec);
     return { locked: true };
   }
   _otpFailures.set(phone, rec);
@@ -10774,15 +10818,7 @@ app.get("/admin/tickets", (_req, res) => {
 // GET /api/admin/activity?limit=100&type=customer_register&since=<ts>
 // Returns the most recent platform events for the admin dashboard.
 // Same auth scheme as other admin endpoints — Bearer JWT with role:"admin".
-app.get("/api/admin/activity", AUTH_READY ? (req, res) => {
-  const tok = req.headers.authorization?.replace("Bearer ", "");
-  if (!tok) return res.status(401).json({ error: "Admin token required" });
-  try {
-    const payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS);
-    if (payload?.role !== "admin") return res.status(403).json({ error: "Admin only" });
-  } catch {
-    return res.status(401).json({ error: "Invalid admin token" });
-  }
+app.get("/api/admin/activity", adminMiddleware, AUTH_READY ? (req, res) => {
   const limit = Math.min(500, Math.max(1, parseInt(req.query.limit || "100", 10)));
   const type  = req.query.type ? String(req.query.type) : null;
   const since = req.query.since ? parseInt(req.query.since, 10) : null;
@@ -11722,6 +11758,12 @@ app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.js
       && !_isValidHttpUrl(fields.paymentLink)) {
     return res.status(400).json({ error: "קישור התשלום אינו תקין — חובה כתובת http(s) מלאה" });
   }
+  // logoUrl is rendered into <img src> on public pages — validate it the same
+  // way. An empty string clears it (handled by upsertSupplierProfile).
+  if (typeof fields.logoUrl === "string" && fields.logoUrl.trim() !== ""
+      && !_isValidHttpUrl(fields.logoUrl)) {
+    return res.status(400).json({ error: "קישור הלוגו אינו תקין — חובה כתובת http(s) מלאה" });
+  }
   const existing = getSupplierProfile ? getSupplierProfile(req.params.supplierId) : null;
   const profile = upsertSupplierProfile(req.params.supplierId, fields);
   // First time we ever see a businessName for this supplier → fire register event
@@ -12000,6 +12042,7 @@ async function _fetchAndParseFeed(url, formatHint) {
       responseType: "text",
       headers: { "User-Agent": "BundlyFeedFetcher/1.0", Accept: "*/*" },
       validateStatus: s => s < 500,
+      maxRedirects: 0,   // don't follow redirects — a 302 could bypass the SSRF IP check
     });
     if (r.status >= 400) return { ok: false, error: `HTTP ${r.status}` };
     const text = typeof r.data === "string" ? r.data : JSON.stringify(r.data);
@@ -12949,9 +12992,17 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
       const snap = _prodDb.load();
       const deal = (snap.deals || []).find(d => String(d.id) === String(dealId));
       if (deal) {
-        const winningBid = Array.isArray(deal.bids) && deal.bids.length > 0
-          ? Math.min(...deal.bids.map(b => Number(b.amount) || Infinity).filter(n => n > 0 && n !== Infinity))
-          : 0;
+        // SECURITY (S14): server-side bid floor. A supplier could fat-finger a
+        // tiny bid (e.g. ₪5 instead of ₪500) and the customer would be charged
+        // far too little. Ignore any bid below 40% of the deal's market
+        // reference — mirrors the client-side guard in App.jsx (same 40%).
+        const marketRef = Number(deal.marketMax) || Number(deal.marketMin)
+          || Number(deal.groupOffer) || 0;
+        const bidFloor = marketRef > 0 ? marketRef * 0.4 : 0;
+        const plausibleBids = (Array.isArray(deal.bids) ? deal.bids : [])
+          .map(b => Number(b.amount) || Infinity)
+          .filter(n => n > 0 && n !== Infinity && n >= bidFloor);
+        const winningBid = plausibleBids.length > 0 ? Math.min(...plausibleBids) : 0;
         if (winningBid > 0) { trustedAmount = winningBid; amountSource = "winning-bid"; }
         else if (Number(deal.groupOffer) > 0) { trustedAmount = Number(deal.groupOffer); amountSource = "group-offer"; }
         else if (Number(deal.marketMin) > 0)  { trustedAmount = Number(deal.marketMin);  amountSource = "market-min"; }
@@ -13785,6 +13836,13 @@ app.get("/invoices/:filename", (req, res) => {
           }
         } catch { /* invalid token — fall through to bearer-only access */ }
       }
+    }
+    // SECURITY (S7): an .html invoice served inline executes as same-origin
+    // (bundly.co) content. Force a download + disable MIME sniffing so it can
+    // never run scripts in our origin.
+    if (filename.endsWith(".html")) {
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.setHeader("X-Content-Type-Options", "nosniff");
     }
     res.sendFile((process.env.DATA_DIR || process.cwd()) + "/invoices/" + filename);
   } catch (e) { res.status(500).json({ error: e.message }); }
