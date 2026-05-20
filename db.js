@@ -348,7 +348,7 @@ export function updateJoinedDealPayment(userId, dealId, fields = {}) {
 
 // ── Orders ──────────────────────────────────────────────────────
 // Created when a customer accepts a supplier offer OR a deal closes successfully
-export function createOrder({ userId, supplierId, supplierName, productName, productImage, price, quantity = 1, requestId = null, dealId = null, shippingAddress, paymentMethod = "stub" }) {
+export function createOrder({ userId, supplierId, supplierName, productName, productImage, price, quantity = 1, requestId = null, dealId = null, shippingAddress, paymentMethod = "stub", paymentOption = "bundly" }) {
   _db = load();
   const order = {
     id: nextId(_db.orders),
@@ -367,7 +367,10 @@ export function createOrder({ userId, supplierId, supplierName, productName, pro
     dealId: dealId != null && dealId !== "" ? String(dealId) : null,
     shippingAddress: shippingAddress || null,
     paymentMethod,
-    paymentStatus: "pending", // pending | paid | refunded | failed
+    // paymentOption: "bundly" (Bundly processes the card) | "supplier_direct"
+    // (customer pays the supplier on the supplier's own payment link).
+    paymentOption: paymentOption === "supplier_direct" ? "supplier_direct" : "bundly",
+    paymentStatus: "pending", // pending | paid | refunded | failed | pending_supplier
     status: "placed",         // placed | confirmed | shipped | delivered | cancelled
     trackingNumber: null,
     createdAt: new Date().toISOString(),
@@ -472,6 +475,8 @@ export function createSupplier({ businessName, businessNumber, ownerName, email,
     description: description || "",
     licenseDoc,                   // path to uploaded business license PDF
     bankAccount,                  // { bank, branch, accountNumber } — for payouts
+    paymentLink: "",              // supplier's own payment URL — used when a customer picks "pay supplier directly"
+    commissionRate: 8,            // percent — Bundly commission billed to the supplier later
     kycStatus: "pending",         // pending | approved | rejected
     kycReviewedAt: null,
     kycReviewedBy: null,
