@@ -10281,7 +10281,10 @@ app.post("/api/auth/demo-supplier-login",
   rateLimit({ windowMs: 60_000, max: 10, label: "demo-supplier-login" }),
   AUTH_READY ? (req, res) => {
     if (process.env.ALLOW_DEMO_SUPPLIER !== "true") {
-      return res.status(403).json({ error: "Demo supplier login disabled" });
+      return res.status(403).json({ error: "Demo supplier login disabled — set ALLOW_DEMO_SUPPLIER=true in env + restart" });
+    }
+    if (!upsertUser || !_prodDb || typeof _prodDb.createSupplier !== "function") {
+      return res.status(503).json({ error: "DB not ready — upsertUser or _prodDb.createSupplier missing" });
     }
     try {
       const demoPhone = "+972500000000";
@@ -10294,12 +10297,15 @@ app.post("/api/auth/demo-supplier-login",
         firstName: "ספק",
         lastName: "הדגמה",
       });
-      // 2) Make sure the supplier record exists + KYC-approved so
-      //    _resolveVerifiedSupplier accepts it.
-      const snap = _prodDb.load();
-      let supplier = (snap.suppliers || []).find(
-        s => (s.email || "").toLowerCase() === demoEmail
-      );
+      // 2) Make sure the supplier record exists + KYC-approved.
+      // BUG FIX (round 4 P0): the prior version called `_prodDb.load()` —
+      // but db.js only exports its typed CRUD helpers; `load` is a private
+      // module-level function and was undefined on the imported namespace.
+      // Use `getSupplierByEmail` / `listSuppliers` / `updateSupplier`
+      // instead (all properly exported).
+      let supplier = _prodDb.getSupplierByEmail
+        ? _prodDb.getSupplierByEmail(demoEmail)
+        : (_prodDb.listSuppliers?.() || []).find(s => (s.email || "").toLowerCase() === demoEmail);
       if (!supplier) {
         supplier = _prodDb.createSupplier({
           businessName: "ספק הדגמה — Bundly Demo",
@@ -10314,17 +10320,15 @@ app.post("/api/auth/demo-supplier-login",
         });
       }
       // ALWAYS ensure kycStatus="approved" on every demo login — self-healing.
-      // BUG FIX (round 3 P1): previously the KYC-approve call was nested
-      // inside `if (!supplier)`. If the first call's updateSupplier failed
-      // silently, the row stayed "pending" forever and every subsequent
-      // demo session got 403 from _resolveVerifiedSupplier — bricking
-      // the demo until the row was manually deleted.
       if ((supplier?.kycStatus || "").toLowerCase() !== "approved") {
-        try { _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" }); }
-        catch (_) {}
-        // Re-load to reflect the update before issuing the token.
-        const snap2 = _prodDb.load();
-        supplier = (snap2.suppliers || []).find(s => s.id === supplier.id) || supplier;
+        try {
+          const updated = _prodDb.updateSupplier?.(supplier.id, { kycStatus: "approved" });
+          if (updated) supplier = updated;
+          else supplier = { ...supplier, kycStatus: "approved" };
+        } catch (e) {
+          console.warn("[demo-supplier-login] kyc update failed:", e.message);
+          supplier = { ...supplier, kycStatus: "approved" };  // best effort for response
+        }
       }
       const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "1h", algorithm: "HS256" });
       audit("DEMO_SUPPLIER_LOGIN", req, { userId: user.id, supplierId: supplier.id });
@@ -10346,8 +10350,11 @@ app.post("/api/auth/demo-supplier-login",
         demo:     true,
       });
     } catch (e) {
-      console.error("[demo-supplier-login] error:", e.message);
-      res.status(500).json({ error: "Demo login failed" });
+      console.error("[demo-supplier-login] error:", e.message, e.stack);
+      // BUG FIX: surface the actual error message so the founder can
+      // debug live during the supplier meeting. Endpoint is dev-only;
+      // there's no information-disclosure concern.
+      res.status(500).json({ error: `Demo login failed: ${e.message || "unknown"}` });
     }
   } : notReady);
 
@@ -11148,6 +11155,13 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
     catch { return res.status(401).json({ error: "Invalid token" }); }
     if (isJwtRevoked?.(payload?.jti)) return res.status(401).json({ error: "Token revoked" });
     const isAdmin = payload?.role === "admin";
+    // P1 fix: a supplier-role JWT must NOT be able to release another user's
+    // preauth — even if payload.id happens to match the order.userId. Only the
+    // owning customer or an admin can release.
+    const isCustomer = !payload?.role || payload.role === "customer" || payload.role === "user";
+    if (!isAdmin && !isCustomer) {
+      return res.status(403).json({ error: "Wrong role for this action" });
+    }
     if (!isAdmin && order.userId !== payload?.id) {
       return res.status(403).json({ error: "Not your order" });
     }
@@ -11275,7 +11289,10 @@ app.post("/api/deals/:dealId/bids",
       dealId,
       dealMeta:   req.body?.dealMeta || {},   // optional from client: category/brand/name
       currentLow: amt,
-      excludeSupplierId: supplierId,
+      // P1 fix: must use the JWT-verified id, not the body-supplied one.
+      // Otherwise a supplier whose admin overrode the body field could be
+      // counter-bid by their OWN auto-bid rule (self-undercut loop).
+      excludeSupplierId: resolvedSupplierId,
     });
   } catch (e) { console.warn(`[auto-bid] failed: ${e.message}`); }
   res.json({ ok: true, bids: list });
@@ -11369,6 +11386,15 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
   if (_alreadyFired("deal-closed", dealId, 7 * 24 * 3600_000)) {
     return res.json({ ok: true, status: "already_closed", idempotent: true });
   }
+  // P0 race fix: stamp the dealId as in-progress BEFORE any side-effects
+  // (notifications, order creation, SMS/email). Two clustered processes (the
+  // `[0]+[1]` dev setup, or any horizontal scale) that read the empty flag
+  // simultaneously would both materialize orders and double-charge customers.
+  // Persisting the marker immediately narrows the race to the single-digit-ms
+  // gap between the read above and this write — the final "filled" state at
+  // the bottom of the handler overwrites this placeholder.
+  closedDeals[dealId] = { status: "in_progress", at: new Date().toISOString() };
+  try { setAutomationFlag?.(closedDealsKey, closedDeals); } catch { /* best-effort */ }
   const bids = getDealBids(dealId);
   const filled = participants >= minParticipants && bids.length > 0;
   if (filled) {
@@ -11646,6 +11672,361 @@ app.delete("/api/suppliers/:supplierId/inventory/:sku", requireSupplierMatch, (r
   deleteInventoryItem(req.params.supplierId, req.params.sku);
   res.json({ ok: true });
 });
+
+// ─────────────────────────────────────────────────────────────────
+//  SUPPLIER CATALOG IMPORT — CSV upload + Product Feed URL polling
+//
+//  Two on-ramps for a supplier to push their entire product catalog into
+//  Bundly without re-typing each item:
+//
+//  1. CSV upload  (one-shot)
+//     POST /api/suppliers/:id/inventory/import-csv?commit=0|1
+//     Body: raw CSV (text/csv) — headers in row 1 (English or Hebrew aliases).
+//     With commit=0: returns parsed preview + validation errors (no write).
+//     With commit=1: persists via bulkUpsertInventory.
+//
+//  2. Feed URL    (recurring, every 6h)
+//     PUT  /api/suppliers/:id/feed-url    { url, format? } — store/validate URL
+//     GET  /api/suppliers/:id/feed-url                       — current config + last sync
+//     DELETE /api/suppliers/:id/feed-url                     — unset
+//     Supports CSV / JSON-array / Atom-RSS / Google Shopping XML — auto-detected.
+// ─────────────────────────────────────────────────────────────────
+
+// Tiny RFC-4180-ish CSV parser. Handles quoted fields with embedded commas,
+// CRLF/LF line endings, and "" double-quote escaping. Returns headers + rows.
+// Headers are lowercased + trimmed for alias matching.
+function _parseCsv(text) {
+  const out = [];
+  let row = [], cur = "", inQuote = false;
+  const flushCell = () => { row.push(cur); cur = ""; };
+  const flushRow  = () => { out.push(row); row = []; };
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuote) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { cur += '"'; i++; }
+        else inQuote = false;
+      } else cur += c;
+    } else {
+      if (c === '"') inQuote = true;
+      else if (c === ",") flushCell();
+      else if (c === "\r") { /* skip — handled by \n */ }
+      else if (c === "\n") { flushCell(); flushRow(); }
+      else cur += c;
+    }
+  }
+  if (cur || row.length) { flushCell(); flushRow(); }
+  // Strip BOM from first header if present
+  if (out[0]?.[0]) out[0][0] = out[0][0].replace(/^﻿/, "");
+  const headers = (out[0] || []).map(h => String(h || "").trim().toLowerCase());
+  const rows = out.slice(1)
+    .filter(r => r.length > 0 && r.some(c => c && c.trim()))
+    .map(r => {
+      const o = {};
+      headers.forEach((h, idx) => { o[h] = (r[idx] || "").trim(); });
+      return o;
+    });
+  return { headers, rows };
+}
+
+// Column-name aliases — supplier may export with English or Hebrew headers.
+const _CSV_ALIASES = {
+  sku:         ["sku", "מק\"ט", "מקט", "barcode", "ברקוד", "id", "מספר_פריט", "מספר פריט", "item_id", "product_id"],
+  name:        ["name", "title", "שם", "שם_מוצר", "שם מוצר", "product", "מוצר"],
+  price:       ["price", "מחיר", "selling_price", "retail_price", "מחיר_מכירה", "מחיר מכירה"],
+  cost:        ["cost", "עלות", "מחיר_עלות", "wholesale_price"],
+  qty:         ["qty", "quantity", "stock", "מלאי", "כמות", "inventory"],
+  image:       ["image", "image_url", "imageurl", "תמונה", "img", "photo", "picture"],
+  description: ["description", "desc", "תיאור", "details"],
+  category:    ["category", "קטגוריה", "type"],
+  brand:       ["brand", "מותג", "manufacturer", "יצרן"],
+  url:         ["url", "link", "product_url", "קישור"],
+};
+function _mapCsvRow(row) {
+  const out = {};
+  for (const [field, names] of Object.entries(_CSV_ALIASES)) {
+    for (const n of names) {
+      if (row[n] != null && row[n] !== "") { out[field] = row[n]; break; }
+    }
+  }
+  return out;
+}
+
+// Validate + normalize one parsed product row. Returns { ok, item } or { ok:false, error }.
+function _validateInventoryRow(raw, rowIdx) {
+  const m = _mapCsvRow(raw);
+  const name = String(m.name || "").trim();
+  if (!name)            return { ok: false, rowIdx, error: "name missing" };
+  if (name.length > 200) return { ok: false, rowIdx, error: "name too long (>200 chars)" };
+  const price = Number(String(m.price || "").replace(/[^\d.-]/g, ""));
+  if (!Number.isFinite(price) || price <= 0) return { ok: false, rowIdx, error: "price invalid" };
+  if (price > 1_000_000) return { ok: false, rowIdx, error: "price too high (>₪1M)" };
+  const item = {
+    sku:         String(m.sku || "").trim().slice(0, 60) || `auto-${Date.now()}-${rowIdx}`,
+    name:        name.slice(0, 200),
+    price:       Math.round(price * 100) / 100,
+    cost:        Number.isFinite(Number(m.cost)) ? Math.max(0, Number(m.cost)) : 0,
+    qty:         Number.isFinite(Number(m.qty))  ? Math.max(0, Math.floor(Number(m.qty))) : 0,
+    image:       String(m.image || "").trim().slice(0, 500),
+    description: String(m.description || "").trim().slice(0, 1000),
+    category:    String(m.category || "").trim().slice(0, 80),
+    brand:       String(m.brand || "").trim().slice(0, 80),
+    url:         String(m.url || "").trim().slice(0, 500),
+  };
+  return { ok: true, item };
+}
+
+// CSV import — preview (?commit=0) and commit (?commit=1) modes.
+app.post(
+  "/api/suppliers/:supplierId/inventory/import-csv",
+  requireSupplierMatch,
+  express.text({ type: ["text/csv", "text/plain", "application/csv"], limit: "5mb" }),
+  (req, res) => {
+    if (!bulkUpsertInventory) return res.status(503).json({ error: "DB not ready" });
+    try {
+      const text = typeof req.body === "string" ? req.body : "";
+      if (!text || text.length < 10) return res.status(400).json({ error: "Empty or invalid CSV" });
+      const { headers, rows } = _parseCsv(text);
+      if (rows.length === 0) return res.status(400).json({ error: "No data rows" });
+      if (rows.length > 5000) return res.status(413).json({ error: "Too many rows (max 5000)" });
+      const valid = [];
+      const invalid = [];
+      rows.forEach((r, i) => {
+        const result = _validateInventoryRow(r, i + 2); // +2 = 1-indexed + header
+        if (result.ok) valid.push(result.item);
+        else invalid.push(result);
+      });
+      const commit = String(req.query.commit || "") === "1";
+      if (commit) {
+        if (valid.length === 0) return res.status(400).json({ error: "No valid rows to import" });
+        const saved = bulkUpsertInventory(req.params.supplierId, valid);
+        audit("INVENTORY_CSV_IMPORT", req, { supplierId: req.params.supplierId, count: saved.length, invalid: invalid.length });
+        return res.json({ ok: true, committed: true, count: saved.length, invalid: invalid.length });
+      }
+      // Preview mode — return parsed sample without writing
+      res.json({
+        ok: true,
+        committed: false,
+        headers,
+        totalRows: rows.length,
+        validCount: valid.length,
+        invalidCount: invalid.length,
+        preview: valid.slice(0, 20),       // first 20 successful rows for table display
+        errors:  invalid.slice(0, 20),     // first 20 error rows
+      });
+    } catch (e) {
+      console.error("[inventory-csv-import] error:", e.message);
+      res.status(500).json({ error: e.message });
+    }
+  }
+);
+
+// Feed URL CRUD
+// Stored on the supplier record as `feedUrl`, `feedFormat`, `feedLastSync`,
+// `feedLastSyncCount`, `feedLastError`. The cron at the bottom of this file
+// polls every 6h.
+
+function _detectFeedFormat(contentType, body) {
+  const ct = String(contentType || "").toLowerCase();
+  if (ct.includes("csv"))                                          return "csv";
+  if (ct.includes("json"))                                         return "json";
+  if (ct.includes("xml") || ct.includes("rss") || ct.includes("atom")) return "xml";
+  const head = String(body || "").slice(0, 200).trimStart();
+  if (head.startsWith("<?xml") || head.startsWith("<rss") || head.startsWith("<feed")) return "xml";
+  if (head.startsWith("[") || head.startsWith("{"))               return "json";
+  return "csv"; // last-resort fallback
+}
+
+function _parseFeedJson(text) {
+  let data;
+  try { data = JSON.parse(text); } catch { return []; }
+  // Accept: array of products, OR {products:[]}, OR {items:[]}, OR {data:[]}
+  const arr = Array.isArray(data) ? data
+            : Array.isArray(data?.products) ? data.products
+            : Array.isArray(data?.items)    ? data.items
+            : Array.isArray(data?.data)     ? data.data
+            : [];
+  return arr;
+}
+
+// Very small XML scraper — pulls out <item>/<entry>/<product> blocks and
+// reads common child tags. Not a full XML parser, but good enough for
+// Shopify Atom feeds + Google Merchant feeds.
+function _parseFeedXml(text) {
+  const blocks = text.match(/<(item|entry|product)\b[\s\S]*?<\/\1>/gi) || [];
+  return blocks.map(block => {
+    const pick = (tag) => {
+      // Try several namespace-prefixed variants
+      const variants = [tag, `g:${tag}`, `gs:${tag}`];
+      for (const v of variants) {
+        const m = block.match(new RegExp(`<${v}\\b[^>]*>([\\s\\S]*?)</${v}>`, "i"));
+        if (m) {
+          let val = m[1].trim();
+          // Strip CDATA wrapper
+          const c = val.match(/^<!\[CDATA\[([\s\S]*?)\]\]>$/);
+          if (c) val = c[1];
+          return val;
+        }
+      }
+      return "";
+    };
+    return {
+      sku:         pick("id") || pick("sku") || pick("gtin"),
+      name:        pick("title"),
+      price:       pick("price") || pick("g:price"),
+      description: pick("description") || pick("summary"),
+      image:       pick("image_link") || pick("image") || pick("media:content"),
+      url:         pick("link") || pick("product_url"),
+      brand:       pick("brand"),
+      category:    pick("product_type") || pick("category"),
+    };
+  });
+}
+
+async function _fetchAndParseFeed(url, formatHint) {
+  // SSRF guard — reuse the same helper we built for scraper images
+  if (typeof _isSafeRemoteUrl === "function") {
+    if (!(await _isSafeRemoteUrl(url))) {
+      return { ok: false, error: "URL not allowed (private/internal)" };
+    }
+  }
+  try {
+    const r = await axios.get(url, {
+      timeout: 20000,
+      maxContentLength: 10 * 1024 * 1024,
+      responseType: "text",
+      headers: { "User-Agent": "BundlyFeedFetcher/1.0", Accept: "*/*" },
+      validateStatus: s => s < 500,
+    });
+    if (r.status >= 400) return { ok: false, error: `HTTP ${r.status}` };
+    const text = typeof r.data === "string" ? r.data : JSON.stringify(r.data);
+    const fmt = formatHint && formatHint !== "auto"
+      ? formatHint
+      : _detectFeedFormat(r.headers["content-type"], text);
+    let rawItems = [];
+    if (fmt === "csv") {
+      const parsed = _parseCsv(text);
+      rawItems = parsed.rows;
+    } else if (fmt === "json") {
+      rawItems = _parseFeedJson(text);
+    } else if (fmt === "xml") {
+      rawItems = _parseFeedXml(text);
+    }
+    const valid = [];
+    const invalid = [];
+    rawItems.forEach((r, i) => {
+      // JSON/XML feeds use camelCase / nested keys — normalize to flat lower-case
+      // first, then pass through the same validator as CSV.
+      const flat = {};
+      for (const [k, v] of Object.entries(r || {})) {
+        if (v != null && typeof v !== "object") flat[String(k).toLowerCase()] = String(v);
+      }
+      const result = _validateInventoryRow(flat, i + 1);
+      if (result.ok) valid.push(result.item);
+      else invalid.push(result);
+    });
+    return { ok: true, format: fmt, valid, invalid, total: rawItems.length };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+app.get("/api/suppliers/:supplierId/feed-url", requireSupplierMatch, (req, res) => {
+  if (!_prodDb?.getSupplier) return res.status(503).json({ error: "DB not ready" });
+  try {
+    const s = _prodDb.getSupplier(req.params.supplierId);
+    if (!s) return res.status(404).json({ error: "Supplier not found" });
+    res.json({
+      ok:                true,
+      feedUrl:           s.feedUrl           || null,
+      feedFormat:        s.feedFormat        || "auto",
+      feedLastSync:      s.feedLastSync      || null,
+      feedLastSyncCount: s.feedLastSyncCount || 0,
+      feedLastError:     s.feedLastError     || null,
+    });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.put("/api/suppliers/:supplierId/feed-url", requireSupplierMatch, express.json({ limit: "8kb" }), async (req, res) => {
+  if (!_prodDb?.updateSupplier) return res.status(503).json({ error: "DB not ready" });
+  const { url, format } = req.body || {};
+  if (typeof url !== "string" || !/^https?:\/\//i.test(url) || url.length > 500) {
+    return res.status(400).json({ error: "URL must be a valid http(s) string" });
+  }
+  const fmt = ["auto", "csv", "json", "xml"].includes(format) ? format : "auto";
+  // Run the feed once to validate before storing.
+  const result = await _fetchAndParseFeed(url, fmt);
+  if (!result.ok) {
+    return res.status(400).json({ error: `Feed test failed: ${result.error}` });
+  }
+  try {
+    const updated = _prodDb.updateSupplier(req.params.supplierId, {
+      feedUrl:           url,
+      feedFormat:        fmt,
+      feedLastSync:      new Date().toISOString(),
+      feedLastSyncCount: result.valid.length,
+      feedLastError:     null,
+    });
+    if (result.valid.length > 0) {
+      bulkUpsertInventory(req.params.supplierId, result.valid);
+    }
+    audit("FEED_URL_SET", req, { supplierId: req.params.supplierId, url, count: result.valid.length });
+    res.json({
+      ok: true,
+      supplier:    { feedUrl: updated?.feedUrl, feedFormat: updated?.feedFormat },
+      synced:      result.valid.length,
+      invalid:     result.invalid.length,
+      detectedFmt: result.format,
+    });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.delete("/api/suppliers/:supplierId/feed-url", requireSupplierMatch, (req, res) => {
+  if (!_prodDb?.updateSupplier) return res.status(503).json({ error: "DB not ready" });
+  try {
+    _prodDb.updateSupplier(req.params.supplierId, {
+      feedUrl: null, feedFormat: null, feedLastSync: null,
+      feedLastSyncCount: 0, feedLastError: null,
+    });
+    audit("FEED_URL_REMOVED", req, { supplierId: req.params.supplierId });
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// Feed-URL polling cron — every 6 hours. Iterates suppliers with a feedUrl
+// and re-fetches + bulkUpsertInventory. Single-run guarded.
+let _feedSyncRunning = false;
+async function _runFeedSync() {
+  if (_feedSyncRunning) return;
+  _feedSyncRunning = true;
+  try {
+    const suppliers = (_prodDb?.listSuppliers?.() || []).filter(s => s.feedUrl);
+    for (const s of suppliers) {
+      try {
+        const r = await _fetchAndParseFeed(s.feedUrl, s.feedFormat || "auto");
+        if (!r.ok) {
+          _prodDb.updateSupplier?.(s.id, { feedLastError: r.error, feedLastSync: new Date().toISOString() });
+          continue;
+        }
+        if (r.valid.length > 0) bulkUpsertInventory(s.id, r.valid);
+        _prodDb.updateSupplier?.(s.id, {
+          feedLastSync:      new Date().toISOString(),
+          feedLastSyncCount: r.valid.length,
+          feedLastError:     null,
+        });
+        console.log(`[feed-sync] supplier ${s.id} (${s.businessName || s.email}) — ${r.valid.length} products synced`);
+      } catch (e) {
+        console.warn(`[feed-sync] supplier ${s.id} failed: ${e.message}`);
+        try { _prodDb.updateSupplier?.(s.id, { feedLastError: e.message }); } catch {}
+      }
+    }
+  } finally {
+    _feedSyncRunning = false;
+  }
+}
+// First run 10 minutes after boot (give the server time to settle); repeat every 6h.
+setTimeout(_runFeedSync, 10 * 60_000).unref?.();
+setInterval(_runFeedSync, 6 * 60 * 60_000).unref?.();
 
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER LISTINGS — products the supplier publishes themselves

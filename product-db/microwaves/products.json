@@ -7,9 +7,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/1/0/89370144c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393586,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305170,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -23,9 +23,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/2/6/43436220c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393586,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305174,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -39,7 +39,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/6/5/51505641c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393587
+      "updated": 1779196305176,
+      "ksp": 729,
+      "kspUrl": "https://ksp.co.il/web/item/115676"
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -53,9 +55,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/9/8/57698991c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393587,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/228091"
+      "updated": 1779196305177,
+      "ksp": 346,
+      "kspUrl": "https://ksp.co.il/web/item/167965"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -69,9 +71,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/4/0/94310468c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393588,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305178,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -85,9 +87,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/4/4/44844471c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393588,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305179,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -101,9 +103,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/8/6/93906823c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393588,
-      "ksp": 1290,
-      "kspUrl": "https://ksp.co.il/web/item/382927"
+      "updated": 1779196305180
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -117,8 +117,8 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/2/8/85548233c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393588,
-      "ksp": 549,
+      "updated": 1779196305181,
+      "ksp": 539,
       "kspUrl": "https://ksp.co.il/web/item/120411"
     },
     "filterTags": {
@@ -130,12 +130,12 @@
     "name": "מיקרוגל LG MS2535GIS 25 ליטר",
     "image": "images/939832.gif",
     "manufacturer": "LG",
-    "imageUrl": "https://img.zap.co.il/pics/0/2/0/7/43817020c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/0/7/43817020b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393588,
+      "updated": 1779196305184,
       "ksp": 555,
-      "kspUrl": "https://ksp.co.il/web/item/304999"
+      "kspUrl": "https://ksp.co.il/web/item/315715"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -149,7 +149,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/3/4/66214303c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393589
+      "updated": 1779196305185
     },
     "filterTags": {
       "capacity_l": "31 ל'"
@@ -163,7 +163,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/2/3/90193224b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393589,
+      "updated": 1779196305190,
       "ksp": 1509,
       "kspUrl": "https://ksp.co.il/web/item/450278"
     },
@@ -179,9 +179,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/4/7/64997479c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393589,
+      "updated": 1779196305191,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -195,7 +195,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/4/4/95094493b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393589
+      "updated": 1779196305192
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -209,7 +209,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/5/2/65442515c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393589
+      "updated": 1779196305193
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -223,7 +223,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/8/2/76282841c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590
+      "updated": 1779196305194
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -237,7 +237,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/9/7/60987969c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590,
+      "updated": 1779196305195,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651",
       "ksp": 304,
@@ -255,9 +255,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/9/3/54443903c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/228091"
+      "updated": 1779196305196,
+      "ksp": 346,
+      "kspUrl": "https://ksp.co.il/web/item/167965"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -271,7 +271,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/7/6/97286757b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590
+      "updated": 1779196305197
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -285,7 +285,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/6/1/75421611c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590
+      "updated": 1779196305198
     },
     "filterTags": {
       "capacity_l": "29 ל'"
@@ -299,7 +299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/0/6/88276041b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393590
+      "updated": 1779196305199
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -313,7 +313,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/6/5/90605682c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591
+      "updated": 1779196305200
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -327,7 +327,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/4/8/79258427c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591
+      "updated": 1779196305201
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -341,7 +341,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/1/4/60144111c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591
+      "updated": 1779196305202
     },
     "filterTags": {
       "capacity_l": "26 ל'"
@@ -355,7 +355,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/9/7/93547935c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591
+      "updated": 1779196305203
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -369,7 +369,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/9/6/75136917c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591,
+      "updated": 1779196305206,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651",
       "ksp": 304,
@@ -387,9 +387,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/5/4/89644517c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305208,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -403,9 +403,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/6/3/45423613c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393591,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305209,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -419,7 +419,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/2/7/74707209b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592
+      "updated": 1779196305210
     },
     "filterTags": {
       "capacity_l": "29 ל'"
@@ -433,7 +433,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/1/2/95212149b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592
+      "updated": 1779196305211
     },
     "filterTags": {
       "capacity_l": "26 ל'"
@@ -447,7 +447,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/9/5/5/76125594c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592,
+      "updated": 1779196305212,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/228091"
     },
@@ -463,9 +463,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/9/2/95202981b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305213,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -479,9 +479,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/6/3/74833691c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305214,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -495,7 +495,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/1/8/74858142c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393592
+      "updated": 1779196305215
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -509,7 +509,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/162103640346c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305216
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -523,7 +523,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/6/0/93470672c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305217
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -537,7 +537,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/3/4/52754355c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593,
+      "updated": 1779196305218,
       "ksp": 429,
       "kspUrl": "https://ksp.co.il/web/item/250851"
     },
@@ -553,7 +553,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/6/5/90605681c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305219
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -567,7 +567,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/6/6/95006604c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305220
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -581,7 +581,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/1/6/64956192c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305221
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -595,7 +595,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/0/0/79010070c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393593
+      "updated": 1779196305222
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -609,9 +609,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/1/0/89370141c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305223,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -625,7 +625,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/27121356550c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594
+      "updated": 1779196305224
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -639,11 +639,11 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/9/2/93202961c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594,
+      "updated": 1779196305225,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651",
-      "ksp": 259,
-      "kspUrl": "https://ksp.co.il/web/item/351587"
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -657,7 +657,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/1/6/69836154c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594
+      "updated": 1779196305226
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -671,7 +671,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/9/5/46585916c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594
+      "updated": 1779196305227,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -685,7 +687,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/3/7/52747340c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393594,
+      "updated": 1779196305228,
       "ksp": 429,
       "kspUrl": "https://ksp.co.il/web/item/250851"
     },
@@ -701,7 +703,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/8/3/47143871c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305229
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -715,7 +717,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/4/5/95655493c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305230,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -729,7 +733,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/0/0/79080064c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305231
     },
     "filterTags": {
       "capacity_l": "20 ל'",
@@ -744,7 +748,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/0/1/90391044c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305232
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -758,7 +762,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/9/8/39188984c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305232
     },
     "filterTags": {
       "capacity_l": "26 ל'"
@@ -772,7 +776,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/1/2/93932190c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305233
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -786,7 +790,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/5/8/78998505c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393595
+      "updated": 1779196305234
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -800,9 +804,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/6/3/74833689c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305235,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -816,7 +820,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/0/7/76187066c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596
+      "updated": 1779196305236
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -830,7 +834,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/5/9/74409536c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596
+      "updated": 1779196305237,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -844,7 +850,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/4/7/2/65492748c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596
+      "updated": 1779196305239
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -858,7 +864,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/2/3/58673262c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596,
+      "updated": 1779196305240,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -874,7 +880,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/3/6/62286307c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596
+      "updated": 1779196305241
     },
     "filterTags": {
       "capacity_l": "42 ל'"
@@ -888,7 +894,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/1/2/93932189c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393596
+      "updated": 1779196305242
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -902,7 +908,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/3/7/39787306c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597
+      "updated": 1779196305243
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -916,7 +922,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/9/3/89743977c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597,
+      "updated": 1779196305244,
       "ksp": 534,
       "kspUrl": "https://ksp.co.il/web/item/411144"
     },
@@ -932,9 +938,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/5/1/90291584c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597,
+      "updated": 1779196305245,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -948,7 +954,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/6/3/93853605c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597
+      "updated": 1779196305246
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -962,7 +968,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/9/4/93584964b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597
+      "updated": 1779196305247
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -976,7 +982,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/8/8/35338895c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597
+      "updated": 1779196305253,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -990,7 +998,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/2712135642929c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393597
+      "updated": 1779196305256
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -1004,9 +1012,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/7/6/44456778c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393598,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305258,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1020,7 +1028,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/4/6/92776484c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393598
+      "updated": 1779196305259,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1034,9 +1044,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/5/5/5/66355556c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393598,
+      "updated": 1779196305261,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1050,8 +1060,8 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/6/9/70549699c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393598,
-      "ksp": 549,
+      "updated": 1779196305262,
+      "ksp": 539,
       "kspUrl": "https://ksp.co.il/web/item/120411"
     },
     "filterTags": {
@@ -1067,7 +1077,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/2/7/45247247c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305264
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1081,7 +1091,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/5/7/93567512c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305268
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1095,7 +1105,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/0/7/76187065c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305269
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1109,7 +1119,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/0/6/79166078c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305270
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -1123,9 +1133,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/6/5/93205608b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599,
-      "ksp": 1509,
-      "kspUrl": "https://ksp.co.il/web/item/450278"
+      "updated": 1779196305271,
+      "ksp": 1690,
+      "kspUrl": "https://ksp.co.il/web/item/457146"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1139,9 +1149,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/6/9/46199642c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599,
+      "updated": 1779196305272,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1155,7 +1165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/0/3/55583047c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305273
     },
     "filterTags": {
       "capacity_l": "17 ל'"
@@ -1169,7 +1179,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/1/0/68230190c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393599
+      "updated": 1779196305274
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1183,7 +1193,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/4/2/35622490c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600
+      "updated": 1779196305276,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1197,7 +1209,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/0/9/49369080c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600,
+      "updated": 1779196305277,
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/278922"
     },
@@ -1213,7 +1225,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/8/0/79500838c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600,
+      "updated": 1779196305277,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651",
       "ksp": 349,
@@ -1231,7 +1243,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/3/6/62286306b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600
+      "updated": 1779196305278
     },
     "filterTags": {
       "capacity_l": "42 ל'"
@@ -1245,7 +1257,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/5/0/1/54481051c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600,
+      "updated": 1779196305279,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/250858"
     },
@@ -1261,7 +1273,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/9/8/46418999c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600
+      "updated": 1779196305280
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1275,9 +1287,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/6/8/62828655c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393600,
+      "updated": 1779196305280,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1291,8 +1303,8 @@
     "imageUrl": "https://img.zap.co.il/pics/4/9/6/4/59064694c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601,
-      "ksp": 549,
+      "updated": 1779196305281,
+      "ksp": 539,
       "kspUrl": "https://ksp.co.il/web/item/120411"
     },
     "filterTags": {
@@ -1307,7 +1319,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/1/8/86948173c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601
+      "updated": 1779196305282
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -1321,7 +1333,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/1/2/77102113c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601
+      "updated": 1779196305283
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1335,7 +1347,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/9/1/59191927c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601
+      "updated": 1779196305284
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -1349,7 +1361,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/8/1/53191849c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601
+      "updated": 1779196305285
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1363,7 +1375,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/7/7/90737714c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601,
+      "updated": 1779196305286,
       "ksp": 259,
       "kspUrl": "https://ksp.co.il/web/item/351587"
     },
@@ -1379,7 +1391,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/0/4/52304060c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393601
+      "updated": 1779196305287
     },
     "filterTags": {
       "capacity_l": "24 ל'"
@@ -1393,7 +1405,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/4/5/95655492c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393602
+      "updated": 1779196305289
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -1407,9 +1419,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/9/7/2/78832794c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393603,
-      "ksp": 370,
-      "kspUrl": "https://ksp.co.il/web/item/30743"
+      "updated": 1779196305290,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1423,7 +1435,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/7/7/94727738c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393603
+      "updated": 1779196305291
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1437,7 +1449,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/9/4/94384931c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393604
+      "updated": 1779196305291
     },
     "filterTags": {
       "capacity_l": "31 ל'"
@@ -1451,9 +1463,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/8/0/94880896b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393604,
-      "ksp": 555,
-      "kspUrl": "https://ksp.co.il/web/item/304999"
+      "updated": 1779196305292,
+      "ksp": 734,
+      "kspUrl": "https://ksp.co.il/web/item/398968"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1467,7 +1479,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/2/2/87562293c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393605
+      "updated": 1779196305293
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1481,7 +1493,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/5/4/57384504c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393605
+      "updated": 1779196305294
     },
     "filterTags": {
       "capacity_l": "35 ל'"
@@ -1495,7 +1507,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/4/7/87157432c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393605
+      "updated": 1779196305295
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1509,7 +1521,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/7/2/41472773c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393606
+      "updated": 1779196305296
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1523,9 +1535,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/3/0/94110389c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393606,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/228091"
+      "updated": 1779196305297,
+      "ksp": 346,
+      "kspUrl": "https://ksp.co.il/web/item/167965"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1539,7 +1551,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/9/8/5/47145894c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393606
+      "updated": 1779196305297
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1553,7 +1565,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/4/7/87177475c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393607
+      "updated": 1779196305298
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1567,7 +1579,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/4/9/88409471c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393607,
+      "updated": 1779196305299,
       "ksp": 370,
       "kspUrl": "https://ksp.co.il/web/item/30743"
     },
@@ -1583,7 +1595,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/5/2/79252562c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393607,
+      "updated": 1779196305300,
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/278922"
     },
@@ -1599,7 +1611,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/5/4/78094517c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393607
+      "updated": 1779196305301,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1613,7 +1627,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/9/9/77349933c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393607
+      "updated": 1779196305302
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -1627,9 +1641,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/8/7/56517866c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393608,
-      "ksp": 1290,
-      "kspUrl": "https://ksp.co.il/web/item/382927"
+      "updated": 1779196305303
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -1643,7 +1655,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/3/1/56121338c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393608
+      "updated": 1779196305304
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1657,9 +1669,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/9/6/94266907c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393608,
-      "ksp": 1509,
-      "kspUrl": "https://ksp.co.il/web/item/450278"
+      "updated": 1779196305305,
+      "ksp": 1988,
+      "kspUrl": "https://ksp.co.il/web/item/456000"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1673,7 +1685,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/1/9/78419197c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393608
+      "updated": 1779196305306
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1687,7 +1699,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/9/7/89797990c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393608,
+      "updated": 1779196305307,
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/278922"
     },
@@ -1703,7 +1715,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/1612105258568c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393609
+      "updated": 1779196305308
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1717,7 +1729,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/5/2/79252560c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393609
+      "updated": 1779196305309
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -1731,7 +1743,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/2/9/56119263c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393609
+      "updated": 1779196305310
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1745,7 +1757,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/8/6/86066899c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393609
+      "updated": 1779196305311
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1759,7 +1771,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/0/4/85534005c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393609,
+      "updated": 1779196305312,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -1775,9 +1787,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/8/0/94880897b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393610,
+      "updated": 1779196305313,
       "ksp": 555,
-      "kspUrl": "https://ksp.co.il/web/item/304999"
+      "kspUrl": "https://ksp.co.il/web/item/315715"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1791,7 +1803,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/3/1/51921312c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393611
+      "updated": 1779196305313
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1805,7 +1817,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/8/0/90710812c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393611
+      "updated": 1779196305314
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -1819,7 +1831,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/5/8/75518500c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393611
+      "updated": 1779196305315
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1833,7 +1845,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/5/5/59155535c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393611
+      "updated": 1779196305316
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1847,7 +1859,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/3/1/76321398c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612
+      "updated": 1779196305317
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1861,7 +1873,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/5/2/92832537c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612
+      "updated": 1779196305318
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1875,7 +1887,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/112123859643c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612
+      "updated": 1779196305319
     },
     "filterTags": {
       "capacity_l": "23 ל'",
@@ -1890,11 +1902,11 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/2/5/93195259c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612,
+      "updated": 1779196305319,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651",
-      "ksp": 259,
-      "kspUrl": "https://ksp.co.il/web/item/351587"
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1908,7 +1920,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/9/1/69821971c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612
+      "updated": 1779196305321
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1922,7 +1934,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/9/7/68537914c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393612
+      "updated": 1779196305323
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -1936,7 +1948,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/1/7/95657173c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613
+      "updated": 1779196305323,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -1950,9 +1964,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/3/9/43499350c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613,
+      "updated": 1779196305324,
       "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/450765"
+      "kspUrl": "https://ksp.co.il/web/item/450770"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -1966,7 +1980,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/1/8/39818187c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613,
+      "updated": 1779196305325,
       "ksp": 370,
       "kspUrl": "https://ksp.co.il/web/item/30743"
     },
@@ -1982,7 +1996,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/2/79252561c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613,
+      "updated": 1779196305326,
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/278922"
     },
@@ -1998,7 +2012,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/9/0/74990986c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613,
+      "updated": 1779196305327,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651"
     },
@@ -2014,7 +2028,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/0/7/76187065c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393613
+      "updated": 1779196305328
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2028,7 +2042,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/6/2/44622675c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614
+      "updated": 1779196305329,
+      "ksp": 729,
+      "kspUrl": "https://ksp.co.il/web/item/115676"
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -2042,7 +2058,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/7/6/79656729c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614
+      "updated": 1779196305330
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2056,7 +2072,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/3/8/41248312c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614
+      "updated": 1779196305331
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -2070,7 +2086,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/3/1/76321398c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614
+      "updated": 1779196305331
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2084,7 +2100,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/3/7/51797379c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614,
+      "updated": 1779196305332,
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/278922"
     },
@@ -2100,7 +2116,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/8/9/93059876c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393614
+      "updated": 1779196305333
     },
     "filterTags": {
       "capacity_l": "29 ל'"
@@ -2114,7 +2130,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/5/2/95542504c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615,
+      "updated": 1779196305334,
       "ksp": 259,
       "kspUrl": "https://ksp.co.il/web/item/351587"
     },
@@ -2130,7 +2146,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/5/7/75747553c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615
+      "updated": 1779196305335
     },
     "filterTags": {
       "capacity_l": "50 ל'"
@@ -2144,7 +2160,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/2/7/92487235c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615
+      "updated": 1779196305336
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2158,7 +2174,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/6/4/91534696c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615
+      "updated": 1779196305337
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -2172,7 +2188,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/1/1/95581153c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615
+      "updated": 1779196305338
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2186,8 +2202,8 @@
     "imageUrl": "https://img.zap.co.il/pics/8/1/9/2/44342918c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615,
-      "ksp": 549,
+      "updated": 1779196305340,
+      "ksp": 539,
       "kspUrl": "https://ksp.co.il/web/item/120411"
     },
     "filterTags": {
@@ -2202,7 +2218,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/8/3/70203838c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393615
+      "updated": 1779196305340
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2216,7 +2232,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/1/0/0/75210018c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616
+      "updated": 1779196305342,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2230,9 +2248,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/0/4/65114026c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616,
-      "ksp": 1290,
-      "kspUrl": "https://ksp.co.il/web/item/382927"
+      "updated": 1779196305343
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -2246,7 +2262,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/5/0/3/96543056c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616
+      "updated": 1779196305344
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -2260,7 +2276,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/0/8/74418014c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616
+      "updated": 1779196305344
     },
     "filterTags": {
       "capacity_l": "29 ל'"
@@ -2274,7 +2290,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/1/8/76628179c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616,
+      "updated": 1779196305345,
       "ivory": 297,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116653",
       "ksp": 259,
@@ -2292,7 +2308,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/0/1/95451033c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616
+      "updated": 1779196305346,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2306,7 +2324,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/2/1/81811231c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393616
+      "updated": 1779196305347
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2320,7 +2338,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/1/0/75580175c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305348
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2334,7 +2352,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/5/6/87326530c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305349
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2348,7 +2366,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/2/5/55635258c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305350
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2362,7 +2380,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/2/8/40128231c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305351
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -2376,7 +2394,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/7/5/78145768b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305351
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2390,7 +2408,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/9/6/67126972c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393617
+      "updated": 1779196305352
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2404,7 +2422,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/4/0/75580488c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393618
+      "updated": 1779196305353
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2418,7 +2436,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/4/9/97039422c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393618
+      "updated": 1779196305355
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2432,7 +2450,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/2/8/96948238c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393618
+      "updated": 1779196305356
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -2446,7 +2464,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/7/6/53836755c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393618
+      "updated": 1779196305357
     },
     "filterTags": {
       "capacity_l": "22 ל'"
@@ -2460,7 +2478,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/6/8/89928626c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393618
+      "updated": 1779196305358
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2474,7 +2492,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/2/8/96948241c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393619
+      "updated": 1779196305359
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2488,7 +2506,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/5/1/88451549c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393619
+      "updated": 1779196305360
     },
     "filterTags": {
       "capacity_l": "25 ל'",
@@ -2503,7 +2521,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/0/3/79643080c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393619
+      "updated": 1779196305361
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -2517,7 +2535,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/4/9/41389421c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393619
+      "updated": 1779196305362
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2531,7 +2549,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/4/5/44265415c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393620,
+      "updated": 1779196305363,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -2547,7 +2565,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/9/1/94981970c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393620
+      "updated": 1779196305364
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -2561,7 +2579,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/2/4/73844201c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393620
+      "updated": 1779196305365
     },
     "filterTags": {
       "capacity_l": "45 ל'"
@@ -2575,7 +2593,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/0/1/61861088c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393620,
+      "updated": 1779196305365,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -2591,7 +2609,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/0/2/74822061b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621
+      "updated": 1779196305366
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2605,7 +2623,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/4/8/96828440c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621,
+      "updated": 1779196305367,
       "ksp": 259,
       "kspUrl": "https://ksp.co.il/web/item/351587"
     },
@@ -2621,7 +2639,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/2/8/96948240c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621
+      "updated": 1779196305368
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -2635,7 +2653,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/1/3/64413178c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621
+      "updated": 1779196305369
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2649,7 +2667,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/6/5/95325636b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621
+      "updated": 1779196305370
     },
     "filterTags": {
       "capacity_l": "42 ל'"
@@ -2663,7 +2681,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/3/2/97392355c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393621
+      "updated": 1779196305371
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2677,7 +2695,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/9/9/68759934c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622
+      "updated": 1779196305372
     },
     "filterTags": {
       "capacity_l": "44 ל'"
@@ -2691,9 +2709,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/9/3/89743973c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305374,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -2707,7 +2725,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/2/7/60157221c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622
+      "updated": 1779196305375
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -2721,9 +2739,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/0/4/81814072c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305377,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2737,7 +2755,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/1/4/59004178c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622
+      "updated": 1779196305378
     },
     "filterTags": {
       "capacity_l": "34 ל'"
@@ -2751,7 +2769,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/5/0/74050533c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622
+      "updated": 1779196305379
     },
     "filterTags": {
       "capacity_l": "43 ל'"
@@ -2765,7 +2783,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/28112134706c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393622
+      "updated": 1779196305380
     },
     "filterTags": {
       "capacity_l": "45 ל'"
@@ -2779,7 +2797,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/5/8/57348558c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623
+      "updated": 1779196305380
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2793,7 +2811,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/1/0/52490133c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623
+      "updated": 1779196305381
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2807,7 +2825,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/0/9/74839097c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623,
+      "updated": 1779196305382,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -2824,7 +2842,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/9/2/61002959c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623
+      "updated": 1779196305383
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2838,7 +2856,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/4/3/90493434c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623
+      "updated": 1779196305384
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2852,7 +2870,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/2/7/74087260c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623,
+      "updated": 1779196305385,
       "ksp": 259,
       "kspUrl": "https://ksp.co.il/web/item/351587"
     },
@@ -2868,7 +2886,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/4/4/51224424c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393623
+      "updated": 1779196305385
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2882,7 +2900,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/3/2/86862370c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624
+      "updated": 1779196305386
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2896,9 +2914,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/1/7/41937159c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/228091"
+      "updated": 1779196305388,
+      "ksp": 346,
+      "kspUrl": "https://ksp.co.il/web/item/167965"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2912,7 +2930,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/4/3/69973480c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624
+      "updated": 1779196305390
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2926,7 +2944,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/7/2/45192727c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624
+      "updated": 1779196305392
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -2940,7 +2958,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/9/3/76483931c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624
+      "updated": 1779196305393
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2954,7 +2972,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/1/5/59385130c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393624
+      "updated": 1779196305394
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -2968,7 +2986,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/3/2/78162335c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305395,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2982,7 +3002,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/1/3/88733123c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305396
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -2996,7 +3016,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/6/46516561c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305396,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3010,7 +3032,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/3/0/72850360c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305398
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -3024,7 +3046,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/5/4/46384564c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305398
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3038,7 +3060,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/5/3/50923550c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305399
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3052,7 +3074,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/9/5/51545924c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393625
+      "updated": 1779196305400
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3066,7 +3088,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/3/7/56207398c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626,
+      "updated": 1779196305401,
       "ksp": 370,
       "kspUrl": "https://ksp.co.il/web/item/30743"
     },
@@ -3082,7 +3104,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/52141941926c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626
+      "updated": 1779196305402
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3096,7 +3118,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/9/0/88490924c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626
+      "updated": 1779196305403
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -3110,7 +3132,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/9/2/37632967c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626
+      "updated": 1779196305405,
+      "ksp": 205,
+      "kspUrl": "https://ksp.co.il/web/item/405799"
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3124,7 +3148,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/3/4/52754353c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626
+      "updated": 1779196305407
     },
     "filterTags": {
       "capacity_l": "28 ל'"
@@ -3138,7 +3162,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/3/7/41407385c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393626
+      "updated": 1779196305408
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3152,7 +3176,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/2/1/79281237c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627
+      "updated": 1779196305409
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3166,7 +3190,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/6/3/70203620c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627,
+      "updated": 1779196305410,
       "ivory": 285,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=116651"
     },
@@ -3182,7 +3206,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/6/0/61180646c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627
+      "updated": 1779196305411
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -3196,7 +3220,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/9/7/79317958c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627
+      "updated": 1779196305412
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3210,7 +3234,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/5/6/52776547c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627
+      "updated": 1779196305413
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3224,7 +3248,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/1/1/86611171c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393627
+      "updated": 1779196305414
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3238,7 +3262,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/1/9/79319166c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628
+      "updated": 1779196305415
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -3252,7 +3276,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/9/8/74148969c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628
+      "updated": 1779196305416
     },
     "filterTags": {
       "capacity_l": "43 ל'"
@@ -3266,7 +3290,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/5/3/75053524c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628
+      "updated": 1779196305417
     },
     "filterTags": {
       "capacity_l": "40 ל'"
@@ -3280,9 +3304,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/1/9/76129182c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628,
-      "ksp": 534,
-      "kspUrl": "https://ksp.co.il/web/item/411144"
+      "updated": 1779196305418,
+      "ksp": 489,
+      "kspUrl": "https://ksp.co.il/web/item/385592"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -3296,7 +3320,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/5/7/56877535c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628
+      "updated": 1779196305418
     },
     "filterTags": {
       "capacity_l": "20 ל'"
@@ -3310,7 +3334,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/5/2/39952513c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393628,
+      "updated": 1779196305419,
       "ksp": 358,
       "kspUrl": "https://ksp.co.il/web/item/115658"
     },
@@ -3326,7 +3350,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/5/5/94955557c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305420
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3340,7 +3364,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/5/1/65291532c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305423
     },
     "filterTags": {
       "capacity_l": "26 ל'"
@@ -3354,7 +3378,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/1/7/66927138c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305424
     },
     "filterTags": {
       "capacity_l": "44 ל'"
@@ -3368,7 +3392,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/1/4/84774186c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305425
     },
     "filterTags": {
       "capacity_l": "22 ל'"
@@ -3382,7 +3406,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/0/7/88147004c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305426
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3396,7 +3420,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/9/6/46446947c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305427
     },
     "filterTags": {
       "capacity_l": "22 ל'"
@@ -3410,7 +3434,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/0/7/88147003c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393629
+      "updated": 1779196305428
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3424,7 +3448,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/0/5/74375053c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630
+      "updated": 1779196305429
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3438,7 +3462,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/3/3/42593382c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630
+      "updated": 1779196305430
     },
     "filterTags": {
       "capacity_l": "35 ל'"
@@ -3452,7 +3476,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/7/9/69779733c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630
+      "updated": 1779196305431
     },
     "filterTags": {
       "capacity_l": "22 ל'"
@@ -3466,9 +3490,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/6/8/74428635c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/228091"
+      "updated": 1779196305432,
+      "ksp": 346,
+      "kspUrl": "https://ksp.co.il/web/item/167965"
     },
     "filterTags": {
       "capacity_l": "23 ל'"
@@ -3482,7 +3506,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/9/5/94735942c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630
+      "updated": 1779196305432
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3496,7 +3520,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/8/4/47484873c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630
+      "updated": 1779196305433
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -3510,9 +3534,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/8/3/40003854c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393630,
-      "ksp": 662,
-      "kspUrl": "https://ksp.co.il/web/item/333265"
+      "updated": 1779196305435,
+      "ksp": 655,
+      "kspUrl": "https://ksp.co.il/web/item/382885"
     },
     "filterTags": {
       "capacity_l": "32 ל'"
@@ -3526,7 +3550,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/1/6/60886114c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305435
     },
     "filterTags": {
       "capacity_l": "44 ל'"
@@ -3540,7 +3564,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/2/9/58819273c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305436
     },
     "filterTags": {}
   },
@@ -3552,7 +3576,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/4/8/70438402c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305438
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3566,7 +3590,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/6/3/70613666c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305440
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3580,7 +3604,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/3/4/96734397c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305441
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3594,7 +3618,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/8/7/85567802c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305442
     },
     "filterTags": {
       "capacity_l": "44 ל'"
@@ -3608,7 +3632,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/6/3/74833693c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393631
+      "updated": 1779196305443
     },
     "filterTags": {
       "capacity_l": "35 ל'"
@@ -3622,7 +3646,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/3/0/48200366c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305444
     },
     "filterTags": {}
   },
@@ -3634,7 +3658,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/8/1/44971800c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305445
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -3648,7 +3672,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/5/1/65291534c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305446
     },
     "filterTags": {
       "capacity_l": "26 ל'"
@@ -3662,7 +3686,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/5/7/87137575c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305447
     },
     "filterTags": {
       "capacity_l": "44 ל'"
@@ -3676,7 +3700,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/6/9/76129641c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305447
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -3690,7 +3714,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/6/6/40986685c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305448
     },
     "filterTags": {
       "capacity_l": "38 ל'"
@@ -3704,7 +3728,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/4/7/88707430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393632
+      "updated": 1779196305449
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -3718,9 +3742,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/7/0/47150753c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633,
-      "ksp": 370,
-      "kspUrl": "https://ksp.co.il/web/item/30743"
+      "updated": 1779196305450,
+      "ksp": 350,
+      "kspUrl": "https://ksp.co.il/web/item/136770"
     },
     "filterTags": {
       "capacity_l": "25 ל'"
@@ -3734,7 +3758,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/7/2/41472772c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633
+      "updated": 1779196305451
     },
     "filterTags": {
       "capacity_l": "50 ל'"
@@ -3748,7 +3772,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/4/6/94266450c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633
+      "updated": 1779196305452
     },
     "filterTags": {
       "capacity_l": "21 ל'"
@@ -3762,7 +3786,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/4/6/68586412c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633
+      "updated": 1779196305453
     },
     "filterTags": {
       "capacity_l": "46 ל'"
@@ -3776,7 +3800,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/8/6/41246870c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633
+      "updated": 1779196305454
     },
     "filterTags": {
       "capacity_l": "53 ל'"
@@ -3790,7 +3814,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/5/6/65426515c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393633
+      "updated": 1779196305455
     },
     "filterTags": {}
   },
@@ -3802,7 +3826,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/4/3/59003458c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634
+      "updated": 1779196305457
     },
     "filterTags": {
       "capacity_l": "50 ל'"
@@ -3816,7 +3840,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/5/1/65291531c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634,
+      "updated": 1779196305458,
       "ksp": 2845,
       "kspUrl": "https://ksp.co.il/web/item/295186"
     },
@@ -3830,7 +3854,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/2/5/37725213c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634
+      "updated": 1779196305459
     },
     "filterTags": {
       "capacity_l": "30 ל'"
@@ -3844,7 +3868,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/9/8/46668986c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634
+      "updated": 1779196305460
     }
   },
   {
@@ -3855,7 +3879,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/1/5/2/98412518c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634
+      "updated": 1779196305461
     }
   },
   {
@@ -3866,7 +3890,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/5/6/81916591c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778636393634
+      "updated": 1779196305462
     }
   }
 ]

@@ -1,541 +1,13 @@
 [
   {
-    "id": "ksp_329440",
-    "name": "קולפן שום מסיליקון מבית Svim",
-    "imageUrl": "https://ksp.co.il/shop/items/329440.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 15,
-      "kspUrl": "https://ksp.co.il/web/item/329440"
-    }
-  },
-  {
-    "id": "ksp_389510",
-    "name": "פורס ביצים קלאסי מבית Davmi",
-    "imageUrl": "https://ksp.co.il/shop/items/389510.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 19,
-      "kspUrl": "https://ksp.co.il/web/item/389510"
-    }
-  },
-  {
-    "id": "ksp_240720",
-    "name": "קרש משופע להכנת ניוקי מבית Eppicotispai",
-    "imageUrl": "https://ksp.co.il/shop/items/240720.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 19,
-      "kspUrl": "https://ksp.co.il/web/item/240720"
-    }
-  },
-  {
-    "id": "ksp_240694",
-    "name": "קרש משופע להכנת ניוקי וגרגנלי מבית Eppicotispai",
-    "imageUrl": "https://ksp.co.il/shop/items/240694.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 25,
-      "kspUrl": "https://ksp.co.il/web/item/240694"
-    }
-  },
-  {
-    "id": "ksp_240702",
-    "name": "קרש ישר להכנת ניוקי וגרגנלי מבית Eppicotispai",
-    "imageUrl": "https://ksp.co.il/shop/items/240702.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 29,
-      "kspUrl": "https://ksp.co.il/web/item/240702"
-    }
-  },
-  {
-    "id": "ksp_209721",
-    "name": "מכשיר להכנת כיסוני בצק קוטר 7.2 ס''מ Soltam",
-    "imageUrl": "https://ksp.co.il/shop/items/209721.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 29,
-      "kspUrl": "https://ksp.co.il/web/item/209721"
-    }
-  },
-  {
-    "id": "ksp_462539",
-    "name": "מציאון ועודפים - קוצץ ירקות ידני 1.2 ליטר מבית Food Appeal",
-    "imageUrl": "https://ksp.co.il/shop/items/462539.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 35,
-      "kspUrl": "https://ksp.co.il/web/item/462539"
-    }
-  },
-  {
-    "id": "ksp_389494",
-    "name": "פורס ביצים מאלומיניום מבית Davmi",
-    "imageUrl": "https://ksp.co.il/shop/items/389494.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 39,
-      "kspUrl": "https://ksp.co.il/web/item/389494"
-    }
-  },
-  {
-    "id": "ksp_368663",
-    "name": "בורגר פרס לעיצוב והכנת המבורגרים מבית Chunks",
-    "imageUrl": "https://ksp.co.il/shop/items/368663.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 39,
-      "kspUrl": "https://ksp.co.il/web/item/368663"
-    }
-  },
-  {
-    "id": "ksp_368664",
-    "name": "תבנית לחיצה להמבורגר מבית Chunks",
-    "imageUrl": "https://ksp.co.il/shop/items/368664.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 39,
-      "kspUrl": "https://ksp.co.il/web/item/368664"
-    }
-  },
-  {
-    "id": "ksp_216206",
-    "name": "פורס תפוחי עץ Food Appeal",
-    "imageUrl": "https://ksp.co.il/shop/items/216206.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 45,
-      "kspUrl": "https://ksp.co.il/web/item/216206"
-    }
-  },
-  {
-    "id": "ksp_396019",
-    "name": "מחדד מסלסל לקישוטי ירקות מבית Westmark",
-    "imageUrl": "https://ksp.co.il/shop/items/396019.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 48,
-      "kspUrl": "https://ksp.co.il/web/item/396019"
-    }
-  },
-  {
-    "id": "ksp_137280",
-    "name": "פורס מנגו Ibili",
-    "imageUrl": "https://ksp.co.il/shop/items/137280.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 49,
-      "kspUrl": "https://ksp.co.il/web/item/137280"
-    }
-  },
-  {
-    "id": "ksp_183331",
-    "name": "קוצץ ירקות ידני מבית Food Appeal - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/183331.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 52,
-      "kspUrl": "https://ksp.co.il/web/item/183331"
-    }
-  },
-  {
-    "id": "ksp_326947",
-    "name": "מכשיר אוטומטי להכנת כיסוני בצק מבית Naaman",
-    "imageUrl": "https://ksp.co.il/shop/items/326947.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 59,
-      "kspUrl": "https://ksp.co.il/web/item/326947"
-    }
-  },
-  {
-    "id": "ksp_147916",
-    "name": "קוצץ ירקות ספירלי Konstar‏",
-    "imageUrl": "https://ksp.co.il/shop/items/147916.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 62,
-      "kspUrl": "https://ksp.co.il/web/item/147916"
-    }
-  },
-  {
-    "id": "ksp_440666",
-    "name": "מנדולינה איכותית רב-תכליתית מבית Food Appeal - צבע לבן ושחור",
-    "imageUrl": "https://ksp.co.il/shop/items/440666.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 68,
-      "kspUrl": "https://ksp.co.il/web/item/440666"
-    }
-  },
-  {
-    "id": "ksp_194017",
-    "name": "קוצץ ירקות ידני 1.2 ליטר מבית Food Appeal",
-    "imageUrl": "https://ksp.co.il/shop/items/194017.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 69,
-      "kspUrl": "https://ksp.co.il/web/item/194017"
-    }
-  },
-  {
-    "id": "ksp_147413",
-    "name": "פורס אננס Ibili",
-    "imageUrl": "https://ksp.co.il/shop/items/147413.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 69,
-      "kspUrl": "https://ksp.co.il/web/item/147413"
-    }
-  },
-  {
-    "id": "ksp_148793",
-    "name": "מתקן לייבוש פסטה Eppicotispai",
-    "imageUrl": "https://ksp.co.il/shop/items/148793.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 69,
-      "kspUrl": "https://ksp.co.il/web/item/148793"
-    }
-  },
-  {
-    "id": "ksp_163826",
-    "name": "קוצץ ומעבד מזון Soltam BF1009S",
-    "imageUrl": "https://ksp.co.il/shop/items/163826.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 74,
-      "kspUrl": "https://ksp.co.il/web/item/163826"
-    }
-  },
-  {
-    "id": "ksp_400299",
-    "name": "דסקית הקצפה לבלנדר מוט מבית Bamix",
-    "imageUrl": "https://ksp.co.il/shop/items/400299.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 75,
-      "kspUrl": "https://ksp.co.il/web/item/400299"
-    }
-  },
-  {
-    "id": "ksp_130612",
-    "name": "אביזר דיסקית גירוד גסה MUZ45RS1 למעבדי מזון Bosch MC8 / MCM5 / MCM6",
-    "imageUrl": "https://ksp.co.il/shop/items/130612.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 79,
-      "kspUrl": "https://ksp.co.il/web/item/130612"
-    }
-  },
-  {
-    "id": "ksp_215272",
-    "name": "קוצץ טורבו Konstar Mavo‏ עם 3 אביזרים מתחלפים",
-    "imageUrl": "https://ksp.co.il/shop/items/215272.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 79,
-      "kspUrl": "https://ksp.co.il/web/item/215272"
-    }
-  },
-  {
-    "id": "ksp_346413",
-    "name": "פורס ביצים מאלומיניום Duplex מבית Westmark",
-    "imageUrl": "https://ksp.co.il/shop/items/346413.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 79,
-      "kspUrl": "https://ksp.co.il/web/item/346413"
-    }
-  },
-  {
-    "id": "ksp_130605",
-    "name": "אביזר דיסקית ירקות אסייתית (ג'וליאן) MUZ45AG1 למעבדי מזון Bosch MC8 / MCM5 / MCM6",
-    "imageUrl": "https://ksp.co.il/shop/items/130605.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 84,
-      "kspUrl": "https://ksp.co.il/web/item/130605"
-    }
-  },
-  {
-    "id": "ksp_130596",
-    "name": "אביזר דיסקית לחיתוך ציפס MUZ45PS1 למעבדי מזון Bosch MC8 / MCM5 / MCM6",
-    "imageUrl": "https://ksp.co.il/shop/items/130596.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 84,
-      "kspUrl": "https://ksp.co.il/web/item/130596"
-    }
-  },
-  {
     "id": "ksp_411323",
     "name": "מיני מעבד מזון 0.8 / 0.35 ליטר דגם ATL-667 מבית Gold Line - צבע שחור",
     "imageUrl": "https://ksp.co.il/shop/items/411323.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 85,
       "kspUrl": "https://ksp.co.il/web/item/411323"
-    }
-  },
-  {
-    "id": "ksp_31862",
-    "name": "בלנדר מדגם הוואי Gold Line ATL-242",
-    "imageUrl": "https://ksp.co.il/shop/items/31862.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 89,
-      "kspUrl": "https://ksp.co.il/web/item/31862"
-    }
-  },
-  {
-    "id": "ksp_396051",
-    "name": "חותך ספירלה לירקות מבית Westmark",
-    "imageUrl": "https://ksp.co.il/shop/items/396051.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 89,
-      "kspUrl": "https://ksp.co.il/web/item/396051"
-    }
-  },
-  {
-    "id": "ksp_41671",
-    "name": "קוצץ ירקות ידני Master Slicer המקורי",
-    "imageUrl": "https://ksp.co.il/shop/items/41671.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 98,
-      "kspUrl": "https://ksp.co.il/web/item/41671"
-    }
-  },
-  {
-    "id": "ksp_400270",
-    "name": "מיכל 1000 מ''ל מבית Bamix",
-    "imageUrl": "https://ksp.co.il/shop/items/400270.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 99,
-      "kspUrl": "https://ksp.co.il/web/item/400270"
-    }
-  },
-  {
-    "id": "ksp_418091",
-    "name": "מציאון ועודפים - דסקית פריסה גלי למעבד מזון Magimix XL",
-    "imageUrl": "https://ksp.co.il/shop/items/418091.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 105,
-      "kspUrl": "https://ksp.co.il/web/item/418091"
-    }
-  },
-  {
-    "id": "ksp_462505",
-    "name": "מציאון ועודפים - דסקית ג&apos;וליאן רחב למעבד מזון 12 מ&apos;&apos;מ Magimix XL",
-    "imageUrl": "https://ksp.co.il/shop/items/462505.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 109,
-      "kspUrl": "https://ksp.co.il/web/item/462505"
-    }
-  },
-  {
-    "id": "ksp_249818",
-    "name": "קוצץ מזון לחיצה עם מיכל איסוף שקוף Leifheit Comfort&Clean - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/249818.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 109,
-      "kspUrl": "https://ksp.co.il/web/item/249818"
-    }
-  },
-  {
-    "id": "ksp_154352",
-    "name": "סכין דסקית פומפיה למעבד מזון 6 מ''מ Magimix XL",
-    "imageUrl": "https://ksp.co.il/shop/items/154352.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 119,
-      "kspUrl": "https://ksp.co.il/web/item/154352"
-    }
-  },
-  {
-    "id": "ksp_41674",
-    "name": "קוצץ ירקות ידני + קולפן סלייסר Slicer Classic",
-    "imageUrl": "https://ksp.co.il/shop/items/41674.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 119,
-      "kspUrl": "https://ksp.co.il/web/item/41674"
-    }
-  },
-  {
-    "id": "ksp_124608",
-    "name": "קוצץ ירקות ופירות לקוביות – Food Appeal Magic Chopper",
-    "imageUrl": "https://ksp.co.il/shop/items/124608.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 119,
-      "kspUrl": "https://ksp.co.il/web/item/124608"
-    }
-  },
-  {
-    "id": "ksp_301965",
-    "name": "מנדולינה למטבח Borner V3 מבית Food Appeal - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/301965.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 120,
-      "kspUrl": "https://ksp.co.il/web/item/301965"
-    }
-  },
-  {
-    "id": "ksp_373904",
-    "name": "קוצץ מזון חשמלי 300W נפח 750 מ''ל דגם FP-126E מבית Luxor - שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/373904.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 129,
-      "kspUrl": "https://ksp.co.il/web/item/373904"
-    }
-  },
-  {
-    "id": "ksp_455906",
-    "name": "דוחסן קפיצי להכנת המבורגר 11.4 ס''מ מבית Ibili",
-    "imageUrl": "https://ksp.co.il/shop/items/455906.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 129,
-      "kspUrl": "https://ksp.co.il/web/item/455906"
-    }
-  },
-  {
-    "id": "ksp_359319",
-    "name": "מנדולינה מקצועית סדרת Pro מבית Food Appeal - צבע אדום",
-    "imageUrl": "https://ksp.co.il/shop/items/359319.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 136,
-      "kspUrl": "https://ksp.co.il/web/item/359319"
-    }
-  },
-  {
-    "id": "ksp_144292",
-    "name": "צ'יטרה לחיתוך פסטה Eppicotispai",
-    "imageUrl": "https://ksp.co.il/shop/items/144292.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 139,
-      "kspUrl": "https://ksp.co.il/web/item/144292"
-    }
-  },
-  {
-    "id": "ksp_154488",
-    "name": "דסקית ג'וליאן למעבד מזון 2 מ''מ Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154488.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 149,
-      "kspUrl": "https://ksp.co.il/web/item/154488"
-    }
-  },
-  {
-    "id": "ksp_154363",
-    "name": "דסקית לפרמזן למעבד מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154363.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 149,
-      "kspUrl": "https://ksp.co.il/web/item/154363"
-    }
-  },
-  {
-    "id": "ksp_269490",
-    "name": "מכונת פסטה ביתית 15 ס''מ מבית Food Appeal - בצבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/269490.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 155,
-      "kspUrl": "https://ksp.co.il/web/item/269490"
-    }
-  },
-  {
-    "id": "ksp_305395",
-    "name": "בלנדר 1.5 ליטר + קוצץ Moulinex LM2B2126 450W - צבע לבן - אחריות יבואן רשמי ניופאן",
-    "imageUrl": "https://ksp.co.il/shop/items/305395.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/305395"
-    }
-  },
-  {
-    "id": "ksp_151890",
-    "name": "בלנדר עם טרמוס UNIVERSE NRI650-T5",
-    "imageUrl": "https://ksp.co.il/shop/items/151890.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/151890"
-    }
-  },
-  {
-    "id": "ksp_359871",
-    "name": "קוצץ ידני לירקות ופירות 1.5 ליטר מבית Food Appeal",
-    "imageUrl": "https://ksp.co.il/shop/items/359871.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/359871"
     }
   },
   {
@@ -544,7 +16,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/416602.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 169,
       "kspUrl": "https://ksp.co.il/web/item/416602"
     }
@@ -555,108 +27,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/120047.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 179,
       "kspUrl": "https://ksp.co.il/web/item/120047"
-    }
-  },
-  {
-    "id": "ksp_123355",
-    "name": "קוצץ תפוחי אדמה מקצועי Ibili",
-    "imageUrl": "https://ksp.co.il/shop/items/123355.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 179,
-      "kspUrl": "https://ksp.co.il/web/item/123355"
-    }
-  },
-  {
-    "id": "ksp_155833",
-    "name": "קונג פו בלנדר Gold Line  ATL-370",
-    "imageUrl": "https://ksp.co.il/shop/items/155833.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 196,
-      "kspUrl": "https://ksp.co.il/web/item/155833"
-    }
-  },
-  {
-    "id": "ksp_400317",
-    "name": "בלנדר נייד דגם Ninja Blast BC151EU - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/400317.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/400317"
-    }
-  },
-  {
-    "id": "ksp_415618",
-    "name": "בלנדר נייד דגם Ninja Blast BC151EUPR - צבע סגול",
-    "imageUrl": "https://ksp.co.il/shop/items/415618.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/415618"
-    }
-  },
-  {
-    "id": "ksp_459593",
-    "name": "בלנדר נייד דגם Ninja Blast BC151EUNV - צבע כחול Navy",
-    "imageUrl": "https://ksp.co.il/shop/items/459593.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/459593"
-    }
-  },
-  {
-    "id": "ksp_372843",
-    "name": "קוצץ ירקות Slicer Elite",
-    "imageUrl": "https://ksp.co.il/shop/items/372843.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/372843"
-    }
-  },
-  {
-    "id": "ksp_460430",
-    "name": "בלנדר 700W עם 2 מיכלים בנפח 470 מ''ל Ninja QB3001EU",
-    "imageUrl": "https://ksp.co.il/shop/items/460430.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 209,
-      "kspUrl": "https://ksp.co.il/web/item/460430"
-    }
-  },
-  {
-    "id": "ksp_154367",
-    "name": "מכסה קערה שקוף למעבדי מזון Magimix Dome",
-    "imageUrl": "https://ksp.co.il/shop/items/154367.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 215,
-      "kspUrl": "https://ksp.co.il/web/item/154367"
-    }
-  },
-  {
-    "id": "ksp_154291",
-    "name": "סכין להב ראשי למעבד מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154291.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 219,
-      "kspUrl": "https://ksp.co.il/web/item/154291"
     }
   },
   {
@@ -665,7 +38,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/358698.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 229,
       "kspUrl": "https://ksp.co.il/web/item/358698"
     }
@@ -676,7 +49,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/163418.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 249,
       "kspUrl": "https://ksp.co.il/web/item/163418"
     }
@@ -687,7 +60,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/376346.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 254,
       "kspUrl": "https://ksp.co.il/web/item/376346"
     }
@@ -698,53 +71,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/393784.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 259,
       "kspUrl": "https://ksp.co.il/web/item/393784"
-    }
-  },
-  {
-    "id": "ksp_154257",
-    "name": "קערה ידית שחורה למעבד מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154257.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 259,
-      "kspUrl": "https://ksp.co.il/web/item/154257"
-    }
-  },
-  {
-    "id": "ksp_154246",
-    "name": "מכסה קערה ידית שחורה למעבדי מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154246.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/154246"
-    }
-  },
-  {
-    "id": "ksp_154278",
-    "name": "מכסה קערה ידית אדומה למעבדי מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154278.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/154278"
-    }
-  },
-  {
-    "id": "ksp_154354",
-    "name": "קערה ידית אדומה למעבד מזון Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154354.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 279,
-      "kspUrl": "https://ksp.co.il/web/item/154354"
     }
   },
   {
@@ -753,7 +82,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/329828.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 299,
       "kspUrl": "https://ksp.co.il/web/item/329828"
     }
@@ -764,86 +93,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/329770.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 299,
       "kspUrl": "https://ksp.co.il/web/item/329770"
-    }
-  },
-  {
-    "id": "ksp_419765",
-    "name": "בלנדר קומפקטי 600 מ''ל Bosch VitaPower 450W MMB2111S - צבע שחור - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/419765.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 299,
-      "kspUrl": "https://ksp.co.il/web/item/419765"
-    }
-  },
-  {
-    "id": "ksp_46838",
-    "name": "מכונת פסטה Marcato Ampia 150",
-    "imageUrl": "https://ksp.co.il/shop/items/46838.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 299,
-      "kspUrl": "https://ksp.co.il/web/item/46838"
-    }
-  },
-  {
-    "id": "ksp_414625",
-    "name": "מכונת פסטה +Marcato Atlas צבע כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/414625.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 319,
-      "kspUrl": "https://ksp.co.il/web/item/414625"
-    }
-  },
-  {
-    "id": "ksp_345295",
-    "name": "קוצץ מזון חשמלי 500 מ''ל Moulinex Eco Respect DP712827 1000W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/345295.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 329,
-      "kspUrl": "https://ksp.co.il/web/item/345295"
-    }
-  },
-  {
-    "id": "ksp_459260",
-    "name": "בלנדר נייד Ninja Blast Max BC251EU - צבע אפור",
-    "imageUrl": "https://ksp.co.il/shop/items/459260.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 329,
-      "kspUrl": "https://ksp.co.il/web/item/459260"
-    }
-  },
-  {
-    "id": "ksp_459264",
-    "name": "בלנדר נייד Ninja Blast Max BC251EU - צבע כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/459264.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 329,
-      "kspUrl": "https://ksp.co.il/web/item/459264"
-    }
-  },
-  {
-    "id": "ksp_459263",
-    "name": "בלנדר נייד Ninja Blast Max BC251EU - צבע לבנדר",
-    "imageUrl": "https://ksp.co.il/shop/items/459263.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 329,
-      "kspUrl": "https://ksp.co.il/web/item/459263"
     }
   },
   {
@@ -852,31 +104,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/175492.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 348,
+      "updated": 1779196327814,
+      "ksp": 335,
       "kspUrl": "https://ksp.co.il/web/item/175492"
-    }
-  },
-  {
-    "id": "ksp_439979",
-    "name": "מעבד מזון רב־תכליתי 8 ב-1 Berlinger Haus BH9779 500W - צבע רוז גולד מט",
-    "imageUrl": "https://ksp.co.il/shop/items/439979.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 349,
-      "kspUrl": "https://ksp.co.il/web/item/439979"
-    }
-  },
-  {
-    "id": "ksp_373858",
-    "name": "מיקסר מקצועי 5 ליטר 1000W בעל 10 מהירויות דגם AHY-265 מבית Luxor - צבע כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/373858.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 349,
-      "kspUrl": "https://ksp.co.il/web/item/373858"
     }
   },
   {
@@ -885,7 +115,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/409685.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 379,
       "kspUrl": "https://ksp.co.il/web/item/409685"
     }
@@ -896,7 +126,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/80877.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/80877"
     }
@@ -907,7 +137,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/372324.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/372324"
     }
@@ -918,75 +148,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/126595.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 399,
+      "updated": 1779196327814,
+      "ksp": 439,
       "kspUrl": "https://ksp.co.il/web/item/126595"
-    }
-  },
-  {
-    "id": "ksp_345679",
-    "name": "קערת בצק (בריוש) Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/345679.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/345679"
-    }
-  },
-  {
-    "id": "ksp_251637",
-    "name": "מיקסר רב תכליתי 7 ליטר 1300W דגם Multi-Mix ATL-282 מבית Gold Line",
-    "imageUrl": "https://ksp.co.il/shop/items/251637.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/251637"
-    }
-  },
-  {
-    "id": "ksp_408276",
-    "name": "מיקסר מקצועי 7 ליטר 1600W דגם MULTU ATL-281 מבית Gold Line",
-    "imageUrl": "https://ksp.co.il/shop/items/408276.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 418,
-      "kspUrl": "https://ksp.co.il/web/item/408276"
-    }
-  },
-  {
-    "id": "ksp_163876",
-    "name": "מיקסר מקצועי 1100W + מטחנת בשר ובלנדר 6 מהירויות Hemilton HEM-2120 - צבע אפור",
-    "imageUrl": "https://ksp.co.il/shop/items/163876.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 449,
-      "kspUrl": "https://ksp.co.il/web/item/163876"
-    }
-  },
-  {
-    "id": "ksp_154356",
-    "name": "אביזר מסחטה לפירות קשים Magimix",
-    "imageUrl": "https://ksp.co.il/shop/items/154356.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 479,
-      "kspUrl": "https://ksp.co.il/web/item/154356"
-    }
-  },
-  {
-    "id": "ksp_70106",
-    "name": "מנוע למכונות פסטה Atlas ו- Marcato Ampia",
-    "imageUrl": "https://ksp.co.il/shop/items/70106.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 499,
-      "kspUrl": "https://ksp.co.il/web/item/70106"
     }
   },
   {
@@ -995,20 +159,20 @@
     "imageUrl": "https://ksp.co.il/shop/items/169382.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 599,
       "kspUrl": "https://ksp.co.il/web/item/169382"
     }
   },
   {
-    "id": "ksp_439890",
-    "name": "מיקסר שולחני 8 ליטר 1100W עם אביזרים דגם Mix Pro מבית Food Appeal  - צבע כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/439890.jpg?v=5",
+    "id": "ksp_463926",
+    "name": "מציאון ועודפים - מעבד מזון 3.9 ליטר משולב עם בלנדר 1.5 ליטר Bosch MultiTalent 8 MC812W620 1100W - צבע לבן - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/463926.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 695,
-      "kspUrl": "https://ksp.co.il/web/item/439890"
+      "updated": 1779196327814,
+      "ksp": 649,
+      "kspUrl": "https://ksp.co.il/web/item/463926"
     }
   },
   {
@@ -1017,7 +181,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/169346.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 699,
       "kspUrl": "https://ksp.co.il/web/item/169346"
     }
@@ -1028,42 +192,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/80861.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 804,
       "kspUrl": "https://ksp.co.il/web/item/80861"
-    }
-  },
-  {
-    "id": "ksp_400887",
-    "name": "מציאון ועודפים - מיקסר מקצועי 3.9 ליטר Bosch MUM58200 - צבע כסוף / לבן - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/400887.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 890,
-      "kspUrl": "https://ksp.co.il/web/item/400887"
-    }
-  },
-  {
-    "id": "ksp_205797",
-    "name": "מטחנת בשר משולבת מעבד מזון Bosch ProPower MFW68640 2200W - צבע שחור / נירוסטה - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/205797.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 919,
-      "kspUrl": "https://ksp.co.il/web/item/205797"
-    }
-  },
-  {
-    "id": "ksp_379515",
-    "name": "מיקסר מקצועי 3.9 ליטר Bosch MUM58200 - צבע כסוף / לבן - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/379515.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 990,
-      "kspUrl": "https://ksp.co.il/web/item/379515"
     }
   },
   {
@@ -1072,8 +203,8 @@
     "imageUrl": "https://ksp.co.il/shop/items/403807.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1011,
+      "updated": 1779196327814,
+      "ksp": 1010,
       "kspUrl": "https://ksp.co.il/web/item/403807"
     }
   },
@@ -1083,7 +214,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/80847.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1102,
       "kspUrl": "https://ksp.co.il/web/item/80847"
     }
@@ -1094,7 +225,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/80857.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1214,
       "kspUrl": "https://ksp.co.il/web/item/80857"
     }
@@ -1105,20 +236,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/178066.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1490,
+      "updated": 1779196327814,
+      "ksp": 1489,
       "kspUrl": "https://ksp.co.il/web/item/178066"
-    }
-  },
-  {
-    "id": "ksp_95664",
-    "name": "מעבד מזון 3 ליטר Magimix 4200JXL Premium 950W - צבע אדום - אחריות יבואן רשמי ניופאן",
-    "imageUrl": "https://ksp.co.il/shop/items/95664.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1490,
-      "kspUrl": "https://ksp.co.il/web/item/95664"
     }
   },
   {
@@ -1127,9 +247,20 @@
     "imageUrl": "https://ksp.co.il/shop/items/225154.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1490,
       "kspUrl": "https://ksp.co.il/web/item/225154"
+    }
+  },
+  {
+    "id": "ksp_95664",
+    "name": "מעבד מזון 3 ליטר Magimix 4200JXL Premium 950W - צבע אדום - אחריות יבואן רשמי ניופאן",
+    "imageUrl": "https://ksp.co.il/shop/items/95664.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779196327814,
+      "ksp": 1490,
+      "kspUrl": "https://ksp.co.il/web/item/95664"
     }
   },
   {
@@ -1138,20 +269,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/95665.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1490,
       "kspUrl": "https://ksp.co.il/web/item/95665"
-    }
-  },
-  {
-    "id": "ksp_444550",
-    "name": "פורס מזון ידני Ritter Podio3 65W - להב משונן",
-    "imageUrl": "https://ksp.co.il/shop/items/444550.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1490,
-      "kspUrl": "https://ksp.co.il/web/item/444550"
     }
   },
   {
@@ -1160,7 +280,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/225158.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1690,
       "kspUrl": "https://ksp.co.il/web/item/225158"
     }
@@ -1171,20 +291,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/95657.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1790,
+      "updated": 1779196327814,
+      "ksp": 1759,
       "kspUrl": "https://ksp.co.il/web/item/95657"
-    }
-  },
-  {
-    "id": "ksp_95646",
-    "name": "מעבד מזון 3.6 ליטר Magimix 5200JXL Premium 1100W - צבע לבן - אחריות יבואן רשמי ניופאן",
-    "imageUrl": "https://ksp.co.il/shop/items/95646.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1790,
-      "kspUrl": "https://ksp.co.il/web/item/95646"
     }
   },
   {
@@ -1193,9 +302,20 @@
     "imageUrl": "https://ksp.co.il/shop/items/79516.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1790,
+      "updated": 1779196327814,
+      "ksp": 1780,
       "kspUrl": "https://ksp.co.il/web/item/79516"
+    }
+  },
+  {
+    "id": "ksp_95646",
+    "name": "מעבד מזון 3.6 ליטר Magimix 5200JXL Premium 1100W - צבע לבן - אחריות יבואן רשמי ניופאן",
+    "imageUrl": "https://ksp.co.il/shop/items/95646.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779196327814,
+      "ksp": 1790,
+      "kspUrl": "https://ksp.co.il/web/item/95646"
     }
   },
   {
@@ -1204,53 +324,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/79508.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 1790,
       "kspUrl": "https://ksp.co.il/web/item/79508"
-    }
-  },
-  {
-    "id": "ksp_419754",
-    "name": "מיקסר משולב מעבד מזון 3.9 ליטר עם משקל אינטגרלי Bosch MUM5XC4E - צבע שחור / כסוף - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/419754.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1879,
-      "kspUrl": "https://ksp.co.il/web/item/419754"
-    }
-  },
-  {
-    "id": "ksp_324265",
-    "name": "מיקסר פלנטרי 1800W + קערה 6 ליטר Caso KM1800 - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/324265.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1890,
-      "kspUrl": "https://ksp.co.il/web/item/324265"
-    }
-  },
-  {
-    "id": "ksp_438418",
-    "name": "מיקסר שולחני 6 ליטר Davo Pro DSM5650 1400W - צבע אפור מט",
-    "imageUrl": "https://ksp.co.il/shop/items/438418.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 1941,
-      "kspUrl": "https://ksp.co.il/web/item/438418"
-    }
-  },
-  {
-    "id": "ksp_434433",
-    "name": "מציאון ועודפים - מיקסר משולב מעבד מזון 5.5 ליטר Bosch OptiMUM MUM9D33S11 - צבע נירוסטה - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/434433.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 2199,
-      "kspUrl": "https://ksp.co.il/web/item/434433"
     }
   },
   {
@@ -1259,97 +335,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/391780.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636416940,
+      "updated": 1779196327814,
       "ksp": 2499,
       "kspUrl": "https://ksp.co.il/web/item/391780"
-    }
-  },
-  {
-    "id": "ksp_294751",
-    "name": "מיקסר מקצועי 7 ליטר 1500W דגם AKM 6230 מבית Ankarsrum - צבע כחול אוקיינוס",
-    "imageUrl": "https://ksp.co.il/shop/items/294751.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 2685,
-      "kspUrl": "https://ksp.co.il/web/item/294751"
-    }
-  },
-  {
-    "id": "ksp_294755",
-    "name": "מיקסר מקצועי 7 ליטר 1500W דגם AKM 6230 מבית Ankarsrum - צבע קרם בהיר",
-    "imageUrl": "https://ksp.co.il/shop/items/294755.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 2685,
-      "kspUrl": "https://ksp.co.il/web/item/294755"
-    }
-  },
-  {
-    "id": "ksp_81118",
-    "name": "מיקסר משולב מעבד מזון 5.5 ליטר Bosch OptiMUM MUM9D33S11 - צבע נירוסטה - שנתיים אחריות יבואן רשמי BSH",
-    "imageUrl": "https://ksp.co.il/shop/items/81118.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 2999,
-      "kspUrl": "https://ksp.co.il/web/item/81118"
-    }
-  },
-  {
-    "id": "ksp_391882",
-    "name": "בלנדר מקצועי דגם Pro CB850 מבית Kuvings - אפור כהה",
-    "imageUrl": "https://ksp.co.il/shop/items/391882.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 4139,
-      "kspUrl": "https://ksp.co.il/web/item/391882"
-    }
-  },
-  {
-    "id": "ksp_295103",
-    "name": "בלנדר מקצועי 1.4 ליטר דגם Drink Machine Two-Speed מבית Vitamix",
-    "imageUrl": "https://ksp.co.il/shop/items/295103.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 4198,
-      "kspUrl": "https://ksp.co.il/web/item/295103"
-    }
-  },
-  {
-    "id": "ksp_380943",
-    "name": "מעבד מזון ומבשל רב תכליתי Magimix Cook Expert 1700W - צבע כרום",
-    "imageUrl": "https://ksp.co.il/shop/items/380943.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 4490,
-      "kspUrl": "https://ksp.co.il/web/item/380943"
-    }
-  },
-  {
-    "id": "ksp_295068",
-    "name": "מיקסר מקצועי 8 ליטר 250W דגם SP-800A מבית Spar - לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/295068.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 5960,
-      "kspUrl": "https://ksp.co.il/web/item/295068"
-    }
-  },
-  {
-    "id": "ksp_295080",
-    "name": "בלנדר מקצועי 2 ליטר דגם Vita Prep 3 מבית Vitamix",
-    "imageUrl": "https://ksp.co.il/shop/items/295080.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636416940,
-      "ksp": 6089,
-      "kspUrl": "https://ksp.co.il/web/item/295080"
     }
   }
 ]

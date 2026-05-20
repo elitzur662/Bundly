@@ -6,7 +6,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/6/2/42802681b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691318
+      "updated": 1779196180773
     },
     "manufacturer": "Logitech",
     "filterTags": {}
@@ -18,7 +18,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/5/4/41224510c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691318,
+      "updated": 1779196180774,
       "ksp": 104,
       "kspUrl": "https://ksp.co.il/web/item/21422"
     },
@@ -32,7 +32,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/1/9/44119111b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691319
+      "updated": 1779196180776
     },
     "manufacturer": "SilverLine",
     "filterTags": {}
@@ -41,10 +41,10 @@
     "id": "990846",
     "name": "מקלדת SilverLine GKB209",
     "image": "images/990846.gif",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/4/0/91630490c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/4/0/91630490b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691319
+      "updated": 1779196180777
     },
     "manufacturer": "SilverLine",
     "filterTags": {}
@@ -53,10 +53,10 @@
     "id": "1167570",
     "name": "מקלדת Razer DeathStalker V2 Pro",
     "image": "images/1167570.gif",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/5/6/71896590b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/5/6/71896590c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691321
+      "updated": 1779196180779
     },
     "manufacturer": "Razer",
     "filterTags": {}
@@ -68,7 +68,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/9/8/45388968b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691321
+      "updated": 1779196180779
     },
     "manufacturer": "Apple",
     "filterTags": {}
@@ -80,7 +80,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/5/8/56868563b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691322
+      "updated": 1779196180780
     },
     "manufacturer": "Microsoft",
     "filterTags": {}
@@ -92,7 +92,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/5/1/58871545b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691323
+      "updated": 1779196180781
     },
     "manufacturer": "SilverLine",
     "filterTags": {}
@@ -104,7 +104,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/4/1/50461430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691323
+      "updated": 1779196180781
     },
     "manufacturer": "Dell",
     "filterTags": {}
@@ -113,10 +113,12 @@
     "id": "1163105",
     "name": "מקלדת אלחוטית Logitech MX Mechanical צבע שחור",
     "image": "images/1163105.gif",
-    "imageUrl": "https://img.zap.co.il/pics/0/1/0/8/97238010b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/6/4/9/70209461c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691323
+      "updated": 1779196180782,
+      "ksp": 689,
+      "kspUrl": "https://ksp.co.il/web/item/212816"
     },
     "manufacturer": "Logitech",
     "filterTags": {}
@@ -128,7 +130,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/4/2/93102467c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691324
+      "updated": 1779196180783
     },
     "manufacturer": "SteelSeries",
     "filterTags": {}
@@ -137,10 +139,10 @@
     "id": "1238839",
     "name": "מקלדת Logitech G515 Lightspeed TKL",
     "image": "images/1238839.gif",
-    "imageUrl": "https://img.zap.co.il/pics/3/0/2/5/93815203b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/2/3/95553233c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691324
+      "updated": 1779196180784
     },
     "manufacturer": "Logitech",
     "filterTags": {}
@@ -153,7 +155,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/7/0/44190745c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691324
+      "updated": 1779196180785
     },
     "filterTags": {}
   },
@@ -165,7 +167,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/5/5/86095500c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691325
+      "updated": 1779196180786,
+      "ksp": 299,
+      "kspUrl": "https://ksp.co.il/web/item/316898"
     },
     "filterTags": {}
   },
@@ -177,9 +181,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/6/4/57874650c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691325,
-      "ksp": 104,
-      "kspUrl": "https://ksp.co.il/web/item/21422"
+      "updated": 1779196180787,
+      "ksp": 139,
+      "kspUrl": "https://ksp.co.il/web/item/117350"
     },
     "filterTags": {}
   },
@@ -191,9 +195,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/9/2/78842944c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691325,
-      "bug": 379,
-      "bugUrl": "https://www.bug.co.il/brand/logitech/color/grey/mx/keys/s/wireless/keyboard"
+      "updated": 1779196180788,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -205,7 +209,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/8/5/92575808c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691325
+      "updated": 1779196180789
     },
     "filterTags": {}
   },
@@ -217,7 +221,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/4/5/92145479c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691326
+      "updated": 1779196180789
     },
     "filterTags": {}
   },
@@ -229,7 +233,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/9/4/87454909c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691326
+      "updated": 1779196180790,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -241,7 +247,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/4/8/42238412c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691326
+      "updated": 1779196180791
     },
     "filterTags": {}
   },
@@ -253,7 +259,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/6/7/78617637c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691326
+      "updated": 1779196180795
     },
     "filterTags": {}
   },
@@ -265,7 +271,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/2/3/45663230c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691326
+      "updated": 1779196180795
     },
     "filterTags": {}
   },
@@ -274,10 +280,10 @@
     "name": "מקלדת Razer Ornata V3",
     "image": "images/1206156.gif",
     "manufacturer": "Razer",
-    "imageUrl": "https://img.zap.co.il/pics/8/6/6/0/96470668b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/3/1/91171320c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691327
+      "updated": 1779196180797
     },
     "filterTags": {}
   },
@@ -289,7 +295,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/9/2/35352998c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691327
+      "updated": 1779196180798
     },
     "filterTags": {}
   },
@@ -301,7 +307,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/4/6/92456482c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691327
+      "updated": 1779196180801
     },
     "filterTags": {}
   },
@@ -313,7 +319,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/2/7/92157219c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691328
+      "updated": 1779196180802
     },
     "filterTags": {}
   },
@@ -325,7 +331,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/3/1/91461308c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691328
+      "updated": 1779196180803
     },
     "filterTags": {}
   },
@@ -337,7 +343,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/2/2/95862257b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691328
+      "updated": 1779196180804
     },
     "filterTags": {}
   },
@@ -349,7 +355,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/0/4/41704029c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691328
+      "updated": 1779196180806
     },
     "filterTags": {}
   },
@@ -361,7 +367,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/3/7/93087316c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691328
+      "updated": 1779196180807
     },
     "filterTags": {}
   },
@@ -373,7 +379,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/9/9/70249998c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691329
+      "updated": 1779196180808
     },
     "filterTags": {}
   },
@@ -382,10 +388,10 @@
     "name": "מקלדת Logitech Ergo K860",
     "image": "images/1114567.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/0/7/1/5/61775170b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/7/1/5/61775170c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691329
+      "updated": 1779196180809
     },
     "filterTags": {}
   },
@@ -397,7 +403,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/5/8/52098596c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691329
+      "updated": 1779196180809
     },
     "filterTags": {}
   },
@@ -409,7 +415,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/4/9/92439406c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691329
+      "updated": 1779196180811
     },
     "filterTags": {}
   },
@@ -421,7 +427,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/2/7/76297241c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691330
+      "updated": 1779196180812
     },
     "filterTags": {}
   },
@@ -433,7 +439,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/1/1/92111177c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691330
+      "updated": 1779196180813
     },
     "filterTags": {}
   },
@@ -445,7 +451,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/0/2/95032046c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691330
+      "updated": 1779196180814
     },
     "filterTags": {}
   },
@@ -457,7 +463,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/8/2/96002867b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691330
+      "updated": 1779196180815
     },
     "filterTags": {}
   },
@@ -469,7 +475,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/2/6/68046233c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331
+      "updated": 1779196180816
     },
     "filterTags": {}
   },
@@ -481,7 +487,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/9/0/61930946c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331
+      "updated": 1779196180817
     },
     "filterTags": {}
   },
@@ -493,7 +499,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/7/9/64969733c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331
+      "updated": 1779196180818
     },
     "filterTags": {}
   },
@@ -502,10 +508,10 @@
     "name": "מקלדת Logitech G413 TKL SE",
     "image": "images/1194607.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/9/1/4/7/75017419b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/4/7/75017419c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331,
+      "updated": 1779196180819,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -519,7 +525,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/9/7/64707993c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331
+      "updated": 1779196180819
     },
     "filterTags": {}
   },
@@ -531,7 +537,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/70209158c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691331
+      "updated": 1779196180821
     },
     "filterTags": {}
   },
@@ -543,7 +549,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/7/4/92904778c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691332
+      "updated": 1779196180821
     },
     "filterTags": {}
   },
@@ -555,7 +561,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/0/7/52857041c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691332,
+      "updated": 1779196180822,
       "ksp": 199,
       "kspUrl": "https://ksp.co.il/web/item/75459"
     },
@@ -569,9 +575,9 @@
     "imageUrl": "https://img.zap.co.il/pics/new/203102256736c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691332,
-      "bug": 1329,
-      "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
+      "updated": 1779196180823,
+      "bug": 399,
+      "bugUrl": "https://www.bug.co.il/brand/corsair/k60/pro/tkl/rgb"
     },
     "filterTags": {}
   },
@@ -583,7 +589,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/1/4/92344119c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691332
+      "updated": 1779196180824
     },
     "filterTags": {}
   },
@@ -595,7 +601,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/5/0/77910530c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691333
+      "updated": 1779196180825
     },
     "filterTags": {}
   },
@@ -607,7 +613,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/2/0/91630279c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691333
+      "updated": 1779196180826
     },
     "filterTags": {}
   },
@@ -619,7 +625,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/2/7/90217237c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691333
+      "updated": 1779196180827
     },
     "filterTags": {}
   },
@@ -631,7 +637,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/2/7/52027269c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691333
+      "updated": 1779196180830
     },
     "filterTags": {}
   },
@@ -643,7 +649,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/2/8/91568292c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691333
+      "updated": 1779196180831
     },
     "filterTags": {}
   },
@@ -655,7 +661,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/7/1/61391703c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691334
+      "updated": 1779196180832
     },
     "filterTags": {}
   },
@@ -667,7 +673,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/0/0/94050005c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691334
+      "updated": 1779196180833
     },
     "filterTags": {}
   },
@@ -679,7 +685,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/6/0/95780621c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691334
+      "updated": 1779196180834
     },
     "filterTags": {}
   },
@@ -691,7 +697,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/2/3/89323265c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691335
+      "updated": 1779196180835
     },
     "filterTags": {}
   },
@@ -703,7 +709,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/4/9/91569417c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691335
+      "updated": 1779196180835
     },
     "filterTags": {}
   },
@@ -715,7 +721,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/3/5/93095368c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691335
+      "updated": 1779196180836,
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/210334"
     },
     "filterTags": {}
   },
@@ -727,7 +735,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/0/2/95032063c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691335
+      "updated": 1779196180837
     },
     "filterTags": {}
   },
@@ -739,7 +747,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/3/3/95143345c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180837
     },
     "filterTags": {}
   },
@@ -751,7 +759,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/6/6/91626611c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180838
     },
     "filterTags": {}
   },
@@ -763,7 +771,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/4/8/78498430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180839,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -775,7 +785,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/8/8/95058858b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180839
     },
     "filterTags": {}
   },
@@ -787,7 +797,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/4/7/87037407c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180840,
+      "bug": 339,
+      "bugUrl": "https://www.bug.co.il/brand/corsair/k70/core/rgb"
     },
     "filterTags": {}
   },
@@ -799,7 +811,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/51132849809c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691336
+      "updated": 1779196180841
     },
     "filterTags": {}
   },
@@ -811,7 +823,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/5/7/0/93160756c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691337
+      "updated": 1779196180842
     },
     "filterTags": {}
   },
@@ -823,7 +835,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/0/8/91608038c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691337,
+      "updated": 1779196180842,
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/210334",
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -837,7 +851,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/0/2/87672009c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691337
+      "updated": 1779196180843
     },
     "filterTags": {}
   },
@@ -846,10 +860,10 @@
     "name": "מקלדת Logitech G915 X Wired",
     "image": "images/1239139.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/2/4/3/9/92219342b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/3/9/92219342c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691338
+      "updated": 1779196180844
     },
     "filterTags": {}
   },
@@ -861,7 +875,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/3/8/54148362c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691338,
+      "updated": 1779196180846,
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/210334",
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -875,7 +891,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/9/3/75303995c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691338
+      "updated": 1779196180847
     },
     "filterTags": {}
   },
@@ -887,7 +903,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/9/5/70545988c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691338
+      "updated": 1779196180847
     },
     "filterTags": {}
   },
@@ -899,7 +915,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/25141515459c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691338
+      "updated": 1779196180848
     },
     "filterTags": {}
   },
@@ -911,7 +927,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/93852284c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691339
+      "updated": 1779196180849
     },
     "filterTags": {}
   },
@@ -923,7 +939,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/9/8/93078917c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691339
+      "updated": 1779196180850,
+      "ksp": 379,
+      "kspUrl": "https://ksp.co.il/web/item/306204"
     },
     "filterTags": {}
   },
@@ -935,7 +953,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/1/2/92372153c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691339
+      "updated": 1779196180851
     },
     "filterTags": {}
   },
@@ -947,7 +965,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/5/9/87179525c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340
+      "updated": 1779196180852
     },
     "filterTags": {}
   },
@@ -959,7 +977,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/0/4/90474052c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340
+      "updated": 1779196180853
     },
     "filterTags": {}
   },
@@ -968,10 +986,10 @@
     "name": "מקלדת Logitech G413-SE",
     "image": "images/1164428.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/0/4/8/2/93162840b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/8/2/93162840c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340,
+      "updated": 1779196180854,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -985,7 +1003,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/93852284c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340
+      "updated": 1779196180855
     },
     "filterTags": {}
   },
@@ -997,7 +1015,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/5/3/94333565c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340
+      "updated": 1779196180856
     },
     "filterTags": {}
   },
@@ -1009,7 +1027,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/3/3/91573392c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691340,
+      "updated": 1779196180857,
       "ksp": 1229,
       "kspUrl": "https://ksp.co.il/web/item/372964"
     },
@@ -1023,7 +1041,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/7/5/89485702c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691341
+      "updated": 1779196180858
     },
     "filterTags": {}
   },
@@ -1035,7 +1053,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/5/2/74302595c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691341,
+      "updated": 1779196180860,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -1046,10 +1064,10 @@
     "name": "מקלדת ועכבר SilverLine WKM1608",
     "image": "images/1003049.gif",
     "manufacturer": "SilverLine",
-    "imageUrl": "https://img.zap.co.il/pics/0/1/0/8/37888010c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/4/2/95532437b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691341
+      "updated": 1779196180863
     },
     "filterTags": {}
   },
@@ -1058,10 +1076,10 @@
     "name": "מקלדת Logitech G915 TKL",
     "image": "images/1180561.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/6/0/2/4/92154206b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/2/4/92154206c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691342,
+      "updated": 1779196180864,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -1075,7 +1093,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/9/3/75303993c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691342
+      "updated": 1779196180865
     },
     "filterTags": {}
   },
@@ -1087,7 +1105,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/6/8/91638689c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691342
+      "updated": 1779196180866
     },
     "filterTags": {}
   },
@@ -1099,7 +1117,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/7/7/94787770c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691342
+      "updated": 1779196180867
     },
     "filterTags": {}
   },
@@ -1111,7 +1129,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/1/6/53246176c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691342
+      "updated": 1779196180868
     },
     "filterTags": {}
   },
@@ -1123,7 +1141,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/7/7/89927749c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691343
+      "updated": 1779196180869
     },
     "filterTags": {}
   },
@@ -1135,7 +1153,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/6/0/57270693c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691343
+      "updated": 1779196180870
     },
     "filterTags": {}
   },
@@ -1147,7 +1165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/9/0/59300926c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691343
+      "updated": 1779196180871
     },
     "filterTags": {}
   },
@@ -1159,7 +1177,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/0/6/87586044c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691343
+      "updated": 1779196180872
     },
     "filterTags": {}
   },
@@ -1171,7 +1189,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/5/7/89937532c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691343
+      "updated": 1779196180873
     },
     "filterTags": {}
   },
@@ -1183,7 +1201,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/1/5/86165171c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691344
+      "updated": 1779196180873
     },
     "filterTags": {}
   },
@@ -1195,7 +1213,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/1/3/57113132c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691344
+      "updated": 1779196180875
     },
     "filterTags": {}
   },
@@ -1207,7 +1225,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/1/9/89949101c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691344
+      "updated": 1779196180876
     },
     "filterTags": {}
   },
@@ -1219,7 +1237,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/7/8/94988747c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345,
+      "updated": 1779196180879,
       "ksp": 1229,
       "kspUrl": "https://ksp.co.il/web/item/372964"
     },
@@ -1233,7 +1251,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/8/6/90236888c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180880
     },
     "filterTags": {}
   },
@@ -1245,7 +1263,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/7/6/94476721c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180880
     },
     "filterTags": {}
   },
@@ -1257,7 +1275,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/4/8/85168445c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180881
     },
     "filterTags": {}
   },
@@ -1269,7 +1287,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/8/9/69779821c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180882
     },
     "filterTags": {}
   },
@@ -1281,7 +1299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/4/2/94292485c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180883
     },
     "filterTags": {}
   },
@@ -1293,7 +1311,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/8510343102c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691345
+      "updated": 1779196180884
     },
     "filterTags": {}
   },
@@ -1305,7 +1323,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/9/2/88372902c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691346
+      "updated": 1779196180885
     },
     "filterTags": {}
   },
@@ -1317,7 +1335,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/2/1/91611254c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691346,
+      "updated": 1779196180886,
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -1331,7 +1349,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/4/9/82709491c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691346
+      "updated": 1779196180886
     },
     "filterTags": {}
   },
@@ -1343,7 +1361,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/9/5/76595958c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691346
+      "updated": 1779196180887
     },
     "filterTags": {}
   },
@@ -1355,7 +1373,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/8/6/90236889c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691347
+      "updated": 1779196180888
     },
     "filterTags": {}
   },
@@ -1367,7 +1385,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/9/9/40509953c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691347
+      "updated": 1779196180889
     },
     "filterTags": {}
   },
@@ -1379,7 +1397,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/1/4/75574153c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691347
+      "updated": 1779196180890
     },
     "filterTags": {}
   },
@@ -1391,7 +1409,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/0/2/92422011c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691348
+      "updated": 1779196180891
     },
     "filterTags": {}
   },
@@ -1403,7 +1421,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/1/6/48476165c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691348
+      "updated": 1779196180892
     },
     "filterTags": {}
   },
@@ -1415,7 +1433,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/7/6/49866783c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691348
+      "updated": 1779196180893
     },
     "filterTags": {}
   },
@@ -1427,7 +1445,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/9/2/92082945c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691348
+      "updated": 1779196180896
     },
     "filterTags": {}
   },
@@ -1439,7 +1457,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/9/5/51795929c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691349
+      "updated": 1779196180897
     },
     "filterTags": {}
   },
@@ -1451,7 +1469,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/9/3/59213901c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691349
+      "updated": 1779196180897
     },
     "filterTags": {}
   },
@@ -1463,7 +1481,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/3/0/44830323c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691349
+      "updated": 1779196180898
     },
     "filterTags": {}
   },
@@ -1475,7 +1493,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/8/8/55828844c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691349
+      "updated": 1779196180899
     },
     "filterTags": {}
   },
@@ -1487,7 +1505,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/1/7/90017177c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691350
+      "updated": 1779196180900
     },
     "filterTags": {}
   },
@@ -1499,7 +1517,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/0/3/75063080c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691350
+      "updated": 1779196180901
     },
     "filterTags": {}
   },
@@ -1511,7 +1529,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/0/1/89151033c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691350
+      "updated": 1779196180902
     },
     "filterTags": {}
   },
@@ -1523,7 +1541,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/5/6/43046522c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691350
+      "updated": 1779196180903
     },
     "filterTags": {}
   },
@@ -1535,7 +1553,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/6/4/92784600c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691351
+      "updated": 1779196180903,
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/210334"
     },
     "filterTags": {}
   },
@@ -1547,7 +1567,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/3/0/75250397c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691351
+      "updated": 1779196180904,
+      "bug": 399,
+      "bugUrl": "https://www.bug.co.il/brand/corsair/k60/pro/tkl/rgb"
     },
     "filterTags": {}
   },
@@ -1559,7 +1581,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/5/2/70462550c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691351
+      "updated": 1779196180905
     },
     "filterTags": {}
   },
@@ -1571,7 +1593,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/0/3/92373068c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691351
+      "updated": 1779196180906
     },
     "filterTags": {}
   },
@@ -1583,7 +1605,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/2/1/69611205c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691352
+      "updated": 1779196180907
     },
     "filterTags": {}
   },
@@ -1595,7 +1617,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/4/4/94474470c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691352
+      "updated": 1779196180909
     },
     "filterTags": {}
   },
@@ -1607,7 +1629,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/5/8/5/51015856c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691352
+      "updated": 1779196180910
     },
     "filterTags": {}
   },
@@ -1619,7 +1641,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/0/4/89074061c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691352
+      "updated": 1779196180910
     },
     "filterTags": {}
   },
@@ -1631,7 +1653,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/1/9/59319175c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691353
+      "updated": 1779196180913
     },
     "filterTags": {}
   },
@@ -1643,7 +1665,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/4/2/94292483c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691353
+      "updated": 1779196180914
     },
     "filterTags": {}
   },
@@ -1655,7 +1677,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/3/0/69980323c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691353
+      "updated": 1779196180915
     },
     "filterTags": {}
   },
@@ -1667,7 +1689,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/8/6/90236887c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354
+      "updated": 1779196180916
     },
     "filterTags": {}
   },
@@ -1679,7 +1701,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/3/0/47610320c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354
+      "updated": 1779196180917
     },
     "filterTags": {}
   },
@@ -1691,7 +1713,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/8/8/50858830c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354
+      "updated": 1779196180918
     },
     "filterTags": {}
   },
@@ -1703,7 +1725,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/3/2/62362317c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354,
+      "updated": 1779196180919,
       "ksp": 1229,
       "kspUrl": "https://ksp.co.il/web/item/372964"
     },
@@ -1717,7 +1739,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/3/3/95143346c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354
+      "updated": 1779196180920
     },
     "filterTags": {}
   },
@@ -1729,7 +1751,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/3/9/92219347c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691354
+      "updated": 1779196180921
     },
     "filterTags": {}
   },
@@ -1741,7 +1763,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/1/6/87776123c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691355
+      "updated": 1779196180922
     },
     "filterTags": {}
   },
@@ -1753,7 +1775,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/912124911518c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691355
+      "updated": 1779196180923
     },
     "filterTags": {}
   },
@@ -1765,7 +1787,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/9/4/75354988c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691355
+      "updated": 1779196180923
     },
     "filterTags": {}
   },
@@ -1777,7 +1799,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/12516362325c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691355
+      "updated": 1779196180924
     },
     "filterTags": {}
   },
@@ -1789,7 +1811,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/5/6/93256596c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691356
+      "updated": 1779196180925
     },
     "filterTags": {}
   },
@@ -1801,7 +1823,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/1/3/56433199c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691356
+      "updated": 1779196180927
     },
     "filterTags": {}
   },
@@ -1813,7 +1835,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/2/2/42142215c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691356
+      "updated": 1779196180929
     },
     "filterTags": {}
   },
@@ -1825,7 +1847,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/6/3/62513663c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691356
+      "updated": 1779196180930
     },
     "filterTags": {}
   },
@@ -1837,7 +1859,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/8/4/87444882c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691356
+      "updated": 1779196180936
     },
     "filterTags": {}
   },
@@ -1849,7 +1871,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/5/6/65056539c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180937
     },
     "filterTags": {}
   },
@@ -1861,7 +1883,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/7/6/89146793c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180938
     },
     "filterTags": {}
   },
@@ -1873,7 +1895,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/8/4/49664850c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180939
     },
     "filterTags": {}
   },
@@ -1885,7 +1907,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/9/4/68394930c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180940
     },
     "filterTags": {}
   },
@@ -1897,7 +1919,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/4/4/90324493c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180941
     },
     "filterTags": {}
   },
@@ -1909,7 +1931,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/8/3/52713810c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691357
+      "updated": 1779196180942
     },
     "filterTags": {}
   },
@@ -1921,7 +1943,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/1/6/74226193c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691358
+      "updated": 1779196180943
     },
     "filterTags": {}
   },
@@ -1933,7 +1955,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/7/5/74955787c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691358
+      "updated": 1779196180943
     },
     "filterTags": {}
   },
@@ -1945,7 +1967,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/5/5/94325546c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691358,
+      "updated": 1779196180945,
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -1959,7 +1981,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/8/6/90536834c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691359,
+      "updated": 1779196180946,
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -1973,7 +1995,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/0/9/54229076c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691359
+      "updated": 1779196180947
     },
     "filterTags": {}
   },
@@ -1985,7 +2007,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/3/8/59198311c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691359
+      "updated": 1779196180948
     },
     "filterTags": {}
   },
@@ -1997,7 +2019,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/0/4/90474053c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691359
+      "updated": 1779196180949
     },
     "filterTags": {}
   },
@@ -2009,7 +2031,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/6/3/62513665c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691359
+      "updated": 1779196180950
     },
     "filterTags": {}
   },
@@ -2021,7 +2043,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/209122512852c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691360
+      "updated": 1779196180951
     },
     "filterTags": {}
   },
@@ -2033,7 +2055,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/0/9/61239065c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691360
+      "updated": 1779196180952
     },
     "filterTags": {}
   },
@@ -2045,7 +2067,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/2/6/56426210c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691360
+      "updated": 1779196180953
     },
     "filterTags": {}
   },
@@ -2057,7 +2079,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/2/6/56426208c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180954
     },
     "filterTags": {}
   },
@@ -2069,7 +2091,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/7/7/64997716c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180955,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -2081,7 +2105,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/7/4/59194727c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180956
     },
     "filterTags": {}
   },
@@ -2093,7 +2117,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/3/9/59129383c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180957
     },
     "filterTags": {}
   },
@@ -2105,7 +2129,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/5/9/59149511c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180957
     },
     "filterTags": {}
   },
@@ -2117,7 +2141,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/5/4/62274544c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691361
+      "updated": 1779196180958
     },
     "filterTags": {}
   },
@@ -2129,7 +2153,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/3/9/59129384c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691362
+      "updated": 1779196180959
     },
     "filterTags": {}
   },
@@ -2141,7 +2165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/3/9/59129385c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691362
+      "updated": 1779196180960
     },
     "filterTags": {}
   },
@@ -2153,7 +2177,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/6/0/88090677c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691362
+      "updated": 1779196180962
     },
     "filterTags": {}
   },
@@ -2165,7 +2189,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/6/2/47502687c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691362
+      "updated": 1779196180963
     },
     "filterTags": {}
   },
@@ -2177,7 +2201,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/5/1/44641524c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691363
+      "updated": 1779196180964
     },
     "filterTags": {}
   },
@@ -2189,7 +2213,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/4/4/74944447c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691363
+      "updated": 1779196180964
     },
     "filterTags": {}
   },
@@ -2201,7 +2225,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/9/4/87454911c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691363,
+      "updated": 1779196180965,
       "ksp": 104,
       "kspUrl": "https://ksp.co.il/web/item/21422"
     },
@@ -2215,7 +2239,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/7/2/92832790c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691363,
+      "updated": 1779196180966,
       "ksp": 699,
       "kspUrl": "https://ksp.co.il/web/item/309113"
     },
@@ -2229,7 +2253,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/6/4/48994650c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691364
+      "updated": 1779196180967
     },
     "filterTags": {}
   },
@@ -2241,7 +2265,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/2/5/94255255c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691364
+      "updated": 1779196180968
     },
     "filterTags": {}
   },
@@ -2253,7 +2277,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/9/8/53718936c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691364
+      "updated": 1779196180969
     },
     "filterTags": {}
   },
@@ -2265,7 +2289,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/1/3/92113150c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691364
+      "updated": 1779196180970
     },
     "filterTags": {}
   },
@@ -2277,7 +2301,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/6/1/92811627c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691364
+      "updated": 1779196180971
     },
     "filterTags": {}
   },
@@ -2289,7 +2313,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/2/0/91590288c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691365
+      "updated": 1779196180972
     },
     "filterTags": {}
   },
@@ -2301,7 +2325,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/1/0/52410172c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691365
+      "updated": 1779196180973
     },
     "filterTags": {}
   },
@@ -2313,7 +2337,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/1/0/70670119c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691365
+      "updated": 1779196180974
     },
     "filterTags": {}
   },
@@ -2325,7 +2349,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/6/2/94112620c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180975
     },
     "filterTags": {}
   },
@@ -2337,7 +2361,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/4/9/91549496c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180976
     },
     "filterTags": {}
   },
@@ -2349,7 +2373,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/0/0/67480038c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180976
     },
     "filterTags": {}
   },
@@ -2361,7 +2385,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/2/7/52027270c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180978
     },
     "filterTags": {}
   },
@@ -2373,7 +2397,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/7/3/93983773c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180979
     },
     "filterTags": {}
   },
@@ -2385,7 +2409,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/0/7/69647099c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691366
+      "updated": 1779196180979
     },
     "filterTags": {}
   },
@@ -2397,7 +2421,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/3/6/37146304c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691367
+      "updated": 1779196180980
     },
     "filterTags": {}
   },
@@ -2409,7 +2433,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/1/2/52392146c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691367
+      "updated": 1779196180981
     },
     "filterTags": {}
   },
@@ -2421,7 +2445,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/1/1/62221106c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691367
+      "updated": 1779196180982
     },
     "filterTags": {}
   },
@@ -2433,7 +2457,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/5/2/58812546c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691367
+      "updated": 1779196180983
     },
     "filterTags": {}
   },
@@ -2445,7 +2469,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/7/2/65442752c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691368
+      "updated": 1779196180984
     },
     "filterTags": {}
   },
@@ -2457,7 +2481,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/9/9/57799925c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691368
+      "updated": 1779196180985
     },
     "filterTags": {}
   },
@@ -2469,7 +2493,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/0/0/59990072c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691368
+      "updated": 1779196180986
     },
     "filterTags": {}
   },
@@ -2481,7 +2505,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/9/7/94707937c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691368
+      "updated": 1779196180986
     },
     "filterTags": {}
   },
@@ -2493,7 +2517,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/4/7/89827479c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691368
+      "updated": 1779196180987
     },
     "filterTags": {}
   },
@@ -2505,7 +2529,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/7/0/54040727c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691369
+      "updated": 1779196180988,
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/210334"
     },
     "filterTags": {}
   },
@@ -2517,7 +2543,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/2/3/90403230c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691369
+      "updated": 1779196180989
     },
     "filterTags": {}
   },
@@ -2529,7 +2555,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/0/6/63006055c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691369
+      "updated": 1779196180990
     },
     "filterTags": {}
   },
@@ -2541,7 +2567,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/6/0/76570668c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691369
+      "updated": 1779196180991
     },
     "filterTags": {}
   },
@@ -2553,7 +2579,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/9/6/84186915c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691369,
+      "updated": 1779196180992,
       "bug": 1299,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/apex/pro/mini/wl/us"
     },
@@ -2567,7 +2593,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/7/1/87221731c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691370
+      "updated": 1779196180993
     },
     "filterTags": {}
   },
@@ -2579,7 +2605,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/0/9/47559005c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691370
+      "updated": 1779196180994
     },
     "filterTags": {}
   },
@@ -2591,7 +2617,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/3/8/44738365c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691370,
+      "updated": 1779196180995,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -2605,7 +2631,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/8/9/91449863c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196180996
     },
     "filterTags": {}
   },
@@ -2617,7 +2643,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/4/0/56150499c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196180996
     },
     "filterTags": {}
   },
@@ -2629,7 +2655,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/64947043c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196180997
     },
     "filterTags": {}
   },
@@ -2641,7 +2667,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/1/9/94529104c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196180998
     },
     "filterTags": {}
   },
@@ -2653,7 +2679,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/7/0/41060791c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196180999
     },
     "filterTags": {}
   },
@@ -2665,7 +2691,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/3/2/94242361c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691371
+      "updated": 1779196181000
     },
     "filterTags": {}
   },
@@ -2677,7 +2703,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/6/0/88090667c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691372
+      "updated": 1779196181001
     },
     "filterTags": {}
   },
@@ -2689,7 +2715,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/6/0/87330616c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691372
+      "updated": 1779196181002
     },
     "filterTags": {}
   },
@@ -2701,7 +2727,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/6/1/92431655c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691372
+      "updated": 1779196181003
     },
     "filterTags": {}
   },
@@ -2713,7 +2739,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/9/1/59001927c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691372
+      "updated": 1779196181004
     },
     "filterTags": {}
   },
@@ -2725,7 +2751,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/2/0/48370235c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691373
+      "updated": 1779196181005
     },
     "filterTags": {}
   },
@@ -2737,7 +2763,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/8/7/96837888c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691373
+      "updated": 1779196181006
     },
     "filterTags": {}
   },
@@ -2749,7 +2775,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/6/0/88090669c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691373
+      "updated": 1779196181007
     },
     "filterTags": {}
   },
@@ -2761,7 +2787,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/0/0/86930093c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691373
+      "updated": 1779196181007
     },
     "filterTags": {}
   },
@@ -2773,7 +2799,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/1/3/95163170c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691373
+      "updated": 1779196181008
     },
     "filterTags": {}
   },
@@ -2785,7 +2811,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/2/2/87432284c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691374
+      "updated": 1779196181009
     },
     "filterTags": {}
   },
@@ -2797,7 +2823,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/9/9/51559924c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691374
+      "updated": 1779196181009
     },
     "filterTags": {}
   },
@@ -2809,7 +2835,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/4/6/93316468c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691374
+      "updated": 1779196181010
     },
     "filterTags": {}
   },
@@ -2821,7 +2847,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/7/3/94533725c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691374
+      "updated": 1779196181010
     },
     "filterTags": {}
   },
@@ -2833,7 +2859,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/4/7/97377426c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691375
+      "updated": 1779196181011,
+      "ksp": 78,
+      "kspUrl": "https://ksp.co.il/web/item/403556"
     },
     "filterTags": {}
   },
@@ -2845,7 +2873,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/2/1/54641275c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691375
+      "updated": 1779196181012
     },
     "filterTags": {}
   },
@@ -2857,7 +2885,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/8/3/61803829c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691375
+      "updated": 1779196181012
     },
     "filterTags": {}
   },
@@ -2869,7 +2897,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/7/9/4/42814974c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691375
+      "updated": 1779196181013
     },
     "filterTags": {}
   },
@@ -2881,7 +2909,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/7/6/62286747c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181013
     },
     "filterTags": {}
   },
@@ -2893,7 +2921,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/6/0/40900680c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181013
     },
     "filterTags": {}
   },
@@ -2905,7 +2933,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/4/5/51715410c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181014
     },
     "filterTags": {}
   },
@@ -2917,7 +2945,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/412104441801c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181015
     },
     "filterTags": {}
   },
@@ -2929,7 +2957,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/4/8/88488469c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181016
     },
     "filterTags": {}
   },
@@ -2941,7 +2969,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/0/5/51125001c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691376
+      "updated": 1779196181017
     },
     "filterTags": {}
   },
@@ -2953,7 +2981,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/0/2/95032013c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691377
+      "updated": 1779196181018
     },
     "filterTags": {}
   },
@@ -2965,7 +2993,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/4/1/44591476c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691377
+      "updated": 1779196181018
     },
     "filterTags": {}
   },
@@ -2977,7 +3005,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/5/5/65825566c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691377
+      "updated": 1779196181019
     },
     "filterTags": {}
   },
@@ -2989,7 +3017,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/1610205010134c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691377
+      "updated": 1779196181020
     },
     "filterTags": {}
   },
@@ -3001,7 +3029,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/0/3/65103076c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691378
+      "updated": 1779196181021
     },
     "filterTags": {}
   },
@@ -3013,7 +3041,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/1/2/55942130c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691378
+      "updated": 1779196181022
     },
     "filterTags": {}
   },
@@ -3025,7 +3053,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/0/7/94367054c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691378
+      "updated": 1779196181023
     },
     "filterTags": {}
   },
@@ -3037,7 +3065,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/6/6/54466610c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691378
+      "updated": 1779196181025
     },
     "filterTags": {}
   },
@@ -3049,7 +3077,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/4/2/1/93321243c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691378,
+      "updated": 1779196181026,
       "ksp": 1229,
       "kspUrl": "https://ksp.co.il/web/item/372964"
     },
@@ -3063,7 +3091,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/5/6/61006541c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691379
+      "updated": 1779196181027
     },
     "filterTags": {}
   },
@@ -3072,10 +3100,12 @@
     "name": "מקלדת Logitech Pop Keys",
     "image": "images/1142183.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/1/2/7/9/68339721c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/5/8/95038557c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691379
+      "updated": 1779196181028,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -3087,7 +3117,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/4/0/57970482c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691379
+      "updated": 1779196181029
     },
     "filterTags": {}
   },
@@ -3099,7 +3129,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/7/8/45578779c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691380
+      "updated": 1779196181030
     },
     "filterTags": {}
   },
@@ -3111,7 +3141,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/4/6/48446473c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691380
+      "updated": 1779196181030
     },
     "filterTags": {}
   },
@@ -3123,7 +3153,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/6/5/58185697c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691380
+      "updated": 1779196181031
     },
     "filterTags": {}
   },
@@ -3135,7 +3165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/7/4/86054787c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691380
+      "updated": 1779196181032
     },
     "filterTags": {}
   },
@@ -3147,7 +3177,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/9/0/58560984c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691380
+      "updated": 1779196181033
     },
     "filterTags": {}
   },
@@ -3159,7 +3189,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/3/0/58670390c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691381
+      "updated": 1779196181034
     },
     "filterTags": {}
   },
@@ -3171,7 +3201,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/8/6/50216881c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691381
+      "updated": 1779196181035
     },
     "filterTags": {}
   },
@@ -3183,7 +3213,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/9/6/45266935c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691382
+      "updated": 1779196181036
     },
     "filterTags": {}
   },
@@ -3195,7 +3225,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/4/6/48446472c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691382
+      "updated": 1779196181037
     },
     "filterTags": {}
   },
@@ -3207,7 +3237,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/4/0/57770478c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691382
+      "updated": 1779196181038
     },
     "filterTags": {}
   },
@@ -3219,7 +3249,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/4/4/94474471c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691382
+      "updated": 1779196181039
     },
     "filterTags": {}
   },
@@ -3231,7 +3261,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/2/8/50148283c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691382
+      "updated": 1779196181040
     },
     "filterTags": {}
   },
@@ -3243,7 +3273,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/4/7/50887429c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691383
+      "updated": 1779196181040
     },
     "filterTags": {}
   },
@@ -3255,7 +3285,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/5/1/90121581c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691383,
+      "updated": 1779196181041,
       "ksp": 298,
       "kspUrl": "https://ksp.co.il/web/item/201409"
     },
@@ -3269,7 +3299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/6/8/56538672c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691383
+      "updated": 1779196181042
     },
     "filterTags": {}
   },
@@ -3281,7 +3311,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/0/8/97318025c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691383
+      "updated": 1779196181043,
+      "ksp": 889,
+      "kspUrl": "https://ksp.co.il/web/item/313912"
     },
     "filterTags": {}
   },
@@ -3293,7 +3325,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/2/1/44591232c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691383
+      "updated": 1779196181044
     },
     "filterTags": {}
   },
@@ -3305,7 +3337,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/3/0/44700324c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691384,
+      "updated": 1779196181045,
       "ksp": 1229,
       "kspUrl": "https://ksp.co.il/web/item/372964"
     },
@@ -3319,7 +3351,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/9/3/47403949c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691384
+      "updated": 1779196181045
     },
     "filterTags": {}
   },
@@ -3331,7 +3363,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/8/1/47181865c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691384
+      "updated": 1779196181046
     },
     "filterTags": {}
   },
@@ -3343,7 +3375,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/7/9/47219705c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181047
     },
     "filterTags": {}
   },
@@ -3355,7 +3387,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/9/9/89369921c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181048
     },
     "filterTags": {}
   },
@@ -3367,7 +3399,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/1/5/70315111c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181049
     },
     "filterTags": {}
   },
@@ -3379,7 +3411,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/1/5/94485136c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181050
     },
     "filterTags": {}
   },
@@ -3391,7 +3423,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/2/1/74991227c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181051
     },
     "filterTags": {}
   },
@@ -3400,10 +3432,10 @@
     "name": "מקלדת Logitech G915 X Lightspeed TKL",
     "image": "images/1239154.gif",
     "manufacturer": "Logitech",
-    "imageUrl": "https://img.zap.co.il/pics/8/9/8/3/90563898b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/8/3/90563898c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691385
+      "updated": 1779196181052
     },
     "filterTags": {}
   },
@@ -3415,7 +3447,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/2/4/92664221c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691386
+      "updated": 1779196181053
     },
     "filterTags": {}
   },
@@ -3427,7 +3459,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/0/3/39273015c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691386
+      "updated": 1779196181054
     },
     "filterTags": {}
   },
@@ -3439,7 +3471,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/8/9/94309854c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691386
+      "updated": 1779196181055
     },
     "filterTags": {}
   },
@@ -3451,7 +3483,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/9/2/94062923c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691386
+      "updated": 1779196181056
     },
     "filterTags": {}
   },
@@ -3463,7 +3495,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/0/1/94441095c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691387
+      "updated": 1779196181057
     },
     "filterTags": {}
   },
@@ -3475,7 +3507,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/7/0/97490726c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691387,
+      "updated": 1779196181058,
       "bug": 199,
       "bugUrl": "https://www.bug.co.il/brand/aula/s99/pro/cream/green"
     },
@@ -3489,7 +3521,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/7/2/63452757c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691387
+      "updated": 1779196181058
     },
     "filterTags": {}
   },
@@ -3501,7 +3533,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/8/9/95359810c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691387
+      "updated": 1779196181059
     },
     "filterTags": {}
   },
@@ -3513,7 +3545,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/5/9/41849595c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691387
+      "updated": 1779196181060
     },
     "filterTags": {}
   },
@@ -3525,7 +3557,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/1/8/84568140c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691388
+      "updated": 1779196181061
     },
     "filterTags": {}
   },
@@ -3537,7 +3569,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/5/0/90220555c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691388
+      "updated": 1779196181062
     },
     "filterTags": {}
   },
@@ -3549,7 +3581,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/6/0/88090676c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691388
+      "updated": 1779196181062
     },
     "filterTags": {}
   },
@@ -3561,7 +3593,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/1/4/93884165c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691388
+      "updated": 1779196181063
     },
     "filterTags": {}
   },
@@ -3573,7 +3605,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/51017335873c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691388
+      "updated": 1779196181064
     },
     "filterTags": {}
   },
@@ -3585,7 +3617,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/5/6/65076584c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691389,
+      "updated": 1779196181065,
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -3599,7 +3631,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/8/6/90536835c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691389,
+      "updated": 1779196181066,
       "bug": 1329,
       "bugUrl": "https://www.bug.co.il/brand/steelseries/black/apex/pro/gen/3/tkl/black"
     },
@@ -3613,7 +3645,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/8/9/94309853c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691389
+      "updated": 1779196181067
     },
     "filterTags": {}
   },
@@ -3625,7 +3657,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/0/7/94367053c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181068
     },
     "filterTags": {}
   },
@@ -3637,7 +3669,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/9/4/49124902c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181069
     },
     "filterTags": {}
   },
@@ -3649,7 +3681,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/8/5/89085882c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181070
     },
     "filterTags": {}
   },
@@ -3661,7 +3693,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/2/1/79321229c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181071
     },
     "filterTags": {}
   },
@@ -3673,7 +3705,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/5/2/94332507c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181072
     },
     "filterTags": {}
   },
@@ -3685,7 +3717,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/5/7/70427599c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390
+      "updated": 1779196181072
     },
     "filterTags": {}
   },
@@ -3697,9 +3729,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/7/3/65523789c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691390,
-      "ksp": 104,
-      "kspUrl": "https://ksp.co.il/web/item/21422"
+      "updated": 1779196181073,
+      "ksp": 78,
+      "kspUrl": "https://ksp.co.il/web/item/403556"
     },
     "filterTags": {}
   },
@@ -3711,7 +3743,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/4/0/74440432c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691391
+      "updated": 1779196181074
     },
     "filterTags": {}
   },
@@ -3723,7 +3755,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/1311122440976c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691391
+      "updated": 1779196181075
     },
     "filterTags": {}
   },
@@ -3735,7 +3767,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/2/0/91340227c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691391
+      "updated": 1779196181076
     }
   },
   {
@@ -3746,7 +3778,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/8/2/92852861c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691392
+      "updated": 1779196181077
     }
   },
   {
@@ -3757,7 +3789,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/8/6/96326879c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691392
+      "updated": 1779196181078
     }
   },
   {
@@ -3768,7 +3800,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/8/0/96990828c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691392
+      "updated": 1779196181080
     }
   },
   {
@@ -3779,7 +3811,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/9/2/97392985c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691392
+      "updated": 1779196181081
     }
   },
   {
@@ -3790,7 +3822,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/7/5/97365770c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691392
+      "updated": 1779196181082
     }
   },
   {
@@ -3801,7 +3833,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/4/0/9/95229048c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691393
+      "updated": 1779196181083
     }
   },
   {
@@ -3812,7 +3844,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/1/3/95393152c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691393
+      "updated": 1779196181084
     }
   },
   {
@@ -3823,7 +3855,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/9/6/94996924c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691393
+      "updated": 1779196181084
     }
   },
   {
@@ -3834,7 +3866,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/3/3/95393361c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691393
+      "updated": 1779196181085
     }
   },
   {
@@ -3845,7 +3877,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/3/3/94383302c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691393
+      "updated": 1779196181086
     }
   },
   {
@@ -3856,7 +3888,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/9/9/95529936c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691394
+      "updated": 1779196181087
     }
   },
   {
@@ -3867,7 +3899,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/8/3/97033836c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691394
+      "updated": 1779196181088
     }
   },
   {
@@ -3878,7 +3910,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/3/7/94717360c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691394
+      "updated": 1779196181089
     }
   },
   {
@@ -3889,7 +3921,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/9/4/97314962c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181090
     }
   },
   {
@@ -3900,7 +3932,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/5/8/96988508c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181093
     }
   },
   {
@@ -3911,7 +3943,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/4/0/92360486c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181095
     }
   },
   {
@@ -3922,7 +3954,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/7/9/96319785c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181095
     }
   },
   {
@@ -3933,7 +3965,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/9/1/96821923c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181096
     }
   },
   {
@@ -3944,7 +3976,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/2/2/95992296c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691395
+      "updated": 1779196181096
     }
   },
   {
@@ -3955,7 +3987,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/4/8/97598416c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691396
+      "updated": 1779196181097
     }
   },
   {
@@ -3966,7 +3998,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/3/5/96045369c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691396
+      "updated": 1779196181097
     }
   },
   {
@@ -3977,7 +4009,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/4/3/98353431c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691396
+      "updated": 1779196181098
     }
   },
   {
@@ -3988,7 +4020,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/6/6/93526684c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691396
+      "updated": 1779196181099
     }
   },
   {
@@ -3999,7 +4031,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/7/7/98127740c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691397
+      "updated": 1779196181100
     }
   },
   {
@@ -4010,7 +4042,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/1/2/95002155c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691397
+      "updated": 1779196181101
     }
   },
   {
@@ -4021,7 +4053,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/1/1/97731185c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691397
+      "updated": 1779196181102
     }
   },
   {
@@ -4032,7 +4064,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/4/6/93276486c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691397
+      "updated": 1779196181103
     }
   },
   {
@@ -4043,7 +4075,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/9/4/97294971c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181103
     }
   },
   {
@@ -4054,7 +4086,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/6/0/92620653c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181104
     }
   },
   {
@@ -4065,7 +4097,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/8/0/91470868c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181105
     }
   },
   {
@@ -4076,7 +4108,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/0/4/97694070c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181106
     }
   },
   {
@@ -4087,7 +4119,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/9/7/54287976c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181107
     }
   },
   {
@@ -4098,7 +4130,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/5/6/62546540c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691398
+      "updated": 1779196181108
     }
   },
   {
@@ -4109,7 +4141,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/4/5/86785485c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1778635691399
+      "updated": 1779196181109
     }
   },
   {
@@ -4119,8 +4151,41 @@
     "manufacturer": "Marvo",
     "imageUrl": "https://img.zap.co.il/pics/0/1/3/8/48068310c.gif",
     "prices": {
-      "zap": 348,
-      "updated": 1778635691399
+      "zap": 0,
+      "updated": 1779196181110
+    }
+  },
+  {
+    "id": "1117516",
+    "name": "מקלדת SilverLine MM818HEA",
+    "image": "images/1117516.gif",
+    "manufacturer": "SilverLine",
+    "imageUrl": "https://img.zap.co.il/pics/5/8/7/5/68265785c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1779196181111
+    }
+  },
+  {
+    "id": "1209245",
+    "name": "מקלדת Genius KB-118",
+    "image": "images/1209245.gif",
+    "manufacturer": "Genius",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/2/1/79321228c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1779196181112
+    }
+  },
+  {
+    "id": "1067158",
+    "name": "מקלדת Cougar 700K EVO",
+    "image": "images/1067158.gif",
+    "manufacturer": "Cougar",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/2/7/55507266c.gif",
+    "prices": {
+      "zap": 533,
+      "updated": 1779196181113
     }
   }
 ]

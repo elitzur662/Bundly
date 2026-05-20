@@ -1,42 +1,13 @@
 [
   {
-    "id": "ksp_157293",
-    "name": "סיר אורז חשמלי בעל מצב שמירת חום Gold Line  ATL-070",
-    "imageUrl": "https://ksp.co.il/shop/items/157293.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445837
-    }
-  },
-  {
-    "id": "ksp_251765",
-    "name": "סיר בישול איטי נירוסטה 3.5 ליטר 200W דגם ATL-035 מבית Gold Line",
-    "imageUrl": "https://ksp.co.il/shop/items/251765.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445837,
-      "ksp": 116,
-      "kspUrl": "https://ksp.co.il/web/item/251765"
-    }
-  },
-  {
     "id": "ksp_451438",
     "name": "סיר אורז חשמלי 1 ליטר Hemilton HEM-2169 400W - צבע לבן",
     "imageUrl": "https://ksp.co.il/shop/items/451438.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445838,
+      "updated": 1779196357817,
       "ksp": 122,
       "kspUrl": "https://ksp.co.il/web/item/451438"
-    }
-  },
-  {
-    "id": "ksp_460451",
-    "name": "מיכל זכוכית 1.4 ליטר עם מכסה בנעילה מהירה Ninja CRISPi CleanCrisp 426SH101EUUK",
-    "imageUrl": "https://ksp.co.il/shop/items/460451.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445838
     }
   },
   {
@@ -45,58 +16,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/451777.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445838,
+      "updated": 1779196357817,
       "ksp": 126,
       "kspUrl": "https://ksp.co.il/web/item/451777"
-    }
-  },
-  {
-    "id": "ksp_340555",
-    "name": "סיר טיגון נירוסטה 2 ליטר דגם ATL-9920 מבית Gold Line - צבע נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/340555.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445838,
-      "ksp": 116,
-      "kspUrl": "https://ksp.co.il/web/item/251765"
-    }
-  },
-  {
-    "id": "ksp_381874",
-    "name": "צ'יפסר לטיגון עמוק 3 ליטר Hemilton HEM-2132 2000W - נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/381874.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445838
-    }
-  },
-  {
-    "id": "ksp_375376",
-    "name": "סיר אורז חשמלי 1.8 ליטר ATL-072 מבית Gold Line",
-    "imageUrl": "https://ksp.co.il/shop/items/375376.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445839,
-      "ksp": 126,
-      "kspUrl": "https://ksp.co.il/web/item/451777"
-    }
-  },
-  {
-    "id": "ksp_407416",
-    "name": "סיר אורז חשמלי 1.5 ליטר Selmor SE-558 Non-Stick 500W - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/407416.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445839
-    }
-  },
-  {
-    "id": "ksp_452012",
-    "name": "מציאון ועודפים - סיר טיגון 3.5 ליטר Gold Line ATL-9933 - צבע נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/452012.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445839
     }
   },
   {
@@ -105,100 +27,20 @@
     "imageUrl": "https://ksp.co.il/shop/items/35026.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445839,
+      "updated": 1779196357817,
       "ksp": 159,
       "kspUrl": "https://ksp.co.il/web/item/35026"
     }
   },
   {
-    "id": "ksp_413146",
-    "name": "סיר אידוי אורז 1.5 ליטר Hyundai 700W HARC-04RZ1",
-    "imageUrl": "https://ksp.co.il/shop/items/413146.jpg?v=5",
+    "id": "ksp_296514",
+    "name": "סיר אידוי ובישול עוצמתי 700W - כולל קערה נשלפת עם ציפוי נון-סטיק לניקוי קל דגם BXRC1800E מבית Black+Decker - שנה אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/296514.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445839,
-      "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/35026"
-    }
-  },
-  {
-    "id": "ksp_451444",
-    "name": "סיר אורז חשמלי 1.8 ליטר Hemilton HEM-2170 700W - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/451444.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445839,
-      "ksp": 122,
-      "kspUrl": "https://ksp.co.il/web/item/451438"
-    }
-  },
-  {
-    "id": "ksp_119842",
-    "name": "סיר בישול איטי מקרמיקה וציפוי נירוסטה 6.5 ליטר Selmor SE-673 - צבע נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/119842.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445839
-    }
-  },
-  {
-    "id": "ksp_413158",
-    "name": "סיר אידוי אורז 2.8 ליטר Hyundai HARC-07RZ1 1000W",
-    "imageUrl": "https://ksp.co.il/shop/items/413158.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840,
-      "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/35026"
-    }
-  },
-  {
-    "id": "ksp_284213",
-    "name": "סיר טיגון 3.5 ליטר Gold Line ATL-9933 - צבע נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/284213.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840,
-      "ksp": 116,
-      "kspUrl": "https://ksp.co.il/web/item/251765"
-    }
-  },
-  {
-    "id": "ksp_339604",
-    "name": "סיר טיגון חשמלי 2.5 ליטר Hemilton 1800W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/339604.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840
-    }
-  },
-  {
-    "id": "ksp_76496",
-    "name": "סיר לטיגון עמוק 2.5 ליטר Hemilton HEM-213 1800W",
-    "imageUrl": "https://ksp.co.il/shop/items/76496.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840
-    }
-  },
-  {
-    "id": "ksp_340569",
-    "name": "סיר טיגון נירוסטה 4 ליטר דגם ATL-9944 מבית Gold Line - צבע נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/340569.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840,
-      "ksp": 116,
-      "kspUrl": "https://ksp.co.il/web/item/251765"
-    }
-  },
-  {
-    "id": "ksp_249319",
-    "name": "סיר טיגון ללא שמן 3.7 ליטר Normande ND-3708 1500W",
-    "imageUrl": "https://ksp.co.il/shop/items/249319.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445840
+      "updated": 1779196357817,
+      "ksp": 189,
+      "kspUrl": "https://ksp.co.il/web/item/296514"
     }
   },
   {
@@ -207,7 +49,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/357705.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445840,
+      "updated": 1779196357817,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/357705"
     }
@@ -218,325 +60,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/439946.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445841,
+      "updated": 1779196357817,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/439946"
-    }
-  },
-  {
-    "id": "ksp_305540",
-    "name": "סיר לאידוי ובישול איטי 6 ליטר Tefal Minicompact VC139865 800W",
-    "imageUrl": "https://ksp.co.il/shop/items/305540.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_452244",
-    "name": "רשת צליה עגולה 8.75 אינץ' לסיר טיגון Ninja Foodi מבית GrillGrate",
-    "imageUrl": "https://ksp.co.il/shop/items/452244.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_156796",
-    "name": "סיר טיגון ללא שמן 5.4 ליטר Gold Line TURBO AIR FRYER  ATL-9905",
-    "imageUrl": "https://ksp.co.il/shop/items/156796.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_430080",
-    "name": "סיר טיגון (ציפסר) ללא שמן 4.2 ליטר Philips Series 1000 NA120 / 00 1500W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/430080.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_305536",
-    "name": "סיר בישול אורז בנפח כולל 5 ליטר (10 כוסות אורז בנפח 1.8 ליטר) Moulinex MK123D27 EasyRice 700W - שחור / כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/305536.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_242446",
-    "name": "סיר טיגון בריאותי ללא שמן 6.5 ליטר 1700W מבית Normande TTAF-501MST",
-    "imageUrl": "https://ksp.co.il/shop/items/242446.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445841
-    }
-  },
-  {
-    "id": "ksp_120244",
-    "name": "סיר בישול איטי 6 ליטר Selmor SE-933 - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/120244.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842,
-      "ksp": 288,
-      "kspUrl": "https://ksp.co.il/web/item/120244"
-    }
-  },
-  {
-    "id": "ksp_373917",
-    "name": "סיר לטיגון עמוק 5 ליטר 2000W דגם AHY-505 מבית Luxor",
-    "imageUrl": "https://ksp.co.il/shop/items/373917.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_373915",
-    "name": "סיר טיגון חכם ללא שמן 1300W בנפח 3 ליטר דגם AHY-3003AD מבית Luxor - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/373915.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_172121",
-    "name": "סיר טיגון וצלייה ללא שמן Selmor SE-742 - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/172121.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_438479",
-    "name": "סיר טיגון ללא שמן בנפח 6 ליטר Xiaomi Air Fryer Essential - צבע לבן - שנה אחריות יבואן רשמי על ידי המילטון",
-    "imageUrl": "https://ksp.co.il/shop/items/438479.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_449670",
-    "name": "סיר בישול דיגיטלי באוויר חם 3.3 ליטר Nutricook Mini Air Fryer NC-AFM033K 1500W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/449670.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_414867",
-    "name": "סיר טיגון שולחני 6 ליטר Caso AirFry 6.0 1700W - שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/414867.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445842
-    }
-  },
-  {
-    "id": "ksp_449715",
-    "name": "סיר בישול באוויר חם 5.2 ליטר Nutricook Vision Essentials Air Fryer NC-AFE152M-G 1500W - צבע אפור / כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/449715.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843
-    }
-  },
-  {
-    "id": "ksp_462703",
-    "name": "מציאון ועודפים - סיר טיגון נייד ללא שמן Ninja CRISPi 4-in-1 1700W FN101 - צבע ירוק",
-    "imageUrl": "https://ksp.co.il/shop/items/462703.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843
-    }
-  },
-  {
-    "id": "ksp_449014",
-    "name": "סיר טיגון חכם ללא שמן 8 ליטר Darna CY-8009-EX - צבע שחור / כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/449014.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843
-    }
-  },
-  {
-    "id": "ksp_444766",
-    "name": "סיר אידוי ובישול עוצמתי 6.5 ליטר Black+Decker BXST800E 800W - נירוסטה - שנתיים אחריות יבואן רשמי",
-    "imageUrl": "https://ksp.co.il/shop/items/444766.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843,
-      "ksp": 399,
-      "kspUrl": "https://ksp.co.il/web/item/444766"
-    }
-  },
-  {
-    "id": "ksp_449688",
-    "name": "סיר טיגון באוויר חם 3.6 ליטר Nutricook Air Fryer 2 NC-AF204 1500W - שחור / נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/449688.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843
-    }
-  },
-  {
-    "id": "ksp_442328",
-    "name": "סיר טיגון דיגיטלי ללא שמן 8 ליטר 2000W דגם NRI-5608 מבית Universe - צבע שחור / כסוף",
-    "imageUrl": "https://ksp.co.il/shop/items/442328.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445843
-    }
-  },
-  {
-    "id": "ksp_458820",
-    "name": "סיר טיגון באוויר 4.7 ליטר Ninja AF140EUCM Air Fryer Pro 1750W",
-    "imageUrl": "https://ksp.co.il/shop/items/458820.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844,
-      "ksp": 429,
-      "kspUrl": "https://ksp.co.il/web/item/458820"
-    }
-  },
-  {
-    "id": "ksp_459530",
-    "name": "סיר טיגון ללא שמן  Ninja Air Fryer Max  AF170EU 6.2L 2000W",
-    "imageUrl": "https://ksp.co.il/shop/items/459530.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844
-    }
-  },
-  {
-    "id": "ksp_425186",
-    "name": "סיר טיגון ללא שמן 6.2 ליטר Philips Series 2000 NA231 / 00 1700W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/425186.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844
-    }
-  },
-  {
-    "id": "ksp_419989",
-    "name": "סיר טיגון ללא שמן Ninja AF180EU Max Pro Health Air Fryer 6.2L 2000W",
-    "imageUrl": "https://ksp.co.il/shop/items/419989.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844,
-      "ksp": 499,
-      "kspUrl": "https://ksp.co.il/web/item/419989"
-    }
-  },
-  {
-    "id": "ksp_449690",
-    "name": "סיר בישול דיגיטלי באוויר חם 5 ליטר Nutricook Slim Air Fryer NC-AFS100 1500W - צבע שחור מט",
-    "imageUrl": "https://ksp.co.il/shop/items/449690.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844
-    }
-  },
-  {
-    "id": "ksp_204983",
-    "name": "סיר טיגון כפול ללא שמן 7.6 ליטר Ninja AF300EU 2470W - אחריות על ידי היבואן מ.ברוכים",
-    "imageUrl": "https://ksp.co.il/shop/items/204983.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844
-    }
-  },
-  {
-    "id": "ksp_462705",
-    "name": "מציאון ועודפים - סיר טיגון ללא שמן 10.4 ליטר Ninja AF500EU 2470W",
-    "imageUrl": "https://ksp.co.il/shop/items/462705.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445844
-    }
-  },
-  {
-    "id": "ksp_449614",
-    "name": "סיר בישול חכם 9 ב-1 6 ליטר Nutricook Smart Pot 2 NC-SP204K 1000W",
-    "imageUrl": "https://ksp.co.il/shop/items/449614.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845,
-      "ksp": 579,
-      "kspUrl": "https://ksp.co.il/web/item/449614"
-    }
-  },
-  {
-    "id": "ksp_439812",
-    "name": "תנור אייר פרייר דיגיטלי 12 ליטר Berlinger Haus 2000W BH9549 - צבע שחור / רוז גולד",
-    "imageUrl": "https://ksp.co.il/shop/items/439812.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_265516",
-    "name": "סיר גריל חשמלי 5 ב-1 Benaton American",
-    "imageUrl": "https://ksp.co.il/shop/items/265516.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_449250",
-    "name": "סיר טיגון כפול ללא שמן 7.6 ליטר Ninja DZ300EU 2470W - צבע אפור מטאלי",
-    "imageUrl": "https://ksp.co.il/shop/items/449250.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_412396",
-    "name": "סיר טיגון ללא שמן (אייר פרייר) בריאותי 5 ליטר 8 תוכניות 1450W דיגיטלי דגם BXAF5000E - מבית Black+Decker - שנתיים אחריות יבואן רשמי.",
-    "imageUrl": "https://ksp.co.il/shop/items/412396.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_438497",
-    "name": "סיר טיגון ללא שמן בנפח 10 ליטר Xiaomi Dual Zone Air Fryer - צבע שחור - שנה אחריות יבואן רשמי על ידי המילטון",
-    "imageUrl": "https://ksp.co.il/shop/items/438497.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_411730",
-    "name": "סיר טיגון ללא שמן 7.2 ליטר Bosch Series 6 MAF671B1 1800W",
-    "imageUrl": "https://ksp.co.il/shop/items/411730.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445845
-    }
-  },
-  {
-    "id": "ksp_459710",
-    "name": "סיר טיגון כפול ללא שמן 2470W בנפח 7.6 ליטר Ninja SL300EU",
-    "imageUrl": "https://ksp.co.il/shop/items/459710.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
     }
   },
   {
@@ -545,116 +71,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/461090.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445846,
+      "updated": 1779196357817,
       "ksp": 649,
       "kspUrl": "https://ksp.co.il/web/item/461090"
-    }
-  },
-  {
-    "id": "ksp_267698",
-    "name": "צ’יפסר מקצועי 6 ליטר חשמלי מבית החוויה",
-    "imageUrl": "https://ksp.co.il/shop/items/267698.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
-    }
-  },
-  {
-    "id": "ksp_462973",
-    "name": "סיר טיגון כפול ללא שמן 9.5 ליטר Ninja AF400EU 2470W",
-    "imageUrl": "https://ksp.co.il/shop/items/462973.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
-    }
-  },
-  {
-    "id": "ksp_459289",
-    "name": "סיר טיגון כפול ללא שמן 9.5 ליטר Ninja AF400EUWH 2470W - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/459289.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
-    }
-  },
-  {
-    "id": "ksp_449605",
-    "name": "סיר טיגון חכם ללא שמן 5.7 ליטר Nutricook Air Fryer 3 Vision NC-AF357V 1700W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/449605.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
-    }
-  },
-  {
-    "id": "ksp_449705",
-    "name": "סיר בישול דיגיטלי באוויר חם 7.6 ליטר Nutricook Slim XL Air Fryer NC-AFS200 1700W - צבע שחור מט",
-    "imageUrl": "https://ksp.co.il/shop/items/449705.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445846
-    }
-  },
-  {
-    "id": "ksp_459282",
-    "name": "סיר לחץ רב תכליתי Ninja Foodi 7-in-1 Multi-Cooker OP300EU - שנה אחריות מ.ברוכים",
-    "imageUrl": "https://ksp.co.il/shop/items/459282.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847,
-      "ksp": 689,
-      "kspUrl": "https://ksp.co.il/web/item/459282"
-    }
-  },
-  {
-    "id": "ksp_454253",
-    "name": "סיר טיגון ללא שמן 10.4 ליטר Ninja AF500EU 2470W",
-    "imageUrl": "https://ksp.co.il/shop/items/454253.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847,
-      "ksp": 499,
-      "kspUrl": "https://ksp.co.il/web/item/419989"
-    }
-  },
-  {
-    "id": "ksp_431488",
-    "name": "סיר בישול רב תכליתי 10 ב-1 5.7 ליטר Ninja Speedi ON400EU 1760W",
-    "imageUrl": "https://ksp.co.il/shop/items/431488.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847,
-      "ksp": 699,
-      "kspUrl": "https://ksp.co.il/web/item/431488"
-    }
-  },
-  {
-    "id": "ksp_459846",
-    "name": "סיר טיגון כפול ללא שמן 9.5 ליטר Ninja AF451EU 2470W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/459846.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847
-    }
-  },
-  {
-    "id": "ksp_390717",
-    "name": "גריל חשמלי Ninja Foodi Health Grill & Air Fryer 1760W",
-    "imageUrl": "https://ksp.co.il/shop/items/390717.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847,
-      "ksp": 749,
-      "kspUrl": "https://ksp.co.il/web/item/390717"
-    }
-  },
-  {
-    "id": "ksp_439900",
-    "name": "אולטרה גריל חכם 12 ב-1 Berlinger Haus BH9668 Grill & Air Fryer 1750W - צבע שחור / רוז גולד",
-    "imageUrl": "https://ksp.co.il/shop/items/439900.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445847
     }
   },
   {
@@ -663,27 +82,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/449625.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445847,
+      "updated": 1779196357817,
       "ksp": 789,
       "kspUrl": "https://ksp.co.il/web/item/449625"
-    }
-  },
-  {
-    "id": "ksp_461159",
-    "name": "סיר טיגון כפול ללא שמן 2470W בנפח 9.5 ליטר Ninja SL400EU - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/461159.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445848
-    }
-  },
-  {
-    "id": "ksp_449638",
-    "name": "סיר טיגון חכם ללא שמן 8.5 ליטר Nutricook Air Fryer Duo 2 NC-AFD185V 2400W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/449638.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445848
     }
   },
   {
@@ -692,38 +93,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/391186.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445848,
+      "updated": 1779196357817,
       "ksp": 849,
       "kspUrl": "https://ksp.co.il/web/item/391186"
-    }
-  },
-  {
-    "id": "ksp_449620",
-    "name": "סיר טיגון חכם ללא שמן 8.5 ליטר Nutricook Air Fryer Duo 2 Flexzone NC-AFD285 2400W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/449620.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445848
-    }
-  },
-  {
-    "id": "ksp_459469",
-    "name": "סיר טיגון כפול ללא שמן 2470W בנפח 9.5 ליטר Ninja SL451",
-    "imageUrl": "https://ksp.co.il/shop/items/459469.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445848
-    }
-  },
-  {
-    "id": "ksp_175433",
-    "name": "סיר בישול רב תכליתי 7.5 ליטר Ninja OP500EU 1760W",
-    "imageUrl": "https://ksp.co.il/shop/items/175433.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445848,
-      "ksp": 699,
-      "kspUrl": "https://ksp.co.il/web/item/431488"
     }
   },
   {
@@ -732,36 +104,20 @@
     "imageUrl": "https://ksp.co.il/shop/items/449728.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445848,
+      "updated": 1779196357817,
       "ksp": 899,
       "kspUrl": "https://ksp.co.il/web/item/449728"
     }
   },
   {
-    "id": "ksp_449411",
-    "name": "סיר טיגון חכם ללא שמן 8.5 ליטר Nutricook Air Fryer Grill XL NC-AFG960 1760W - צבע שחור מט / נירוסטה",
-    "imageUrl": "https://ksp.co.il/shop/items/449411.jpg?v=5",
+    "id": "ksp_345373",
+    "name": "סיר טיגון כפול ללא שמן 2470W בנפח 9.5 ליטר Ninja SL400EU",
+    "imageUrl": "https://ksp.co.il/shop/items/345373.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445849
-    }
-  },
-  {
-    "id": "ksp_462971",
-    "name": "מעשנה גריל מנגל חשמלי Ninja Woodfire Electric BBQ Grill & Smoker 2400W OG701 2400W",
-    "imageUrl": "https://ksp.co.il/shop/items/462971.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445849
-    }
-  },
-  {
-    "id": "ksp_412400",
-    "name": "סיר טיגון ללא שמן (אייר פרייר) בריאותי 9 ליטר 8 תוכניות דגם BXAF9000E דיגיטלי 2500W מבית Black+Decker - שנתיים אחריות יבואן רשמי.",
-    "imageUrl": "https://ksp.co.il/shop/items/412400.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445849
+      "updated": 1779196357817,
+      "ksp": 899,
+      "kspUrl": "https://ksp.co.il/web/item/345373"
     }
   },
   {
@@ -770,65 +126,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/449619.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1778636445849,
+      "updated": 1779196357817,
       "ksp": 999,
       "kspUrl": "https://ksp.co.il/web/item/449619"
-    }
-  },
-  {
-    "id": "ksp_285033",
-    "name": "סיר בישול רב תכליתי 6 ליטר Ninja OL550EU 1460W",
-    "imageUrl": "https://ksp.co.il/shop/items/285033.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445849,
-      "ksp": 649,
-      "kspUrl": "https://ksp.co.il/web/item/461090"
-    }
-  },
-  {
-    "id": "ksp_419986",
-    "name": "מכשיר בישול חכם ורב-תכליתי Mova IG20 Pro",
-    "imageUrl": "https://ksp.co.il/shop/items/419986.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445850
-    }
-  },
-  {
-    "id": "ksp_414875",
-    "name": "סיר טיגון שולחני 7 ליטר Caso AirFry & Steam 800W / 1700W - שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/414875.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445850
-    }
-  },
-  {
-    "id": "ksp_462706",
-    "name": "מציאון ועודפים - מעשנה גריל מנגל חשמלי Ninja Woodfire Pro XL Electric BBQ Grill & Smoker OG850 1700W",
-    "imageUrl": "https://ksp.co.il/shop/items/462706.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445850
-    }
-  },
-  {
-    "id": "ksp_462972",
-    "name": "מעשנה גריל מנגל חשמלי Ninja Woodfire Pro XL Electric BBQ Grill & Smoker OG850 1700W",
-    "imageUrl": "https://ksp.co.il/shop/items/462972.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445850
-    }
-  },
-  {
-    "id": "ksp_372955",
-    "name": "צ’יפסר מקצועי חשמלי 17 ליטר בהספק 3000W מבית החוויה",
-    "imageUrl": "https://ksp.co.il/shop/items/372955.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1778636445850
     }
   }
 ]

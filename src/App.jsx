@@ -2511,13 +2511,11 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
-  // landing page is customer-facing MARKETING — a prospective supplier
-  // browsing it is still also a customer; their cart/notifications/etc
-  // must remain visible. BUG FIX (round 3 P1 regression): a previous
-  // change widened this to include mode==="suppliers", which stripped
-  // the customer navbar (and the #navbar-cart-target needed for the
-  // fly-to-cart animation) from the supplier landing.
-  const isSupplierMode = mode === "supplier-dashboard";
+  // landing page is also a supplier-context page — the founder asked for
+  // COMPLETE separation: no customer cart / offers / orders on /לספקים
+  // either, only on customer-area pages. (Re-broadened after the
+  // round-4 regression-agent flip-flop.)
+  const isSupplierMode = mode === "supplier-dashboard" || mode === "suppliers";
 
   const navItem = (m, icon, label) => (
     <button
@@ -2638,9 +2636,10 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               <button onClick={onProfileClick} title="הגדרות" className="hidden md:flex p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition">
                 <Settings className="w-4 h-4" />
               </button>
-              <button onClick={onOwnerClick} className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-gray-100 transition">
-                {t.ownerPanel}
-              </button>
+              {/* Admin/Owner panel button removed from navbar — accessible
+                  via the OwnerLogin password gate at /?owner or by clicking
+                  the small admin link inside Profile. Customers shouldn't
+                  see "ניהול" in the top bar. */}
               <button onClick={onLogout} className="hidden md:flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition px-2 py-1.5 rounded-xl hover:bg-red-50">
                 <LogOut className="w-3.5 h-3.5" />{t.logout}
               </button>
@@ -2746,10 +2745,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
                     <User className="w-5 h-5" />הפרופיל שלי
                   </button>
-                  <button onClick={() => { closeMenu(); onOwnerClick?.(); }}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
-                    <Shield className="w-5 h-5" />{t.ownerPanel}
-                  </button>
+                  {/* Owner panel entry removed — admin access via /?owner only. */}
                 </>
               )}
 
@@ -6067,6 +6063,311 @@ function SupplierLoginModal({ onSuccess, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  IMPORT CATALOG — CSV upload + Product Feed URL config
+//
+//  Two on-ramps for syncing the supplier's existing catalog into Bundly:
+//    1. Drop a CSV (one-shot import) → preview → commit
+//    2. Paste a Product Feed URL (auto-detect CSV/JSON/XML) → polled every 6h
+//
+//  Both write through /api/suppliers/:id/inventory which already powers
+//  the supplier's standard inventory tab.
+// ─────────────────────────────────────────────────────────────────
+function ImportCatalogPanel({ supplierId, headers, onNotify }) {
+  const [tab, setTab] = useState("csv");
+  // CSV state
+  const [csvFile, setCsvFile] = useState(null);
+  const [csvPreview, setCsvPreview] = useState(null); // {validCount, invalidCount, preview, errors, headers}
+  const [csvBusy, setCsvBusy] = useState(false);
+  const [csvErr, setCsvErr] = useState("");
+  // Feed URL state
+  const [feed, setFeed] = useState(null); // {feedUrl, feedFormat, feedLastSync, feedLastSyncCount, feedLastError}
+  const [feedUrl, setFeedUrl] = useState("");
+  const [feedFormat, setFeedFormat] = useState("auto");
+  const [feedBusy, setFeedBusy] = useState(false);
+  const [feedErr, setFeedErr] = useState("");
+
+  // Load existing feed config on mount
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { headers });
+        const d = await r.json();
+        if (cancelled) return;
+        if (d.ok) {
+          setFeed(d);
+          if (d.feedUrl)    setFeedUrl(d.feedUrl);
+          if (d.feedFormat) setFeedFormat(d.feedFormat);
+        }
+      } catch {}
+    })();
+    return () => { cancelled = true; };
+  }, [supplierId]);
+
+  // ── CSV preview (commit=0) ──
+  const csvPreviewFile = async () => {
+    if (!csvFile) return;
+    setCsvBusy(true); setCsvErr(""); setCsvPreview(null);
+    try {
+      const text = await csvFile.text();
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/inventory/import-csv?commit=0`, {
+        method:  "POST",
+        headers: { ...headers, "Content-Type": "text/csv" },
+        body:    text,
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "Preview failed");
+      setCsvPreview(d);
+    } catch (e) { setCsvErr(e.message); }
+    finally   { setCsvBusy(false); }
+  };
+
+  // ── CSV commit ──
+  const csvCommit = async () => {
+    if (!csvFile || !csvPreview) return;
+    setCsvBusy(true); setCsvErr("");
+    try {
+      const text = await csvFile.text();
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/inventory/import-csv?commit=1`, {
+        method:  "POST",
+        headers: { ...headers, "Content-Type": "text/csv" },
+        body:    text,
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "Import failed");
+      onNotify?.(`✅ יובאו ${d.count} מוצרים${d.invalid ? `, ${d.invalid} שגויים דולגו` : ""}`);
+      setCsvFile(null); setCsvPreview(null);
+    } catch (e) { setCsvErr(e.message); }
+    finally   { setCsvBusy(false); }
+  };
+
+  // ── Feed URL save (PUT) ──
+  const saveFeedUrl = async () => {
+    if (!feedUrl || !/^https?:\/\//i.test(feedUrl)) {
+      setFeedErr("URL לא תקין — נדרשת כתובת http:// או https://"); return;
+    }
+    setFeedBusy(true); setFeedErr("");
+    try {
+      const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, {
+        method:  "PUT",
+        headers: { ...headers, "Content-Type": "application/json" },
+        body:    JSON.stringify({ url: feedUrl, format: feedFormat }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
+      onNotify?.(`✅ Feed הוגדר — ${d.synced} מוצרים סונכרנו (${d.detectedFmt})${d.invalid ? `, ${d.invalid} דולגו` : ""}`);
+      // Refresh status
+      const s = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { headers });
+      const sd = await s.json();
+      if (sd.ok) setFeed(sd);
+    } catch (e) { setFeedErr(e.message); }
+    finally   { setFeedBusy(false); }
+  };
+
+  const deleteFeedUrl = async () => {
+    if (!confirm("להסיר את ה-Feed?")) return;
+    setFeedBusy(true);
+    try {
+      await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { method: "DELETE", headers });
+      setFeedUrl(""); setFeed(null);
+      onNotify?.("✅ Feed הוסר");
+    } catch (e) { setFeedErr(e.message); }
+    finally   { setFeedBusy(false); }
+  };
+
+  const csvTemplate = `name,sku,price,qty,image_url,description,category,brand
+שואב רובוטי דגם A,SKU-001,1299,15,https://example.com/p1.jpg,"שואב חכם עם מפת בית",ניקיון,Roomba
+מקרר 500 ליטר,SKU-002,3990,5,https://example.com/p2.jpg,"מקפיא תחתון",מטבח,Samsung`;
+
+  return (
+    <div className="space-y-5" dir="rtl">
+      {/* Header */}
+      <div className="bg-gradient-to-br from-sky-50 to-cyan-50 border border-sky-100 rounded-2xl p-5">
+        <h2 className="text-xl font-black text-sky-900 mb-1">🔗 ייבוא קטלוג</h2>
+        <p className="text-sm text-sky-700">סנכרן את כל המוצרים מהאתר שלך ל-Bundly. שתי דרכים — חד-פעמי או אוטומטי.</p>
+      </div>
+
+      {/* Tab toggle */}
+      <div className="flex gap-2 border-b border-gray-200">
+        <button onClick={() => setTab("csv")}
+          className={`px-4 py-2.5 font-bold text-sm border-b-2 transition ${tab === "csv" ? "border-sky-600 text-sky-700" : "border-transparent text-gray-500 hover:text-gray-800"}`}>
+          📤 העלאת CSV (חד-פעמי)
+        </button>
+        <button onClick={() => setTab("feed")}
+          className={`px-4 py-2.5 font-bold text-sm border-b-2 transition ${tab === "feed" ? "border-sky-600 text-sky-700" : "border-transparent text-gray-500 hover:text-gray-800"}`}>
+          📡 Feed URL (אוטומטי)
+        </button>
+      </div>
+
+      {/* ─── CSV tab ─── */}
+      {tab === "csv" && (
+        <div className="space-y-4">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+            <div>
+              <h3 className="font-black text-gray-900 mb-1">העלה קובץ CSV</h3>
+              <p className="text-xs text-gray-500">
+                שורה ראשונה — כותרות עמודות (אנגלית או עברית). נדרש: <strong>name</strong>, <strong>price</strong>.
+                אופציונלי: sku, qty, image_url, description, category, brand.
+              </p>
+            </div>
+            <a
+              href={`data:text/csv;charset=utf-8,${encodeURIComponent(csvTemplate)}`}
+              download="bundly-catalog-template.csv"
+              className="inline-flex items-center gap-2 text-xs text-sky-600 hover:text-sky-800 hover:underline font-semibold"
+            >
+              ⬇️ הורד תבנית CSV ריקה
+            </a>
+            <input
+              type="file"
+              accept=".csv,text/csv,text/plain"
+              onChange={e => { setCsvFile(e.target.files?.[0] || null); setCsvPreview(null); setCsvErr(""); }}
+              className="block w-full text-sm border border-gray-200 rounded-xl px-3 py-2"
+            />
+            {csvFile && (
+              <div className="text-xs text-gray-600">
+                ✓ נבחר: <strong>{csvFile.name}</strong> ({Math.round(csvFile.size / 1024)} KB)
+              </div>
+            )}
+            {csvErr && <p className="text-sm text-red-600 font-semibold">⚠️ {csvErr}</p>}
+            <div className="flex gap-2">
+              <button onClick={csvPreviewFile} disabled={!csvFile || csvBusy}
+                className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                {csvBusy ? "מנתח..." : "תצוגה מקדימה"}
+              </button>
+              {csvPreview && csvPreview.validCount > 0 && (
+                <button onClick={csvCommit} disabled={csvBusy}
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                  {csvBusy ? "מייבא..." : `✓ ייבא ${csvPreview.validCount} מוצרים`}
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Preview results */}
+          {csvPreview && (
+            <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">
+              <div className="flex items-center gap-4 text-sm">
+                <span className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full font-bold">
+                  ✓ {csvPreview.validCount} תקינים
+                </span>
+                {csvPreview.invalidCount > 0 && (
+                  <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full font-bold">
+                    ✗ {csvPreview.invalidCount} שגויים
+                  </span>
+                )}
+                <span className="text-xs text-gray-500">סה"כ שורות בקובץ: {csvPreview.totalRows}</span>
+              </div>
+
+              {csvPreview.preview?.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-sm text-gray-900 mb-2">תצוגה מקדימה — 20 ראשונים:</h4>
+                  <div className="overflow-x-auto max-h-64 overflow-y-auto border border-gray-100 rounded-lg">
+                    <table className="w-full text-xs">
+                      <thead className="bg-gray-50 sticky top-0">
+                        <tr><th className="text-right p-2">שם</th><th className="text-right p-2">מק"ט</th><th className="text-right p-2">מחיר</th><th className="text-right p-2">מלאי</th></tr>
+                      </thead>
+                      <tbody>
+                        {csvPreview.preview.map((p, i) => (
+                          <tr key={i} className="border-t border-gray-100">
+                            <td className="p-2">{p.name}</td>
+                            <td className="p-2 font-mono text-[10px]">{p.sku}</td>
+                            <td className="p-2">₪{Number(p.price || 0).toLocaleString()}</td>
+                            <td className="p-2">{p.qty || 0}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {csvPreview.errors?.length > 0 && (
+                <div>
+                  <h4 className="font-bold text-sm text-red-700 mb-2">שגיאות (20 ראשונות):</h4>
+                  <ul className="text-xs space-y-1 max-h-32 overflow-y-auto">
+                    {csvPreview.errors.map((er, i) => (
+                      <li key={i} className="text-red-600">שורה {er.rowIdx}: {er.error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── Feed URL tab ─── */}
+      {tab === "feed" && (
+        <div className="space-y-4">
+          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+            <div>
+              <h3 className="font-black text-gray-900 mb-1">Feed URL — סנכרון אוטומטי</h3>
+              <p className="text-xs text-gray-500">
+                ספק את כתובת ה-Feed של האתר שלך. Bundly מסנכרנת אוטומטית כל 6 שעות.
+                תומך ב-CSV, JSON, XML/RSS/Atom (Shopify, WooCommerce, Google Merchant).
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">URL</label>
+              <input
+                type="url"
+                dir="ltr"
+                value={feedUrl}
+                onChange={e => setFeedUrl(e.target.value)}
+                placeholder="https://your-store.com/products.xml"
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm font-mono text-right"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">פורמט</label>
+              <select value={feedFormat} onChange={e => setFeedFormat(e.target.value)}
+                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm">
+                <option value="auto">זיהוי אוטומטי (מומלץ)</option>
+                <option value="csv">CSV</option>
+                <option value="json">JSON</option>
+                <option value="xml">XML / RSS / Atom</option>
+              </select>
+            </div>
+            {feedErr && <p className="text-sm text-red-600 font-semibold">⚠️ {feedErr}</p>}
+            <div className="flex gap-2">
+              <button onClick={saveFeedUrl} disabled={feedBusy}
+                className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl text-sm disabled:opacity-50">
+                {feedBusy ? "מסנכרן..." : feed?.feedUrl ? "עדכן + סנכרן עכשיו" : "שמור + סנכרן"}
+              </button>
+              {feed?.feedUrl && (
+                <button onClick={deleteFeedUrl} disabled={feedBusy}
+                  className="px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-bold rounded-xl text-sm disabled:opacity-50">
+                  🗑️ הסר Feed
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Status card */}
+          {feed?.feedUrl && (
+            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 space-y-2">
+              <p className="text-sm font-black text-emerald-900">✓ Feed פעיל</p>
+              <div className="text-xs text-emerald-800 space-y-1">
+                {feed.feedLastSync && (
+                  <p><strong>סנכרון אחרון:</strong> {new Date(feed.feedLastSync).toLocaleString("he-IL")}</p>
+                )}
+                <p><strong>מוצרים שסונכרנו:</strong> {feed.feedLastSyncCount || 0}</p>
+                {feed.feedLastError && (
+                  <p className="text-red-700"><strong>שגיאה אחרונה:</strong> {feed.feedLastError}</p>
+                )}
+              </div>
+              <p className="text-[11px] text-emerald-700 mt-2">
+                ⏱️ הסנכרון הבא יקרה תוך 6 שעות. אפשר להפעיל ידנית בכל עת דרך כפתור "עדכן + סנכרן עכשיו".
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  SUPPLIER DASHBOARD — private view of the supplier's deals
 // ─────────────────────────────────────────────────────────────────
 function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, personalRequests = [], bundles = [], onSelectBundle, onUpdateRequest, onNotify, onAddBid, onCancelBid }) {
@@ -6124,9 +6425,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     const email = supplier?.email;
     if (email) {
       const enc = encodeURIComponent(email.toLowerCase());
-      fetch(`/api/suppliers/by-email/${enc}/orders`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierOrders(d.orders || []); }).catch(() => {});
-      fetch(`/api/suppliers/by-email/${enc}/earnings`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierEarnings(d); }).catch(() => {});
-      fetch(`/api/suppliers/by-email/${enc}/reviews`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierReviews(d); }).catch(() => {});
+      // SECURITY: must use supplierFetch (sends Authorization: Bearer) — plain
+      // fetch hits requireSupplierMatchOnEmail → requireSupplierMatch which 401s
+      // without a Bearer, silently leaving Overview KPIs at zero forever.
+      supplierFetch(`/api/suppliers/by-email/${enc}/orders`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierOrders(d.orders || []); }).catch(() => {});
+      supplierFetch(`/api/suppliers/by-email/${enc}/earnings`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierEarnings(d); }).catch(() => {});
+      supplierFetch(`/api/suppliers/by-email/${enc}/reviews`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierReviews(d); }).catch(() => {});
     }
     supplierFetch(`/api/suppliers/${sidEnc}/profile`).then(r => r.ok ? r.json() : null).then(d => setProfile(d || null)).catch(() => {});
     supplierFetch(`/api/suppliers/${sidEnc}/inventory`).then(r => r.ok ? r.json() : []).then(d => setInventory(Array.isArray(d) ? d : [])).catch(() => {});
@@ -6356,8 +6660,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     .sort((a, b) => (b.participants || 0) - (a.participants || 0)),
     [deals]
   );
-  // Default to "all-active" — every active buying group on the platform, supplier can bid on any
-  const [activeTab, setActiveTab] = useState("all-active");
+  // Default to "overview" — supplier's home view with KPIs, leading deals, and activity feed
+  const [activeTab, setActiveTab] = useState("overview");
   const [allDealsCategoryFilter, setAllDealsCategoryFilter] = useState(null);
   const [hiddenMap, setHiddenMap] = useState(
     Object.fromEntries(myDeals.map(d => [d.id, d.hiddenPrice]))
@@ -6536,7 +6840,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── HERO STRIP — total active buying-group activity ── */}
+      {/* ── HERO STRIP — total active buying-group activity (hidden on overview to give it space) ── */}
+      {activeTab !== "overview" && (
       <div className="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 rounded-3xl p-5 mb-5 text-white shadow-xl relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-pink-400/20 rounded-full blur-3xl pointer-events-none" />
@@ -6556,10 +6861,17 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
           </button>
         </div>
       </div>
+      )}
 
+      {/* ── PRIMARY SECTION HEADER ── */}
+      <div className="flex items-center gap-2 mb-2 mt-1 px-1">
+        <span className="text-[11px] font-black text-gray-500 uppercase tracking-wider">🛒 מכירות וקבוצות</span>
+        <div className="flex-1 h-px bg-gray-200"></div>
+      </div>
       {/* ── PRIMARY: BUYING GROUPS — biggest, most prominent ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-3">
         {[
+          { key:"overview",     label:"סקירה",         icon:"🏠", count: 0, color:"from-blue-500 via-indigo-500 to-violet-500",   desc:"המסך הראשי שלך — סטטיסטיקות, הזמנות וקבוצות שמובילים בהן" },
           { key:"all-active",   label:"כל הקבוצות",    icon:"🛒", count: allActiveDeals.length, color:"from-indigo-500 via-violet-500 to-fuchsia-500", desc:"כל קבוצות הרכישה הפעילות בפלטפורמה — הגש הצעת מחיר",  hot:true },
           { key:"my-bids",      label:"ההצעות שלי",  icon:"📥", count: myBidDeals.length,     color:"from-violet-500 via-purple-500 to-fuchsia-500", desc:"קבוצות שאליהן הגשת הצעת מחיר — עקוב אחר התחרות" },
           { key:"demand-pools", label:"ביקושי קטגוריה", icon:"📊", count: poolEntries.length,    color:"from-emerald-500 via-teal-500 to-cyan-500",     desc:"ביקוש כללי לקטגוריה — שלח הצעות לדגמים פופולריים" },
@@ -6597,21 +6909,9 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         })}
       </div>
 
-      {/* ── SECONDARY: business operations — smaller, less visual weight ── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-        {[
-          { key:"listings",        label:"המוצרים שלי", icon:"📤", count: listings.filter(l => l.active).length, color:"from-fuchsia-500 to-pink-600" },
-          { key:"questions",       label:"שאלות לקוחות", icon:"💬", count: 0, color:"from-blue-500 to-indigo-600" },
-          { key:"orders-received", label:"הזמנות",   icon:"🧾", count: supplierOrders.filter(o => o.status !== "delivered" && o.status !== "cancelled").length, color:"from-emerald-600 to-teal-700" },
-          { key:"earnings",        label:"הכנסות",    icon:"💰", count: 0,                                  color:"from-green-500 to-emerald-600" },
-          { key:"reviews",         label:"ביקורות",   icon:"⭐", count: supplierReviews.reviews.length,    color:"from-amber-500 to-yellow-600" },
-          { key:"analytics",       label:"אנליטיקה",  icon:"📈", count: 0,                                  color:"from-cyan-500 to-blue-600" },
-          { key:"auto-bid",        label:"אוטומציה",  icon:"🤖", count: autoBidRules.filter(r => r.active).length, color:"from-purple-500 to-indigo-600" },
-          { key:"inventory",       label:"מלאי",      icon:"📦", count: inventory.length,                  color:"from-rose-500 to-pink-600" },
-          { key:"bundles",         label:"חבילות",    icon:"📦", count: bundles.length,                    color:"from-orange-500 to-red-600" },
-          // Profile is moved to the top strip, but we keep a small access tab
-          // here so deep-linking still works (e.g. when a banner pushes the user).
-        ].map(tab => {
+      {/* ── SECONDARY: business operations, grouped by purpose ── */}
+      {(() => {
+        const renderTabCard = (tab) => {
           const active = activeTab === tab.key;
           return (
             <button key={tab.key}
@@ -6632,8 +6932,221 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               </div>
             </button>
           );
-        })}
-      </div>
+        };
+        const sectionHeader = (label) => (
+          <div className="flex items-center gap-2 mt-4 mb-2 px-1">
+            <span className="text-[11px] font-black text-gray-500 uppercase tracking-wider">{label}</span>
+            <div className="flex-1 h-px bg-gray-200"></div>
+          </div>
+        );
+        const ordersGroup = [
+          { key:"orders-received", label:"הזמנות",   icon:"🧾", count: supplierOrders.filter(o => o.status !== "delivered" && o.status !== "cancelled").length, color:"from-emerald-600 to-teal-700" },
+          { key:"questions",       label:"שאלות לקוחות", icon:"💬", count: 0, color:"from-blue-500 to-indigo-600" },
+          { key:"reviews",         label:"ביקורות",   icon:"⭐", count: supplierReviews.reviews.length,    color:"from-amber-500 to-yellow-600" },
+        ];
+        const moneyGroup = [
+          { key:"earnings",        label:"הכנסות",    icon:"💰", count: 0,                                  color:"from-green-500 to-emerald-600" },
+          { key:"analytics",       label:"אנליטיקה",  icon:"📈", count: 0,                                  color:"from-cyan-500 to-blue-600" },
+        ];
+        const catalogGroup = [
+          { key:"listings",        label:"המוצרים שלי", icon:"📤", count: listings.filter(l => l.active).length, color:"from-fuchsia-500 to-pink-600" },
+          { key:"inventory",       label:"מלאי",      icon:"📦", count: inventory.length,                  color:"from-rose-500 to-pink-600" },
+          { key:"import-catalog",  label:"ייבוא קטלוג", icon:"🔗", count: 0,                                  color:"from-sky-500 to-cyan-600" },
+          { key:"bundles",         label:"חבילות",    icon:"📦", count: bundles.length,                    color:"from-orange-500 to-red-600" },
+        ];
+        const toolsGroup = [
+          { key:"auto-bid",        label:"אוטומציה",  icon:"🤖", count: autoBidRules.filter(r => r.active).length, color:"from-purple-500 to-indigo-600" },
+          { key:"profile",         label:"הגדרות",   icon:"⚙️", count: 0,                                  color:"from-slate-500 to-gray-700" },
+        ];
+        return (
+          <>
+            {sectionHeader("🧾 הזמנות ולקוחות")}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {ordersGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("💰 כספים וביצועים")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {moneyGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("📦 מוצרים וקטלוג")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {catalogGroup.map(renderTabCard)}
+            </div>
+            {sectionHeader("🤖 כלים והגדרות")}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+              {toolsGroup.map(renderTabCard)}
+            </div>
+          </>
+        );
+      })()}
+
+      {/* ── OVERVIEW / HOME — supplier's main dashboard view ── */}
+      {activeTab === "overview" && (
+        <div className="space-y-5">
+          {/* KPI Cards — at-a-glance status */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <button onClick={() => setActiveTab("earnings")}
+              className="text-right bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-4 hover:shadow-md hover:border-emerald-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">💰</span>
+                <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">ממתין להעברה</span>
+              </div>
+              <p className="text-2xl font-black text-emerald-800">₪{(supplierEarnings.totalPending || 0).toLocaleString()}</p>
+              <p className="text-[11px] font-bold text-emerald-700 mt-1">פרטים ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("orders-received")}
+              className="text-right bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-4 hover:shadow-md hover:border-amber-300 transition active:scale-95 relative">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">📦</span>
+                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">לטיפול</span>
+              </div>
+              <p className="text-2xl font-black text-amber-800">
+                {supplierOrders.filter(o => o.status === "confirmed" || o.status === "placed").length}
+              </p>
+              <p className="text-[11px] font-bold text-amber-700 mt-1">פתח רשימה ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("my-bids")}
+              className="text-right bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl p-4 hover:shadow-md hover:border-indigo-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">🥇</span>
+                <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">מוביל ב-</span>
+              </div>
+              <p className="text-2xl font-black text-indigo-800">{analytics.leadingDeals} <span className="text-base font-bold text-indigo-600">קבוצות</span></p>
+              <p className="text-[11px] font-bold text-indigo-700 mt-1">ראה הצעות ←</p>
+            </button>
+
+            <button onClick={() => setActiveTab("reviews")}
+              className="text-right bg-gradient-to-br from-yellow-50 to-amber-50 border border-yellow-100 rounded-2xl p-4 hover:shadow-md hover:border-yellow-300 transition active:scale-95">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">⭐</span>
+                <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-wider">דירוג</span>
+              </div>
+              <p className="text-2xl font-black text-yellow-800">{supplierReviews.rating ? supplierReviews.rating.toFixed(1) : "—"}</p>
+              <p className="text-[11px] font-bold text-yellow-700 mt-1">{supplierReviews.reviews.length} ביקורות ←</p>
+            </button>
+          </div>
+
+          {/* Active leading deals widget */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm font-black text-gray-900">🏆 הקבוצות שאתה מוביל בהן</p>
+              {myBidDeals.filter(d => d.myBidIsLowest).length > 0 && (
+                <button onClick={() => setActiveTab("my-bids")} className="text-xs font-bold text-indigo-600 hover:underline">הכל ←</button>
+              )}
+            </div>
+            {(() => {
+              const leading = myBidDeals.filter(d => d.myBidIsLowest).slice(0, 3);
+              if (leading.length === 0) {
+                return (
+                  <div className="text-center py-8 text-gray-400">
+                    <p className="text-3xl mb-2">🎯</p>
+                    <p className="text-sm font-bold">אינך מוביל בשום קבוצה כרגע</p>
+                    <button onClick={() => setActiveTab("all-active")} className="mt-3 inline-block bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black px-4 py-2 rounded-lg transition">
+                      הצג קבוצות פעילות
+                    </button>
+                  </div>
+                );
+              }
+              return (
+                <div className="space-y-2">
+                  {leading.map(d => {
+                    const dealName = d.name?.he || d.name?.en || d.productName || "קבוצה";
+                    const min = d.minParticipants || 10;
+                    const pct = Math.min(100, Math.round(((d.participants || 0) / min) * 100));
+                    return (
+                      <div key={d.id} className="bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl p-3">
+                        <div className="flex items-start justify-between gap-2 mb-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-bold text-gray-900 truncate">{dealName}</p>
+                            <p className="text-[10px] text-gray-500">{d.participants || 0}/{min} משתתפים · ההצעה שלך: ₪{(d.myBid?.amount || 0).toLocaleString()}</p>
+                          </div>
+                          <span className="text-[10px] font-black bg-emerald-500 text-white px-2 py-0.5 rounded-full flex-shrink-0">מוביל</span>
+                        </div>
+                        <div className="w-full bg-white rounded-full h-1.5 overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500" style={{ width: `${pct}%` }} />
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-1">{pct}% מהיעד</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Recent activity feed */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+            <p className="text-sm font-black text-gray-900 mb-3">📋 פעילות אחרונה</p>
+            {(() => {
+              const events = [
+                ...(notifications.items || []).slice(0, 5).map(n => ({
+                  type: "notif",
+                  id: `n-${n.id}`,
+                  time: n.createdAt,
+                  title: n.title || "התראה",
+                  desc: n.message || "",
+                })),
+                ...(supplierOrders || []).slice(0, 5).map(o => ({
+                  type: "order",
+                  id: `o-${o.id}`,
+                  time: o.createdAt,
+                  title: `הזמנה #${o.id}`,
+                  desc: `${o.productName || ""} · ₪${(o.totalAmount || 0).toLocaleString()}`,
+                })),
+              ]
+                .filter(e => e.time)
+                .sort((a, b) => new Date(b.time) - new Date(a.time))
+                .slice(0, 6);
+              if (events.length === 0) {
+                return <p className="text-center text-sm text-gray-400 py-6">אין פעילות עדיין</p>;
+              }
+              return (
+                <div className="space-y-1">
+                  {events.map(e => (
+                    <div key={e.id} className="flex items-start gap-3 py-2 border-b border-gray-50 last:border-0">
+                      <span className="text-lg flex-shrink-0">{e.type === "order" ? "🧾" : "🔔"}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-gray-900 truncate">{e.title}</p>
+                        <p className="text-[10px] text-gray-500 truncate">{e.desc}</p>
+                      </div>
+                      <span className="text-[10px] text-gray-400 flex-shrink-0 whitespace-nowrap">
+                        {new Date(e.time).toLocaleDateString("he-IL", { day: "numeric", month: "short" })}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* Quick actions */}
+          <div>
+            <p className="text-[11px] font-black text-gray-500 uppercase tracking-wider mb-2 px-1">פעולות מהירות</p>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+              <button onClick={() => setActiveTab("all-active")}
+                className="bg-gradient-to-br from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right">
+                <p className="text-2xl mb-1">🛒</p>
+                <p className="text-sm">קבוצות פעילות</p>
+                <p className="text-[10px] opacity-80 mt-0.5">הגש הצעת מחיר חדשה</p>
+              </button>
+              <button onClick={() => setActiveTab("inventory")}
+                className="bg-gradient-to-br from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right">
+                <p className="text-2xl mb-1">📦</p>
+                <p className="text-sm">נהל מלאי</p>
+                <p className="text-[10px] opacity-80 mt-0.5">{inventory.length} פריטים</p>
+              </button>
+              <button onClick={() => setActiveTab("import-catalog")}
+                className="bg-gradient-to-br from-sky-500 to-cyan-600 hover:from-sky-600 hover:to-cyan-700 text-white font-black p-4 rounded-2xl shadow-md hover:shadow-xl transition active:scale-95 text-right col-span-2 lg:col-span-1">
+                <p className="text-2xl mb-1">🔗</p>
+                <p className="text-sm">ייבא קטלוג</p>
+                <p className="text-[10px] opacity-80 mt-0.5">CSV או Feed URL</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── ORDERS RECEIVED ── */}
       {activeTab === "orders-received" && (
@@ -6786,7 +7299,48 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             </div>
           </div>
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-            <p className="text-sm font-black text-gray-900 mb-3">היסטוריית עסקאות</p>
+            <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+              <p className="text-sm font-black text-gray-900">היסטוריית עסקאות</p>
+              {supplierEarnings.transactions.length > 0 && (
+                <button
+                  onClick={() => {
+                    // CSV export compatible with Hashavshevet / iCount / Rivhit.
+                    // UTF-8 BOM ensures Hebrew renders correctly in Excel.
+                    const _csvEscape = (s) => {
+                      const v = String(s == null ? "" : s);
+                      return /[",\n\r]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+                    };
+                    const _typeHe = (t) => t === "charge" ? "תשלום לקוח"
+                                      : t === "payout"   ? "העברה לחשבון"
+                                      : t === "refund"   ? "החזר"
+                                      : t === "fee"      ? "עמלת פלטפורמה"
+                                      : t || "אחר";
+                    const headers = ["תאריך","סוג תנועה","הזמנה","סכום (₪)","סטטוס","מזהה עסקה"];
+                    const rows = supplierEarnings.transactions.map(tx => [
+                      new Date(tx.createdAt).toLocaleDateString("he-IL"),
+                      _typeHe(tx.type),
+                      tx.orderId || "",
+                      (tx.amount || 0).toFixed(2),
+                      tx.status || "",
+                      tx.id || "",
+                    ]);
+                    const csv = [headers, ...rows].map(r => r.map(_csvEscape).join(",")).join("\r\n");
+                    const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `bundly-earnings-${new Date().toISOString().slice(0,10)}.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    onNotify?.("📊 הקובץ הורד");
+                  }}
+                  className="text-xs font-black px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg transition flex items-center gap-1.5">
+                  📊 ייצא CSV
+                </button>
+              )}
+            </div>
             {supplierEarnings.transactions.length === 0 ? (
               <p className="text-center text-gray-400 text-sm py-6">אין עסקאות עדיין</p>
             ) : (
@@ -6804,6 +7358,11 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                     </p>
                   </div>
                 ))}
+                {supplierEarnings.transactions.length > 20 && (
+                  <p className="text-center text-[11px] text-gray-400 pt-2">
+                    מציג 20 מתוך {supplierEarnings.transactions.length} · ייצא CSV לכולן
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -7547,6 +8106,11 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             </div>
           )}
         </div>
+      )}
+
+      {/* ── IMPORT CATALOG tab — CSV upload + Feed URL config ── */}
+      {activeTab === "import-catalog" && (
+        <ImportCatalogPanel supplierId={sid} headers={supplierAuthHeaders} onNotify={onNotify} />
       )}
 
       {/* ── BUNDLES tab — show all bundles (moving home, kitchen, etc.) ── */}
@@ -9002,7 +9566,13 @@ function SupplierProfilePanel({ profile, supplier, onSave }) {
   }, [form, isDirty, draftStorageKey]);
 
   const ZONES = ["צפון","חיפה והקריות","שרון","גוש דן","ירושלים","שפלה","דרום","אילת","יו״ש"];
-  const CAT_OPTS = ["מקררים","מכונות כביסה","תנורים","מזגנים","מיקרוגלים","מדיחי כלים","טלוויזיות","סמארטפונים","טאבלטים","מחשבים ניידים","מחשבים נייחים","אוזניות","רמקולים","שואבי אבק","מוצרי טיפוח","ריהוט","אופניים"];
+  // Categories synced from HOME_CATEGORIES (single source of truth for category list,
+  // used across user-facing filters + supplier targeting) + extras the global list
+  // doesn't cover but suppliers commonly stock.
+  const CAT_OPTS = [...new Set([
+    ...HOME_CATEGORIES.map(c => c.name),
+    "מחשבים נייחים", "רמקולים", "מוצרי טיפוח", "ריהוט", "אופניים", "שואבי אבק",
+  ])];
 
   // Wrapper that marks the form dirty on every change so the auto-resync
   // effect won't clobber unsaved edits.
@@ -16259,7 +16829,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER LANDING PAGE
 // ─────────────────────────────────────────────────────────────────
-function SupplierLandingPage({ t, onJoin, setMode }) {
+function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
   const [openFaq, setOpenFaq] = useState(null);
   const [demandQuery, setDemandQuery] = useState("");
   const [demandResult, setDemandResult] = useState(null);
@@ -16461,6 +17031,36 @@ function SupplierLandingPage({ t, onJoin, setMode }) {
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
               </button>
+              {/* Demo-supplier — visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
+                  Quick path into a synthetic supplier dashboard for live
+                  sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER.
+                  Hands the result to the App-level onDemoLogin so it can set
+                  user + currentSupplier + mode in-React without a reload. */}
+              {import.meta.env.VITE_ALLOW_DEMO_SUPPLIER === "true" && (
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch("/api/auth/demo-supplier-login", { method: "POST" });
+                      const data = await res.json();
+                      if (!res.ok || !data.ok) {
+                        alert("כניסת הדגמה נכשלה: " + (data.error || "נסה שוב"));
+                        return;
+                      }
+                      _safeLSSet("bundly_token", data.token);
+                      if (typeof onDemoLogin === "function") {
+                        onDemoLogin({ user: data.user, supplier: data.supplier, token: data.token });
+                      } else {
+                        window.location.href = "/?supplier-demo=1";
+                      }
+                    } catch (e) { alert("שגיאה: " + e.message); }
+                  }}
+                  className="flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-base border-2 border-dashed border-amber-400 text-amber-200 hover:bg-amber-500/10 transition"
+                  title="כניסת ספק להדגמה — מצב הדגמה, לא שומר נתונים אמיתיים"
+                >
+                  🧪 כניסת ספק להדגמה
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -19877,8 +20477,16 @@ export default function App() {
   // event for, POST /api/deals/:id/close so the server can fire winner /
   // runner-up / cancellation notifications. Prevents the same deal from
   // being closed twice via a Set ref.
+  //
+  // BUG FIX: /api/deals/:id/close requires adminMiddleware. Anonymous
+  // customers were spamming it with 401s on every page load (visible in
+  // console: "POST /api/deals/10/close 401"). Gated on the presence of
+  // an admin token in localStorage — the server-side cron handles
+  // deal-close for regular users.
   const _closedDealsRef = useRef(new Set());
   useEffect(() => {
+    const adminTok = _safeLS("bundly_admin_token");
+    if (!adminTok) return;  // only the admin client fires this
     const tick = () => {
       const now = Date.now();
       (deals || []).forEach(d => {
@@ -19894,7 +20502,7 @@ export default function App() {
         }
         fetch(`/api/deals/${encodeURIComponent(d.id)}/close`, {
           method:  "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${adminTok}` },
           body:    JSON.stringify({
             participants:    d.participants    || 0,
             minParticipants: d.minParticipants || 0,
@@ -21777,7 +22385,24 @@ export default function App() {
       )}
 
       {mode === "suppliers" && (
-        <SupplierLandingPage t={t} onJoin={() => setShowSupplier(true)} setMode={setMode} />
+        <SupplierLandingPage
+          t={t}
+          onJoin={() => setShowSupplier(true)}
+          setMode={setMode}
+          onDemoLogin={({ user: demoUser, supplier, token }) => {
+            // Lift the demo session into App-level state so the supplier
+            // navbar + dashboard render immediately (no reload needed).
+            setUser({ ...demoUser, token });
+            setCurrentSupplier({
+              id:           supplier.id,
+              name:         supplier.businessName,
+              businessName: supplier.businessName,
+              email:        supplier.email,
+              isDemo:       true,
+            });
+            setMode("supplier-dashboard");
+          }}
+        />
       )}
 
       <Footer t={t} setMode={setMode} />

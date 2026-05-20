@@ -45,7 +45,13 @@ Thumbs.db
 
 # Tasks temporary data
 tasks/
-node_modules
+
+# Server runtime state — NEVER commit (regenerated on boot / mutates per request)
+activity-log.json
+jwt-revoked.json
+search-products-cache.json
+.backfill-all-progress.json
+.category-prewarm-progress
 
 # Generated/cached data (server-side enrichment, regenerated on demand)
 # Track the JSON catalogs (products.json + meta.json) so Render gets a
