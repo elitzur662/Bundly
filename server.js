@@ -12403,7 +12403,11 @@ app.get("/api/suppliers/:supplierId/zap-search", requireSupplierMatch, async (re
     const SEARCH_URL = `http://127.0.0.1:${PORT}/api/search-products?q=${encodeURIComponent(q)}&limit=12`;
     const r = await axios.get(SEARCH_URL, { timeout: 8000 });
     const products = (r.data?.products || []).slice(0, 12).map(p => ({
-      id:        p._streamKey || p.id || "",
+      // /api/search-products returns catalog products WITHOUT _streamKey/id —
+      // they carry `searchQuery` + `model`. Falling back to those (then the
+      // name) keeps `id` non-empty so the filter below doesn't drop every
+      // result. Previously every product was silently filtered out.
+      id:        p._streamKey || p.id || p.searchQuery || p.model || p.nameEn || p.nameHe || "",
       name:      p.nameHe || p.nameEn || p.productName || "",
       image:     p.image || null,
       marketMin: p.priceMin || 0,
