@@ -6,7 +6,7 @@ import {
   CheckCircle, Check, Settings, Heart, Share2, Phone, Mail, Building2,
   MapPin, X, Eye, EyeOff, Shield, ArrowLeft, Clock, TrendingDown, TrendingUp,
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
-  BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, User,
+  BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, LogIn, User,
   SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -946,6 +946,10 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
 // ─────────────────────────────────────────────────────────────────
 //  SMART BUNDLES — "חבילות נדל״ן" (product bundles for movers etc.)
 // ─────────────────────────────────────────────────────────────────
+// NOTE: every `image` below is a real catalog product photo (imageUrl copied
+// verbatim from product-db/<category>/products.json). `marketPrice` values are
+// sensible round ₪ estimates assigned per product — the catalog `prices` are
+// mostly 0 so they are NOT used. bundlePrice ≈ 76-80% of totalMarket.
 const INITIAL_BUNDLES = [
   // ── חבילת מעבר דירה (6 מוצרים) ──
   {
@@ -957,15 +961,15 @@ const INITIAL_BUNDLES = [
     bg: "bg-rose-50",
     border: "border-rose-200",
     products: [
-      { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
-      { name: "מכונת כביסה LG 9 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 3200 },
-      { name: "מייבש כביסה LG 8 ק\"ג", image: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400&q=80&fit=crop", marketPrice: 3600 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
-      { name: "מזגן Electra 1.5 כ\"ס", image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&q=80&fit=crop", marketPrice: 3500 },
+      { name: "מקרר מקפיא תחתון Hisense RB70-SKI 623 ליטר", image: "https://img.zap.co.il/pics/6/2/9/1/90781926c.gif", marketPrice: 4900 },
+      { name: 'מכונת כביסה Bosch WGB256A0IL 10 ק"ג', image: "https://img.zap.co.il/pics/8/8/1/7/92517188b.gif", marketPrice: 3300 },
+      { name: 'מייבש כביסה Electrolux EW6C5822CM 8 ק"ג', image: "https://img.zap.co.il/pics/6/5/3/6/92576356c.gif", marketPrice: 3400 },
+      { name: "תנור בנוי AEG Frame BPE255632M", image: "https://img.zap.co.il/pics/9/6/7/0/91560769c.gif", marketPrice: 3200 },
+      { name: "מדיח כלים רחב Bosch SMI2ITS09E", image: "https://img.zap.co.il/pics/8/7/8/6/93276878c.gif", marketPrice: 2700 },
+      { name: 'מזגן עילי Tadiran Alpha Pro Inverter 180 NG 1.25 כ"ס', image: "https://img.zap.co.il/pics/1/5/0/8/88118051c.gif", marketPrice: 3100 },
     ],
-    totalMarket: 22200,
-    bundlePrice: 16900,
+    totalMarket: 20600,
+    bundlePrice: 16100,
     participants: 52,
     maxParticipants: 80,
     daysLeft: 6,
@@ -981,14 +985,14 @@ const INITIAL_BUNDLES = [
     bg: "bg-pink-50",
     border: "border-pink-200",
     products: [
-      { name: "מקרר LG 425L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מכונת כביסה Samsung 8 ק\"ג", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=400&q=80&fit=crop", marketPrice: 2600 },
-      { name: "תנור בנוי Electra", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 2200 },
-      { name: 'טלוויזיה Samsung 55" 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 2800 },
-      { name: "מדיח כלים צר Bosch", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2400 },
+      { name: "מקרר מקפיא תחתון Haier HRF5800FW/B 507 ליטר", image: "https://img.zap.co.il/pics/2/3/2/0/87410232c.gif", marketPrice: 3600 },
+      { name: 'מכונת כביסה Samsung WW8ST5543AT 8 ק"ג', image: "https://img.zap.co.il/pics/1/9/0/0/82830091c.gif", marketPrice: 2600 },
+      { name: "תנור בנוי GORENJE BO76SYB/W", image: "https://img.zap.co.il/pics/7/1/4/1/92751417c.gif", marketPrice: 2200 },
+      { name: 'Samsung 65" 4K / UHD QLED', image: "https://img.zap.co.il/pics/3/9/9/4/91574993b.gif", marketPrice: 3300 },
+      { name: "מדיח כלים רחב Siemens SN65EX13CE", image: "https://img.zap.co.il/pics/4/6/4/6/91476464c.gif", marketPrice: 2600 },
     ],
-    totalMarket: 13800,
-    bundlePrice: 10490,
+    totalMarket: 14300,
+    bundlePrice: 10900,
     participants: 67,
     maxParticipants: 100,
     daysLeft: 8,
@@ -1004,12 +1008,12 @@ const INITIAL_BUNDLES = [
     bg: "bg-orange-50",
     border: "border-orange-200",
     products: [
-      { name: "מקרר Samsung 580L", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=400&q=80&fit=crop", marketPrice: 5200 },
-      { name: "תנור בנוי Bosch", image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80&fit=crop", marketPrice: 3800 },
-      { name: "מדיח כלים Siemens", image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&q=80&fit=crop", marketPrice: 2900 },
+      { name: "מקרר מקפיא תחתון Sharp SJ-R9732WH 661 ליטר", image: "https://img.zap.co.il/pics/4/1/5/2/68752514b.gif", marketPrice: 5300 },
+      { name: "תנור בנוי GORENJE BPS6737E04DBG", image: "https://img.zap.co.il/pics/4/2/2/7/94927224c.gif", marketPrice: 2400 },
+      { name: "מדיח כלים רחב Electrolux EEG48200L", image: "https://img.zap.co.il/pics/0/0/3/7/91487300b.gif", marketPrice: 2500 },
     ],
-    totalMarket: 11900,
-    bundlePrice: 9490,
+    totalMarket: 10200,
+    bundlePrice: 8000,
     participants: 28,
     maxParticipants: 50,
     daysLeft: 5,
@@ -1019,18 +1023,18 @@ const INITIAL_BUNDLES = [
   {
     id: "bundle-livingroom",
     title: "חבילת סלון חכם",
-    subtitle: 'טלוויזיה 65" + סאונדבר + סטרימר',
+    subtitle: 'טלוויזיה 65" + מקרן קול + סטרימר',
     icon: "📺",
     color: "from-violet-500 to-indigo-500",
     bg: "bg-violet-50",
     border: "border-violet-200",
     products: [
-      { name: 'Samsung 65" QLED 4K', image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400&q=80&fit=crop", marketPrice: 4800 },
-      { name: "Samsung Soundbar Q600", image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&q=80&fit=crop", marketPrice: 1900 },
-      { name: "Apple TV 4K", image: "https://images.unsplash.com/photo-1528395874238-34ebe249b3f2?w=400&q=80&fit=crop", marketPrice: 750 },
+      { name: 'Samsung 65" 4K / UHD QLED', image: "https://img.zap.co.il/pics/3/9/9/4/91574993b.gif", marketPrice: 3300 },
+      { name: "מקרן קול Sonos Beam Gen 2", image: "https://img.zap.co.il/pics/new/201015162955c.gif", marketPrice: 1900 },
+      { name: "סטרימר Xiaomi TV Box S 3rd Gen", image: "https://img.zap.co.il/pics/7/3/0/9/94419037c.gif", marketPrice: 350 },
     ],
-    totalMarket: 7450,
-    bundlePrice: 5890,
+    totalMarket: 5550,
+    bundlePrice: 4350,
     participants: 19,
     maxParticipants: 40,
     daysLeft: 7,
@@ -1046,61 +1050,61 @@ const INITIAL_BUNDLES = [
     bg: "bg-emerald-50",
     border: "border-emerald-200",
     products: [
-      { name: "MacBook Air M3", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&q=80&fit=crop", marketPrice: 5200 },
-      { name: 'Dell 27" 4K Monitor', image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80&fit=crop", marketPrice: 2100 },
-      { name: "Sony WH-1000XM5", image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400&q=80&fit=crop", marketPrice: 1350 },
+      { name: "מחשב נייד HP EliteBook Ultra G1i B69DBET", image: "https://img.zap.co.il/pics/2/7/0/4/89154072c.gif", marketPrice: 5400 },
+      { name: "מסך מחשב קעור Dell UltraSharp U3425WE 34.14 WQHD", image: "https://img.zap.co.il/pics/new/24315352600c.gif", marketPrice: 2600 },
+      { name: "אוזניות Sony WH-1000XM4 Bluetooth", image: "https://img.zap.co.il/pics/1/1/6/9/91199611c.gif", marketPrice: 1100 },
     ],
-    totalMarket: 8650,
-    bundlePrice: 6990,
+    totalMarket: 9100,
+    bundlePrice: 7100,
     participants: 33,
     maxParticipants: 40,
     daysLeft: 4,
     catIdx: 1,
   },
-  // ── חבילת גיימינג (4 מוצרים) ──
+  // ── חבילת גיימינג (3 מוצרים) ──
   {
     id: "bundle-gaming",
     title: "חבילת גיימינג אולטימטיבית",
-    subtitle: "קונסולה + מסך + אוזניות + בקר נוסף",
+    subtitle: "קונסולה + מסך גיימינג + אוזניות",
     icon: "🎮",
     color: "from-red-500 to-orange-500",
     bg: "bg-red-50",
     border: "border-red-200",
     products: [
-      { name: "PlayStation 5 Slim", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&q=80&fit=crop", marketPrice: 2200 },
-      { name: 'LG 27" Gaming 165Hz', image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&q=80&fit=crop", marketPrice: 1800 },
-      { name: "SteelSeries Arctis Nova", image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=400&q=80&fit=crop", marketPrice: 850 },
-      { name: "DualSense Edge Controller", image: "https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=400&q=80&fit=crop", marketPrice: 750 },
+      { name: "Sony PlayStation 5 Slim 1TB Blu-ray Edition CFI-2000 CFI-2016", image: "https://img.zap.co.il/pics/6/6/9/8/92138966c.gif", marketPrice: 2300 },
+      { name: "מסך מחשב גיימינג Dell Alienware AW2725D 26.7 QHD", image: "https://img.zap.co.il/pics/3/8/1/0/95870183c.gif", marketPrice: 2000 },
+      { name: "אוזניות אלחוטיות Apple AirPods Max USB-C", image: "https://img.zap.co.il/pics/7/3/4/7/97007437b.gif", marketPrice: 2100 },
     ],
-    totalMarket: 5600,
-    bundlePrice: 4290,
+    totalMarket: 6400,
+    bundlePrice: 5000,
     participants: 44,
     maxParticipants: 60,
     daysLeft: 5,
     catIdx: 11,
   },
-  // ── חבילת תינוק חדש (5 מוצרים) ──
+  // ── חבילת מטבח חכם (4 מוצרים) — replaces the old "baby" bundle:
+  //    the catalog has no baby category, so this is built from real
+  //    kitchen-gadget categories (coffee / blender / microwave / kettle).
   {
-    id: "bundle-baby",
-    title: "חבילת תינוק חדש",
-    subtitle: "עגלה + כסא בטיחות + מוניטור + אמבטיה + ערסל",
-    icon: "👶",
-    color: "from-sky-400 to-blue-500",
-    bg: "bg-sky-50",
-    border: "border-sky-200",
+    id: "bundle-kitchen-gadgets",
+    title: "חבילת גאדג'טים למטבח",
+    subtitle: "מכונת אספרסו + מיקרוגל + בלנדר + קומקום — שדרוג למטבח",
+    icon: "☕",
+    color: "from-amber-500 to-yellow-500",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
     products: [
-      { name: "עגלת תינוק Bugaboo Fox", image: "https://images.unsplash.com/photo-1591088398332-8a7791972843?w=400&q=80&fit=crop", marketPrice: 4200 },
-      { name: "כסא בטיחות Cybex Sirona", image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80&fit=crop", marketPrice: 2200 },
-      { name: "מוניטור Nanit Pro", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80&fit=crop", marketPrice: 1100 },
-      { name: "אמבטיה Stokke Flexi", image: "https://images.unsplash.com/photo-1582142306909-195724d33ffc?w=400&q=80&fit=crop", marketPrice: 350 },
-      { name: "ערסל 4Moms mamaRoo", image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&q=80&fit=crop", marketPrice: 1600 },
+      { name: "מכונת אספרסו Delonghi Magnifica Start ECAM220.60.B", image: "https://img.zap.co.il/pics/0/0/2/6/88236200c.gif", marketPrice: 2400 },
+      { name: "מיקרוגל Samsung MS32DG4504 32 ליטר", image: "https://img.zap.co.il/pics/4/4/1/0/89370144c.gif", marketPrice: 650 },
+      { name: "בלנדר Ninja Nutri-Blender Plus BN303", image: "https://img.zap.co.il/pics/new/21710855594c.gif", marketPrice: 450 },
+      { name: "קומקום חשמלי Smeg KLF03 1.7 ליטר", image: "https://img.zap.co.il/pics/5/9/7/3/48743795b.gif", marketPrice: 600 },
     ],
-    totalMarket: 9450,
-    bundlePrice: 7190,
+    totalMarket: 4100,
+    bundlePrice: 3200,
     participants: 38,
     maxParticipants: 60,
     daysLeft: 9,
-    catIdx: 9,
+    catIdx: 4,
   },
 ];
 
@@ -1262,6 +1266,72 @@ const SOG_TO_CAT_IDX = {
   "e-camera": 10, "e-camcorder": 10,
   "e-tvgame": 11, "e-headphone": 11,
 };
+
+// ─────────────────────────────────────────────────────────────────
+//  PRODUCT → catIdx CLASSIFIER
+//
+//  General buying groups ("קבוצת רכישה כללית") are PER-CATEGORY: one
+//  supplier should be able to fulfil a whole group, so a product must
+//  land in the group that matches its REAL category. A coffee-machine
+//  supplier does not stock TVs.
+//
+//  Previously deal.catIdx came from a tiny 5-entry map that defaulted
+//  to 0 (TVs) — so a "מכונת אספרסו Nespresso Creatista Pro" wrongly
+//  joined the OLED/QLED TV group. classifyCatIdx scans the product
+//  name (+ optional sog / category hints) against keyword tables and
+//  returns the correct CATEGORIES.he index, falling back to null
+//  (unknown) rather than silently defaulting to TVs.
+//
+//  Indices match CATEGORIES.he in src/data/categories.js:
+//   0 טלוויזיות · 1 מחשבים · 2 טלפונים · 3 מכשירי חשמל · 4 מטבח
+//   5 מזגנים · 6 ריהוט · 7 ספורט · 8 אופניים · 9 תינוקות
+//   10 מצלמות · 11 גיימינג · 12 רכב · 13 בריאות
+// ─────────────────────────────────────────────────────────────────
+const CAT_KEYWORDS = [
+  // Order matters: more specific categories are checked before broad ones.
+  { idx: 5,  kw: ["מזגן", "מיזוג", "מאוורר", "air conditioner", "air-conditioner", "מפזר חום"] },
+  { idx: 4,  kw: ["אספרסו", "espresso", "nespresso", "מכונת קפה", "coffee machine", "coffee-machine",
+                   "מיקרוגל", "microwave", "קומקום", "kettle", "מיחם", "טוסטר", "toaster",
+                   "בלנדר", "blender", "מעבד מזון", "food processor", "מיקסר", "mixer",
+                   "מסחטה", "juicer", "כיריים", "כיריים", "cooktop", "hob", "מקינטה",
+                   "סיר בישול", "מולטי קוקר", "קולט אדים", "range hood", "פלטה חשמלית"] },
+  { idx: 0,  kw: ["טלוויזי", "טלוויזיה", " tv", "oled", "qled", "מסך טלוויזיה", "led tv", "מקרן", "projector"] },
+  { idx: 2,  kw: ["סמארטפו", "smartphone", "iphone", "אייפון", "galaxy s", "galaxy z", "galaxy a",
+                   "pixel", "פיקסל", "טלפון נייד", "טלפון חכם", "סלולר", "oneplus", "טאבלט", "tablet", "ipad", "אייפד"] },
+  { idx: 11, kw: ["playstation", "ps5", "ps4", "xbox", "nintendo", "switch", "קונסול", "console",
+                   "steam deck", "גיימינג", "gaming", "joystick", "ג'ויסטיק", "בקר משחק", "controller"] },
+  { idx: 1,  kw: ["מחשב נייד", "laptop", "macbook", "notebook", "מחשב נייח", "desktop",
+                   "מסך מחשב", "monitor", "מקלדת", "keyboard", "עכבר", " mouse", "מעבד", "cpu",
+                   "כרטיס מסך", "graphics card", "gpu", "ראוטר", "router", "מדפסת", "printer", "סורק", "scanner", "webcam"] },
+  { idx: 10, kw: ["מצלמ", "camera", "dslr", "mirrorless", "עדשה", "lens", "gopro", "מצלמת אבטחה"] },
+  { idx: 8,  kw: ["אופניים", "אופני", "bicycle", "bike", "קורקינט", "scooter"] },
+  { idx: 13, kw: ["מד לחץ דם", "blood pressure", "אינהלר", "nebulizer", "מסז'", "massager", "מד חום"] },
+  { idx: 6,  kw: ["ספה", "sofa", "מיטה", "bed", "כורסה", "armchair", "כיסא גיימינג", "gaming chair", "שולחן"] },
+  { idx: 7,  kw: ["הליכון", "treadmill", "אופני כושר", "exercise bike", "אליפטי", "cross trainer", "כושר"] },
+  // Broad appliances LAST — generic words that would otherwise swallow kitchen items.
+  { idx: 3,  kw: ["מקרר", "fridge", "refrigerator", "מקפיא", "freezer", "מכונת כביסה", "washing machine",
+                   "מייבש", "dryer", "מדיח", "dishwasher", "תנור", "oven", "שואב אבק", "vacuum",
+                   "roomba", "roborock", "מגהץ", "iron", "מטהר אוויר", "air purifier",
+                   "מתקן מים", "water dispenser", "אוזניות", "headphone", "earbuds", "airpods",
+                   "רמקול", "speaker", "מקרן קול", "soundbar", "סטרימר", "media player",
+                   "שעון חכם", "smartwatch", "מייבש שיער", "hair dryer", "מגלח", "shaver"] },
+];
+
+// Classify a product into a CATEGORIES.he index. Tries the ZAP sog first
+// (most reliable when present), then keyword-matches the name + an optional
+// free-text category hint. Returns a number, or `fallback` when nothing
+// matches (default null — caller decides; we never silently pick TVs).
+function classifyCatIdx(productName, { sog = null, category = null, fallback = null } = {}) {
+  if (sog && SOG_TO_CAT_IDX[sog] != null) return SOG_TO_CAT_IDX[sog];
+  const hay = `${productName || ""} ${category || ""}`.toLowerCase();
+  if (!hay.trim()) return fallback;
+  for (const { idx, kw } of CAT_KEYWORDS) {
+    for (const k of kw) {
+      if (hay.includes(k)) return idx;
+    }
+  }
+  return fallback;
+}
 
 // Check if a product already has demand in the given pool.
 // Returns { model, count } if match found, null otherwise.
@@ -17056,7 +17126,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, p
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER LANDING PAGE
 // ─────────────────────────────────────────────────────────────────
-function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
+function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
   const [openFaq, setOpenFaq] = useState(null);
   // Demand-checker tool removed 2026-05-21 — it returned Math.random()
   // "high demand" results. A fabricated "high demand" signal that leads a
@@ -17214,6 +17284,16 @@ function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
                 הצטרף כספק — חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
               </button>
+              {/* Login entry for suppliers who already registered. Reuses the
+                  standard customer OTP login — App resolves the supplier
+                  account by email and routes into the dashboard. */}
+              {typeof onLogin === "function" && (
+                <button type="button" onClick={onLogin}
+                  className="flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-base text-white border-2 border-white/30 bg-white/5 hover:bg-white/15 transition">
+                  <LogIn className="w-5 h-5" />
+                  כבר רשומים? התחברו
+                </button>
+              )}
               {/* Demo-supplier — visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
                   Quick path into a synthetic supplier dashboard for live
                   sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER.
@@ -20908,6 +20988,10 @@ export default function App() {
   const [ownerLoggedIn, setOwnerLoggedIn] = useState(false);
   const [showSupplierLogin, setShowSupplierLogin] = useState(false);
   const [currentSupplier, setCurrentSupplier] = useState(null);
+  // When a not-yet-logged-in supplier clicks "כבר רשומים? התחברו" we open
+  // the standard OTP login; this flag tells AuthModal.onSuccess to then
+  // resolve the supplier account and route into the dashboard.
+  const [pendingSupplierLogin, setPendingSupplierLogin] = useState(false);
   // ── Demand pool state ──────────────────────────────────────────
   // Threshold for graduating a pool entry into its own dedicated deal:
   // once a specific model has POOL_GRADUATION_THRESHOLD or more interested
@@ -21482,7 +21566,17 @@ export default function App() {
   // with the server-returned row (its stable server id + dedupe result).
   // If the POST fails we keep the client-only deal so the UX never breaks.
   const handleAddDealFromSearch = async (result) => {
+    // catIdx drives which per-category buying group this product joins.
+    // The old 5-entry catMap defaulted everything else to 0 (TVs) — so an
+    // espresso machine wrongly offered to join the OLED/QLED TV group.
+    // classifyCatIdx scans the sog + product name + category hint and
+    // returns the REAL category; legacy catMap kept only as a last hint.
     const catMap = { "אלקטרוניקה": 0, "מחשבים": 1, "סמארטפונים": 2, "מכשירי חשמל": 3, "ריהוט": 4 };
+    const resolvedCatIdx = classifyCatIdx(
+      result.productName || result.productNameEn || "",
+      { sog: result._pageSog || null, category: result.category || null,
+        fallback: catMap[result.category] ?? 0 }
+    );
     const newDeal = {
       id: Date.now(),
       // Stable, re-resolvable key — powers the permanent /product/<key> URL.
@@ -21491,7 +21585,7 @@ export default function App() {
       desc: { he: result.description || "", en: result.description || "", ar: result.description || "", ru: result.description || "" },
       image: result._preloadedImage || result.image || "",
       _preloadedImage: result._preloadedImage || null,
-      catIdx: catMap[result.category] ?? 0,
+      catIdx: resolvedCatIdx,
       marketMin: result.marketMin || 0,
       marketMax: result.marketMax || 0,
       groupOffer: result.groupPrice || 0,
@@ -21628,7 +21722,77 @@ export default function App() {
       // Leave the optimistic row in place so the customer still sees their request locally
     }
   };
-  const handleSupplierDashClick = () => currentSupplier ? setMode("supplier-dashboard") : setShowSupplierLogin(true);
+  // ── Supplier login for ALREADY-REGISTERED suppliers ──────────────
+  // A returning supplier authenticates through the SAME customer OTP
+  // login (phone) — no separate password store. After they're logged
+  // in we ask the server whether that account is a KYC-approved
+  // supplier (/api/suppliers/me, identity resolved from the JWT) and,
+  // if so, set currentSupplier + route into the dashboard.
+  // Returns true on success so callers can react.
+  const resolveSupplierForCurrentUser = useCallback(async () => {
+    const token = _getToken();
+    if (!token) return false;
+    try {
+      const res  = await fetch("/api/suppliers/me", { headers: { Authorization: "Bearer " + token } });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok && data.supplier) {
+        const s = data.supplier;
+        setCurrentSupplier({
+          id:           s.id,
+          name:         s.businessName,
+          businessName: s.businessName,
+          email:        s.email || s.contactEmail || "",
+        });
+        setMode("supplier-dashboard");
+        return true;
+      }
+      // Logged in, but this account is not an approved supplier.
+      if (data.kycStatus && data.kycStatus !== "approved") {
+        notify("⏳ חשבון הספק שלך עדיין בתהליך אימות");
+      } else {
+        notify("לא נמצא חשבון ספק למייל הזה. נרשמת כספק? ודא שאתה מתחבר עם אותו מספר/מייל");
+      }
+      return false;
+    } catch {
+      notify("⚠️ ההתחברות נכשלה — נסה שוב");
+      return false;
+    }
+  }, [notify]);
+
+  // Entry point for the "כבר רשומים? התחברו" CTA on the supplier
+  // landing page. If a session already exists, resolve straight away;
+  // otherwise open the standard login modal and resolve afterwards.
+  const handleSupplierLogin = useCallback(async () => {
+    if (currentSupplier) { setMode("supplier-dashboard"); return; }
+    if (_getToken() && user) {
+      const ok = await resolveSupplierForCurrentUser();
+      if (ok) return;
+      return;
+    }
+    // Not logged in — open the customer OTP login; handleAuthSuccess
+    // (wired on every AuthModal) then runs resolveSupplierForCurrentUser.
+    setPendingSupplierLogin(true);
+    setShowAuth(true);
+  }, [currentSupplier, user, resolveSupplierForCurrentUser]);
+
+  // Shared AuthModal success handler. Normal login just lifts the user;
+  // if the login was triggered by the supplier-login CTA, also resolve
+  // the supplier account and route into the dashboard.
+  const handleAuthSuccess = useCallback(async (u) => {
+    setUser(u);
+    setShowAuth(false);
+    if (pendingSupplierLogin) {
+      setPendingSupplierLogin(false);
+      const ok = await resolveSupplierForCurrentUser();
+      if (ok) return; // routed to dashboard; skip the generic welcome toast
+    }
+    notify(t.welcome);
+  }, [pendingSupplierLogin, resolveSupplierForCurrentUser, notify, t.welcome]);
+
+  // Navbar "supplier dashboard" click — same path as the landing-page
+  // login CTA so both entry points behave identically.
+  const handleSupplierDashClick = () =>
+    currentSupplier ? setMode("supplier-dashboard") : handleSupplierLogin();
 
   const handleLogout = () => {
     // SECURITY (audit C-A3): call /api/auth/logout so the server can
@@ -22024,7 +22188,7 @@ export default function App() {
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
-        {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
+        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
         {universalBackBtn}
@@ -22130,7 +22294,7 @@ export default function App() {
             onGoHome={goHome}
           />
         )}
-        {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
+        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} onCategoryBrowse={() => { closeCategory(); setShowCategoryBrowse(true); }} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
@@ -22213,7 +22377,7 @@ export default function App() {
         </div>
       )}
 
-      {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
+      {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
       {showSupplier && <SupplierKYCModal
         onRegistered={s=>{setPendingSuppliers(p=>[s,...p]);}}
@@ -22820,6 +22984,7 @@ export default function App() {
         <SupplierLandingPage
           t={t}
           onJoin={() => setShowSupplier(true)}
+          onLogin={handleSupplierLogin}
           setMode={setMode}
           onDemoLogin={({ user: demoUser, supplier, token }) => {
             // Lift the demo session into App-level state so the supplier

@@ -13357,6 +13357,30 @@ app.post("/api/suppliers/register",
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
+// GET /api/suppliers/me — resolve the supplier record for the currently
+// logged-in user. Used by the "כבר רשומים? התחברו" supplier-login flow:
+// a returning supplier signs in through the standard customer OTP login,
+// then the client calls this to discover whether that account is a
+// KYC-approved supplier and, if so, routes them into the dashboard.
+// Identity comes from the Bearer JWT via _resolveVerifiedSupplier — no
+// client-supplied email/id is trusted. MUST be declared before the
+// "/api/suppliers/:id" param route so "me" is not captured as an :id.
+app.get("/api/suppliers/me", AUTH_READY ? (req, res) => {
+  try {
+    const r = _resolveVerifiedSupplier(req);
+    if (r.error) {
+      // 403 with kycStatus lets the client tell "not a supplier" apart
+      // from "supplier pending verification".
+      return res.status(r.code || 403).json({
+        ok: false, error: r.error, ...(r.kycStatus ? { kycStatus: r.kycStatus } : {}),
+      });
+    }
+    if (r.admin) return res.status(403).json({ ok: false, error: "Admin token is not a supplier account" });
+    const s = r.supplier;
+    res.json({ ok: true, supplier: stripSensitive(s) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
 app.get("/api/suppliers/:id", AUTH_READY ? (req, res) => {
   try {
     const s = _prodDb.getSupplier(req.params.id);
