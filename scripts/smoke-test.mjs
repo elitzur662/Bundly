@@ -45,8 +45,8 @@ const CHECKS = [
   { path: "/api/orders",                 ok: [401],            label: "orders (401 expected)" },
   // Admin-gated → 401
   { path: "/api/admin/activity",         ok: [401],            label: "admin activity (401 expected)" },
-  // Debug routes — gated 404 in production, 200 in dev
-  { path: "/api/debug-zap?q=test",       ok: [200, 404, 400, 500], label: "debug route" },
+  // Debug routes — admin-gated (security hardening) → 401 for an unauthenticated probe
+  { path: "/api/debug-zap?q=test",       ok: [401],            label: "debug route (401 expected)" },
   // Frontend asset
   { path: "/admin/activity",             ok: [200],            label: "admin html page" },
 ];
