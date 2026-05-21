@@ -2464,32 +2464,56 @@ app.get("/api/product-description",
   try {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-    // Build user prompt
+    // ── Build user prompt — ONLY genuine, verified data ──────────────
+    // CRITICAL data-accuracy rule: the model must NEVER state a numeric spec
+    // (Pa suction, mAh/minutes battery, screen size, GB/TB storage, RAM,
+    // liters/kg capacity, etc.) that is not present in `specs` below. `specs`
+    // is the real, verified data — extracted from the product title or from
+    // ZAP's official spec table — passed through verbatim by the frontend.
+    // Anything else makes the model hallucinate spec numbers from the model
+    // name / stale training data (e.g. inventing "4000Pa" for a vacuum that
+    // is actually ~35000Pa) — which misleads customers.
+    const specsClean = (specs || "").trim();
+    const hasSpecs = specsClean.length > 0;
+
     let userPrompt = `שם המוצר: ${name.trim()}`;
-    if (specs) userPrompt += `\nמפרט: ${specs}`;
-    if (price) userPrompt += `\nמחיר בשוק: ₪${price}`;
-    userPrompt += `\nכתוב סקירה קצרה עם חוזקות וחולשות.`;
+    if (hasSpecs) {
+      userPrompt += `\n\nמפרט מאומת (הנתונים היחידים שמותר לצטט):\n${specsClean}`;
+    } else {
+      userPrompt += `\n\nאין נתוני מפרט מאומתים למוצר זה.`;
+    }
+    if (price) userPrompt += `\n\nמחיר בשוק: ₪${price}`;
+    userPrompt += `\n\nכתוב סקירה קצרה עם חוזקות וחולשות, לפי הכללים.`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       max_tokens: 300,
+      temperature: 0.3,
       messages: [
         {
           role: "system",
           content: `אתה מומחה מוצרי טכנולוגיה שכותב סקירות קצרות ואמינות **בעברית בלבד**.
 
-כללים חשובים:
+# כלל-על: דיוק נתונים — אסור להמציא מספרים
+זהו הכלל החשוב ביותר. הפרתו פוגעת בלקוחות ואסורה לחלוטין.
+- מותר לך לצטט מספר/מפרט טכני **אך ורק** אם הוא מופיע מילה-במילה ב"מפרט מאומת" שקיבלת בהודעת המשתמש.
+- **אסור בהחלט** לכתוב ערכים מספריים שלא סופקו לך — כולל, ובלי הגבלה: עוצמת שאיבה (Pa), קיבולת סוללה (mAh / דקות עבודה), גודל מסך (אינץ'), נפח אחסון (GB/TB), זיכרון (RAM), קיבולת (ליטר/ק"ג), הספק (וואט), רזולוציה, תדר רענון (Hz), מהירות וכל מספר טכני אחר.
+- אל תסיק מספר מתוך שם הדגם ואל תסתמך על "ידע כללי" על הדגם. אם המספר לא ברשימת המפרט שקיבלת — הוא לא קיים מבחינתך.
+- אם לא קיבלת נתוני מפרט מאומתים: כתוב סקירה כללית לחלוטין, **ללא שום מספר טכני**, המתארת את סוג המוצר ואת השימוש האופייני בו בלבד.
+- את ערכי המפרט המאומת ציין בדיוק כפי שניתנו (אותם מספרים, אותן יחידות).
+
+# שפה
 - כתוב אך ורק בעברית תקנית. **אסור להשתמש במילים בערבית, באנגלית (למעט שמות מותגים כמו Samsung, Apple, Snapdragon), או בכל שפה אחרת.**
 - מונחים טכניים מקובלים בלועזית (RAM, GPU, 4K, OLED) — השאר באנגלית.
 - מילים עבריות נכונות: "יישומים" (לא تطبيقات), "אפליקציות" (לא apps), "משתמשים" (לא users), "ביצועים" (לא performance).
 - אם אינך בטוח במילה בעברית — השתמש במילה הפשוטה והמובנת ביותר.
 
-מבנה הסקירה:
-1. שורה ראשונה: תיאור קצר של המוצר ולמי הוא מתאים.
-2. ✅ חוזקות: 2-3 נקודות חוזק מרכזיות (מפרט, ביצועים, יתרונות אמיתיים).
-3. ⚠️ חולשות: 1-2 נקודות חולשה או חסרונות ידועים (אם יש).
+# מבנה הסקירה
+1. שורה ראשונה: תיאור כללי קצר של המוצר ולמי הוא מתאים — ללא מספרים טכניים.
+2. ✅ חוזקות: 2-3 נקודות חוזק. כל נקודה מתארת תכונה כללית (איכות, נוחות שימוש, עיצוב, התאמה) או מצטטת מפרט מאומת שקיבלת — לעולם לא מספר שהמצאת.
+3. ⚠️ חולשות: 1-2 נקודות חולשה כלליות (למשל מחיר, משקל, עקומת למידה) — גם כאן ללא מספרים שלא סופקו. אם אין מידע על חולשות — כתוב "אין חסרונות בולטים ידועים".
 
-היה אובייקטיבי ואמין. אל תפרגן. אם אין מידע על חולשות — כתוב "אין חסרונות בולטים ידועים".`,
+היה אובייקטיבי ואמין. אל תפרגן. עדיף סקירה כללית ונכונה מאשר סקירה מפורטת עם מספר שגוי.`,
         },
         { role: "user", content: userPrompt },
       ],
