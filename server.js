@@ -109,6 +109,7 @@ let createInvoice, listInvoices, getInvoice;
 let trackUserInteraction, listUserInteractions, getUserTasteProfile, setUserTasteProfile, buildTasteProfileFromInteractions;
 let getAutomationFlag, setAutomationFlag;
 let listSupplierListings, listAllActiveListings, createSupplierListing, updateSupplierListing, deleteSupplierListing;
+let createDeal, getDeal, getDealByProductKey, listDeals, updateDeal;
 let sendOtpSms, normalizePhone, sendSupplierOfferSms;
 let sendWelcomeEmail, sendSupplierOfferEmail;
 let AUTH_READY = false;
@@ -131,6 +132,7 @@ try {
     trackUserInteraction, listUserInteractions, getUserTasteProfile, setUserTasteProfile, buildTasteProfileFromInteractions,
     getAutomationFlag, setAutomationFlag,
     listSupplierListings, listAllActiveListings, createSupplierListing, updateSupplierListing, deleteSupplierListing,
+    createDeal, getDeal, getDealByProductKey, listDeals, updateDeal,
   } = db);
   const emailMod  = await import("./email-service.js");
   ({ sendWelcomeEmail, sendSupplierOfferEmail } = emailMod);
@@ -1725,6 +1727,48 @@ function simplifyQuery(q) {
   return s;
 }
 
+// ── Scraper health tracker ───────────────────────────────────────
+// Counts consecutive scrape failures per source so a degraded scraper
+// (Zap blocked by Cloudflare, DataForSEO quota exhausted / auth revoked)
+// surfaces LOUDLY in the logs instead of silently returning empty results.
+// The founder greps "SCRAPER-HEALTH" to spot outages.
+const _scraperHealth = { zapZeroStreak: 0, dfsErrors: 0 };
+function _reportZapResult(count) {
+  if (count > 0) {
+    _scraperHealth.zapZeroStreak = 0;
+    return;
+  }
+  _scraperHealth.zapZeroStreak++;
+  // 3+ consecutive zero-result Zap calls almost always means a block, not
+  // just an unlucky query — escalate to a loud error so it can't be missed.
+  if (_scraperHealth.zapZeroStreak >= 3) {
+    console.error(`🚨 [SCRAPER-HEALTH] Zap returned 0 results ${_scraperHealth.zapZeroStreak}× in a row — likely blocked / down. Check the Zap scraper.`);
+  }
+}
+// Called by the DFS helpers when a task comes back with a quota / auth /
+// payment error status code (402x family) — these mean the paid API is
+// effectively offline until the founder tops up or fixes credentials.
+function _reportDfsError(label, statusCode, statusMessage) {
+  _scraperHealth.dfsErrors++;
+  console.error(`🚨 [SCRAPER-HEALTH] DataForSEO ${label} quota/auth error — status ${statusCode}: ${statusMessage || "(no message)"}. Paid API may be exhausted or credentials invalid.`);
+}
+// DataForSEO error codes that mean "you can't use the API right now":
+//   401xx — authentication failure (bad login/password)
+//   402xx — payment / money / quota exhaustion ("not enough money on account")
+//   404xx — access / subscription problem
+function _isDfsQuotaAuthCode(code) {
+  const n = Number(code) || 0;
+  return (n >= 40100 && n < 40300) || (n >= 40400 && n < 40500);
+}
+// Inspect the TOP-LEVEL DFS response status (covers a request rejected
+// outright before any task ran — e.g. auth failure on the whole call).
+function _checkDfsQuotaError(label, data) {
+  const top = Number(data?.status_code) || 0;
+  if (top && top !== 20000 && _isDfsQuotaAuthCode(top)) {
+    _reportDfsError(label, top, data?.status_message);
+  }
+}
+
 // SECURITY (red-team round 2 — L-R2-2): /api/search hits paid DataForSEO
 // APIs (organic + shopping) per cache miss. Cap per-IP to prevent
 // "denial-of-wallet" via query randomisation.
@@ -1748,6 +1792,8 @@ app.get("/api/search",
 
     console.log(`  ↳ Zap: ${zapResults.length} | Organic: ${organicResults.length} | Shopping: ${shoppingResults.length}`);
     if (zapResults.length < 3) console.log("  ℹ️  Zap < 3 — web results carry more weight");
+    // Track Zap health — escalates to a loud error after repeated 0-result calls.
+    _reportZapResult(zapResults.length);
 
     // Combine everything — all sources always contribute
     let raw = [...zapResults, ...organicResults, ...shoppingResults];
@@ -1776,8 +1822,7 @@ app.get("/api/search",
     // the query is unfamiliar. e.g. "qrevo max" was returning iPhones because
     // Google reads "max" as iPhone Pro Max. Reject any result whose title
     // doesn't share at least one ≥3-char token with the user's query (case-
-    // insensitive). If nothing survives, fall back to the raw list — better
-    // to show partial matches than nothing.
+    // insensitive).
     const _qTokens = q.toLowerCase().split(/\s+/).filter(t => t.length >= 3);
     const _relevant = _qTokens.length > 0
       ? raw.filter(r => {
@@ -1785,6 +1830,13 @@ app.get("/api/search",
           return _qTokens.some(tok => t.includes(tok));
         })
       : raw;
+    // If the user gave a real query but NOT ONE result's title shares even a
+    // single ≥3-char token with it, every result is off-topic (e.g. searching
+    // "dyson v15" and getting iPhones). Showing the WRONG product is worse
+    // than an honest "not found" — so 404 instead of falling back to raw.
+    if (_qTokens.length > 0 && _relevant.length === 0) {
+      return res.status(404).json({ error: "לא נמצא מוצר תואם — נסה/י שם דגם מדויק יותר." });
+    }
     const _kept = _relevant.length > 0 ? _relevant : raw;
     if (_relevant.length !== raw.length) {
       console.log(`  ↳ Relevance filter: ${raw.length} → ${_relevant.length} (using ${_kept === raw ? "fallback" : "filtered"})`);
@@ -1879,6 +1931,16 @@ app.get("/api/search",
       specs.push(`מחיר שוק ממוצע: ₪${marketAvg.toLocaleString()}`);
     }
 
+    // Statistical-confidence guard: with fewer than 3 distinct surviving
+    // store prices the median/range is not a reliable picture of the market
+    // — a single stray listing must never be presented as authoritative
+    // truth. Flag it (and floor the confidence score) so the client can
+    // show a "estimate based on limited data" caveat instead.
+    const lowConfidence = top40.length < 3;
+    if (lowConfidence) {
+      console.warn(`  ⚠️  [search] LOW CONFIDENCE — only ${top40.length} price(s) survived filtering for "${q}"`);
+    }
+
     const result = {
       productName,
       productNameEn: productName,
@@ -1895,7 +1957,8 @@ app.get("/api/search",
         verified: true,
       })),
       category:   "אלקטרוניקה",
-      confidence: Math.min(95, 60 + top40.length * 1.5),
+      confidence: lowConfidence ? 25 : Math.min(95, 60 + top40.length * 1.5),
+      lowConfidence,
       groupPrice: Math.round(marketMin * 0.95), // 5% below cheapest
       discount:   marketMax > 0
         ? Math.round((marketMax - Math.round(marketMin * 0.95)) / marketMax * 100) : 0,
@@ -5366,9 +5429,16 @@ async function searchDFSOrganic(query) {
     { auth: { username: login, password: password }, timeout: 30000, headers: { "content-type": "application/json" } }
   );
 
+  // Scraper-health: a top-level 402xx / 401xx status means the DataForSEO
+  // account is out of funds or the credentials are bad — log it LOUDLY.
+  _checkDfsQuotaError("organic", data);
   const task = data?.tasks?.[0];
   if (task?.status_code && task.status_code !== 20000) {
-    console.warn(`  ↳ [organic] DFS status ${task.status_code}: ${task.status_message}`);
+    if (_isDfsQuotaAuthCode(task.status_code)) {
+      _reportDfsError("organic", task.status_code, task.status_message);
+    } else {
+      console.warn(`  ↳ [organic] DFS status ${task.status_code}: ${task.status_message}`);
+    }
     return [];
   }
 
@@ -5506,6 +5576,12 @@ async function searchDFSShopping(query) {
     { auth: { username: login, password: password }, timeout: 20000, headers: { "content-type": "application/json" } }
   );
 
+  // Scraper-health: surface quota / auth failures loudly.
+  _checkDfsQuotaError("shopping", data);
+  const _shopTask = data?.tasks?.[0];
+  if (_shopTask?.status_code && _isDfsQuotaAuthCode(_shopTask.status_code)) {
+    _reportDfsError("shopping", _shopTask.status_code, _shopTask.status_message);
+  }
   const items  = data?.tasks?.[0]?.result?.[0]?.items || [];
   const allRaw = [];
 
@@ -11326,6 +11402,64 @@ app.post("/api/orders/:id/release-preauth", AUTH_READY ? async (req, res) => {
 const _depositInFlight = new Set();
 
 // ─────────────────────────────────────────────────────────────────
+//  DEALS — persisted group-buy deals
+//  POST /api/deals          → create a deal (deduped by productKey)
+//  GET  /api/deals          → list active/public deals (client hydration)
+//  GET  /api/deals/:id      → fetch one deal
+//
+//  Group-buy semantics: POST dedupes by productKey — if a deal already
+//  exists for that product, the EXISTING deal is returned so every
+//  interested buyer joins ONE deal instead of forking duplicates.
+// ─────────────────────────────────────────────────────────────────
+app.post("/api/deals",
+  rateLimit({ windowMs: 60_000, max: 20, label: "deal-create" }),
+  express.json({ limit: "16kb" }), (req, res) => {
+  if (!createDeal) return res.status(503).json({ error: "DB not ready" });
+  const body = req.body || {};
+  // A deal is meaningless without a productKey (it powers the /product/<key>
+  // URL) and a name. Reject early so we never persist junk rows.
+  const productKey = body.productKey ? String(body.productKey).trim() : "";
+  const nameHe = body.name && typeof body.name === "object" ? body.name.he : body.name;
+  if (!productKey)            return res.status(400).json({ error: "Missing productKey" });
+  if (!nameHe || String(nameHe).trim().length < 2) {
+    return res.status(400).json({ error: "Missing deal name" });
+  }
+  try {
+    // createDeal() itself dedupes by productKey and returns the existing
+    // deal when one is found — no duplicate is ever created.
+    const deal = createDeal({ ...body, productKey });
+    return res.json({ ok: true, deal });
+  } catch (e) {
+    console.error("[deals] create failed:", e.message);
+    return res.status(500).json({ error: "Could not create deal" });
+  }
+});
+
+app.get("/api/deals", (req, res) => {
+  if (!listDeals) return res.json([]);
+  try {
+    // Default to active/public deals for client hydration; allow ?status=
+    // for admin/debug use.
+    const status = req.query.status ? String(req.query.status) : "active";
+    res.json(listDeals({ status }));
+  } catch (e) {
+    console.error("[deals] list failed:", e.message);
+    res.json([]);
+  }
+});
+
+// NOTE: uses :dealId (not :id) on purpose — the global app.param("id")
+// validator coerces :id to a strict integer, but deal ids are strings
+// (`d<ts>_<rand>`). :dealId skips that validator, matching the sibling
+// /api/deals/:dealId/* routes which also accept string ids.
+app.get("/api/deals/:dealId", (req, res) => {
+  if (!getDeal) return res.status(503).json({ error: "DB not ready" });
+  const deal = getDeal(req.params.dealId);
+  if (!deal) return res.status(404).json({ error: "Deal not found" });
+  res.json(deal);
+});
+
+// ─────────────────────────────────────────────────────────────────
 //  DEAL BIDS — supplier offers per deal
 //  GET  /api/deal-bids                → { [dealId]: [bid, ...] } (all)
 //  GET  /api/deal-bids/:dealId        → [bid, ...] (single deal)
@@ -11425,6 +11559,14 @@ app.post("/api/deals/:dealId/bids",
       excludeSupplierId: resolvedSupplierId,
     });
   } catch (e) { console.warn(`[auto-bid] failed: ${e.message}`); }
+  // Mirror the live bid list onto the persisted deal (if one exists) so the
+  // charge-confirmed amount resolver — which reads deal.bids — stays in sync
+  // with the canonical dealBids store.
+  try {
+    if (updateDeal && getDeal && getDeal(dealId)) {
+      updateDeal(dealId, { bids: getDealBids ? getDealBids(dealId) : list });
+    }
+  } catch (e) { console.warn(`[deal-bids] persist mirror failed: ${e.message}`); }
   res.json({ ok: true, bids: list });
 });
 
@@ -11600,6 +11742,16 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
     _capClosedDeals(closedDeals);
     setAutomationFlag?.(closedDealsKey, closedDeals);
 
+    // Flip the persisted deal to "closed" + snapshot the supplier bids onto
+    // it. /api/deals/:id/charge-confirmed reads deal.status (must be closed)
+    // and deal.bids (to resolve the trusted winning amount) from this row —
+    // without this update those lookups would never find a closeable deal.
+    try {
+      if (updateDeal && getDeal && getDeal(dealId)) {
+        updateDeal(dealId, { status: "closed", bids });
+      }
+    } catch (e) { console.warn(`[deal-close] persist status failed: ${e.message}`); }
+
     // BUG FIX (round 4 P0): committed customers MUST be told the deal closed
     // so they can approve the off-session charge. Without this, the deal
     // closes silently and the customer never lands on /charge-confirmed →
@@ -11656,6 +11808,13 @@ app.post("/api/deals/:dealId/close", adminMiddleware, express.json({ limit: "8kb
     closedDeals[dealId] = { status: "cancelled", at: new Date().toISOString() };
     _capClosedDeals(closedDeals);
     setAutomationFlag?.(closedDealsKey, closedDeals);
+    // Reflect cancellation on the persisted deal so it stops showing as
+    // active in GET /api/deals and charge-confirmed refuses to charge it.
+    try {
+      if (updateDeal && getDeal && getDeal(dealId)) {
+        updateDeal(dealId, { status: "cancelled" });
+      }
+    } catch (e) { console.warn(`[deal-close] persist cancel failed: ${e.message}`); }
     return res.json({ ok: true, status: "cancelled", participants, minParticipants });
   }
 });

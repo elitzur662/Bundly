@@ -2165,120 +2165,9 @@ function AuthModal({ t, onSuccess, onClose }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────
-//  SUPPLIER MODAL
-// ─────────────────────────────────────────────────────────────────
-function SupplierModal({ t, categories, onSubmit, onClose, onGuestLogin }) {
-  const [form, setForm] = useState({ bizName:"", bizAddr:"", bizNum:"", bizBranches:"1", bizContact:"", bizPhone:"", bizEmail:"", bizCategory:"", bizDesc:"" });
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
-  const f = v => e => setForm(p => ({ ...p, [v]: e.target.value }));
-
-  // BUG FIX (round 3 P0 regression): /api/suppliers/register requires a
-  // hCaptcha token in production (HCAPTCHA_SECRET gates verifyCaptcha to
-  // fail-closed). The previous form did not render the widget or send the
-  // token, so 100% of supplier registrations failed with 403
-  // "אישור אנטי-בוטים נדרש". Now wire the same widget as AuthModal.
-  const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
-  const [captchaToken, setCaptchaToken] = useState("");
-  const captchaRef = useRef(null);
-  const resetCaptcha = () => { try { captchaRef.current?.resetCaptcha?.(); } catch {} setCaptchaToken(""); };
-
-  const handleSubmit = async () => {
-    if (!form.bizName || !form.bizNum || !form.bizContact || !form.bizPhone || !form.bizEmail) { setError(t.fillAll); return; }
-    if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return; }
-    setError("");
-    try {
-      const res = await fetch("/api/suppliers/register", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          businessName:   form.bizName,
-          businessNumber: form.bizNum,
-          ownerName:      form.bizContact,
-          email:          form.bizEmail,
-          phone:          form.bizPhone,
-          address:        form.bizAddr,
-          category:       form.bizCategory,
-          description:    form.bizDesc,
-          captchaToken,
-        }),
-      });
-      const data = await res.json();
-      if (res.status === 409) throw new Error("המייל הזה כבר רשום במערכת. אם אתה הבעלים של העסק — התחבר במקום להירשם שוב.");
-      if (!res.ok || !data.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה"); }
-      // Also keep local pending supplier for legacy OwnerDashboard
-      onSubmit?.({ ...form, id: `s${data.supplier.id}`, timestamp: new Date().toISOString(), status: "pending" });
-      setSent(true);
-    } catch (e) {
-      setError(e.message);
-    }
-  };
-
-  return (
-    <Modal onClose={onClose} wide>
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div><h2 className="text-xl font-bold text-gray-900">{t.supplierTitle}</h2><p className="text-sm text-gray-400 mt-0.5">{t.supplierSub}</p></div>
-          <button aria-label="סגור" onClick={onClose} className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-xl active:bg-gray-200"><X className="w-5 h-5 text-gray-500" /></button>
-        </div>
-        {sent ? (
-          <div className="text-center py-10">
-            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4"><CheckCircle className="w-8 h-8 text-emerald-600" /></div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t.supplierSent}</h3>
-            <p className="text-gray-500 text-sm">{t.supplierSentSub}</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {/* TEMPORARY — guest login for QA/testing without registering */}
-            {onGuestLogin && (
-              <button
-                onClick={onGuestLogin}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 border-2 border-amber-300 border-dashed text-amber-700 font-black rounded-xl text-sm transition active:scale-[0.98]"
-              >
-                🧪 <span>התחבר ללא הרשמה (בדיקה)</span>
-              </button>
-            )}
-            {onGuestLogin && (
-              <div className="flex items-center gap-3">
-                <div className="flex-1 h-px bg-gray-200" />
-                <span className="text-[10px] text-gray-400 font-bold">או הירשם כספק</span>
-                <div className="flex-1 h-px bg-gray-200" />
-              </div>
-            )}
-
-            {error && <div className="bg-red-50 text-red-600 rounded-xl p-3 text-sm">{error}</div>}
-            <div className="grid grid-cols-2 gap-4">
-              <Input label={t.bizName} value={form.bizName} onChange={f("bizName")} required />
-              <Input label={t.bizNum} value={form.bizNum} onChange={f("bizNum")} placeholder="514-XXXXXX" required />
-              <Input label={t.bizAddr} value={form.bizAddr} onChange={f("bizAddr")} required />
-              <Input label={t.bizBranches} type="number" value={form.bizBranches} onChange={f("bizBranches")} />
-              <Input label={t.bizContact} value={form.bizContact} onChange={f("bizContact")} required />
-              <Input label={t.bizPhone} type="tel" value={form.bizPhone} onChange={f("bizPhone")} required />
-              <Input label={t.bizEmail} type="email" value={form.bizEmail} onChange={f("bizEmail")} required />
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t.bizCategory}</label>
-                <select value={form.bizCategory} onChange={f("bizCategory")} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
-                  <option value="">{t.allCategories}</option>
-                  {categories.map((c,i) => <option key={i} value={c}>{c}</option>)}
-                </select>
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">{t.bizDesc}</label>
-              <textarea rows={3} value={form.bizDesc} onChange={f("bizDesc")} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none" />
-            </div>
-            {HCAPTCHA_SITE_KEY && (
-              <div className="flex justify-center pt-2">
-                <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
-              </div>
-            )}
-            <Btn onClick={handleSubmit} className="w-full" size="lg"><Building2 className="w-4 h-4" />{t.submitSupplier}</Btn>
-          </div>
-        )}
-      </div>
-    </Modal>
-  );
-}
+// NOTE: the old SupplierModal was removed — supplier registration is now
+// handled by the single SupplierKYCModal (see below). It was the more
+// complete form and its field names already match the server contract.
 
 // ─────────────────────────────────────────────────────────────────
 //  PROFILE MODAL — personal info + address + notification settings
@@ -3062,6 +2951,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
                 placeholder="חפש כל מוצר... iPhone 16, סמסונג QLED, Dyson V15..."
                 onResult={onSearchResult}
                 onWizard={onWizard}
+                onOpenRequest={onPersonal}
               />
             </div>
             <button
@@ -3148,13 +3038,10 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           </button>
         </div>
 
-        {/* FOMO line — compact */}
-        <p className="text-indigo-200/80 text-xs mt-4 flex items-center gap-1.5">
-          <span className="text-yellow-300">⚡</span>
-          12 {t.lang === "he" ? "אנשים הצטרפו היום" : t.lang === "ar" ? "شخصاً انضموا اليوم" : "people joined today"}
-          <span className="text-white/30 mx-1">·</span>
-          {t.lang === "he" ? "עוד 3 להצטרפות למחיר הבא" : t.lang === "ar" ? "3 أخرين للسعر التالي" : "3 more to next price drop"}
-        </p>
+        {/* FOMO line removed 2026-05-21 — "12 joined today" / "3 more to
+            next price drop" were fabricated fixed numbers. On a brand-new
+            platform with no real activity yet, showing invented counts
+            destroys trust. Real participant counts live on each deal card. */}
       </div>
 
       {/* ── Scroll affordance — gentle bouncing chevron at the bottom of the
@@ -4480,21 +4367,15 @@ function DemandPoolCard({ catIdx, pool, onJoinExisting, onAddNew, onDetails }) {
 }
 
 function DemandForecast({ deal, compact = false }) {
-  const total = (deal.participants || 0) + (deal.watching || 0) + (deal.interested || 0);
+  const total = (deal.participants || 0) + (deal.interested || 0);
   if (total === 0) return null;
   const committedPct = Math.round((deal.participants / total) * 100);
-  const watchingPct  = Math.round((deal.watching    / total) * 100);
   if (compact) {
     return (
       <div className="flex items-center gap-1.5 text-[10px] font-semibold mt-1.5">
         <span className="flex items-center gap-0.5 text-indigo-600">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 inline-block" />
           {deal.participants}
-        </span>
-        <span className="text-gray-300">·</span>
-        <span className="flex items-center gap-0.5 text-amber-600">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-          {deal.watching}
         </span>
         <span className="text-gray-300">·</span>
         <span className="flex items-center gap-0.5 text-gray-400">
@@ -4507,21 +4388,16 @@ function DemandForecast({ deal, compact = false }) {
   return (
     <div className="bg-gray-50/80 border border-gray-100 rounded-xl p-3">
       <p className="text-[10px] font-bold text-gray-400 mb-2 flex items-center gap-1 uppercase tracking-wide">
-        📊 פעילות בסבב
+        📊 פעילות הקבוצה
       </p>
       <div className="w-full h-2 rounded-full overflow-hidden flex mb-2.5 gap-px">
         <div className="bg-indigo-500 transition-all rounded-l-full" style={{ width: `${committedPct}%` }} />
-        <div className="bg-slate-400 transition-all" style={{ width: `${watchingPct}%` }} />
         <div className="bg-gray-200 transition-all flex-1 rounded-r-full" />
       </div>
       <div className="flex items-center justify-between text-[10px] font-semibold">
         <span className="flex items-center gap-1 text-indigo-600">
           <span className="w-2 h-2 rounded-full bg-indigo-500 inline-block" />
-          {deal.participants} הזמנות
-        </span>
-        <span className="flex items-center gap-1 text-slate-600">
-          <span className="w-2 h-2 rounded-full bg-slate-400 inline-block" />
-          {deal.watching} רישומים מקדימים
+          {deal.participants} כבר בקבוצה
         </span>
         <span className="flex items-center gap-1 text-gray-400">
           <span className="w-2 h-2 rounded-full bg-gray-300 inline-block" />
@@ -4533,9 +4409,70 @@ function DemandForecast({ deal, compact = false }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  TENDER-STYLE JOIN SELECTOR
+//  LIVE BID FEED — reverse-auction timeline on the deal page
+//  Suppliers bid the price DOWN; this surfaces that to the customer so
+//  the core differentiator is visible. Suppliers stay anonymous — we
+//  show the bid `code` (e.g. "BL07"), never a real business name.
+//  Implausibly-low (typo) bids are filtered with isImplausibleBid so a
+//  mistyped offer never appears in the feed.
+// ─────────────────────────────────────────────────────────────────
+function BidFeed({ deal }) {
+  const bids = Array.isArray(deal.bids) ? deal.bids : [];
+  // Keep insertion order (seed data is oldest→newest), drop typo bids,
+  // then reverse so the newest bid is on top. Show up to 5.
+  const feed = bids
+    .filter(b => b && Number.isFinite(Number(b.amount)) && !isImplausibleBid(b.amount, deal))
+    .slice(-5)
+    .reverse();
+  // Empty state — show nothing at all (per spec).
+  if (feed.length === 0) return null;
+  const lowest = Math.min(...feed.map(b => Number(b.amount)));
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
+      <div className="flex items-center gap-2 mb-1">
+        <TrendingDown className="w-4 h-4 text-emerald-500" />
+        <h3 className="text-sm font-black text-gray-800">המחיר יורד בזמן אמת</h3>
+        <span className="ml-auto flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] text-emerald-600 font-bold">LIVE</span>
+        </span>
+      </div>
+      <p className="text-[11px] text-gray-400 mb-3 leading-snug">
+        ספקים מתחרים על הקבוצה — כל הצעה חדשה מורידה את המחיר.
+      </p>
+      <div className="space-y-1.5">
+        {feed.map((b, i) => {
+          const amount = Number(b.amount);
+          const isBest = amount === lowest;
+          return (
+            <div key={b.id || i}
+              className={`flex items-center gap-2.5 rounded-xl px-3 py-2 ${isBest ? "bg-emerald-50 border border-emerald-200" : "bg-gray-50 border border-gray-100"}`}>
+              <span className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black ${isBest ? "bg-emerald-500 text-white" : "bg-white border border-gray-200 text-gray-500"}`}>
+                {b.code || "ספק"}
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-[12px] font-bold text-gray-800">
+                  ספק הציע <span className={isBest ? "text-emerald-700" : "text-indigo-700"}>₪{amount.toLocaleString()}</span>
+                </p>
+                {b.time && <p className="text-[10px] text-gray-400 font-medium">{b.time}</p>}
+              </div>
+              {isBest && (
+                <span className="flex-shrink-0 text-[10px] font-black text-emerald-700 bg-emerald-100 rounded-full px-2 py-0.5">
+                  המחיר הכי טוב
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
+//  GROUP-BUY JOIN SELECTOR
 //  Replaces the old 3-tier grid (שומר מקום / מתעניין / מחויב). Now
-//  presents the deal as a formal "סבב הזמנות" with one primary action
+//  presents the deal as an active buying group with one primary action
 //  (commit + 25% deposit) and one small secondary action (updates only).
 // ─────────────────────────────────────────────────────────────────
 function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false }) {
@@ -4547,7 +4484,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
   const COMMITTED_DEPOSIT = Math.round(groupPrice * 0.25);
   const participants     = deal.participants || 0;
   const maxParticipants  = deal.maxParticipants || 0;
-  const interestedCount  = (deal.interested || 0) + (deal.watching || 0);
+  const interestedCount  = deal.interested || 0;
   const daysLeft         = deal.daysLeft ?? 0;
   // Bell-jingle state — fires the bellRing CSS animation once per click on
   // the "updates only" button. Resets after ~700ms (animation duration) so
@@ -4565,7 +4502,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       return (
         <div className="flex items-center gap-2 rounded-xl bg-indigo-50 border border-indigo-300 px-3 py-1.5">
           <span className="text-sm">✓</span>
-          <span className="text-xs font-bold text-indigo-800">הזמנתך הוגשה לסבב</span>
+          <span className="text-xs font-bold text-indigo-800">המחיר שלך נעול</span>
         </div>
       );
     }
@@ -4573,7 +4510,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       return (
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-200 px-3 py-1.5">
           <span className="text-sm">📬</span>
-          <span className="text-xs font-bold text-gray-700">רשום/ה לעדכוני סבב</span>
+          <span className="text-xs font-bold text-gray-700">רשום/ה לעדכונים</span>
         </div>
       );
     }
@@ -4581,7 +4518,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       <div className="flex items-center gap-2">
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
-          הגשת הזמנה לסבב
+          אני בפנים — נעלו לי את המחיר
         </button>
         <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
           className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
@@ -4601,12 +4538,12 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
               <span className="text-white text-xl">✓</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm text-indigo-900">הזמנתך הוגשה לסבב הנוכחי</p>
+              <p className="font-black text-sm text-indigo-900">אתם בפנים — המחיר נעול עליכם</p>
               <p className="text-gray-600 text-[12px] mt-1 leading-relaxed">
-                סכום של ₪{COMMITTED_DEPOSIT.toLocaleString()} שמור על שמך. היתרה תיגבה רק כשהסבב ייסגר במחיר הסופי.
+                סכום של ₪{COMMITTED_DEPOSIT.toLocaleString()} שמור על שמכם. היתרה תיגבה רק כשהקבוצה תיסגר במחיר הסופי.
               </p>
               <p className="text-gray-400 text-[10px] mt-2 font-medium">
-                סטטוס: ממתין לסגירת הסבב
+                סטטוס: ממתינים לסגירת הקבוצה
               </p>
             </div>
           </div>
@@ -4616,7 +4553,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
     );
   }
   if (joinedTier) {
-    // interested / watching → both render as "registered for updates"
+    // interested → renders as "registered for updates"
     return (
       <div className="space-y-3">
         <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-slate-50 to-gray-100 p-4">
@@ -4625,15 +4562,15 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
               <span className="text-white text-lg">📬</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm text-gray-800">רישומך לעדכוני הסבב אושר</p>
-              <p className="text-gray-500 text-[11px] mt-1">תקבל/י הודעה כשהסבב נסגר או כשהמחיר משתנה.</p>
+              <p className="font-black text-sm text-gray-800">נרשמתם לעדכונים</p>
+              <p className="text-gray-500 text-[11px] mt-1">תקבלו הודעה כשהקבוצה נסגרת או כשהמחיר משתנה.</p>
             </div>
           </div>
         </div>
         {/* Upgrade to formal order */}
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
-          <span>הגשת הזמנה רשמית לסבב</span>
+          <span>אני בפנים — נעלו לי את המחיר</span>
           <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
           <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
         </button>
@@ -4649,7 +4586,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       <div className="rounded-2xl border border-gray-200 bg-gradient-to-br from-slate-50 to-white p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <p className="text-[11px] font-black text-gray-500 tracking-widest uppercase">סבב הזמנות פעיל</p>
+          <p className="text-[11px] font-black text-gray-500 tracking-widest uppercase">קבוצת קנייה פעילה</p>
           {daysLeft > 0 && (
             <span className="ml-auto text-[10px] font-bold text-gray-400">
               סגירה בעוד {daysLeft} ימים
@@ -4658,7 +4595,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         </div>
         <div className="grid grid-cols-2 gap-3 text-center">
           <div className="rounded-xl bg-white border border-gray-100 p-2.5">
-            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">שלב הסבב</p>
+            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">שלב הקבוצה</p>
             <p className="text-base font-black text-gray-900 mt-0.5">{participants}{maxParticipants ? ` / ${maxParticipants}` : ""}</p>
           </div>
           <div className="rounded-xl bg-white border border-gray-100 p-2.5">
@@ -4673,7 +4610,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         onClick={(e) => onSelectTier("committed", e.currentTarget)}
         className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
       >
-        <span className="text-[15px] font-black">הגשת הזמנה לסבב הנוכחי</span>
+        <span className="text-[15px] font-black">אני בפנים — נעלו לי את המחיר</span>
         <span className="text-[11px] font-medium text-white/85">
           נעילת מחיר · שמירת אמצעי תשלום (לא נחייב כעת)
         </span>
@@ -4696,7 +4633,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
           className={`w-5 h-5 text-amber-500 drop-shadow-sm ${bellRinging ? "bell-ring" : ""}`}
           fill="currentColor"
         />
-        <span>קבלו עדכונים על הסבב בלבד</span>
+        <span>רק עדכנו אותי — בלי להתחייב</span>
         {interestedCount > 0 && (
           <span className="text-[11px] font-medium text-amber-600/80">({interestedCount} רשומים)</span>
         )}
@@ -4704,7 +4641,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
 
       {/* Footnote — explains the SetupIntent (no-charge) flow */}
       <p className="text-center text-[10px] text-gray-400 leading-relaxed">
-        המחיר נשמר לכם ללא חיוב. החיוב יבוצע רק לאחר אישורכם בסגירת הסבב, ולא יבוצע כלל אם המינימום לא הושג.
+        המחיר נשמר לכם ללא חיוב. החיוב יבוצע רק לאחר אישורכם בסגירת הקבוצה, ולא יבוצע כלל אם המינימום לא הושג.
       </p>
       <DemandForecast deal={deal} />
     </div>
@@ -4914,8 +4851,6 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   const [tierSticky, setTierSticky] = useState(false);
   const dealStatus = getDealStatus(deal);
   const priceHidden = deal.hiddenPrice && !user;
-  const rating = (4.2 + (deal.id % 7) * 0.1).toFixed(1);
-  const ratingCount = 120 + (deal.id % 13) * 43;
 
   // ── Single product image (reverted from multi-image carousel) ──
   // The multi-image gallery pulled extra images via /api/product-images,
@@ -4980,9 +4915,9 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       const tier = pendingTierRef.current;
       pendingTierRef.current = null;
       // For "interested" — no deposit, mark joined immediately.
-      // For "watching" / "committed" — must collect a deposit via Stripe;
-      // skipping straight to setJoinedTier would falsely confirm an order
-      // without any payment ever happening (the original bug).
+      // For "committed" — must collect a card hold via Stripe; skipping
+      // straight to setJoinedTier would falsely confirm an order without
+      // any payment method ever being saved (the original bug).
       if (tier === "interested") {
         onJoin(deal.id, tier);
         setJoinedTier(tier);
@@ -4992,7 +4927,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       // off a poisoned price.
       const groupPrice = lowestPlausibleBid(deal)
         ?? (deal.groupOffer || deal.marketMin || 0);
-      const amount = tier === "watching" ? 25 : Math.round(groupPrice * 0.25);
+      const amount = Math.round(groupPrice * 0.25);
       setDepositInfo({ tier, amount });
     }
   }, [user]);
@@ -5010,19 +4945,19 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       setJoinedTier(tier);
       return;
     }
-    // Watching/committed → show deposit modal first.
+    // Committed → show deposit modal first.
     // Ignore implausibly-low (typo) bids so the deposit isn't computed
     // off a poisoned price.
     const groupPrice = lowestPlausibleBid(deal)
       ?? (deal.groupOffer || deal.marketMin || 0);
-    const amount = tier === "watching" ? 25 : Math.round(groupPrice * 0.25);
+    const amount = Math.round(groupPrice * 0.25);
     setDepositInfo({ tier, amount });
   };
   const handleDepositSuccess = (tier) => {
     setDepositInfo(null);
     onJoin(deal.id, tier);
     setJoinedTier(tier);
-    if (notify) notify(tier === "committed" ? "✅ נעלת את המחיר! המקדמה הוקפאה." : "📍 המקום שלך שמור! פיקדון ₪25 הוקפא.");
+    if (notify) notify("✅ נעלת את המחיר! המקדמה הוקפאה.");
   };
   const handleWhatsApp = () => {
     // Stable product URL — /product/<key> re-resolves on the recipient's
@@ -5060,9 +4995,9 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             <span className="text-xl">⚠️</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-black text-amber-900">סבב לדוגמה</p>
+            <p className="text-sm font-black text-amber-900">קבוצה לדוגמה</p>
             <p className="text-[11px] text-amber-700 leading-tight mt-0.5">
-              זהו מוצר תצוגה — המחירים והקבוצה אינם מסבב פעיל אמיתי. ה־UI כאן הוא הדמיה של חוויית קנייה קבוצתית.
+              זהו מוצר תצוגה — המחירים והקבוצה אינם מקבוצת קנייה אמיתית. ה־UI כאן הוא הדמיה של חוויית קנייה קבוצתית.
             </p>
           </div>
         </div>
@@ -5162,15 +5097,9 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           <div className="p-5">
             <h1 className="text-lg sm:text-2xl font-black text-gray-900 mb-2 leading-tight break-words">{name}</h1>
             <div className="flex items-center gap-2 mb-3">
-              <div className="flex items-center gap-0.5">
-                {[1,2,3,4,5].map(s => (
-                  <svg key={s} viewBox="0 0 20 20" className={`w-4 h-4 ${s <= Math.round(parseFloat(rating)) ? "text-amber-400" : "text-gray-200"} fill-current`}>
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <span className="text-sm font-bold text-gray-700">{rating}</span>
-              <span className="text-xs text-gray-400">({ratingCount.toLocaleString()} ביקורות)</span>
+              <span className="inline-flex items-center gap-1 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-full">
+                <Sparkles className="w-3.5 h-3.5" /> מוצר חדש
+              </span>
             </div>
             {/* Specs badges */}
             {deal.specs?.length > 0 && (
@@ -5252,6 +5181,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         )}
 
+        {/* ══ 1b. LIVE BID FEED — reverse-auction timeline ══
+              Surfaces the supplier-vs-supplier price war to the customer.
+              Renders nothing when there are no (plausible) bids. */}
+        {!priceHidden && <BidFeed deal={deal} />}
+
         {/* ══ 2. HOW IT WORKS — "איך זה עובד?" ══ */}
         <div className="bg-gradient-to-br from-indigo-50/80 to-violet-50/50 border border-indigo-100 rounded-2xl p-5">
           <h3 className="text-sm font-black text-gray-900 mb-4 text-center">איך Bundly מוריד לך את המחיר?</h3>
@@ -5281,39 +5215,35 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           )}
         </div>
 
-        {/* ══ 4. SUBMISSION ACTIVITY — "כמה הזמנות הוגשו לסבב" ══ */}
+        {/* ══ 4. GROUP ACTIVITY — "כמה אנשים כבר בקבוצה" ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               <span className="text-[11px] text-red-500 font-bold">LIVE</span>
             </div>
-            <h3 className="text-sm font-black text-gray-800">פעילות הסבב</h3>
+            <h3 className="text-sm font-black text-gray-800">פעילות הקבוצה</h3>
           </div>
-          <div className="grid grid-cols-3 gap-3 mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="bg-indigo-50 rounded-xl p-3 text-center">
               <p className="text-xl font-black text-indigo-700">{deal.participants}</p>
-              <p className="text-[10px] text-indigo-500 font-semibold">הזמנות הוגשו</p>
-            </div>
-            <div className="bg-slate-50 rounded-xl p-3 text-center">
-              <p className="text-xl font-black text-slate-700">{deal.watching || 0}</p>
-              <p className="text-[10px] text-slate-500 font-semibold">רישומים מקדימים</p>
+              <p className="text-[10px] text-indigo-500 font-semibold">כבר בפנים</p>
             </div>
             <div className="bg-gray-50 rounded-xl p-3 text-center">
               <p className="text-xl font-black text-gray-600">{deal.interested || 0}</p>
-              <p className="text-[10px] text-gray-400 font-semibold">עוקבים אחרי הסבב</p>
+              <p className="text-[10px] text-gray-400 font-semibold">עוקבים אחרי הקבוצה</p>
             </div>
           </div>
           {/* Progress bar */}
           <div>
             <div className="flex justify-between text-xs text-gray-400 mb-1.5 font-medium">
-              <span>מינימום לסגירת סבב: {deal.minParticipants}</span>
+              <span>מינימום לסגירת הקבוצה: {deal.minParticipants}</span>
               <span>{deal.participants} / {deal.maxParticipants}</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
               <div className={`h-full rounded-full transition-all ${criticalMass ? "bg-emerald-500" : "bg-gradient-to-r from-indigo-400 to-indigo-600"}`} style={{ width: `${pct}%` }} />
             </div>
-            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✓ הסבב הגיע למינימום — הסגירה מאושרת</p>}
+            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✓ הקבוצה הגיעה למינימום — הסגירה מאושרת</p>}
           </div>
         </div>
 
@@ -5381,28 +5311,6 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           );
         })()}
 
-        {/* ══ WATCHING — Pre-registered banner ══ */}
-        {joinedTier === "watching" && !priceHidden && (
-          <div className="bg-gradient-to-br from-slate-600 to-gray-700 rounded-2xl shadow-lg p-5 text-white relative overflow-hidden">
-            <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-            <div className="absolute top-3 left-3 w-10 h-10 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center">
-              <span className="text-xl">📋</span>
-            </div>
-            <div className="relative pr-14">
-              <p className="text-xs text-slate-200 font-bold mb-1">רישום מקדים לסבב</p>
-              <p className="text-2xl font-black tracking-tight">פיקדון ₪25 הוקפא</p>
-              <p className="text-xs text-slate-200 mt-2 leading-relaxed">
-                הסכום מקוזז מהמחיר הסופי בהגשת הזמנה רשמית, או מוחזר במלואו אם הסבב לא ייסגר.
-              </p>
-              <button
-                onClick={(e) => handleSelectTier("committed", e.currentTarget)}
-                className="mt-3 w-full py-2.5 bg-white text-indigo-700 hover:bg-indigo-50 font-black rounded-xl text-xs shadow active:scale-[0.98] transition flex items-center justify-center gap-1.5">
-                הגשת הזמנה רשמית — נעילת מחיר ₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* ══ 5. TIER LADDER — "מחיר יורד ככל שמצטרפים" ══ */}
         {!priceHidden && (() => {
           const tiers = makeTiers(deal.marketMin);
@@ -5415,8 +5323,6 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           const lossIfMissed = marketPrice - currentGroupPrice;
           // Hours left until closing (urgency)
           const hoursLeft = deal.closingDate ? Math.max(0, Math.floor((new Date(deal.closingDate) - Date.now()) / 3600000)) : null;
-          // Live viewer count — derived from deal id for stability across renders
-          const liveViewers = 8 + ((deal.id * 7) % 20);
           return (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
               {/* Loss-aversion strip removed per user request 2026-05-15 —
@@ -5425,19 +5331,25 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                   already shows the discount narrative through real
                   group-size milestones, no synthetic baseline needed. */}
 
-              {/* ── Live signals strip ── */}
-              <div className="flex items-center justify-between gap-2 mb-4 px-2 py-2 bg-gray-50 rounded-xl text-[11px]">
-                <span className="flex items-center gap-1 text-red-600 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                  {liveViewers} אנשים צופים עכשיו
-                </span>
-                {hoursLeft !== null && hoursLeft < 72 && (
-                  <span className="flex items-center gap-1 text-amber-700 font-bold">
-                    <Clock className="w-3 h-3" />
-                    סוגרת בעוד {hoursLeft} שעות
-                  </span>
-                )}
-              </div>
+              {/* ── Live signals strip ──
+                  Shows only real signals: actual participant count and a
+                  genuine closing countdown. No fabricated viewer numbers. */}
+              {(deal.participants > 0 || (hoursLeft !== null && hoursLeft < 72)) && (
+                <div className="flex items-center justify-between gap-2 mb-4 px-2 py-2 bg-gray-50 rounded-xl text-[11px]">
+                  {deal.participants > 0 ? (
+                    <span className="flex items-center gap-1 text-indigo-700 font-bold">
+                      <Users className="w-3 h-3" />
+                      {deal.participants} כבר הצטרפו לקבוצה
+                    </span>
+                  ) : <span />}
+                  {hoursLeft !== null && hoursLeft < 72 && (
+                    <span className="flex items-center gap-1 text-amber-700 font-bold">
+                      <Clock className="w-3 h-3" />
+                      סוגרת בעוד {hoursLeft} שעות
+                    </span>
+                  )}
+                </div>
+              )}
 
               <div className="mb-3">
                 <h3 className="text-sm font-black text-gray-800 flex items-center gap-2">
@@ -5474,7 +5386,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                     <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all" style={{ width: `${Math.round((deal.participants / next.people) * 100)}%` }} />
                   </div>
                   <p className="text-[10px] text-amber-600 mt-1.5 font-semibold">
-                    💡 שתף את הקבוצה עם 3 חברים — תקבל ₪50 הנחה נוספת
+                    💡 שתפו את הקבוצה עם חברים — ככל שיותר מצטרפים, המחיר יורד לכולם
                   </p>
                 </div>
               )}
@@ -6942,27 +6854,49 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       )}
 
       {/* ── HERO STRIP — total active buying-group activity (hidden on overview to give it space) ── */}
-      {activeTab !== "overview" && (
-      <div className="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 rounded-3xl p-5 mb-5 text-white shadow-xl relative overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-pink-400/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-[11px] text-white/75 font-bold tracking-wider uppercase mb-1">⚡ הפעילות הכי חמה עכשיו</p>
-            <h3 className="text-2xl sm:text-3xl font-black leading-tight">
-              {allActiveDeals.length} קבוצות רכישה פעילות
-            </h3>
-            <p className="text-sm text-white/90 mt-1">
-              {poolEntries.length} ביקושי קטגוריה · {pendingRequests.length} בקשות פרטיות · {myDeals.length} עסקאות שלך
-            </p>
+      {activeTab !== "overview" && (() => {
+        // Cold-start: a brand-new platform may have zero rounds, pools and
+        // requests. Instead of a wall of zeros, show an inviting "we're new"
+        // message so the supplier understands there's nothing to bid on yet.
+        const totallyEmpty = allActiveDeals.length === 0 && poolEntries.length === 0 &&
+                             pendingRequests.length === 0 && myDeals.length === 0;
+        if (totallyEmpty) {
+          return (
+            <div className="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 rounded-3xl p-6 mb-5 text-white shadow-xl relative overflow-hidden">
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="relative">
+                <p className="text-[11px] text-white/75 font-bold tracking-wider uppercase mb-1">🌱 פלטפורמה חדשה</p>
+                <h3 className="text-xl sm:text-2xl font-black leading-tight">עדיין אין סבבים פתוחים</h3>
+                <p className="text-sm text-white/90 mt-1.5 max-w-lg leading-relaxed">
+                  אנחנו רק מתחילים. ברגע שקונים יפתחו דרישות — הן יופיעו כאן, ותוכל להגיש הצעת מחיר.
+                  בינתיים כדאי להשלים את פרופיל העסק כדי להיות מוכן מהרגע הראשון.
+                </p>
+              </div>
+            </div>
+          );
+        }
+        return (
+          <div className="bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 rounded-3xl p-5 mb-5 text-white shadow-xl relative overflow-hidden">
+            <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-pink-400/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <p className="text-[11px] text-white/75 font-bold tracking-wider uppercase mb-1">⚡ הפעילות הכי חמה עכשיו</p>
+                <h3 className="text-2xl sm:text-3xl font-black leading-tight">
+                  {allActiveDeals.length} קבוצות רכישה פעילות
+                </h3>
+                <p className="text-sm text-white/90 mt-1">
+                  {poolEntries.length} ביקושי קטגוריה · {pendingRequests.length} בקשות פרטיות · {myDeals.length} עסקאות שלך
+                </p>
+              </div>
+              <button onClick={() => { setActiveTab("all-active"); setSelectedCategory(null); }}
+                className="bg-white text-indigo-700 hover:bg-indigo-50 font-black px-5 py-3 rounded-xl text-sm shadow-lg active:scale-95 transition flex items-center gap-2 flex-shrink-0">
+                הצג את כל הקבוצות ←
+              </button>
+            </div>
           </div>
-          <button onClick={() => { setActiveTab("all-active"); setSelectedCategory(null); }}
-            className="bg-white text-indigo-700 hover:bg-indigo-50 font-black px-5 py-3 rounded-xl text-sm shadow-lg active:scale-95 transition flex items-center gap-2 flex-shrink-0">
-            הצג את כל הקבוצות ←
-          </button>
-        </div>
-      </div>
-      )}
+        );
+      })()}
 
       {/* ── PRIMARY SECTION HEADER ── */}
       <div className="flex items-center gap-2 mb-2 mt-1 px-1">
@@ -8946,11 +8880,24 @@ function AllActiveDealsPanel({ deals, supplier, allDealsCategoryFilter, setAllDe
 
       {/* Result grid */}
       {sorted.length === 0 ? (
-        <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
-          <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-30" />
-          <p className="font-bold">אין קבוצות שעונות לסינון</p>
-          <p className="text-xs mt-1">נסה לשנות את הסינון או החיפוש</p>
-        </div>
+        deals.length === 0 ? (
+          /* Cold-start: no buying groups on the platform at all yet. */
+          <div className="text-center py-16 px-6 bg-gradient-to-br from-indigo-50 to-violet-50 rounded-2xl border border-indigo-100">
+            <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-sm">
+              <ShoppingCart className="w-7 h-7 text-indigo-400" />
+            </div>
+            <p className="font-black text-gray-800">עדיין אין סבבים פתוחים</p>
+            <p className="text-xs text-gray-500 mt-1.5 max-w-sm mx-auto leading-relaxed">
+              הפלטפורמה חדשה. ברגע שקונים יפתחו דרישות, הקבוצות יופיעו כאן ותוכל להגיש הצעת מחיר. כדאי להשלים את פרופיל העסק כדי להיות מוכן.
+            </p>
+          </div>
+        ) : (
+          <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
+            <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-30" />
+            <p className="font-bold">אין קבוצות שעונות לסינון</p>
+            <p className="text-xs mt-1">נסה לשנות את הסינון או החיפוש</p>
+          </div>
+        )
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {sorted.map(d => {
@@ -9902,8 +9849,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
   const TIER_META = {
-    committed:  { emoji: "📝", label: "הזמנה הוגשה",   color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
-    watching:   { emoji: "📋", label: "רישום מקדים",   color: "bg-slate-100 text-slate-700 border-slate-200" },
+    committed:  { emoji: "📝", label: "המחיר נעול",    color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
     interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
   };
   const ACTION_LABEL = {
@@ -10100,9 +10046,9 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 //    • When the deal closes successfully, the user receives a notification
 //      and approves the actual charge (see /api/deals/:id/charge-confirmed).
 //    • If the deal cancels, nothing was charged — nothing to refund.
-//  Tier semantics preserved for analytics:
-//    - "watching":  default tier on hold-spot
-//    - "committed": user signalled stronger intent (commits to buy)
+//  Tier semantics:
+//    - "committed": user signalled intent to buy — saves a card (no charge)
+//      to lock in the current group price.
 // ─────────────────────────────────────────────────────────────────
 function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) {
   const [cardName, setCardName] = useState("");
@@ -10112,17 +10058,6 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
   const [done, setDone] = useState(null); // { setupIntentId, status, paymentMethodId, cardLast4 }
 
   const TIER_INFO = {
-    watching: {
-      title: "שמירת מקום בקבוצה",
-      emoji: "📋",
-      gradient: "from-slate-500 to-gray-600",
-      explainer: `שמירת אמצעי תשלום בלבד — לא יחויב דבר עכשיו. הכרטיס יחויב רק אם הקבוצה תיסגר ואחרי אישור שלך.`,
-      bullets: [
-        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
-        `✓ הקבוצה לא נסגרה? אין שום חיוב, שום הקפאה`,
-        `✓ הקבוצה נסגרה? תקבל הודעה לאישור החיוב — לפי בחירתך`,
-      ],
-    },
     committed: {
       title: "הצטרפות עם נעילת מחיר",
       emoji: "📝",
@@ -10135,7 +10070,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       ],
     },
   };
-  const info = TIER_INFO[tier] || TIER_INFO.watching;
+  const info = TIER_INFO[tier] || TIER_INFO.committed;
 
   const handleSubmit = async () => {
     if (submitting) return;
@@ -10144,9 +10079,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
     try {
       // 1) Server creates a SetupIntent + Stripe Customer, returns clientSecret.
       //    No charge — only card validation + save.
-      const endpoint = tier === "committed"
-        ? `/api/deals/${deal.id}/commit-deposit`
-        : `/api/deals/${deal.id}/hold-spot`;
+      const endpoint = `/api/deals/${deal.id}/commit-deposit`;
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
@@ -10802,7 +10735,18 @@ function DisputeButton({ order, token }) {
 // ─────────────────────────────────────────────────────────────────
 //  SUPPLIER KYC REGISTRATION — new supplier signup with business details
 // ─────────────────────────────────────────────────────────────────
-function SupplierKYCModal({ onClose, onSuccess }) {
+// ─────────────────────────────────────────────────────────────────
+//  SUPPLIER REGISTRATION MODAL — the SINGLE supplier-registration form.
+//  Previously there were two divergent forms (SupplierModal +
+//  SupplierKYCModal) that both POSTed /api/suppliers/register with
+//  different field names — a maintenance trap. Consolidated here:
+//  this is the more complete form (bank details, KYC notice) and its
+//  field names already match the server contract 1:1.
+//  onRegistered(legacySupplier) — optional; fires right after a
+//  successful server registration with a legacy-shaped object so the
+//  owner dashboard's local pending-suppliers list stays in sync.
+// ─────────────────────────────────────────────────────────────────
+function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
   const [form, setForm] = useState({
     businessName: "", businessNumber: "", ownerName: "",
     email: "", phone: "", address: "",
@@ -10840,6 +10784,23 @@ function SupplierKYCModal({ onClose, onSuccess }) {
       const data = await res.json();
       if (res.status === 409) throw new Error("המייל הזה כבר רשום במערכת. אם אתה הבעלים, התחבר למערכת במקום להירשם שוב.");
       if (!res.ok || !data.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה ברישום"); }
+      // Keep the owner dashboard's local pending-suppliers list in sync.
+      // Legacy shape (biz* field names) so OwnerDashboard renders it and
+      // its approve/reject (which PATCHes by id) targets the right record.
+      onRegistered?.({
+        id:          `s${data.supplier?.id ?? Date.now()}`,
+        bizName:     form.businessName,
+        bizAddr:     form.address,
+        bizNum:      form.businessNumber,
+        bizBranches: "1",
+        bizContact:  form.ownerName,
+        bizPhone:    form.phone,
+        bizEmail:    form.email,
+        bizCategory: form.category,
+        bizDesc:     form.description,
+        timestamp:   new Date().toISOString(),
+        status:      "pending",
+      });
       setSuccess(true);
       setTimeout(() => onSuccess?.(), 3000);
     } catch (e) { setError(e.message); setSubmitting(false); }
@@ -10914,8 +10875,8 @@ function SupplierKYCModal({ onClose, onSuccess }) {
               <input placeholder="חשבון" value={form.bankAccount.accountNumber} onChange={updBank("accountNumber")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
             </div>
           </div>
-          <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800">
-            ⚠️ רישיון עסק תקף יתבקש לאחר אישור ראשוני. הבקשה תעבור בדיקה תוך 24-48 שעות.
+          <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800 leading-relaxed">
+            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) מתבצע מול הצוות שלנו במייל — אין צורך להעלות קבצים כאן.
           </div>
           {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
           {HCAPTCHA_SITE_KEY && (
@@ -14408,17 +14369,27 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
               <div className="text-center py-16 px-6 max-w-md mx-auto">
                 <div className="text-5xl mb-4">🌱</div>
                 <p className="font-black text-gray-800 text-base leading-snug mb-2">
-                  לצערנו עדיין אין מוצרים זמינים בקטגוריה הנוכחית
+                  עדיין אין מוצרים זמינים בקטגוריה הזו
                 </p>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  לאט לאט נצבור כוח ונשנה את חוקי הקנייה בישראל
+                <p className="text-sm text-gray-500 leading-relaxed mb-6">
+                  פתח דרישה למוצר שאתה מחפש — נאסוף קונים נוספים ונביא הצעת מחיר מספק.
                 </p>
-                <button
-                  onClick={onBack}
-                  className="mt-6 inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all"
-                >
-                  חזרה לחיפוש
-                </button>
+                <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
+                  {onRequestSupplierPrice && query && (
+                    <button
+                      onClick={() => onRequestSupplierPrice({ product: query, category: "אחר", currentLowestPrice: null, isSpecificModel: false, productImage: null })}
+                      className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-2xl text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                    >
+                      <Sparkles className="w-4 h-4" /> פתח בקשה ל"{query}"
+                    </button>
+                  )}
+                  <button
+                    onClick={onBack}
+                    className="inline-flex items-center justify-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all"
+                  >
+                    חזרה לחיפוש
+                  </button>
+                </div>
               </div>
             );
           }
@@ -16870,7 +16841,7 @@ function AutocompleteDropdown({ suggestions, activeSug, setActiveSug, onSelect, 
 // onProductList (optional): if provided, first calls /api/search-products to let user
 // pick an exact model, then the caller handles showing ProductListModal → full search.
 // If NOT provided, goes straight to /api/search → onResult (existing behaviour).
-function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, variant = "compact" }) {
+function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, placeholder, variant = "compact" }) {
   const [query, setQuery]   = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError]   = useState("");
@@ -17046,10 +17017,22 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
         </button>
       </div>
 
-      {/* Error */}
+      {/* Error — when a search dead-ends, offer to open a request for the
+          product instead of leaving the user at a plain error message. */}
       {error && (
-        <div className="flex items-center gap-2 bg-red-50 text-red-600 text-xs px-4 py-2.5 rounded-xl">
-          <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />{error}
+        <div className="bg-red-50 rounded-xl px-4 py-3 space-y-2">
+          <div className="flex items-center gap-2 text-red-600 text-xs">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" />{error}
+          </div>
+          {onOpenRequest && query.trim().length >= 2 && (
+            <button
+              onMouseDown={e => e.preventDefault()}
+              onClick={() => onOpenRequest(query.trim())}
+              className="w-full inline-flex items-center justify-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition"
+            >
+              <Sparkles className="w-3.5 h-3.5" /> פתח בקשה ל"{query.trim()}"
+            </button>
+          )}
         </div>
       )}
 
@@ -17075,52 +17058,10 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, placeholder, var
 // ─────────────────────────────────────────────────────────────────
 function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
   const [openFaq, setOpenFaq] = useState(null);
-  const [demandQuery, setDemandQuery] = useState("");
-  const [demandResult, setDemandResult] = useState(null);
-  const [demandLoading, setDemandLoading] = useState(false);
-  const { suggestions: demandSugs, showSug: demandShowSug, setShowSug: setDemandShowSug,
-          activeSug: demandActiveSug, setActiveSug: setDemandActiveSug,
-          clearSug: clearDemandSug, containerRef: demandContainerRef } =
-    useAutocomplete(demandQuery, { includeRecommend: false, proposeOnEmpty: true });
-
-  // Suppliers MUST pick a real product from the catalog (or use "propose"
-  // for a new one). Free text in the input is not a valid product.
-  // A product is "confirmed" only when its full name matches a real catalog
-  // entry — i.e. the user clicked a suggestion.
-  const [demandSelectedProduct, setDemandSelectedProduct] = useState(null); // {name, image?, price?}
-  const [demandPropose, setDemandPropose] = useState(false); // clicked "propose new" option
-
-  const handleDemandSuggestionClick = (s) => {
-    if (s?.type === "propose") {
-      setDemandQuery(sugText(s));
-      setDemandPropose(true);
-      setDemandSelectedProduct(null);
-    } else {
-      setDemandQuery(sugText(s));
-      setDemandSelectedProduct({ name: sugText(s), image: s?.image, price: s?.price });
-      setDemandPropose(false);
-    }
-    clearDemandSug();
-  };
-
-  // Whenever the user edits the input after a selection, invalidate the selection
-  useEffect(() => {
-    if (demandSelectedProduct && demandQuery !== demandSelectedProduct.name) {
-      setDemandSelectedProduct(null);
-    }
-    if (demandPropose && demandQuery.length === 0) setDemandPropose(false);
-  }, [demandQuery]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleDemandCheck = () => {
-    if (!demandQuery.trim()) return;
-    setDemandLoading(true);
-    setDemandResult(null);
-    setTimeout(() => {
-      const n = Math.floor(Math.random() * 80) + 20;
-      setDemandResult({ query: demandQuery, count: n, trend: n > 50 ? "עולה" : "יציב", score: n > 60 ? "גבוה" : n > 35 ? "בינוני" : "נמוך" });
-      setDemandLoading(false);
-    }, 1400);
-  };
+  // Demand-checker tool removed 2026-05-21 — it returned Math.random()
+  // "high demand" results. A fabricated "high demand" signal that leads a
+  // supplier to an empty platform is a trust trap. Real demand lives in the
+  // demand pools; suppliers see genuine signals inside the dashboard.
 
   const features = [
     {
@@ -17229,15 +17170,13 @@ function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
     { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל יכול להיות חי תוך 10 דקות. ההצעה הראשונה לקבוצה פתוחה — מיד אחרי אימות העסק. עסקה ראשונה — תלוי בגודל הקבוצה ובמחיר שתציע." },
   ];
 
+  // Honest framing for a brand-new platform — no fabricated metrics.
+  // These are value propositions, not invented numbers.
   const stats = [
-    { num: "12,400+", label: "קונים פעילים" },
-    { num: "₪2.8M", label: "נסגר בשנה האחרונה" },
-    { num: "94%", label: "שביעות רצון ספקים" },
-    { num: "48ש׳", label: "זמן עד לעסקה ראשונה" },
-  ];
-
-  const demandExamples = [
-    "שואב אבק רובוטי", "מזגן נייד", "מצלמת אבטחה", "מקרר מיני", "כיסא גיימינג"
+    { num: "0%", label: "עמלה ב-3 חודשי הניסיון" },
+    { num: "10 דק׳", label: "להקמת פרופיל ספק" },
+    { num: "חדש", label: "פלטפורמה — היו מהראשונים" },
+    { num: "2%", label: "עמלה על עסקה שנסגרה בלבד" },
   ];
 
   return (
@@ -17546,9 +17485,16 @@ function Footer({ t, setMode, onEnterSupplier }) {
           <div className="md:col-span-2">
             <span className="text-2xl font-black text-white">{BRAND_NAME}</span>
             <p className="text-sm text-gray-500 mt-2 leading-relaxed max-w-xs">{t.footerAbout}</p>
-            <a href={`mailto:${OWNER_EMAIL}`} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition mt-4">
-              <Mail className="w-3.5 h-3.5" />{OWNER_EMAIL}
-            </a>
+            {/* Honest company trust block — founding year, location and a
+                real support contact. No fake testimonials or press logos. */}
+            <div className="mt-4 space-y-1.5">
+              <p className="flex items-center gap-1.5 text-xs text-gray-500">
+                <MapPin className="w-3.5 h-3.5" />נוסד 2026 · ישראל
+              </p>
+              <a href={`mailto:${OWNER_EMAIL}`} className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-white transition">
+                <Mail className="w-3.5 h-3.5" />תמיכה: {OWNER_EMAIL}
+              </a>
+            </div>
           </div>
           <div>
             <p className="text-white font-semibold text-sm mb-3">{t.footerLinks}</p>
@@ -20110,14 +20056,19 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
   // Send welcome message on first open (only if no prior messages).
   // The greeting is different for suppliers vs customers — suppliers want
   // strategic advice, customers want product recommendations.
+  // On a cold-start home (zero deals), the customer greeting proactively
+  // offers to open a round so the empty platform still feels actionable.
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       const supplierName = supplier?.name || supplier?.businessName || "";
+      const noDeals = !supplierMode && (deals?.length || 0) === 0;
       setMessages([{
         role: "assistant",
         content: supplierMode
           ? `שלום${supplierName ? " " + supplierName : ""}! 👋 אני היועץ של Bundly לספקים.\nאפשר לשאול אותי על: מחירי שוק לדגם ספציפי, אסטרטגיית הצעות, איך להעלות אחוז הובלה, איך לבנות חוקי אוטומציה — כל מה שיעזור לך למכור יותר.`
-          : "היי! 👋 אני היועץ של Bundly.\nספר לי מה אתה מחפש — אני מכיר את כל השוק ואמצא לך את המחיר הכי טוב!",
+          : noDeals
+            ? "היי! 👋 אני היועץ של Bundly.\nאנחנו רק מתחילים — עדיין אין קבוצות קנייה פעילות. ספר לי מה אתה מחפש ואפתח לך קבוצה חדשה, נאסוף קונים נוספים ונביא לך מחיר טוב."
+            : "היי! 👋 אני היועץ של Bundly.\nספר לי מה אתה מחפש — אני מכיר את כל השוק ואמצא לך את המחיר הכי טוב!",
         ts: Date.now(),
       }]);
     }
@@ -20640,6 +20591,40 @@ export default function App() {
     if (import.meta.env.VITE_HIDE_DEMO_DEALS === "true") return [];
     return INITIAL_DEALS.map(d => ({ ...d, _demo: true }));
   });
+
+  // Hydrate persisted DEALS from the server on boot. Deals now live in the
+  // server-side `deals` collection (GET /api/deals). We merge them into the
+  // local state, deduping by productKey (preferred) or id so a server deal
+  // never duplicates a demo deal. Demo deals stay DEV-only — production
+  // starts from an empty list and shows ONLY real persisted deals.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch("/api/deals");
+        if (!r.ok || cancelled) return;
+        const serverDeals = await r.json();
+        if (!Array.isArray(serverDeals) || serverDeals.length === 0 || cancelled) return;
+        setDeals(prev => {
+          // Index existing deals by productKey + id so we can skip dupes.
+          const keys = new Set();
+          const ids  = new Set();
+          for (const d of prev) {
+            if (d.productKey) keys.add(String(d.productKey));
+            ids.add(String(d.id));
+          }
+          const fresh = serverDeals.filter(d => {
+            if (d.productKey && keys.has(String(d.productKey))) return false;
+            if (ids.has(String(d.id))) return false;
+            return true;
+          });
+          // Persisted server deals first, then any local (dev demo) deals.
+          return [...fresh, ...prev];
+        });
+      } catch { /* offline / pre-AUTH_READY → silent */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   // Hydrate persisted supplier bids from the server so reloads don't lose
   // them. /api/deal-bids returns { [dealId]: [bid, ...] } sorted ascending
@@ -21307,9 +21292,9 @@ export default function App() {
     }
   };
   const handleJoin = (id, tier = "committed", sourceEl = null) => {
-    // Login gate for ALL tiers — even "interested"/"watching" need a user
-    // identity so we can notify them when the deal moves, and so the count
-    // we show isn't gameable by anonymous spam clicks.
+    // Login gate for BOTH tiers — even "interested" needs a user identity
+    // so we can notify them when the deal moves, and so the count we show
+    // isn't gameable by anonymous spam clicks.
     if (!user) {
       notify("עליך להתחבר קודם");
       setShowAuth(true);
@@ -21320,7 +21305,6 @@ export default function App() {
       return {
         ...d,
         participants: tier === "committed" ? (d.participants || 0) + 1 : (d.participants || 0),
-        watching:     tier === "watching"   ? (d.watching    || 0) + 1 : (d.watching    || 0),
         interested:   tier === "interested" ? (d.interested  || 0) + 1 : (d.interested  || 0),
       };
     }));
@@ -21336,9 +21320,8 @@ export default function App() {
         price:       dt.groupOffer || dt.marketMin,
       });
     }
-    const tierMsg = tier === "committed" ? "✓ הזמנתך הוגשה לסבב"
-                   : tier === "watching"  ? "✓ נרשמת לסבב — פיקדון הוקפא"
-                   : "✓ נרשמת לעדכוני הסבב";
+    const tierMsg = tier === "committed" ? "✓ אתם בפנים — המחיר נעול עליכם"
+                   : "✓ נרשמתם לעדכוני הקבוצה";
     notify(tierMsg);
     // Save to "המוצרים שלי"
     const deal = deals.find(d => d.id === id);
@@ -21492,8 +21475,13 @@ export default function App() {
     } catch { notify("⚠️ דחיית הספק נכשלה — נסה שוב"); }
   };
 
-  // Convert an AI search result into a live deal and navigate to it
-  const handleAddDealFromSearch = (result) => {
+  // Convert an AI search result into a live deal and navigate to it.
+  // The deal is persisted server-side (POST /api/deals): the server dedupes
+  // by productKey so everyone interested in the same product joins ONE deal.
+  // We optimistically render the locally-built deal, then reconcile state
+  // with the server-returned row (its stable server id + dedupe result).
+  // If the POST fails we keep the client-only deal so the UX never breaks.
+  const handleAddDealFromSearch = async (result) => {
     const catMap = { "אלקטרוניקה": 0, "מחשבים": 1, "סמארטפונים": 2, "מכשירי חשמל": 3, "ריהוט": 4 };
     const newDeal = {
       id: Date.now(),
@@ -21528,10 +21516,41 @@ export default function App() {
         }))
         .filter(b => b.amount > 0),
     };
+    // Optimistic insert so the UI responds instantly.
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
     addToMyProducts({ name: result.productName, image: result.image, tier: result._joinTier || "committed", action: "created_deal", catIdx: newDeal.catIdx, price: result.groupPrice || result.marketMin }, result);
     notify("✅ דיל חדש נפתח!");
+
+    // Persist server-side and reconcile with the canonical deal (server id +
+    // dedupe). Resilient: any failure leaves the optimistic client deal in
+    // place so the user never hits a hard break.
+    try {
+      const r = await fetch("/api/deals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newDeal),
+      });
+      if (!r.ok) return;
+      const data = await r.json();
+      const serverDeal = data && data.deal;
+      if (!serverDeal || !serverDeal.id) return;
+      // Replace the optimistic temp-id deal with the server's row. If the
+      // server deduped to an existing deal, this also collapses our temp
+      // deal onto the shared one — no duplicate remains in state.
+      setDeals(prev => {
+        const withoutTemp = prev.filter(d => d.id !== newDeal.id && d.id !== serverDeal.id);
+        // Preserve client-only display fields the server doesn't store,
+        // but let the server be authoritative for id + persisted fields.
+        const merged = { ...newDeal, ...serverDeal };
+        return [merged, ...withoutTemp];
+      });
+      setSelectedDeal(sd => (sd && sd.id === newDeal.id)
+        ? { ...newDeal, ...serverDeal }
+        : sd);
+    } catch {
+      /* offline / server down → keep the optimistic client-only deal */
+    }
   };
   // Add a product from the search page to the community "want list"
   const handleAddCommunity = (product) => {
@@ -22196,8 +22215,9 @@ export default function App() {
 
       {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
-      {showSupplier && <SupplierModal t={t} categories={cats}
-        onSubmit={s=>{setPendingSuppliers(p=>[s,...p]);setShowSupplier(false);notify(t.supplierSent);}}
+      {showSupplier && <SupplierKYCModal
+        onRegistered={s=>{setPendingSuppliers(p=>[s,...p]);}}
+        onSuccess={()=>{setShowSupplier(false);notify(t.supplierSent);}}
         onClose={()=>setShowSupplier(false)}
       />}
       {showOwnerLogin && <OwnerLoginModal t={t} onSuccess={()=>{setOwnerLoggedIn(true);setShowOwnerLogin(false);setMode("owner");}} onClose={()=>setShowOwnerLogin(false)} />}
@@ -22360,19 +22380,33 @@ export default function App() {
             <h2 className="text-xl font-bold text-gray-900 mb-5">{t.activeGroups}</h2>
             {/* Mobile: 2 per row (4 felt cramped for product cards with images +
                   Hebrew names). Tablet 3, desktop 4 — denser than before.    */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-              {deals.slice(0, 8).map(d => (
-                <DealCard
-                  key={d.id} deal={d} lang={lang} t={t}
-                  onClick={() => openDeal(d)}
-                  wishlisted={wishlist.includes(d.id)}
-                  onWishlist={handleWishlist}
-                  onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
-                  demandPools={demandPools}
-                  compact={true}
-                />
-              ))}
-            </div>
+            {deals.length === 0 ? (
+              <div className="text-center py-12 px-6 bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                  <Sparkles className="w-8 h-8 text-indigo-500" />
+                </div>
+                <p className="text-base font-bold text-gray-800 mb-1">עדיין אין קבוצות קנייה פעילות</p>
+                <p className="text-sm text-gray-500 mb-5 max-w-sm mx-auto">היה הראשון לפתוח דרישה — נאסוף קונים נוספים ונביא לך הצעת מחיר מספק.</p>
+                <button onClick={() => setMode("personal")}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-sm hover:from-indigo-700 transition shadow-md active:scale-95">
+                  <Plus className="w-4 h-4" /> פתח דרישה חדשה
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+                {deals.slice(0, 8).map(d => (
+                  <DealCard
+                    key={d.id} deal={d} lang={lang} t={t}
+                    onClick={() => openDeal(d)}
+                    wishlisted={wishlist.includes(d.id)}
+                    onWishlist={handleWishlist}
+                    onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
+                    demandPools={demandPools}
+                    compact={true}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* ── DEMAND POOLS — "קבוצות ביקוש פעילות" ── */}
             {Object.keys(demandPools).length > 0 && (
@@ -22449,6 +22483,7 @@ export default function App() {
               placeholder={t.search}
               onResult={(r) => setSearchResult(r)}
               onWizard={(q, opts) => openCategory(q, opts)}
+              onOpenRequest={() => setMode("personal")}
             />
             {/* ── Premium "Browse by category" CTA — sits right under the
                   search bar so it's the first thing users see on mobile.    */}
@@ -22572,11 +22607,20 @@ export default function App() {
           )}
 
           {filteredDeals.length === 0 ? (
-            <div className="text-center py-24">
-              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Package className="w-8 h-8 text-gray-300" />
+            <div className="text-center py-20 px-6">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-violet-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-8 h-8 text-indigo-500" />
               </div>
-              <p className="text-gray-400 font-medium">לא נמצאו עסקאות</p>
+              <p className="text-base font-bold text-gray-800 mb-1">
+                {catFilter !== null ? "אין קבוצות קנייה פעילות בקטגוריה הזו" : "עדיין אין קבוצות קנייה פעילות"}
+              </p>
+              <p className="text-sm text-gray-500 mb-5 max-w-sm mx-auto">
+                פתח דרישה למוצר שאתה מחפש — נאסוף קונים נוספים ונביא הצעת מחיר מספק.
+              </p>
+              <button onClick={() => setMode("personal")}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-sm hover:from-indigo-700 transition shadow-md active:scale-95">
+                <Plus className="w-4 h-4" /> פתח דרישה חדשה
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

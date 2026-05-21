@@ -73,14 +73,89 @@ function load() {
   //   source: "free"|"zap"|"inventory", zapModelId?, sku?, name, image,
   //   category, brand, basePrice, qty, description, active, createdAt }
   if (!Array.isArray(data.supplierListings)) data.supplierListings = [];
+  // deals: persisted group-buy deals. One deal per productKey — everyone
+  // interested in the same product joins the SAME deal. Shape per item:
+  //   { id, productKey, name{}, desc{}, image, catIdx, marketMin, marketMax,
+  //     groupOffer, discount, participants, maxParticipants, minParticipants,
+  //     daysLeft, specs[], bids[], status, createdAt, updatedAt }
+  if (!Array.isArray(data.deals)) data.deals = [];
   return data;
 }
 
+// ── Atomic + backed-up persist ─────────────────────────────────
+// save() must never leave a half-written / corrupt DB file. We mirror the
+// temp+rename pattern used by the other JSON caches in this repo (zap-db.js,
+// db-sync.js): write to <file>.tmp, fsync, then rename over the real file.
+// Before the rename we copy the current file to <file>.bak (one-deep rolling
+// backup) so a bad write can always be recovered.
 function save(data) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf8");
+  const json = JSON.stringify(data, null, 2);
+  const tmp  = DB_FILE + ".tmp";
+  // Rolling backup: copy the current good file aside before we touch it.
+  try {
+    if (fs.existsSync(DB_FILE)) fs.copyFileSync(DB_FILE, DB_FILE + ".bak");
+  } catch (e) {
+    console.warn(`[DB] backup copy failed (non-fatal): ${e.message}`);
+  }
+  // Write the temp file via a descriptor so we can fsync before closing —
+  // guarantees the bytes are physically flushed before the rename swap.
+  let fd;
+  try {
+    fd = fs.openSync(tmp, "w");
+    fs.writeSync(fd, json, 0, "utf8");
+    try { fs.fsyncSync(fd); } catch (_) { /* best-effort */ }
+    fs.closeSync(fd);
+    fd = undefined;
+  } catch (e) {
+    if (fd !== undefined) { try { fs.closeSync(fd); } catch (_) {} }
+    try { fs.unlinkSync(tmp); } catch (_) {}
+    throw e;
+  }
+  // Windows-safe atomic replace: renameSync over an existing file fails on
+  // Windows, so delete the target first, then rename.
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      try { fs.unlinkSync(DB_FILE); } catch (_) {}
+    }
+    fs.renameSync(tmp, DB_FILE);
+  } catch (e) {
+    // Last resort if rename fails (e.g. cross-device): direct overwrite.
+    fs.writeFileSync(DB_FILE, json, "utf8");
+    try { fs.unlinkSync(tmp); } catch (_) {}
+  }
 }
 
 let _db = load();
+
+// ── Write serialization ────────────────────────────────────────
+// Every public mutating function does load → mutate → save. Node is
+// single-threaded, so a *fully synchronous* mutator can never interleave
+// with another. The danger is a mutator that reads, yields to the event
+// loop, then writes stale state. `_mutate()` wraps the read-modify-write
+// in one synchronous critical section: it loads the freshest snapshot,
+// runs the mutator against it, persists, and returns the mutator's result.
+// Because the whole body runs synchronously with no `await`, two in-flight
+// requests can never read-modify-write the same file concurrently — the
+// second call only starts after the first has fully returned (incl. save).
+// A re-entrancy depth counter lets a mutator that internally calls another
+// mutator-style helper share the single load/save (no nested double-write).
+let _mutateDepth = 0;
+function _mutate(fn) {
+  if (_mutateDepth > 0) {
+    // Re-entrant call — operate on the already-loaded snapshot, the
+    // outermost _mutate() will perform the single save.
+    return fn(_db);
+  }
+  _mutateDepth++;
+  try {
+    _db = load();
+    const out = fn(_db);
+    save(_db);
+    return out;
+  } finally {
+    _mutateDepth--;
+  }
+}
 
 // Auto-increment helper
 function nextId(arr) {
@@ -1425,6 +1500,93 @@ export function buildTasteProfileFromInteractions(userId) {
     interactionCount: events.length,
   };
   return profile;
+}
+
+// ── Deals (persisted group-buy deals) ───────────────────────────
+// One deal per productKey. Everyone interested in the same product joins
+// the SAME deal — that is the group-buy concept. createDeal dedupes by
+// productKey: if a deal with that key already exists it is returned as-is.
+//
+// Server id style mirrors the other string-id collections in this file
+// (notifications, listings, invoices): `d<timestamp>_<rand>` — NOT
+// Date.now() alone, which is collision-prone and was the broken client id.
+function _newDealId() {
+  return `d${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+}
+
+export function createDeal(data = {}) {
+  return _mutate(db => {
+    if (!Array.isArray(db.deals)) db.deals = [];
+    const productKey = data.productKey ? String(data.productKey) : null;
+    // Dedupe by productKey — return the existing group-buy deal so all
+    // interested buyers converge on ONE deal instead of forking duplicates.
+    if (productKey) {
+      const existing = db.deals.find(d => d.productKey && String(d.productKey) === productKey);
+      if (existing) return existing;
+    }
+    const now = new Date().toISOString();
+    const deal = {
+      id:              _newDealId(),
+      productKey,
+      name:            data.name || {},
+      desc:            data.desc || {},
+      image:           data.image || "",
+      catIdx:          Number.isFinite(Number(data.catIdx)) ? Number(data.catIdx) : 0,
+      marketMin:       Number(data.marketMin) || 0,
+      marketMax:       Number(data.marketMax) || 0,
+      groupOffer:      Number(data.groupOffer) || 0,
+      discount:        Number(data.discount) || 0,
+      participants:    Number.isFinite(Number(data.participants)) ? Number(data.participants) : 1,
+      maxParticipants: Number.isFinite(Number(data.maxParticipants)) ? Number(data.maxParticipants) : 50,
+      minParticipants: Number.isFinite(Number(data.minParticipants)) ? Number(data.minParticipants) : 10,
+      daysLeft:        Number.isFinite(Number(data.daysLeft)) ? Number(data.daysLeft) : 14,
+      specs:           Array.isArray(data.specs) ? data.specs : [],
+      bids:            Array.isArray(data.bids) ? data.bids : [],
+      status:          "active",   // active | closed | confirmed | cancelled
+      createdAt:       now,
+      updatedAt:       now,
+    };
+    db.deals.unshift(deal);
+    return deal;
+  });
+}
+
+export function getDeal(id) {
+  _db = load();
+  return (_db.deals || []).find(d => String(d.id) === String(id)) || null;
+}
+
+export function getDealByProductKey(productKey) {
+  if (!productKey) return null;
+  _db = load();
+  return (_db.deals || []).find(d => d.productKey && String(d.productKey) === String(productKey)) || null;
+}
+
+export function listDeals(filterOpts = {}) {
+  _db = load();
+  let rows = _db.deals || [];
+  if (filterOpts.status)   rows = rows.filter(d => (d.status || "active") === filterOpts.status);
+  if (filterOpts.catIdx != null) rows = rows.filter(d => d.catIdx === Number(filterOpts.catIdx));
+  return rows.slice().sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+}
+
+export function updateDeal(id, patch = {}) {
+  return _mutate(db => {
+    if (!Array.isArray(db.deals)) db.deals = [];
+    const deal = db.deals.find(d => String(d.id) === String(id));
+    if (!deal) return null;
+    // Whitelist mutable fields — never let a caller rewrite id/productKey/createdAt.
+    const allowed = [
+      "name", "desc", "image", "catIdx", "marketMin", "marketMax",
+      "groupOffer", "discount", "participants", "maxParticipants",
+      "minParticipants", "daysLeft", "specs", "bids", "status",
+    ];
+    for (const k of allowed) {
+      if (patch[k] !== undefined) deal[k] = patch[k];
+    }
+    deal.updatedAt = new Date().toISOString();
+    return deal;
+  });
 }
 
 export default { load, save };

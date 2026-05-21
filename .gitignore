@@ -12,6 +12,8 @@ build/
 
 # Database & caches (contain user data)
 bundly-db.json
+bundly-db.json.bak
+bundly-db.json.tmp
 product-descriptions-cache.json
 product-images-cache.json
 zap-db.json

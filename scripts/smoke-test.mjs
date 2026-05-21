@@ -40,6 +40,8 @@ const CHECKS = [
   { path: "/api/suggest?q=טלוויזיה",    ok: [200],            label: "suggest" },
   { path: "/api/stripe-public-key",      ok: [200],            label: "stripe key" },
   { path: "/api/wizard-questions?q=מקרר", ok: [200],            label: "wizard questions" },
+  // Persisted deals collection — public, used to hydrate the client on boot
+  { path: "/api/deals",                  ok: [200],            label: "deals list" },
   // Auth-gated → 401 expected (proves the middleware fires)
   { path: "/api/auth/me",                ok: [401],            label: "auth/me (401 expected)" },
   { path: "/api/orders",                 ok: [401],            label: "orders (401 expected)" },
