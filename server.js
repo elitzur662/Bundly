@@ -9873,7 +9873,10 @@ function requireSupplierMatch(req, res, next) {
       const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
       const userEmail = (user?.email || "").toLowerCase().trim();
       if (userEmail) {
-        const suppliers = snap.suppliers || [];
+        // db.js stores the supplier registry under `suppliersRegistry`
+        // (NOT `suppliers`) — reading the wrong key matched 0 suppliers
+        // and 403'd every supplier-dashboard request.
+        const suppliers = snap.suppliersRegistry || [];
         const supplierMatch = suppliers.find(s =>
           (s.email && s.email.toLowerCase() === userEmail) ||
           (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
@@ -9938,7 +9941,7 @@ function _resolveVerifiedSupplier(req) {
     const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
     const userEmail = (user?.email || "").toLowerCase().trim();
     if (!userEmail) return { error: "User email missing", code: 403 };
-    const supplier = (snap.suppliers || []).find(s =>
+    const supplier = (snap.suppliersRegistry || []).find(s =>
       (s.email && s.email.toLowerCase() === userEmail) ||
       (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
     );
@@ -10770,14 +10773,14 @@ app.patch("/api/personal-requests/:id",
       // they specify in the body, never the spoofable offerSupplier display name.
       const reqBodyId = (req.body?.offerSupplierId || "").toString().trim();
       if (!reqBodyId) return res.status(400).json({ error: "Admin must specify offerSupplierId in body" });
-      verifiedSupplier = _prodDb.load().suppliers?.find(s => String(s.id) === reqBodyId);
+      verifiedSupplier = _prodDb.load().suppliersRegistry?.find(s => String(s.id) === reqBodyId);
       if (!verifiedSupplier) return res.status(400).json({ error: "Unknown supplier id" });
     } else if (payload.id != null) {
       const snap = _prodDb.load();
       const user = (snap.users || []).find(u => Number(u.id) === Number(payload.id));
       const userEmail = (user?.email || "").toLowerCase().trim();
       if (!userEmail) return res.status(403).json({ error: "Account has no email — register as a supplier first" });
-      verifiedSupplier = (snap.suppliers || []).find(s =>
+      verifiedSupplier = (snap.suppliersRegistry || []).find(s =>
         (s.email && s.email.toLowerCase() === userEmail) ||
         (s.contactEmail && s.contactEmail.toLowerCase() === userEmail)
       );

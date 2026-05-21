@@ -16,7 +16,11 @@ const _DATA_DIR = process.env.DATA_DIR && fs.existsSync(process.env.DATA_DIR)
 const DB_FILE   = path.join(_DATA_DIR, "bundly-db.json");
 
 // ── Load / persist ──────────────────────────────────────────────
-function load() {
+// Exported: server.js calls `_prodDb.load()` in requireSupplierMatch,
+// _resolveVerifiedSupplier, charge-confirmed and the deal handlers. It was
+// a private function, so every one of those calls threw "_prodDb.load is
+// not a function" — 403ing the whole supplier dashboard.
+export function load() {
   let data;
   try {
     data = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
@@ -1158,7 +1162,7 @@ function _sanitiseStored(s) {
     .replace(/<[^>]*>/g, "")                  // strip all HTML tags
     .replace(/javascript:/gi, "")             // strip javascript: protocol
     .replace(/data:[^;]*;base64/gi, "")       // strip base64 data URLs (can hide payloads)
-    .replace(/[ -]/g, "");   // strip control chars
+    .replace(/[-]/g, "");   // strip control chars
 }
 
 function _buildNotification(supplierId, { type, title, message, dealId = null }) {
