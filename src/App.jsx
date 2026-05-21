@@ -22203,12 +22203,12 @@ export default function App() {
   const _DISAMBIG_VACUUM = {
     question: "איזה סוג שואב אבק אתה מחפש?",
     options: [
-      { label: "שואב אבק רובוטי",     icon: "🤖", desc: "מנקה לבד, Roomba / Roborock / Ecovacs",  query: "רובוטי ניקיון",
+      { label: "רובוטי — מנקה לבד",   icon: "🤖", desc: "אוטונומי לחלוטין: Roomba / Roborock / Ecovacs / Dreame",  query: "שואב אבק רובוטי",
         match: { include: ["robot", "רובוט", "roomba", "roborock", "dreame", "ecovacs", "deebot"],
                  exclude: ["stick", "מקל", "canister", "נגרר"] } },
-      { label: "שואב אבק ידני / אלחוטי", icon: "🧹", desc: "שואב עם מוט, Dyson, Samsung ועוד",      query: "שואב אבק אלחוטי",
-        match: { include: ["מקל", "stick", "cordless", "אלחוטי", "handstick", "dyson v", "upright cordless",
-                 "handheld", "ידני", "hand-held", "hand held"],
+      { label: "עומד / ידני",         icon: "🧹", desc: "שואב מוט שמפעילים ביד: Dyson, Samsung, Bosch ועוד",       query: "שואב אבק עומד אלחוטי",
+        match: { include: ["מקל", "stick", "cordless", "אלחוטי", "handstick", "dyson v", "upright",
+                 "עומד", "handheld", "ידני", "hand-held", "hand held"],
                  exclude: ["robot", "רובוט", "roomba", "roborock", "deebot"] } },
     ],
   };
@@ -22259,6 +22259,7 @@ export default function App() {
     "רמקולים": _DISAMBIG_SPEAKERS, "רמקול": _DISAMBIG_SPEAKERS,
     // ── שואבי אבק ──────────────────────────────────────────────────
     "שואבי אבק": _DISAMBIG_VACUUM, "שואב אבק": _DISAMBIG_VACUUM,
+    "שואבי אבק רובוטיים": _DISAMBIG_VACUUM, "שואב אבק רובוטי": _DISAMBIG_VACUUM,
     // ── בלנדרים ────────────────────────────────────────────────────
     "בלנדרים": _DISAMBIG_BLENDER, "בלנדר": _DISAMBIG_BLENDER,
     // ── מאווררים ────────────────────────────────────────────────────
