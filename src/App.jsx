@@ -12605,6 +12605,40 @@ function isUsableProduct(p) {
   return true;
 }
 
+// ── Model-identity key for de-duplication ───────────────────────────
+// The Israeli catalog (product-db) carries MANY separate ZAP store
+// listings for the *same physical product* — each with its own modelid
+// (→ its own _streamKey) and its own store-uploaded thumbnail. They get
+// normalised to near-identical names that nonetheless differ in Hebrew
+// wording ("שואב אבק רובוטי Dreame X50 Ultra",
+// "‏שואב אבק רובוטי Dreame X50 Ultra יבואן רשמי",
+// "Dreame שואב אבק רובוטי שוטף דרימי דגם X50 ULTRA לבן"). The ONE thing
+// stable across every listing of a product is the Latin brand+model code
+// ("dreame x50 ultra"), so we key on that. Falls back to the cleaned full
+// name for products that carry no Latin tokens at all. dedupKey() lets
+// CategoryResultsPage keep a single representative card per real product
+// instead of rendering a wall of identical-name, mismatched-image cards.
+const _DEDUP_NOISE = /\b(official importer|brand new|sealed|new|warranty|complete pack)\b/gi;
+const _DEDUP_HE_NOISE = /יבואן רשמי|אחריות יבואן|אחריות רשמית|יבוא מקביל|התקנה חינם|משלוח חינם/g;
+const _DEDUP_COLOR = /\b(black|white|grey|gray|silver|gold|golden|blue|red|green|beige|pink|purple|titanium)\b/gi;
+const _DEDUP_HE_COLOR = /(שחור|לבן|אפור|כסוף|זהב|כחול|אדום|ירוק|בז'|ורוד|סגול|צהוב|כתום|חום)/g;
+function dedupKey(p) {
+  let n = cleanName(((p?.nameHe || "") + " " + (p?.nameEn || "")).trim());
+  if (!n) return "";
+  n = n.replace(_DEDUP_HE_NOISE, "").replace(_DEDUP_NOISE, "")
+       .replace(_DEDUP_COLOR, "").replace(_DEDUP_HE_COLOR, "");
+  // Latin tokens = brand + model code. Stable across Hebrew descriptor
+  // wording, so it's the most reliable identity for a physical product.
+  // `+` and `/` are kept INSIDE a token because they distinguish real
+  // sub-models ("S10" vs "S10+", part numbers "99780/1.1" vs "99780/2").
+  // Keep alphanumerics ≥2 chars; drop bare 1-char fragments and pure noise.
+  const latin = (n.toLowerCase().match(/[a-z0-9]+(?:[+/][a-z0-9]+)*\+?/g) || [])
+    .filter(w => w.length >= 2 && !/^(the|and|for|with|new)$/.test(w));
+  if (latin.length >= 2) return latin.join(" ");
+  // No usable Latin model code — fall back to the cleaned, noise-stripped name.
+  return n.toLowerCase().replace(/[^a-z0-9א-ת]+/gi, " ").replace(/\s{2,}/g, " ").trim();
+}
+
 // ─────────────────────────────────────────────────────────────────
 function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFooter, onReSearch, onAddToPool, onDirectJoinPool, onRequestSupplierPrice, demandPools, initialFilters, disambig, onGoHome }) {
   const [allProducts, setAllProducts]   = useState([]);
@@ -13231,6 +13265,59 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         const name = ((p.nameEn || "") + " " + (p.nameHe || "")).toLowerCase();
         return name.includes(selVal.toLowerCase());
       });
+    }
+
+    // ── De-duplicate identical products ──────────────────────────────────
+    // The catalog holds many separate ZAP store listings of the SAME product
+    // (different modelid → different _streamKey, often a different store-
+    // uploaded photo — some genuinely the wrong product type). Without this
+    // step the user sees ~100 identical-name cards, each with a mismatched
+    // image. Collapse every dedupKey() group to ONE representative card.
+    {
+      const groups = new Map(); // dedupKey → array of products
+      const passthrough = [];   // skeletons / un-keyable rows: never merged
+      for (const p of result) {
+        const k = p._phase === "skeleton" ? "" : dedupKey(p);
+        if (!k) { passthrough.push(p); continue; }
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(p);
+      }
+      const deduped = [];
+      for (const grp of groups.values()) {
+        if (grp.length === 1) { deduped.push(grp[0]); continue; }
+        // Representative: the listing with the most populated data — prefer
+        // the highest store count, then a present price, then a present image.
+        const rep = grp.slice().sort((a, b) =>
+          (b.storeCount || 0) - (a.storeCount || 0) ||
+          ((b.priceMin || 0) > 0) - ((a.priceMin || 0) > 0) ||
+          (b.image ? 1 : 0) - (a.image ? 1 : 0) ||
+          (a._zapRank || 999) - (b._zapRank || 999)
+        )[0];
+        // Image: pick the photo that the MOST listings in the group agree on.
+        // A lone wrong-product photo (industrial/handheld vac on a robot
+        // record) is a minority of one and gets outvoted by the correct image.
+        const imgCounts = new Map();
+        for (const g of grp) {
+          if (!g.image) continue;
+          imgCounts.set(g.image, (imgCounts.get(g.image) || 0) + 1);
+        }
+        let bestImg = rep.image || null, bestN = -1;
+        for (const [img, n] of imgCounts) {
+          if (n > bestN) { bestN = n; bestImg = img; }
+        }
+        // Lowest in-budget price across all duplicate listings, widest range.
+        const prices = grp.map(g => g.priceMin || 0).filter(v => v > 0);
+        const maxes  = grp.map(g => g.priceMax || g.priceMin || 0).filter(v => v > 0);
+        deduped.push({
+          ...rep,
+          image:      bestImg,
+          priceMin:   prices.length ? Math.min(...prices) : (rep.priceMin || 0),
+          priceMax:   maxes.length  ? Math.max(...maxes)  : (rep.priceMax || 0),
+          storeCount: Math.max(rep.storeCount || 0, grp.length),
+          _dupCount:  grp.length,
+        });
+      }
+      result = [...passthrough, ...deduped];
     }
 
     if (sortBy === "price-asc") {
