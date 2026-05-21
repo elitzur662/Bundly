@@ -16,7 +16,11 @@ const _DATA_DIR = process.env.DATA_DIR && fs.existsSync(process.env.DATA_DIR)
 const DB_FILE   = path.join(_DATA_DIR, "bundly-db.json");
 
 // ── Load / persist ──────────────────────────────────────────────
-function load() {
+// Exported: server.js calls `_prodDb.load()` in requireSupplierMatch,
+// _resolveVerifiedSupplier, charge-confirmed and the deal handlers. It was
+// a private function, so every one of those calls threw "_prodDb.load is
+// not a function" — 403ing the whole supplier dashboard.
+export function load() {
   let data;
   try {
     data = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
@@ -606,6 +610,17 @@ export function getSupplierByEmail(email) {
   return _db.suppliersRegistry.find(s => s.email?.toLowerCase() === email.toLowerCase()) || null;
 }
 
+// Lookup by business number (ח.פ). Used by the real supplier-login flow:
+// the supplier proves account ownership by their registered ח.פ + an OTP.
+// Comparison strips whitespace/dashes so "51-234567-8" matches "512345678".
+export function getSupplierByBusinessNumber(businessNumber) {
+  _db = load();
+  const norm = v => String(v ?? "").replace(/[\s-]/g, "");
+  const wanted = norm(businessNumber);
+  if (!wanted) return null;
+  return _db.suppliersRegistry.find(s => norm(s.businessNumber) === wanted) || null;
+}
+
 export function updateSupplier(id, fields) {
   _db = load();
   const s = _db.suppliersRegistry.find(x => x.id === Number(id));
@@ -1158,7 +1173,7 @@ function _sanitiseStored(s) {
     .replace(/<[^>]*>/g, "")                  // strip all HTML tags
     .replace(/javascript:/gi, "")             // strip javascript: protocol
     .replace(/data:[^;]*;base64/gi, "")       // strip base64 data URLs (can hide payloads)
-    .replace(/[ -]/g, "");   // strip control chars
+    .replace(/[-]/g, "");   // strip control chars
 }
 
 function _buildNotification(supplierId, { type, title, message, dealId = null }) {
