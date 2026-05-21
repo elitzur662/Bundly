@@ -12390,7 +12390,7 @@ function isUsableProduct(p) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFooter, onReSearch, onAddToPool, onDirectJoinPool, onRequestSupplierPrice, demandPools, initialFilters, onGoHome }) {
+function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFooter, onReSearch, onAddToPool, onDirectJoinPool, onRequestSupplierPrice, demandPools, initialFilters, disambig, onGoHome }) {
   const [allProducts, setAllProducts]   = useState([]);
   const [loading, setLoading]           = useState(true);
   // streamPhase: "searching" → "streaming" (first results visible) → "enriching" (OpenAI running) → "done"
@@ -12446,6 +12446,13 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   // Map: tag-key → selected bucket string. One value per dim (single-select).
   const [selectedAutoDims, setSelectedAutoDims] = useState({});
 
+  // ── Inline sub-category tiles ──────────────────────────────────
+  // Replaces the old blocking disambiguation modal. `disambig` (passed from
+  // App) carries { question, options:[{label,icon,desc,query,match}] }. The
+  // user picks a tile to narrow the ALREADY-LOADED results client-side.
+  // null = "all" (everything shown — the default).
+  const [subCategory, setSubCategory] = useState(null);
+
   // ── Stream products progressively via SSE ────────────────────
   useEffect(() => {
     // cancelled flag: prevents stale SSE callbacks from updating state after
@@ -12471,6 +12478,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     setSelectedGPU(null); setSelectedResolution(null); setSelectedRefreshRate(null);
     setSelectedPanel(null);
     setZapFilterGroups([]); setSelectedZapFilters({});
+    setSubCategory(null); // reset inline sub-category tile selection on new search
 
     const es = new EventSource(`/api/search-products-stream?q=${encodeURIComponent(query)}`);
 
@@ -12750,7 +12758,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     }
 
     // ── Disambiguation subtype filter ─────────────────────────────────────
-    // When the user picked a specific sub-category from the disambiguation modal
+    // When the query string itself encodes a specific sub-category
     // (e.g. "אוזניות over ear"), apply keyword-based include/exclude rules so
     // that unrelated products within the same ZAP SOG are hidden.
     const subtypeRule = QUERY_SUBTYPE_FILTERS[query];
@@ -12760,6 +12768,21 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         const name = ((p.nameEn || "") + " " + (p.nameHe || "")).toLowerCase();
         if (subtypeRule.exclude?.some(kw => name.includes(kw))) return false;
         if (subtypeRule.include) return subtypeRule.include.some(kw => name.includes(kw));
+        return true;
+      });
+    }
+
+    // ── Inline sub-category tile filter ───────────────────────────────────
+    // The user picked a sub-category tile at the top of the results page.
+    // `subCategory` holds the chosen option's `match` ({include,exclude}).
+    // Narrows the already-loaded results client-side — no re-search.
+    if (subCategory?.match) {
+      const { include, exclude } = subCategory.match;
+      result = result.filter(p => {
+        if (p._phase === "skeleton") return true; // keep loading skeletons
+        const name = ((p.nameEn || "") + " " + (p.nameHe || "")).toLowerCase();
+        if (exclude?.some(kw => name.includes(kw))) return false;
+        if (include?.length) return include.some(kw => name.includes(kw));
         return true;
       });
     }
@@ -13010,7 +13033,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   }, [withGroupBuy, priceMin, priceMax, selectedBrands, sortBy, refineTermFilters,
       selectedStorage, selectedColor, selectedScreenSize,
       selectedCPU, selectedRAM, selectedOS, selectedGPU, selectedResolution, selectedRefreshRate,
-      selectedPanel, selectedZapFilters]);
+      selectedPanel, selectedZapFilters, subCategory]);
 
   // ── Build smart filter dimensions (must be after withGroupBuy + displayProducts) ──
   // ── Per-SOG allowlist for filter dims ───────────────────────────────
@@ -13679,7 +13702,8 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     || selectedCPU || selectedRAM || selectedOS || selectedGPU || selectedResolution || selectedRefreshRate
     || selectedPanel
     || Object.values(selectedZapFilters).some(Boolean)
-    || Object.values(selectedAutoDims).some(Boolean));
+    || Object.values(selectedAutoDims).some(Boolean)
+    || !!subCategory);
   const clearFilters = () => {
     setPriceMin(""); setPriceMax(""); setSelectedBrands([]); setSortBy("popular");
     setRefineTermFilters({}); setRefineAnswers({}); setRefineIdx(0); setRefineReady(true);
@@ -13689,6 +13713,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     setSelectedPanel(null);
     setSelectedZapFilters({});
     setSelectedAutoDims({});
+    setSubCategory(null); // reset inline sub-category tile back to "הכל"
   };
 
   const toggleBrand = brand =>
@@ -13751,7 +13776,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   useEffect(() => { setCurrentPage(1); }, [priceMin, priceMax, selectedBrands, sortBy, refineTermFilters,
     selectedStorage, selectedColor, selectedScreenSize, selectedCPU, selectedRAM,
     selectedOS, selectedGPU, selectedResolution, selectedRefreshRate, selectedPanel, selectedZapFilters,
-    selectedAutoDims]);
+    selectedAutoDims, subCategory]);
 
   // Eagerly preload images for the CURRENT page (no delay) and for the
   // NEXT page after a short delay. When the user jumps directly to a page,
@@ -14236,6 +14261,56 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           )}
         </div>
       </div>
+
+      {/* ── Sub-category tiles — inline replacement for the old disambiguation modal ──
+          Replaces the blocking "what kind of X?" pop-up. ALL results load first;
+          tapping a tile narrows the loaded list client-side (no re-search).
+          "הכל" tile (selected by default) shows everything. */}
+      {disambig?.options?.length > 0 && allProducts.length > 0 && (
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="flex items-center gap-2.5 overflow-x-auto pb-0.5" style={{ scrollbarWidth: "none" }}>
+              {/* "הכל" tile — resets to all results */}
+              {(() => {
+                const isAll = !subCategory;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => setSubCategory(null)}
+                    className={`flex-shrink-0 flex flex-col items-center justify-center gap-1 w-[88px] h-[88px] rounded-2xl border-2 transition-all ${
+                      isAll
+                        ? "bg-gradient-to-br from-indigo-600 to-violet-600 border-indigo-600 text-white shadow-lg shadow-indigo-200/70"
+                        : "bg-white border-gray-200 text-gray-600 hover:border-indigo-300 hover:bg-indigo-50"
+                    }`}
+                  >
+                    <span className="text-2xl leading-none">🛍️</span>
+                    <span className="text-xs font-bold leading-tight text-center px-1">הכל</span>
+                  </button>
+                );
+              })()}
+              {disambig.options.map(opt => {
+                const isSel = subCategory?.query === opt.query;
+                return (
+                  <button
+                    key={opt.query}
+                    type="button"
+                    onClick={() => setSubCategory(isSel ? null : opt)}
+                    title={opt.desc || opt.label}
+                    className={`flex-shrink-0 flex flex-col items-center justify-center gap-1 w-[88px] h-[88px] rounded-2xl border-2 transition-all ${
+                      isSel
+                        ? "bg-gradient-to-br from-indigo-600 to-violet-600 border-indigo-600 text-white shadow-lg shadow-indigo-200/70"
+                        : "bg-white border-gray-200 text-gray-600 hover:border-indigo-300 hover:bg-indigo-50"
+                    }`}
+                  >
+                    <span className="text-2xl leading-none">{opt.icon}</span>
+                    <span className="text-xs font-bold leading-tight text-center px-1">{opt.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Smart Filter Bar — all filters visible as chip buttons ── */}
       {allProducts.length > 0 && smartFilterDims.length > 0 && (
@@ -21331,7 +21406,8 @@ export default function App() {
   const [finderInitialState, setFinderInitialState] = useState(null); // saved state for "back to results"
   const [categoryQuery, setCategoryQuery] = useState(null); // string — triggers CategoryResultsPage (new flow)
   const [categoryInitialFilters, setCategoryInitialFilters] = useState(null); // {priceMax, priceMin, brands} from advisor
-  const [disambigModal, setDisambigModal] = useState(null); // { question, options:[{label,icon,desc,query}] }
+  const [categoryDisambig, setCategoryDisambig] = useState(null); // {question,options:[{label,icon,desc,query,match}]} — inline sub-category tiles
+  const [disambigModal, setDisambigModal] = useState(null); // legacy — kept for back/overlay refs; never set (inline tiles replaced the modal)
   const [showCategoryBrowse, setShowCategoryBrowse] = useState(false);
   const [communityProducts, setCommunityProducts] = useState([]); // products users want as group buys
 
@@ -21847,8 +21923,8 @@ export default function App() {
     window.addEventListener("bundly:auth-expired", handler);
     return () => window.removeEventListener("bundly:auth-expired", handler);
   }, [user]);
-  const goHome = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setMode("home"); };
-  const goToMyProducts = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setMode("myproducts"); };
+  const goHome = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); setMode("home"); };
+  const goToMyProducts = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); setMode("myproducts"); };
 
   // ── Enter the supplier area — single shared exit-from-customer-context
   //    handler. Routed by EVERY supplier-entry button (navbar, footer,
@@ -21864,6 +21940,7 @@ export default function App() {
     setSearchResult(null);
     setCategoryQuery(null);
     setCategoryInitialFilters(null);
+    setCategoryDisambig(null);
     setDisambigModal(null);
     setJoinPoolModal(null);
     setShowCategoryBrowse(false);
@@ -21894,7 +21971,7 @@ export default function App() {
     if (disambigModal)         { setDisambigModal(null); return; }
     if (selectedDeal)          { setSelectedDeal(null); return; }
     if (searchResult)          { setSearchResult(null); return; }
-    if (categoryQuery)         { setCategoryQuery(null); setCategoryInitialFilters(null); return; }
+    if (categoryQuery)         { setCategoryQuery(null); setCategoryInitialFilters(null); setCategoryDisambig(null); return; }
     if (mode !== "home")       { setMode("home"); return; }
   }, [showAuth, showCategoryBrowse, joinPoolModal, disambigModal, selectedDeal, searchResult, categoryQuery, mode]);
 
@@ -22002,7 +22079,7 @@ export default function App() {
       if (joinPoolModal)       { setJoinPoolModal(null); return; }
       if (disambigModal)       { setDisambigModal(null); return; }
       if (searchResult)        { setSearchResult(null); return; }
-      if (categoryQuery)       { setCategoryQuery(null); setCategoryInitialFilters(null); return; }
+      if (categoryQuery)       { setCategoryQuery(null); setCategoryInitialFilters(null); setCategoryDisambig(null); return; }
       const { mode: m, productKey } = parsePath(window.location.pathname);
       if (productKey) { resolveProductKey(productKey); }
       else            { setSelectedDeal(null); setMode(m || "home"); }
@@ -22062,65 +22139,112 @@ export default function App() {
 
   const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
 
-  // ── Query disambiguation: some generic queries need sub-category selection first ──
+  // ── Query disambiguation: some generic queries have sub-categories ──
+  // No longer a blocking modal. Each option carries a self-contained `match`
+  // ({ include, exclude } keyword lists, lowercase) so CategoryResultsPage can
+  // render inline filter tiles and narrow the already-loaded results CLIENT-SIDE.
+  // include: product name must contain AT LEAST ONE keyword (OR). exclude: NONE.
   const _DISAMBIG_TOASTER = {
     question: "איזה סוג טוסטר אתה מחפש?",
     options: [
-      { label: "טוסטר לחיצה", icon: "🥪", desc: "לכריכים, בגטים ולחמניות",        query: "טוסטר לחיצה" },
-      { label: "טוסטר אובן",  icon: "🍕", desc: "לפיצות, פשטידות, קינוחים ועוד", query: "טוסטר אובן"  },
+      { label: "טוסטר לחיצה", icon: "🥪", desc: "לכריכים, בגטים ולחמניות",        query: "טוסטר לחיצה",
+        match: { include: ["sandwich", "press", "panini", "grill toaster", "כריך", "לחיצה", "טוסטר לחיצה"],
+                 exclude: ["oven", "אובן", "convection", "toaster oven"] } },
+      { label: "טוסטר אובן",  icon: "🍕", desc: "לפיצות, פשטידות, קינוחים ועוד", query: "טוסטר אובן",
+        match: { include: ["oven", "אובן", "convection", "toaster oven", "מיני אובן"],
+                 exclude: ["sandwich", "press", "panini", "לחיצה"] } },
     ],
   };
   const _DISAMBIG_HEADPHONES = {
     question: "איזה סוג אוזניות אתה מחפש?",
     options: [
-      { label: "אוזניות Over-Ear",    icon: "🎧", desc: "כריות גדולות, ANC, לאיכות שמע מקסימלית",         query: "אוזניות over ear"       },
-      { label: "אוזניות In-Ear / TWS", icon: "🎵", desc: "אוזניות אלחוטיות קטנות כמו AirPods",               query: "אוזניות tws אלחוטיות"  },
-      { label: "אוזניות גיימינג",       icon: "🎮", desc: "עם מיקרופון, לפלייסטיישן, Xbox ומחשב",            query: "אוזניות גיימינג"        },
+      { label: "אוזניות Over-Ear",    icon: "🎧", desc: "כריות גדולות, ANC, לאיכות שמע מקסימלית",         query: "אוזניות over ear",
+        match: { exclude: ["buds", "true wireless", "tws", " wf-", "wf ", "earbuds", "earbud",
+                 "sm-r", "galaxy buds", "airpods pro", "airpods 4", "airpods 3",
+                 "airpods 2", "airpods 1", "jabra evolve", "in-ear", "inear"] } },
+      { label: "אוזניות In-Ear / TWS", icon: "🎵", desc: "אוזניות אלחוטיות קטנות כמו AirPods",               query: "אוזניות tws אלחוטיות",
+        match: { include: ["buds", "true wireless", "tws", "wf-", "sm-r", "earbuds", "earbud",
+                 "airpods pro", "galaxy buds", "freebuds", "freeclip", "in-ear"],
+                 exclude: ["airpods max", "wh-", "wh1000", "quietcomfort", "headphone", "over-ear"] } },
+      { label: "אוזניות גיימינג",       icon: "🎮", desc: "עם מיקרופון, לפלייסטיישן, Xbox ומחשב",            query: "אוזניות גיימינג",
+        match: { include: ["gaming", "headset", "hs", "arctis", "cloud ", "virtuoso", "g pro",
+                 "g435", "g535", "g733", "g935", "razer", "blackshark", "kraken",
+                 "tiamat", "fusion", "astro", "steelseries", "corsair hs"] } },
     ],
   };
   const _DISAMBIG_COFFEE = {
     question: "איזה סוג מכונת קפה אתה מחפש?",
     options: [
-      { label: "מכונת קפסולות",     icon: "☕", desc: "Nespresso, Dolce Gusto — פשוטה ומהירה",   query: "מכונת קפה קפסולות"    },
-      { label: "מכונת אספרסו אוטומטית", icon: "🫘", desc: "טוחנת פולים, מכינה חלב — מקצועית לבית", query: "מכונת קפה אוטומטית"   },
-      { label: "מכונת פילטר / מטפטפת",  icon: "🫗", desc: "קפה אמריקאי, כמויות גדולות לבית/משרד",   query: "מכונת קפה מטפטפת"     },
+      { label: "מכונת קפסולות",     icon: "☕", desc: "Nespresso, Dolce Gusto — פשוטה ומהירה",   query: "מכונת קפה קפסולות",
+        match: { include: ["nespresso", "capsule", "pod", "dolce gusto", "vertuo", "קפסול", "tassimo"] } },
+      { label: "מכונת אספרסו אוטומטית", icon: "🫘", desc: "טוחנת פולים, מכינה חלב — מקצועית לבית", query: "מכונת קפה אוטומטית",
+        match: { include: ["automatic", "super automatic", "bean to cup", "full auto",
+                 "automat", "automata", "superautomatic", "vollautomat"],
+                 exclude: ["nespresso", "capsule", "pod", "dolce", "drip", "filter coffee", "tassimo"] } },
+      { label: "מכונת פילטר / מטפטפת",  icon: "🫗", desc: "קפה אמריקאי, כמויות גדולות לבית/משרד",   query: "מכונת קפה מטפטפת",
+        match: { include: ["drip", "filter", "pour over", "מטפטפת", "filter coffee",
+                 "coffee maker", "coffee machine drip"],
+                 exclude: ["nespresso", "capsule", "espresso", "automatic"] } },
     ],
   };
   const _DISAMBIG_SPEAKERS = {
     question: "איזה סוג רמקול אתה מחפש?",
     options: [
-      { label: "רמקול נייד (Bluetooth)", icon: "📻", desc: "לים, לטיולים, לחוץ — אלחוטי ועמיד",     query: "רמקולים ניידים"  },
-      { label: "רמקול לבית (Hi-Fi)",     icon: "🔊", desc: "שולחני, מדפי ביתי — לאיכות שמע גבוהה", query: "רמקולים לבית"    },
+      { label: "רמקול נייד (Bluetooth)", icon: "📻", desc: "לים, לטיולים, לחוץ — אלחוטי ועמיד",     query: "רמקולים ניידים",
+        match: { include: ["portable", "bluetooth", "נייד", "wireless speaker", "jbl", "flip", "charge",
+                 "go ", "clip", "boombox", "soundlink", "wonderboom", "party"],
+                 exclude: ["soundbar", "סאונדבר", "hi-fi", "bookshelf", "מדף", "tower speaker"] } },
+      { label: "רמקול לבית (Hi-Fi)",     icon: "🔊", desc: "שולחני, מדפי ביתי — לאיכות שמע גבוהה", query: "רמקולים לבית",
+        match: { include: ["hi-fi", "hifi", "bookshelf", "מדף", "ביתי", "shelf", "tower speaker",
+                 "studio monitor", "floor standing", "מדפי", "שולחני"],
+                 exclude: ["portable", "נייד", "flip", "clip", "boombox", "wonderboom"] } },
     ],
   };
   const _DISAMBIG_VACUUM = {
     question: "איזה סוג שואב אבק אתה מחפש?",
     options: [
-      { label: "שואב אבק רובוטי",     icon: "🤖", desc: "מנקה לבד, Roomba / Roborock / Ecovacs",  query: "רובוטי ניקיון"          },
-      { label: "שואב אבק ידני / אלחוטי", icon: "🧹", desc: "שואב עם מוט, Dyson, Samsung ועוד",      query: "שואב אבק אלחוטי"       },
+      { label: "שואב אבק רובוטי",     icon: "🤖", desc: "מנקה לבד, Roomba / Roborock / Ecovacs",  query: "רובוטי ניקיון",
+        match: { include: ["robot", "רובוט", "roomba", "roborock", "dreame", "ecovacs", "deebot"],
+                 exclude: ["stick", "מקל", "canister", "נגרר"] } },
+      { label: "שואב אבק ידני / אלחוטי", icon: "🧹", desc: "שואב עם מוט, Dyson, Samsung ועוד",      query: "שואב אבק אלחוטי",
+        match: { include: ["מקל", "stick", "cordless", "אלחוטי", "handstick", "dyson v", "upright cordless",
+                 "handheld", "ידני", "hand-held", "hand held"],
+                 exclude: ["robot", "רובוט", "roomba", "roborock", "deebot"] } },
     ],
   };
   const _DISAMBIG_BLENDER = {
     question: "איזה סוג בלנדר אתה מחפש?",
     options: [
-      { label: "בלנדר שולחני",      icon: "🥤", desc: "קנקן קשיח, Vitamix / NutriBullet — לשייקים וסמות'י", query: "בלנדר שולחני"  },
-      { label: "בלנדר יד (צלליל)", icon: "🫙", desc: "נוח לסירים, ידני, מיני — לפירה ומרקים",             query: "בלנדר יד"       },
+      { label: "בלנדר שולחני",      icon: "🥤", desc: "קנקן קשיח, Vitamix / NutriBullet — לשייקים וסמות'י", query: "בלנדר שולחני",
+        match: { exclude: ["stick", "hand blender", "immersion", "מקל", "hand-blender"] } },
+      { label: "בלנדר יד (צלליל)", icon: "🫙", desc: "נוח לסירים, ידני, מיני — לפירה ומרקים",             query: "בלנדר יד",
+        match: { include: ["stick", "hand", "immersion", "מקל", "hand blender", "hand-blender", "מוט"] } },
     ],
   };
   const _DISAMBIG_FAN = {
     question: "איזה סוג מאוורר אתה מחפש?",
     options: [
-      { label: "מאוורר עמוד",   icon: "🌬️", desc: "גבוה, ניתן לכוון, מתאים לחדר שינה וסלון",   query: "מאוורר עמוד"    },
-      { label: "מאוורר שולחני", icon: "💨",  desc: "קטן ונוח, לשולחן עבודה ולחדר קטן",           query: "מאוורר שולחני"  },
-      { label: "מאוורר תקרה",   icon: "🔄", desc: "מותקן בתקרה, מחזר אוויר לאורך כל השנה",       query: "מאוורר תקרה"    },
+      { label: "מאוורר עמוד",   icon: "🌬️", desc: "גבוה, ניתן לכוון, מתאים לחדר שינה וסלון",   query: "מאוורר עמוד",
+        match: { include: ["tower", "stand", "column", "עמוד", "pedestal"],
+                 exclude: ["ceiling", "תקרה", "desk", "table", "mini"] } },
+      { label: "מאוורר שולחני", icon: "💨",  desc: "קטן ונוח, לשולחן עבודה ולחדר קטן",           query: "מאוורר שולחני",
+        match: { include: ["desk", "table", "mini", "שולחן", "שולחני", "personal", "usb fan", "small"],
+                 exclude: ["tower", "stand", "column", "ceiling", "תקרה", "עמוד"] } },
+      { label: "מאוורר תקרה",   icon: "🔄", desc: "מותקן בתקרה, מחזר אוויר לאורך כל השנה",       query: "מאוורר תקרה",
+        match: { include: ["ceiling", "תקרה"] } },
     ],
   };
   const _DISAMBIG_HOB = {
     question: "איזה סוג כיריים אתה מחפש?",
     options: [
-      { label: "כיריים אינדוקציה", icon: "⚡", desc: "חסכוניות, בטוחות, שולחן זכוכית חלק",       query: "כיריים אינדוקציה"  },
-      { label: "כיריים גז",         icon: "🔥", desc: "להבה אמיתית, שליטה מיידית בחום",            query: "כיריים גז"         },
-      { label: "כיריים חשמליות",    icon: "🫕", desc: "פלטה חשמלית, זולה יותר לרכישה",            query: "כיריים חשמליות"    },
+      { label: "כיריים אינדוקציה", icon: "⚡", desc: "חסכוניות, בטוחות, שולחן זכוכית חלק",       query: "כיריים אינדוקציה",
+        match: { include: ["induction", "אינדוקציה", "induktion"] } },
+      { label: "כיריים גז",         icon: "🔥", desc: "להבה אמיתית, שליטה מיידית בחום",            query: "כיריים גז",
+        match: { include: ["gas", "גז", "lpg", "natural gas"],
+                 exclude: ["induction", "אינדוקציה"] } },
+      { label: "כיריים חשמליות",    icon: "🫕", desc: "פלטה חשמלית, זולה יותר לרכישה",            query: "כיריים חשמליות",
+        match: { include: ["electric", "ceramic", "radiant", "halogen", "חשמל"],
+                 exclude: ["induction", "אינדוקציה", "gas", "גז"] } },
     ],
   };
 
@@ -22165,12 +22289,15 @@ export default function App() {
       // Fallback: open category search if direct search fails
     }
 
-    const disambig = QUERY_DISAMBIGUATION[normalized];
-    if (disambig) { setDisambigModal(disambig); return; }
+    // Disambiguation: do NOT block with a modal. Go straight to the full
+    // category results and pass the sub-category options through so the
+    // results page can render inline filter tiles (client-side narrowing).
+    const disambig = QUERY_DISAMBIGUATION[normalized] || null;
+    setCategoryDisambig(disambig);
     setCategoryInitialFilters(opts.filters || null);
     setCategoryQuery(normalized);
   };
-  const closeCategory = () => { setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); };
+  const closeCategory = () => { setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); };
 
   if (selectedDeal) {
     // Prefer reference match first (handles the case where two deals briefly
@@ -22192,57 +22319,6 @@ export default function App() {
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
         {universalBackBtn}
-      </div>
-    );
-  }
-
-// ── Disambiguation modal — shown before CategoryResultsPage when query is ambiguous ──
-  if (disambigModal) {
-    return (
-      <div dir={t.dir} className="min-h-screen bg-gray-50">
-        <Navbar {...navProps} setMode={m => { setDisambigModal(null); setMode(m); }} />
-        {/* Full-screen overlay */}
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.45)" }}>
-          <div
-            className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden"
-            style={{ animation: "fadeSlideUp 0.22s cubic-bezier(.22,.68,0,1.2) both" }}
-          >
-            <style>{`@keyframes fadeSlideUp { from { opacity:0; transform:translateY(28px) scale(0.96); } to { opacity:1; transform:none; } }`}</style>
-            {/* Header */}
-            <div className="px-6 pt-6 pb-4 text-center border-b border-gray-100">
-              <p className="text-lg font-bold text-gray-800">{disambigModal.question}</p>
-              <p className="text-xs text-gray-400 mt-1">בחר קטגוריה כדי לראות מוצרים רלוונטיים</p>
-            </div>
-            {/* Options */}
-            <div className="flex flex-col gap-3 p-5">
-              {disambigModal.options.map(opt => (
-                <button
-                  key={opt.query}
-                  type="button"
-                  onClick={() => { setDisambigModal(null); setCategoryQuery(opt.query); }}
-                  className="flex items-center gap-4 w-full text-right px-4 py-4 rounded-2xl border-2 border-gray-100 bg-gray-50 hover:border-indigo-400 hover:bg-indigo-50 transition-all group"
-                >
-                  <span className="text-3xl shrink-0">{opt.icon}</span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-800 group-hover:text-indigo-700 text-sm">{opt.label}</p>
-                    {opt.desc && <p className="text-xs text-gray-400 mt-0.5">{opt.desc}</p>}
-                  </div>
-                  <span className="text-gray-300 group-hover:text-indigo-400 text-lg shrink-0">›</span>
-                </button>
-              ))}
-            </div>
-            {/* Cancel */}
-            <div className="px-5 pb-5">
-              <button
-                type="button"
-                onClick={() => setDisambigModal(null)}
-                className="w-full py-2.5 rounded-2xl text-sm text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
-              >
-                ביטול
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -22275,6 +22351,7 @@ export default function App() {
           onRequestSupplierPrice={handleRequestSupplierPrice}
           demandPools={demandPools}
           initialFilters={categoryInitialFilters}
+          disambig={categoryDisambig}
           onGoHome={goHome}
         />
         {/* SearchResultModal overlays CategoryResultsPage; back returns to it */}
