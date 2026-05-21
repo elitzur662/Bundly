@@ -111,7 +111,7 @@ let getAutomationFlag, setAutomationFlag;
 let listSupplierListings, listAllActiveListings, createSupplierListing, updateSupplierListing, deleteSupplierListing;
 let createDeal, getDeal, getDealByProductKey, listDeals, updateDeal;
 let sendOtpSms, normalizePhone, sendSupplierOfferSms;
-let sendWelcomeEmail, sendSupplierOfferEmail;
+let sendWelcomeEmail, sendSupplierOfferEmail, sendOtpEmail;
 let AUTH_READY = false;
 
 try {
@@ -135,7 +135,7 @@ try {
     createDeal, getDeal, getDealByProductKey, listDeals, updateDeal,
   } = db);
   const emailMod  = await import("./email-service.js");
-  ({ sendWelcomeEmail, sendSupplierOfferEmail } = emailMod);
+  ({ sendWelcomeEmail, sendSupplierOfferEmail, sendOtpEmail } = emailMod);
   const smsMod    = await import("./sms-service.js");
   ({ sendOtpSms, normalizePhone, sendSupplierOfferSms } = smsMod);
   // Attach extras so they're callable below without re-destructuring
@@ -10494,6 +10494,213 @@ app.post("/api/auth/demo-supplier-login",
       // there's no information-disclosure concern.
       res.status(500).json({ error: `Demo login failed: ${e.message || "unknown"}` });
     }
+  } : notReady);
+
+// ─────────────────────────────────────────────────────────────────
+// REAL SUPPLIER LOGIN — ח.פ (business number) + OTP to a registered
+// contact channel.
+//
+// SECURITY: This replaces the old "instant connect" hole where the
+// landing-page "כבר רשומים? התחברו" button routed straight into the
+// supplier dashboard with no proof of account ownership. A supplier
+// must now prove BOTH:
+//   1. They know the supplier record's businessNumber (ח.פ).
+//   2. They control the email/phone REGISTERED on that supplier record
+//      — proven by a one-time code delivered to that exact channel.
+//
+// We never reveal WHICH field was wrong (ח.פ vs contact) — a generic
+// failure prevents an attacker from enumerating valid ח.פ values or
+// confirming a supplier's contact details.
+//
+// Two helpers below resolve a supplier from a (businessNumber, contact)
+// pair WITHOUT trusting which one the caller got right.
+function _normContact(raw) {
+  return String(raw ?? "").trim();
+}
+// Returns the supplier ONLY when businessNumber matches a record AND the
+// supplied contact matches that same record's registered email or phone.
+// `channel` is "sms" | "email" — derived from the contact's shape — and is
+// what we use to decide where to send the OTP. `otpKey` is the exact string
+// the OTP is stored/verified under (saveOtp/verifyOtp are keyed by an
+// arbitrary string, so the normalized phone or lower-cased email both work).
+function _resolveSupplierLoginTarget(businessNumber, contact) {
+  if (!_prodDb || typeof _prodDb.getSupplierByBusinessNumber !== "function") {
+    return { error: "DB not ready", code: 503 };
+  }
+  const bn = String(businessNumber ?? "").replace(/[\s-]/g, "");
+  if (!bn || !/^\d{5,15}$/.test(bn)) return { generic: true };
+  const c = _normContact(contact);
+  if (!c || c.length > 120) return { generic: true };
+
+  const supplier = _prodDb.getSupplierByBusinessNumber(bn);
+  if (!supplier) return { generic: true };
+
+  // Does `contact` match the supplier's registered email or phone?
+  const isEmail = c.includes("@");
+  if (isEmail) {
+    if (!validateEmail(c)) return { generic: true };
+    const supEmail = String(supplier.email || "").trim().toLowerCase();
+    if (!supEmail || supEmail !== c.toLowerCase()) return { generic: true };
+    return { supplier, channel: "email", otpKey: c.toLowerCase(), display: c };
+  }
+  // Otherwise treat as a phone number.
+  if (!validatePhone(c)) return { generic: true };
+  const normalized = normalizePhone(c);
+  const supPhone = supplier.phone ? normalizePhone(supplier.phone) : "";
+  if (!supPhone || supPhone !== normalized) return { generic: true };
+  return { supplier, channel: "sms", otpKey: normalized, display: normalized };
+}
+
+// POST /api/auth/supplier-login/start — body { businessNumber, contact }.
+// Sends a one-time code to the supplier's registered email or phone IF
+// (and only if) the ח.פ + contact pair resolves to a real supplier.
+app.post("/api/auth/supplier-login/start",
+  rateLimit({ windowMs: 60_000, max: 5, label: "supplier-login-start" }),
+  AUTH_READY ? async (req, res) => {
+    const { businessNumber, contact } = req.body || {};
+    if (!businessNumber || !contact) {
+      return res.status(400).json({ error: "יש להזין ח.פ ופרטי קשר" });
+    }
+    // Generic error reused for every "no match" case so an attacker can't
+    // tell whether the ח.פ exists or the contact was wrong.
+    const GENERIC = "ח.פ או פרטי קשר שגויים. ודא שהפרטים תואמים לחשבון הספק הרשום.";
+    const target = _resolveSupplierLoginTarget(businessNumber, contact);
+    if (target.error) return res.status(target.code).json({ error: target.error });
+    if (target.generic || !target.supplier) {
+      audit("SUPPLIER_LOGIN_START_FAIL", req, { businessNumber: String(businessNumber).slice(0, 20) });
+      recordSuspicious(req.ip, "auth");
+      return res.status(401).json({ error: GENERIC });
+    }
+    // Per-channel OTP-send rate limit (mirrors the customer flow).
+    if (!checkOtpRateLimit(target.otpKey, req.ip)) {
+      return res.status(429).json({ error: "יותר מדי בקשות — נסה שוב בעוד שעה" });
+    }
+    // CSPRNG 6-digit code — same generator as the customer OTP path.
+    const code = String(_secureRandomInt(100000, 1_000_000));
+    saveOtp(target.otpKey, code);
+
+    try {
+      if (target.channel === "sms") {
+        if (!process.env.TWILIO_SID) {
+          if (process.env.NODE_ENV === "production") {
+            return res.status(503).json({ error: "SMS service unavailable" });
+          }
+          // Dev only — surface the code so local QA can complete the flow.
+          return res.json({ ok: true, channel: "sms", devCode: code });
+        }
+        const result = await sendOtpSms(target.otpKey, code);
+        if (!result || result.ok !== true) {
+          return res.status(502).json({ error: "שגיאה בשליחת SMS — נסה/י שוב" });
+        }
+      } else {
+        if (!process.env.EMAIL_USER) {
+          if (process.env.NODE_ENV === "production") {
+            return res.status(503).json({ error: "Email service unavailable" });
+          }
+          // Dev only — surface the code so local QA can complete the flow.
+          return res.json({ ok: true, channel: "email", devCode: code });
+        }
+        // sendOtpEmail swallows its own errors; best-effort send.
+        await sendOtpEmail(target.display, code);
+      }
+    } catch (e) {
+      console.error("[supplier-login/start] send error:", e.message);
+      return res.status(502).json({ error: "שגיאה בשליחת הקוד — נסה/י שוב" });
+    }
+    audit("SUPPLIER_LOGIN_OTP_SENT", req, { supplierId: target.supplier.id, channel: target.channel });
+    res.json({ ok: true, channel: target.channel });
+  } : notReady);
+
+// POST /api/auth/supplier-login/verify — body { businessNumber, contact, otp }.
+// Verifies the OTP, confirms KYC-approval, then issues a JWT for the
+// supplier's backing user — exact same shape as /api/auth/demo-supplier-login
+// so the client login handling is shared.
+app.post("/api/auth/supplier-login/verify",
+  rateLimit({ windowMs: 60_000, max: 5, label: "supplier-login-verify" }),
+  AUTH_READY ? async (req, res) => {
+    const { businessNumber, contact, otp } = req.body || {};
+    if (!businessNumber || !contact || !otp) {
+      return res.status(400).json({ error: "יש להזין ח.פ, פרטי קשר וקוד" });
+    }
+    const GENERIC = "ח.פ או פרטי קשר שגויים. ודא שהפרטים תואמים לחשבון הספק הרשום.";
+    const target = _resolveSupplierLoginTarget(businessNumber, contact);
+    if (target.error) return res.status(target.code).json({ error: target.error });
+    if (target.generic || !target.supplier) {
+      audit("SUPPLIER_LOGIN_VERIFY_FAIL", req, { reason: "no-match" });
+      recordSuspicious(req.ip, "auth");
+      return res.status(401).json({ error: GENERIC });
+    }
+    // Per-contact lockout — reuse the customer OTP failure tracker.
+    if (_isOtpLocked(target.otpKey)) {
+      audit("SUPPLIER_LOGIN_LOCKED", req, { supplierId: target.supplier.id });
+      recordSuspicious(req.ip, "auth");
+      return res.status(429).json({ error: "החשבון ננעל זמנית עקב ריבוי ניסיונות" });
+    }
+    // OTPs are issued as exactly 6 digits.
+    if (typeof otp !== "string" || !/^\d{6}$/.test(otp)) {
+      _trackOtpFailure(target.otpKey);
+      return res.status(400).json({ error: "קוד שגוי" });
+    }
+    const check = verifyOtp(target.otpKey, otp);
+    if (!check.ok) {
+      const lock = _trackOtpFailure(target.otpKey);
+      audit("SUPPLIER_LOGIN_OTP_FAIL", req, { supplierId: target.supplier.id, reason: check.reason });
+      recordSuspicious(req.ip, "auth");
+      return res.status(400).json({
+        error: check.reason === "expired" ? "הקוד פג תוקף — בקש קוד חדש" : (lock.locked ? "החשבון ננעל זמנית" : "קוד שגוי"),
+      });
+    }
+    _clearOtpFailures(target.otpKey);
+
+    // OTP proven. Re-read the supplier (fresh) and enforce KYC approval.
+    const supplier = _prodDb.getSupplier
+      ? (_prodDb.getSupplier(target.supplier.id) || target.supplier)
+      : target.supplier;
+    const kyc = (supplier.kycStatus || "").toLowerCase();
+    if (kyc !== "approved") {
+      audit("SUPPLIER_LOGIN_KYC_BLOCKED", req, { supplierId: supplier.id, status: kyc || "pending" });
+      return res.status(403).json({
+        error: "חשבון הספק עדיין בתהליך אימות. נשלים את ההתחברות לאחר שצוות Bundly יאשר את המסמכים.",
+        kycStatus: kyc || "pending",
+      });
+    }
+    // requireSupplierMatch / _resolveVerifiedSupplier match a user JWT to a
+    // supplier by EMAIL. Upsert the backing user with the supplier's
+    // registered email so that match succeeds. The supplier always has an
+    // email on the record; phone is optional.
+    const supplierEmail = String(supplier.email || "").trim();
+    if (!supplierEmail) {
+      return res.status(409).json({ error: "לחשבון הספק חסר אימייל רשום — פנה לתמיכה" });
+    }
+    let user;
+    try {
+      user = upsertUser({
+        phone: supplier.phone ? normalizePhone(supplier.phone) : `+972000${String(supplier.id).padStart(6, "0")}`,
+        email: supplierEmail,
+        name:  supplier.ownerName || supplier.businessName || "",
+        firstName: supplier.ownerName || supplier.businessName || "ספק",
+        lastName:  "",
+      });
+    } catch (e) {
+      console.error("[supplier-login/verify] upsertUser error:", e.message);
+      return res.status(500).json({ error: "שגיאה בהתחברות — נסה/י שוב" });
+    }
+    const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "30d", algorithm: "HS256" });
+    audit("SUPPLIER_LOGIN_SUCCESS", req, { userId: user.id, supplierId: supplier.id, channel: target.channel });
+    try { logActivity("supplier_login", { supplierId: supplier.id, businessName: supplier.businessName, ip: req.ip }); } catch (_) {}
+    res.json({
+      ok:    true,
+      token,
+      user: {
+        id:        user.id,
+        name:      user.name,
+        firstName: user.firstName || supplier.ownerName || "ספק",
+        lastName:  user.lastName  || "",
+        email:     user.email,
+        phone:     user.phone,
+      },
+      supplier: { id: supplier.id, name: supplier.businessName, email: supplier.email, businessName: supplier.businessName },
+    });
   } : notReady);
 
 // GET /api/auth/me

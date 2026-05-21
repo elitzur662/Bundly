@@ -6144,6 +6144,158 @@ function SupplierLoginModal({ onSuccess, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  SUPPLIER REAL LOGIN MODAL — ח.פ + OTP verification
+//
+//  SECURITY: replaces the old "instant connect" path on the supplier
+//  landing page. A returning supplier must prove account ownership:
+//    Step 1 — enter ח.פ (businessNumber) + a registered email/phone,
+//             request a one-time code (POST supplier-login/start).
+//    Step 2 — enter the 6-digit code (POST supplier-login/verify).
+//  Only a verified code yields a JWT. onSuccess receives the
+//  { user, supplier, token } payload — same shape as the demo login —
+//  so the parent can lift the session and route to the dashboard.
+// ─────────────────────────────────────────────────────────────────
+function SupplierRealLoginModal({ onSuccess, onClose }) {
+  const [step, setStep]       = useState("ident"); // ident | otp
+  const [businessNumber, setBusinessNumber] = useState("");
+  const [contact, setContact] = useState("");
+  const [otp, setOtp]         = useState("");
+  const [channel, setChannel] = useState("");      // "sms" | "email" — set by /start
+  const [devCode, setDevCode] = useState("");      // dev-only convenience
+  const [loading, setLoading] = useState(false);
+  const [error, setError]     = useState("");
+
+  const sendCode = async () => {
+    setError("");
+    const bn = businessNumber.replace(/[\s-]/g, "");
+    if (!/^\d{5,15}$/.test(bn)) { setError("מספר ח.פ לא תקין"); return; }
+    if (!contact.trim())        { setError("הזן אימייל או טלפון רשום"); return; }
+    setLoading(true);
+    try {
+      const res  = await fetch("/api/auth/supplier-login/start", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ businessNumber: bn, contact: contact.trim() }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || "שליחת הקוד נכשלה");
+      setChannel(data.channel || "");
+      if (data.devCode) setDevCode(data.devCode);
+      setStep("otp");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const verifyCode = async () => {
+    setError("");
+    if (!/^\d{6}$/.test(otp.trim())) { setError("הזן קוד בן 6 ספרות"); return; }
+    setLoading(true);
+    try {
+      const res  = await fetch("/api/auth/supplier-login/verify", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({
+          businessNumber: businessNumber.replace(/[\s-]/g, ""),
+          contact:        contact.trim(),
+          otp:            otp.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || "קוד שגוי");
+      // Verified — hand the full payload to the parent.
+      onSuccess?.({ user: data.user, supplier: data.supplier, token: data.token });
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Modal onClose={onClose}>
+      <div className="p-6 space-y-4" dir="rtl">
+        <div className="flex items-center justify-between mb-1">
+          <h3 className="font-bold text-gray-900 flex items-center gap-2">
+            <LogIn className="w-4 h-4 text-indigo-600" />כניסת ספקים רשומים
+          </h3>
+          <button onClick={onClose} aria-label="סגור" className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-lg">
+            <X className="w-4 h-4 text-gray-400" />
+          </button>
+        </div>
+
+        {step === "ident" && (
+          <>
+            <p className="text-sm text-gray-600">
+              הזן את מספר ח.פ של העסק ופרט קשר רשום (אימייל או טלפון) — נשלח אליו קוד אימות חד-פעמי.
+            </p>
+            <Input
+              label="ח.פ / מספר עוסק"
+              value={businessNumber}
+              onChange={e => setBusinessNumber(e.target.value)}
+              placeholder="לדוגמה: 512345678"
+              required
+            />
+            <Input
+              label="אימייל או טלפון רשום"
+              value={contact}
+              onChange={e => setContact(e.target.value)}
+              placeholder="name@business.co.il או 050-1234567"
+              required
+            />
+            {error && <p className="text-xs text-red-500">{error}</p>}
+            <Btn className="w-full" onClick={sendCode} disabled={loading}>
+              {loading ? "שולח..." : "שלח קוד"}
+            </Btn>
+            <p className="text-[11px] text-gray-400 text-center">
+              עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co.shop@gmail.com</strong>
+            </p>
+          </>
+        )}
+
+        {step === "otp" && (
+          <>
+            <p className="text-sm text-gray-600">
+              {channel === "email"
+                ? "שלחנו קוד אימות לכתובת האימייל הרשומה."
+                : channel === "sms"
+                  ? "שלחנו קוד אימות ב-SMS למספר הרשום."
+                  : "שלחנו קוד אימות לפרט הקשר הרשום."}
+              {" "}הזן אותו כאן כדי להשלים את ההתחברות.
+            </p>
+            {devCode && (
+              <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-center">
+                קוד פיתוח: <strong>{devCode}</strong>
+              </p>
+            )}
+            <Input
+              label="קוד אימות (6 ספרות)"
+              value={otp}
+              onChange={e => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="______"
+              required
+            />
+            {error && <p className="text-xs text-red-500">{error}</p>}
+            <Btn className="w-full" onClick={verifyCode} disabled={loading}>
+              {loading ? "מאמת..." : "התחבר"}
+            </Btn>
+            <button
+              type="button"
+              onClick={() => { setStep("ident"); setOtp(""); setError(""); setDevCode(""); }}
+              className="w-full text-xs text-gray-400 hover:text-gray-600 transition"
+            >
+              ← חזרה / שינוי פרטים
+            </button>
+          </>
+        )}
+      </div>
+    </Modal>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  IMPORT CATALOG — CSV upload + Product Feed URL config
 //
 //  Two on-ramps for syncing the supplier's existing catalog into Bundly:
@@ -21126,6 +21278,8 @@ export default function App() {
   const [showOwnerLogin, setShowOwnerLogin] = useState(false);
   const [ownerLoggedIn, setOwnerLoggedIn] = useState(false);
   const [showSupplierLogin, setShowSupplierLogin] = useState(false);
+  // Real supplier login modal (ח.פ + OTP). Opened by "כבר רשומים? התחברו".
+  const [showSupplierRealLogin, setShowSupplierRealLogin] = useState(false);
   const [currentSupplier, setCurrentSupplier] = useState(null);
   // When a not-yet-logged-in supplier clicks "כבר רשומים? התחברו" we open
   // the standard OTP login; this flag tells AuthModal.onSuccess to then
@@ -21900,20 +22054,39 @@ export default function App() {
   }, [notify]);
 
   // Entry point for the "כבר רשומים? התחברו" CTA on the supplier
-  // landing page. If a session already exists, resolve straight away;
-  // otherwise open the standard login modal and resolve afterwards.
-  const handleSupplierLogin = useCallback(async () => {
+  // landing page.
+  //
+  // SECURITY: this used to log a matching customer STRAIGHT into the
+  // supplier dashboard with no proof of account ownership — anyone
+  // already signed in with an email that happened to match a supplier
+  // record reached the dashboard. It now ALWAYS requires a fresh
+  // ח.פ + OTP verification (SupplierRealLoginModal) unless the supplier
+  // already completed that verification THIS session (currentSupplier
+  // is set), in which case re-entering the dashboard is safe.
+  const handleSupplierLogin = useCallback(() => {
     if (currentSupplier) { setMode("supplier-dashboard"); return; }
-    if (_getToken() && user) {
-      const ok = await resolveSupplierForCurrentUser();
-      if (ok) return;
-      return;
+    setShowSupplierRealLogin(true);
+  }, [currentSupplier]);
+
+  // Called by SupplierRealLoginModal once the server has verified the
+  // ח.פ + OTP and returned { user, supplier, token }. Stores the token
+  // exactly where the customer/demo login stores it, lifts the session,
+  // and routes into the dashboard.
+  const handleSupplierRealLoginSuccess = useCallback(({ user: supUser, supplier, token }) => {
+    if (token) _safeLSSet("bundly_token", token);
+    if (supUser) setUser({ ...supUser, token });
+    if (supplier) {
+      setCurrentSupplier({
+        id:           supplier.id,
+        name:         supplier.businessName,
+        businessName: supplier.businessName,
+        email:        supplier.email,
+      });
     }
-    // Not logged in — open the customer OTP login; handleAuthSuccess
-    // (wired on every AuthModal) then runs resolveSupplierForCurrentUser.
-    setPendingSupplierLogin(true);
-    setShowAuth(true);
-  }, [currentSupplier, user, resolveSupplierForCurrentUser]);
+    setShowSupplierRealLogin(false);
+    setPendingSupplierLogin(false);
+    setMode("supplier-dashboard");
+  }, []);
 
   // Shared AuthModal success handler. Normal login just lifts the user;
   // if the login was triggered by the supplier-login CTA, also resolve
@@ -22537,6 +22710,12 @@ export default function App() {
         setShowSupplierLogin(false);
         setMode("supplier-dashboard");
       }} onClose={()=>setShowSupplierLogin(false)} />}
+      {/* Real supplier login — ח.פ + OTP. Only path into the dashboard
+          for a returning supplier; verification happens server-side. */}
+      {showSupplierRealLogin && <SupplierRealLoginModal
+        onSuccess={handleSupplierRealLoginSuccess}
+        onClose={()=>setShowSupplierRealLogin(false)}
+      />}
 
       {selectedPool && (
         <DemandPoolPage

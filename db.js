@@ -610,6 +610,17 @@ export function getSupplierByEmail(email) {
   return _db.suppliersRegistry.find(s => s.email?.toLowerCase() === email.toLowerCase()) || null;
 }
 
+// Lookup by business number (ח.פ). Used by the real supplier-login flow:
+// the supplier proves account ownership by their registered ח.פ + an OTP.
+// Comparison strips whitespace/dashes so "51-234567-8" matches "512345678".
+export function getSupplierByBusinessNumber(businessNumber) {
+  _db = load();
+  const norm = v => String(v ?? "").replace(/[\s-]/g, "");
+  const wanted = norm(businessNumber);
+  if (!wanted) return null;
+  return _db.suppliersRegistry.find(s => norm(s.businessNumber) === wanted) || null;
+}
+
 export function updateSupplier(id, fields) {
   _db = load();
   const s = _db.suppliersRegistry.find(x => x.id === Number(id));
