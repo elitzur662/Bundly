@@ -153,9 +153,23 @@ export function saveOtp(phone, code) {
   save(_db);
 }
 
+// Constant-time string comparison — prevents timing attacks that could
+// reveal an OTP digit-by-digit. Length is compared first (OTPs are fixed
+// 6-digit so length is not a meaningful secret), then every char is XORed.
+function _constantTimeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") return false;
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 export function verifyOtp(phone, code) {
   _db = load();
-  const row = _db.otps.find(o => o.phone === phone && o.code === code && !o.used);
+  // Find an unused OTP for this phone, then compare the code in constant time
+  // rather than letting `===` inside .find() leak timing information.
+  const row = _db.otps.find(o => o.phone === phone && !o.used
+    && _constantTimeEqual(String(o.code), String(code)));
   if (!row)              return { ok: false, reason: "wrong_code" };
   if (Date.now() > row.expires_at) return { ok: false, reason: "expired" };
   row.used = true;
@@ -171,6 +185,13 @@ export function getPrefs(userId) {
 
 export function upsertPrefs(userId, incoming) {
   _db = load();
+  // Prototype-pollution defense-in-depth: strip dangerous keys before merging.
+  const safeIncoming = {};
+  for (const [k, v] of Object.entries(incoming || {})) {
+    if (k === "__proto__" || k === "constructor" || k === "prototype") continue;
+    safeIncoming[k] = v;
+  }
+  incoming = safeIncoming;
   const existing = _db.prefs.find(p => p.user_id === userId);
   if (existing) {
     Object.assign(existing, incoming, { user_id: userId });
@@ -900,6 +921,8 @@ export function upsertSupplierProfile(supplierId, fields) {
   // values overwrite as before.
   const merged = { ...existing };
   for (const [k, v] of Object.entries(fields)) {
+    // Prototype-pollution defense-in-depth: never copy dangerous keys.
+    if (k === "__proto__" || k === "constructor" || k === "prototype") continue;
     if (v === null || v === undefined) {
       delete merged[k];
       continue;

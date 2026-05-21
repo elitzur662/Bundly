@@ -322,7 +322,7 @@ async function loadCanned() {
         <strong>${escapeHtml(c.title)}</strong>
         <button class="ghost" onclick="deleteCanned(${c.id})" style="padding:4px 10px;font-size:11px">מחק</button>
       </div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">קטגוריה: ${c.category}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">קטגוריה: ${escapeHtml(c.category)}</div>
       <div style="font-size:13px;white-space:pre-line">${escapeHtml(c.body)}</div>
     </div>`).join("") || '<p style="color:var(--muted)">אין תבניות עדיין</p>';
 }

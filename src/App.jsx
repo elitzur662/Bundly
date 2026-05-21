@@ -270,6 +270,52 @@ function isIsraeliLink(url = "") {
 }
 const MIN_UNDERCUT = 18;
 
+// ─────────────────────────────────────────────────────────────────
+//  IMPLAUSIBLY-LOW BID GUARD
+//  A supplier who mistypes a price (₪125 instead of ₪1,250) would
+//  otherwise poison the displayed group price for every customer,
+//  because the shown price is `Math.min(...bids)`. We treat any bid
+//  below 40% of the deal's real market reference as a data error:
+//   • the bid form blocks/warns before submitting (frontend guard)
+//   • price-from-bids computations skip such bids (display guard)
+// ─────────────────────────────────────────────────────────────────
+const IMPLAUSIBLE_BID_RATIO = 0.4; // >60%-off the market reference = typo
+
+// Best available market reference for a deal: the highest of its known
+// market figures, falling back to the asking group price. Returns 0 when
+// we have no usable reference (then no guard is applied — fail open).
+function dealMarketReference(deal) {
+  if (!deal) return 0;
+  const candidates = [
+    Number(deal.marketMax) || 0,
+    Number(deal.marketMin) || 0,
+    Number(deal.groupOffer) || 0,
+  ];
+  return Math.max(0, ...candidates);
+}
+
+// True when `amount` is implausibly low relative to the deal's market
+// reference (almost certainly a missing digit / typo). Fails open: when
+// there is no reference, or the amount is non-positive, returns false.
+function isImplausibleBid(amount, deal) {
+  const amt = Number(amount);
+  if (!Number.isFinite(amt) || amt <= 0) return false;
+  const ref = dealMarketReference(deal);
+  if (ref <= 0) return false;
+  return amt < ref * IMPLAUSIBLE_BID_RATIO;
+}
+
+// Lowest bid amount on a deal, IGNORING implausibly-low (typo) bids so a
+// single bad offer can't poison the displayed group price. Returns null
+// when there is no usable bid.
+function lowestPlausibleBid(deal) {
+  if (!deal || !Array.isArray(deal.bids) || deal.bids.length === 0) return null;
+  const amounts = deal.bids
+    .map(b => Number(b?.amount))
+    .filter(n => Number.isFinite(n) && n > 0 && !isImplausibleBid(n, deal));
+  return amounts.length ? Math.min(...amounts) : null;
+}
+
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -760,8 +806,11 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
   // "Cannot read properties of undefined (reading 'toLocaleString')".
   const name = cleanName(deal.name?.[lang] || deal.name?.en || deal.name || "");
   const pad = n => String(n).padStart(2, "0");
-  const bestPrice = deal.bids?.length > 0
-    ? Math.min(...deal.bids.map(b => Number(b.amount) || Infinity))
+  // Displayed price = lowest bid, IGNORING implausibly-low (typo) bids so
+  // one mistyped supplier offer can't poison the banner price.
+  const bestPlausible = lowestPlausibleBid(deal);
+  const bestPrice = bestPlausible != null
+    ? bestPlausible
     : (deal.groupOffer || deal.marketMin || 0);
   const _bestPrice = Number.isFinite(bestPrice) && bestPrice > 0 ? bestPrice : (deal.marketMin || 0);
   const marketMax = Number(deal.marketMax) || _bestPrice;
@@ -2516,7 +2565,7 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
@@ -2598,7 +2647,19 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               <Sparkles className="w-4 h-4 animate-pulse" />
               <span className="font-black">איך זה עובד?</span>
             </a>
-            {navItem("suppliers", <Building2 className="w-4 h-4" />, "לספקים")}
+            {/* Supplier entry — routed through the shared exit-customer-context
+                handler so an open product page is fully left behind. */}
+            <button
+              onClick={() => onEnterSupplier ? onEnterSupplier() : setMode("suppliers")}
+              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+                mode === "suppliers"
+                  ? "bg-indigo-50 text-indigo-700"
+                  : "text-gray-500 hover:text-gray-900 hover:bg-gray-50/80"
+              }`}
+            >
+              <Building2 className="w-4 h-4" />
+              <span>לספקים</span>
+            </button>
           </div>
         )}
 
@@ -2726,7 +2787,13 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                     { m: "personal",  icon: <Send className="w-5 h-5" />,       label: t.personalRequest },
                     { m: "suppliers", icon: <Building2 className="w-5 h-5" />,  label: "לספקים", highlight: true },
                   ].map(({ m, icon, label, highlight }) => (
-                    <button key={m} onClick={() => { closeMenu(); setMode(m); }}
+                    <button key={m} onClick={() => {
+                        closeMenu();
+                        // Supplier entry must fully exit customer context
+                        // (open product + overlays + /product URL).
+                        if (m === "suppliers" && onEnterSupplier) onEnterSupplier();
+                        else setMode(m);
+                      }}
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition min-h-[44px] ${
                         mode === m
                           ? "bg-indigo-50 text-indigo-700"
@@ -4472,10 +4539,11 @@ function DemandForecast({ deal, compact = false }) {
 //  (commit + 25% deposit) and one small secondary action (updates only).
 // ─────────────────────────────────────────────────────────────────
 function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false }) {
-  // Group price = lowest current bid OR group offer OR market min.
-  const groupPrice = (deal.bids && deal.bids.length > 0)
-    ? Math.min(...deal.bids.map(b => b.amount))
-    : (deal.groupOffer || deal.marketMin || 0);
+  // Group price = lowest plausible bid OR group offer OR market min.
+  // Implausibly-low (typo) bids are ignored so a mistyped supplier offer
+  // can't poison the displayed price / deposit calculation.
+  const groupPrice = lowestPlausibleBid(deal)
+    ?? (deal.groupOffer || deal.marketMin || 0);
   const COMMITTED_DEPOSIT = Math.round(groupPrice * 0.25);
   const participants     = deal.participants || 0;
   const maxParticipants  = deal.maxParticipants || 0;
@@ -4650,7 +4718,11 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
   const name = cleanName(deal.name[lang] || deal.name.en);
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
-  const sortedBids = [...(deal.bids || [])].sort((a,b) => a.amount - b.amount);
+  // Drop implausibly-low (typo) bids before picking the displayed price, so
+  // a single mistyped supplier offer can't poison the card's group price.
+  const sortedBids = [...(deal.bids || [])]
+    .filter(b => !isImplausibleBid(b.amount, deal))
+    .sort((a,b) => a.amount - b.amount);
   const bestBid = sortedBids[0];
   const closingSoon = deal.daysLeft <= 2;
   const savings = deal.marketMax - (bestBid?.amount || deal.groupOffer);
@@ -4826,7 +4898,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
   const alternatives = getAlternatives(deal, allDeals, lang).slice(0, 4);
-  const sortedBids = [...(deal.bids || [])].sort((a,b) => a.amount - b.amount);
+  // Drop implausibly-low (typo) bids before picking the displayed price, so
+  // a single mistyped supplier offer can't poison the product page price.
+  const sortedBids = [...(deal.bids || [])]
+    .filter(b => !isImplausibleBid(b.amount, deal))
+    .sort((a,b) => a.amount - b.amount);
   const bestBid = sortedBids[0];
   const [joinedTier, setJoinedTier] = useState(null);
   const [depositInfo, setDepositInfo] = useState(null); // { tier, amount } when DepositModal is open
@@ -4912,9 +4988,10 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         setJoinedTier(tier);
         return;
       }
-      const groupPrice = (deal.bids && deal.bids.length > 0)
-        ? Math.min(...deal.bids.map(b => b.amount))
-        : (deal.groupOffer || deal.marketMin || 0);
+      // Ignore implausibly-low (typo) bids so the deposit isn't computed
+      // off a poisoned price.
+      const groupPrice = lowestPlausibleBid(deal)
+        ?? (deal.groupOffer || deal.marketMin || 0);
       const amount = tier === "watching" ? 25 : Math.round(groupPrice * 0.25);
       setDepositInfo({ tier, amount });
     }
@@ -4933,10 +5010,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
       setJoinedTier(tier);
       return;
     }
-    // Watching/committed → show deposit modal first
-    const groupPrice = (deal.bids && deal.bids.length > 0)
-      ? Math.min(...deal.bids.map(b => b.amount))
-      : (deal.groupOffer || deal.marketMin || 0);
+    // Watching/committed → show deposit modal first.
+    // Ignore implausibly-low (typo) bids so the deposit isn't computed
+    // off a poisoned price.
+    const groupPrice = lowestPlausibleBid(deal)
+      ?? (deal.groupOffer || deal.marketMin || 0);
     const amount = tier === "watching" ? 25 : Math.round(groupPrice * 0.25);
     setDepositInfo({ tier, amount });
   };
@@ -8324,6 +8402,19 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
     // Note: going below the deal's `priceFloor` is intentionally allowed —
     // it just means the supplier is offering an aggressive price. The UI
     // celebrates it instead of blocking it.
+    // GUARD: an implausibly-low bid (below 40% of market reference) is
+    // almost always a typo (e.g. ₪125 instead of ₪1,250). A bad bid here
+    // poisons the displayed group price for every customer, so require an
+    // explicit confirmation before letting an obvious typo through.
+    if (isImplausibleBid(amt, deal)) {
+      const ref = dealMarketReference(deal);
+      const ok = window.confirm(
+        `המחיר שהזנת (₪${amt.toLocaleString()}) נמוך באופן חריג ממחיר השוק ` +
+        `(₪${ref.toLocaleString()}) — ודא שלא טעית.\n` +
+        `אישור ישלח את ההצעה כפי שהיא; ביטול יחזיר אותך לתקן את המחיר.`
+      );
+      if (!ok) return;
+    }
     onSubmit(amt);
   };
 
@@ -8411,6 +8502,8 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
             const validAmt   = !isNaN(amtNum) && amtNum > 0;
             const tooHigh    = isUpdate && validAmt && amtNum >= prevAmt;
             const belowFloor = floor > 0 && validAmt && amtNum < floor;
+            // Implausibly low = almost certainly a typo (missing digit).
+            const implausible = validAmt && isImplausibleBid(amtNum, deal);
             return (
               <div className="space-y-2">
                 <label className="block text-[11px] font-bold text-gray-600">
@@ -8448,6 +8541,13 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
                 {tooHigh && (
                   <p className="text-[11px] text-red-600 font-bold">
                     🚫 לא ניתן לעדכן מחיר כלפי מעלה — חייב להיות זול מ-₪{prevAmt.toLocaleString()}
+                  </p>
+                )}
+                {/* Implausibly-low typo guard — flag a price that is far
+                    below the product's real market price. */}
+                {implausible && !tooHigh && (
+                  <p className="text-[11px] text-red-600 font-bold">
+                    ⚠️ המחיר שהזנת נמוך באופן חריג ממחיר השוק — ודא שלא טעית
                   </p>
                 )}
                 {!isUpdate && validAmt && amtNum > groupPrice && (
@@ -17438,7 +17538,7 @@ function SupplierLandingPage({ t, onJoin, setMode, onDemoLogin }) {
   );
 }
 
-function Footer({ t, setMode }) {
+function Footer({ t, setMode, onEnterSupplier }) {
   return (
     <footer className="bg-gray-900 text-gray-400 mt-16">
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -17455,7 +17555,7 @@ function Footer({ t, setMode }) {
             <ul className="space-y-2 text-sm">
               <li><button onClick={() => setMode("deals")} className="hover:text-white transition">{t.footerDeals}</button></li>
               <li><button onClick={() => setMode("personal")} className="hover:text-white transition">{t.footerPersonal}</button></li>
-              <li><button onClick={() => setMode("suppliers")} className="hover:text-white transition">{t.supplierJoin}</button></li>
+              <li><button onClick={() => onEnterSupplier ? onEnterSupplier() : setMode("suppliers")} className="hover:text-white transition">{t.supplierJoin}</button></li>
             </ul>
           </div>
           <div>
@@ -21362,8 +21462,35 @@ export default function App() {
       notify("⚠️ ההצעה לא נשמרה — נסה שוב");
     }
   };
-  const handleApprove = id => { setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"approved"}:s)); notify(t.approved+" ✅"); };
-  const handleReject = id => setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"rejected"}:s));
+  // SECURITY (S15): the legacy OwnerDashboard supplier approve/reject buttons
+  // previously only mutated local React state — a supplier was never actually
+  // KYC-approved/rejected on the server. Wire them to the real KYC endpoint
+  // (same call the dedicated KYC tab uses) so the action is persisted.
+  const _adminKycHeaders = () => {
+    const tok = _safeLS("bundly_admin_token");
+    return { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) };
+  };
+  const handleApprove = async id => {
+    try {
+      const r = await fetch(`/api/admin/suppliers/${id}/kyc`, {
+        method: "PATCH", headers: _adminKycHeaders(),
+        body: JSON.stringify({ kycStatus: "approved" }),
+      });
+      if (!r.ok) throw new Error("kyc approve failed");
+      setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"approved"}:s));
+      notify(t.approved+" ✅");
+    } catch { notify("⚠️ אישור הספק נכשל — נסה שוב"); }
+  };
+  const handleReject = async id => {
+    try {
+      const r = await fetch(`/api/admin/suppliers/${id}/kyc`, {
+        method: "PATCH", headers: _adminKycHeaders(),
+        body: JSON.stringify({ kycStatus: "rejected", kycRejectReason: "" }),
+      });
+      if (!r.ok) throw new Error("kyc reject failed");
+      setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"rejected"}:s));
+    } catch { notify("⚠️ דחיית הספק נכשלה — נסה שוב"); }
+  };
 
   // Convert an AI search result into a live deal and navigate to it
   const handleAddDealFromSearch = (result) => {
@@ -21539,6 +21666,33 @@ export default function App() {
   }, [user]);
   const goHome = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setMode("home"); };
   const goToMyProducts = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setMode("myproducts"); };
+
+  // ── Enter the supplier area — single shared exit-from-customer-context
+  //    handler. Routed by EVERY supplier-entry button (navbar, footer,
+  //    landing page). It must cleanly leave ALL customer context:
+  //    clears the open product (`selectedDeal`) and every soft overlay,
+  //    so a leftover /product/<key> URL can never be re-resolved (which
+  //    would wrongly fire the "✅ דיל חדש נפתח!" toast on the next reload).
+  //    The address bar is also normalised away from /product/<key>
+  //    synchronously, defending the case where a full page reload races
+  //    the React state update.
+  const enterSupplierArea = useCallback(() => {
+    setSelectedDeal(null);
+    setSearchResult(null);
+    setCategoryQuery(null);
+    setCategoryInitialFilters(null);
+    setDisambigModal(null);
+    setJoinPoolModal(null);
+    setShowCategoryBrowse(false);
+    // Drop a stale /product/<key> path immediately so a reload (or the
+    // boot router) cannot re-resolve a product the user has left.
+    try {
+      if (/^\/product\//.test(window.location.pathname)) {
+        window.history.replaceState({}, "", "/suppliers");
+      }
+    } catch { /* history API blocked — fail silent */ }
+    setMode("suppliers");
+  }, []);
 
   // ── Universal "back" — peels off one navigation layer at a time.
   //    Order matters: most-recently-opened state is unwound first.
@@ -21723,7 +21877,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, unreadOffersCount, activeOrdersCount, currentSupplier };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
 
   // ── Query disambiguation: some generic queries need sub-category selection first ──
   const _DISAMBIG_TOASTER = {
@@ -21849,7 +22003,7 @@ export default function App() {
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
-        <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
+        <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
         {showAuth && <AuthModal t={t} onSuccess={u=>{setUser(u);setShowAuth(false);notify(t.welcome);}} onClose={()=>setShowAuth(false)} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
@@ -22639,7 +22793,7 @@ export default function App() {
         />
       )}
 
-      <Footer t={t} setMode={setMode} />
+      <Footer t={t} setMode={setMode} onEnterSupplier={enterSupplierArea} />
       <MobileBottomNav t={t} mode={mode} setMode={setMode} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => setShowCategoryBrowse(true)} />
       <BundlyAdvisor
         deals={deals} lang={lang} t={t}
