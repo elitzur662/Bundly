@@ -12392,38 +12392,12 @@ app.delete("/api/suppliers/:supplierId/listings/:listingId", requireSupplierMatc
   res.json({ ok });
 });
 
-// Helper for the supplier UI — proxies the existing ZAP-search-products
-// endpoint so suppliers can lookup an exact model from their dashboard.
-// Returns a small, normalised shape (id, name, image, marketMin, marketMax)
-// suitable for rendering in a picker.
-app.get("/api/suppliers/:supplierId/zap-search", requireSupplierMatch, async (req, res) => {
-  const q = String(req.query.q || "").trim().slice(0, 100); // bound input
-  if (q.length < 2) return res.json({ products: [] });
-  try {
-    // Reuse the existing in-process search instead of HTTP self-call —
-    // saves a round-trip and keeps results consistent with customer-facing search.
-    // q is URL-encoded so attacker can't pivot to a different host (SSRF safe).
-    const SEARCH_URL = `http://127.0.0.1:${PORT}/api/search-products?q=${encodeURIComponent(q)}&limit=12`;
-    const r = await axios.get(SEARCH_URL, { timeout: 8000 });
-    const products = (r.data?.products || []).slice(0, 12).map(p => ({
-      // /api/search-products returns catalog products WITHOUT _streamKey/id —
-      // they carry `searchQuery` + `model`. Falling back to those (then the
-      // name) keeps `id` non-empty so the filter below doesn't drop every
-      // result. Previously every product was silently filtered out.
-      id:        p._streamKey || p.id || p.searchQuery || p.model || p.nameEn || p.nameHe || "",
-      name:      p.nameHe || p.nameEn || p.productName || "",
-      image:     p.image || null,
-      marketMin: p.priceMin || 0,
-      marketMax: p.priceMax || 0,
-      brand:     p.brand || "",
-      category:  p.catName || p.category || "",
-    })).filter(p => p.name && p.id);
-    res.json({ products });
-  } catch (e) {
-    // Don't leak the internal error message (could include port / path / stack).
-    res.json({ products: [], error: "search_failed" });
-  }
-});
+// NOTE: the supplier "חיפוש דגם מדויק" model lookup used to live here as
+// /api/suppliers/:supplierId/zap-search, proxying /api/search-products (the
+// external-scraper pipeline). That pipeline returned nothing for broad queries
+// like "samsung". The supplier dashboard now calls the public in-memory
+// /api/catalog-search directly — the same engine the home-page search uses for
+// its autocomplete + catalog product list — so the proxy endpoint was removed.
 
 // ─────────────────────────────────────────────────────────────────
 //  AUTO-BID RULES — supplier opts in to fire bids automatically

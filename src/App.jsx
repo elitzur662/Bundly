@@ -6666,15 +6666,6 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       onNotify?.("🗑️ המוצר הוסר");
     } catch {}
   };
-  // ZAP search proxy — used by the "from ZAP" mode in the upload modal
-  const zapSearch = async (q) => {
-    try {
-      const r = await supplierFetch(`/api/suppliers/${sidEnc}/zap-search?q=${encodeURIComponent(q)}`);
-      const d = await r.json();
-      return Array.isArray(d?.products) ? d.products : [];
-    } catch { return []; }
-  };
-
   // ── Notifications: mark read ──
   const markRead = async (notifId) => {
     try {
@@ -7576,7 +7567,6 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
           onCreate={createListing}
           onToggle={toggleListingActive}
           onDelete={removeListing}
-          onZapSearch={zapSearch}
         />
       )}
 
@@ -9156,7 +9146,7 @@ function SupplierAutoBidPanel({ rules, onSave, onToggle, onDelete }) {
 //   • From ZAP catalog: search ZAP and pick an existing model (canonical name + image)
 //  Active listings show in customer-facing search alongside ZAP-sourced products.
 // ─────────────────────────────────────────────────────────────────
-function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDelete, onZapSearch }) {
+function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDelete }) {
   const [mode, setMode] = useState(null); // null|free|inventory|zap
 
   return (
@@ -9200,7 +9190,7 @@ function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDele
       {/* Active mode form */}
       {mode === "free"      && <FreeListingForm      onSave={async (l) => { const ok = await onCreate({ ...l, source: "free" });      if (ok) setMode(null); }} onCancel={() => setMode(null)} />}
       {mode === "inventory" && <InventoryListingForm inventory={inventory} onSave={async (l) => { const ok = await onCreate({ ...l, source: "inventory" }); if (ok) setMode(null); }} onCancel={() => setMode(null)} />}
-      {mode === "zap"       && <ZapListingForm       onZapSearch={onZapSearch} onSave={async (l) => { const ok = await onCreate({ ...l, source: "zap" });       if (ok) setMode(null); }} onCancel={() => setMode(null)} />}
+      {mode === "zap"       && <ZapListingForm       onSave={async (l) => { const ok = await onCreate({ ...l, source: "zap" });       if (ok) setMode(null); }} onCancel={() => setMode(null)} />}
 
       {/* Existing listings */}
       <div className="space-y-2">
@@ -9375,31 +9365,105 @@ function InventoryListingForm({ inventory, onSave, onCancel }) {
 }
 
 // — Sub-form: search ZAP and pick an exact model
-function ZapListingForm({ onZapSearch, onSave, onCancel }) {
+// Map a /api/catalog-search product into the shape ZapListingForm expects.
+// The home search engine returns { id, name, image, price, slug, manufacturer }.
+// `price` is a single market reference price; we surface it as both
+// marketMin and marketMax so the "cheaper than market" hint still works.
+function catalogProductToZapResult(p) {
+  const mkt = Number(p?.price) || 0;
+  return {
+    id:        String(p?.id ?? p?.slug ?? p?.name ?? ""),
+    name:      cleanName(p?.name || ""),
+    image:     p?.image || "",
+    marketMin: mkt,
+    marketMax: mkt,
+    brand:     p?.manufacturer || "",
+    category:  p?.slug || "",
+  };
+}
+
+function ZapListingForm({ onSave, onCancel }) {
   const [q, setQ] = useState("");
   const [results, setResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [searched, setSearched] = useState(false);
   const [picked, setPicked] = useState(null);
   const [price, setPrice]   = useState("");
   const [qty, setQty]       = useState("");
-  const search = async () => {
-    if (q.trim().length < 2) return;
+
+  // Same autocomplete the home SmartSearchBar uses: hits /api/catalog-search
+  // (the reliable in-memory catalog engine). includeRecommend=false — suppliers
+  // are sellers, they don't need a "buy this for me" recommendation row.
+  const { suggestions, showSug, setShowSug, activeSug, setActiveSug, clearSug, containerRef } =
+    useAutocomplete(q, { includeRecommend: false });
+
+  // Run the actual product search through the SAME engine the home search
+  // uses for its catalog product list (/api/catalog-search → searchLocalCatalog).
+  // This replaces the old /api/suppliers/:id/zap-search → /api/search-products
+  // path, which depended on external scrapers and returned nothing for broad
+  // queries like "samsung".
+  const search = async (rawQ) => {
+    const term = (rawQ ?? q).trim();
+    if (term.length < 2) return;
+    clearSug();
     setSearching(true);
-    const r = await onZapSearch(q.trim());
-    setResults(r);
-    setSearching(false);
+    setSearched(true);
+    try {
+      const r = await fetch(`/api/catalog-search?q=${encodeURIComponent(term)}&limit=24`);
+      const d = r.ok ? await r.json() : {};
+      setResults((d.products || []).map(catalogProductToZapResult).filter(p => p.id && p.name));
+    } catch {
+      setResults([]);
+    } finally {
+      setSearching(false);
+    }
   };
+
+  // Selecting a suggestion fills the box and immediately searches it.
+  const handleSelectSuggestion = (s) => {
+    const text = sugText(s);
+    setQ(text);
+    search(text);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveSug(p => Math.min(p + 1, suggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveSug(p => Math.max(p - 1, -1));
+    } else if (e.key === "Enter") {
+      if (activeSug >= 0 && suggestions[activeSug]) handleSelectSuggestion(suggestions[activeSug]);
+      else search();
+    } else if (e.key === "Escape") {
+      setShowSug(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl border-2 border-fuchsia-300 shadow-md p-5 space-y-3">
       <p className="text-sm font-black text-gray-900">🔎 חיפוש דגם מדויק</p>
       {!picked ? (
         <>
-          <div className="flex gap-2">
-            <input value={q} onChange={e => setQ(e.target.value)} onKeyDown={e => e.key === "Enter" && search()}
-              placeholder="לדוגמה: Samsung Galaxy S25 Ultra"
-              className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
-            <button onClick={search} disabled={q.trim().length < 2 || searching}
-              className="px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-700 disabled:opacity-40 text-white text-xs font-black rounded-lg">
+          <div className="flex gap-2" ref={containerRef}>
+            <div className="relative flex-1 min-w-0">
+              <input value={q}
+                onChange={e => { setQ(e.target.value); setSearched(false); }}
+                onKeyDown={handleKeyDown}
+                onFocus={() => { if (suggestions.length > 0) setShowSug(true); }}
+                onBlur={() => setTimeout(() => setShowSug(false), 150)}
+                placeholder="לדוגמה: Samsung Galaxy S25 Ultra"
+                autoComplete="off"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+              {showSug && !searching && (
+                <AutocompleteDropdown suggestions={suggestions} activeSug={activeSug}
+                  setActiveSug={setActiveSug} small onSelect={handleSelectSuggestion} />
+              )}
+            </div>
+            <button onMouseDown={() => clearSug()} onClick={() => search()}
+              disabled={q.trim().length < 2 || searching}
+              className="px-4 py-2 bg-fuchsia-600 hover:bg-fuchsia-700 disabled:opacity-40 text-white text-xs font-black rounded-lg flex-shrink-0">
               {searching ? "..." : "🔎 חפש"}
             </button>
           </div>
@@ -9421,7 +9485,7 @@ function ZapListingForm({ onZapSearch, onSave, onCancel }) {
               ))}
             </div>
           )}
-          {results.length === 0 && q.trim().length >= 2 && !searching && (
+          {results.length === 0 && searched && !searching && (
             <p className="text-center text-gray-400 text-xs py-4">לא נמצאו תוצאות. נסה ניסוח אחר.</p>
           )}
         </>
