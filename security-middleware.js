@@ -279,7 +279,7 @@ export function rateLimit({ windowMs = 60_000, max = 100, keyFn = r => r.ip, lab
       keyGenerator: keyFn,
       handler: (req, res) => {
         audit("RATE_LIMIT", req, { label });
-        res.status(429).json({ error: "יותר מדי בקשות — נסה שוב עוד רגע" });
+        res.status(429).json({ error: "יותר מדי בקשות, נסה שוב עוד רגע" });
       },
     };
     // Use Redis store if available — required for multi-server deployments
@@ -299,7 +299,7 @@ export function rateLimit({ windowMs = 60_000, max = 100, keyFn = r => r.ip, lab
     if (arr.length >= max) {
       audit("RATE_LIMIT", req, { label, count: arr.length });
       res.setHeader("Retry-After", Math.ceil(windowMs / 1000));
-      return res.status(429).json({ error: "יותר מדי בקשות — נסה שוב עוד רגע" });
+      return res.status(429).json({ error: "יותר מדי בקשות, נסה שוב עוד רגע" });
     }
     arr.push(now);
     _buckets.set(key, arr);
@@ -431,7 +431,7 @@ export function safeErrorHandler(err, req, res, _next) {
     else if (status === 404) message = "המשאב לא נמצא";
     else if (status === 403) message = "הגישה אסורה";
     else if (status === 401) message = "נדרשת התחברות";
-    else if (status === 429) message = "יותר מדי בקשות — נסה/י שוב בעוד רגע";
+    else if (status === 429) message = "יותר מדי בקשות, נסה/י שוב בעוד רגע";
     else message = err.message || "שגיאה";
   } else {
     message = err.message || "שגיאה";

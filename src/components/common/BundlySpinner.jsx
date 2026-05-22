@@ -1,5 +1,5 @@
 /**
- * Bundly — Branded SVG spinner.
+ * Bundly, Branded SVG spinner.
  *
  * Used everywhere we'd otherwise show Loader2 from lucide-react. The Bundly
  * "B" mark sits inside a partial indigo arc that rotates on the standard CSS
@@ -7,8 +7,8 @@
  * during loading.
  *
  * Props:
- *   size      — number, pixel dimensions (default 24)
- *   className — extra Tailwind classes for layout (the size + animation are
+ *   size     , number, pixel dimensions (default 24)
+ *   className, extra Tailwind classes for layout (the size + animation are
  *               applied inline so they always render even before CSS loads)
  */
 export default function BundlySpinner({ size = 24, className = "" }) {
@@ -22,7 +22,7 @@ export default function BundlySpinner({ size = 24, className = "" }) {
     >
       {/* Outer track */}
       <circle cx="16" cy="16" r="12.5" fill="none" stroke="#e0e7ff" strokeWidth="3.5" />
-      {/* Spinning arc — indigo */}
+      {/* Spinning arc, indigo */}
       <path
         d="M 16 3.5 A 12.5 12.5 0 0 1 28.5 16"
         fill="none" stroke="#4f46e5" strokeWidth="3.5" strokeLinecap="round"

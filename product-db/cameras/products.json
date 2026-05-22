@@ -7,7 +7,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2038,
-      "updated": 1779440544944
+      "updated": 1779452625596
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -20,7 +20,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4223,
-      "updated": 1779440544944
+      "updated": 1779452625599
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -33,7 +33,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 1219,
-      "updated": 1779440544944
+      "updated": 1779452625602
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -46,7 +46,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 590,
-      "updated": 1779440544944
+      "updated": 1779452625604
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -59,7 +59,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2250,
-      "updated": 1779440544944
+      "updated": 1779452625606,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -72,7 +74,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4720,
-      "updated": 1779440544944
+      "updated": 1779452625608
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -85,7 +87,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 5899,
-      "updated": 1779440544944
+      "updated": 1779452625609
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -98,7 +100,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 1620,
-      "updated": 1779440544944
+      "updated": 1779452625610,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -111,7 +115,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2699,
-      "updated": 1779440544944
+      "updated": 1779452625611,
+      "bug": 3299,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r10/rf/s/18/45/stm/black"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -124,7 +130,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 1270,
-      "updated": 1779440544944
+      "updated": 1779452625612
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -137,7 +143,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2570,
-      "updated": 1779440544944
+      "updated": 1779452625613
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -150,7 +156,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 1799,
-      "updated": 1779440544944
+      "updated": 1779452625613
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -163,7 +169,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2435,
-      "updated": 1779440544944
+      "updated": 1779452625616
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -176,7 +182,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 3745,
-      "updated": 1779440544944
+      "updated": 1779452625616,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -189,7 +197,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 790,
-      "updated": 1779440544944
+      "updated": 1779452625618
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -202,7 +210,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2750,
-      "updated": 1779440544944
+      "updated": 1779452625619
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -215,7 +223,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 3525,
-      "updated": 1779440544944
+      "updated": 1779452625620,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -228,7 +238,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 6499,
-      "updated": 1779440544944
+      "updated": 1779452625621
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -241,7 +251,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 9499,
-      "updated": 1779440544944
+      "updated": 1779452625622
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -254,7 +264,9 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 325,
-      "updated": 1779440544944
+      "updated": 1779452625623,
+      "ivory": 329,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=73796"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -267,7 +279,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 11799,
-      "updated": 1779440544944
+      "updated": 1779452625624,
+      "bug": 12599,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r5/mark/ii/body"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -280,7 +294,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2660,
-      "updated": 1779440544944
+      "updated": 1779452625624,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -293,7 +309,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 3100,
-      "updated": 1779440544944
+      "updated": 1779452625625
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -306,7 +322,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 3250,
-      "updated": 1779440544944
+      "updated": 1779452625626
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -319,7 +335,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 3350,
-      "updated": 1779440544944
+      "updated": 1779452625626
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -332,7 +348,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 1195,
-      "updated": 1779440544944
+      "updated": 1779452625627
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -345,7 +361,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 4899,
-      "updated": 1779440544944
+      "updated": 1779452625627
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -358,7 +374,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2250,
-      "updated": 1779440544944
+      "updated": 1779452625628
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -371,7 +387,11 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2590,
-      "updated": 1779440544944
+      "updated": 1779452625628,
+      "ivory": 1549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139724",
+      "bug": 3999,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r50/rfs/18/150"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -384,7 +404,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3199,
-      "updated": 1779440544944
+      "updated": 1779452625629
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -397,7 +417,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 1883,
-      "updated": 1779440544944
+      "updated": 1779452625629
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -410,7 +430,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 7170,
-      "updated": 1779440544944
+      "updated": 1779452625630
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -423,7 +443,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 5399,
-      "updated": 1779440544944
+      "updated": 1779452625630
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -436,7 +456,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 7225,
-      "updated": 1779440544944
+      "updated": 1779452625630
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -449,7 +469,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2675,
-      "updated": 1779440544944
+      "updated": 1779452625631
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -462,7 +482,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 4599,
-      "updated": 1779440544944
+      "updated": 1779452625633
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -475,7 +495,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 1930,
-      "updated": 1779440544944
+      "updated": 1779452625634
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -488,7 +508,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 639,
-      "updated": 1779440544944
+      "updated": 1779452625634
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -501,7 +521,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 595,
-      "updated": 1779440544944
+      "updated": 1779452625634
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -514,7 +534,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3945,
-      "updated": 1779440544944
+      "updated": 1779452625635
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -527,7 +547,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 9380,
-      "updated": 1779440544944
+      "updated": 1779452625635,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -540,7 +562,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 1980,
-      "updated": 1779440544944
+      "updated": 1779452625636
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -553,7 +575,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 9599,
-      "updated": 1779440544944
+      "updated": 1779452625636
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -566,7 +588,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 4949,
-      "updated": 1779440544944
+      "updated": 1779452625637
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -579,7 +601,7 @@
     "manufacturer": "Agfa",
     "prices": {
       "zap": 469,
-      "updated": 1779440544944
+      "updated": 1779452625637
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -592,7 +614,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 4890,
-      "updated": 1779440544944
+      "updated": 1779452625637
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -605,7 +627,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 1415,
-      "updated": 1779440544944
+      "updated": 1779452625638
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -618,7 +640,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 2370,
-      "updated": 1779440544944
+      "updated": 1779452625638
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -631,7 +653,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3150,
-      "updated": 1779440544944
+      "updated": 1779452625639
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -644,7 +666,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 1980,
-      "updated": 1779440544944
+      "updated": 1779452625639
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -657,7 +679,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 5200,
-      "updated": 1779440544944
+      "updated": 1779452625639
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -670,7 +692,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 698,
-      "updated": 1779440544944
+      "updated": 1779452625640
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -683,7 +705,7 @@
     "manufacturer": "Sjcam",
     "prices": {
       "zap": 169,
-      "updated": 1779440544944
+      "updated": 1779452625640
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -696,7 +718,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3499,
-      "updated": 1779440544944
+      "updated": 1779452625641
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -709,7 +731,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 519,
-      "updated": 1779440544944
+      "updated": 1779452625641
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -722,7 +744,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 3290,
-      "updated": 1779440544944
+      "updated": 1779452625641
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -735,7 +757,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 1159,
-      "updated": 1779440544944
+      "updated": 1779452625642
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -748,7 +770,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 1570,
-      "updated": 1779440544944
+      "updated": 1779452625642
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -761,7 +783,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 2915,
-      "updated": 1779440544944
+      "updated": 1779452625643
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -774,7 +796,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 6799,
-      "updated": 1779440544944
+      "updated": 1779452625643
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -787,7 +809,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 1960,
-      "updated": 1779440544944
+      "updated": 1779452625643
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -800,7 +822,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 4799,
-      "updated": 1779440544944
+      "updated": 1779452625644
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -813,7 +835,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4080,
-      "updated": 1779440544944
+      "updated": 1779452625644
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -826,7 +848,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 185,
-      "updated": 1779440544944
+      "updated": 1779452625644
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -839,7 +861,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 6199,
-      "updated": 1779440544944
+      "updated": 1779452625645
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -852,7 +874,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3830,
-      "updated": 1779440544944
+      "updated": 1779452625645
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -865,7 +887,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 1249,
-      "updated": 1779440544944
+      "updated": 1779452625646
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -878,7 +900,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 5545,
-      "updated": 1779440544944
+      "updated": 1779452625646
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -891,7 +913,7 @@
     "manufacturer": "Akito",
     "prices": {
       "zap": 599,
-      "updated": 1779440544944
+      "updated": 1779452625647
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -904,7 +926,7 @@
     "manufacturer": "Samvix",
     "prices": {
       "zap": 570,
-      "updated": 1779440544944
+      "updated": 1779452625648
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -917,7 +939,7 @@
     "manufacturer": "Samvix",
     "prices": {
       "zap": 519,
-      "updated": 1779440544944
+      "updated": 1779452625649
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -930,7 +952,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 2180,
-      "updated": 1779440544944
+      "updated": 1779452625650
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -943,7 +965,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 1503,
-      "updated": 1779440544944
+      "updated": 1779452625650
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -956,7 +978,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 3119,
-      "updated": 1779440544944
+      "updated": 1779452625651
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -969,7 +991,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 4470,
-      "updated": 1779440544944
+      "updated": 1779452625651
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -982,7 +1004,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 3797,
-      "updated": 1779440544944
+      "updated": 1779452625652
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -995,7 +1017,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 285,
-      "updated": 1779440544944
+      "updated": 1779452625652
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1008,7 +1030,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 5935,
-      "updated": 1779440544944
+      "updated": 1779452625653
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1021,7 +1043,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 479,
-      "updated": 1779440544944
+      "updated": 1779452625653
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1034,7 +1056,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 7199,
-      "updated": 1779440544944
+      "updated": 1779452625653
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1047,7 +1069,7 @@
     "manufacturer": "Akito",
     "prices": {
       "zap": 350,
-      "updated": 1779440544944
+      "updated": 1779452625654
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1060,7 +1082,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 889,
-      "updated": 1779440544944
+      "updated": 1779452625654
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1073,7 +1095,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 11499,
-      "updated": 1779440544944
+      "updated": 1779452625655
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1086,7 +1108,7 @@
     "manufacturer": "Akito",
     "prices": {
       "zap": 511,
-      "updated": 1779440544944
+      "updated": 1779452625655
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1099,7 +1121,7 @@
     "manufacturer": "Kenko",
     "prices": {
       "zap": 349,
-      "updated": 1779440544944
+      "updated": 1779452625656
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1112,7 +1134,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 6519,
-      "updated": 1779440544944
+      "updated": 1779452625657
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1125,7 +1147,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 7100,
-      "updated": 1779440544944
+      "updated": 1779452625658
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1138,7 +1160,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 5999,
-      "updated": 1779440544944
+      "updated": 1779452625659
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1151,7 +1173,7 @@
     "manufacturer": "Doqo",
     "prices": {
       "zap": 429,
-      "updated": 1779440544944
+      "updated": 1779452625660
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1164,7 +1186,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 379,
-      "updated": 1779440544944
+      "updated": 1779452625661
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1177,7 +1199,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 769,
-      "updated": 1779440544944
+      "updated": 1779452625662
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1190,7 +1212,7 @@
     "manufacturer": "Samvix",
     "prices": {
       "zap": 469,
-      "updated": 1779440544944
+      "updated": 1779452625662
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1203,7 +1225,7 @@
     "manufacturer": "Vtech",
     "prices": {
       "zap": 266,
-      "updated": 1779440544944
+      "updated": 1779452625663
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1216,7 +1238,7 @@
     "manufacturer": "Buki",
     "prices": {
       "zap": 449,
-      "updated": 1779440544944
+      "updated": 1779452625664
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1229,7 +1251,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 9950,
-      "updated": 1779440544944
+      "updated": 1779452625665
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1242,7 +1264,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 2419,
-      "updated": 1779440544944
+      "updated": 1779452625666
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1255,7 +1277,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 1019,
-      "updated": 1779440544944
+      "updated": 1779452625667
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1268,7 +1290,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 849,
-      "updated": 1779440544944
+      "updated": 1779452625667
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1281,7 +1303,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 2790,
-      "updated": 1779440544944
+      "updated": 1779452625668
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1294,7 +1316,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 4024,
-      "updated": 1779440544944
+      "updated": 1779452625668
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1307,7 +1329,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 5679,
-      "updated": 1779440544944
+      "updated": 1779452625669
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1320,7 +1342,9 @@
     "manufacturer": "Myfirst",
     "prices": {
       "zap": 199,
-      "updated": 1779440544944
+      "updated": 1779452625669,
+      "bug": 199,
+      "bugUrl": "https://www.bug.co.il/brand/myfirst/color/pink/camera/10"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1333,7 +1357,7 @@
     "manufacturer": "Polaroid",
     "prices": {
       "zap": 449,
-      "updated": 1779440544944
+      "updated": 1779452625669
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1346,7 +1370,7 @@
     "manufacturer": "Myfirst",
     "prices": {
       "zap": 299,
-      "updated": 1779440544944
+      "updated": 1779452625670
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1359,7 +1383,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 3019,
-      "updated": 1779440544944
+      "updated": 1779452625670
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1372,7 +1396,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4949,
-      "updated": 1779440544944
+      "updated": 1779452625671
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1385,7 +1409,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 504,
-      "updated": 1779440544944
+      "updated": 1779452625671
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1398,7 +1422,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 7244,
-      "updated": 1779440544944
+      "updated": 1779452625671
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1411,7 +1435,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 9890,
-      "updated": 1779440544944
+      "updated": 1779452625672
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1424,7 +1448,7 @@
     "manufacturer": "Kodak",
     "prices": {
       "zap": 2199,
-      "updated": 1779440544944
+      "updated": 1779452625672
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1437,7 +1461,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 4299,
-      "updated": 1779440544944
+      "updated": 1779452625673
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1450,7 +1474,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 3489,
-      "updated": 1779440544944
+      "updated": 1779452625673
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1463,7 +1487,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 3394,
-      "updated": 1779440544944
+      "updated": 1779452625673
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1476,7 +1500,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 1019,
-      "updated": 1779440544944
+      "updated": 1779452625674
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1489,7 +1513,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 7979,
-      "updated": 1779440544944
+      "updated": 1779452625674
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1502,7 +1526,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 3700,
-      "updated": 1779440544944
+      "updated": 1779452625675
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1515,7 +1539,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 5500,
-      "updated": 1779440544944
+      "updated": 1779452625675
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1528,7 +1552,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 2699,
-      "updated": 1779440544944
+      "updated": 1779452625675
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1541,7 +1565,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 5599,
-      "updated": 1779440544944
+      "updated": 1779452625676
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1554,7 +1578,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 7950,
-      "updated": 1779440544944
+      "updated": 1779452625676
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1567,7 +1591,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 5790,
-      "updated": 1779440544944
+      "updated": 1779452625677
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1580,7 +1604,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2799,
-      "updated": 1779440544944
+      "updated": 1779452625677
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1593,7 +1617,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 3719,
-      "updated": 1779440544944
+      "updated": 1779452625677,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1606,7 +1632,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 6989,
-      "updated": 1779440544944
+      "updated": 1779452625678
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1619,7 +1645,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 2990,
-      "updated": 1779440544944
+      "updated": 1779452625678
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1632,7 +1658,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 7700,
-      "updated": 1779440544944
+      "updated": 1779452625679
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1645,7 +1671,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 1869,
-      "updated": 1779440544944
+      "updated": 1779452625679
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1658,7 +1684,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 3369,
-      "updated": 1779440544944
+      "updated": 1779452625679
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1671,7 +1697,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 9380,
-      "updated": 1779440544944
+      "updated": 1779452625680
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1684,7 +1710,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 2469,
-      "updated": 1779440544944
+      "updated": 1779452625680
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1697,7 +1723,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 2599,
-      "updated": 1779440544944
+      "updated": 1779452625682
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1710,7 +1736,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 3970,
-      "updated": 1779440544944
+      "updated": 1779452625683
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1723,7 +1749,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 3999,
-      "updated": 1779440544944
+      "updated": 1779452625684
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1736,7 +1762,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 7835,
-      "updated": 1779440544944
+      "updated": 1779452625685
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1749,7 +1775,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 2999,
-      "updated": 1779440544944
+      "updated": 1779452625685
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1762,7 +1788,7 @@
     "manufacturer": "Polaroid",
     "prices": {
       "zap": 2999,
-      "updated": 1779440544944
+      "updated": 1779452625686
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1775,7 +1801,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4459,
-      "updated": 1779440544944
+      "updated": 1779452625687
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1788,7 +1814,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 3369,
-      "updated": 1779440544944
+      "updated": 1779452625687
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1801,7 +1827,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 5799,
-      "updated": 1779440544944
+      "updated": 1779452625688
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1814,7 +1840,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 7390,
-      "updated": 1779440544944
+      "updated": 1779452625689
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1827,7 +1853,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 15080,
-      "updated": 1779440544944
+      "updated": 1779452625689
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1840,7 +1866,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 7550,
-      "updated": 1779440544944
+      "updated": 1779452625689
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1853,7 +1879,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 4200,
-      "updated": 1779440544944
+      "updated": 1779452625690
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1866,7 +1892,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 8019,
-      "updated": 1779440544944
+      "updated": 1779452625690
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1879,7 +1905,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 6219,
-      "updated": 1779440544944
+      "updated": 1779452625691
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1892,7 +1918,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 8770,
-      "updated": 1779440544944
+      "updated": 1779452625691
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1905,7 +1931,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4319,
-      "updated": 1779440544944
+      "updated": 1779452625691
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1918,7 +1944,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 4319,
-      "updated": 1779440544944
+      "updated": 1779452625692
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1931,7 +1957,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 4499,
-      "updated": 1779440544944
+      "updated": 1779452625692
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1944,7 +1970,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 4499,
-      "updated": 1779440544944
+      "updated": 1779452625693
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1957,7 +1983,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 6799,
-      "updated": 1779440544944
+      "updated": 1779452625693
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1970,7 +1996,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 4819,
-      "updated": 1779440544944
+      "updated": 1779452625694
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1983,7 +2009,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 10989,
-      "updated": 1779440544944
+      "updated": 1779452625694
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1996,7 +2022,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 7790,
-      "updated": 1779440544944
+      "updated": 1779452625694
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2009,7 +2035,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 9440,
-      "updated": 1779440544944
+      "updated": 1779452625695
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2022,7 +2048,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 5469,
-      "updated": 1779440544944
+      "updated": 1779452625695
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2035,7 +2061,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 9199,
-      "updated": 1779440544944
+      "updated": 1779452625696
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2048,7 +2074,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 5519,
-      "updated": 1779440544944
+      "updated": 1779452625696
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2061,7 +2087,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 5869,
-      "updated": 1779440544944
+      "updated": 1779452625696
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2074,7 +2100,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 6169,
-      "updated": 1779440544944
+      "updated": 1779452625697
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2087,7 +2113,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 9790,
-      "updated": 1779440544944
+      "updated": 1779452625698
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2100,7 +2126,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 8619,
-      "updated": 1779440544944
+      "updated": 1779452625698
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2113,7 +2139,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 7999,
-      "updated": 1779440544944
+      "updated": 1779452625699
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2126,7 +2152,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 6819,
-      "updated": 1779440544944
+      "updated": 1779452625699
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2139,7 +2165,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 6849,
-      "updated": 1779440544944
+      "updated": 1779452625699
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2152,7 +2178,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 9879,
-      "updated": 1779440544944
+      "updated": 1779452625701,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2165,7 +2193,9 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 12380,
-      "updated": 1779440544944
+      "updated": 1779452625702,
+      "bug": 4349,
+      "bugUrl": "https://www.bug.co.il/brand/canon/eos/r8"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2178,7 +2208,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 9299,
-      "updated": 1779440544944
+      "updated": 1779452625703
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2191,7 +2221,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 16150,
-      "updated": 1779440544944
+      "updated": 1779452625704
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2204,7 +2234,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 8519,
-      "updated": 1779440544944
+      "updated": 1779452625705
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2217,7 +2247,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 11990,
-      "updated": 1779440544944
+      "updated": 1779452625705
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2230,7 +2260,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 11249,
-      "updated": 1779440544944
+      "updated": 1779452625706
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2243,7 +2273,7 @@
     "manufacturer": "Panasonic",
     "prices": {
       "zap": 13490,
-      "updated": 1779440544944
+      "updated": 1779452625707
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2256,7 +2286,7 @@
     "manufacturer": "OM",
     "prices": {
       "zap": 10990,
-      "updated": 1779440544944
+      "updated": 1779452625708
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2269,7 +2299,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 20299,
-      "updated": 1779440544944
+      "updated": 1779452625709
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2282,7 +2312,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 12876,
-      "updated": 1779440544944
+      "updated": 1779452625710
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2295,7 +2325,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 17700,
-      "updated": 1779440544944
+      "updated": 1779452625711
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2308,7 +2338,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 16515,
-      "updated": 1779440544944
+      "updated": 1779452625711
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2321,7 +2351,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 15890,
-      "updated": 1779440544944
+      "updated": 1779452625712
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2334,7 +2364,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 13670,
-      "updated": 1779440544944
+      "updated": 1779452625713
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2347,7 +2377,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 22500,
-      "updated": 1779440544944
+      "updated": 1779452625714
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2360,7 +2390,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 20899,
-      "updated": 1779440544944
+      "updated": 1779452625714
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2373,7 +2403,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 21275,
-      "updated": 1779440544944
+      "updated": 1779452625715
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2386,7 +2416,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 18999,
-      "updated": 1779440544944
+      "updated": 1779452625715
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2399,7 +2429,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 24083,
-      "updated": 1779440544944
+      "updated": 1779452625716
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2412,7 +2442,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 20160,
-      "updated": 1779440544944
+      "updated": 1779452625716
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2425,7 +2455,7 @@
     "manufacturer": "Nikon",
     "prices": {
       "zap": 21019,
-      "updated": 1779440544944
+      "updated": 1779452625717
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2438,7 +2468,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 20899,
-      "updated": 1779440544944
+      "updated": 1779452625718
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2451,7 +2481,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 22990,
-      "updated": 1779440544944
+      "updated": 1779452625719
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2464,7 +2494,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 23499,
-      "updated": 1779440544944
+      "updated": 1779452625720
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2477,7 +2507,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 22999,
-      "updated": 1779440544944
+      "updated": 1779452625721
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2490,7 +2520,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 25010,
-      "updated": 1779440544944
+      "updated": 1779452625722
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2503,7 +2533,7 @@
     "manufacturer": "Canon",
     "prices": {
       "zap": 26950,
-      "updated": 1779440544944
+      "updated": 1779452625723
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2516,7 +2546,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 28519,
-      "updated": 1779440544944
+      "updated": 1779452625723
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2529,7 +2559,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 31999,
-      "updated": 1779440544944
+      "updated": 1779452625724
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2542,7 +2572,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 30019,
-      "updated": 1779440544944
+      "updated": 1779452625724
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2555,7 +2585,7 @@
     "manufacturer": "Fuji",
     "prices": {
       "zap": 32150,
-      "updated": 1779440544944
+      "updated": 1779452625725
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2568,7 +2598,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 30260,
-      "updated": 1779440544944
+      "updated": 1779452625725
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2581,7 +2611,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 31519,
-      "updated": 1779440544944
+      "updated": 1779452625726
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2594,7 +2624,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 31999,
-      "updated": 1779440544944
+      "updated": 1779452625726
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2607,7 +2637,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 34478,
-      "updated": 1779440544944
+      "updated": 1779452625727
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2620,7 +2650,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 65540,
-      "updated": 1779440544944
+      "updated": 1779452625727
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2633,7 +2663,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 75620,
-      "updated": 1779440544944
+      "updated": 1779452625727
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2646,7 +2676,7 @@
     "manufacturer": "Leica",
     "prices": {
       "zap": 85700,
-      "updated": 1779440544944
+      "updated": 1779452625728
     },
     "filterTags": {},
     "source": "zap-listing"

@@ -7,7 +7,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 885,
-      "updated": 1779440516721
+      "updated": 1779452603103
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -20,7 +20,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 3775,
-      "updated": 1779440516721
+      "updated": 1779452603103
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -33,7 +33,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1294,
-      "updated": 1779440516721
+      "updated": 1779452603103,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -46,7 +48,7 @@
     "manufacturer": "Sonos",
     "prices": {
       "zap": 3699,
-      "updated": 1779440516721
+      "updated": 1779452603103
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -59,7 +61,7 @@
     "manufacturer": "TCL",
     "prices": {
       "zap": 739,
-      "updated": 1779440516721
+      "updated": 1779452603103
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -72,7 +74,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 599,
-      "updated": 1779440516721
+      "updated": 1779452603103
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -85,7 +87,7 @@
     "manufacturer": "Sonos",
     "prices": {
       "zap": 1960,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -98,7 +100,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 889,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -111,7 +113,7 @@
     "manufacturer": "TCL",
     "prices": {
       "zap": 645,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -124,7 +126,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 199,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -137,7 +139,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1100,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -150,7 +152,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4799,
-      "updated": 1779440516721
+      "updated": 1779452603104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -163,7 +165,7 @@
     "manufacturer": "TCL",
     "prices": {
       "zap": 1858,
-      "updated": 1779440516721
+      "updated": 1779452603105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -176,7 +178,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 1469,
-      "updated": 1779440516721
+      "updated": 1779452603105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -189,7 +191,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 800,
-      "updated": 1779440516721
+      "updated": 1779452603105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -202,7 +204,7 @@
     "manufacturer": "TCL",
     "prices": {
       "zap": 2920,
-      "updated": 1779440516721
+      "updated": 1779452603105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -215,7 +217,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 650,
-      "updated": 1779440516721
+      "updated": 1779452603105,
+      "ivory": 799,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160699"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -228,7 +232,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1563,
-      "updated": 1779440516721
+      "updated": 1779452603105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -241,7 +245,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1074,
-      "updated": 1779440516721
+      "updated": 1779452603105,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -254,7 +260,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 933,
-      "updated": 1779440516721
+      "updated": 1779452603106,
+      "ivory": 985,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160702"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -267,7 +275,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1592,
-      "updated": 1779440516721
+      "updated": 1779452603106
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -280,7 +288,7 @@
     "manufacturer": "Sonos",
     "prices": {
       "zap": 839,
-      "updated": 1779440516721
+      "updated": 1779452603106
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -293,7 +301,7 @@
     "manufacturer": "Sonos",
     "prices": {
       "zap": 2696,
-      "updated": 1779440516721
+      "updated": 1779452603106
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -306,7 +314,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 2060,
-      "updated": 1779440516721
+      "updated": 1779452603106
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -319,7 +327,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 549,
-      "updated": 1779440516721
+      "updated": 1779452603106,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -332,7 +342,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 978,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -345,7 +355,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 2855,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -358,7 +368,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4183,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -371,7 +381,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 704,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -384,7 +394,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 748,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -397,7 +407,7 @@
     "manufacturer": "Aiwa",
     "prices": {
       "zap": 1150,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -410,7 +420,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 699,
-      "updated": 1779440516721
+      "updated": 1779452603107
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -423,7 +433,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 495,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -436,7 +446,7 @@
     "manufacturer": "Pure Acoustics",
     "prices": {
       "zap": 585,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -449,7 +459,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 990,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -462,7 +472,7 @@
     "manufacturer": "Klipsch",
     "prices": {
       "zap": 1990,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -475,7 +485,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 649,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -488,7 +498,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1790,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -501,7 +511,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 795,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -514,7 +524,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 898,
-      "updated": 1779440516721
+      "updated": 1779452603108
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -527,7 +537,9 @@
     "manufacturer": "Bose",
     "prices": {
       "zap": 1939,
-      "updated": 1779440516721
+      "updated": 1779452603108,
+      "bug": 2690,
+      "bugUrl": "https://www.bug.co.il/מקרן-קול-512-bose-91015030sbultrabl"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -540,7 +552,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 669,
-      "updated": 1779440516721
+      "updated": 1779452603109,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -553,7 +567,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 393,
-      "updated": 1779440516721
+      "updated": 1779452603109,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -566,7 +582,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 1038,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -579,7 +595,7 @@
     "manufacturer": "Aiwa",
     "prices": {
       "zap": 670,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -592,7 +608,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2542,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -605,7 +621,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 1979,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -618,7 +634,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 1478,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -631,7 +647,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 978,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -644,7 +660,7 @@
     "manufacturer": "Marshall",
     "prices": {
       "zap": 4790,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -657,7 +673,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 2290,
-      "updated": 1779440516721
+      "updated": 1779452603109
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -670,7 +686,7 @@
     "manufacturer": "Next Audio",
     "prices": {
       "zap": 517,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -683,7 +699,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2538,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -696,7 +712,7 @@
     "manufacturer": "SimplySound",
     "prices": {
       "zap": 542,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -709,7 +725,7 @@
     "manufacturer": "Sennheiser",
     "prices": {
       "zap": 2698,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -722,7 +738,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1225,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -735,7 +751,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2980,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -748,7 +764,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 1786,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -761,7 +777,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1089,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -774,7 +790,7 @@
     "manufacturer": "Pure Acoustics",
     "prices": {
       "zap": 599,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -787,7 +803,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 999,
-      "updated": 1779440516721
+      "updated": 1779452603110
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -800,7 +816,7 @@
     "manufacturer": "Next Audio",
     "prices": {
       "zap": 297,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -813,7 +829,7 @@
     "manufacturer": "Baseus",
     "prices": {
       "zap": 289,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -826,7 +842,7 @@
     "manufacturer": "Denon",
     "prices": {
       "zap": 2298,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -839,7 +855,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 3444,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -852,7 +868,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 709,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -865,7 +881,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2474,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -878,7 +894,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 2878,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -891,7 +907,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 1178,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -904,7 +920,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 4441,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -917,7 +933,7 @@
     "manufacturer": "Aiwa",
     "prices": {
       "zap": 1290,
-      "updated": 1779440516721
+      "updated": 1779452603111
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -930,7 +946,7 @@
     "manufacturer": "Klipsch",
     "prices": {
       "zap": 1579,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -943,7 +959,7 @@
     "manufacturer": "Pure Acoustics",
     "prices": {
       "zap": 1189,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -956,7 +972,7 @@
     "manufacturer": "Klipsch",
     "prices": {
       "zap": 2300,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -969,7 +985,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 1329,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -982,7 +998,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1540,
-      "updated": 1779440516721
+      "updated": 1779452603112,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -995,7 +1013,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1745,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1008,7 +1026,7 @@
     "manufacturer": "Aiwa",
     "prices": {
       "zap": 1199,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1021,7 +1039,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 3758,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1034,7 +1052,7 @@
     "manufacturer": "Denon",
     "prices": {
       "zap": 3389,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1047,7 +1065,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1191,
-      "updated": 1779440516721
+      "updated": 1779452603112
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1060,7 +1078,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1421,
-      "updated": 1779440516721
+      "updated": 1779452603113,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1073,7 +1093,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2488,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1086,7 +1106,7 @@
     "manufacturer": "Blaupunkt",
     "prices": {
       "zap": 508,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1099,7 +1119,7 @@
     "manufacturer": "Pure Acoustics",
     "prices": {
       "zap": 842,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1112,7 +1132,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 939,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1125,7 +1145,7 @@
     "manufacturer": "Pure Acoustics",
     "prices": {
       "zap": 699,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1138,7 +1158,7 @@
     "manufacturer": "Denon",
     "prices": {
       "zap": 999,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1151,7 +1171,7 @@
     "manufacturer": "Blaupunkt",
     "prices": {
       "zap": 897,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1164,7 +1184,7 @@
     "manufacturer": "Denon",
     "prices": {
       "zap": 3125,
-      "updated": 1779440516721
+      "updated": 1779452603113
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1177,7 +1197,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1120,
-      "updated": 1779440516721
+      "updated": 1779452603113,
+      "ivory": 549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1190,7 +1212,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 1798,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1203,7 +1225,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1375,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1216,7 +1238,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 2380,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1229,7 +1251,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2391,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1242,7 +1264,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1995,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1255,7 +1277,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 1638,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1268,7 +1290,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 1590,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1281,7 +1303,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 1469,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1294,7 +1316,7 @@
     "manufacturer": "IQ",
     "prices": {
       "zap": 754,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1307,7 +1329,7 @@
     "manufacturer": "B&W",
     "prices": {
       "zap": 6250,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1320,7 +1342,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 3171,
-      "updated": 1779440516721
+      "updated": 1779452603114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1333,7 +1355,7 @@
     "manufacturer": "Aiwa",
     "prices": {
       "zap": 1049,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1346,7 +1368,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 2226,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1359,7 +1381,7 @@
     "manufacturer": "Cambridge Audio",
     "prices": {
       "zap": 2449,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1372,7 +1394,7 @@
     "manufacturer": "Harman Kardon",
     "prices": {
       "zap": 3790,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1385,7 +1407,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2549,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1398,7 +1420,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 2949,
-      "updated": 1779440516721
+      "updated": 1779452603115
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1411,7 +1433,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4985,
-      "updated": 1779440516721
+      "updated": 1779452603116
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1424,7 +1446,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 3199,
-      "updated": 1779440516721
+      "updated": 1779452603116
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1437,7 +1459,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3824,
-      "updated": 1779440516721
+      "updated": 1779452603117
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1450,7 +1472,7 @@
     "manufacturer": "Monitor Audio",
     "prices": {
       "zap": 2490,
-      "updated": 1779440516721
+      "updated": 1779452603117
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1463,7 +1485,7 @@
     "manufacturer": "Sennheiser",
     "prices": {
       "zap": 4598,
-      "updated": 1779440516721
+      "updated": 1779452603117
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1476,7 +1498,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 1549,
-      "updated": 1779440516721
+      "updated": 1779452603117
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1489,7 +1511,7 @@
     "manufacturer": "JBL",
     "prices": {
       "zap": 5689,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1502,7 +1524,7 @@
     "manufacturer": "Sonos",
     "prices": {
       "zap": 1999,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1515,7 +1537,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 3122,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1528,7 +1550,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 3664,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1541,7 +1563,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 3990,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1554,7 +1576,7 @@
     "manufacturer": "Harman Kardon",
     "prices": {
       "zap": 3444,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1567,7 +1589,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 4950,
-      "updated": 1779440516721
+      "updated": 1779452603118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1580,7 +1602,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 4200,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1593,7 +1615,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 2511,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1606,7 +1628,7 @@
     "manufacturer": "Harman Kardon",
     "prices": {
       "zap": 3990,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1619,7 +1641,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 3721,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1632,7 +1654,7 @@
     "manufacturer": "Kef",
     "prices": {
       "zap": 4200,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1645,7 +1667,7 @@
     "manufacturer": "Denon",
     "prices": {
       "zap": 3990,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1658,7 +1680,7 @@
     "manufacturer": "Polk Audio",
     "prices": {
       "zap": 2990,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1671,7 +1693,7 @@
     "manufacturer": "Harman Kardon",
     "prices": {
       "zap": 4475,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1684,7 +1706,7 @@
     "manufacturer": "Yamaha",
     "prices": {
       "zap": 4200,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1697,7 +1719,7 @@
     "manufacturer": "LG",
     "prices": {
       "zap": 6289,
-      "updated": 1779440516721
+      "updated": 1779452603119
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1710,7 +1732,7 @@
     "manufacturer": "Sennheiser",
     "prices": {
       "zap": 8579,
-      "updated": 1779440516721
+      "updated": 1779452603120
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1723,7 +1745,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 5210,
-      "updated": 1779440516721
+      "updated": 1779452603120
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1736,7 +1758,7 @@
     "manufacturer": "Sony",
     "prices": {
       "zap": 6889,
-      "updated": 1779440516721
+      "updated": 1779452603120
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1749,7 +1771,7 @@
     "manufacturer": "Bang & Olufsen",
     "prices": {
       "zap": 8999,
-      "updated": 1779440516721
+      "updated": 1779452603120
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1762,7 +1784,7 @@
     "manufacturer": "Cabasse",
     "prices": {
       "zap": 10888,
-      "updated": 1779440516721
+      "updated": 1779452603120
     },
     "filterTags": {},
     "source": "zap-listing"

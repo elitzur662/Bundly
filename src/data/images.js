@@ -1,38 +1,25 @@
 /**
- * Bundly — Curated product-category fallback images.
+ * Bundly, neutral "no image" placeholder.
  *
- * Used by DealCard / DealDetailsPage when no ProductImage-fetched image is
- * available yet, and by smartCategoryFallback to pick a "best guess" Unsplash
- * by keyword. All URLs are direct Unsplash hosted images, no watermarks.
- *
- * Production note: when the catalog is fully populated and ProductImage's
- * /api/product-image fetch is reliable, these defaults become rarely-seen
- * placeholders. They never lock to a product (ProductImage detects Unsplash
- * URLs and refuses to lock).
+ * Shown ONLY when a product genuinely has no real photo. It is a clean,
+ * neutral graphic, never a generic stock photo of some other product, and
+ * never a random image from the web. Real product photos always come from
+ * the catalog (sourced from Zap, where the photo is guaranteed to belong to
+ * that exact model).
  */
+const PLACEHOLDER =
+  "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiB2aWV3Qm94PSIwIDAgNDAwIDQwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY0ZjYiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDAgMjAwKSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzNjOGQ0IiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9Ii04MCIgeT0iLTY0IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjEyOCIgcng9IjE2Ii8+PGNpcmNsZSBjeD0iLTM0IiBjeT0iLTIyIiByPSIxOCIvPjxwYXRoIGQ9Ik0tODAgNDIgTC0yNCAtMTAgTDIwIDMyIEw1MiA0IEw4MCAyOCIvPjwvZz48L3N2Zz4=";
+
+// Every category key maps to the SAME neutral placeholder, so a product is
+// never shown a stock photo of a different product. Kept as a keyed object
+// for backward compatibility with smartCategoryFallback's call sites.
 export const IMG = {
-  tv:        "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=700&q=85&fit=crop",
-  laptop:    "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=700&q=85&fit=crop",
-  phone:     "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=700&q=85&fit=crop",
-  wash:      "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=700&q=85&fit=crop",
-  ac:        "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=700&q=85&fit=crop",
-  bike:      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=700&q=85&fit=crop",
-  camera:    "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=700&q=85&fit=crop",
-  robot:     "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700&q=85&fit=crop",
-  couch:     "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&q=85&fit=crop",
-  coffee:    "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&q=85&fit=crop",
-  gaming:    "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=700&q=85&fit=crop",
-  headphones:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=700&q=85&fit=crop",
-  tablet:    "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=700&q=85&fit=crop",
-  drone:     "https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=700&q=85&fit=crop",
-  vacuum:    "https://images.unsplash.com/photo-1558317374-067fb5f30001?w=700&q=85&fit=crop",
-  watch:     "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&q=85&fit=crop",
-  earbuds:   "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=700&q=85&fit=crop",
-  fridge:    "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=700&q=85&fit=crop",
-  oven:      "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=85&fit=crop",
-  dishwasher:"https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=700&q=85&fit=crop",
-  microwave: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?w=700&q=85&fit=crop",
-  blender:   "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=700&q=85&fit=crop",
-  toaster:   "https://images.unsplash.com/photo-1585237017125-24baf8d7406f?w=700&q=85&fit=crop",
-  dryer:     "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=700&q=85&fit=crop",
+  tv: PLACEHOLDER, laptop: PLACEHOLDER, phone: PLACEHOLDER, wash: PLACEHOLDER,
+  ac: PLACEHOLDER, bike: PLACEHOLDER, camera: PLACEHOLDER, robot: PLACEHOLDER,
+  couch: PLACEHOLDER, coffee: PLACEHOLDER, gaming: PLACEHOLDER,
+  headphones: PLACEHOLDER, tablet: PLACEHOLDER, drone: PLACEHOLDER,
+  vacuum: PLACEHOLDER, watch: PLACEHOLDER, earbuds: PLACEHOLDER,
+  fridge: PLACEHOLDER, oven: PLACEHOLDER, dishwasher: PLACEHOLDER,
+  microwave: PLACEHOLDER, blender: PLACEHOLDER, toaster: PLACEHOLDER,
+  dryer: PLACEHOLDER,
 };

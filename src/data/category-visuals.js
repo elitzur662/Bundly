@@ -1,18 +1,18 @@
 /**
- * Bundly — Visual metadata for each category card in the supplier dashboard.
+ * Bundly, Visual metadata for each category card in the supplier dashboard.
  *
  * Each entry maps a Hebrew category name (matching personalRequest.category)
  * to:
- *   - image    — Unsplash photo URL (royalty-free, CDN-optimised)
- *   - icon     — emoji shown alongside the image
- *   - gradient — Tailwind gradient tokens used for the overlay tint
+ *   - image   , Unsplash photo URL (royalty-free, CDN-optimised)
+ *   - icon    , emoji shown alongside the image
+ *   - gradient, Tailwind gradient tokens used for the overlay tint
  *
  * Falls back to CATEGORY_VISUAL_MAP._default when a request's category
- * isn't in the map (rare — only happens for free-text categories that
+ * isn't in the map (rare, only happens for free-text categories that
  * suppliers haven't curated yet).
  */
 
-// Visual metadata per category — used in the supplier dashboard category cards.
+// Visual metadata per category, used in the supplier dashboard category cards.
 // Image URLs come from Unsplash (royalty-free, optimised via CDN).
 export const CATEGORY_VISUAL_MAP = {
   "טלוויזיות": {

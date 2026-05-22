@@ -7,7 +7,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1194,
-      "updated": 1779439949120
+      "updated": 1779452534492,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -20,7 +22,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1295,
-      "updated": 1779439949120
+      "updated": 1779452534503,
+      "ivory": 1647,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131256",
+      "bug": 1699,
+      "bugUrl": "https://www.bug.co.il/brand/samsung/galaxy/tab/s10/fe/wifi/128gb/x520/blue"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -33,7 +39,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1605,
-      "updated": 1779439949120
+      "updated": 1779452534513,
+      "ivory": 1939,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131259"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -46,7 +54,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1896,
-      "updated": 1779439949120
+      "updated": 1779452534526,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -59,7 +69,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2560,
-      "updated": 1779439949120
+      "updated": 1779452534541,
+      "ivory": 2495,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153598",
+      "ksp": 2699,
+      "kspUrl": "https://ksp.co.il/web/item/409008"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -72,7 +86,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 447,
-      "updated": 1779439949120
+      "updated": 1779452534553,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -85,7 +103,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2209,
-      "updated": 1779439949120
+      "updated": 1779452534565,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -98,7 +118,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 389,
-      "updated": 1779439949120
+      "updated": 1779452534577,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -111,7 +133,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3609,
-      "updated": 1779439949120
+      "updated": 1779452534587
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -124,7 +146,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 770,
-      "updated": 1779439949120
+      "updated": 1779452534601,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -137,7 +163,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1914,
-      "updated": 1779439949120
+      "updated": 1779452534615,
+      "ivory": 2495,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153598",
+      "ksp": 2699,
+      "kspUrl": "https://ksp.co.il/web/item/409008"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -150,7 +180,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 647,
-      "updated": 1779439949120
+      "updated": 1779452534627,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -163,7 +195,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1092,
-      "updated": 1779439949120
+      "updated": 1779452534639,
+      "ivory": 1199,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=141974",
+      "ksp": 1365,
+      "kspUrl": "https://ksp.co.il/web/item/408513"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -176,7 +212,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2087,
-      "updated": 1779439949120
+      "updated": 1779452534649,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -189,7 +227,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2400,
-      "updated": 1779439949120
+      "updated": 1779452534661,
+      "ksp": 3695,
+      "kspUrl": "https://ksp.co.il/web/item/335428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -202,7 +242,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 899,
-      "updated": 1779439949120
+      "updated": 1779452534673,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -215,7 +257,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1626,
-      "updated": 1779439949120
+      "updated": 1779452534683,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -228,7 +272,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 469,
-      "updated": 1779439949120
+      "updated": 1779452534695,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -241,7 +289,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1561,
-      "updated": 1779439949120
+      "updated": 1779452534707,
+      "ivory": 1647,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131256"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -254,7 +304,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4686,
-      "updated": 1779439949120
+      "updated": 1779452534717
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -267,7 +317,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 749,
-      "updated": 1779439949120
+      "updated": 1779452534727
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -280,7 +330,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 870,
-      "updated": 1779439949120
+      "updated": 1779452534738,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -293,7 +347,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1214,
-      "updated": 1779439949120
+      "updated": 1779452534750
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -306,7 +360,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 995,
-      "updated": 1779439949120
+      "updated": 1779452534762,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -319,7 +377,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 729,
-      "updated": 1779439949120
+      "updated": 1779452534774
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -332,7 +390,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3615,
-      "updated": 1779439949120
+      "updated": 1779452534785,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -345,7 +405,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 439,
-      "updated": 1779439949120
+      "updated": 1779452534795,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -358,7 +422,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1845,
-      "updated": 1779439949120
+      "updated": 1779452534807
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -371,7 +435,7 @@
     "manufacturer": "Silver Line",
     "prices": {
       "zap": 376,
-      "updated": 1779439949120
+      "updated": 1779452534818
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -384,7 +448,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1733,
-      "updated": 1779439949120
+      "updated": 1779452534828
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -397,7 +461,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3260,
-      "updated": 1779439949120
+      "updated": 1779452534838,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -410,7 +476,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3168,
-      "updated": 1779439949120
+      "updated": 1779452534849,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -423,7 +491,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1541,
-      "updated": 1779439949120
+      "updated": 1779452534861,
+      "ivory": 1199,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=141974",
+      "ksp": 1365,
+      "kspUrl": "https://ksp.co.il/web/item/408513"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -436,7 +508,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2719,
-      "updated": 1779439949120
+      "updated": 1779452534873,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -449,7 +523,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 445,
-      "updated": 1779439949120
+      "updated": 1779452534882,
+      "ivory": 1199,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=141974"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -462,7 +538,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 785,
-      "updated": 1779439949120
+      "updated": 1779452534892,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -475,7 +555,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2646,
-      "updated": 1779439949120
+      "updated": 1779452534903,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -488,7 +570,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2950,
-      "updated": 1779439949120
+      "updated": 1779452534915,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -501,7 +585,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 679,
-      "updated": 1779439949120
+      "updated": 1779452534925,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -514,7 +602,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1190,
-      "updated": 1779439949120
+      "updated": 1779452534936,
+      "ivory": 1199,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=141974",
+      "ksp": 1365,
+      "kspUrl": "https://ksp.co.il/web/item/408513"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -527,7 +619,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1965,
-      "updated": 1779439949120
+      "updated": 1779452534946,
+      "ivory": 2249,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=134208",
+      "bug": 2359,
+      "bugUrl": "https://www.bug.co.il/brand/samsung/galaxy/tab/s10/fe/plus/5g/128gb/x626/silver"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -540,7 +636,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1149,
-      "updated": 1779439949120
+      "updated": 1779452534958,
+      "ivory": 1199,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=141974",
+      "ksp": 1365,
+      "kspUrl": "https://ksp.co.il/web/item/408513"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -553,7 +653,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 449,
-      "updated": 1779439949120
+      "updated": 1779452534967,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -566,7 +670,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3330,
-      "updated": 1779439949120
+      "updated": 1779452534978
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -579,7 +683,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1749,
-      "updated": 1779439949120
+      "updated": 1779452534990
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -592,7 +696,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1293,
-      "updated": 1779439949120
+      "updated": 1779452535001,
+      "ksp": 759,
+      "kspUrl": "https://ksp.co.il/web/item/409168"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -605,7 +711,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1507,
-      "updated": 1779439949120
+      "updated": 1779452535012
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -618,7 +724,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 898,
-      "updated": 1779439949120
+      "updated": 1779452535022
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -631,7 +737,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 579,
-      "updated": 1779439949120
+      "updated": 1779452535033,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -644,7 +752,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 996,
-      "updated": 1779439949120
+      "updated": 1779452535043,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -657,7 +769,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 975,
-      "updated": 1779439949120
+      "updated": 1779452535055
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -670,7 +782,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1824,
-      "updated": 1779439949120
+      "updated": 1779452535063
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -683,7 +795,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1677,
-      "updated": 1779439949120
+      "updated": 1779452535074
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -696,7 +808,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4250,
-      "updated": 1779439949120
+      "updated": 1779452535083,
+      "ksp": 5305,
+      "kspUrl": "https://ksp.co.il/web/item/409024"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -709,7 +823,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1066,
-      "updated": 1779439949120
+      "updated": 1779452535093,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -722,7 +838,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1499,
-      "updated": 1779439949120
+      "updated": 1779452535104
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -735,7 +851,7 @@
     "manufacturer": "Oukitel",
     "prices": {
       "zap": 469,
-      "updated": 1779439949120
+      "updated": 1779452535114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -748,7 +864,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1049,
-      "updated": 1779439949120
+      "updated": 1779452535124,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -761,7 +881,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1540,
-      "updated": 1779439949120
+      "updated": 1779452535134
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -774,7 +894,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1900,
-      "updated": 1779439949120
+      "updated": 1779452535147,
+      "ivory": 1939,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131259"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -787,7 +909,9 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 522,
-      "updated": 1779439949120
+      "updated": 1779452535158,
+      "ksp": 589,
+      "kspUrl": "https://ksp.co.il/web/item/317405"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -800,7 +924,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 397,
-      "updated": 1779439949120
+      "updated": 1779452535166
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -813,7 +937,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 569,
-      "updated": 1779439949120
+      "updated": 1779452535175,
+      "ivory": 749,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=107418"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -826,7 +952,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1037,
-      "updated": 1779439949120
+      "updated": 1779452535186
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -839,7 +965,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1166,
-      "updated": 1779439949120
+      "updated": 1779452535196,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -852,7 +980,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1338,
-      "updated": 1779439949120
+      "updated": 1779452535206,
+      "ksp": 1359,
+      "kspUrl": "https://ksp.co.il/web/item/395801"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -865,7 +995,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1785,
-      "updated": 1779439949120
+      "updated": 1779452535216,
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -878,7 +1010,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2273,
-      "updated": 1779439949120
+      "updated": 1779452535226,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -891,7 +1025,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 695,
-      "updated": 1779439949120
+      "updated": 1779452535238,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -904,7 +1040,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 599,
-      "updated": 1779439949120
+      "updated": 1779452535248,
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -917,7 +1055,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 2200,
-      "updated": 1779439949120
+      "updated": 1779452535260,
+      "ksp": 2229,
+      "kspUrl": "https://ksp.co.il/web/item/423409"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -930,7 +1070,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 499,
-      "updated": 1779439949120
+      "updated": 1779452535270,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -943,7 +1085,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 569,
-      "updated": 1779439949120
+      "updated": 1779452535280
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -956,7 +1098,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 579,
-      "updated": 1779439949120
+      "updated": 1779452535290,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -969,7 +1115,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1821,
-      "updated": 1779439949120
+      "updated": 1779452535301,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -982,7 +1130,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1928,
-      "updated": 1779439949120
+      "updated": 1779452535311
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -995,7 +1143,11 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1187,
-      "updated": 1779439949120
+      "updated": 1779452535322,
+      "ivory": 1669,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161428",
+      "ksp": 1269,
+      "kspUrl": "https://ksp.co.il/web/item/395790"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1008,7 +1160,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1819,
-      "updated": 1779439949120
+      "updated": 1779452535330
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1021,7 +1173,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3103,
-      "updated": 1779439949120
+      "updated": 1779452535341,
+      "ivory": 3549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=133929"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1034,7 +1188,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1816,
-      "updated": 1779439949120
+      "updated": 1779452535353,
+      "ivory": 1647,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131256",
+      "bug": 1699,
+      "bugUrl": "https://www.bug.co.il/brand/samsung/galaxy/tab/s10/fe/wifi/128gb/x520/blue"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1047,7 +1205,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 520,
-      "updated": 1779439949120
+      "updated": 1779452535364,
+      "ivory": 749,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=107418"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1060,7 +1220,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 549,
-      "updated": 1779439949120
+      "updated": 1779452535375
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1073,7 +1233,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 732,
-      "updated": 1779439949120
+      "updated": 1779452535385
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1086,7 +1246,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1235,
-      "updated": 1779439949120
+      "updated": 1779452535396,
+      "ksp": 1269,
+      "kspUrl": "https://ksp.co.il/web/item/395790"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1099,7 +1261,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 482,
-      "updated": 1779439949120
+      "updated": 1779452535407
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1112,7 +1274,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1399,
-      "updated": 1779439949120
+      "updated": 1779452535416
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1125,7 +1287,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 875,
-      "updated": 1779439949120
+      "updated": 1779452535427
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1138,7 +1300,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 770,
-      "updated": 1779439949120
+      "updated": 1779452535436,
+      "ksp": 2402,
+      "kspUrl": "https://ksp.co.il/web/item/339379"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1151,7 +1315,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1399,
-      "updated": 1779439949120
+      "updated": 1779452535447
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1164,7 +1328,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 649,
-      "updated": 1779439949120
+      "updated": 1779452535458
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1177,7 +1341,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1078,
-      "updated": 1779439949120
+      "updated": 1779452535468,
+      "ksp": 1299,
+      "kspUrl": "https://ksp.co.il/web/item/239580"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1190,7 +1356,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 585,
-      "updated": 1779439949120
+      "updated": 1779452535476
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1203,7 +1369,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 529,
-      "updated": 1779439949120
+      "updated": 1779452535487
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1216,7 +1382,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4325,
-      "updated": 1779439949120
+      "updated": 1779452535497
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1229,7 +1395,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1292,
-      "updated": 1779439949120
+      "updated": 1779452535508,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1242,7 +1410,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2995,
-      "updated": 1779439949120
+      "updated": 1779452535518,
+      "ivory": 2495,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153598",
+      "ksp": 3175,
+      "kspUrl": "https://ksp.co.il/web/item/409013"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1255,7 +1427,9 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 764,
-      "updated": 1779439949120
+      "updated": 1779452535528,
+      "ksp": 995,
+      "kspUrl": "https://ksp.co.il/web/item/293434"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1268,7 +1442,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 899,
-      "updated": 1779439949120
+      "updated": 1779452535537
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1281,7 +1455,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1049,
-      "updated": 1779439949120
+      "updated": 1779452535547
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1294,7 +1468,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1262,
-      "updated": 1779439949120
+      "updated": 1779452535559,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1307,7 +1483,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1789,
-      "updated": 1779439949120
+      "updated": 1779452535569
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1320,7 +1496,11 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1299,
-      "updated": 1779439949120
+      "updated": 1779452535581,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942",
+      "bug": 1385,
+      "bugUrl": "https://www.bug.co.il/brand/lenovo/11/idea/tab/tb336zu/zafm0684il"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1333,7 +1513,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 518,
-      "updated": 1779439949120
+      "updated": 1779452535592
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1346,7 +1526,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 665,
-      "updated": 1779439949120
+      "updated": 1779452535602
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1359,7 +1539,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1500,
-      "updated": 1779439949120
+      "updated": 1779452535611,
+      "ivory": 1669,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1372,7 +1554,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4542,
-      "updated": 1779439949120
+      "updated": 1779452535621
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1385,7 +1567,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 864,
-      "updated": 1779439949120
+      "updated": 1779452535632,
+      "ivory": 895,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=151180",
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/435257"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1398,7 +1584,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1080,
-      "updated": 1779439949120
+      "updated": 1779452535643
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1411,7 +1597,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2205,
-      "updated": 1779439949120
+      "updated": 1779452535655,
+      "ivory": 1647,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=131256"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1424,7 +1612,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1287,
-      "updated": 1779439949120
+      "updated": 1779452535666
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1437,7 +1625,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 409,
-      "updated": 1779439949120
+      "updated": 1779452535677
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1450,7 +1638,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1946,
-      "updated": 1779439949120
+      "updated": 1779452535688,
+      "ksp": 1969,
+      "kspUrl": "https://ksp.co.il/web/item/423339"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1463,7 +1653,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4500,
-      "updated": 1779439949120
+      "updated": 1779452535698
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1476,7 +1666,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 528,
-      "updated": 1779439949120
+      "updated": 1779452535710,
+      "bug": 549,
+      "bugUrl": "https://www.bug.co.il/brand/lenovo/8/7/tab/one/zaf00119il"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1489,7 +1681,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 2996,
-      "updated": 1779439949120
+      "updated": 1779452535720
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1502,7 +1694,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1248,
-      "updated": 1779439949120
+      "updated": 1779452535731,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1515,7 +1711,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1290,
-      "updated": 1779439949120
+      "updated": 1779452535742,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1528,7 +1728,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 859,
-      "updated": 1779439949120
+      "updated": 1779452535753,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1541,7 +1743,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1556,
-      "updated": 1779439949120
+      "updated": 1779452535763,
+      "ivory": 1669,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1554,7 +1758,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2559,
-      "updated": 1779439949120
+      "updated": 1779452535774,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1567,7 +1773,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1464,
-      "updated": 1779439949120
+      "updated": 1779452535785,
+      "ksp": 999,
+      "kspUrl": "https://ksp.co.il/web/item/401311"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1580,7 +1788,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5837,
-      "updated": 1779439949120
+      "updated": 1779452535794
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1593,7 +1801,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 999,
-      "updated": 1779439949120
+      "updated": 1779452535805,
+      "bug": 1189,
+      "bugUrl": "https://www.bug.co.il/brand/lenovo/color/lunagray/tab/m11/lte/tb330xu/zadb0364il"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1606,7 +1816,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 749,
-      "updated": 1779439949120
+      "updated": 1779452535813
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1619,7 +1829,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 699,
-      "updated": 1779439949120
+      "updated": 1779452535824,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1632,7 +1846,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5400,
-      "updated": 1779439949120
+      "updated": 1779452535833
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1645,7 +1859,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 917,
-      "updated": 1779439949120
+      "updated": 1779452535844
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1658,7 +1872,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2939,
-      "updated": 1779439949120
+      "updated": 1779452535856,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1671,7 +1887,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2241,
-      "updated": 1779439949120
+      "updated": 1779452535867
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1684,7 +1900,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 675,
-      "updated": 1779439949120
+      "updated": 1779452535878
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1697,7 +1913,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4595,
-      "updated": 1779439949120
+      "updated": 1779452535889
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1710,7 +1926,11 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1362,
-      "updated": 1779439949120
+      "updated": 1779452535900,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942",
+      "bug": 1385,
+      "bugUrl": "https://www.bug.co.il/brand/lenovo/11/idea/tab/tb336fu/zafr0249il"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1723,7 +1943,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 994,
-      "updated": 1779439949120
+      "updated": 1779452535911
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1736,7 +1956,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3190,
-      "updated": 1779439949120
+      "updated": 1779452535923,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1749,7 +1971,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1490,
-      "updated": 1779439949120
+      "updated": 1779452535934
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1762,7 +1984,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 497,
-      "updated": 1779439949120
+      "updated": 1779452535943
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1775,7 +1997,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1462,
-      "updated": 1779439949120
+      "updated": 1779452535955,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1788,7 +2012,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2796,
-      "updated": 1779439949120
+      "updated": 1779452535962
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1801,7 +2025,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 459,
-      "updated": 1779439949120
+      "updated": 1779452535974
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1814,7 +2038,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1965,
-      "updated": 1779439949120
+      "updated": 1779452535982
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1827,7 +2051,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 585,
-      "updated": 1779439949120
+      "updated": 1779452535993
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1840,7 +2064,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1190,
-      "updated": 1779439949120
+      "updated": 1779452536005
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1853,7 +2077,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1020,
-      "updated": 1779439949120
+      "updated": 1779452536016,
+      "ksp": 1269,
+      "kspUrl": "https://ksp.co.il/web/item/395790"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1866,7 +2092,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 843,
-      "updated": 1779439949120
+      "updated": 1779452536025,
+      "ksp": 599,
+      "kspUrl": "https://ksp.co.il/web/item/379465"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1879,7 +2107,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4359,
-      "updated": 1779439949120
+      "updated": 1779452536035
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1892,7 +2120,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2508,
-      "updated": 1779439949120
+      "updated": 1779452536045,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1905,7 +2135,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3242,
-      "updated": 1779439949120
+      "updated": 1779452536057,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1918,7 +2150,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 945,
-      "updated": 1779439949120
+      "updated": 1779452536067,
+      "ivory": 1385,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160942"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1931,7 +2165,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1496,
-      "updated": 1779439949120
+      "updated": 1779452536076,
+      "ksp": 3695,
+      "kspUrl": "https://ksp.co.il/web/item/335428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1944,7 +2180,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3247,
-      "updated": 1779439949120
+      "updated": 1779452536087,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1957,7 +2195,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1849,
-      "updated": 1779439949120
+      "updated": 1779452536097
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1970,7 +2208,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3958,
-      "updated": 1779439949120
+      "updated": 1779452536107,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1983,7 +2223,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 769,
-      "updated": 1779439949120
+      "updated": 1779452536118
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -1996,7 +2236,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1215,
-      "updated": 1779439949120
+      "updated": 1779452536129
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2009,7 +2249,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 857,
-      "updated": 1779439949120
+      "updated": 1779452536140
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2022,7 +2262,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 899,
-      "updated": 1779439949120
+      "updated": 1779452536150,
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2035,7 +2277,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 799,
-      "updated": 1779439949120
+      "updated": 1779452536161,
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2048,7 +2292,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1300,
-      "updated": 1779439949120
+      "updated": 1779452536174
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2061,7 +2305,9 @@
     "manufacturer": "Oukitel",
     "prices": {
       "zap": 949,
-      "updated": 1779439949120
+      "updated": 1779452536185,
+      "ksp": 1079,
+      "kspUrl": "https://ksp.co.il/web/item/406468"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2074,7 +2320,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1300,
-      "updated": 1779439949120
+      "updated": 1779452536194,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2087,7 +2337,7 @@
     "manufacturer": "Silver Line",
     "prices": {
       "zap": 429,
-      "updated": 1779439949120
+      "updated": 1779452536206
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2100,7 +2350,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1626,
-      "updated": 1779439949120
+      "updated": 1779452536213
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2113,7 +2363,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 527,
-      "updated": 1779439949120
+      "updated": 1779452536224
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2126,7 +2376,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2549,
-      "updated": 1779439949120
+      "updated": 1779452536233,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2139,7 +2391,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1489,
-      "updated": 1779439949120
+      "updated": 1779452536244,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2152,7 +2406,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3458,
-      "updated": 1779439949120
+      "updated": 1779452536255,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2165,7 +2421,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 618,
-      "updated": 1779439949120
+      "updated": 1779452536265
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2178,7 +2434,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1656,
-      "updated": 1779439949120
+      "updated": 1779452536274,
+      "ivory": 1669,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2191,7 +2449,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1298,
-      "updated": 1779439949120
+      "updated": 1779452536284
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2204,7 +2462,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1399,
-      "updated": 1779439949120
+      "updated": 1779452536295
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2217,7 +2475,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1776,
-      "updated": 1779439949120
+      "updated": 1779452536307,
+      "ivory": 1669,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2230,7 +2490,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2120,
-      "updated": 1779439949120
+      "updated": 1779452536315,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2243,7 +2505,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2731,
-      "updated": 1779439949120
+      "updated": 1779452536325
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2256,7 +2518,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1399,
-      "updated": 1779439949120
+      "updated": 1779452536336
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2269,7 +2531,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1010,
-      "updated": 1779439949120
+      "updated": 1779452536348
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2282,7 +2544,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2680,
-      "updated": 1779439949120
+      "updated": 1779452536358
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2295,7 +2557,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1486,
-      "updated": 1779439949120
+      "updated": 1779452536370,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2308,7 +2572,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2597,
-      "updated": 1779439949120
+      "updated": 1779452536381,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2321,7 +2587,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3110,
-      "updated": 1779439949120
+      "updated": 1779452536394,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2334,7 +2602,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1240,
-      "updated": 1779439949120
+      "updated": 1779452536405
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2347,7 +2615,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 679,
-      "updated": 1779439949120
+      "updated": 1779452536416,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2360,7 +2632,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 599,
-      "updated": 1779439949120
+      "updated": 1779452536429
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2373,7 +2645,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1407,
-      "updated": 1779439949120
+      "updated": 1779452536440
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2386,7 +2658,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1120,
-      "updated": 1779439949120
+      "updated": 1779452536449
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2399,7 +2671,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2177,
-      "updated": 1779439949120
+      "updated": 1779452536460
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2412,7 +2684,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1999,
-      "updated": 1779439949120
+      "updated": 1779452536471
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2425,7 +2697,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 600,
-      "updated": 1779439949120
+      "updated": 1779452536483,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2438,7 +2714,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3250,
-      "updated": 1779439949120
+      "updated": 1779452536495,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2451,7 +2729,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1485,
-      "updated": 1779439949120
+      "updated": 1779452536506
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2464,7 +2742,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1210,
-      "updated": 1779439949120
+      "updated": 1779452536517
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2477,7 +2755,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 735,
-      "updated": 1779439949120
+      "updated": 1779452536527,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2490,7 +2770,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 678,
-      "updated": 1779439949120
+      "updated": 1779452536537
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2503,7 +2783,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 785,
-      "updated": 1779439949120
+      "updated": 1779452536546
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2516,7 +2796,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1495,
-      "updated": 1779439949120
+      "updated": 1779452536557
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2529,7 +2809,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3999,
-      "updated": 1779439949120
+      "updated": 1779452536568
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2542,7 +2822,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3170,
-      "updated": 1779439949120
+      "updated": 1779452536578,
+      "ivory": 2495,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153598",
+      "ksp": 3175,
+      "kspUrl": "https://ksp.co.il/web/item/409013"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2555,7 +2839,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 518,
-      "updated": 1779439949120
+      "updated": 1779452536589
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2568,7 +2852,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 939,
-      "updated": 1779439949120
+      "updated": 1779452536599
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2581,7 +2865,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 642,
-      "updated": 1779439949120
+      "updated": 1779452536610
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2594,7 +2878,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 575,
-      "updated": 1779439949120
+      "updated": 1779452536620
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2607,7 +2891,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 877,
-      "updated": 1779439949120
+      "updated": 1779452536631,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2620,7 +2908,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 928,
-      "updated": 1779439949120
+      "updated": 1779452536641
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2633,7 +2921,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 468,
-      "updated": 1779439949120
+      "updated": 1779452536651
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2646,7 +2934,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2210,
-      "updated": 1779439949120
+      "updated": 1779452536660
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2659,7 +2947,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1174,
-      "updated": 1779439949120
+      "updated": 1779452536671,
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2672,7 +2962,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1780,
-      "updated": 1779439949120
+      "updated": 1779452536681
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2685,7 +2975,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3849,
-      "updated": 1779439949120
+      "updated": 1779452536692
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2698,7 +2988,7 @@
     "manufacturer": "OnePlus",
     "prices": {
       "zap": 1199,
-      "updated": 1779439949120
+      "updated": 1779452536704
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2711,7 +3001,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 410,
-      "updated": 1779439949120
+      "updated": 1779452536714
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2724,7 +3014,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 922,
-      "updated": 1779439949120
+      "updated": 1779452536724
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2737,7 +3027,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1154,
-      "updated": 1779439949120
+      "updated": 1779452536733
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2750,7 +3040,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 893,
-      "updated": 1779439949120
+      "updated": 1779452536745
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2763,7 +3053,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 420,
-      "updated": 1779439949120
+      "updated": 1779452536754
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2776,7 +3066,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4031,
-      "updated": 1779439949120
+      "updated": 1779452536762,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2789,7 +3081,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1340,
-      "updated": 1779439949120
+      "updated": 1779452536773,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2802,7 +3098,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 649,
-      "updated": 1779439949120
+      "updated": 1779452536784
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2815,7 +3111,7 @@
     "manufacturer": "Huawei",
     "prices": {
       "zap": 1078,
-      "updated": 1779439949120
+      "updated": 1779452536793
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2828,7 +3124,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2499,
-      "updated": 1779439949120
+      "updated": 1779452536804
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2841,7 +3137,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4415,
-      "updated": 1779439949120
+      "updated": 1779452536813
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2854,7 +3150,9 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 537,
-      "updated": 1779439949120
+      "updated": 1779452536823,
+      "ksp": 579,
+      "kspUrl": "https://ksp.co.il/web/item/413855"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2867,7 +3165,7 @@
     "manufacturer": "Silver Line",
     "prices": {
       "zap": 438,
-      "updated": 1779439949120
+      "updated": 1779452536833
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2880,7 +3178,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3149,
-      "updated": 1779439949120
+      "updated": 1779452536843,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2893,7 +3193,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3461,
-      "updated": 1779439949120
+      "updated": 1779452536855,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2906,7 +3208,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3289,
-      "updated": 1779439949120
+      "updated": 1779452536866,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2919,7 +3223,7 @@
     "manufacturer": "Easyphone",
     "prices": {
       "zap": 589,
-      "updated": 1779439949120
+      "updated": 1779452536877
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2932,7 +3236,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3490,
-      "updated": 1779439949120
+      "updated": 1779452536887,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2945,7 +3251,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 828,
-      "updated": 1779439949120
+      "updated": 1779452536897,
+      "ksp": 799,
+      "kspUrl": "https://ksp.co.il/web/item/331517"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2958,7 +3266,9 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 550,
-      "updated": 1779439949120
+      "updated": 1779452536907,
+      "ksp": 599,
+      "kspUrl": "https://ksp.co.il/web/item/379465"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2971,7 +3281,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 467,
-      "updated": 1779439949120
+      "updated": 1779452536916
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2984,7 +3294,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 4090,
-      "updated": 1779439949120
+      "updated": 1779452536926
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -2997,7 +3307,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3299,
-      "updated": 1779439949120
+      "updated": 1779452536936,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3010,7 +3322,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1299,
-      "updated": 1779439949120
+      "updated": 1779452536948
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3023,7 +3335,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 899,
-      "updated": 1779439949120
+      "updated": 1779452536961,
+      "ivory": 498,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=150979",
+      "ksp": 669,
+      "kspUrl": "https://ksp.co.il/web/item/426507"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3036,7 +3352,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 548,
-      "updated": 1779439949120
+      "updated": 1779452536972
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3049,7 +3365,7 @@
     "manufacturer": "Silver Line",
     "prices": {
       "zap": 475,
-      "updated": 1779439949120
+      "updated": 1779452536982
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3062,7 +3378,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1178,
-      "updated": 1779439949120
+      "updated": 1779452536992
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3075,7 +3391,9 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 579,
-      "updated": 1779439949120
+      "updated": 1779452537003,
+      "ksp": 565,
+      "kspUrl": "https://ksp.co.il/web/item/349194"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3088,7 +3406,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 587,
-      "updated": 1779439949120
+      "updated": 1779452537013
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3101,7 +3419,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 497,
-      "updated": 1779439949120
+      "updated": 1779452537031
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3114,7 +3432,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 999,
-      "updated": 1779439949120
+      "updated": 1779452537041
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3127,7 +3445,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3100,
-      "updated": 1779439949120
+      "updated": 1779452537051
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3140,7 +3458,7 @@
     "manufacturer": "Victurio",
     "prices": {
       "zap": 569,
-      "updated": 1779439949120
+      "updated": 1779452537064
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3153,7 +3471,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 684,
-      "updated": 1779439949120
+      "updated": 1779452537074
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3166,7 +3484,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 619,
-      "updated": 1779439949120
+      "updated": 1779452537085
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3179,7 +3497,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6034,
-      "updated": 1779439949120
+      "updated": 1779452537093
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3192,7 +3510,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 849,
-      "updated": 1779439949120
+      "updated": 1779452537105
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3205,7 +3523,7 @@
     "manufacturer": "FunPad",
     "prices": {
       "zap": 689,
-      "updated": 1779439949120
+      "updated": 1779452537114
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3218,7 +3536,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4623,
-      "updated": 1779439949120
+      "updated": 1779452537124,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3231,7 +3551,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 2448,
-      "updated": 1779439949120
+      "updated": 1779452537135
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3244,7 +3564,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3750,
-      "updated": 1779439949120
+      "updated": 1779452537146,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3257,7 +3579,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2259,
-      "updated": 1779439949120
+      "updated": 1779452537157,
+      "ksp": 3695,
+      "kspUrl": "https://ksp.co.il/web/item/335428"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3270,7 +3594,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 665,
-      "updated": 1779439949120
+      "updated": 1779452537168
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3283,7 +3607,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1293,
-      "updated": 1779439949120
+      "updated": 1779452537179
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3296,7 +3620,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3300,
-      "updated": 1779439949120
+      "updated": 1779452537190
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3309,7 +3633,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4435,
-      "updated": 1779439949120
+      "updated": 1779452537204
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3322,7 +3646,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3779,
-      "updated": 1779439949120
+      "updated": 1779452537215,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3335,7 +3661,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1280,
-      "updated": 1779439949120
+      "updated": 1779452537225,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3348,7 +3678,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3890,
-      "updated": 1779439949120
+      "updated": 1779452537236,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3361,7 +3693,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6200,
-      "updated": 1779439949120
+      "updated": 1779452537248
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3374,7 +3706,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1815,
-      "updated": 1779439949120
+      "updated": 1779452537259
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3387,7 +3719,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1290,
-      "updated": 1779439949120
+      "updated": 1779452537269
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3400,7 +3732,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 3049,
-      "updated": 1779439949120
+      "updated": 1779452537278
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3413,7 +3745,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3399,
-      "updated": 1779439949120
+      "updated": 1779452537289,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3426,7 +3760,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3380,
-      "updated": 1779439949120
+      "updated": 1779452537300
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3439,7 +3773,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2488,
-      "updated": 1779439949120
+      "updated": 1779452537310
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3452,7 +3786,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2099,
-      "updated": 1779439949120
+      "updated": 1779452537322,
+      "bug": 1699,
+      "bugUrl": "https://www.bug.co.il/brand/samsung/galaxy/tab/s10/fe/wifi/128gb/x520/blue"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3465,7 +3801,11 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2993,
-      "updated": 1779439949120
+      "updated": 1779452537331,
+      "ivory": 2495,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=153598",
+      "ksp": 2699,
+      "kspUrl": "https://ksp.co.il/web/item/409008"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3478,7 +3818,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3296,
-      "updated": 1779439949120
+      "updated": 1779452537342
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3491,7 +3831,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3723,
-      "updated": 1779439949120
+      "updated": 1779452537353,
+      "ivory": 3549,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=133929"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3504,7 +3846,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1249,
-      "updated": 1779439949120
+      "updated": 1779452537366
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3517,7 +3859,7 @@
     "manufacturer": "Hemilton",
     "prices": {
       "zap": 349,
-      "updated": 1779439949120
+      "updated": 1779452537378
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3530,7 +3872,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2460,
-      "updated": 1779439949120
+      "updated": 1779452537389
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3543,7 +3885,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2399,
-      "updated": 1779439949120
+      "updated": 1779452537399
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3556,7 +3898,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 1599,
-      "updated": 1779439949120
+      "updated": 1779452537412
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3569,7 +3911,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5710,
-      "updated": 1779439949120
+      "updated": 1779452537423
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3582,7 +3924,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1970,
-      "updated": 1779439949120
+      "updated": 1779452537434
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3595,7 +3937,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 499,
-      "updated": 1779439949120
+      "updated": 1779452537445
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3608,7 +3950,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 549,
-      "updated": 1779439949120
+      "updated": 1779452537455
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3621,7 +3963,7 @@
     "manufacturer": "Xiaomi",
     "prices": {
       "zap": 1775,
-      "updated": 1779439949120
+      "updated": 1779452537466
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3634,7 +3976,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 3980,
-      "updated": 1779439949120
+      "updated": 1779452537476
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3647,7 +3989,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1691,
-      "updated": 1779439949120
+      "updated": 1779452537485
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3660,7 +4002,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4648,
-      "updated": 1779439949120
+      "updated": 1779452537495,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3673,7 +4017,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 699,
-      "updated": 1779439949120
+      "updated": 1779452537506
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3686,7 +4030,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2800,
-      "updated": 1779439949120
+      "updated": 1779452537515
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3699,7 +4043,7 @@
     "manufacturer": "Easyphone",
     "prices": {
       "zap": 730,
-      "updated": 1779439949120
+      "updated": 1779452537526
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3712,7 +4056,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4365,
-      "updated": 1779439949120
+      "updated": 1779452537535
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3725,7 +4069,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2770,
-      "updated": 1779439949120
+      "updated": 1779452537546
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3738,7 +4082,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4599,
-      "updated": 1779439949120
+      "updated": 1779452537558
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3751,7 +4095,7 @@
     "manufacturer": "Huawei",
     "prices": {
       "zap": 828,
-      "updated": 1779439949120
+      "updated": 1779452537569
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3764,7 +4108,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2938,
-      "updated": 1779439949120
+      "updated": 1779452537580
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3777,7 +4121,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3549,
-      "updated": 1779439949120
+      "updated": 1779452537591
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3790,7 +4134,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1858,
-      "updated": 1779439949120
+      "updated": 1779452537603,
+      "ksp": 1269,
+      "kspUrl": "https://ksp.co.il/web/item/395790"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3803,7 +4149,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1970,
-      "updated": 1779439949120
+      "updated": 1779452537612,
+      "ksp": 2402,
+      "kspUrl": "https://ksp.co.il/web/item/339379"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3816,7 +4164,9 @@
     "manufacturer": "Oukitel",
     "prices": {
       "zap": 1999,
-      "updated": 1779439949120
+      "updated": 1779452537623,
+      "ksp": 1869,
+      "kspUrl": "https://ksp.co.il/web/item/306009"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3829,7 +4179,7 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 899,
-      "updated": 1779439949120
+      "updated": 1779452537635
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3842,7 +4192,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3962,
-      "updated": 1779439949120
+      "updated": 1779452537645,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3855,7 +4207,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2172,
-      "updated": 1779439949120
+      "updated": 1779452537656,
+      "ivory": 2298,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161473"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3868,7 +4222,9 @@
     "manufacturer": "Teclast",
     "prices": {
       "zap": 1078,
-      "updated": 1779439949120
+      "updated": 1779452537665,
+      "ksp": 1325,
+      "kspUrl": "https://ksp.co.il/web/item/431721"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3881,7 +4237,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2147,
-      "updated": 1779439949120
+      "updated": 1779452537675
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3894,7 +4250,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3395,
-      "updated": 1779439949120
+      "updated": 1779452537686
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3907,7 +4263,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2207,
-      "updated": 1779439949120
+      "updated": 1779452537698,
+      "ksp": 2690,
+      "kspUrl": "https://ksp.co.il/web/item/457960"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3920,7 +4278,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1199,
-      "updated": 1779439949120
+      "updated": 1779452537709
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3933,7 +4291,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2389,
-      "updated": 1779439949120
+      "updated": 1779452537718,
+      "ivory": 2298,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=161473"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3946,7 +4306,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2298,
-      "updated": 1779439949120
+      "updated": 1779452537726,
+      "ksp": 1309,
+      "kspUrl": "https://ksp.co.il/web/item/370952"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3959,7 +4321,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 4170,
-      "updated": 1779439949120
+      "updated": 1779452537736
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3972,7 +4334,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4494,
-      "updated": 1779439949120
+      "updated": 1779452537748
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3985,7 +4347,7 @@
     "manufacturer": "Google",
     "prices": {
       "zap": 1499,
-      "updated": 1779439949120
+      "updated": 1779452537761
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -3998,7 +4360,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5500,
-      "updated": 1779439949120
+      "updated": 1779452537771
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4011,7 +4373,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4503,
-      "updated": 1779439949120
+      "updated": 1779452537783,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4024,7 +4388,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3549,
-      "updated": 1779439949120
+      "updated": 1779452537794,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4037,7 +4403,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 2476,
-      "updated": 1779439949120
+      "updated": 1779452537806
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4050,7 +4416,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4682,
-      "updated": 1779439949120
+      "updated": 1779452537816,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4063,7 +4431,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3490,
-      "updated": 1779439949120
+      "updated": 1779452537827
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4076,7 +4444,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4899,
-      "updated": 1779439949120
+      "updated": 1779452537837
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4089,7 +4457,7 @@
     "manufacturer": "Blackview",
     "prices": {
       "zap": 1534,
-      "updated": 1779439949120
+      "updated": 1779452537848
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4102,7 +4470,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3600,
-      "updated": 1779439949120
+      "updated": 1779452537859
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4115,7 +4483,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2880,
-      "updated": 1779439949120
+      "updated": 1779452537871
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4128,7 +4496,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2788,
-      "updated": 1779439949120
+      "updated": 1779452537882,
+      "ivory": 3799,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=147676"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4141,7 +4511,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3799,
-      "updated": 1779439949120
+      "updated": 1779452537892,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4154,7 +4526,9 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 1849,
-      "updated": 1779439949120
+      "updated": 1779452537903,
+      "ksp": 1969,
+      "kspUrl": "https://ksp.co.il/web/item/423339"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4167,7 +4541,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3388,
-      "updated": 1779439949120
+      "updated": 1779452537914
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4180,7 +4554,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3199,
-      "updated": 1779439949120
+      "updated": 1779452537926
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4193,7 +4567,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 3078,
-      "updated": 1779439949120
+      "updated": 1779452537935
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4206,7 +4580,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 1999,
-      "updated": 1779439949120
+      "updated": 1779452537946,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4219,7 +4595,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3180,
-      "updated": 1779439949120
+      "updated": 1779452537957
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4232,7 +4608,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 3190,
-      "updated": 1779439949120
+      "updated": 1779452537967
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4245,7 +4621,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4430,
-      "updated": 1779439949120
+      "updated": 1779452537979
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4258,7 +4634,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4369,
-      "updated": 1779439949120
+      "updated": 1779452537990,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4271,7 +4649,11 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2299,
-      "updated": 1779439949120
+      "updated": 1779452538001,
+      "ivory": 1308,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=139002",
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4284,7 +4666,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 2499,
-      "updated": 1779439949120
+      "updated": 1779452538011
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4297,7 +4679,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4399,
-      "updated": 1779439949120
+      "updated": 1779452538023,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4310,7 +4694,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 5999,
-      "updated": 1779439949120
+      "updated": 1779452538034
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4323,7 +4707,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5529,
-      "updated": 1779439949120
+      "updated": 1779452538047
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4336,7 +4720,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 5490,
-      "updated": 1779439949120
+      "updated": 1779452538059,
+      "ksp": 5305,
+      "kspUrl": "https://ksp.co.il/web/item/409024"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4349,7 +4735,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3799,
-      "updated": 1779439949120
+      "updated": 1779452538071,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4362,7 +4750,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3720,
-      "updated": 1779439949120
+      "updated": 1779452538083
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4375,7 +4763,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3740,
-      "updated": 1779439949120
+      "updated": 1779452538093
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4388,7 +4776,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 2800,
-      "updated": 1779439949120
+      "updated": 1779452538103,
+      "ivory": 3799,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=147676"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4401,7 +4791,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4881,
-      "updated": 1779439949120
+      "updated": 1779452538112,
+      "ksp": 2829,
+      "kspUrl": "https://ksp.co.il/web/item/447944"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4414,7 +4806,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4885,
-      "updated": 1779439949120
+      "updated": 1779452538124
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4427,7 +4819,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 4899,
-      "updated": 1779439949120
+      "updated": 1779452538136
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4440,7 +4832,7 @@
     "manufacturer": "Lenovo",
     "prices": {
       "zap": 2899,
-      "updated": 1779439949120
+      "updated": 1779452538148
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4453,7 +4845,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4090,
-      "updated": 1779439949120
+      "updated": 1779452538158,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4466,7 +4860,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4349,
-      "updated": 1779439949120
+      "updated": 1779452538168,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4479,7 +4875,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5175,
-      "updated": 1779439949120
+      "updated": 1779452538181,
+      "ivory": 3799,
+      "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=147676"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4492,7 +4890,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7253,
-      "updated": 1779439949120
+      "updated": 1779452538193
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4505,7 +4903,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3298,
-      "updated": 1779439949120
+      "updated": 1779452538205
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4518,7 +4916,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4400,
-      "updated": 1779439949120
+      "updated": 1779452538218,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4531,7 +4931,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7050,
-      "updated": 1779439949120
+      "updated": 1779452538230
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4544,7 +4944,7 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 4400,
-      "updated": 1779439949120
+      "updated": 1779452538242
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4557,7 +4957,9 @@
     "manufacturer": "Samsung",
     "prices": {
       "zap": 6150,
-      "updated": 1779439949120
+      "updated": 1779452538254,
+      "ksp": 4190,
+      "kspUrl": "https://ksp.co.il/web/item/335444"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4570,7 +4972,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4599,
-      "updated": 1779439949120
+      "updated": 1779452538266,
+      "ksp": 2239,
+      "kspUrl": "https://ksp.co.il/web/item/447839"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4583,7 +4987,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4499,
-      "updated": 1779439949120
+      "updated": 1779452538276
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4596,7 +5000,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4520,
-      "updated": 1779439949120
+      "updated": 1779452538288
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4609,7 +5013,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4530,
-      "updated": 1779439949120
+      "updated": 1779452538300
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4622,7 +5026,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7954,
-      "updated": 1779439949120
+      "updated": 1779452538310
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4635,7 +5039,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 4980,
-      "updated": 1779439949120
+      "updated": 1779452538320
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4648,7 +5052,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 3599,
-      "updated": 1779439949120
+      "updated": 1779452538333
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4661,7 +5065,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 4860,
-      "updated": 1779439949120
+      "updated": 1779452538344
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4674,7 +5078,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5690,
-      "updated": 1779439949120
+      "updated": 1779452538355,
+      "ksp": 3589,
+      "kspUrl": "https://ksp.co.il/web/item/447961"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4687,7 +5093,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 10279,
-      "updated": 1779439949120
+      "updated": 1779452538364
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4700,7 +5106,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4999,
-      "updated": 1779439949120
+      "updated": 1779452538374
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4713,7 +5119,9 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5149,
-      "updated": 1779439949120
+      "updated": 1779452538388,
+      "ksp": 3029,
+      "kspUrl": "https://ksp.co.il/web/item/447955"
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4726,7 +5134,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6279,
-      "updated": 1779439949120
+      "updated": 1779452538404
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4739,7 +5147,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 5450,
-      "updated": 1779439949120
+      "updated": 1779452538423
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4752,7 +5160,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 5570,
-      "updated": 1779439949120
+      "updated": 1779452538434
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4765,7 +5173,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 8394,
-      "updated": 1779439949120
+      "updated": 1779452538445
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4778,7 +5186,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6399,
-      "updated": 1779439949120
+      "updated": 1779452538457
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4791,7 +5199,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7539,
-      "updated": 1779439949120
+      "updated": 1779452538468
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4804,7 +5212,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5790,
-      "updated": 1779439949120
+      "updated": 1779452538478
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4817,7 +5225,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5599,
-      "updated": 1779439949120
+      "updated": 1779452538489
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4830,7 +5238,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 6190,
-      "updated": 1779439949120
+      "updated": 1779452538501
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4843,7 +5251,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 8889,
-      "updated": 1779439949120
+      "updated": 1779452538512
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4856,7 +5264,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5950,
-      "updated": 1779439949120
+      "updated": 1779452538530
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4869,7 +5277,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 5970,
-      "updated": 1779439949120
+      "updated": 1779452538541
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4882,7 +5290,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 4999,
-      "updated": 1779439949120
+      "updated": 1779452538552
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4895,7 +5303,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 7460,
-      "updated": 1779439949120
+      "updated": 1779452538562
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4908,7 +5316,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7190,
-      "updated": 1779439949120
+      "updated": 1779452538573
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4921,7 +5329,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7390,
-      "updated": 1779439949120
+      "updated": 1779452538593
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4934,7 +5342,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 6485,
-      "updated": 1779439949120
+      "updated": 1779452538611
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4947,7 +5355,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6396,
-      "updated": 1779439949120
+      "updated": 1779452538623
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4960,7 +5368,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 6499,
-      "updated": 1779439949120
+      "updated": 1779452538633
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4973,7 +5381,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7500,
-      "updated": 1779439949120
+      "updated": 1779452538643
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4986,7 +5394,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 9506,
-      "updated": 1779439949120
+      "updated": 1779452538655
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -4999,7 +5407,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6980,
-      "updated": 1779439949120
+      "updated": 1779452538665
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5012,7 +5420,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 7590,
-      "updated": 1779439949120
+      "updated": 1779452538674
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5025,7 +5433,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 6990,
-      "updated": 1779439949120
+      "updated": 1779452538686
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5038,7 +5446,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7890,
-      "updated": 1779439949120
+      "updated": 1779452538698
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5051,7 +5459,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6890,
-      "updated": 1779439949120
+      "updated": 1779452538715
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5064,7 +5472,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 8390,
-      "updated": 1779439949120
+      "updated": 1779452538733
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5077,7 +5485,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6999,
-      "updated": 1779439949120
+      "updated": 1779452538751
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5090,7 +5498,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 8089,
-      "updated": 1779439949120
+      "updated": 1779452538761
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5103,7 +5511,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7489,
-      "updated": 1779439949120
+      "updated": 1779452538781
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5116,7 +5524,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 7990,
-      "updated": 1779439949120
+      "updated": 1779452538801
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5129,7 +5537,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 7750,
-      "updated": 1779439949120
+      "updated": 1779452538820
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5142,7 +5550,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 6799,
-      "updated": 1779439949120
+      "updated": 1779452538831
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5155,7 +5563,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 9290,
-      "updated": 1779439949120
+      "updated": 1779452538843
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5168,7 +5576,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 8570,
-      "updated": 1779439949120
+      "updated": 1779452538863
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5181,7 +5589,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 8890,
-      "updated": 1779439949120
+      "updated": 1779452538875
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5194,7 +5602,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 9490,
-      "updated": 1779439949120
+      "updated": 1779452538894
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5207,7 +5615,7 @@
     "manufacturer": "Microsoft",
     "prices": {
       "zap": 10550,
-      "updated": 1779439949120
+      "updated": 1779452538915
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5220,7 +5628,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 9990,
-      "updated": 1779439949120
+      "updated": 1779452538927
     },
     "filterTags": {},
     "source": "zap-listing"
@@ -5233,7 +5641,7 @@
     "manufacturer": "Apple",
     "prices": {
       "zap": 10490,
-      "updated": 1779439949120
+      "updated": 1779452538944
     },
     "filterTags": {},
     "source": "zap-listing"
