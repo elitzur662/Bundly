@@ -11274,10 +11274,9 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
   let _lockKey = null;
   try {
     const { shippingAddress } = req.body || {};
-    // paymentOption: "bundly" (Bundly processes the card) | "supplier_direct"
-    // (customer pays the supplier on the supplier's own payment link).
-    const paymentOption = (req.body?.paymentOption === "supplier_direct")
-      ? "supplier_direct" : "bundly";
+    // Supplier-direct is the only payment model: the customer always pays
+    // the supplier directly on the supplier's own payment page. Bundly is
+    // never the merchant and never processes the payment.
     if (!shippingAddress?.street || !shippingAddress?.city) {
       return res.status(400).json({ error: "חסרים פרטי משלוח (עיר + רחוב חובה)" });
     }
@@ -11306,108 +11305,38 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
     }
     _offerAcceptInFlight.add(_lockKey);
 
-    // ── Option 2: pay the supplier directly. Bundly never touches the card. ──
-    if (paymentOption === "supplier_direct") {
-      const supplierId = request.offerSupplierId || request.offerSupplier || null;
-      // The payment link is edited by suppliers via the profile endpoint, so
-      // it lives in the supplier-profile store; fall back to the registry.
-      let supplierPaymentLink = "";
-      try {
-        const prof = supplierId && _prodDb.getSupplierProfile
-          ? _prodDb.getSupplierProfile(supplierId) : null;
-        if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
-        if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
-          const reg = _prodDb.getSupplier(supplierId);
-          if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
-        }
-      } catch (_) {}
-      if (!_isValidHttpUrl(supplierPaymentLink)) {
-        return res.status(400).json({ error: "הספק לא הגדיר תשלום ישיר, בחר תשלום דרך Bundly" });
+    // ── Supplier-direct payment (the only path). Bundly never touches the
+    // card; the customer pays the supplier in full on the supplier's own
+    // payment page. If the supplier has no payment link the order is still
+    // recorded and the supplier contacts the customer to complete payment. ──
+    const supplierId = request.offerSupplierId || request.offerSupplier || null;
+    // The payment link is edited by suppliers via the profile endpoint, so
+    // it lives in the supplier-profile store; fall back to the registry.
+    let supplierPaymentLink = "";
+    try {
+      const prof = supplierId && _prodDb.getSupplierProfile
+        ? _prodDb.getSupplierProfile(supplierId) : null;
+      if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
+      if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
+        const reg = _prodDb.getSupplier(supplierId);
+        if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
       }
-      const order = _prodDb.createOrder({
-        userId:       req.user.id,
-        supplierId,
-        supplierName: request.offerSupplier || "ספק",
-        productName:  request.product,
-        productImage: request.productImage,
-        price:        request.offerPrice,
-        requestId:    request.id,
-        shippingAddress,
-        paymentOption: "supplier_direct",
-      });
-      _prodDb.updateOrder(order.id, { paymentStatus: "pending_supplier" });
-      _prodDb.updatePersonalRequest(req.params.id, { status: "accepted" });
-      try {
-        logActivity("order_placed", {
-          order_id: order.id,
-          product:  order.productName,
-          supplier: order.supplierName,
-          amount:   `₪${order.totalAmount}`,
-        });
-      } catch (_) {}
-      return res.json({
-        ok: true,
-        order,
-        paymentOption: "supplier_direct",
-        supplierPaymentLink,
-        message: "השלם את התשלום באתר הספק",
-      });
-    }
+    } catch (_) {}
+    if (!_isValidHttpUrl(supplierPaymentLink)) supplierPaymentLink = "";
 
-    // ── Option 1 (default): Bundly processes the card. ──
     const order = _prodDb.createOrder({
       userId:       req.user.id,
-      supplierId:   request.offerSupplierId || request.offerSupplier || null,
+      supplierId,
       supplierName: request.offerSupplier || "ספק",
       productName:  request.product,
       productImage: request.productImage,
       price:        request.offerPrice,
       requestId:    request.id,
       shippingAddress,
-      paymentOption: "bundly",
+      paymentOption: "supplier_direct",
     });
-
-    // Pre-authorize the card (manual capture), funds held but NOT charged.
-    // Will be captured automatically when the group reaches its minimum.
-    // A thrown Stripe error must NOT leave the order falsely "preauthorized".
-    let payment;
-    try {
-      payment = await _paySvc.createPaymentIntent({
-        amount:         order.totalAmount,
-        orderId:        order.id,
-        userId:         req.user.id,
-        description:    `${request.product}, Bundly (pre-auth)`,
-        captureMethod:  "manual",
-        idempotencyKey: `preauth-order-${order.id}`,
-      });
-    } catch (payErr) {
-      console.error("[offers/accept] createPaymentIntent threw:", payErr);
-      payment = { ok: false };
-    }
-
-    if (!payment || !payment.ok) {
-      // Payment failed, roll the order back so it is never treated as paid.
-      _prodDb.updateOrder(order.id, { status: "cancelled", paymentStatus: "failed" });
-      return res.status(402).json({ error: "תקלת תשלום, ההזמנה לא בוצעה. נסה שוב." });
-    }
-
-    // Log as preauth transaction (will become "charge" when captured)
-    _prodDb.createTransaction({
-      orderId:         order.id,
-      userId:          req.user.id,
-      supplierId:      order.supplierId,
-      amount:          order.totalAmount,
-      type:            "preauth",
-      status:          "held",
-      paymentIntentId: payment.paymentIntentId,
-      notes:           `Pre-authorized, funds held until group closes. Captured on success, released on failure.`,
-    });
-
-    // Mark request as accepted + lock the price
+    _prodDb.updateOrder(order.id, { paymentStatus: "pending_supplier" });
     _prodDb.updatePersonalRequest(req.params.id, { status: "accepted" });
-    _prodDb.updateOrder(order.id, { paymentStatus: "preauthorized" });
-
-    // Admin alert, order placed and price locked
     try {
       logActivity("order_placed", {
         order_id: order.id,
@@ -11416,15 +11345,14 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
         amount:   `₪${order.totalAmount}`,
       });
     } catch (_) {}
-
-    res.json({
+    return res.json({
       ok: true,
       order,
-      payment,
-      paymentOption: "bundly",
-      lockedInPrice:    order.totalAmount,
-      lockedUntil:      new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString(),
-      message:          "המחיר שלך נעול. הכרטיס לא חויב, יחויב רק כשהקבוצה תיסגר בהצלחה.",
+      paymentOption: "supplier_direct",
+      supplierPaymentLink,
+      message: supplierPaymentLink
+        ? "השלם את התשלום באתר הספק"
+        : "הספק יצור עמכם קשר להשלמת התשלום",
     });
   } catch (e) {
     console.error("[offers/accept]", e);
@@ -13127,8 +13055,9 @@ async function _broadcastDealJoined(dealId, joinerUserId, joinerName) {
 //     stay the same.
 //   • Frontend calls stripe.confirmCardSetup(clientSecret) instead of
 //     confirmCardPayment, and reads `setupIntentId` from the response.
-//   • When the deal closes, /api/deals/:id/charge-confirmed (below)
-//     charges every confirmed joiner's saved card off-session.
+//   • The card check is ONLY a proof-of-seriousness step. Bundly never
+//     charges it. When the deal closes the customer pays the supplier
+//     directly on the supplier's own payment page.
 async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
   // Locate user for the Stripe Customer record
   let user = null;
@@ -13204,8 +13133,8 @@ async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
   try {
     logActivity(tier === "committed" ? "deal_commit" : "deal_join", {
       deal_id:  dealId,
-      tier:     tier === "committed" ? "committed (כרטיס נשמר)" : "watching (כרטיס נשמר)",
-      amount:   `הוקפא: לא, שמירת כרטיס בלבד (יעד ₪${amount})`,
+      tier:     tier === "committed" ? "committed (כרטיס אומת)" : "watching (כרטיס אומת)",
+      amount:   "ללא חיוב וללא הקפאה, אימות תוקף כרטיס בלבד",
       customer: user?.name || `user#${userId}`,
       phone:    user?.phone || "",
     });
@@ -13221,8 +13150,8 @@ async function _saveCardForDealJoin({ res, dealId, userId, tier, amount }) {
     status:        setup.status,
     amount,                                 // reservation amount (for display only)
     cardSaved:     true,
-    willChargeOnClose: true,
-    message:       "הכרטיס יישמר ויחויב רק אם הקבוצה תיסגר, ורק אחרי אישור שלך",
+    willChargeOnClose: false,
+    message:       "הכרטיס נבדק רק כדי לוודא שהוא תקף. בנדלי לא מחייבת אותו. כשהקבוצה תיסגר, התשלום יתבצע ישירות מול הספק.",
   });
 }
 
@@ -13329,217 +13258,57 @@ app.post("/api/deals/:id/save-payment-method", authMiddleware, AUTH_READY ? asyn
 } : notReady);
 
 // POST /api/deals/:id/charge-confirmed
-// User opens the deal (or a confirm link from the close-notification email)
-// and approves the charge. We then run off-session charge against the
-// PaymentMethod we stored on the join record.
+// NEUTRALIZED (supplier-direct payment model). Bundly is never the merchant
+// and never charges a customer's card. Payment at deal close is made by the
+// customer DIRECTLY to the supplier on the supplier's own payment page.
 //
-// SECURITY (audit C-NEW-1): the charged amount MUST come from the trusted
-// server-side deal state, never from req.body. Before this fix a user
-// could POST { amount: 1 } and pay ₪1 for a ₪5000 group buy. We resolve
-// the trusted price from the closed deal's winning bid, falling back to
-// the deal's groupOffer / marketMin in that order, then cross-check
-// against the reservedAmount on the join record. body.amount is ignored.
-//
-// SECURITY (audit H-NEW-1): added per-(deal,user) lock to prevent
-// concurrent double-charge from a fast double-click / parallel script.
-const _chargeInFlight = new Set();
+// The route stays registered so old/cached clients do not 404, but it no
+// longer calls any Stripe charge/capture logic. It just returns a clear
+// Hebrew message telling the client that payment is handled by the supplier.
 app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (req, res) => {
-  const dealId = req.params.id;
-  const userId = req.user.id;
-  const lockKey = `chargeConfirmed:${dealId}:${userId}`;
-  if (_chargeInFlight.has(lockKey)) {
-    return res.status(409).json({ error: "Charge already in progress for this deal" });
-  }
-  _chargeInFlight.add(lockKey);
+  return res.json({ ok: false, error: "התשלום מתבצע ישירות מול הספק" });
+} : notReady);
+
+// GET /api/deals/:id/supplier-payment-link
+// Resolves the payment page of the supplier behind the deal's winning bid,
+// so the deal page can send a customer of a closed group straight to the
+// supplier to pay in full. Bundly never processes the payment itself.
+app.get("/api/deals/:id/supplier-payment-link", AUTH_READY ? async (req, res) => {
   try {
-    const join = (_prodDb.listJoinedDeals(userId) || []).find(j => String(j.dealId) === String(dealId));
-    if (!join) return res.status(404).json({ error: "אינך חבר בקבוצה" });
-    // BUG FIX (round 4 P0): SetupIntent fallback. If the customer confirmed
-    // their card in the Stripe iframe but the follow-up POST /save-payment-
-    // method failed (network drop, tab close), the join row has setupIntentId
-    // + stripeCustomerId but no paymentMethodId. Before this fix, that
-    // customer was stranded with 400 "no card saved" and no recovery —
-    // supplier shipped, no charge ever happened. Now we retrieve the
-    // SetupIntent from Stripe and harvest the payment_method ourselves.
-    if (!join.paymentMethodId && join.setupIntentId && join.stripeCustomerId
-        && _paySvc?.PAYMENT_READY && !String(join.setupIntentId).startsWith("seti_stub_")) {
-      try {
-        const stripeMod = (await import("stripe")).default;
-        const stripe   = new stripeMod(process.env.STRIPE_SECRET_KEY);
-        const si       = await stripe.setupIntents.retrieve(join.setupIntentId);
-        if (si.status === "succeeded" && si.payment_method && si.customer === join.stripeCustomerId) {
-          _prodDb.updateJoinedDealPayment?.(userId, dealId, {
-            paymentMethodId: si.payment_method,
-            savedAt:         new Date().toISOString(),
-            recoveredFrom:   "setup-intent-fallback",
-          });
-          join.paymentMethodId = si.payment_method;
-        }
-      } catch (e) {
-        console.warn(`[charge-confirmed] SetupIntent fallback failed for user=${userId} deal=${dealId}: ${e.message}`);
-      }
-    }
-    if (!join.paymentMethodId || !join.stripeCustomerId) {
-      return res.status(400).json({ error: "אין כרטיס שמור, חזור לעמוד הקבוצה ושמור אמצעי תשלום" });
-    }
-    // Only short-circuit if the charge actually completed. Pending 3DS
-    // leaves chargedAt null so the user can retry.
-    // BUG FIX (round 4 P1): legacy rows (charged before the chargeStatus
-    // field existed) have chargedAt set but no chargeStatus. Treat absent
-    // chargeStatus as succeeded for backward compatibility.
-    if (join.chargedAt && (join.chargeStatus === "succeeded" || !("chargeStatus" in join))) {
-      return res.json({ ok: true, alreadyCharged: true, transactionId: join.lastChargeTxId });
-    }
+    const dealId = req.params.id;
+    const snap = _prodDb.load();
+    const deal = (snap.deals || []).find(d => String(d.id) === String(dealId));
+    if (!deal) return res.status(404).json({ ok: false, error: "הקבוצה לא נמצאה" });
 
-    // SECURITY (red-team round 2, H-R2-5): deals must be CLOSED before we
-    // charge the off-session card. Without this gate, a customer (or a
-    // phished link) could fire charge-confirmed while the group is still
-    // filling, paying full price for a group that may never reach its
-    // minimum, with no automated refund path (release-preauth only handles
-    // type:"preauth" transactions, not the "deal_close_charge" produced here).
-    {
-      const snap0 = _prodDb.load();
-      const deal0 = (snap0.deals || []).find(d => String(d.id) === String(dealId));
-      if (!deal0) return res.status(404).json({ error: "Deal not found" });
-      const status0 = String(deal0.status || "").toLowerCase();
-      if (status0 !== "closed" && status0 !== "confirmed") {
-        return res.status(409).json({
-          error: "Deal not closed, cannot charge yet",
-          dealStatus: status0 || "active",
-        });
-      }
-    }
+    // Find the supplier behind the lowest plausible bid.
+    const marketRef = Number(deal.marketMax) || Number(deal.marketMin)
+      || Number(deal.groupOffer) || 0;
+    const bidFloor = marketRef > 0 ? marketRef * 0.4 : 0;
+    const bids = (Array.isArray(deal.bids) ? deal.bids : [])
+      .filter(b => b && Number(b.amount) > 0 && Number(b.amount) >= bidFloor)
+      .sort((a, b) => Number(a.amount) - Number(b.amount));
+    const winning = bids[0] || null;
+    const supplierId = winning?.supplierId || null;
 
-    // ── Resolve trusted charge amount from server-side state ───────────
-    // Priority: winning bid > deal.groupOffer > deal.marketMin > saved reservedAmount.
-    // req.body.amount is IGNORED, the previous version accepted it and was
-    // the audit C-NEW-1 vulnerability.
-    let trustedAmount = 0;
-    let amountSource = "none";
+    let supplierPaymentLink = "";
+    let supplierName = winning?.supplierName || "הספק";
     try {
-      const snap = _prodDb.load();
-      const deal = (snap.deals || []).find(d => String(d.id) === String(dealId));
-      if (deal) {
-        // SECURITY (S14): server-side bid floor. A supplier could fat-finger a
-        // tiny bid (e.g. ₪5 instead of ₪500) and the customer would be charged
-        // far too little. Ignore any bid below 40% of the deal's market
-        // reference, mirrors the client-side guard in App.jsx (same 40%).
-        const marketRef = Number(deal.marketMax) || Number(deal.marketMin)
-          || Number(deal.groupOffer) || 0;
-        const bidFloor = marketRef > 0 ? marketRef * 0.4 : 0;
-        const plausibleBids = (Array.isArray(deal.bids) ? deal.bids : [])
-          .map(b => Number(b.amount) || Infinity)
-          .filter(n => n > 0 && n !== Infinity && n >= bidFloor);
-        const winningBid = plausibleBids.length > 0 ? Math.min(...plausibleBids) : 0;
-        if (winningBid > 0) { trustedAmount = winningBid; amountSource = "winning-bid"; }
+      const prof = supplierId && _prodDb.getSupplierProfile
+        ? _prodDb.getSupplierProfile(supplierId) : null;
+      if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
+      if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
+        const reg = _prodDb.getSupplier(supplierId);
+        if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
+        if (reg?.name) supplierName = reg.name;
       }
-    } catch (e) {
-      console.warn("[charge-confirmed] deal lookup failed:", e.message);
-    }
-    // SECURITY: a deal is chargeable ONLY at a price a SUPPLIER committed to —
-    // a real bid placed via the supplier-authenticated bid endpoint. The
-    // creation-time groupOffer / marketMin and the client-set reservedAmount
-    // are customer-supplied estimates; charging from them let a customer be
-    // billed a price they chose. No winning supplier bid → not chargeable.
-    if (trustedAmount < 1 || trustedAmount > 200000) {
-      return res.status(400).json({ error: "Deal price not finalised, cannot charge" });
-    }
-
-    // Cross-check against reservedAmount: if the customer agreed to ₪X and
-    // the trusted price is much higher, refuse and require fresh consent.
-    if (Number(join.reservedAmount) > 0 && trustedAmount > Number(join.reservedAmount) * 1.1) {
-      return res.status(409).json({
-        error: "Final price exceeds your reservation by more than 10%, needs fresh approval",
-        reservedAmount: Number(join.reservedAmount),
-        trustedAmount,
-      });
-    }
-
-    const amount = trustedAmount;
-    console.log(`[charge-confirmed] deal=${dealId} user=${userId} amount=₪${amount} source=${amountSource}`);
-
-    const charge = await _paySvc.chargeOffSession({
-      customerId:      join.stripeCustomerId,
-      paymentMethodId: join.paymentMethodId,
-      amount,
-      currency:        "ils",
-      // Idempotency: stable orderId per (deal,user) so Stripe dedupes on
-      // duplicate intent creation. Was using Date.now() which made every
-      // call a fresh intent (H-NEW-1 / I-NEW-1).
-      orderId:         `deal-${dealId}-${userId}`,
-      idempotencyKey:  `charge:${dealId}:${userId}`,
-      userId,
-      description:     `Bundly deal ${dealId}, confirmed by customer`,
-    });
-
-    // Always write a transaction row, success or fail, so we have a clear audit log
-    const tx = _prodDb.createTransaction({
-      orderId:    null,
-      userId,
-      supplierId: null,
-      amount,
-      type:       "deal_close_charge",
-      status:     charge.ok ? (charge.status === "succeeded" ? "succeeded" : charge.status) : "failed",
-      paymentIntentId: charge.paymentIntentId || null,
-      notes:      charge.ok
-        ? `Off-session charge ₪${amount} for deal ${dealId} after customer confirmation`
-        : `Off-session charge FAILED for deal ${dealId}: ${charge.error} (code=${charge.code || "n/a"})`,
-    });
-
-    if (!charge.ok) return res.status(402).json({ error: charge.error, code: charge.code });
-
-    // BUG FIX (round 3 P1, 3DS silent free order): a charge that needs
-    // 3DS comes back ok:true status:"requires_action" with no money
-    // moved. Previous code stamped chargedAt regardless, so the early-
-    // return guard at the top of this handler ("if (join.chargedAt)
-    // return alreadyCharged:true") prevented any retry, user closed
-    // the 3DS tab, supplier shipped, customer was never billed.
-    // Now we only stamp chargedAt on actual succeeded charges. For
-    // requires_action we store the nextActionUrl so the frontend can
-    // surface a "complete 3DS" CTA.
-    if (charge.status === "succeeded") {
-      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
-        chargedAt:       new Date().toISOString(),
-        lastChargeTxId:  tx?.id || null,
-        lastPaymentIntentId: charge.paymentIntentId,
-        chargeStatus:    charge.status,
-      });
-    } else {
-      // 3DS in progress / other non-final state.
-      _prodDb.updateJoinedDealPayment?.(userId, dealId, {
-        lastChargeTxId:      tx?.id || null,
-        lastPaymentIntentId: charge.paymentIntentId,
-        chargeStatus:        charge.status,
-        chargeNextActionUrl: charge.nextActionUrl || null,
-      });
-      return res.json({
-        ok:           true,
-        requiresAction: true,
-        nextActionUrl: charge.nextActionUrl || null,
-        status:       charge.status,
-      });
-    }
-
-    try {
-      logActivity("deal_charge_confirmed", {
-        deal_id: dealId, user_id: userId, amount: `₪${amount}`,
-        pm: join.paymentMethodId, status: charge.status,
-      });
     } catch (_) {}
 
-    res.json({
-      ok: true,
-      paymentIntentId: charge.paymentIntentId,
-      status:          charge.status,
-      requiresAction:  !!charge.requiresAction,
-      nextActionUrl:   charge.nextActionUrl,
-      amount,
-    });
+    if (!_isValidHttpUrl(supplierPaymentLink)) {
+      return res.json({ ok: true, supplierPaymentLink: "", supplierName });
+    }
+    return res.json({ ok: true, supplierPaymentLink, supplierName });
   } catch (e) {
-    console.error("[charge-confirmed] error:", e.message);
-    res.status(500).json({ error: e.message });
-  } finally {
-    _chargeInFlight.delete(lockKey);
+    return res.status(500).json({ ok: false, error: e.message });
   }
 } : notReady);
 
@@ -15394,16 +15163,16 @@ ${filtersLine}
 - **ביטול / החזר** → ענה: "לפי חוק הגנת הצרכן יש לך 14 יום מקבלת המוצר לבטל. כדי לפתוח בקשת ביטול, היכנס ל'ההזמנות שלי' → לחץ על ההזמנה → 'בטל הזמנה'. הכסף יוחזר תוך 14 יום. אם יש בעיה, פנה ל-${process.env.BUNDLY_SUPPORT_EMAIL || "bundly.co@bundly.co"} ונטפל מיידית."
 - **חיוב כפול / בעיית תשלום / החזר שלא הגיע** → "זה דחוף, לא נחכה. שלח את מספר ההזמנה ופירוט קצר ל-${process.env.BUNDLY_SUPPORT_EMAIL || "bundly.co@bundly.co"} ${process.env.BUNDLY_SUPPORT_PHONE ? "או חייג " + process.env.BUNDLY_SUPPORT_PHONE : ""}, אנחנו עונים תוך 24 שעות בימי עסקים."
 - **מוצר פגום / לא הגיע / לא תואם תיאור** → "מצטערים על החוויה. שלח תמונה של המוצר ותיאור הבעיה ל-${process.env.BUNDLY_SUPPORT_EMAIL || "bundly.co@bundly.co"}, נטפל בזה מול הספק."
-- **קבוצה שלא נסגרה / פיקדון שלא הוחזר** → "פיקדון משוחרר אוטומטית תוך 7 ימים מסיום הקבוצה. אם עברו 7 ימים והכסף לא הוחזר, שלח את מספר ההזמנה ל-${process.env.BUNDLY_SUPPORT_EMAIL || "bundly.co@bundly.co"} ונטפל היום."
+- **קבוצה שלא נסגרה** → "אם הקבוצה לא הגיעה למינימום, פשוט לא קורה כלום, בנדלי לא חייבה אותך ואין מה להחזיר. הכרטיס נבדק רק לאימות תוקף. אם יש שאלה, שלח את מספר הבקשה ל-${process.env.BUNDLY_SUPPORT_EMAIL || "bundly.co@bundly.co"} ונטפל היום."
 - **איך זה עובד / שאלות כלליות** → ענה בעצמך מהמידע למטה. בלי להפנות אם אתה יכול לענות.
 
 ### מידע שאתה יודע על הפלטפורמה:
-- **3 רמות הצטרפות לקבוצה:**
+- **2 רמות הצטרפות לקבוצה:**
   - 🔔 **מתעניין**, חינם, רק התראות, אין התחייבות
-  - 📍 **שומר מקום**, פיקדון ₪25 מוקפא בכרטיס. מקוזז במחיר הסופי או מוחזר אם הקבוצה לא נסגרת
-  - ✅ **בפנים**, מקדמה 25% מהמחיר. מבטיחה נעילת מחיר. היתרה גובה רק כשהקבוצה נסגרת
-- **הכרטיס לא מחויב כשהמשתמש מצטרף, רק מוקפא.** החיוב בפועל קורה רק כשהקבוצה נסגרת בהצלחה.
-- **אם קבוצה לא מתמלאת** למינימום, כל הפיקדונות משוחררים אוטומטית תוך 7 ימים.
+  - ✅ **בפנים**, הלקוח מאמת כרטיס אשראי. הכרטיס נבדק רק כדי לוודא שהוא תקף, סימן רצינות, ותו לא
+- **בנדלי לעולם לא מחייבת את הכרטיס ולא מקפיאה בו כסף.** הכרטיס נבדק רק לאימות תוקף.
+- **כשהקבוצה נסגרת בהצלחה, הלקוח משלם את המחיר המלא ישירות לספק** דרך עמוד התשלום של הספק. בנדלי אינה הסוחר ואינה מעבדת תשלומים.
+- **אם קבוצה לא מתמלאת** למינימום, פשוט לא קורה כלום, אין חיוב ואין מה להחזיר.
 - **זמני אספקה רגילים:** 7 ימי עסקים למוצרים סטנדרטיים, 14 לחשמל גדול (מקרר/כביסה/מזגן), 30 ליבוא מיוחד.
 - **אחריות:** אחריות יצרן מלאה דרך הספק. בנדלי לא היצרן.
 - **ביטול:** עד 14 יום מקבלת המוצר (חוק הגנת הצרכן), החזר תוך 14 יום נוספים.
