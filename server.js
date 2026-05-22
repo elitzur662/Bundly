@@ -11289,6 +11289,14 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
     if (request.userId !== req.user.id) return res.status(403).json({ error: "Not your offer" });
     if (request.status !== "offered") return res.status(400).json({ error: "Not in offered state" });
 
+    // Price-sanity gate — offerPrice was set by the supplier and is about to
+    // become a real charge / PaymentIntent. Reject an implausible value (a
+    // supplier typo or a compromised supplier account) before any money moves.
+    const _offerPrice = Number(request.offerPrice) || 0;
+    if (_offerPrice < 1 || _offerPrice > 200000) {
+      return res.status(400).json({ error: "מחיר ההצעה אינו תקין — פנה לספק" });
+    }
+
     // Idempotency lock — a double-click (or duplicate request) must not create
     // two orders / two PaymentIntents for the same offer.
     _lockKey = String(req.params.id);
@@ -11453,7 +11461,9 @@ app.get("/api/orders/:id", authMiddleware, AUTH_READY ? (req, res) => {
 // SECURITY (red-team round 2 — C-R2-4): supplier identity now verified via
 // Bearer JWT, not via spoofable x-supplier-email header. Previous header-only
 // check let any unauthenticated attacker mark any order shipped/delivered.
-app.patch("/api/orders/:id/status", AUTH_READY ? async (req, res) => {
+app.patch("/api/orders/:id/status",
+  rateLimit({ windowMs: 60_000, max: 30, label: "order-status" }),
+  AUTH_READY ? async (req, res) => {
   try {
     const existing = _prodDb.getOrder(req.params.id);
     if (!existing) return res.status(404).json({ error: "Not found" });
@@ -13422,17 +13432,15 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
           .filter(n => n > 0 && n !== Infinity && n >= bidFloor);
         const winningBid = plausibleBids.length > 0 ? Math.min(...plausibleBids) : 0;
         if (winningBid > 0) { trustedAmount = winningBid; amountSource = "winning-bid"; }
-        else if (Number(deal.groupOffer) > 0) { trustedAmount = Number(deal.groupOffer); amountSource = "group-offer"; }
-        else if (Number(deal.marketMin) > 0)  { trustedAmount = Number(deal.marketMin);  amountSource = "market-min"; }
       }
     } catch (e) {
       console.warn("[charge-confirmed] deal lookup failed:", e.message);
     }
-    if (trustedAmount < 1 && Number(join.reservedAmount) > 0) {
-      // Last resort: the amount the user agreed to at SetupIntent time.
-      trustedAmount = Number(join.reservedAmount);
-      amountSource = "reserved-amount";
-    }
+    // SECURITY: a deal is chargeable ONLY at a price a SUPPLIER committed to —
+    // a real bid placed via the supplier-authenticated bid endpoint. The
+    // creation-time groupOffer / marketMin and the client-set reservedAmount
+    // are customer-supplied estimates; charging from them let a customer be
+    // billed a price they chose. No winning supplier bid → not chargeable.
     if (trustedAmount < 1 || trustedAmount > 200000) {
       return res.status(400).json({ error: "Deal price not finalised — cannot charge" });
     }

@@ -1556,7 +1556,11 @@ export function createDeal(data = {}) {
       minParticipants: Number.isFinite(Number(data.minParticipants)) ? Number(data.minParticipants) : 10,
       daysLeft:        Number.isFinite(Number(data.daysLeft)) ? Number(data.daysLeft) : 14,
       specs:           Array.isArray(data.specs) ? data.specs : [],
-      bids:            Array.isArray(data.bids) ? data.bids : [],
+      // SECURITY: a new deal ALWAYS starts with zero bids. Bids may only be
+      // added by the supplier-authenticated POST /api/deals/:id/bids endpoint
+      // (supplierId pinned from the JWT). Accepting client-supplied bids here
+      // let a customer seed a fake low "winning bid" and be charged that price.
+      bids:            [],
       status:          "active",   // active | closed | confirmed | cancelled
       createdAt:       now,
       updatedAt:       now,
