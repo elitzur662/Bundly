@@ -809,10 +809,23 @@ const MODEL_TIER_WORDS = new Set([
   "switch2",
 ]);
 
+/**
+ * Accessory keywords. A case / screen-protector / charger / cable FOR a
+ * product contains every one of that product's model words ("iPhone 14 Pro
+ * Max"), so the word-overlap score would rate it a perfect match — and the
+ * cheap accessory's price (₪30) would poison the real product's price.
+ * We reject an accessory candidate unless the catalog product is itself an
+ * accessory (so a phone-case category still matches phone-case listings).
+ */
+const ACCESSORY_RE = /כיסוי|נרתיק|מגן\s*מסך|מגן\s*קדמי|מגן\s*ל[־\- ]|מגן\s*זכוכית|זכוכית\s*מגן|פראם|פרייט|bumper|\bcase\b|\bcover\b|sleeve|pouch|screen\s*protector|tempered|\bglass\b|\bמטען\b|charger|\bכבל\b|\bcable\b|\badapter\b|\bמתאם\b|\bמעמד\b|\bstand\b|\bholder\b|tripod|חצובה|\bמדבקה\b|\bsticker\b|\bskin\b|\bרצועה\b|\bstrap\b/i;
+const isAccessory = (name) => ACCESSORY_RE.test(name || "");
+
 /** Score: fraction of needleWords found in haystack (0..1).
  *  Returns 0 immediately if a model-tier word appears in one name but not the other
  *  (prevents "iPhone 17" matching "iPhone 17 Pro", "S25" matching "S25 FE", etc.) */
 function matchScore(needle, haystack) {
+  // Accessory guard — a case / protector / charger must not price a real product.
+  if (isAccessory(haystack) && !isAccessory(needle)) return 0;
   const nNorm  = normalizeName(needle);
   const hNorm  = normalizeName(haystack);
   const nWords = nNorm.split(" ").filter(w => w.length > 1);
@@ -1411,6 +1424,18 @@ async function downloadImages(slug, products, concurrency = IMAGE_CONCURRENCY) {
 
 // ── Price merger ──────────────────────────────────────────────────────────────
 
+/**
+ * Reject a store match whose price is wildly below the ZAP reference price.
+ * A genuine same-product store offer is never a third of ZAP's price — such
+ * a gap means the matcher latched onto an accessory or a different product.
+ * (When there is no ZAP reference the accessory keyword filter is the guard.)
+ */
+function _priceImplausible(storePrice, zapPrice) {
+  if (!(storePrice > 0)) return true;                 // no price → useless
+  if (zapPrice > 0 && storePrice < zapPrice * 0.35) return true;
+  return false;
+}
+
 function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
   // Only update store prices when we actually got data from that store.
   // If a store returned 0 results (e.g. 403 rate-limit), preserve the
@@ -1433,7 +1458,7 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     // Ivory
     if (hasIvory) {
       const ivMatch = findBestMatch(p.name, ivoryProds, 0.70);
-      if (ivMatch) { p.prices.ivory = ivMatch.price; p.prices.ivoryUrl = ivMatch.url; }
+      if (ivMatch && !_priceImplausible(ivMatch.price, p.price)) { p.prices.ivory = ivMatch.price; p.prices.ivoryUrl = ivMatch.url; }
     } else if (prevIvory > 0) {
       // Store returned no data (403/timeout) — carry over last known price
       p.prices.ivory = prevIvory;
@@ -1446,7 +1471,7 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     // Valid specific-model matches score ≥ 0.75 (3+ unique model words all in haystack).
     if (hasKsp) {
       const kspMatch = findBestMatch(p.name, kspProds, 0.70);
-      if (kspMatch) { p.prices.ksp = kspMatch.price; p.prices.kspUrl = kspMatch.url; }
+      if (kspMatch && !_priceImplausible(kspMatch.price, p.price)) { p.prices.ksp = kspMatch.price; p.prices.kspUrl = kspMatch.url; }
     } else if (prevKsp > 0) {
       p.prices.ksp = prevKsp;
       if (prevKspUrl) p.prices.kspUrl = prevKspUrl;
@@ -1455,7 +1480,7 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     // Bug.co.il
     if (hasBug) {
       const bugMatch = findBestMatch(p.name, bugProds, 0.70);
-      if (bugMatch) { p.prices.bug = bugMatch.price; p.prices.bugUrl = bugMatch.url; }
+      if (bugMatch && !_priceImplausible(bugMatch.price, p.price)) { p.prices.bug = bugMatch.price; p.prices.bugUrl = bugMatch.url; }
     } else if (prevBug > 0) {
       p.prices.bug = prevBug;
       if (prevBugUrl) p.prices.bugUrl = prevBugUrl;

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bundly — תצוגת כיווני עיצוב</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Heebo',sans-serif;-webkit-font-smoothing:antialiased;}
+  body{background:#e9eaee;color:#18181b;padding:28px 16px 80px;}
+  .intro{max-width:1100px;margin:0 auto 26px;text-align:center;}
+  .intro h1{font-size:26px;font-weight:900;letter-spacing:-.02em;}
+  .intro p{font-size:15px;color:#6b7280;margin-top:6px;}
+
+  /* ── one theme block ─────────────────────────────────────────── */
+  .theme{max-width:1100px;margin:0 auto 22px;border-radius:24px;overflow:hidden;
+         box-shadow:0 10px 40px rgba(0,0,0,.07);background:var(--page);}
+  .theme-label{padding:16px 24px;background:var(--card);border-bottom:1px solid var(--line);}
+  .theme-label .opt{font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em;}
+  .theme-label .ttl{font-size:19px;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin-top:2px;}
+  .theme-label .sub{font-size:13px;color:var(--ink-soft);margin-top:3px;}
+  .stage{padding:22px;}
+
+  /* ── navbar ───────────────────────────────────────────────────── */
+  .nav{background:var(--card);border:1px solid var(--line);border-radius:16px;
+       display:flex;align-items:center;gap:14px;padding:11px 16px;
+       box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .brand{font-size:18px;font-weight:900;color:var(--ink);letter-spacing:-.02em;white-space:nowrap;}
+  .brand b{color:var(--accent);}
+  .search{flex:1;background:var(--page);border:1px solid var(--line);border-radius:11px;
+          padding:9px 14px;font-size:13px;color:var(--ink-soft);}
+  .links{display:flex;gap:6px;align-items:center;}
+  .links a{font-size:13px;font-weight:600;color:var(--ink-soft);padding:7px 11px;border-radius:9px;text-decoration:none;}
+  .links .login{background:var(--cta-bg);color:var(--cta-text);font-weight:700;padding:8px 16px;}
+
+  .section-title{font-size:16px;font-weight:800;color:var(--ink);margin:20px 2px 12px;letter-spacing:-.01em;}
+
+  /* ── product cards ────────────────────────────────────────────── */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+        box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+  .card-img{background:#fff;height:150px;display:flex;align-items:center;justify-content:center;padding:14px;
+            border-bottom:1px solid var(--line);}
+  .card-img img{max-width:100%;max-height:100%;object-fit:contain;}
+  .card-body{padding:13px 14px 14px;}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;
+         background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:999px;margin-bottom:8px;}
+  .card-name{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.45;min-height:39px;}
+  .price-row{display:flex;align-items:baseline;gap:7px;margin:9px 0 12px;}
+  .price{font-size:21px;font-weight:900;color:var(--ink);letter-spacing:-.02em;}
+  .price-old{font-size:12.5px;color:var(--ink-soft);text-decoration:line-through;}
+  .cta{width:100%;background:var(--cta-bg);color:var(--cta-text);border:none;
+       font-family:inherit;font-size:13px;font-weight:800;padding:11px;border-radius:11px;cursor:pointer;
+       box-shadow:var(--cta-shadow);transition:filter .15s;}
+  .cta:hover{filter:brightness(1.08);}
+
+  @media(max-width:720px){.grid{grid-template-columns:1fr;}.links a:not(.login){display:none;}}
+
+  /* ════════ THEME 1 — charcoal + single accent ════════ */
+  .t-charcoal{
+    --page:#f5f5f6; --card:#ffffff; --ink:#18181b; --ink-soft:#71717a; --line:#ededee;
+    --accent:#4f46e5; --accent-soft:#eef0fe;
+    --cta-bg:#18181b; --cta-text:#ffffff; --cta-shadow:0 4px 12px rgba(24,24,27,.18);
+    --shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(0,0,0,.05);
+    --shadow-hover:0 1px 2px rgba(0,0,0,.05),0 14px 30px rgba(0,0,0,.09);
+  }
+  /* ════════ THEME 2 — disciplined purple ════════ */
+  .t-purple{
+    --page:#faf9fc; --card:#ffffff; --ink:#1e1b2e; --ink-soft:#6b6781; --line:#ece9f3;
+    --accent:#7c3aed; --accent-soft:#f3effe;
+    --cta-bg:linear-gradient(135deg,#7c3aed,#6d28d9); --cta-text:#ffffff;
+    --cta-shadow:0 5px 15px rgba(124,58,237,.30);
+    --shadow:0 1px 2px rgba(46,16,101,.05),0 6px 18px rgba(46,16,101,.06);
+    --shadow-hover:0 1px 2px rgba(46,16,101,.06),0 14px 30px rgba(46,16,101,.12);
+  }
+  /* ════════ THEME 3 — deep navy ════════ */
+  .t-navy{
+    --page:#f4f5f7; --card:#ffffff; --ink:#0f172a; --ink-soft:#64748b; --line:#e6e8ee;
+    --accent:#1e3a8a; --accent-soft:#e8ecf6;
+    --cta-bg:linear-gradient(135deg,#1e3a8a,#172554); --cta-text:#ffffff;
+    --cta-shadow:0 5px 15px rgba(23,37,84,.28);
+    --shadow:0 1px 2px rgba(15,23,42,.05),0 6px 18px rgba(15,23,42,.06);
+    --shadow-hover:0 1px 2px rgba(15,23,42,.06),0 14px 30px rgba(15,23,42,.12);
+  }
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Bundly — 3 כיווני עיצוב יוקרתי</h1>
+  <p>אותו ממשק בדיוק, ב-3 כיוונים. גלול והשווה — ואז תגיד לי איזה לבחור.</p>
+</div>
+
+<div class="theme t-charcoal">
+  <div class="theme-label">
+    <div class="opt">אפשרות 1</div>
+    <div class="ttl">שחור-פחם + דגש אחד</div>
+    <div class="sub">טקסט וכפתורים בפחם כהה, הרבה לובן, סגול רק כדגש שקט. המראה הכי יוקרתי — ריסון ונקיון.</div>
+  </div>
+  <div class="stage"><div class="mock"></div></div>
+</div>
+
+<div class="theme t-purple">
+  <div class="theme-label">
+    <div class="opt">אפשרות 2</div>
+    <div class="ttl">סגול ממושמע</div>
+    <div class="sub">שומר על זהות המותג הסגולה — אבל צבע דגש אחד בלבד בכל הכפתורים, בלי ערבוב צבעים.</div>
+  </div>
+  <div class="stage"><div class="mock"></div></div>
+</div>
+
+<div class="theme t-navy">
+  <div class="theme-label">
+    <div class="opt">אפשרות 3</div>
+    <div class="ttl">כחול עמוק</div>
+    <div class="sub">דגש בגוון כחול עמוק ועשיר — מראה של בוטיק יוקרתי, רציני ומבוסס יותר.</div>
+  </div>
+  <div class="stage"><div class="mock"></div></div>
+</div>
+
+<script>
+const MOCK = `
+  <header class="nav">
+    <div class="brand">🤝 <b>Bundly</b></div>
+    <div class="search">חיפוש מוצר…</div>
+    <nav class="links">
+      <a href="#">קבוצות רכישה</a>
+      <a href="#">איך זה עובד</a>
+      <a href="#" class="login">כניסה</a>
+    </nav>
+  </header>
+
+  <div class="section-title">הקבוצות החמות עכשיו 🔥</div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="card-img"><img src="https://img.zap.co.il/pics/3/8/5/7/95527583c.gif" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="badge">● קבוצה פעילה</div>
+        <h3 class="card-name">טלוויזיה Samsung UE55U8000F 4K 55 אינטש</h3>
+        <div class="price-row"><span class="price">₪1,495</span><span class="price-old">₪1,990</span></div>
+        <button class="cta">הצטרפות לקבוצת רכישה</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img"><img src="https://img.zap.co.il/pics/8/7/4/4/95844478c.gif" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <h3 class="card-name">אייפון Apple iPhone 17 256GB</h3>
+        <div class="price-row"><span class="price">₪2,629</span><span class="price-old">₪3,100</span></div>
+        <button class="cta">הצטרפות לקבוצת רכישה</button>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card-img"><img src="https://img.zap.co.il/pics/8/8/1/9/79079188c.gif" alt="" loading="lazy"></div>
+      <div class="card-body">
+        <div class="badge">● קבוצה פעילה</div>
+        <h3 class="card-name">מקרר Samsung RT62K7044SL 631 ליטר</h3>
+        <div class="price-row"><span class="price">₪3,685</span><span class="price-old">₪4,490</span></div>
+        <button class="cta">הצטרפות לקבוצת רכישה</button>
+      </div>
+    </article>
+  </div>
+`;
+document.querySelectorAll('.mock').forEach(el => el.innerHTML = MOCK);
+</script>
+</body>
+</html>

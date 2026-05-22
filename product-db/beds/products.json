@@ -2,12 +2,12 @@
   {
     "id": "1137038",
     "name": "מיטה זוגית מיטה זוגית חאליסי PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/51131117840c.gif",
+    "image": "images/1137038.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/51131117840c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052563
     },
     "filterTags": {},
     "imageUrls": [
@@ -25,12 +25,14 @@
   {
     "id": "1223100",
     "name": "מיטה וחצי מיטה וחצי דגם ונסה PandaStyle",
-    "image": "https://img.zap.co.il/pics/2/2/2/5/87355222c.gif",
+    "image": "images/1223100.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/2/2/2/5/87355222c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -46,12 +48,12 @@
   {
     "id": "1116872",
     "name": "מיטה זוגית מיטה זוגית מרופדת בד קטיפה דגם אליסיה PandaStyle",
-    "image": "https://img.zap.co.il/pics/5/5/0/1/62481055c.gif",
+    "image": "images/1116872.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/5/5/0/1/62481055c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564
     },
     "filterTags": {},
     "imageUrls": [
@@ -66,12 +68,12 @@
   {
     "id": "1262561",
     "name": "מיטה זוגית Sarina מיטת מתכת זוגית Bradex",
-    "image": "https://img.zap.co.il/pics/2/4/4/9/97369442c.gif",
+    "image": "images/1262561.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/2/4/4/9/97369442c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564
     },
     "filterTags": {},
     "imageUrls": [
@@ -86,12 +88,12 @@
   {
     "id": "1137031",
     "name": "מיטה וחצי חאליסי מיטה וחצי PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/511393912c.gif",
+    "image": "images/1137031.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/511393912c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564
     },
     "filterTags": {},
     "imageUrls": [
@@ -106,12 +108,12 @@
   {
     "id": "1137035",
     "name": "מיטה וחצי אליסיה מיטה וחצי PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/93113448473c.gif",
+    "image": "images/1137035.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/93113448473c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564
     },
     "filterTags": {},
     "imageUrls": [
@@ -128,12 +130,12 @@
   {
     "id": "1168926",
     "name": "מיטת יחיד מיטת יחיד דגם ארט Home Decor",
-    "image": "https://img.zap.co.il/pics/new/189154823498c.gif",
+    "image": "images/1168926.gif",
     "manufacturer": "Home Decor",
     "imageUrl": "https://img.zap.co.il/pics/new/189154823498c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052564
     },
     "filterTags": {},
     "imageUrls": [
@@ -149,12 +151,12 @@
   {
     "id": "765905",
     "name": "מיטה מתכווננת פוליפלקס פולירון",
-    "image": "https://img.zap.co.il/pics/2/8/5/9/35209582c.gif",
+    "image": "images/765905.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/2/8/5/9/35209582c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052565
     },
     "filterTags": {},
     "imageUrls": [
@@ -169,12 +171,12 @@
   {
     "id": "1206079",
     "name": "מיטה זוגית מיטה זוגית קולקציית פרימיום דגם קמילה PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/3983633842c.gif",
+    "image": "images/1206079.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/3983633842c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052565
     },
     "filterTags": {},
     "imageUrls": [
@@ -190,12 +192,14 @@
   {
     "id": "1262562",
     "name": "מיטה זוגית Passion מיטה זוגית Bradex",
-    "image": "https://img.zap.co.il/pics/new/7517338246c.gif",
+    "image": "images/1262562.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/new/7517338246c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052565,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -211,12 +215,12 @@
   {
     "id": "1206081",
     "name": "מיטה זוגית מיטה זוגית קולקציית פרימיום דגם לואיז PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/3983544675c.gif",
+    "image": "images/1206081.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/3983544675c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566
     },
     "filterTags": {},
     "imageUrls": [
@@ -232,12 +236,12 @@
   {
     "id": "1163093",
     "name": "מיטה זוגית מיטה זוגית מפוארת מרופדת בד קטיפה דגם סול PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/2770554963c.gif",
+    "image": "images/1163093.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/2770554963c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566
     },
     "filterTags": {},
     "imageUrls": [
@@ -254,12 +258,12 @@
   {
     "id": "1163091",
     "name": "מיטה וחצי מיטה וחצי מפוארת מרופדת בד קטיפה דגם סול PandaStyle",
-    "image": "https://img.zap.co.il/pics/4/3/4/9/78199434c.gif",
+    "image": "images/1163091.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/4/3/4/9/78199434c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566
     },
     "filterTags": {},
     "imageUrls": [
@@ -277,12 +281,12 @@
   {
     "id": "1206082",
     "name": "מיטה זוגית מיטה זוגית מפוארת קולקציית פרימיום דגם אליזבט PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/49181710120c.gif",
+    "image": "images/1206082.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/49181710120c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566
     },
     "filterTags": {},
     "imageUrls": [
@@ -298,12 +302,14 @@
   {
     "id": "1188672",
     "name": "מיטה זוגית מיטה זוגית דגם ונסה PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/2510214334676c.gif",
+    "image": "images/1188672.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/2510214334676c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -320,12 +326,12 @@
   {
     "id": "1163094",
     "name": "מיטה יהודית מיטה יהודית מפוארת מרופדת בד קטיפה דגם קלואי PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/27705616266c.gif",
+    "image": "images/1163094.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/27705616266c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052566
     },
     "filterTags": {},
     "imageUrls": [
@@ -343,12 +349,12 @@
   {
     "id": "1163084",
     "name": "מיטה וחצי מיטה וחצי מפוארת מרופדת בד קטיפה דגם ג’יזל PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/27705321453c.gif",
+    "image": "images/1163084.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/27705321453c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -365,12 +371,12 @@
   {
     "id": "1163082",
     "name": "מיטה זוגית מיטה זוגית מפוארת מרופדת בד קטיפה דגם ג’יזל PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/2770483531c.gif",
+    "image": "images/1163082.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/2770483531c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -387,12 +393,12 @@
   {
     "id": "1163083",
     "name": "מיטה יהודית מיטה יהודית מפוארת מרופדת בד קטיפה דגם אליסיה PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/27705218469c.gif",
+    "image": "images/1163083.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/27705218469c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -410,12 +416,12 @@
   {
     "id": "903201",
     "name": "ספת נוער צבר וידר",
-    "image": "https://img.zap.co.il/pics/9/2/6/7/41037629c.gif",
+    "image": "images/903201.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/9/2/6/7/41037629c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -430,12 +436,12 @@
   {
     "id": "1116864",
     "name": "מיטה זוגית מיטה זוגית מרופדת בד קטיפה דגם קלואי PandaStyle",
-    "image": "https://img.zap.co.il/pics/4/7/1/0/62470174c.gif",
+    "image": "images/1116864.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/4/7/1/0/62470174c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -450,12 +456,12 @@
   {
     "id": "809676",
     "name": "מיטה וחצי סטודנט פולירון",
-    "image": "https://img.zap.co.il/pics/8/3/1/2/27352138c.gif",
+    "image": "images/809676.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/8/3/1/2/27352138c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -470,12 +476,12 @@
   {
     "id": "726974",
     "name": "ספת נוער מונקו וידר",
-    "image": "https://img.zap.co.il/pics/2/4/6/3/91563642c.gif",
+    "image": "images/726974.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/4/6/3/91563642c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -490,12 +496,12 @@
   {
     "id": "1163085",
     "name": "מיטה יהודית מיטה יהודית מפוארת מרופדת בד קטיפה דגם ג’יזל PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/2770534416c.gif",
+    "image": "images/1163085.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/2770534416c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -511,12 +517,12 @@
   {
     "id": "1163092",
     "name": "מיטה יהודית מיטה יהודית מפוארת מרופדת בד קטיפה דגם סול PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/27705533766c.gif",
+    "image": "images/1163092.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/27705533766c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567
     },
     "filterTags": {},
     "imageUrls": [
@@ -535,12 +541,14 @@
   {
     "id": "1262563",
     "name": "מיטה זוגית Naomi מיטה זוגית Bradex",
-    "image": "https://img.zap.co.il/pics/8/8/0/4/97314088c.gif",
+    "image": "images/1262563.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/8/8/0/4/97314088c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052567,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -556,12 +564,12 @@
   {
     "id": "1223103",
     "name": "מיטה יהודית מיטה יהודית מפוארת מרופדת בד קטיפה דגם ונסה PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/26100237229c.gif",
+    "image": "images/1223103.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/26100237229c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -579,12 +587,12 @@
   {
     "id": "1067503723",
     "name": "מיטה וחצי לואיזה וידר",
-    "image": "https://img.zap.co.il/pics/4/8/7/3/93283784c.gif",
+    "image": "images/1067503723.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/8/7/3/93283784c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -600,12 +608,12 @@
   {
     "id": "1243956",
     "name": "מיטה וחצי לואיזה וידר",
-    "image": "https://img.zap.co.il/pics/4/8/7/3/93283784c.gif",
+    "image": "images/1243956.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/8/7/3/93283784c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -621,12 +629,12 @@
   {
     "id": "1163100",
     "name": "מיטה זוגית מיטה זוגית מפוארת מרופדת בד קטיפה דגם גריזלי PandaStyle",
-    "image": "https://img.zap.co.il/pics/new/301183151675c.gif",
+    "image": "images/1163100.gif",
     "manufacturer": "PandaStyle",
     "imageUrl": "https://img.zap.co.il/pics/new/301183151675c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -645,12 +653,12 @@
   {
     "id": "903210",
     "name": "ספת נוער תירוש וידר",
-    "image": "https://img.zap.co.il/pics/9/5/7/8/41028759c.gif",
+    "image": "images/903210.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/9/5/7/8/41028759c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -665,12 +673,12 @@
   {
     "id": "878560",
     "name": "ספת נוער פייר וידר",
-    "image": "https://img.zap.co.il/pics/7/4/4/0/41050447c.gif",
+    "image": "images/878560.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/7/4/4/0/41050447c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -685,12 +693,12 @@
   {
     "id": "1263013",
     "name": "מיטת יחיד HR-25 מיטת יחיד Sleepnet",
-    "image": "https://img.zap.co.il/pics/2/4/9/5/95915942c.gif",
+    "image": "images/1263013.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/2/4/9/5/95915942c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -705,12 +713,12 @@
   {
     "id": "1243955",
     "name": "מיטה וחצי פלאזה וידר",
-    "image": "https://img.zap.co.il/pics/9/8/1/1/93271189c.gif",
+    "image": "images/1243955.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/9/8/1/1/93271189c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -726,12 +734,12 @@
   {
     "id": "903204",
     "name": "ספת נוער ליז וידר",
-    "image": "https://img.zap.co.il/pics/6/2/6/7/41037626c.gif",
+    "image": "images/903204.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/2/6/7/41037626c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -746,12 +754,12 @@
   {
     "id": "1120405",
     "name": "מיטת יחיד מיטת מתכת יחיד T-1 Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/8/1/8/63138184c.gif",
+    "image": "images/1120405.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/8/1/8/63138184c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -766,12 +774,14 @@
   {
     "id": "1263014",
     "name": "מיטה זוגית HR-205 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/0/6/1/9/96989160c.gif",
+    "image": "images/1263014.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/0/6/1/9/96989160c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -786,12 +796,12 @@
   {
     "id": "1263015",
     "name": "מיטת יחיד A -2026 מיטת יחיד Sleepnet",
-    "image": "https://img.zap.co.il/pics/7/0/0/8/97018007c.gif",
+    "image": "images/1263015.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/7/0/0/8/97018007c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052568
     },
     "filterTags": {},
     "imageUrls": [
@@ -806,12 +816,12 @@
   {
     "id": "1218481",
     "name": "מיטה זוגית מיטת מתכת זוגית T-10 Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/2821643169c.gif",
+    "image": "images/1218481.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/2821643169c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -826,12 +836,12 @@
   {
     "id": "1263016",
     "name": "מיטה זוגית HR-25 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/4/9/5/95915944c.gif",
+    "image": "images/1263016.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/4/9/5/95915944c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -846,12 +856,14 @@
   {
     "id": "1263017",
     "name": "מיטה זוגית HR-206 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/1/6/1/9/96989161c.gif",
+    "image": "images/1263017.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/1/6/1/9/96989161c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -866,12 +878,12 @@
   {
     "id": "1262910",
     "name": "מיטה זוגית CloudFrame מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/2/3/5/0/94980532c.gif",
+    "image": "images/1262910.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/2/3/5/0/94980532c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -886,12 +898,12 @@
   {
     "id": "1016502",
     "name": "מיטת יחיד פורש מיטת יחיד Camp David",
-    "image": "https://img.zap.co.il/pics/9/8/5/0/49060589c.gif",
+    "image": "images/1016502.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/9/8/5/0/49060589c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -906,12 +918,12 @@
   {
     "id": "1120404",
     "name": "מיטת יחיד מיטת מתכת יחיד T-2 Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/9/6/1/63161694c.gif",
+    "image": "images/1120404.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/9/6/1/63161694c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -926,12 +938,12 @@
   {
     "id": "880963",
     "name": "ספת נוער אוסקר וידר",
-    "image": "https://img.zap.co.il/pics/2/9/8/0/39330892c.gif",
+    "image": "images/880963.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/9/8/0/39330892c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -946,12 +958,12 @@
   {
     "id": "765900",
     "name": "מיטה מתכווננת לונה פרדייז",
-    "image": "https://img.zap.co.il/pics/9/5/9/9/50949959c.gif",
+    "image": "images/765900.gif",
     "manufacturer": "פרדייז",
     "imageUrl": "https://img.zap.co.il/pics/9/5/9/9/50949959c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -966,12 +978,12 @@
   {
     "id": "726986",
     "name": "מיטה וחצי מיראג' וידר",
-    "image": "https://img.zap.co.il/pics/5/9/1/0/21180195c.gif",
+    "image": "images/726986.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/9/1/0/21180195c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -986,12 +998,12 @@
   {
     "id": "1218482",
     "name": "מיטה זוגית מיטת מתכת זוגית דגם טובי Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/2/0/5/86865029c.gif",
+    "image": "images/1218482.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/2/0/5/86865029c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -1006,12 +1018,12 @@
   {
     "id": "762791",
     "name": "מיטה וחצי רוק מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/2/9/3/7/96167392c.gif",
+    "image": "images/762791.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/2/9/3/7/96167392c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -1026,12 +1038,12 @@
   {
     "id": "1121045",
     "name": "מיטה זוגית מיטת מתכת זוגית T-8 Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/307164824208c.gif",
+    "image": "images/1121045.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/307164824208c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052569
     },
     "filterTags": {},
     "imageUrls": [
@@ -1046,12 +1058,12 @@
   {
     "id": "981723",
     "name": "מיטת יחיד רויאלטי מיטת יחיד Camp David",
-    "image": "https://img.zap.co.il/pics/1/0/1/6/44596101c.gif",
+    "image": "images/981723.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/0/1/6/44596101c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1066,12 +1078,12 @@
   {
     "id": "838999",
     "name": "מיטת יחיד קריסטל מיטת יחיד Camp David",
-    "image": "https://img.zap.co.il/pics/1/0/8/7/64697801c.gif",
+    "image": "images/838999.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/0/8/7/64697801c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1086,12 +1098,14 @@
   {
     "id": "1243879",
     "name": "מיטה וחצי H637 מיטה וחצי + ארגז מצעים Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/9/5/8/92608594c.gif",
+    "image": "images/1243879.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/9/5/8/92608594c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570,
+      "ksp": 1419,
+      "kspUrl": "https://ksp.co.il/web/item/218362"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1106,12 +1120,12 @@
   {
     "id": "843876",
     "name": "מיטה וחצי טופז Camp David",
-    "image": "https://img.zap.co.il/pics/0/8/8/0/38000880c.gif",
+    "image": "images/843876.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/0/8/8/0/38000880c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1126,12 +1140,12 @@
   {
     "id": "981724",
     "name": "מיטה וחצי תרשיש מיטה וחצי Camp David",
-    "image": "https://img.zap.co.il/pics/0/3/4/5/44595430c.gif",
+    "image": "images/981724.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/0/3/4/5/44595430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1146,12 +1160,12 @@
   {
     "id": "981725",
     "name": "מיטה וחצי ספיר מיטה וחצי Camp David",
-    "image": "https://img.zap.co.il/pics/1/2/4/5/44595421c.gif",
+    "image": "images/981725.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/2/4/5/44595421c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1166,12 +1180,12 @@
   {
     "id": "981719",
     "name": "מיטה זוגית ספיר מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/1/2/4/5/44595421c.gif",
+    "image": "images/981719.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/2/4/5/44595421c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1186,12 +1200,14 @@
   {
     "id": "1243875",
     "name": "מיטה וחצי GR-164 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/6/5/1/5/93345156c.gif",
+    "image": "images/1243875.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/6/5/1/5/93345156c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1206,12 +1222,12 @@
   {
     "id": "1024884",
     "name": "ספת נוער אביב וידר",
-    "image": "https://img.zap.co.il/pics/6/3/3/3/50173336c.gif",
+    "image": "images/1024884.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/3/3/3/50173336c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1226,12 +1242,12 @@
   {
     "id": "1225728",
     "name": "מיטה וחצי יהלום מיטה וחצי Camp David",
-    "image": "https://img.zap.co.il/pics/8/0/1/4/80894108c.gif",
+    "image": "images/1225728.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/8/0/1/4/80894108c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1246,12 +1262,12 @@
   {
     "id": "819846",
     "name": "מיטה וחצי בוסנובה 7 וידר",
-    "image": "https://img.zap.co.il/pics/1/4/6/2/37112641c.gif",
+    "image": "images/819846.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/1/4/6/2/37112641c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1266,12 +1282,12 @@
   {
     "id": "1044220",
     "name": "מיטה וחצי כנרית פולירון",
-    "image": "https://img.zap.co.il/pics/0/3/8/7/52167830c.gif",
+    "image": "images/1044220.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/0/3/8/7/52167830c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1286,12 +1302,12 @@
   {
     "id": "1037508",
     "name": "מיטה זוגית פלאוור מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/2/7/9/7/51587972c.gif",
+    "image": "images/1037508.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/2/7/9/7/51587972c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052570
     },
     "filterTags": {},
     "imageUrls": [
@@ -1306,12 +1322,12 @@
   {
     "id": "981718",
     "name": "מיטה זוגית תרשיש מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/0/3/4/5/44595430c.gif",
+    "image": "images/981718.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/0/3/4/5/44595430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1326,12 +1342,12 @@
   {
     "id": "981726",
     "name": "מיטה וחצי רויאלטי מיטה וחצי Camp David",
-    "image": "https://img.zap.co.il/pics/1/4/5/5/44595541c.gif",
+    "image": "images/981726.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/4/5/5/44595541c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1346,12 +1362,12 @@
   {
     "id": "981727",
     "name": "מיטה זוגית רויאלטי מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/1/4/5/5/44595541c.gif",
+    "image": "images/981727.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/4/5/5/44595541c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1366,12 +1382,12 @@
   {
     "id": "1050326",
     "name": "מיטה זוגית קריסטל מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/7/0/9/0/81810907c.gif",
+    "image": "images/1050326.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/7/0/9/0/81810907c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1386,12 +1402,12 @@
   {
     "id": "823433",
     "name": "מיטה זוגית מור Camp David",
-    "image": "https://img.zap.co.il/pics/7/2/1/3/67473127c.gif",
+    "image": "images/823433.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/7/2/1/3/67473127c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1406,12 +1422,12 @@
   {
     "id": "1224759",
     "name": "מיטה וחצי קריסטל מיטה וחצי Camp David",
-    "image": "https://img.zap.co.il/pics/9/3/2/8/80888239c.gif",
+    "image": "images/1224759.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/9/3/2/8/80888239c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1426,12 +1442,12 @@
   {
     "id": "1257924",
     "name": "ספת נוער אוסלו גב מרופד וידר",
-    "image": "https://img.zap.co.il/pics/4/8/8/0/92400884c.gif",
+    "image": "images/1257924.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/8/8/0/92400884c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1446,12 +1462,14 @@
   {
     "id": "1243876",
     "name": "מיטה וחצי GR-166 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/1/9/9/7/93347991c.gif",
+    "image": "images/1243876.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/1/9/9/7/93347991c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1466,12 +1484,12 @@
   {
     "id": "903209",
     "name": "ספת נוער רימון וידר",
-    "image": "https://img.zap.co.il/pics/4/6/0/5/41025064c.gif",
+    "image": "images/903209.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/6/0/5/41025064c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1486,12 +1504,12 @@
   {
     "id": "1263010",
     "name": "מיטת יחיד אדווה וידר",
-    "image": "https://img.zap.co.il/pics/7/4/7/9/95319747c.gif",
+    "image": "images/1263010.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/7/4/7/9/95319747c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1506,12 +1524,12 @@
   {
     "id": "727019",
     "name": "ספת נוער פומה וידר",
-    "image": "https://img.zap.co.il/pics/6/5/7/8/41028756c.gif",
+    "image": "images/727019.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/5/7/8/41028756c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052571
     },
     "filterTags": {},
     "imageUrls": [
@@ -1526,12 +1544,14 @@
   {
     "id": "1243878",
     "name": "מיטה וחצי H637 מיטה וחצי + ארגז מצעים + ראש מיטה Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/2/7/1/92651729c.gif",
+    "image": "images/1243878.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/2/7/1/92651729c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572,
+      "ksp": 1419,
+      "kspUrl": "https://ksp.co.il/web/item/218362"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1546,12 +1566,12 @@
   {
     "id": "1243957",
     "name": "מיטה וחצי מירו מיטה וחצי וידר",
-    "image": "https://img.zap.co.il/pics/0/3/3/4/91534330c.gif",
+    "image": "images/1243957.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/0/3/3/4/91534330c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572
     },
     "filterTags": {},
     "imageUrls": [
@@ -1566,12 +1586,14 @@
   {
     "id": "1243872",
     "name": "מיטה וחצי GR-161 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/3/5/1/5/93345153c.gif",
+    "image": "images/1243872.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/3/5/1/5/93345153c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1587,12 +1609,12 @@
   {
     "id": "903203",
     "name": "ספת נוער לילך וידר",
-    "image": "https://img.zap.co.il/pics/7/2/6/7/41037627c.gif",
+    "image": "images/903203.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/7/2/6/7/41037627c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572
     },
     "filterTags": {},
     "imageUrls": [
@@ -1607,12 +1629,12 @@
   {
     "id": "903207",
     "name": "ספת נוער תכלת וידר",
-    "image": "https://img.zap.co.il/pics/8/2/6/7/41037628c.gif",
+    "image": "images/903207.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/2/6/7/41037628c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572
     },
     "filterTags": {},
     "imageUrls": [
@@ -1627,12 +1649,12 @@
   {
     "id": "1124094",
     "name": "מיטה וחצי דורון מיטה וחצי וידר",
-    "image": "https://img.zap.co.il/pics/new/9911421867c.gif",
+    "image": "images/1124094.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/new/9911421867c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572
     },
     "filterTags": {},
     "imageUrls": [
@@ -1647,12 +1669,12 @@
   {
     "id": "903208",
     "name": "ספת נוער קוברה וידר",
-    "image": "https://img.zap.co.il/pics/4/2/6/7/41037624c.gif",
+    "image": "images/903208.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/2/6/7/41037624c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052572
     },
     "filterTags": {},
     "imageUrls": [
@@ -1667,12 +1689,12 @@
   {
     "id": "1029563",
     "name": "ספת נוער אשל ספת אירוח וידר",
-    "image": "https://img.zap.co.il/pics/0/0/8/5/50515800c.gif",
+    "image": "images/1029563.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/0/0/8/5/50515800c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1687,12 +1709,12 @@
   {
     "id": "1124093",
     "name": "מיטה וחצי סידני מיטה וחצי וידר",
-    "image": "https://img.zap.co.il/pics/new/9911452727c.gif",
+    "image": "images/1124093.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/new/9911452727c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1707,12 +1729,12 @@
   {
     "id": "1257895",
     "name": "ספת נוער גלבוע וידר",
-    "image": "https://img.zap.co.il/pics/2/1/4/8/93118412c.gif",
+    "image": "images/1257895.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/1/4/8/93118412c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1727,12 +1749,12 @@
   {
     "id": "819843",
     "name": "ספת נוער דוגרי וידר",
-    "image": "https://img.zap.co.il/pics/3/6/9/0/39330963c.gif",
+    "image": "images/819843.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/3/6/9/0/39330963c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1747,12 +1769,12 @@
   {
     "id": "1224758",
     "name": "מיטה זוגית סיגלית מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/6/2/7/2/80892726c.gif",
+    "image": "images/1224758.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/6/2/7/2/80892726c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1767,12 +1789,12 @@
   {
     "id": "903202",
     "name": "ספת נוער נובל וידר",
-    "image": "https://img.zap.co.il/pics/5/2/6/7/41037625c.gif",
+    "image": "images/903202.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/2/6/7/41037625c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1787,12 +1809,12 @@
   {
     "id": "1016485",
     "name": "מיטה מתכווננת משטח חשמלי למיטה מתכווננת פולירון",
-    "image": "https://img.zap.co.il/pics/2/9/4/1/42381492c.gif",
+    "image": "images/1016485.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/2/9/4/1/42381492c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1807,12 +1829,12 @@
   {
     "id": "819835",
     "name": "ספת נוער מיני סיטי וידר",
-    "image": "https://img.zap.co.il/pics/8/9/6/2/37112698c.gif",
+    "image": "images/819835.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/9/6/2/37112698c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1827,12 +1849,12 @@
   {
     "id": "903211",
     "name": "ספת נוער פיטנגו 2 וידר",
-    "image": "https://img.zap.co.il/pics/0/6/7/8/41028760c.gif",
+    "image": "images/903211.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/0/6/7/8/41028760c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052573
     },
     "filterTags": {},
     "imageUrls": [
@@ -1847,12 +1869,12 @@
   {
     "id": "903212",
     "name": "ספת נוער פיטנגו 3 וידר",
-    "image": "https://img.zap.co.il/pics/1/6/7/8/41028761c.gif",
+    "image": "images/903212.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/1/6/7/8/41028761c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -1867,12 +1889,14 @@
   {
     "id": "1179735",
     "name": "מיטה וחצי מיטה וחצי דגם ריו פולירון",
-    "image": "https://img.zap.co.il/pics/2/1/3/0/69890312c.gif",
+    "image": "images/1179735.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/2/1/3/0/69890312c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1887,12 +1911,14 @@
   {
     "id": "1243871",
     "name": "מיטה וחצי GR-160 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/2/5/1/5/93345152c.gif",
+    "image": "images/1243871.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/2/5/1/5/93345152c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -1907,12 +1933,12 @@
   {
     "id": "819839",
     "name": "ספת נוער קליפ וידר",
-    "image": "https://img.zap.co.il/pics/4/4/3/1/37351344c.gif",
+    "image": "images/819839.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/4/3/1/37351344c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -1927,12 +1953,12 @@
   {
     "id": "819834",
     "name": "ספת נוער אמנון וידר",
-    "image": "https://img.zap.co.il/pics/8/9/1/6/62256198c.gif",
+    "image": "images/819834.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/9/1/6/62256198c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -1948,12 +1974,12 @@
   {
     "id": "1121047",
     "name": "מיטה זוגית מיטת מתכת זוגית T-4 Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/0/4/1/63231404c.gif",
+    "image": "images/1121047.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/0/4/1/63231404c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -1968,12 +1994,12 @@
   {
     "id": "923126",
     "name": "ספת נוער אוסלו 2 וידר",
-    "image": "https://img.zap.co.il/pics/6/5/0/5/41025056c.gif",
+    "image": "images/923126.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/5/0/5/41025056c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -1988,12 +2014,12 @@
   {
     "id": "923125",
     "name": "ספת נוער אוסלו 1 וידר",
-    "image": "https://img.zap.co.il/pics/5/5/0/5/41025055c.gif",
+    "image": "images/923125.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/5/0/5/41025055c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -2008,12 +2034,12 @@
   {
     "id": "726976",
     "name": "ספת נוער אוסלו 3 וידר",
-    "image": "https://img.zap.co.il/pics/6/9/1/3/42383196c.gif",
+    "image": "images/726976.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/9/1/3/42383196c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052574
     },
     "filterTags": {},
     "imageUrls": [
@@ -2028,12 +2054,12 @@
   {
     "id": "941202",
     "name": "ספת נוער אוסלו טפט וידר",
-    "image": "https://img.zap.co.il/pics/3/9/1/3/42383193c.gif",
+    "image": "images/941202.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/3/9/1/3/42383193c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2048,12 +2074,12 @@
   {
     "id": "903198",
     "name": "ספת נוער דקל וידר",
-    "image": "https://img.zap.co.il/pics/5/6/7/8/41028765c.gif",
+    "image": "images/903198.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/6/7/8/41028765c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2068,12 +2094,12 @@
   {
     "id": "765903",
     "name": "מיטה זוגית שוהם פולירון",
-    "image": "https://img.zap.co.il/pics/7/8/5/6/35246587b.gif",
+    "image": "images/765903.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/7/8/5/6/35246587b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2088,12 +2114,14 @@
   {
     "id": "1243877",
     "name": "מיטה וחצי GR-174 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/8/6/0/93360689c.gif",
+    "image": "images/1243877.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/8/6/0/93360689c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2108,12 +2136,12 @@
   {
     "id": "765922",
     "name": "ספת נוער תמר וידר",
-    "image": "https://img.zap.co.il/pics/0/9/1/6/62256190c.gif",
+    "image": "images/765922.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/0/9/1/6/62256190c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2128,12 +2156,12 @@
   {
     "id": "829815",
     "name": "מיטה וחצי בוסונובה 3 וידר",
-    "image": "https://img.zap.co.il/pics/3/6/1/1/51621163c.gif",
+    "image": "images/829815.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/3/6/1/1/51621163c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2149,12 +2177,12 @@
   {
     "id": "1028511",
     "name": "מיטה וחצי פיקאסו וידר",
-    "image": "https://img.zap.co.il/pics/1/8/1/8/50618181c.gif",
+    "image": "images/1028511.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/1/8/1/8/50618181c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2169,12 +2197,12 @@
   {
     "id": "727015",
     "name": "ספת נוער מלודיה 1 וידר",
-    "image": "https://img.zap.co.il/pics/0/0/2/3/42383200c.gif",
+    "image": "images/727015.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/0/0/2/3/42383200c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575
     },
     "filterTags": {},
     "imageUrls": [
@@ -2189,12 +2217,14 @@
   {
     "id": "1243873",
     "name": "מיטה וחצי GR-162 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/4/5/1/5/93345154c.gif",
+    "image": "images/1243873.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/4/5/1/5/93345154c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2209,12 +2239,14 @@
   {
     "id": "1243874",
     "name": "מיטה וחצי GR-163 מיטה וחצי Sleepnet",
-    "image": "https://img.zap.co.il/pics/5/5/1/5/93345155c.gif",
+    "image": "images/1243874.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/5/5/1/5/93345155c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052575,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2229,12 +2261,12 @@
   {
     "id": "726987",
     "name": "ספת נוער סימפוניה 7 וידר",
-    "image": "https://img.zap.co.il/pics/9/9/1/3/42383199c.gif",
+    "image": "images/726987.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/9/9/1/3/42383199c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2250,12 +2282,12 @@
   {
     "id": "726983",
     "name": "ספת נוער סימפוניה 5 וידר",
-    "image": "https://img.zap.co.il/pics/8/9/1/3/42383198c.gif",
+    "image": "images/726983.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/9/1/3/42383198c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2271,12 +2303,12 @@
   {
     "id": "726984",
     "name": "ספת נוער סימפוניה 1 וידר",
-    "image": "https://img.zap.co.il/pics/7/9/1/3/42383197c.gif",
+    "image": "images/726984.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/7/9/1/3/42383197c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2292,12 +2324,12 @@
   {
     "id": "1257140",
     "name": "ספת נוער נורית וידר",
-    "image": "https://img.zap.co.il/pics/5/0/6/0/95320605c.gif",
+    "image": "images/1257140.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/0/6/0/95320605c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2312,12 +2344,12 @@
   {
     "id": "726993",
     "name": "מיטה וחצי אננס וידר",
-    "image": "https://img.zap.co.il/pics/2/6/1/1/51621162c.gif",
+    "image": "images/726993.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/6/1/1/51621162c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2332,12 +2364,12 @@
   {
     "id": "1243881",
     "name": "מיטה זוגית W605 מיטה זוגית + ראש מיטה Sleepnet",
-    "image": "https://img.zap.co.il/pics/3/2/8/8/93258823c.gif",
+    "image": "images/1243881.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/3/2/8/8/93258823c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2352,12 +2384,12 @@
   {
     "id": "1024881",
     "name": "מיטה וחצי נועם וידר",
-    "image": "https://img.zap.co.il/pics/6/6/9/2/50172966c.gif",
+    "image": "images/1024881.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/6/9/2/50172966c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2372,12 +2404,12 @@
   {
     "id": "903215",
     "name": "מיטה וחצי אתלט וידר",
-    "image": "https://img.zap.co.il/pics/9/1/3/0/41020319c.gif",
+    "image": "images/903215.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/9/1/3/0/41020319c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2392,12 +2424,12 @@
   {
     "id": "779167",
     "name": "ספת נוער בייבילון מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/1/7/1/42381716c.gif",
+    "image": "images/779167.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/1/7/1/42381716c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576
     },
     "filterTags": {},
     "imageUrls": [
@@ -2412,12 +2444,14 @@
   {
     "id": "1262911",
     "name": "מיטה זוגית DL-867 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/8/7/9/8/96428978c.gif",
+    "image": "images/1262911.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/8/7/9/8/96428978c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052576,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2432,12 +2466,14 @@
   {
     "id": "1262912",
     "name": "מיטה זוגית DL-869 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/0/0/9/96429009c.gif",
+    "image": "images/1262912.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/0/0/9/96429009c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052577,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2452,12 +2488,12 @@
   {
     "id": "1179757",
     "name": "ספת נוער ספת נוער דגם שלישייה A וידר",
-    "image": "https://img.zap.co.il/pics/4/3/5/6/63496534c.gif",
+    "image": "images/1179757.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/3/5/6/63496534c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052577
     },
     "filterTags": {},
     "imageUrls": [
@@ -2472,12 +2508,12 @@
   {
     "id": "880970",
     "name": "ספת נוער דזיו וידר",
-    "image": "https://img.zap.co.il/pics/6/6/9/0/39330966c.gif",
+    "image": "images/880970.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/6/9/0/39330966c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052577
     },
     "filterTags": {},
     "imageUrls": [
@@ -2492,12 +2528,12 @@
   {
     "id": "1124097",
     "name": "ספת נוער סיאסטה מיטת יחיד וידר",
-    "image": "https://img.zap.co.il/pics/new/9911517867c.gif",
+    "image": "images/1124097.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/new/9911517867c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052577
     },
     "filterTags": {},
     "imageUrls": [
@@ -2512,12 +2548,12 @@
   {
     "id": "902981",
     "name": "ספת נוער קומבי וידר",
-    "image": "https://img.zap.co.il/pics/8/5/7/8/41028758c.gif",
+    "image": "images/902981.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/5/7/8/41028758c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052578
     },
     "filterTags": {},
     "imageUrls": [
@@ -2532,12 +2568,14 @@
   {
     "id": "1262913",
     "name": "מיטה זוגית DL-827 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/7/4/2/7/96427247c.gif",
+    "image": "images/1262913.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/7/4/2/7/96427247c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052578,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2552,12 +2590,12 @@
   {
     "id": "1262035",
     "name": "מיטה זוגית Alabama מיטה זוגית Sealy",
-    "image": "https://img.zap.co.il/pics/0/6/5/7/96817560c.gif",
+    "image": "images/1262035.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/0/6/5/7/96817560c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052578
     },
     "filterTags": {},
     "imageUrls": [
@@ -2574,12 +2612,12 @@
   {
     "id": "907385",
     "name": "ספת נוער פאזל מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/3/8/5/2/39952583c.gif",
+    "image": "images/907385.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/3/8/5/2/39952583c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052579
     },
     "filterTags": {},
     "imageUrls": [
@@ -2594,12 +2632,12 @@
   {
     "id": "1263011",
     "name": "מיטה וחצי מיטה וחצי לני וידר",
-    "image": "https://img.zap.co.il/pics/6/8/3/0/95640386c.gif",
+    "image": "images/1263011.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/6/8/3/0/95640386c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052579
     },
     "filterTags": {},
     "imageUrls": [
@@ -2614,12 +2652,12 @@
   {
     "id": "1037527",
     "name": "מיטה וחצי ברזיל מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/3/4/6/8/51498643c.gif",
+    "image": "images/1037527.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/3/4/6/8/51498643c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052579
     },
     "filterTags": {},
     "imageUrls": [
@@ -2634,12 +2672,12 @@
   {
     "id": "1257142",
     "name": "ספת נוער נרקיס וידר",
-    "image": "https://img.zap.co.il/pics/4/0/6/0/95320604c.gif",
+    "image": "images/1257142.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/4/0/6/0/95320604c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052580
     },
     "filterTags": {},
     "imageUrls": [
@@ -2654,12 +2692,12 @@
   {
     "id": "726947",
     "name": "ספת נוער מוסטנג מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/0/3/3/26143305c.gif",
+    "image": "images/726947.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/0/3/3/26143305c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052580
     },
     "filterTags": {},
     "imageUrls": [
@@ -2674,12 +2712,12 @@
   {
     "id": "1243889",
     "name": "מיטה זוגית W-203 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/1/6/0/2/93732061c.gif",
+    "image": "images/1243889.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/1/6/0/2/93732061c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052580
     },
     "filterTags": {},
     "imageUrls": [
@@ -2694,12 +2732,12 @@
   {
     "id": "947691",
     "name": "ספת נוער ספת לידר מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/1/5/1/2/42382151c.gif",
+    "image": "images/947691.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/1/5/1/2/42382151c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052581
     },
     "filterTags": {},
     "imageUrls": [
@@ -2714,12 +2752,12 @@
   {
     "id": "808976",
     "name": "ספת נוער ספיר מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/6/5/5/36435567c.gif",
+    "image": "images/808976.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/6/5/5/36435567c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052581
     },
     "filterTags": {},
     "imageUrls": [
@@ -2734,12 +2772,12 @@
   {
     "id": "776514",
     "name": "ספת נוער גולדן מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/2/6/9/35669625c.gif",
+    "image": "images/776514.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/2/6/9/35669625c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052581
     },
     "filterTags": {},
     "imageUrls": [
@@ -2755,12 +2793,12 @@
   {
     "id": "795802",
     "name": "ספת נוער טרנד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/4/1/0/0/36750014c.gif",
+    "image": "images/795802.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/4/1/0/0/36750014c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052581
     },
     "filterTags": {},
     "imageUrls": [
@@ -2775,12 +2813,12 @@
   {
     "id": "804309",
     "name": "מיטה וחצי בודי מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/4/4/2/7/36407244c.gif",
+    "image": "images/804309.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/4/4/2/7/36407244c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052582
     },
     "filterTags": {},
     "imageUrls": [
@@ -2795,12 +2833,12 @@
   {
     "id": "907386",
     "name": "מיטה וחצי סטאר מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/4/8/5/2/39952584c.gif",
+    "image": "images/907386.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/4/8/5/2/39952584c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052582
     },
     "filterTags": {},
     "imageUrls": [
@@ -2815,12 +2853,12 @@
   {
     "id": "904254",
     "name": "ספת נוער פליימוביל מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/7/9/1/42381977c.gif",
+    "image": "images/904254.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/7/9/1/42381977c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052582
     },
     "filterTags": {},
     "imageUrls": [
@@ -2835,12 +2873,12 @@
   {
     "id": "726949",
     "name": "ספת נוער טום מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/3/0/8/38628035c.gif",
+    "image": "images/726949.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/3/0/8/38628035c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052583
     },
     "filterTags": {},
     "imageUrls": [
@@ -2855,12 +2893,12 @@
   {
     "id": "726956",
     "name": "ספת נוער ארומה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/3/2/9/8/32868923c.gif",
+    "image": "images/726956.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/3/2/9/8/32868923c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052583
     },
     "filterTags": {},
     "imageUrls": [
@@ -2875,12 +2913,12 @@
   {
     "id": "779168",
     "name": "ספת נוער כיף כף מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/2/6/9/35669627c.gif",
+    "image": "images/779168.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/2/6/9/35669627c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052583
     },
     "filterTags": {},
     "imageUrls": [
@@ -2895,12 +2933,12 @@
   {
     "id": "779171",
     "name": "ספת נוער פיטנס מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/8/0/9/35739087c.gif",
+    "image": "images/779171.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/8/0/9/35739087c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052584
     },
     "filterTags": {},
     "imageUrls": [
@@ -2915,12 +2953,14 @@
   {
     "id": "1179736",
     "name": "מיטה זוגית מיטה זוגית דגם סביון פולירון",
-    "image": "https://img.zap.co.il/pics/1/5/6/4/74884651c.gif",
+    "image": "images/1179736.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/1/5/6/4/74884651c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052584,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -2936,12 +2976,12 @@
   {
     "id": "1243886",
     "name": "מיטה זוגית W-200 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/8/6/4/2/93682468c.gif",
+    "image": "images/1243886.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/8/6/4/2/93682468c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052584
     },
     "filterTags": {},
     "imageUrls": [
@@ -2956,12 +2996,12 @@
   {
     "id": "1243891",
     "name": "מיטה זוגית W-205 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/93141741434c.gif",
+    "image": "images/1243891.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/93141741434c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052585
     },
     "filterTags": {},
     "imageUrls": [
@@ -2977,12 +3017,12 @@
   {
     "id": "1243892",
     "name": "מיטה זוגית W-206 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/931420725c.gif",
+    "image": "images/1243892.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/931420725c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052585
     },
     "filterTags": {},
     "imageUrls": [
@@ -2997,12 +3037,12 @@
   {
     "id": "1243893",
     "name": "מיטה זוגית W-207 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/93142015397c.gif",
+    "image": "images/1243893.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/93142015397c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052585
     },
     "filterTags": {},
     "imageUrls": [
@@ -3017,12 +3057,12 @@
   {
     "id": "1243894",
     "name": "מיטה זוגית W-208 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/93142027381c.gif",
+    "image": "images/1243894.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/93142027381c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052585
     },
     "filterTags": {},
     "imageUrls": [
@@ -3037,12 +3077,12 @@
   {
     "id": "1243895",
     "name": "מיטה זוגית W-209 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/113105218764c.gif",
+    "image": "images/1243895.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/113105218764c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052586
     },
     "filterTags": {},
     "imageUrls": [
@@ -3058,12 +3098,12 @@
   {
     "id": "1257141",
     "name": "ספת נוער אריאל וידר",
-    "image": "https://img.zap.co.il/pics/8/1/0/9/93469018c.gif",
+    "image": "images/1257141.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/1/0/9/93469018c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052586
     },
     "filterTags": {},
     "imageUrls": [
@@ -3078,12 +3118,12 @@
   {
     "id": "727014",
     "name": "ספת נוער מלודיה 5 וידר",
-    "image": "https://img.zap.co.il/pics/1/0/2/3/42383201c.gif",
+    "image": "images/727014.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/1/0/2/3/42383201c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052586
     },
     "filterTags": {},
     "imageUrls": [
@@ -3098,12 +3138,12 @@
   {
     "id": "878559",
     "name": "ספת נוער מלודיה 7 וידר",
-    "image": "https://img.zap.co.il/pics/8/4/0/1/39331048c.gif",
+    "image": "images/878559.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/4/0/1/39331048c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052587
     },
     "filterTags": {},
     "imageUrls": [
@@ -3118,12 +3158,12 @@
   {
     "id": "779172",
     "name": "ספת נוער דופלו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/1/7/1/42381715c.gif",
+    "image": "images/779172.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/1/7/1/42381715c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052587
     },
     "filterTags": {},
     "imageUrls": [
@@ -3138,12 +3178,12 @@
   {
     "id": "1179758",
     "name": "ספת נוער ספת נוער דגם שלישייה B וידר",
-    "image": "https://img.zap.co.il/pics/new/319349992c.gif",
+    "image": "images/1179758.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/new/319349992c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052587
     },
     "filterTags": {},
     "imageUrls": [
@@ -3158,12 +3198,12 @@
   {
     "id": "1225729",
     "name": "מיטה יהודית קריסטל מיטה יהודית Camp David",
-    "image": "https://img.zap.co.il/pics/3/4/8/6/53206843c.gif",
+    "image": "images/1225729.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/3/4/8/6/53206843c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052588
     },
     "filterTags": {},
     "imageUrls": [
@@ -3178,12 +3218,12 @@
   {
     "id": "947692",
     "name": "ספת נוער ספת אקסטרה מדי מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/8/6/3/42383688c.gif",
+    "image": "images/947692.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/8/6/3/42383688c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052588
     },
     "filterTags": {},
     "imageUrls": [
@@ -3198,12 +3238,12 @@
   {
     "id": "1037510",
     "name": "מיטה זוגית ריו 1 מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/1/0/7/51587017c.gif",
+    "image": "images/1037510.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/1/0/7/51587017c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052588
     },
     "filterTags": {},
     "imageUrls": [
@@ -3218,12 +3258,12 @@
   {
     "id": "1037512",
     "name": "מיטה זוגית קלרה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/7/6/5/51535678c.gif",
+    "image": "images/1037512.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/7/6/5/51535678c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052588
     },
     "filterTags": {},
     "imageUrls": [
@@ -3238,12 +3278,12 @@
   {
     "id": "765915",
     "name": "ספת נוער קודקוד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/2/8/1/3/35023182c.gif",
+    "image": "images/765915.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/2/8/1/3/35023182c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052589
     },
     "filterTags": {},
     "imageUrls": [
@@ -3258,12 +3298,12 @@
   {
     "id": "903214",
     "name": "מיטה וחצי טוק בק וידר",
-    "image": "https://img.zap.co.il/pics/5/4/7/0/39330745c.gif",
+    "image": "images/903214.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/5/4/7/0/39330745c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052589
     },
     "filterTags": {},
     "imageUrls": [
@@ -3278,12 +3318,12 @@
   {
     "id": "753797",
     "name": "מיטה זוגית אלמוג פולירון",
-    "image": "https://img.zap.co.il/pics/6/0/3/5/53635306c.gif",
+    "image": "images/753797.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/6/0/3/5/53635306c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052589
     },
     "filterTags": {},
     "imageUrls": [
@@ -3298,12 +3338,12 @@
   {
     "id": "1243890",
     "name": "מיטה זוגית W-204 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/5/0/2/93732059c.gif",
+    "image": "images/1243890.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/5/0/2/93732059c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052590
     },
     "filterTags": {},
     "imageUrls": [
@@ -3318,12 +3358,12 @@
   {
     "id": "765919",
     "name": "ספת נוער בוסטון מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/7/3/4/34944376c.gif",
+    "image": "images/765919.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/7/3/4/34944376c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052590
     },
     "filterTags": {},
     "imageUrls": [
@@ -3338,12 +3378,12 @@
   {
     "id": "1243887",
     "name": "מיטה זוגית W-201 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/9/6/4/2/93682469c.gif",
+    "image": "images/1243887.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/9/6/4/2/93682469c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052590
     },
     "filterTags": {},
     "imageUrls": [
@@ -3358,12 +3398,12 @@
   {
     "id": "762789",
     "name": "מיטה וחצי סאונד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/3/7/3/4/34944373c.gif",
+    "image": "images/762789.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/3/7/3/4/34944373c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052591
     },
     "filterTags": {},
     "imageUrls": [
@@ -3378,12 +3418,12 @@
   {
     "id": "1033818",
     "name": "ספת נוער קרניבל מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/9/5/5/8/51388559c.gif",
+    "image": "images/1033818.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/9/5/5/8/51388559c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052591
     },
     "filterTags": {},
     "imageUrls": [
@@ -3398,12 +3438,12 @@
   {
     "id": "1036570",
     "name": "מיטה זוגית ברלין מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/1/0/7/51587018c.gif",
+    "image": "images/1036570.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/1/0/7/51587018c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052591
     },
     "filterTags": {},
     "imageUrls": [
@@ -3418,12 +3458,12 @@
   {
     "id": "1036571",
     "name": "מיטה זוגית טוקיו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/2/7/6/51586727c.gif",
+    "image": "images/1036571.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/2/7/6/51586727c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052591
     },
     "filterTags": {},
     "imageUrls": [
@@ -3438,12 +3478,12 @@
   {
     "id": "1033819",
     "name": "ספת נוער מקלארן מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/9/7/9/6/51386979c.gif",
+    "image": "images/1033819.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/9/7/9/6/51386979c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052592
     },
     "filterTags": {},
     "imageUrls": [
@@ -3458,12 +3498,12 @@
   {
     "id": "903213",
     "name": "ספת נוער טוטאל 1 וידר",
-    "image": "https://img.zap.co.il/pics/2/6/7/8/41028762c.gif",
+    "image": "images/903213.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/6/7/8/41028762c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052592
     },
     "filterTags": {},
     "imageUrls": [
@@ -3478,12 +3518,12 @@
   {
     "id": "1033821",
     "name": "מיטה וחצי טה-פיטי מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/2/4/2/6/51376242c.gif",
+    "image": "images/1033821.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/2/4/2/6/51376242c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052592
     },
     "filterTags": {},
     "imageUrls": [
@@ -3498,12 +3538,12 @@
   {
     "id": "1037513",
     "name": "ספת נוער קריד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/3/1/2/5/51505213c.gif",
+    "image": "images/1037513.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/3/1/2/5/51505213c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052593
     },
     "filterTags": {},
     "imageUrls": [
@@ -3518,12 +3558,12 @@
   {
     "id": "1037514",
     "name": "ספת נוער סירקל מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/9/0/2/5/51505209c.gif",
+    "image": "images/1037514.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/9/0/2/5/51505209c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052593
     },
     "filterTags": {},
     "imageUrls": [
@@ -3538,12 +3578,12 @@
   {
     "id": "1257138",
     "name": "ספת נוער יסמין וידר",
-    "image": "https://img.zap.co.il/pics/3/6/5/8/94228563c.gif",
+    "image": "images/1257138.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/3/6/5/8/94228563c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052593
     },
     "filterTags": {},
     "imageUrls": [
@@ -3558,12 +3598,12 @@
   {
     "id": "753043",
     "name": "מיטה זוגית פנטסטיק מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/0/7/3/42383706c.gif",
+    "image": "images/753043.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/0/7/3/42383706c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052593
     },
     "filterTags": {},
     "imageUrls": [
@@ -3578,12 +3618,12 @@
   {
     "id": "1036575",
     "name": "מיטה זוגית סוהו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/7/6/5/51535676c.gif",
+    "image": "images/1036575.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/7/6/5/51535676c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052594
     },
     "filterTags": {},
     "imageUrls": [
@@ -3598,12 +3638,12 @@
   {
     "id": "1037517",
     "name": "ספת נוער עדן מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/0/1/2/5/51505210c.gif",
+    "image": "images/1037517.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/0/1/2/5/51505210c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052594
     },
     "filterTags": {},
     "imageUrls": [
@@ -3618,12 +3658,12 @@
   {
     "id": "1033822",
     "name": "ספת נוער סלאש מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/0/6/5/8/51388560c.gif",
+    "image": "images/1033822.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/0/6/5/8/51388560c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052594
     },
     "filterTags": {},
     "imageUrls": [
@@ -3638,12 +3678,12 @@
   {
     "id": "821430",
     "name": "מיטה וחצי דיימונד 100 וידר",
-    "image": "https://img.zap.co.il/pics/8/4/3/1/41051348c.gif",
+    "image": "images/821430.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/4/3/1/41051348c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052595
     },
     "filterTags": {},
     "imageUrls": [
@@ -3658,12 +3698,12 @@
   {
     "id": "1037518",
     "name": "ספת נוער שוקו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/1/7/1/2/51412171c.gif",
+    "image": "images/1037518.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/1/7/1/2/51412171c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052595
     },
     "filterTags": {},
     "imageUrls": [
@@ -3678,12 +3718,12 @@
   {
     "id": "1037519",
     "name": "ספת נוער בורד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/2/7/1/2/51412172c.gif",
+    "image": "images/1037519.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/2/7/1/2/51412172c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3698,12 +3738,12 @@
   {
     "id": "1263012",
     "name": "מיטה וחצי מיטה וחצי שירה וידר",
-    "image": "https://img.zap.co.il/pics/7/8/3/0/95640387c.gif",
+    "image": "images/1263012.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/7/8/3/0/95640387c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3718,12 +3758,12 @@
   {
     "id": "1179740",
     "name": "מיטה זוגית מיטה זוגית נרקיס פולירון",
-    "image": "https://img.zap.co.il/pics/2/3/1/3/73843132c.gif",
+    "image": "images/1179740.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/2/3/1/3/73843132c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3738,12 +3778,12 @@
   {
     "id": "1179741",
     "name": "מיטה זוגית מיטה זוגית גפן פולירון",
-    "image": "https://img.zap.co.il/pics/5/2/4/1/73841425c.gif",
+    "image": "images/1179741.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/5/2/4/1/73841425c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3758,12 +3798,12 @@
   {
     "id": "1037520",
     "name": "ספת נוער קליק מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/3/6/4/51414637c.gif",
+    "image": "images/1037520.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/3/6/4/51414637c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3778,12 +3818,12 @@
   {
     "id": "1033457",
     "name": "ספת נוער דיאנה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/4/0/7/2/51322704c.gif",
+    "image": "images/1033457.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/4/0/7/2/51322704c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3798,12 +3838,12 @@
   {
     "id": "1033823",
     "name": "מיטה וחצי טקה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/7/9/6/51386978c.gif",
+    "image": "images/1033823.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/7/9/6/51386978c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3818,12 +3858,12 @@
   {
     "id": "1033824",
     "name": "ספת נוער אקורד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/1/6/5/8/51388561c.gif",
+    "image": "images/1033824.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/8/51388561c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3838,12 +3878,12 @@
   {
     "id": "1033459",
     "name": "ספת נוער דיאבלו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/0/7/2/51322705c.gif",
+    "image": "images/1033459.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/0/7/2/51322705c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052596
     },
     "filterTags": {},
     "imageUrls": [
@@ -3858,12 +3898,12 @@
   {
     "id": "1037522",
     "name": "ספת נוער פלורנס מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/3/6/4/51414636c.gif",
+    "image": "images/1037522.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/3/6/4/51414636c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3878,12 +3918,12 @@
   {
     "id": "1036577",
     "name": "מיטה זוגית פררו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/2/1/6/51546127c.gif",
+    "image": "images/1036577.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/2/1/6/51546127c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3898,12 +3938,12 @@
   {
     "id": "1037528",
     "name": "ספת נוער דומינו מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/6/4/0/51500466c.gif",
+    "image": "images/1037528.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/6/4/0/51500466c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3918,12 +3958,12 @@
   {
     "id": "1037530",
     "name": "ספת נוער ויה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/2/7/4/51434728c.gif",
+    "image": "images/1037530.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/2/7/4/51434728c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3938,12 +3978,12 @@
   {
     "id": "1262039",
     "name": "מיטה זוגית Minisota מיטה זוגית Sealy",
-    "image": "https://img.zap.co.il/pics/3/9/3/4/96804393c.gif",
+    "image": "images/1262039.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/3/9/3/4/96804393c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3959,12 +3999,12 @@
   {
     "id": "1037523",
     "name": "מיטה זוגית מדריד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/5/7/6/5/51535675c.gif",
+    "image": "images/1037523.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/5/7/6/5/51535675c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3979,12 +4019,12 @@
   {
     "id": "1037524",
     "name": "מיטה זוגית סידני מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/7/6/5/51535677c.gif",
+    "image": "images/1037524.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/7/6/5/51535677c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -3999,12 +4039,12 @@
   {
     "id": "1037526",
     "name": "מיטה זוגית אלבה מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/6/2/1/6/51546126c.gif",
+    "image": "images/1037526.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/6/2/1/6/51546126c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -4019,12 +4059,12 @@
   {
     "id": "1117127",
     "name": "ספת נוער מיטה וחצי דגם לופ פולירון",
-    "image": "https://img.zap.co.il/pics/7/1/1/4/62294117c.gif",
+    "image": "images/1117127.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/7/1/1/4/62294117c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -4039,12 +4079,12 @@
   {
     "id": "919876",
     "name": "ספת נוער מאסט מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/0/7/6/6/40696670c.gif",
+    "image": "images/919876.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/0/7/6/6/40696670c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -4059,12 +4099,12 @@
   {
     "id": "819850",
     "name": "ספת נוער מולטי בד מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/9/1/8/3/64733819c.gif",
+    "image": "images/819850.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/9/1/8/3/64733819c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052597
     },
     "filterTags": {},
     "imageUrls": [
@@ -4079,12 +4119,12 @@
   {
     "id": "1194011",
     "name": "מיטה וחצי מיטה ברוחב וחצי דגם ברוש וידר",
-    "image": "https://img.zap.co.il/pics/8/3/2/6/77326238c.gif",
+    "image": "images/1194011.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/8/3/2/6/77326238c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4099,12 +4139,12 @@
   {
     "id": "1179742",
     "name": "מיטה זוגית מיטה זוגית חצב פולירון",
-    "image": "https://img.zap.co.il/pics/6/9/1/5/73885196c.gif",
+    "image": "images/1179742.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/6/9/1/5/73885196c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4120,12 +4160,12 @@
   {
     "id": "907384",
     "name": "מיטה וחצי קרוסאובר מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/8/2/7/5/40385728c.gif",
+    "image": "images/907384.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/8/2/7/5/40385728c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4140,12 +4180,14 @@
   {
     "id": "1218483",
     "name": "מיטה זוגית PR-2024 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/new/7313717556c.gif",
+    "image": "images/1218483.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/new/7313717556c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -4161,12 +4203,12 @@
   {
     "id": "1243888",
     "name": "מיטה זוגית W-202 מיטה זוגית Sleepnet",
-    "image": "https://img.zap.co.il/pics/0/3/6/6/93766630c.gif",
+    "image": "images/1243888.gif",
     "manufacturer": "Sleepnet",
     "imageUrl": "https://img.zap.co.il/pics/0/3/6/6/93766630c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4181,12 +4223,12 @@
   {
     "id": "1033461",
     "name": "ספת נוער קארבון מדיקומפורט",
-    "image": "https://img.zap.co.il/pics/7/5/0/2/51322057c.gif",
+    "image": "images/1033461.gif",
     "manufacturer": "מדיקומפורט",
     "imageUrl": "https://img.zap.co.il/pics/7/5/0/2/51322057c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4201,12 +4243,12 @@
   {
     "id": "1262038",
     "name": "מיטה זוגית Michigan מיטה זוגית Sealy",
-    "image": "https://img.zap.co.il/pics/1/6/5/7/96817561c.gif",
+    "image": "images/1262038.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/7/96817561c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4222,12 +4264,12 @@
   {
     "id": "1224761",
     "name": "מיטה יהודית מיטה זוגית בהפרדה ספיר Camp David",
-    "image": "https://img.zap.co.il/pics/3/0/3/4/85544303c.gif",
+    "image": "images/1224761.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/3/0/3/4/85544303c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4242,12 +4284,12 @@
   {
     "id": "1225732",
     "name": "מיטה יהודית תרשיש מיטה יהודית Camp David",
-    "image": "https://img.zap.co.il/pics/3/6/8/6/76776863c.gif",
+    "image": "images/1225732.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/3/6/8/6/76776863c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4262,12 +4304,12 @@
   {
     "id": "1123866",
     "name": "מיטה זוגית Anabel מיטה זוגית Sealy",
-    "image": "https://img.zap.co.il/pics/6/9/6/3/62963696c.gif",
+    "image": "images/1123866.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/6/9/6/3/62963696c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4283,12 +4325,14 @@
   {
     "id": "1209813",
     "name": "מיטה זוגית מיטה זוגית דגם Orlando Sealy",
-    "image": "https://img.zap.co.il/pics/1/7/8/8/79198871c.gif",
+    "image": "images/1209813.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/1/7/8/8/79198871c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -4304,12 +4348,12 @@
   {
     "id": "1262047",
     "name": "מיטה זוגית Georgia מיטה זוגית Sealy",
-    "image": "https://img.zap.co.il/pics/9/8/1/5/96735189c.gif",
+    "image": "images/1262047.gif",
     "manufacturer": "Sealy",
     "imageUrl": "https://img.zap.co.il/pics/9/8/1/5/96735189c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052598
     },
     "filterTags": {},
     "imageUrls": [
@@ -4325,12 +4369,12 @@
   {
     "id": "752548",
     "name": "מיטה זוגית מתכווננת טורקיז פולירון",
-    "image": "https://img.zap.co.il/pics/9/8/7/3/34333789b.gif",
+    "image": "images/752548.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/9/8/7/3/34333789b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "filterTags": {},
     "imageUrls": [
@@ -4350,19 +4394,19 @@
     "imageUrl": "https://img.zap.co.il/pics/sog/7544474448c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "filterTags": {}
   },
   {
     "id": "1179745",
     "name": "מיטה זוגית מתכווננת מיטה זוגית נופר פולירון",
-    "image": "https://img.zap.co.il/pics/3/6/6/0/70700663c.gif",
+    "image": "images/1179745.gif",
     "manufacturer": "פולירון",
     "imageUrl": "https://img.zap.co.il/pics/3/6/6/0/70700663c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "filterTags": {},
     "imageUrls": [
@@ -4377,12 +4421,14 @@
   {
     "id": "1224772",
     "name": "מיטה זוגית Tilda מיטה זוגית Bradex",
-    "image": "https://img.zap.co.il/pics/7/5/4/9/87209457c.gif",
+    "image": "images/1224772.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/7/5/4/9/87209457c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599,
+      "ksp": 890,
+      "kspUrl": "https://ksp.co.il/web/item/400520"
     },
     "filterTags": {},
     "imageUrls": [
@@ -4398,12 +4444,14 @@
   {
     "id": "1262560",
     "name": "מיטת יחיד Manila מיטת יחיד Bradex",
-    "image": "https://img.zap.co.il/pics/1/4/4/9/97369441c.gif",
+    "image": "images/1262560.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/1/4/4/9/97369441c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599,
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/428819"
     },
     "filterTags": {},
     "imageUrls": [
@@ -4418,12 +4466,12 @@
   {
     "id": "1143652",
     "name": "ספת נוער Pasha ספת נוער Bradex",
-    "image": "https://img.zap.co.il/pics/1/8/0/0/63460081c.gif",
+    "image": "images/1143652.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/1/8/0/0/63460081c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "filterTags": {},
     "imageUrls": [
@@ -4441,12 +4489,12 @@
   {
     "id": "843875",
     "name": "מיטה זוגית יהלום מיטה זוגית Camp David",
-    "image": "https://img.zap.co.il/pics/1/8/8/0/38000881c.gif",
+    "image": "images/843875.gif",
     "manufacturer": "Camp David",
     "imageUrl": "https://img.zap.co.il/pics/1/8/8/0/38000881c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "filterTags": {},
     "imageUrls": [
@@ -4461,12 +4509,12 @@
   {
     "id": "1140980922",
     "name": "ספת נוער מונקו וידר",
-    "image": "https://img.zap.co.il/pics/2/4/6/3/91563642c.gif",
+    "image": "images/1140980922.gif",
     "manufacturer": "וידר",
     "imageUrl": "https://img.zap.co.il/pics/2/4/6/3/91563642c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/2/4/6/3/91563642c.gif"
@@ -4480,12 +4528,14 @@
   {
     "id": "1145370",
     "name": "מיטת יחיד Serra יחיד Bradex",
-    "image": "https://img.zap.co.il/pics/new/10316175733c.gif",
+    "image": "images/1145370.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/new/10316175733c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599,
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/428819"
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/new/10316175733c.gif"
@@ -4499,12 +4549,14 @@
   {
     "id": "1145371",
     "name": "מיטה זוגית Serra זוגית Bradex",
-    "image": "https://img.zap.co.il/pics/new/10316182830c.gif",
+    "image": "images/1145371.gif",
     "manufacturer": "Bradex",
     "imageUrl": "https://img.zap.co.il/pics/new/10316182830c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599,
+      "ksp": 1790,
+      "kspUrl": "https://ksp.co.il/web/item/400377"
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/new/10316182830c.gif",
@@ -4519,12 +4571,12 @@
   {
     "id": "992541",
     "name": "בסיס למיטה מיטה מעץ מלא דגם 5019 Olympia",
-    "image": "https://img.zap.co.il/pics/3/8/6/1/47621683c.gif",
+    "image": "images/992541.gif",
     "manufacturer": "Olympia",
     "imageUrl": "https://img.zap.co.il/pics/3/8/6/1/47621683c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/3/8/6/1/47621683c.gif"
@@ -4538,12 +4590,12 @@
   {
     "id": "1061511",
     "name": "דגם 7020 Olympia",
-    "image": "https://img.zap.co.il/pics/8/5/1/4/50304158c.gif",
+    "image": "images/1061511.gif",
     "manufacturer": "Olympia",
     "imageUrl": "https://img.zap.co.il/pics/8/5/1/4/50304158c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052599
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/8/5/1/4/50304158c.gif"
@@ -4557,12 +4609,14 @@
   {
     "id": "992437",
     "name": "מיטה מעץ מלא דגם 5003 Olympia",
-    "image": "https://img.zap.co.il/pics/9/0/1/5/57085109c.gif",
+    "image": "images/992437.gif",
     "manufacturer": "Olympia",
     "imageUrl": "https://img.zap.co.il/pics/9/0/1/5/57085109c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052600,
+      "ksp": 854,
+      "kspUrl": "https://ksp.co.il/web/item/215274"
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/9/0/1/5/57085109c.gif",
@@ -4578,12 +4632,14 @@
   {
     "id": "1026486",
     "name": "7025 מיטה זוגית Olympia",
-    "image": "https://img.zap.co.il/pics/1/4/4/8/49548441c.gif",
+    "image": "images/1026486.gif",
     "manufacturer": "Olympia",
     "imageUrl": "https://img.zap.co.il/pics/1/4/4/8/49548441c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052600,
+      "ksp": 899,
+      "kspUrl": "https://ksp.co.il/web/item/216679"
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/1/4/4/8/49548441c.gif"
@@ -4597,12 +4653,12 @@
   {
     "id": "1167161",
     "name": "דגם 5024 Olympia",
-    "image": "https://img.zap.co.il/pics/new/59934475c.gif",
+    "image": "images/1167161.gif",
     "manufacturer": "Olympia",
     "imageUrl": "https://img.zap.co.il/pics/new/59934475c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779421876908
+      "updated": 1779437052600
     },
     "imageUrls": [
       "https://img.zap.co.il/pics/new/59934475c.gif",

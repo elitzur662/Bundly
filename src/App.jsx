@@ -14056,9 +14056,43 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       }
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "המוצר אינו זמין");
       const data = await res.json();
-      // Carry a stable, re-resolvable product key so the deal opened from
-      // this result gets a permanent shareable URL (/product/<key>).
-      onResult({ ...data, _pageSog: pageSog, productKey: productKeyFrom({ ...product, productName: data.productName }) });
+
+      // ── Identity lock ───────────────────────────────────────────────
+      // The /api/zap-model and /api/search round-trips can resolve to a
+      // DIFFERENT product than the card the user tapped — a stale price
+      // cache, a ZAP model-id merge/redirect, or the search fallback that
+      // "returns whatever ranks first". The card the user clicked IS the
+      // product they want, so its name + image ALWAYS win. The server
+      // reply only contributes prices/suppliers, and only when it clearly
+      // describes that same product (token overlap with the card name).
+      const cardName = product.nameHe || product.nameEn || "";
+      const tok = (s) => String(s || "").toLowerCase()
+        .replace(/[^a-z0-9֐-׿]+/g, " ").split(/\s+/).filter(w => w.length >= 2);
+      const cardTok = tok(cardName);
+      const dataSet = new Set(tok(data.productName));
+      const overlap = cardTok.length ? cardTok.filter(w => dataSet.has(w)).length / cardTok.length : 1;
+      const sameProduct = overlap >= 0.5;
+
+      const result = {
+        ...data,
+        // identity — always the clicked card
+        productName:   cardName || data.productName,
+        productNameEn: product.nameEn || cardName || data.productNameEn,
+        image:         product.image || data.image || null,
+        // prices/suppliers — only when the server described THIS product;
+        // otherwise fall back to the card's own cached numbers
+        suppliers:  sameProduct ? (data.suppliers || []) : [],
+        marketMin:  sameProduct ? (data.marketMin || product.priceMin || 0) : (product.priceMin || 0),
+        marketMax:  sameProduct ? (data.marketMax || product.priceMax || 0) : (product.priceMax || 0),
+        groupPrice: sameProduct ? (data.groupPrice || 0) : 0,
+        _priceUnavailable: sameProduct ? data._priceUnavailable : !(product.priceMin > 0),
+        _zapModelId: /^\d+$/.test(String(product._streamKey || "")) ? String(product._streamKey) : data._zapModelId,
+        _pageSog: pageSog,
+        // Stable, re-resolvable key for the permanent /product/<key> URL —
+        // derived from the CARD, never from the (possibly drifted) reply.
+        productKey: productKeyFrom({ ...product, productName: cardName || data.productName }),
+      };
+      onResult(result);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -15123,8 +15157,30 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
       const res = await fetch(`/api/search?q=${encodeURIComponent(searchQ)}`);
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "שגיאה בחיפוש");
       const data = await res.json();
-      // Carry a stable, re-resolvable product key for a shareable /product/<key> URL.
-      onResult({ ...data, _pageSog: pageSog, productKey: productKeyFrom({ ...product, productName: data.productName }) });
+
+      // Identity lock — the search round-trip can rank a different product
+      // first; the row the user picked stays authoritative for name + image.
+      const cardName = product.nameHe || product.nameEn || "";
+      const tok = (s) => String(s || "").toLowerCase()
+        .replace(/[^a-z0-9֐-׿]+/g, " ").split(/\s+/).filter(w => w.length >= 2);
+      const cardTok = tok(cardName);
+      const dataSet = new Set(tok(data.productName));
+      const overlap = cardTok.length ? cardTok.filter(w => dataSet.has(w)).length / cardTok.length : 1;
+      const sameProduct = overlap >= 0.5;
+
+      onResult({
+        ...data,
+        productName:   cardName || data.productName,
+        productNameEn: product.nameEn || cardName || data.productNameEn,
+        image:         product.image || data.image || null,
+        suppliers:  sameProduct ? (data.suppliers || []) : [],
+        marketMin:  sameProduct ? (data.marketMin || product.priceMin || 0) : (product.priceMin || 0),
+        marketMax:  sameProduct ? (data.marketMax || product.priceMax || 0) : (product.priceMax || 0),
+        groupPrice: sameProduct ? (data.groupPrice || 0) : 0,
+        _priceUnavailable: sameProduct ? data._priceUnavailable : !(product.priceMin > 0),
+        _pageSog: pageSog,
+        productKey: productKeyFrom({ ...product, productName: cardName || data.productName }),
+      });
     } catch (e) {
       setError(e.message);
       setLoadingIdx(null);
