@@ -138,7 +138,7 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
             <li>הוסף ל-<code>.env</code>: <code>STRIPE_SECRET_KEY=sk_test_…</code> ו-<code>STRIPE_PUBLISHABLE_KEY=pk_test_…</code></li>
             <li>הפעל מחדש את השרת (<code>npm start</code>).</li>
           </ol>
-          <p className="text-amber-800">בינתיים אפשר להמשיך, הפיקדון יירשם ב-DB אך לא יבוצע חיוב אמיתי.</p>
+          <p className="text-amber-800">בינתיים אפשר להמשיך, ההצטרפות תירשם ב-DB ללא בדיקת כרטיס אמיתית.</p>
         </div>
       )}
       {cardError && <p className="text-xs text-red-500 mt-1">{cardError}</p>}
@@ -4192,12 +4192,10 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl" onClick={e => e.stopPropagation()}>
 
-        {/* ── DEPOSIT CONFIRMATION STEP ──
-              Required before joining a demand pool. Free joins create
-              noise, anyone can register interest without commitment.
-              ₪25 deposit filters serious buyers and gives suppliers
-              a clearer demand signal. Refundable in full if no group
-              forms within 30 days. */}
+        {/* ── JOIN CONFIRMATION STEP ──
+              Shown before joining a demand pool. Confirms intent so
+              suppliers get a clear, serious demand signal. No charge,
+              no hold, Bundly never touches the customer's money. */}
         {confirmDeposit && !joined && (
           <div className="py-4">
             <div className="flex items-center justify-between mb-3">
@@ -4205,25 +4203,25 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
                 className="text-gray-400 hover:text-gray-600 transition flex items-center gap-1 text-sm">
                 <ChevronRight className="w-4 h-4" /> חזרה
               </button>
-              <div className="text-xs font-bold text-gray-400 tracking-wide uppercase">שריון מקום</div>
+              <div className="text-xs font-bold text-gray-400 tracking-wide uppercase">הצטרפות לקבוצה</div>
             </div>
             <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border-2 border-indigo-100 rounded-2xl p-5 mb-4">
               <div className="text-3xl mb-2 text-center">🔒</div>
-              <h3 className="text-lg font-black text-gray-900 text-center mb-1">פיקדון ₪25, מקום שמור</h3>
+              <h3 className="text-lg font-black text-gray-900 text-center mb-1">הצטרפות לקבוצת הביקוש</h3>
               <p className="text-sm text-indigo-700 font-semibold text-center mb-3">{confirmDeposit.modelName}</p>
               <ul className="space-y-1.5 text-xs text-gray-600 leading-relaxed">
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> הסכום מוקפא בכרטיס בלבד, לא יחויב כעת</li>
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מקוזז מהמחיר הסופי כשהקבוצה נסגרת</li>
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מוחזר במלואו אם הקבוצה לא נפתחה תוך 30 יום</li>
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מסמן ספקים על ביקוש <strong>אמיתי</strong>, לא רעש</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> אפס חיוב, בנדלי לא נוגעת בכספים שלכם</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> כשהקבוצה נסגרת, התשלום מתבצע ישירות מול הספק</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> אם לא נפתחה קבוצה, פשוט לא קורה כלום</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מסמן לספקים ביקוש <strong>אמיתי</strong>, לא רעש</li>
               </ul>
             </div>
             <button onClick={() => confirmJoin(confirmDeposit.modelName)}
               className="w-full bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black py-3.5 rounded-2xl shadow-md transition active:scale-[0.98]">
-              אישור פיקדון ₪25 והרשמה
+              אישור והצטרפות לקבוצה
             </button>
             <p className="text-[10px] text-gray-400 text-center mt-2 leading-relaxed">
-              לחיצה על "אישור" שומרת את מקומך. תופיע בקשת אישור בכרטיס שלך ברגע שאליו תיגש.
+              לחיצה על "אישור" רושמת אתכם לקבוצת הביקוש. ללא חיוב וללא התחייבות כספית.
             </p>
           </div>
         )}
@@ -4625,17 +4623,16 @@ function BidFeed({ deal }) {
 
 // ─────────────────────────────────────────────────────────────────
 //  GROUP-BUY JOIN SELECTOR
-//  Replaces the old 3-tier grid (שומר מקום / מתעניין / מחויב). Now
-//  presents the deal as an active buying group with one primary action
-//  (commit + 25% deposit) and one small secondary action (updates only).
+//  Presents the deal as an active buying group with one primary action
+//  (join, card verified only, no charge) and one small secondary action
+//  (updates only). Payment at close is made directly to the supplier.
 // ─────────────────────────────────────────────────────────────────
 function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false }) {
   // Group price = lowest plausible bid OR group offer OR market min.
   // Implausibly-low (typo) bids are ignored so a mistyped supplier offer
-  // can't poison the displayed price / deposit calculation.
+  // can't poison the displayed price.
   const groupPrice = lowestPlausibleBid(deal)
     ?? (deal.groupOffer || deal.marketMin || 0);
-  const COMMITTED_DEPOSIT = Math.round(groupPrice * 0.25);
   const participants     = deal.participants || 0;
   const maxParticipants  = deal.maxParticipants || 0;
   const interestedCount  = deal.interested || 0;
@@ -4656,7 +4653,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       return (
         <div className="flex items-center gap-2 rounded-xl bg-indigo-50 border border-indigo-300 px-3 py-1.5">
           <span className="text-sm">✓</span>
-          <span className="text-xs font-bold text-indigo-800">המחיר שלך נעול</span>
+          <span className="text-xs font-bold text-indigo-800">אתם בקבוצה</span>
         </div>
       );
     }
@@ -4672,7 +4669,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       <div className="flex items-center gap-2">
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
-          אני בפנים, נעלו לי את המחיר
+          אני בפנים, הצטרפו לקבוצה
         </button>
         <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
           className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
@@ -4692,9 +4689,9 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
               <span className="text-white text-xl">✓</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm text-indigo-900">אתם בפנים, המחיר נעול עליכם</p>
+              <p className="font-black text-sm text-indigo-900">אתם בקבוצה</p>
               <p className="text-gray-600 text-[12px] mt-1 leading-relaxed">
-                סכום של ₪{COMMITTED_DEPOSIT.toLocaleString()} שמור על שמכם. היתרה תיגבה רק כשהקבוצה תיסגר במחיר הסופי.
+                הכרטיס אומת בלבד, בנדלי לא חייבה אותו. כשהקבוצה תיסגר, תשלמו ישירות לספק את המחיר המלא.
               </p>
               <p className="text-gray-400 text-[10px] mt-2 font-medium">
                 סטטוס: ממתינים לסגירת הקבוצה
@@ -4724,8 +4721,8 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         {/* Upgrade to formal order */}
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
-          <span>אני בפנים, נעלו לי את המחיר</span>
-          <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
+          <span>אני בפנים, הצטרפו לקבוצה</span>
+          <span className="text-[10px] text-gray-400 font-normal mr-1">(אימות כרטיס, אפס חיוב)</span>
           <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
         </button>
         <DemandForecast deal={deal} />
@@ -4764,9 +4761,9 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         onClick={(e) => onSelectTier("committed", e.currentTarget)}
         className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
       >
-        <span className="text-[15px] font-black">אני בפנים, נעלו לי את המחיר</span>
+        <span className="text-[15px] font-black">אני בפנים, הצטרפו לקבוצה</span>
         <span className="text-[11px] font-medium text-white/85">
-          נעילת מחיר · שמירת אמצעי תשלום (לא נחייב כעת)
+          אימות כרטיס בלבד, בנדלי לא מחייבת אתכם
         </span>
       </button>
 
@@ -4795,7 +4792,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
 
       {/* Footnote, explains the SetupIntent (no-charge) flow */}
       <p className="text-center text-[10px] text-gray-400 leading-relaxed">
-        המחיר נשמר לכם ללא חיוב. החיוב יבוצע רק לאחר אישורכם בסגירת הקבוצה, ולא יבוצע כלל אם המינימום לא הושג.
+        הכרטיס נבדק רק כדי לוודא שהוא תקף, בנדלי לא מחייבת אותו. כשהקבוצה תיסגר, התשלום יתבצע ישירות מול הספק.
       </p>
       <DemandForecast deal={deal} />
     </div>
@@ -5111,7 +5108,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     setDepositInfo(null);
     onJoin(deal.id, tier);
     setJoinedTier(tier);
-    if (notify) notify("✅ נעלת את המחיר! המקדמה הוקפאה.");
+    if (notify) notify("✅ הצטרפת לקבוצה! הכרטיס אומת, ללא חיוב.");
   };
   const handleWhatsApp = () => {
     // Stable product URL, /product/<key> re-resolves on the recipient's
@@ -5420,16 +5417,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         </div>
 
-        {/* ══ COMMITTED, Locked-in price banner ══ */}
+        {/* ══ COMMITTED, price banner ══ */}
         {joinedTier === "committed" && !priceHidden && (() => {
           const finalPrice = Number(bestBid?.amount || deal.groupOffer) || 0;
-          const deposit = Math.round(finalPrice * 0.25);
-          const remaining = finalPrice - deposit;
-          // BUG FIX (round 4 P0): when the deal is closed and the user is
-          // committed, they need an explicit "approve charge" button or the
-          // off-session charge is never triggered. dealStatus comes from
-          // /api/deals/:id state, "closed" / "filled" both indicate the
-          // group reached its minimum and the customer must approve.
+          // "closed" / "filled" both mean the group reached its minimum and
+          // the customer should now pay the supplier directly, in full.
           const dealClosed = ["closed", "filled"].includes(String(deal.status || "").toLowerCase());
           return (
             <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl shadow-lg p-5 text-white relative overflow-hidden">
@@ -5439,44 +5431,36 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               </div>
               <div className="relative pr-14">
                 <p className="text-xs text-emerald-100 font-bold mb-1">
-                  {dealClosed ? "🎉 הקבוצה נסגרה, נדרש אישור חיוב" : "🔒 המחיר נעול, מקדמה הוקפאה"}
+                  {dealClosed ? "🎉 הקבוצה נסגרה בהצלחה" : "🔒 אתם בפנים, הכרטיס אומת בלבד"}
                 </p>
                 <p className="text-3xl font-black tracking-tight">₪{finalPrice.toLocaleString()}</p>
-                <div className="flex items-center gap-3 text-[11px] text-emerald-50 mt-2 bg-white/10 rounded-lg px-3 py-2">
-                  <div><span className="text-emerald-200">מקדמה:</span> <strong>₪{deposit.toLocaleString()}</strong></div>
-                  <div className="text-emerald-300">|</div>
-                  <div><span className="text-emerald-200">יתרה לסגירה:</span> <strong>₪{remaining.toLocaleString()}</strong></div>
-                </div>
                 {dealClosed ? (
-                  <button
-                    onClick={async () => {
-                      try {
-                        const tok = _getToken();
-                        const r = await fetch(`/api/deals/${deal.id}/charge-confirmed`, {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json", Authorization: `Bearer ${tok}` },
-                          body: JSON.stringify({}),
-                        });
-                        const d = await r.json();
-                        if (d.requiresAction && d.nextActionUrl) {
-                          window.location.href = d.nextActionUrl;
-                          return;
+                  <>
+                    <p className="text-[11px] text-emerald-50 mt-2 leading-relaxed">
+                      התשלום מתבצע ישירות מול הספק. לחצו להמשך לעמוד התשלום של הספק ולתשלום מלא של ₪{finalPrice.toLocaleString()}.
+                    </p>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const r = await fetch(`/api/deals/${deal.id}/supplier-payment-link`);
+                          const d = await r.json();
+                          if (d?.ok && d.supplierPaymentLink) {
+                            window.open(d.supplierPaymentLink, "_blank", "noopener");
+                          } else {
+                            alert("הספק יצור עמכם קשר להשלמת התשלום");
+                          }
+                        } catch (e) {
+                          alert("שגיאה: " + e.message);
                         }
-                        if (d.ok) {
-                          alert("✅ התשלום אושר. תקבל חשבונית במייל.");
-                          window.location.reload();
-                        } else {
-                          alert("שגיאה באישור: " + (d.error || "נסה שוב"));
-                        }
-                      } catch (e) { alert("שגיאה: " + e.message); }
-                    }}
-                    className="mt-3 w-full py-3 bg-white text-emerald-700 font-black rounded-xl text-sm hover:bg-emerald-50 transition active:scale-[0.98]">
-                    אשר חיוב כעת, ₪{finalPrice.toLocaleString()}
-                  </button>
+                      }}
+                      className="mt-3 w-full py-3 bg-white text-emerald-700 font-black rounded-xl text-sm hover:bg-emerald-50 transition active:scale-[0.98]">
+                      המשך לתשלום אצל הספק
+                    </button>
+                  </>
                 ) : (
                   <p className="text-[10px] text-emerald-200 mt-2">
-                    ✓ אם המחיר הקבוצתי יורד עוד, תקבל את המחיר הנמוך
-                    <br />✓ אם הקבוצה לא מתמלאת, המקדמה משוחררת אוטומטית
+                    ✓ הכרטיס נבדק רק כדי לוודא שהוא תקף, בנדלי לא מחייבת אותו
+                    <br />✓ בסגירת הקבוצה תשלמו ישירות לספק את המחיר המלא
                   </p>
                 )}
               </div>
@@ -10224,7 +10208,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
   const TIER_META = {
-    committed:  { emoji: "📝", label: "המחיר נעול",    color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
+    committed:  { emoji: "📝", label: "בקבוצה",        color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
     interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
   };
   const ACTION_LABEL = {
@@ -10413,17 +10397,17 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 
 // ── Accept/reject modal with shipping address ──────────────────
 // ─────────────────────────────────────────────────────────────────
-//  DEPOSIT MODAL, collects + saves card (no charge) for a tier upgrade
-//  New flow (per user request):
-//    • At join time we VALIDATE + SAVE the card via Stripe SetupIntent.
-//      No money moves now, Stripe runs at most a $0/$1 verification that
-//      is immediately voided. The PaymentMethod is attached to a Customer.
-//    • When the deal closes successfully, the user receives a notification
-//      and approves the actual charge (see /api/deals/:id/charge-confirmed).
-//    • If the deal cancels, nothing was charged, nothing to refund.
+//  DEPOSIT MODAL, validates a card (no charge) when joining a group
+//  Supplier-direct payment model:
+//    • At join time we VALIDATE the card via Stripe SetupIntent. No money
+//      moves, Stripe runs at most a $0/$1 verification that is immediately
+//      voided. Bundly never charges the card and never places a hold.
+//    • The card check is purely a proof-of-seriousness step.
+//    • When the deal closes successfully, the customer pays the FULL price
+//      DIRECTLY to the supplier on the supplier's own payment page.
+//      Bundly is never the merchant and never processes the payment.
 //  Tier semantics:
-//    - "committed": user signalled intent to buy, saves a card (no charge)
-//      to lock in the current group price.
+//    - "committed": customer signalled intent to buy, card verified only.
 // ─────────────────────────────────────────────────────────────────
 function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) {
   const [cardName, setCardName] = useState("");
@@ -10434,14 +10418,14 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 
   const TIER_INFO = {
     committed: {
-      title: "הצטרפות עם נעילת מחיר",
+      title: "הצטרפות לקבוצה",
       emoji: "📝",
       gradient: "from-indigo-500 to-violet-600",
-      explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחייב כעת.`,
+      explainer: `הכרטיס נבדק רק כדי לוודא שהוא תקף. בנדלי לא מחייבת את הכרטיס ולא מבצעת שום חיוב.`,
       bullets: [
-        `✓ נעילת מחיר, המחיר הנוכחי שמור עבורך`,
-        `✓ אפס חיוב היום, רק וידוא תוקף הכרטיס`,
-        `✓ סגירת הקבוצה? נשלח הודעה, ותאשר את החיוב בלחיצה`,
+        `✓ אפס חיוב, הכרטיס נבדק רק לאימות תוקף`,
+        `✓ בנדלי לא נוגעת בכספים ולא מחייבת את הכרטיס`,
+        `✓ כשהקבוצה נסגרת, התשלום מתבצע ישירות מול הספק`,
       ],
     },
   };
@@ -10472,8 +10456,8 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       //    without charging. Returns the PaymentMethod id.
       const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub, mode: "setup" });
       if (!confirm?.ok) throw new Error(confirm?.error || "שמירת הכרטיס נכשלה");
-      // 3) Tell the server which PaymentMethod was saved so it can charge
-      //    off-session later when the deal closes.
+      // 3) Tell the server which PaymentMethod was verified, recorded on the
+      //    join row for reference only. Bundly never charges this card.
       if (confirm.paymentMethodId && token) {
         try {
           await fetch(`/api/deals/${deal.id}/save-payment-method`, {
@@ -10526,19 +10510,19 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
               <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Check className="w-7 h-7 text-emerald-600" />
               </div>
-              <p className="font-black text-gray-900 text-lg">הכרטיס נשמר 🎉</p>
+              <p className="font-black text-gray-900 text-lg">הצטרפת לקבוצה 🎉</p>
               <p className="text-xs text-gray-600 mt-2 leading-relaxed">
                 {done.cardLast4
-                  ? `כרטיס שמסתיים ב-${done.cardLast4} נשמר לטובת חיוב עתידי בלבד.`
-                  : "אמצעי התשלום נשמר לטובת חיוב עתידי בלבד."}
+                  ? `כרטיס שמסתיים ב-${done.cardLast4} אומת בהצלחה.`
+                  : "הכרטיס אומת בהצלחה."}
               </p>
-              <p className="text-[11px] text-gray-500 mt-1">לא חויבת, נשלח הודעה אם הקבוצה תיסגר וננחה אותך לאשר את החיוב.</p>
+              <p className="text-[11px] text-gray-500 mt-1">לא בוצע חיוב. כשהקבוצה תיסגר, התשלום יתבצע ישירות מול הספק.</p>
             </div>
           ) : (
             <>
-              {/* "Today you pay ₪0", leading visual emphasis */}
+              {/* "₪0 charge", leading visual emphasis */}
               <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
-                <p className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">חיוב היום</p>
+                <p className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">חיוב בנדלי</p>
                 <p className="text-3xl font-black text-emerald-700 mt-1">₪0</p>
                 <p className="text-[11px] text-emerald-800 mt-2 leading-relaxed">{info.explainer}</p>
               </div>
@@ -10562,9 +10546,9 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 
               <button onClick={handleSubmit} disabled={submitting}
                 className={`w-full py-3.5 bg-gradient-to-r ${info.gradient} text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50`}>
-                {submitting ? "שומר..." : `🔒 שמור אמצעי תשלום (אפס חיוב)`}
+                {submitting ? "מאמת..." : `🔒 אימות כרטיס והצטרפות (אפס חיוב)`}
               </button>
-              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב היום, רק יוודא שהוא תקף. תקבל הודעה אחרי סגירת הקבוצה לאישור החיוב.</p>
+              <p className="text-[10px] text-gray-400 text-center">הכרטיס נבדק רק כדי לוודא שהוא תקף, בנדלי לא מחייבת אותו. כשהקבוצה תיסגר, התשלום יתבצע ישירות מול הספק.</p>
             </>
           )}
         </div>
@@ -10574,51 +10558,15 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
 }
 
 function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
-  const [mode, setMode] = useState(null); // null | "accept" | "reject" | "locked" | "supplier_redirect"
+  const [mode, setMode] = useState(null); // null | "accept" | "reject" | "supplier_redirect"
   const [shipping, setShipping] = useState({ city: "", street: "", building: "", apartment: "", zip: "" });
-  const [cardName, setCardName] = useState("");
-  const cardRef = useRef(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [lockInfo, setLockInfo] = useState(null); // { lockedInPrice, lockedUntil, order }
-  // Payment method choice: "bundly" (Bundly processes the card via Stripe) or
-  // "supplier_direct" (customer is sent to the supplier's own payment link).
-  const [paymentOption, setPaymentOption] = useState("bundly");
-  const [supplierInfo, setSupplierInfo] = useState(null); // { order, link } after supplier_direct accept
+  const [supplierInfo, setSupplierInfo] = useState(null); // { order, link } after accept
 
-  const handleAccept = async () => {
-    if (submitting) return; // Prevent double-click
-    if (!shipping.city || !shipping.street) { setError("חובה למלא עיר ורחוב"); return; }
-    if (shipping.zip && !/^\d{5,7}$/.test(shipping.zip.replace(/\s/g, ""))) { setError("מיקוד לא תקין (5-7 ספרות)"); return; }
-    if (!cardName.trim()) { setError("חובה למלא שם על הכרטיס"); return; }
-    setSubmitting(true); setError("");
-    try {
-      // 1) Server creates the order + manual-capture PaymentIntent, returns clientSecret on data.payment
-      const res = await fetch(`/api/user/offers/${offer.id}/accept`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ shippingAddress: shipping, paymentOption: "bundly" }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה");
-      // 2) Confirm card against Stripe (or short-circuit in stub mode)
-      const isStub = !!data.payment?.stub;
-      if (!isStub && !data.payment?.clientSecret) {
-        throw new Error("שרת התשלום לא החזיר מזהה, נסה שוב");
-      }
-      if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
-        throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
-      }
-      const confirm = await cardRef.current.confirm(data.payment?.clientSecret, { stub: isStub });
-      if (!confirm?.ok) throw new Error(confirm?.error || "אישור תשלום נכשל");
-      setLockInfo({ lockedInPrice: data.lockedInPrice, lockedUntil: data.lockedUntil, order: data.order });
-      setMode("locked");
-      setSubmitting(false);
-    } catch (e) { setError(e.message); setSubmitting(false); }
-  };
-
-  // Option 2, pay the supplier directly. Bundly records the order but never
-  // touches the card; the customer is sent to the supplier's own payment link.
+  // Accepting an offer always uses the supplier-direct flow. Bundly records
+  // the order but never touches the card; the customer pays the supplier in
+  // full on the supplier's own payment page.
   const handleSupplierDirect = async () => {
     if (submitting) return;
     if (!shipping.city || !shipping.street) { setError("חובה למלא עיר ורחוב"); return; }
@@ -10692,25 +10640,12 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
 
           {mode === "accept" && (
             <div className="space-y-3">
-              {/* ── Payment method selector ── */}
-              <p className="text-sm font-bold text-gray-700">איך תרצה לשלם?</p>
-              <div className="grid grid-cols-1 gap-2">
-                <button type="button" onClick={() => { setPaymentOption("bundly"); setError(""); }}
-                  className={`text-right rounded-xl border-2 p-3 transition ${paymentOption === "bundly" ? "border-indigo-500 bg-indigo-50" : "border-gray-200 bg-white"}`}>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${paymentOption === "bundly" ? "border-indigo-500 bg-indigo-500" : "border-gray-300"}`} />
-                    <span className="font-bold text-sm text-gray-900">תשלום מאובטח דרך Bundly</span>
-                  </div>
-                  <p className="text-[11px] text-gray-500 mt-1 pr-6">הכרטיס מוקפא עכשיו, מחויב רק כשהקבוצה נסגרת בהצלחה.</p>
-                </button>
-                <button type="button" onClick={() => { setPaymentOption("supplier_direct"); setError(""); }}
-                  className={`text-right rounded-xl border-2 p-3 transition ${paymentOption === "supplier_direct" ? "border-indigo-500 bg-indigo-50" : "border-gray-200 bg-white"}`}>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${paymentOption === "supplier_direct" ? "border-indigo-500 bg-indigo-500" : "border-gray-300"}`} />
-                    <span className="font-bold text-sm text-gray-900">תשלום ישיר לספק</span>
-                  </div>
-                  <p className="text-[11px] text-gray-500 mt-1 pr-6">התשלום מתבצע ישירות מול הספק. בנדלי לא נוגעת בפרטי האשראי שלך.</p>
-                </button>
+              <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex items-start gap-2">
+                <Lock className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <div className="text-[11px] text-indigo-900 leading-relaxed">
+                  <p className="font-bold mb-0.5">תשלום ישיר לספק</p>
+                  <p>נעביר אתכם לעמוד התשלום של הספק כדי לשלם ישירות מולו. בנדלי לא נוגעת בפרטי האשראי שלכם, ההזמנה תירשם אצלנו לצורך מעקב.</p>
+                </div>
               </div>
 
               <p className="text-sm font-bold text-gray-700">כתובת למשלוח</p>
@@ -10727,61 +10662,11 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                   className="col-span-2 border border-gray-200 rounded-xl px-3 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 min-h-[48px]" />
               </div>
 
-              {paymentOption === "bundly" && (
-                <>
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
-                    <Lock className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                    <div className="text-[11px] text-amber-900 leading-relaxed">
-                      <p className="font-bold mb-0.5">💳 הכרטיס שלך יוקפא, לא יחויב כעת</p>
-                      <p>הסכום יוקפא בכרטיס בלבד. החיוב בפועל יתבצע רק כשהקבוצה תיסגר בהצלחה. אם לא נגיע למינימום, הכרטיס משוחרר אוטומטית.</p>
-                    </div>
-                  </div>
-
-                  <div className="pt-1">
-                    <StripeCardSection
-                      name={cardName}
-                      onNameChange={setCardName}
-                      cardRef={cardRef}
-                      disabled={submitting}
-                    />
-                  </div>
-
-                  {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
-                  <button onClick={handleAccept} disabled={submitting}
-                    className="w-full py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
-                    {submitting ? "מקפיא את המחיר..." : "🔒 נעל את המחיר, ₪" + offer.offerPrice.toLocaleString()}
-                  </button>
-                  <p className="text-[10px] text-gray-400 text-center">בלחיצה אתה מאשר להקפיא את הסכום בכרטיס. החיוב בפועל רק כשהקבוצה תיסגר.</p>
-                </>
-              )}
-
-              {paymentOption === "supplier_direct" && (
-                <>
-                  <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex items-start gap-2">
-                    <Lock className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
-                    <div className="text-[11px] text-indigo-900 leading-relaxed">
-                      <p className="font-bold mb-0.5">תשלום ישיר לספק</p>
-                      <p>נעביר אותך לעמוד התשלום המאובטח של הספק. בנדלי לא נוגעת בפרטי האשראי שלך, ההזמנה תירשם אצלנו לצורך מעקב.</p>
-                    </div>
-                  </div>
-
-                  {error && (
-                    <div className="text-xs text-red-500 font-semibold">
-                      <p>{error}</p>
-                      {/^הספק לא הגדיר תשלום ישיר/.test(error) && (
-                        <button type="button" onClick={() => { setPaymentOption("bundly"); setError(""); }}
-                          className="mt-1 underline text-indigo-600 font-bold">
-                          עבור לתשלום מאובטח דרך Bundly
-                        </button>
-                      )}
-                    </div>
-                  )}
-                  <button onClick={handleSupplierDirect} disabled={submitting}
-                    className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
-                    {submitting ? "מעבד..." : "המשך לתשלום מאובטח באתר הספק"}
-                  </button>
-                </>
-              )}
+              {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
+              <button onClick={handleSupplierDirect} disabled={submitting}
+                className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
+                {submitting ? "מעבד..." : "אשר הזמנה והמשך לתשלום אצל הספק"}
+              </button>
             </div>
           )}
 
@@ -10789,46 +10674,24 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-5 text-white text-center">
                 <Check className="w-10 h-10 mx-auto mb-2 text-white" />
-                <p className="text-sm font-black mb-1">נפתח עמוד התשלום של הספק</p>
+                <p className="text-sm font-black mb-1">
+                  {supplierInfo.link ? "נפתח עמוד התשלום של הספק" : "ההזמנה נרשמה"}
+                </p>
                 <p className="text-[11px] text-indigo-100 leading-relaxed">
                   ההזמנה נרשמה, מספר #{supplierInfo.order?.id}
-                  <br />השלם את התשלום באתר הספק כדי לסיים.
+                  <br />
+                  {supplierInfo.link
+                    ? "השלימו את התשלום באתר הספק כדי לסיים."
+                    : "הספק יצור עמכם קשר להשלמת התשלום."}
                 </p>
               </div>
               {supplierInfo.link && (
                 <a href={supplierInfo.link} target="_blank" rel="noreferrer"
                   className="block w-full text-center py-3 border-2 border-indigo-200 text-indigo-700 font-bold rounded-xl text-sm transition hover:bg-indigo-50">
-                  לא נפתח? לחץ כאן לעמוד התשלום
+                  לא נפתח? לחצו כאן לעמוד התשלום של הספק
                 </a>
               )}
               <button onClick={() => onAccepted?.(supplierInfo.order)}
-                className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition">
-                סיים והצג את ההזמנה
-              </button>
-            </div>
-          )}
-
-          {mode === "locked" && lockInfo && (
-            <div className="space-y-4">
-              <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-5 text-white text-center relative overflow-hidden">
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-                <Lock className="w-10 h-10 mx-auto mb-2 text-white" />
-                <p className="text-xs text-emerald-100 font-bold mb-1">המחיר שלך נעול ✓</p>
-                <p className="text-4xl font-black tracking-tight">₪{Number(lockInfo.lockedInPrice).toLocaleString()}</p>
-                <p className="text-[11px] text-emerald-100 mt-3 leading-relaxed">
-                  הכרטיס שלך <strong>לא חויב</strong>, רק הוקפא.
-                  <br />החיוב יתבצע רק כשהקבוצה תיסגר בהצלחה.
-                </p>
-              </div>
-              <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-[12px] text-gray-700">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם המחיר הקבוצתי ירד עוד, תקבל את המחיר הנמוך</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם הקבוצה לא תתמלא, הכרטיס משוחרר אוטומטית תוך 7 ימים</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> מספר הזמנה: #{lockInfo.order?.id}</div>
-                {lockInfo.lockedUntil && (
-                  <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-amber-500" /> נעול עד: {new Date(lockInfo.lockedUntil).toLocaleDateString("he-IL")}</div>
-                )}
-              </div>
-              <button onClick={() => onAccepted?.(lockInfo.order)}
                 className="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition">
                 סיים והצג את ההזמנה
               </button>
@@ -21221,11 +21084,10 @@ export default function App() {
   const [showAuth, setShowAuth] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  // BUG FIX (round 4 P0): customer-side discovery of "your deal closed,
-  // please approve charge". Without this, the deal closes silently and
-  // the customer never lands on charge-confirmed. Fetched on user load
-  // + on mode change so the banner refreshes after the user closes the
-  // deal page.
+  // Customer-side discovery of "your group closed, complete payment with
+  // the supplier". Without this the deal closes silently and the customer
+  // never returns to pay. Fetched on user load + on mode change so the
+  // banner refreshes after the user closes the deal page.
   const [pendingCharges, setPendingCharges] = useState([]);
   useEffect(() => {
     if (!user) { setPendingCharges([]); return; }
@@ -21882,7 +21744,7 @@ export default function App() {
         price:       dt.groupOffer || dt.marketMin,
       });
     }
-    const tierMsg = tier === "committed" ? "✓ אתם בפנים, המחיר נעול עליכם"
+    const tierMsg = tier === "committed" ? "✓ אתם בקבוצה, הכרטיס אומת ללא חיוב"
                    : "✓ נרשמתם לעדכוני הקבוצה";
     notify(tierMsg);
     // Save to "המוצרים שלי"
@@ -22827,8 +22689,8 @@ export default function App() {
                   <span className="text-xl flex-shrink-0">🎉</span>
                   <div className="text-sm font-bold leading-tight">
                     {pendingCharges.length === 1
-                      ? <>הקבוצה של <strong>{pendingCharges[0].productName || "המוצר שלך"}</strong> נסגרה! נדרש אישור חיוב.</>
-                      : <>{pendingCharges.length} קבוצות שלך נסגרו! נדרש אישור חיוב.</>}
+                      ? <>הקבוצה של <strong>{pendingCharges[0].productName || "המוצר שלך"}</strong> נסגרה! השלימו תשלום מול הספק.</>
+                      : <>{pendingCharges.length} קבוצות שלך נסגרו! השלימו תשלום מול הספק.</>}
                   </div>
                 </div>
                 <button
@@ -22841,7 +22703,7 @@ export default function App() {
                     }
                   }}
                   className="px-4 py-2 bg-white text-orange-600 font-black rounded-xl text-sm whitespace-nowrap hover:bg-amber-50 transition shadow-sm">
-                  אשר חיוב ←
+                  לתשלום אצל הספק ←
                 </button>
               </div>
             </div>
