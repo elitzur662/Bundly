@@ -1,35 +1,13 @@
 [
   {
-    "id": "ksp_438291",
-    "name": "סטיקרים Animal Crossing: New Horizons",
-    "imageUrl": "https://ksp.co.il/shop/items/438291.jpg?v=5",
-    "prices": {
-      "ksp": 10,
-      "kspUrl": "https://ksp.co.il/web/item/438291",
-      "zap": 0,
-      "updated": 1779196318146
-    }
-  },
-  {
-    "id": "ksp_416537",
-    "name": "Nintendo Pokemon Legends Z-A Stickers C",
-    "imageUrl": "https://ksp.co.il/shop/items/416537.jpg?v=5",
-    "prices": {
-      "ksp": 10,
-      "kspUrl": "https://ksp.co.il/web/item/416537",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
     "id": "ksp_457140",
     "name": "מארז אחסון כרטיסי משחק Nintendo Switch מבית FUNLAB - צבע אדום - 48 חריצים",
     "imageUrl": "https://ksp.co.il/shop/items/457140.jpg?v=5",
     "prices": {
-      "ksp": 42,
-      "kspUrl": "https://ksp.co.il/web/item/457140",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 42,
+      "kspUrl": "https://ksp.co.il/web/item/457140"
     }
   },
   {
@@ -37,10 +15,10 @@
     "name": "מארז אחסון כרטיסי משחק Nintendo Switch מבית FUNLAB - עיצוב Pokedex - צבע אדום - 24 חריצים",
     "imageUrl": "https://ksp.co.il/shop/items/366542.jpg?v=5",
     "prices": {
-      "ksp": 45,
-      "kspUrl": "https://ksp.co.il/web/item/366542",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 45,
+      "kspUrl": "https://ksp.co.il/web/item/366542"
     }
   },
   {
@@ -48,10 +26,10 @@
     "name": "רצועת רגל ל- Nintendo Switch Sports!",
     "imageUrl": "https://ksp.co.il/shop/items/205500.jpg?v=5",
     "prices": {
-      "ksp": 67,
-      "kspUrl": "https://ksp.co.il/web/item/205500",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 67,
+      "kspUrl": "https://ksp.co.il/web/item/205500"
     }
   },
   {
@@ -59,10 +37,10 @@
     "name": "נרתיק נשיאה לקונסולת וכרטיסי משחק Nintendo Switch מבית Turtle Beach",
     "imageUrl": "https://ksp.co.il/shop/items/415447.jpg?v=5",
     "prices": {
-      "ksp": 75,
-      "kspUrl": "https://ksp.co.il/web/item/415447",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 75,
+      "kspUrl": "https://ksp.co.il/web/item/415447"
     }
   },
   {
@@ -70,10 +48,10 @@
     "name": "זוג מגני מסך מזכוכית לקונסולת Nintendo Switch",
     "imageUrl": "https://ksp.co.il/shop/items/120544.jpg?v=5",
     "prices": {
-      "ksp": 79,
-      "kspUrl": "https://ksp.co.il/web/item/120544",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 79,
+      "kspUrl": "https://ksp.co.il/web/item/120544"
     }
   },
   {
@@ -81,10 +59,10 @@
     "name": "מגן מסך מזכוכית מחוסמת עם ציפוי אנטי-רפלקטיבי ל-Nintendo Switch 2 מבית Belkin",
     "imageUrl": "https://ksp.co.il/shop/items/433763.jpg?v=5",
     "prices": {
-      "ksp": 119,
-      "kspUrl": "https://ksp.co.il/web/item/433763",
       "zap": 0,
-      "updated": 1779196318148
+      "updated": 1779436756878,
+      "ksp": 119,
+      "kspUrl": "https://ksp.co.il/web/item/433763"
     }
   },
   {
@@ -92,54 +70,10 @@
     "name": "מצלמה בצורת צמח הפיראנה לקונסולת Nintendo Switch 2 - שנה אחריות ע''י היבואן הרשמי",
     "imageUrl": "https://ksp.co.il/shop/items/380949.jpg?v=5",
     "prices": {
+      "zap": 0,
+      "updated": 1779436756878,
       "ksp": 159,
-      "kspUrl": "https://ksp.co.il/web/item/380949",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_279516",
-    "name": "משחק Fitness Circuit ל-Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/279516.jpg?v=5",
-    "prices": {
-      "ksp": 170,
-      "kspUrl": "https://ksp.co.il/web/item/279516",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_134813",
-    "name": "משחק Super Mario 3D World + Bowsers Fury ל-Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/134813.jpg?v=5",
-    "prices": {
-      "ksp": 188,
-      "kspUrl": "https://ksp.co.il/web/item/134813",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_342462",
-    "name": "משחק Super Mario Party Jamboree ל-Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/342462.jpg?v=5",
-    "prices": {
-      "ksp": 189,
-      "kspUrl": "https://ksp.co.il/web/item/342462",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_422831",
-    "name": "משחק SpongeBob SquarePants: Titans of the Tide ל-Nintendo Switch 2",
-    "imageUrl": "https://ksp.co.il/shop/items/422831.jpg?v=5",
-    "prices": {
-      "ksp": 190,
-      "kspUrl": "https://ksp.co.il/web/item/422831",
-      "zap": 0,
-      "updated": 1779196318148
+      "kspUrl": "https://ksp.co.il/web/item/380949"
     }
   },
   {
@@ -147,76 +81,10 @@
     "name": "משחק Nintendo Switch Sports - כולל רצועת רגל",
     "imageUrl": "https://ksp.co.il/shop/items/205336.jpg?v=5",
     "prices": {
+      "zap": 0,
+      "updated": 1779436756878,
       "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/205336",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_71874",
-    "name": "משחק The Legend of Zelda: Links Awakening ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/71874.jpg?v=5",
-    "prices": {
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/71874",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_63271",
-    "name": "משחק Mario Kart 8 Deluxe ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/63271.jpg?v=5",
-    "prices": {
-      "ksp": 209,
-      "kspUrl": "https://ksp.co.il/web/item/63271",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_309685",
-    "name": "משחק Paper Mario: The Thousand-Year Door ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/309685.jpg?v=5",
-    "prices": {
-      "ksp": 215,
-      "kspUrl": "https://ksp.co.il/web/item/309685",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_376139",
-    "name": "משחק Xenoblade Chronicles: Definitive Edition ל-Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/376139.jpg?v=5",
-    "prices": {
-      "ksp": 239,
-      "kspUrl": "https://ksp.co.il/web/item/376139",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_336387",
-    "name": "משחק Legend of Zelda: Echoes of Wisdom ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/336387.jpg?v=5",
-    "prices": {
-      "ksp": 239,
-      "kspUrl": "https://ksp.co.il/web/item/336387",
-      "zap": 0,
-      "updated": 1779196318148
-    }
-  },
-  {
-    "id": "ksp_63277",
-    "name": "משחק Donkey Kong Country: Tropical Freeze ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/63277.jpg?v=5",
-    "prices": {
-      "ksp": 239,
-      "kspUrl": "https://ksp.co.il/web/item/63277",
-      "zap": 0,
-      "updated": 1779196318148
+      "kspUrl": "https://ksp.co.il/web/item/205336"
     }
   },
   {
@@ -224,10 +92,10 @@
     "name": "שלט שמאלי Joy-Con 2 לקונסולת Nintendo Switch 2 - תכלת - שנה אחריות ע''י היבואן הרשמי",
     "imageUrl": "https://ksp.co.il/shop/items/380903.jpg?v=5",
     "prices": {
-      "ksp": 249,
-      "kspUrl": "https://ksp.co.il/web/item/380903",
       "zap": 0,
-      "updated": 1779196318149
+      "updated": 1779436756878,
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/380903"
     }
   },
   {
@@ -235,21 +103,10 @@
     "name": "מצלמה לקונסולת Nintendo Switch 2 - שנה אחריות ע''י היבואן הרשמי",
     "imageUrl": "https://ksp.co.il/shop/items/380932.jpg?v=5",
     "prices": {
-      "ksp": 267,
-      "kspUrl": "https://ksp.co.il/web/item/380932",
       "zap": 0,
-      "updated": 1779196318149
-    }
-  },
-  {
-    "id": "ksp_336344",
-    "name": "משחק Disney Epic Mickey: Rebrushed ל- Nintendo Switch",
-    "imageUrl": "https://ksp.co.il/shop/items/336344.jpg?v=5",
-    "prices": {
-      "ksp": 269,
-      "kspUrl": "https://ksp.co.il/web/item/336344",
-      "zap": 0,
-      "updated": 1779196318149
+      "updated": 1779436756878,
+      "ksp": 159,
+      "kspUrl": "https://ksp.co.il/web/item/380949"
     }
   },
   {
@@ -257,10 +114,10 @@
     "name": "נרתיק נשיאה וטעינה 20W 10000mAh ל-Nintendo Switch 2 מבית Belkin - צבע פחם",
     "imageUrl": "https://ksp.co.il/shop/items/433688.jpg?v=5",
     "prices": {
-      "ksp": 299,
-      "kspUrl": "https://ksp.co.il/web/item/433688",
       "zap": 0,
-      "updated": 1779196318149
+      "updated": 1779436756878,
+      "ksp": 299,
+      "kspUrl": "https://ksp.co.il/web/item/433688"
     }
   }
 ]

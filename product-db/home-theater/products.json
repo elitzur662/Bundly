@@ -1,110 +1,11 @@
 [
   {
-    "id": "ksp_150304",
-    "name": "נגן DVD בעל יציאות Philips EP200 HDMI, USB",
-    "imageUrl": "https://ksp.co.il/shop/items/150304.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090198,
-      "ksp": 179,
-      "kspUrl": "https://ksp.co.il/web/item/150304"
-    }
-  },
-  {
-    "id": "ksp_152909",
-    "name": "מסך חשמלי למקרן 100'' 178X178 ס''מ SINOSCREEN",
-    "imageUrl": "https://ksp.co.il/shop/items/152909.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090203,
-      "ksp": 499,
-      "kspUrl": "https://ksp.co.il/web/item/152909"
-    }
-  },
-  {
-    "id": "ksp_349173",
-    "name": "מקרן קולנוע ביתי Philips NeoPix 200 - עד 80 אינץ' - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/349173.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090204,
-      "ksp": 890,
-      "kspUrl": "https://ksp.co.il/web/item/349173"
-    }
-  },
-  {
-    "id": "ksp_401201",
-    "name": "מקרן קול עם סאבוופר אלחוטי JBL Cinema SB580 3.1 Dolby Atmos 440W - צבע שחור - אחריות יבואן רשמי ניופאן",
-    "imageUrl": "https://ksp.co.il/shop/items/401201.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090204,
-      "ksp": 990,
-      "kspUrl": "https://ksp.co.il/web/item/401201"
-    }
-  },
-  {
-    "id": "ksp_153988",
-    "name": "מסך הקרנה ידני 152'' 274X274 ס''מ SINOSCREEN",
-    "imageUrl": "https://ksp.co.il/shop/items/153988.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090205,
-      "ksp": 1059,
-      "kspUrl": "https://ksp.co.il/web/item/153988"
-    }
-  },
-  {
-    "id": "ksp_369285",
-    "name": "פטיפון מקצועי SAFA Turntable HPH-005M Bluetooth - צבע אגוז בהיר",
-    "imageUrl": "https://ksp.co.il/shop/items/369285.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090206,
-      "ksp": 1179,
-      "kspUrl": "https://ksp.co.il/web/item/369285"
-    }
-  },
-  {
-    "id": "ksp_13381",
-    "name": "רמקולים Logitech Z906 5.1",
-    "imageUrl": "https://ksp.co.il/shop/items/13381.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090207,
-      "ksp": 1395,
-      "kspUrl": "https://ksp.co.il/web/item/13381"
-    }
-  },
-  {
-    "id": "ksp_256871",
-    "name": "מקרן קולנוע ביתי Philips NeoPix 320 Easy Home - עד 80 אינץ'",
-    "imageUrl": "https://ksp.co.il/shop/items/256871.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090207,
-      "ksp": 1499,
-      "kspUrl": "https://ksp.co.il/web/item/256871"
-    }
-  },
-  {
-    "id": "ksp_322452",
-    "name": "מקרן קול 2.1 ערוצים Klipsch FLEXUS CORE 100 DOLBY ATMOS",
-    "imageUrl": "https://ksp.co.il/shop/items/322452.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090208,
-      "ksp": 1579,
-      "kspUrl": "https://ksp.co.il/web/item/322452"
-    }
-  },
-  {
     "id": "ksp_184904",
     "name": "רסיבר קולנוע ביתי 5.1 ערוצים Denon AVR-X250BT 4K Ultra HD AV Receiver + Bluetooth",
     "imageUrl": "https://ksp.co.il/shop/items/184904.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090208,
+      "updated": 1779436714581,
       "ksp": 1590,
       "kspUrl": "https://ksp.co.il/web/item/184904"
     }
@@ -115,42 +16,18 @@
     "imageUrl": "https://ksp.co.il/shop/items/304236.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090209,
+      "updated": 1779436714582,
       "ksp": 1790,
       "kspUrl": "https://ksp.co.il/web/item/304236"
     }
   },
   {
-    "id": "ksp_338458",
-    "name": "מקרן קולנוע ביתי Philips NeoPix 750 - עד 120 אינץ'",
-    "imageUrl": "https://ksp.co.il/shop/items/338458.jpg?v=5",
+    "id": "ksp_293806",
+    "name": "מקרן קול Bose Smart Ultra SBULTRABL - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/293806.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090209,
-      "ksp": 2199,
-      "kspUrl": "https://ksp.co.il/web/item/338458"
-    }
-  },
-  {
-    "id": "ksp_60138",
-    "name": "רסיבר סטריאו עוצמתי Cambridge Audio TOPAZ SR20 - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/60138.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090210,
-      "ksp": 2755,
-      "kspUrl": "https://ksp.co.il/web/item/60138"
-    }
-  },
-  {
-    "id": "ksp_386243",
-    "name": "סאב-וופר Cambridge Audio MINX X301 300W - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/386243.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090210,
-      "ksp": 3850,
-      "kspUrl": "https://ksp.co.il/web/item/386243"
+      "updated": 1779436714582
     }
   },
   {
@@ -159,9 +36,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/231825.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090211,
-      "ksp": 3979,
-      "kspUrl": "https://ksp.co.il/web/item/231825"
+      "updated": 1779436714583
     }
   },
   {
@@ -170,7 +45,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/178090.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090212,
+      "updated": 1779436714583,
       "ksp": 4265,
       "kspUrl": "https://ksp.co.il/web/item/178090"
     }
@@ -181,7 +56,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/387245.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090212,
+      "updated": 1779436714583,
       "ksp": 4890,
       "kspUrl": "https://ksp.co.il/web/item/387245"
     }
@@ -192,31 +67,16 @@
     "imageUrl": "https://ksp.co.il/shop/items/283958.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090214,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779436714584
     }
   },
   {
-    "id": "ksp_248318",
-    "name": "מקרן Epson EH-TW6250 3LCD 4K PRO-UHD",
-    "imageUrl": "https://ksp.co.il/shop/items/248318.jpg?v=5",
+    "id": "ksp_248417",
+    "name": "רסיבר קולנוע ביתי 9.4 ערוצים Denon AVC-X3800H 8K AV - שנה אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/248417.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090215,
-      "ksp": 5990,
-      "kspUrl": "https://ksp.co.il/web/item/248318"
-    }
-  },
-  {
-    "id": "ksp_59997",
-    "name": "רסיבר קולנוע ביתי Cambridge Audio CXR120 7.1",
-    "imageUrl": "https://ksp.co.il/shop/items/59997.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090216,
-      "ksp": 7900,
-      "kspUrl": "https://ksp.co.il/web/item/59997"
+      "updated": 1779436714584
     }
   },
   {
@@ -225,20 +85,27 @@
     "imageUrl": "https://ksp.co.il/shop/items/78837.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090218,
+      "updated": 1779436714584,
       "ksp": 8999,
       "kspUrl": "https://ksp.co.il/web/item/78837"
     }
   },
   {
-    "id": "ksp_59999",
-    "name": "רסיבר קולנוע ביתי Cambridge Audio CXR200 7.1",
-    "imageUrl": "https://ksp.co.il/shop/items/59999.jpg?v=5",
+    "id": "ksp_281415",
+    "name": "מקרן קול B&O Beosound Stage - צבע שחור פחם",
+    "imageUrl": "https://ksp.co.il/shop/items/281415.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090219,
-      "ksp": 9900,
-      "kspUrl": "https://ksp.co.il/web/item/59999"
+      "updated": 1779436714584
+    }
+  },
+  {
+    "id": "ksp_348052",
+    "name": "רסיבר קולנוע ביתי 11.4 ערוצים דגם AVC-X 6800H מבית Denon - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/348052.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436714584
     }
   },
   {
@@ -247,20 +114,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/79274.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196090219,
+      "updated": 1779436714585,
       "ksp": 11990,
       "kspUrl": "https://ksp.co.il/web/item/79274"
-    }
-  },
-  {
-    "id": "ksp_395169",
-    "name": "סאבוופר SB-17 Ultra R Evolution מבית SVS - צבע עץ אלון שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/395169.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196090220,
-      "ksp": 14890,
-      "kspUrl": "https://ksp.co.il/web/item/395169"
     }
   }
 ]

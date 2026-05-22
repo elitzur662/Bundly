@@ -80,3 +80,7 @@ rep.csv
 # Excel exports (large data dumps)
 excel-export/
 *.xlsx
+
+# Image/catalog script caches, logs & one-off backups (regenerated on demand)
+scripts/.cache/
+*.bak

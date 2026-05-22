@@ -7,9 +7,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/3/8/39838386c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/8/3/8/39838386c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "820544",
+      "ts": 1779381407157
+    }
   },
   {
     "id": "1095570",
@@ -19,9 +27,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/4/1/58831493c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/9/4/1/58831493c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1095570",
+      "ts": 1779381407944
+    }
   },
   {
     "id": "830180",
@@ -31,21 +47,38 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/3/6/37486317c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/1/3/6/37486317c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "830180",
+      "ts": 1779381408747
+    }
   },
   {
     "id": "1001665",
     "name": "מד לחץ דם Beurer BM45",
     "image": "images/1001665.gif",
     "manufacturer": "Beurer",
-    "imageUrl": "https://img.zap.co.il/pics/0/3/4/7/47667430b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/4/7/47667430c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/3/4/7/47667430c.gif",
+      "https://img.zap.co.il/pics/4/6/2/8/47148264c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1001665",
+      "ts": 1779381409657
+    }
   },
   {
     "id": "992445",
@@ -55,9 +88,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/8/2/47612829c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/2/8/2/47612829c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "992445",
+      "ts": 1779381410477
+    }
   },
   {
     "id": "820545",
@@ -67,9 +108,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/9/7/38027983c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/8/9/7/38027983c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "820545",
+      "ts": 1779381411262
+    }
   },
   {
     "id": "859640",
@@ -79,9 +128,17 @@
     "imageUrl": "https://img.zap.co.il/pics/1/2/1/5/38205121c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/2/1/5/38205121c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "859640",
+      "ts": 1779381411981
+    }
   },
   {
     "id": "1124048",
@@ -91,9 +148,17 @@
     "imageUrl": "https://img.zap.co.il/pics/new/17512254859c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/17512254859c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1124048",
+      "ts": 1779381412791
+    }
   },
   {
     "id": "1139222",
@@ -103,9 +168,18 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/7/66407561c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/6/5/7/66407561c.gif",
+      "https://img.zap.co.il/pics/3/8/5/1/66641583c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1139222",
+      "ts": 1779381413735
+    }
   },
   {
     "id": "895247",
@@ -115,9 +189,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/3/7/0/41410733c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/3/7/0/41410733c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "895247",
+      "ts": 1779381414602
+    }
   },
   {
     "id": "830179",
@@ -127,9 +209,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/3/6/37486316c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/1/3/6/37486316c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "830179",
+      "ts": 1779381415502
+    }
   },
   {
     "id": "830308",
@@ -139,9 +229,17 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/6/0/40170655c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/5/6/0/40170655c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "830308",
+      "ts": 1779381416273
+    }
   },
   {
     "id": "992449",
@@ -151,9 +249,17 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/5/0/47290515c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/1/5/0/47290515c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "992449",
+      "ts": 1779381416977
+    }
   },
   {
     "id": "1076847",
@@ -163,9 +269,18 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/0/5/55975041c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/4/0/5/55975041c.gif",
+      "https://img.zap.co.il/pics/7/7/9/9/44819977c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1076847",
+      "ts": 1779381417746
+    }
   },
   {
     "id": "1124053",
@@ -175,21 +290,40 @@
     "imageUrl": "https://img.zap.co.il/pics/new/99103222211c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/99103222211c.gif",
+      "https://img.zap.co.il/pics/3/3/8/1/57381833c.gif",
+      "https://img.zap.co.il/pics/3/8/7/6/77216783c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1124053",
+      "ts": 1779381418522
+    }
   },
   {
     "id": "1139221",
     "name": "מד לחץ דם Visocor OM60",
     "image": "images/1139221.gif",
     "manufacturer": "Visocor",
-    "imageUrl": "https://img.zap.co.il/pics/6/2/0/2/66982026b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/0/2/66982026c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/2/0/2/66982026c.gif",
+      "https://img.zap.co.il/pics/0/6/0/0/66640060c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1139221",
+      "ts": 1779381419406
+    }
   },
   {
     "id": "1162948",
@@ -199,9 +333,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/3/2/69812339c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/3/3/2/69812339c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1162948",
+      "ts": 1779381420276
+    }
   },
   {
     "id": "1012715",
@@ -211,9 +353,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/9/8/57908926c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/2/9/8/57908926c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1012715",
+      "ts": 1779381421054
+    }
   },
   {
     "id": "1165236",
@@ -223,9 +373,17 @@
     "imageUrl": "https://img.zap.co.il/pics/new/11816572920c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/11816572920c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1165236",
+      "ts": 1779381421887
+    }
   },
   {
     "id": "1076805",
@@ -235,9 +393,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/9/2/47482914c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/1/9/2/47482914c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1076805",
+      "ts": 1779381422799
+    }
   },
   {
     "id": "1162951",
@@ -247,9 +413,19 @@
     "imageUrl": "https://img.zap.co.il/pics/new/206134358669c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/206134358669c.gif",
+      "https://img.zap.co.il/pics/2/1/2/3/68123212c.gif",
+      "https://img.zap.co.il/pics/5/8/0/1/78061085c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1162951",
+      "ts": 1779381423637
+    }
   },
   {
     "id": "960710",
@@ -259,9 +435,17 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/7/3/43853755c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/5/7/3/43853755c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "960710",
+      "ts": 1779381424383
+    }
   },
   {
     "id": "1022990",
@@ -271,9 +455,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/5/3/64753510c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/1/5/3/64753510c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1022990",
+      "ts": 1779381425272
+    }
   },
   {
     "id": "1078795",
@@ -283,9 +475,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/4/3/51623440c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/4/4/3/51623440c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1078795",
+      "ts": 1779381426110
+    }
   },
   {
     "id": "951182",
@@ -295,9 +495,21 @@
     "imageUrl": "https://img.zap.co.il/pics/new/81122058880c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/81122058880c.gif",
+      "https://img.zap.co.il/pics/1/0/4/0/44340401c.gif",
+      "https://img.zap.co.il/pics/2/5/3/9/44469352c.gif",
+      "https://img.zap.co.il/pics/7/0/2/0/44340207c.gif",
+      "https://img.zap.co.il/pics/new/81122112610c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "951182",
+      "ts": 1779381426866
+    }
   },
   {
     "id": "1001668",
@@ -307,21 +519,37 @@
     "imageUrl": "https://img.zap.co.il/pics/9/6/7/2/47482769c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/6/7/2/47482769c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1001668",
+      "ts": 1779381427672
+    }
   },
   {
     "id": "1001673",
     "name": "מד לחץ דם Zumax SM80",
     "image": "images/1001673.gif",
     "manufacturer": "Zumax",
-    "imageUrl": "https://img.zap.co.il/pics/5/4/6/2/92632645b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/1/9/40049190c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/9/1/9/40049190c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1001673",
+      "ts": 1779381428639
+    }
   },
   {
     "id": "1198453",
@@ -331,9 +559,18 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/6/4/77224654c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/5/6/4/77224654c.gif",
+      "https://img.zap.co.il/pics/1/9/9/3/77243991c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1198453",
+      "ts": 1779381429392
+    }
   },
   {
     "id": "1111328785",
@@ -343,7 +580,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/2/1/97851292c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   },
@@ -355,7 +592,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/3/4/91364338c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   },
@@ -367,7 +604,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/7/5/92775714c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   },
@@ -379,7 +616,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/9/8/95468986c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   },
@@ -391,7 +628,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/4/8/91638498c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   },
@@ -403,9 +640,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/1/9/63289114c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/1/1/9/63289114c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1124050",
+      "ts": 1779381451088
+    }
   },
   {
     "id": "1141267087",
@@ -415,7 +660,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/8/1/93311879b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196464334
+      "updated": 1779437020845
     },
     "filterTags": {}
   }

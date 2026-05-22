@@ -1,11 +1,22 @@
 [
   {
+    "id": "ksp_251765",
+    "name": "סיר בישול איטי נירוסטה 3.5 ליטר 200W דגם ATL-035 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251765.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436920807,
+      "ksp": 106,
+      "kspUrl": "https://ksp.co.il/web/item/251765"
+    }
+  },
+  {
     "id": "ksp_451438",
     "name": "סיר אורז חשמלי 1 ליטר Hemilton HEM-2169 400W - צבע לבן",
     "imageUrl": "https://ksp.co.il/shop/items/451438.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920807,
       "ksp": 122,
       "kspUrl": "https://ksp.co.il/web/item/451438"
     }
@@ -16,7 +27,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/451777.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920808,
       "ksp": 126,
       "kspUrl": "https://ksp.co.il/web/item/451777"
     }
@@ -27,7 +38,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/35026.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920809,
       "ksp": 159,
       "kspUrl": "https://ksp.co.il/web/item/35026"
     }
@@ -38,7 +49,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/296514.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920809,
       "ksp": 189,
       "kspUrl": "https://ksp.co.il/web/item/296514"
     }
@@ -49,7 +60,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/357705.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920809,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/357705"
     }
@@ -57,12 +68,21 @@
   {
     "id": "ksp_439946",
     "name": "מכשיר בישול רב-תכליתי 32 ס''מ דגם Anycook מבית Food appeal - צבע אדום",
-    "imageUrl": "https://ksp.co.il/shop/items/439946.jpg?v=5",
+    "imageUrl": "https://img.zap.co.il/pics/6/1/6/7/95647616c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920810,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/439946"
+    },
+    "image": "https://img.zap.co.il/pics/6/1/6/7/95647616c.gif",
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/1/6/7/95647616c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1253301",
+      "ts": 1779382253711
     }
   },
   {
@@ -71,7 +91,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/461090.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920810,
       "ksp": 649,
       "kspUrl": "https://ksp.co.il/web/item/461090"
     }
@@ -82,7 +102,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/449625.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920810,
       "ksp": 789,
       "kspUrl": "https://ksp.co.il/web/item/449625"
     }
@@ -93,7 +113,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/391186.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920811,
       "ksp": 849,
       "kspUrl": "https://ksp.co.il/web/item/391186"
     }
@@ -104,20 +124,9 @@
     "imageUrl": "https://ksp.co.il/shop/items/449728.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920811,
       "ksp": 899,
       "kspUrl": "https://ksp.co.il/web/item/449728"
-    }
-  },
-  {
-    "id": "ksp_345373",
-    "name": "סיר טיגון כפול ללא שמן 2470W בנפח 9.5 ליטר Ninja SL400EU",
-    "imageUrl": "https://ksp.co.il/shop/items/345373.jpg?v=5",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196357817,
-      "ksp": 899,
-      "kspUrl": "https://ksp.co.il/web/item/345373"
     }
   },
   {
@@ -126,7 +135,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/449619.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779196357817,
+      "updated": 1779436920811,
       "ksp": 999,
       "kspUrl": "https://ksp.co.il/web/item/449619"
     }

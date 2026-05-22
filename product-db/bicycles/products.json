@@ -4,12 +4,20 @@
     "name": "אופניים חשמליים מתקפלים Stark MACH5",
     "image": "images/1090759.gif",
     "manufacturer": "Stark",
-    "imageUrl": "https://img.zap.co.il/pics/new/276121228360b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/276121228360c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422482
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/276121228360c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1090759",
+      "ts": 1779381018987
+    }
   },
   {
     "id": "1047013",
@@ -19,9 +27,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/8/0/66500807c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422483
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/0/8/0/66500807c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1047013",
+      "ts": 1779381019709
+    }
   },
   {
     "id": "1107172",
@@ -31,9 +47,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/5/0/59000527c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422483
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/2/5/0/59000527c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1107172",
+      "ts": 1779381020640
+    }
   },
   {
     "id": "1047014",
@@ -43,9 +67,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/8/0/66500814c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422483
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/1/8/0/66500814c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1047014",
+      "ts": 1779381021519
+    }
   },
   {
     "id": "1215086",
@@ -55,9 +87,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/4/9/86629412c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422483
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/1/4/9/86629412c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1215086",
+      "ts": 1779381022293
+    }
   },
   {
     "id": "1084158",
@@ -67,9 +107,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/4/2/57392412c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422484
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/1/4/2/57392412c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1084158",
+      "ts": 1779381023032
+    }
   },
   {
     "id": "1128277",
@@ -79,9 +127,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/9/9/65589996c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422484
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/9/9/9/65589996c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1128277",
+      "ts": 1779381023944
+    }
   },
   {
     "id": "1171370",
@@ -91,9 +147,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/3/3/74403310c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422485
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/1/3/3/74403310c.gif",
+      "https://img.zap.co.il/pics/3/7/4/3/70453473c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1171370",
+      "ts": 1779381024866
+    }
   },
   {
     "id": "1184295",
@@ -103,21 +168,37 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/3/0/76200389c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422486
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/8/3/0/76200389c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184295",
+      "ts": 1779381025795
+    }
   },
   {
     "id": "1047015",
     "name": "אופניים חשמליים מתקפלים Stark Mach3",
     "image": "images/1047015.gif",
     "manufacturer": "Stark",
-    "imageUrl": "https://img.zap.co.il/pics/0/4/5/8/50848540b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/5/8/50848540c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422486
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/4/5/8/50848540c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1047015",
+      "ts": 1779381026543
+    }
   },
   {
     "id": "1162781",
@@ -127,9 +208,18 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/4/0/59760483c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422487
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/8/4/0/59760483c.gif",
+      "https://img.zap.co.il/pics/2/8/4/7/74247482c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1162781",
+      "ts": 1779381027492
+    }
   },
   {
     "id": "1187167",
@@ -139,9 +229,18 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/5/0/76200568c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422488
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/6/5/0/76200568c.gif",
+      "https://img.zap.co.il/pics/4/2/1/2/76472124c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1187167",
+      "ts": 1779381028334
+    }
   },
   {
     "id": "1242846",
@@ -151,9 +250,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/0/0/77720000c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422489
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/0/0/0/77720000c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1242846",
+      "ts": 1779381029271
+    }
   },
   {
     "id": "1080908",
@@ -163,9 +270,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/3/3/56723372c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422490
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/7/3/3/56723372c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1080908",
+      "ts": 1779381030182
+    }
   },
   {
     "id": "1112430",
@@ -175,9 +290,17 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/3/1/62431335c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422490
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/3/3/1/62431335c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1112430",
+      "ts": 1779381031158
+    }
   },
   {
     "id": "1242974",
@@ -187,9 +310,18 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/1/4/89314155c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422490
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/5/1/4/89314155c.gif",
+      "https://img.zap.co.il/pics/0/8/9/9/93339980c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1242974",
+      "ts": 1779381034027
+    }
   },
   {
     "id": "1184297",
@@ -199,9 +331,18 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/3/0/76200392c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422491
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/9/3/0/76200392c.gif",
+      "https://img.zap.co.il/pics/0/5/7/9/77849750c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184297",
+      "ts": 1779381034847
+    }
   },
   {
     "id": "1242976",
@@ -211,9 +352,20 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/4/4/91574442c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422491
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/4/4/4/91574442c.gif",
+      "https://img.zap.co.il/pics/6/7/4/7/76117476c.gif",
+      "https://img.zap.co.il/pics/6/1/0/4/91264016c.gif",
+      "https://img.zap.co.il/pics/6/8/8/0/92350886c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1242976",
+      "ts": 1779381035688
+    }
   },
   {
     "id": "1137686",
@@ -223,21 +375,39 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/1/6/70446170c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422491
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/7/1/6/70446170c.gif",
+      "https://img.zap.co.il/pics/5/5/6/5/67415655c.gif",
+      "https://img.zap.co.il/pics/9/8/1/6/67446189c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1137686",
+      "ts": 1779381036549
+    }
   },
   {
     "id": "1173414",
     "name": "אופניים חשמליים Stark Sonic",
     "image": "images/1173414.gif",
     "manufacturer": "Stark",
-    "imageUrl": "https://img.zap.co.il/pics/0/3/8/1/74741830b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/3/8/1/74741830c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422492
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/3/8/1/74741830c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173414",
+      "ts": 1779381037386
+    }
   },
   {
     "id": "1173419",
@@ -247,9 +417,18 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/3/8/70598326c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422492
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/2/3/8/70598326c.gif",
+      "https://img.zap.co.il/pics/5/7/4/7/74247475c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173419",
+      "ts": 1779381038146
+    }
   },
   {
     "id": "1004635",
@@ -259,9 +438,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/1/4/48844137c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422492
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/3/1/4/48844137c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1004635",
+      "ts": 1779381038993
+    }
   },
   {
     "id": "1182105",
@@ -271,9 +458,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/6/1/75761646c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422492
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/4/6/1/75761646c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1182105",
+      "ts": 1779381039842
+    }
   },
   {
     "id": "1180389",
@@ -283,9 +478,18 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/6/7/75517636c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422493
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/3/6/7/75517636c.gif",
+      "https://img.zap.co.il/pics/2/6/6/9/77559662c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1180389",
+      "ts": 1779381040602
+    }
   },
   {
     "id": "1213253",
@@ -295,9 +499,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/5/3/81053566c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422493
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/6/5/3/81053566c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213253",
+      "ts": 1779381041470
+    }
   },
   {
     "id": "973596",
@@ -307,21 +519,38 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/0/2/45502013c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422493
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/1/0/2/45502013c.gif",
+      "https://img.zap.co.il/pics/4/6/6/2/42772664c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "973596",
+      "ts": 1779381042398
+    }
   },
   {
     "id": "1114829",
     "name": "אופניים חשמליים מתקפלים Extreme Power",
     "image": "images/1114829.gif",
     "manufacturer": "Extreme",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/5/2/60762590b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/5/2/60762590c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422493
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/9/5/2/60762590c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1114829",
+      "ts": 1779381043345
+    }
   },
   {
     "id": "1145252",
@@ -331,21 +560,38 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/5/1/66221555c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422494
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/5/5/1/66221555c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1145252",
+      "ts": 1779381044095
+    }
   },
   {
     "id": "1163899",
     "name": "אופניים חשמליים מתקפלים Neuron AlphaGT Jager",
     "image": "images/1163899.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/1/7/4/3/70453471b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/7/4/3/70453471c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422494
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/7/4/3/70453471c.gif",
+      "https://img.zap.co.il/pics/5/5/8/3/74403855c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1163899",
+      "ts": 1779381044833
+    }
   },
   {
     "id": "1213252",
@@ -355,9 +601,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/9/1/0/81060196c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422494
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/9/1/0/81060196c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213252",
+      "ts": 1779381045795
+    }
   },
   {
     "id": "1184296",
@@ -367,9 +621,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/3/0/76200390c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422494
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/9/3/0/76200390c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184296",
+      "ts": 1779381046697
+    }
   },
   {
     "id": "1257823",
@@ -379,21 +641,39 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/5/6/92766553c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422495
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/5/5/6/92766553c.gif",
+      "https://img.zap.co.il/pics/2/6/6/1/96411662c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1257823",
+      "ts": 1779381047485
+    }
   },
   {
     "id": "1173395",
     "name": "אופניים חשמליים מתקפלים Stark APEX DH",
     "image": "images/1173395.gif",
     "manufacturer": "Stark",
-    "imageUrl": "https://img.zap.co.il/pics/4/2/9/4/74244924b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/9/4/74244924c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422495
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/2/9/4/74244924c.gif",
+      "https://img.zap.co.il/pics/0/9/4/3/74703490c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173395",
+      "ts": 1779381048355
+    }
   },
   {
     "id": "1173416",
@@ -403,9 +683,17 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/4/1/70561481c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422495
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/8/4/1/70561481c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173416",
+      "ts": 1779381049220
+    }
   },
   {
     "id": "875426",
@@ -415,9 +703,18 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/7/9/61699738c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422495
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/3/7/9/61699738c.gif",
+      "https://img.zap.co.il/pics/9/5/7/0/66500759c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "875426",
+      "ts": 1779381050195
+    }
   },
   {
     "id": "888589",
@@ -427,9 +724,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/1/2/39412189c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422496
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/8/1/2/39412189c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "888589",
+      "ts": 1779381051126
+    }
   },
   {
     "id": "1262453",
@@ -439,9 +744,18 @@
     "imageUrl": "https://img.zap.co.il/pics/8/4/7/9/96469748c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422496
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/4/7/9/96469748c.gif",
+      "https://img.zap.co.il/pics/0/4/8/0/95850840c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262453",
+      "ts": 1779381052013
+    }
   },
   {
     "id": "1162142",
@@ -451,9 +765,17 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/5/2/70352511c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422496
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/1/5/2/70352511c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1162142",
+      "ts": 1779381052789
+    }
   },
   {
     "id": "1262187",
@@ -463,9 +785,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/1/8/97468159c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422496
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/5/1/8/97468159c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262187",
+      "ts": 1779381053683
+    }
   },
   {
     "id": "973591",
@@ -475,9 +805,19 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/4/9/47069473c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422497
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/7/4/9/47069473c.gif",
+      "https://img.zap.co.il/pics/7/5/1/3/47673157c.gif",
+      "https://img.zap.co.il/pics/3/5/4/0/44600453c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "973591",
+      "ts": 1779381054597
+    }
   },
   {
     "id": "1127334",
@@ -487,9 +827,18 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/9/8/65918997c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422497
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/9/9/8/65918997c.gif",
+      "https://img.zap.co.il/pics/0/1/4/2/70352410c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1127334",
+      "ts": 1779381055464
+    }
   },
   {
     "id": "1262454",
@@ -499,21 +848,37 @@
     "imageUrl": "https://img.zap.co.il/pics/1/5/8/0/95850851c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422499
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/5/8/0/95850851c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262454",
+      "ts": 1779381056251
+    }
   },
   {
     "id": "1039237416",
     "name": "אופניים חשמליים Extreme Extreme Classic",
     "image": "images/1039237416.gif",
     "manufacturer": "Smart Bike",
-    "imageUrl": "https://img.zap.co.il/pics/9/9/6/4/76334699c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/8/0/2/91622086c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422499
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/8/0/2/91622086c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1257822",
+      "ts": 1779381060712
+    }
   },
   {
     "id": "1257822",
@@ -523,9 +888,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/0/2/91622086c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422500
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/8/0/2/91622086c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1257822",
+      "ts": 1779381061432
+    }
   },
   {
     "id": "1107179",
@@ -535,9 +908,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/8/5/60945802c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422501
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/0/8/5/60945802c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1107179",
+      "ts": 1779381062255
+    }
   },
   {
     "id": "941596",
@@ -547,9 +928,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/8/5/7/46947582c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422502
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/8/5/7/46947582c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "941596",
+      "ts": 1779381063152
+    }
   },
   {
     "id": "1203100",
@@ -559,9 +948,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/6/4/76334699c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422502
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/9/6/4/76334699c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1203100",
+      "ts": 1779381063953
+    }
   },
   {
     "id": "998363",
@@ -571,9 +968,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/4/7/48127440c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422503
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/4/4/7/48127440c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "998363",
+      "ts": 1779381064866
+    }
   },
   {
     "id": "1261877",
@@ -583,9 +988,18 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/8/0/95850853c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422503
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/5/8/0/95850853c.gif",
+      "https://img.zap.co.il/pics/0/2/8/4/92904820c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1261877",
+      "ts": 1779381065660
+    }
   },
   {
     "id": "1208926",
@@ -595,9 +1009,18 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/6/1/86251644c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422503
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/4/6/1/86251644c.gif",
+      "https://img.zap.co.il/pics/6/3/1/1/87171136c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1208926",
+      "ts": 1779381066488
+    }
   },
   {
     "id": "1171545",
@@ -607,9 +1030,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/6/0/96430650c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422504
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/5/6/0/96430650c.gif",
+      "https://img.zap.co.il/pics/5/0/8/4/74514805c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1171545",
+      "ts": 1779381067370
+    }
   },
   {
     "id": "736040",
@@ -619,9 +1051,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/9/9/30659922c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422504
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/2/9/9/30659922c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "736040",
+      "ts": 1779381068299
+    }
   },
   {
     "id": "1126526",
@@ -631,9 +1071,17 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/4/6/61026431c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422504
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/3/4/6/61026431c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1126526",
+      "ts": 1779381069110
+    }
   },
   {
     "id": "1261878",
@@ -643,21 +1091,40 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/8/0/95850807c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422505
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/0/8/0/95850807c.gif",
+      "https://img.zap.co.il/pics/6/0/8/0/95850806c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1261878",
+      "ts": 1779381069788
+    }
   },
   {
     "id": "1171372",
     "name": "אופניים חשמליים מתקפלים Neuron Cycoo Jager Sport X4",
     "image": "images/1171372.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/74407043b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/74407043c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422505
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/4/0/7/74407043c.gif",
+      "https://img.zap.co.il/pics/5/6/3/1/74171365c.gif",
+      "https://img.zap.co.il/pics/8/5/5/2/74362558c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1171372",
+      "ts": 1779381070604
+    }
   },
   {
     "id": "1184300",
@@ -667,9 +1134,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/6/0/76900663c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422505
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/6/6/0/76900663c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184300",
+      "ts": 1779381071378
+    }
   },
   {
     "id": "1141299",
@@ -679,9 +1154,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/2/3/58563297c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422505
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/9/2/3/58563297c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1141299",
+      "ts": 1779381072127
+    }
   },
   {
     "id": "1145251",
@@ -691,9 +1174,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/5/1/66221554c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422506
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/5/5/1/66221554c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1145251",
+      "ts": 1779381073036
+    }
   },
   {
     "id": "1224916",
@@ -703,9 +1194,18 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/4/5/87855483c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422506
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/8/4/5/87855483c.gif",
+      "https://img.zap.co.il/pics/3/3/8/0/95850833c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1224916",
+      "ts": 1779381073903
+    }
   },
   {
     "id": "1014228",
@@ -715,9 +1215,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/6/6/48186690c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422506
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/9/6/6/48186690c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1014228",
+      "ts": 1779381074665
+    }
   },
   {
     "id": "1257824",
@@ -727,33 +1235,60 @@
     "imageUrl": "https://img.zap.co.il/pics/4/7/1/4/96304174c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422506
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/7/1/4/96304174c.gif",
+      "https://img.zap.co.il/pics/4/9/6/5/86375694c.gif",
+      "https://img.zap.co.il/pics/2/6/2/6/96536262c.gif",
+      "https://img.zap.co.il/pics/7/5/1/3/92953157c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1257824",
+      "ts": 1779381075539
+    }
   },
   {
     "id": "1114306",
     "name": "אופניים חשמליים Stark Z250 Magnesium",
     "image": "images/1114306.gif",
     "manufacturer": "Stark",
-    "imageUrl": "https://img.zap.co.il/pics/3/3/3/9/59249333b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/3/9/59249333c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422507
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/3/3/9/59249333c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1114306",
+      "ts": 1779381076441
+    }
   },
   {
     "id": "1213797",
     "name": "אופניים חשמליים מתקפלים Neuron Scorpion SX3",
     "image": "images/1213797.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/9/8/9/7/81907989b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/8/9/7/81907989c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422507
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/8/9/7/81907989c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213797",
+      "ts": 1779381077291
+    }
   },
   {
     "id": "1137685",
@@ -763,9 +1298,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/6/3/67003684c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422507
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/8/6/3/67003684c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1137685",
+      "ts": 1779381078118
+    }
   },
   {
     "id": "1262765",
@@ -775,9 +1318,18 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/9/8/94708975c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422507
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/7/9/8/94708975c.gif",
+      "https://img.zap.co.il/pics/6/4/6/3/96303646c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262765",
+      "ts": 1779381078934
+    }
   },
   {
     "id": "1128278",
@@ -787,9 +1339,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/5/5/4/66354556c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422508
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/5/5/4/66354556c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1128278",
+      "ts": 1779381079840
+    }
   },
   {
     "id": "907116",
@@ -799,9 +1359,17 @@
     "imageUrl": "https://img.zap.co.il/pics/new/2611756449c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422508
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/2611756449c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "907116",
+      "ts": 1779381080673
+    }
   },
   {
     "id": "1173397",
@@ -811,9 +1379,18 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/7/7/58967764c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422508
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/6/7/7/58967764c.gif",
+      "https://img.zap.co.il/pics/0/2/9/4/74244920c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173397",
+      "ts": 1779381081465
+    }
   },
   {
     "id": "865053",
@@ -823,9 +1400,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/2/0/42060230c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422508
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/3/2/0/42060230c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "865053",
+      "ts": 1779381082350
+    }
   },
   {
     "id": "1215084",
@@ -835,9 +1420,17 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/6/5/86375610c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422509
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/1/6/5/86375610c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1215084",
+      "ts": 1779381083300
+    }
   },
   {
     "id": "1208927",
@@ -847,9 +1440,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/4/6/78636497c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422509
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/9/4/6/78636497c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1208927",
+      "ts": 1779381084067
+    }
   },
   {
     "id": "865051",
@@ -859,9 +1460,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/7/7/38257703c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422509
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/0/7/7/38257703c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "865051",
+      "ts": 1779381084795
+    }
   },
   {
     "id": "1173418",
@@ -871,9 +1480,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/3/8/70598327c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422509
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/2/3/8/70598327c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1173418",
+      "ts": 1779381085716
+    }
   },
   {
     "id": "1195945",
@@ -883,9 +1500,18 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/1/4/66254185c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422510
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/8/1/4/66254185c.gif",
+      "https://img.zap.co.il/pics/1/5/7/2/77512751c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1195945",
+      "ts": 1779381086653
+    }
   },
   {
     "id": "1129236",
@@ -895,33 +1521,58 @@
     "imageUrl": "https://img.zap.co.il/pics/new/1111114356366c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422510
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/1111114356366c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1129236",
+      "ts": 1779381087577
+    }
   },
   {
     "id": "1213796",
     "name": "אופניים חשמליים מתקפלים Neuron Jager M2 2023",
     "image": "images/1213796.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/3/9/2/0/84160293b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/2/0/84160293c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422510
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/9/2/0/84160293c.gif",
+      "https://img.zap.co.il/pics/7/0/9/4/84744907c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213796",
+      "ts": 1779381088516
+    }
   },
   {
     "id": "1135610",
     "name": "אופניים חשמליים Kalofan Master Master Mag",
     "image": "images/1135610.gif",
     "manufacturer": "Kalofan Master",
-    "imageUrl": "https://img.zap.co.il/pics/0/1/4/4/66044410b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/1/4/4/66044410c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422511
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/1/4/4/66044410c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1135610",
+      "ts": 1779381089276
+    }
   },
   {
     "id": "1166486",
@@ -931,9 +1582,18 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/4/0/70550435c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422511
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/3/4/0/70550435c.gif",
+      "https://img.zap.co.il/pics/1/8/2/0/86360281c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1166486",
+      "ts": 1779381090175
+    }
   },
   {
     "id": "1213799",
@@ -943,9 +1603,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/2/8/84718253c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422511
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/5/2/8/84718253c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213799",
+      "ts": 1779381091037
+    }
   },
   {
     "id": "1184298",
@@ -955,9 +1623,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/7/4/75374740c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422511
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/4/7/4/75374740c.gif",
+      "https://img.zap.co.il/pics/4/0/4/0/76200404c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184298",
+      "ts": 1779381092342
+    }
   },
   {
     "id": "1263067",
@@ -967,9 +1644,19 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/6/5/96765600c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422512
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/0/6/5/96765600c.gif",
+      "https://img.zap.co.il/pics/1/3/8/3/97493831c.gif",
+      "https://img.zap.co.il/pics/9/3/0/0/93920039c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1263067",
+      "ts": 1779381093272
+    }
   },
   {
     "id": "1223936",
@@ -979,9 +1666,18 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/5/0/85530512c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422512
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/1/5/0/85530512c.gif",
+      "https://img.zap.co.il/pics/1/1/8/7/87647811c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1223936",
+      "ts": 1779381094203
+    }
   },
   {
     "id": "1004639",
@@ -991,9 +1687,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/2/8/48838216c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422512
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/1/2/8/48838216c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1004639",
+      "ts": 1779381095055
+    }
   },
   {
     "id": "996082",
@@ -1003,9 +1707,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/9/5/5/47795597c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422513
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/9/5/5/47795597c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "996082",
+      "ts": 1779381095825
+    }
   },
   {
     "id": "1129238",
@@ -1015,9 +1727,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/8/0/66500809c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422513
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/0/8/0/66500809c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1129238",
+      "ts": 1779381096677
+    }
   },
   {
     "id": "1171378",
@@ -1027,21 +1747,38 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/0/0/70700036c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422513
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/3/0/0/70700036c.gif",
+      "https://img.zap.co.il/pics/3/1/8/4/68494813c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1171378",
+      "ts": 1779381097408
+    }
   },
   {
     "id": "1223312",
     "name": "אופניים חשמליים NCM M7",
     "image": "images/1223312.gif",
     "manufacturer": "NCM",
-    "imageUrl": "https://img.zap.co.il/pics/7/6/0/3/82713067b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422514
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1223312",
+      "ts": 1779381098245
+    }
   },
   {
     "id": "1215085",
@@ -1051,9 +1788,18 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/1/9/84229136c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422514
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/3/1/9/84229136c.gif",
+      "https://img.zap.co.il/pics/5/6/6/5/86375665c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1215085",
+      "ts": 1779381099084
+    }
   },
   {
     "id": "1223310",
@@ -1063,9 +1809,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/6/9/87419636c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422514
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/3/6/9/87419636c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1223310",
+      "ts": 1779381099881
+    }
   },
   {
     "id": "1184299",
@@ -1075,9 +1829,17 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/4/0/76200401c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422515
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/0/4/0/76200401c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1184299",
+      "ts": 1779381100659
+    }
   },
   {
     "id": "920037",
@@ -1087,33 +1849,57 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/8/2/41782877c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422516
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/7/8/2/41782877c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "920037",
+      "ts": 1779381101646
+    }
   },
   {
     "id": "1061535206",
     "name": "אופניים חשמליים NCM M7",
     "image": "images/1061535206.gif",
     "manufacturer": "Magnum",
-    "imageUrl": "https://img.zap.co.il/pics/7/7/8/2/41782877c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422516
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1223312",
+      "ts": 1779381104039
+    }
   },
   {
     "id": "1061535205",
     "name": "אופניים חשמליים NCM M7",
     "image": "images/1061535205.gif",
     "manufacturer": "Magnum",
-    "imageUrl": "https://img.zap.co.il/pics/1/0/4/0/76200401c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422517
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/6/0/3/82713067c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1223312",
+      "ts": 1779381106276
+    }
   },
   {
     "id": "1237453",
@@ -1123,9 +1909,17 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/4/7/84107439c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422517
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/3/4/7/84107439c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1237453",
+      "ts": 1779381107123
+    }
   },
   {
     "id": "1122060",
@@ -1135,9 +1929,17 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/0/0/70040006c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422517
+      "updated": 1779436977512
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/0/0/0/70040006c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1122060",
+      "ts": 1779381108141
+    }
   },
   {
     "id": "1262183",
@@ -1147,7 +1949,15 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/8/6/97376857c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422518
+      "updated": 1779436977512
+    },
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/5/8/6/97376857c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262183",
+      "ts": 1779381108993
     }
   },
   {
@@ -1158,7 +1968,16 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/4/3/97213442c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196422518
+      "updated": 1779436977512
+    },
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/4/4/3/97213442c.gif",
+      "https://img.zap.co.il/pics/3/7/6/2/97212673c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1261875",
+      "ts": 1779381109843
     }
   },
   {
@@ -1166,10 +1985,20 @@
     "name": "אופניים חשמליים מתקפלים Neuron Cycoo Jager Sport X4",
     "image": "images/1168126556.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/0/1/6/5/86375610c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/74407043c.gif",
     "prices": {
-      "zap": 5080,
-      "updated": 1779196422518
+      "zap": 0,
+      "updated": 1779436977512
+    },
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/4/0/7/74407043c.gif",
+      "https://img.zap.co.il/pics/5/6/3/1/74171365c.gif",
+      "https://img.zap.co.il/pics/8/5/5/2/74362558c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1171372",
+      "ts": 1779381112163
     }
   },
   {
@@ -1177,10 +2006,19 @@
     "name": "אופניים חשמליים מתקפלים Neuron Jager M2 2023",
     "image": "images/1173701197.gif",
     "manufacturer": "Neuron",
-    "imageUrl": "https://img.zap.co.il/pics/6/3/0/0/70700036c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/2/0/84160293c.gif",
     "prices": {
-      "zap": 6550,
-      "updated": 1779196422519
+      "zap": 0,
+      "updated": 1779436977512
+    },
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/9/2/0/84160293c.gif",
+      "https://img.zap.co.il/pics/7/0/9/4/84744907c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1213796",
+      "ts": 1779381114574
     }
   }
 ]

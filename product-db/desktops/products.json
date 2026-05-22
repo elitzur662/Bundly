@@ -5,9 +5,34 @@
     "imageUrl": "https://ksp.co.il/shop/items/106959.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635799,
-      "ksp": 169,
-      "kspUrl": "https://ksp.co.il/web/item/106959"
+      "updated": 1779436669670
+    }
+  },
+  {
+    "id": "ksp_409385",
+    "name": "סטרימר ‏K‏4 עם אנדרואיד TV דגם S מבית GOtv",
+    "imageUrl": "https://ksp.co.il/shop/items/409385.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669670
+    }
+  },
+  {
+    "id": "ksp_385546",
+    "name": "סטרימר ‏K HDR‏4 עם אנדרואיד TV דגם ZXV10 B866V2K מבית ZTE",
+    "imageUrl": "https://ksp.co.il/shop/items/385546.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669670
+    }
+  },
+  {
+    "id": "ksp_408540",
+    "name": "סטרימר Xiaomi TV Stick 4K 2nd Gen Android TV - שנה אחריות יבואן רשמי על ידי המילטון",
+    "imageUrl": "https://ksp.co.il/shop/items/408540.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669670
     }
   },
   {
@@ -16,9 +41,16 @@
     "imageUrl": "https://ksp.co.il/shop/items/379595.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635800,
-      "ksp": 239,
-      "kspUrl": "https://ksp.co.il/web/item/379595"
+      "updated": 1779436669670
+    }
+  },
+  {
+    "id": "ksp_329235",
+    "name": "שלט Apple TV Siri Remote 2023",
+    "imageUrl": "https://ksp.co.il/shop/items/329235.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669670
     }
   },
   {
@@ -27,9 +59,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/409365.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635801,
-      "ksp": 289,
-      "kspUrl": "https://ksp.co.il/web/item/409365"
+      "updated": 1779436669671
     }
   },
   {
@@ -38,7 +68,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/231080.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635801
+      "updated": 1779436669671
     }
   },
   {
@@ -47,29 +77,85 @@
     "imageUrl": "https://ksp.co.il/shop/items/231111.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635802
+      "updated": 1779436669671
     }
   },
   {
-    "id": "ksp_340641",
-    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 256GB SSD Storage, 16GB Unified Memory - דגם MU9D3HB / A",
-    "imageUrl": "https://ksp.co.il/shop/items/340641.jpg?v=5",
+    "id": "ksp_445612",
+    "name": "מחשב מיני Asus ExpertCenter PN43-BBN100MD Celeron N100 No HDD No Memory Free Dos 90MR0172-M00030",
+    "imageUrl": "https://ksp.co.il/shop/items/445612.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635803,
-      "ksp": 2329,
-      "kspUrl": "https://ksp.co.il/web/item/340641"
+      "updated": 1779436669671
     }
   },
   {
-    "id": "ksp_353616",
-    "name": "לחצו על מנת להרכיב Apple Mac mini 2024 שמתאים לכם",
-    "imageUrl": "https://ksp.co.il/shop/items/353616.jpg?v=5",
+    "id": "ksp_445616",
+    "name": "מחשב מיני Asus Mini PC PN42-BBN200MV Celeron N200 No HDD No Memory Free Dos 90MR00X2-M00020",
+    "imageUrl": "https://ksp.co.il/shop/items/445616.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635804,
-      "ksp": 2329,
-      "kspUrl": "https://ksp.co.il/web/item/353616"
+      "updated": 1779436669671
+    }
+  },
+  {
+    "id": "ksp_412016",
+    "name": "מחשב מיני דגם Gmktec NucBox G2 Plus - צבע אפור",
+    "imageUrl": "https://ksp.co.il/shop/items/412016.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669671
+    }
+  },
+  {
+    "id": "ksp_429376",
+    "name": "מחשב מיני דגם Gmktec NucBox G10 - צבע אפור",
+    "imageUrl": "https://ksp.co.il/shop/items/429376.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669671,
+      "ksp": 2379,
+      "kspUrl": "https://ksp.co.il/web/item/355973"
+    }
+  },
+  {
+    "id": "ksp_453804",
+    "name": "מחשב מותג Asus V500 Mini Tower V501MV-03100U0120 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/453804.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669671
+    }
+  },
+  {
+    "id": "ksp_445172",
+    "name": "מחשב מיני ASUS Chromebox 5 Celeron 7305 1.7GHz 4GB DDR4 3200 128GB M.2 SSD Chrome OS",
+    "imageUrl": "https://ksp.co.il/shop/items/445172.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669671
+    }
+  },
+  {
+    "id": "ksp_353897",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo AiO A100 F0J60019IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/353897.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669672,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_432069",
+    "name": "מחשב מיני דגם Gmktec NucBox M8 512GB - צבע כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/432069.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669672,
+      "ksp": 2379,
+      "kspUrl": "https://ksp.co.il/web/item/355973"
     }
   },
   {
@@ -78,9 +164,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/448783.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635804,
-      "ksp": 2349,
-      "kspUrl": "https://ksp.co.il/web/item/448783"
+      "updated": 1779436669672
     }
   },
   {
@@ -89,9 +173,118 @@
     "imageUrl": "https://ksp.co.il/shop/items/448925.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635804,
-      "ksp": 2349,
-      "kspUrl": "https://ksp.co.il/web/item/448783"
+      "updated": 1779436669672
+    }
+  },
+  {
+    "id": "ksp_448922",
+    "name": "מחשב Apple MacBook Neo A18 Pro Chip 6-Core CPU, 5-Core GPU, 256GB SSD Storage, 8GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגםMHFA4HB/A / Z1TN00064",
+    "imageUrl": "https://ksp.co.il/shop/items/448922.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669672
+    }
+  },
+  {
+    "id": "ksp_448924",
+    "name": "מחשב Apple MacBook Neo A18 Pro Chip 6-Core CPU, 5-Core GPU, 256GB SSD Storage, 8GB Unified Memory - צבע Blush - מקלדת עברית / אנגלית - דגם MHFH4HB/A / Z1TU0006J",
+    "imageUrl": "https://ksp.co.il/shop/items/448924.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669672
+    }
+  },
+  {
+    "id": "ksp_353912",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo AiO A100 F0J6001AIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/353912.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669672,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_340641",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 256GB SSD Storage, 16GB Unified Memory - דגם MU9D3HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/340641.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673
+    }
+  },
+  {
+    "id": "ksp_353616",
+    "name": "לחצו על מנת להרכיב Apple Mac mini 2024 שמתאים לכם",
+    "imageUrl": "https://ksp.co.il/shop/items/353616.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673
+    }
+  },
+  {
+    "id": "ksp_355973",
+    "name": "מחשב מיני דגם GMKtec NucBox M3 - צבע לבן / כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/355973.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673,
+      "ksp": 2379,
+      "kspUrl": "https://ksp.co.il/web/item/355973"
+    }
+  },
+  {
+    "id": "ksp_366485",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00BBIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/366485.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_376673",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo AiO A100 F0J6003XIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/376673.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_429388",
+    "name": "מחשב מיני דגם Gmktec NucBox M5 Ultra - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/429388.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673
+    }
+  },
+  {
+    "id": "ksp_417365",
+    "name": "מחשב Lenovo IdeaCentre 08IRH9 90XW0065YS - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/417365.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_356050",
+    "name": "מחשב מיני דגם GMKtec NucBox M3 - צבע שחור / כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/356050.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669673,
+      "ksp": 2379,
+      "kspUrl": "https://ksp.co.il/web/item/355973"
     }
   },
   {
@@ -100,9 +293,140 @@
     "imageUrl": "https://ksp.co.il/shop/items/448930.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635805,
-      "ksp": 2349,
-      "kspUrl": "https://ksp.co.il/web/item/448783"
+      "updated": 1779436669673
+    }
+  },
+  {
+    "id": "ksp_448940",
+    "name": "מחשב Apple MacBook Neo A18 Pro Chip 6-Core CPU, 5-Core GPU, 512GB SSD Storage, 8GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MHFC4HB/A / Z1TP0006P - כולל Touch ID",
+    "imageUrl": "https://ksp.co.il/shop/items/448940.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674
+    }
+  },
+  {
+    "id": "ksp_448942",
+    "name": "מחשב Apple MacBook Neo A18 Pro Chip 6-Core CPU, 5-Core GPU, 512GB SSD Storage, 8GB Unified Memory - צבע Citrus - מקלדת עברית / אנגלית - דגם MHFE4HB/A / Z1TR0006S - כולל Touch ID",
+    "imageUrl": "https://ksp.co.il/shop/items/448942.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674
+    }
+  },
+  {
+    "id": "ksp_448941",
+    "name": "מחשב Apple MacBook Neo A18 Pro Chip 6-Core CPU, 5-Core GPU, 512GB SSD Storage, 8GB Unified Memory - צבע Blush - מקלדת עברית / אנגלית - דגם MHFJ4HB/A / Z1TV00073 - כולל Touch ID",
+    "imageUrl": "https://ksp.co.il/shop/items/448941.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674
+    }
+  },
+  {
+    "id": "ksp_28547",
+    "name": "מחשב נייח Desktop Intel Core i3 14100F - GMR CORE",
+    "imageUrl": "https://ksp.co.il/shop/items/28547.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674,
+      "ksp": 3190,
+      "kspUrl": "https://ksp.co.il/web/item/21256"
+    }
+  },
+  {
+    "id": "ksp_366301",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00HWIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/366301.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438778",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00W9IV - צבע Luna Grey - שנה אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/438778.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_451858",
+    "name": "מחשב מותג MSI PRO DP180 A14-1267IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451858.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669674
+    }
+  },
+  {
+    "id": "ksp_451797",
+    "name": "מחשב מותג MSI PRO DP80 A14G-212IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451797.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2799,
+      "kspUrl": "https://ksp.co.il/web/item/451797"
+    }
+  },
+  {
+    "id": "ksp_370178",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00J5IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/370178.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_319057",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00CDIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/319057.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_446545",
+    "name": "מחשב מיני Asus Mini PC PB63-B3011AH i3 13100 4GB 256GB Free Dos 90MS02R1-M000B0",
+    "imageUrl": "https://ksp.co.il/shop/items/446545.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675
+    }
+  },
+  {
+    "id": "ksp_418330",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00ANIV - צבע Luna Grey - שלוש שנות אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/418330.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439072",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00Y9IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439072.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
     }
   },
   {
@@ -111,9 +435,397 @@
     "imageUrl": "https://ksp.co.il/shop/items/340777.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635806,
-      "ksp": 2329,
-      "kspUrl": "https://ksp.co.il/web/item/340641"
+      "updated": 1779436669675
+    }
+  },
+  {
+    "id": "ksp_21256",
+    "name": "מחשב נייח Desktop Intel Core i3 14100F - GMR CASUAL",
+    "imageUrl": "https://ksp.co.il/shop/items/21256.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 3190,
+      "kspUrl": "https://ksp.co.il/web/item/21256"
+    }
+  },
+  {
+    "id": "ksp_321392",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00CSIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/321392.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669675,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_319131",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00CFIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/319131.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_366488",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0091IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/366488.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_366472",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00ASIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/366472.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676,
+      "ksp": 3249,
+      "kspUrl": "https://ksp.co.il/web/item/366472"
+    }
+  },
+  {
+    "id": "ksp_441529",
+    "name": "מחשב All-in-One ללא מסך מגע Acer Aspire C24-B DQ.BRRET.002 - צבע שחור - כולל סט מקלדת ועכבר אלחוטיים",
+    "imageUrl": "https://ksp.co.il/shop/items/441529.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676
+    }
+  },
+  {
+    "id": "ksp_319092",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00CEIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/319092.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_406509",
+    "name": "מחשב All-in-One ללא מסך מגע ‎‎Dell AIO EC24250 IN-RD33-16132 / IN-RD33-16365 / EC24250-5245 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/406509.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676
+    }
+  },
+  {
+    "id": "ksp_418326",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00APIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/418326.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669676,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_450616",
+    "name": "מחשב All-in-One ללא מסך מגע Asus V400 AiO V470VAK-WPE1720 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/450616.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677
+    }
+  },
+  {
+    "id": "ksp_421784",
+    "name": "מחשב All-in-One ללא מסך מגע HP 24-CR2006NJ / C93G3EA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/421784.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677
+    }
+  },
+  {
+    "id": "ksp_413012",
+    "name": "מחשב מותג Lenovo IdeaCentre Tower 17IAS10 91B1001LYS",
+    "imageUrl": "https://ksp.co.il/shop/items/413012.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677,
+      "ksp": 15599,
+      "kspUrl": "https://ksp.co.il/web/item/385189"
+    }
+  },
+  {
+    "id": "ksp_437514",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00Y8IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437514.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436765",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YCIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436765.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_319099",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00BQIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/319099.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_316035",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00AQIV - צבע Luna Grey - שלוש שנות אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/316035.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_421701",
+    "name": "מחשב All-in-One ללא מסך מגע HP 24-CR2004NJ / C93G2EA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/421701.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677
+    }
+  },
+  {
+    "id": "ksp_411847",
+    "name": "מחשב All-in-One ללא מסך מגע ‎‎Dell AIO EC27250 EC27250-5772 / IN-RD33-16717 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/411847.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669677
+    }
+  },
+  {
+    "id": "ksp_441547",
+    "name": "מחשב All-in-One ללא מסך מגע Acer Aspire C24-B DQ.BRRET.005 - צבע שחור - כולל סט מקלדת ועכבר אלחוטיים",
+    "imageUrl": "https://ksp.co.il/shop/items/441547.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678
+    }
+  },
+  {
+    "id": "ksp_319137",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00CGIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/319137.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_424477",
+    "name": "מחשב All-in-One ללא מסך מגע HP 27-CR2012NJ / C93GDEA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/424477.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678
+    }
+  },
+  {
+    "id": "ksp_437453",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00ATIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437453.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_437205",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00XEIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437205.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436223",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009NIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436223.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_15890",
+    "name": "מחשב נייח Desktop Intel Core i3 14100F - GMR BEGINNER",
+    "imageUrl": "https://ksp.co.il/shop/items/15890.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678,
+      "ksp": 3190,
+      "kspUrl": "https://ksp.co.il/web/item/21256"
+    }
+  },
+  {
+    "id": "ksp_340782",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 24GB Unified Memory - דגם MCYT4HB/A / Z1CF000SB",
+    "imageUrl": "https://ksp.co.il/shop/items/340782.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669678
+    }
+  },
+  {
+    "id": "ksp_413007",
+    "name": "מחשב מיני Lenovo IdeaCentre Mini 01IRH10R 91B20028YS",
+    "imageUrl": "https://ksp.co.il/shop/items/413007.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679,
+      "ksp": 4899,
+      "kspUrl": "https://ksp.co.il/web/item/403503"
+    }
+  },
+  {
+    "id": "ksp_461460",
+    "name": "מחשב מיני דגם Gmktec NucBox K15 1TB - צבע שחור / אפור",
+    "imageUrl": "https://ksp.co.il/shop/items/461460.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679
+    }
+  },
+  {
+    "id": "ksp_439011",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0112IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439011.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437211",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WCIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437211.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_316037",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00ARIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/316037.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_421787",
+    "name": "מחשב All-in-One ללא מסך מגע HP 24-CR2008NJ / C93G4EA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/421787.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679
+    }
+  },
+  {
+    "id": "ksp_450615",
+    "name": "מחשב All-in-One ללא מסך מגע Asus V400 AiO V470VAK-WPE309W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/450615.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679
+    }
+  },
+  {
+    "id": "ksp_438995",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009AIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438995.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669679,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_340781",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - דגם Z1CG0006T",
+    "imageUrl": "https://ksp.co.il/shop/items/340781.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669680
+    }
+  },
+  {
+    "id": "ksp_451830",
+    "name": "מחשב מותג MSI PRO DP180 A14-1265IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451830.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669680
+    }
+  },
+  {
+    "id": "ksp_451825",
+    "name": "מחשב מותג MSI PRO DP80 A14G-210IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451825.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669680,
+      "ksp": 2799,
+      "kspUrl": "https://ksp.co.il/web/item/451797"
+    }
+  },
+  {
+    "id": "ksp_439078",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YEIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439078.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669680,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
     }
   },
   {
@@ -122,29 +834,1451 @@
     "imageUrl": "https://ksp.co.il/shop/items/448227.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635807
+      "updated": 1779436669680
     }
   },
   {
-    "id": "ksp_381159",
-    "name": "לחצו על מנת להרכיב 2025 Apple 13-inch MacBook Air M4 שמתאים לכם",
-    "imageUrl": "https://ksp.co.il/shop/items/381159.jpg?v=5",
+    "id": "ksp_447974",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 8-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDHH4HB/A / Z1L9000FF",
+    "imageUrl": "https://ksp.co.il/shop/items/447974.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635807,
-      "ksp": 4499,
-      "kspUrl": "https://ksp.co.il/web/item/381159"
+      "updated": 1779436669680
     }
   },
   {
-    "id": "ksp_381788",
-    "name": "לחצו על מנת להרכיב 2025 Apple 15-inch MacBook Air M4 שמתאים לכם",
-    "imageUrl": "https://ksp.co.il/shop/items/381788.jpg?v=5",
+    "id": "ksp_448223",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 8-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MDH74HB/A / Z1L0000FA",
+    "imageUrl": "https://ksp.co.il/shop/items/448223.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635807,
-      "ksp": 5399,
-      "kspUrl": "https://ksp.co.il/web/item/381788"
+      "updated": 1779436669680
+    }
+  },
+  {
+    "id": "ksp_448226",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 8-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDHA4HB/A / Z1L3000FA",
+    "imageUrl": "https://ksp.co.il/shop/items/448226.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669680
+    }
+  },
+  {
+    "id": "ksp_457583",
+    "name": "לחצו על מנת להרכיב 2026 Apple 13-inch MacBook Air M5 שמתאים לכם",
+    "imageUrl": "https://ksp.co.il/shop/items/457583.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669681
+    }
+  },
+  {
+    "id": "ksp_451744",
+    "name": "מחשב מותג גיימינג MSI MAG Infinite E1 14NTA5-265IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451744.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669682
+    }
+  },
+  {
+    "id": "ksp_424482",
+    "name": "מחשב All-in-One עם מסך מגע HP 27-CR2003NJ / C93G8EA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/424482.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669682
+    }
+  },
+  {
+    "id": "ksp_437235",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00XFIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437235.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669683,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_450613",
+    "name": "מחשב All-in-One ללא מסך מגע Asus V400 AiO V470VAK-WPE310W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/450613.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669683
+    }
+  },
+  {
+    "id": "ksp_436221",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009CIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436221.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669684,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_424483",
+    "name": "מחשב All-in-One ללא מסך מגע HP 27-CR2010NJ / C93GCEA - צבע לבן פנינה",
+    "imageUrl": "https://ksp.co.il/shop/items/424483.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669684
+    }
+  },
+  {
+    "id": "ksp_429400",
+    "name": "מחשב מיני דגם Gmktec NucBox K12 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/429400.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669684,
+      "ksp": 2379,
+      "kspUrl": "https://ksp.co.il/web/item/355973"
+    }
+  },
+  {
+    "id": "ksp_401680",
+    "name": "מחשב All-in-One ללא מסך מגע ‎‎Dell AIO EC27250 IN-RD33-16135 / IN-RD33-16665 / EC27250-7559 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/401680.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669685
+    }
+  },
+  {
+    "id": "ksp_406542",
+    "name": "מחשב All-in-One ללא מסך מגע ‎‎Dell AIO EC24250 IN-RD33-16133 / IN-RD33-16581 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/406542.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669685
+    }
+  },
+  {
+    "id": "ksp_451521",
+    "name": "מחשב מותג Asus V500 Mini Tower V501MV-07240H043W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/451521.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669686
+    }
+  },
+  {
+    "id": "ksp_437236",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WWIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437236.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669686,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_440397",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0114IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/440397.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669687,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438890",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WEIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438890.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669688,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_19559",
+    "name": "מחשב נייח Desktop AMD Ryzen 5 7600 - GMR AKIMBO",
+    "imageUrl": "https://ksp.co.il/shop/items/19559.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669688
+    }
+  },
+  {
+    "id": "ksp_439000",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ0099IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439000.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669688,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436197",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009MIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436197.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669689,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437195",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009BIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437195.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669689,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_18779",
+    "name": "מחשב נייח Desktop Intel Core i5 14400F - GMR GAMBIT",
+    "imageUrl": "https://ksp.co.il/shop/items/18779.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669690
+    }
+  },
+  {
+    "id": "ksp_439038",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0104IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439038.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669690,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_448302",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם Z1L6000FF",
+    "imageUrl": "https://ksp.co.il/shop/items/448302.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669691
+    }
+  },
+  {
+    "id": "ksp_448231",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם Z1L9000FQ",
+    "imageUrl": "https://ksp.co.il/shop/items/448231.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669691
+    }
+  },
+  {
+    "id": "ksp_406540",
+    "name": "מחשב All-in-One עם מסך מגע ‎‎Dell AIO EC24250 IN-RD33-16134 / IN-RD33-16582 / EC24250-7465 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/406540.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669692
+    }
+  },
+  {
+    "id": "ksp_448301",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם Z1L3000FF",
+    "imageUrl": "https://ksp.co.il/shop/items/448301.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669692
+    }
+  },
+  {
+    "id": "ksp_448300",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם Z1L0000FK",
+    "imageUrl": "https://ksp.co.il/shop/items/448300.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669693
+    }
+  },
+  {
+    "id": "ksp_439025",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YFIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439025.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669694,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437258",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YKIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437258.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669694,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438929",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0113IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438929.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669694,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437253",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YGIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437253.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669695,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_398461",
+    "name": "מחשב All-in-One ללא מסך מגע Acer Aspire C27-1E13U7UNH DQ.BNRET.005 - צבע לבן - כולל סט מקלדת ועכבר אלחוטיים",
+    "imageUrl": "https://ksp.co.il/shop/items/398461.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669695
+    }
+  },
+  {
+    "id": "ksp_436236",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009GIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436236.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669696,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437225",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WNIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437225.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669696,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438908",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00X2IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438908.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669697,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_340787",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 32GB Unified Memory - דגם Z1JX00059",
+    "imageUrl": "https://ksp.co.il/shop/items/340787.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669697
+    }
+  },
+  {
+    "id": "ksp_340785",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - דגם Z1JX00057",
+    "imageUrl": "https://ksp.co.il/shop/items/340785.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669698
+    }
+  },
+  {
+    "id": "ksp_436233",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009DIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436233.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669698,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437201",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009EIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437201.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669699,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_448306",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם MDHF4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448306.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669699
+    }
+  },
+  {
+    "id": "ksp_448296",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDHJ4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448296.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669700
+    }
+  },
+  {
+    "id": "ksp_448303",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MDH84HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448303.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669700
+    }
+  },
+  {
+    "id": "ksp_448304",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDHC4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448304.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669701
+    }
+  },
+  {
+    "id": "ksp_437570",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WLIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437570.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669701,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_451753",
+    "name": "מחשב מותג גיימינג MSI MAG Infinite E1 14NVK5-267IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451753.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669701
+    }
+  },
+  {
+    "id": "ksp_439044",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0109IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439044.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669702,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_448433",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם MDVH4HB/A / Z1LW000G0",
+    "imageUrl": "https://ksp.co.il/shop/items/448433.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669702
+    }
+  },
+  {
+    "id": "ksp_448391",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDVQ4HB/A / Z1LZ000G0",
+    "imageUrl": "https://ksp.co.il/shop/items/448391.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669702
+    }
+  },
+  {
+    "id": "ksp_457780",
+    "name": "לחצו על מנת להרכיב 2026 Apple 15-inch MacBook Air M5 שמתאים לכם",
+    "imageUrl": "https://ksp.co.il/shop/items/457780.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669703
+    }
+  },
+  {
+    "id": "ksp_448430",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDVD4HB/A / Z1LT000G0",
+    "imageUrl": "https://ksp.co.il/shop/items/448430.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669703
+    }
+  },
+  {
+    "id": "ksp_448428",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MDV94HB/A / Z1LQ000G0",
+    "imageUrl": "https://ksp.co.il/shop/items/448428.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669703
+    }
+  },
+  {
+    "id": "ksp_437237",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WXIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437237.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669704,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436748",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YTIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436748.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669704,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_373588",
+    "name": "מחשב מיני דגם Gmktec NucBox K8 Plus - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/373588.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669704
+    }
+  },
+  {
+    "id": "ksp_31422",
+    "name": "מחשב נייח Desktop Intel Core i7 14700F - GMR HAVOC",
+    "imageUrl": "https://ksp.co.il/shop/items/31422.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669704
+    }
+  },
+  {
+    "id": "ksp_353964",
+    "name": "לחצו על מנת להרכיב Apple iMac 24 Inch M4 2024 שמתאים לכם",
+    "imageUrl": "https://ksp.co.il/shop/items/353964.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669705
+    }
+  },
+  {
+    "id": "ksp_340754",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם MWUC3HB / A - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/340754.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669705
+    }
+  },
+  {
+    "id": "ksp_341342",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם Z1E7000DC - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341342.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669705
+    }
+  },
+  {
+    "id": "ksp_341336",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם MWUF3HB / A - צבע כחול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341336.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669705
+    }
+  },
+  {
+    "id": "ksp_341340",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם Z1E8000D4 - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341340.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669706
+    }
+  },
+  {
+    "id": "ksp_341341",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם MWUG3HB / A - צבע ורוד - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341341.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669706
+    }
+  },
+  {
+    "id": "ksp_341343",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם Z1E3000D2 - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341343.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669706
+    }
+  },
+  {
+    "id": "ksp_341339",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 256GB Storage 16GB RAM - דגם MWUE3HB / A - צבע ירוק - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341339.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669706
+    }
+  },
+  {
+    "id": "ksp_436186",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YNIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436186.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438932",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0107IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438932.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437269",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YMIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437269.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437280",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YRIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437280.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_317393",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM009KIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/317393.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439009",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009FIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439009.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669707,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_451782",
+    "name": "מחשב מותג גיימינג MSI MAG Infinite S3 14NVK5-3286IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451782.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708
+    }
+  },
+  {
+    "id": "ksp_447609",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-05210H0580 - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447609.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708
+    }
+  },
+  {
+    "id": "ksp_451756",
+    "name": "מחשב מותג גיימינג MSI MAG Infinite E1 14NVL5-266IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451756.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708
+    }
+  },
+  {
+    "id": "ksp_438901",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00WUIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438901.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_436190",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0115IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436190.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439040",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0106IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439040.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669708,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437296",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0105IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437296.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437246",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00X6IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437246.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_440373",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00X7IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/440373.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_341325",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 12-Core CPU, 16-Core GPU, 512GB SSD Storage, 24GB Unified Memory - דגם MCX44HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/341325.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709
+    }
+  },
+  {
+    "id": "ksp_439010",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009HIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439010.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437260",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YJIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437260.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669709,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437264",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YLIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437264.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437204",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27ARR9 F0HQ009KIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437204.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438939",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010DIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438939.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437241",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00X4IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437241.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_401684",
+    "name": "מחשב All-in-One עם מסך מגע ‎‎Dell AIO EC27250 IN-RD33-16137 / EC27250-7876 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/401684.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710
+    }
+  },
+  {
+    "id": "ksp_373599",
+    "name": "מחשב מיני דגם Gmktec NucBox EVO-X1 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/373599.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669710
+    }
+  },
+  {
+    "id": "ksp_439050",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010FIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439050.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669711,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439045",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010AIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439045.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669711,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437288",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0102IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437288.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669711,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439027",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YYIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439027.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669711,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437299",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010CIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437299.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437286",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YXIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437286.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437247",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00X8IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437247.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_340789",
+    "name": "מחשב Apple Mac Mini 2024 M4 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - דגם Z1JX0009T",
+    "imageUrl": "https://ksp.co.il/shop/items/340789.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712
+    }
+  },
+  {
+    "id": "ksp_437471",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YQIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437471.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438934",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0108IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438934.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669712,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436272",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YVIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436272.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437249",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00XBIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437249.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_448505",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם MDVK4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448505.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713
+    }
+  },
+  {
+    "id": "ksp_448451",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDVT4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448451.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713
+    }
+  },
+  {
+    "id": "ksp_448495",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDVE4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448495.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713
+    }
+  },
+  {
+    "id": "ksp_448482",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MDVA4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448482.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669713
+    }
+  },
+  {
+    "id": "ksp_27961",
+    "name": "מחשב נייח Desktop Intel Core Ultra 5 245 - GMR FORCE",
+    "imageUrl": "https://ksp.co.il/shop/items/27961.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_16088",
+    "name": "מחשב נייח Desktop AMD Ryzen 5 7500X3D - GMR PALADIN",
+    "imageUrl": "https://ksp.co.il/shop/items/16088.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_448363",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם MDHG4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448363.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_447583",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-07240H0040 - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447583.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_448297",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDHK4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448297.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_447594",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-05210H191W - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447594.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669714
+    }
+  },
+  {
+    "id": "ksp_448361",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDHD4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448361.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669715
+    }
+  },
+  {
+    "id": "ksp_406549",
+    "name": "מחשב All-in-One ללא מסך מגע ‎‎Dell AIO EC27250 IN-RD33-16136 - צבע Pearl White",
+    "imageUrl": "https://ksp.co.il/shop/items/406549.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669715
+    }
+  },
+  {
+    "id": "ksp_447610",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-05210H0590 - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447610.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669715
+    }
+  },
+  {
+    "id": "ksp_341354",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם MWUU3HB / A - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341354.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669715
+    }
+  },
+  {
+    "id": "ksp_341345",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E2000F6 - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341345.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669716
+    }
+  },
+  {
+    "id": "ksp_341368",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם MWV13HB / A - צבע כחול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341368.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669716
+    }
+  },
+  {
+    "id": "ksp_341350",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E6000DH - צבע ורוד - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341350.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669716
+    }
+  },
+  {
+    "id": "ksp_341346",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E5000EH - צבע כחול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341346.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669716
+    }
+  },
+  {
+    "id": "ksp_341375",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם Z1ET000CT - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341375.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669717
+    }
+  },
+  {
+    "id": "ksp_341373",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם MWV43HB / A - צבע ורוד - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341373.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669717
+    }
+  },
+  {
+    "id": "ksp_341376",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם Z1EK000CX - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341376.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669717
+    }
+  },
+  {
+    "id": "ksp_341347",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E4000E2 - צבע ירוק - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341347.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669717
+    }
+  },
+  {
+    "id": "ksp_341371",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם Z1EV000CV - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341371.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669717
+    }
+  },
+  {
+    "id": "ksp_341352",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E3000D4 - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341352.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718
+    }
+  },
+  {
+    "id": "ksp_341348",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E8000D5 - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341348.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718
+    }
+  },
+  {
+    "id": "ksp_341369",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם MWUY3HB / A - צבע ירוק - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341369.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718
+    }
+  },
+  {
+    "id": "ksp_341351",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 8-Core CPU 8-Core GPU 512GB Storage 16GB RAM - דגם Z1E7000DD - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341351.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718
+    }
+  },
+  {
+    "id": "ksp_439033",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM00YWIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439033.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439055",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010KIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439055.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669718,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_438926",
+    "name": "מחשב All-in-One כולל מסך מגע Lenovo IdeaCentre AIO 24IRH9 F0HN00XCIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438926.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669719,
+      "ksp": 3949,
+      "kspUrl": "https://ksp.co.il/web/item/316037"
+    }
+  },
+  {
+    "id": "ksp_448502",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 24GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם Z1LW000G5",
+    "imageUrl": "https://ksp.co.il/shop/items/448502.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669719
+    }
+  },
+  {
+    "id": "ksp_448493",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 24GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם Z1LT000G5",
+    "imageUrl": "https://ksp.co.il/shop/items/448493.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669719
+    }
+  },
+  {
+    "id": "ksp_448471",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם Z1LQ000G5",
+    "imageUrl": "https://ksp.co.il/shop/items/448471.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669719
+    }
+  },
+  {
+    "id": "ksp_448439",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 24GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם Z1LZ000G5",
+    "imageUrl": "https://ksp.co.il/shop/items/448439.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669719
+    }
+  },
+  {
+    "id": "ksp_438940",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010EIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/438940.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439048",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010HIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439048.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_28728",
+    "name": "מחשב נייח Desktop Intel Core Ultra 5 245 - GMR THANOS",
+    "imageUrl": "https://ksp.co.il/shop/items/28728.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720
+    }
+  },
+  {
+    "id": "ksp_32093",
+    "name": "מחשב נייח Desktop Intel Core Ultra 5 245 - GMR CADET",
+    "imageUrl": "https://ksp.co.il/shop/items/32093.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720
+    }
+  },
+  {
+    "id": "ksp_439051",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010GIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439051.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_436755",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010LIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/436755.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437304",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010RIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437304.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669720,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439061",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010VIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439061.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669721,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_437292",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0101IV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437292.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669721,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439063",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010UIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439063.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669721,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_440389",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0100IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/440389.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669721,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439054",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010JIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439054.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669721,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
     }
   },
   {
@@ -153,7 +2287,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/30064.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635808
+      "updated": 1779436669721
     }
   },
   {
@@ -162,9 +2296,7 @@
     "imageUrl": "https://ksp.co.il/shop/items/418392.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635809,
-      "ksp": 8619,
-      "kspUrl": "https://ksp.co.il/web/item/363442"
+      "updated": 1779436669722
     }
   },
   {
@@ -173,7 +2305,392 @@
     "imageUrl": "https://ksp.co.il/shop/items/416701.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635809
+      "updated": 1779436669722
+    }
+  },
+  {
+    "id": "ksp_416704",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MDE54HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/416704.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669722
+    }
+  },
+  {
+    "id": "ksp_447534",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-07240H006W - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447534.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669722
+    }
+  },
+  {
+    "id": "ksp_447598",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-05210H192W - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447598.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669722
+    }
+  },
+  {
+    "id": "ksp_437294",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM0103IV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437294.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669722,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_341331",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 14-Core CPU, 20-Core GPU, 512GB SSD Storage, 24GB Unified Memory - דגם Z1JV000DD",
+    "imageUrl": "https://ksp.co.il/shop/items/341331.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723
+    }
+  },
+  {
+    "id": "ksp_341327",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - דגם Z1JV000D7",
+    "imageUrl": "https://ksp.co.il/shop/items/341327.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723
+    }
+  },
+  {
+    "id": "ksp_439056",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010PIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439056.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_439057",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010NIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439057.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_451763",
+    "name": "מחשב מותג גיימינג MSI MAG Infinite S3 14NVL7-3284IL",
+    "imageUrl": "https://ksp.co.il/shop/items/451763.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723
+    }
+  },
+  {
+    "id": "ksp_341379",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 16GB RAM - דגם MWUV3HB / A - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341379.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669723
+    }
+  },
+  {
+    "id": "ksp_341377",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 256GB Storage 16GB RAM - דגם MD3H4HB / A - צבע כסוף - Nano Texture Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341377.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669724
+    }
+  },
+  {
+    "id": "ksp_341386",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 16GB RAM - דגם Z1EU000C5 - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341386.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669724
+    }
+  },
+  {
+    "id": "ksp_437309",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010SIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437309.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669724,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_440402",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010QIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/440402.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669724,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_448507",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם MDVN4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448507.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669724
+    }
+  },
+  {
+    "id": "ksp_448497",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם MDVF4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448497.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669725
+    }
+  },
+  {
+    "id": "ksp_448458",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם MDVU4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448458.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669725
+    }
+  },
+  {
+    "id": "ksp_448487",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם MDVC4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448487.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669725
+    }
+  },
+  {
+    "id": "ksp_448504",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 32GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם Z1LW000G6",
+    "imageUrl": "https://ksp.co.il/shop/items/448504.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669725
+    }
+  },
+  {
+    "id": "ksp_439059",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010MIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439059.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669725,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_448441",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 512GB SSD Storage, 32GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם Z1LZ000G6",
+    "imageUrl": "https://ksp.co.il/shop/items/448441.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669726
+    }
+  },
+  {
+    "id": "ksp_448367",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם Z1L8000CH",
+    "imageUrl": "https://ksp.co.il/shop/items/448367.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669726
+    }
+  },
+  {
+    "id": "ksp_448299",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם Z1LB000CH",
+    "imageUrl": "https://ksp.co.il/shop/items/448299.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669726
+    }
+  },
+  {
+    "id": "ksp_448351",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם Z1L2000CH",
+    "imageUrl": "https://ksp.co.il/shop/items/448351.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669726
+    }
+  },
+  {
+    "id": "ksp_448362",
+    "name": "מחשב Apple MacBook Air 13 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם Z1L5000CH",
+    "imageUrl": "https://ksp.co.il/shop/items/448362.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727
+    }
+  },
+  {
+    "id": "ksp_439066",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010YIV - צבע Luna Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/439066.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_452019",
+    "name": "מחשב מותג גיימינג MSI MPG Infinite Z3 9NVLR7-854IL",
+    "imageUrl": "https://ksp.co.il/shop/items/452019.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727
+    }
+  },
+  {
+    "id": "ksp_437311",
+    "name": "מחשב All-in-One עם מסך מגע Lenovo IdeaCentre AIO 27IRH9 F0HM010TIV - צבע Cloud Grey",
+    "imageUrl": "https://ksp.co.il/shop/items/437311.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727,
+      "ksp": 2399,
+      "kspUrl": "https://ksp.co.il/web/item/366485"
+    }
+  },
+  {
+    "id": "ksp_447538",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-07240H0060 - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447538.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727
+    }
+  },
+  {
+    "id": "ksp_416732",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1KJ000GD",
+    "imageUrl": "https://ksp.co.il/shop/items/416732.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669727
+    }
+  },
+  {
+    "id": "ksp_416733",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 16GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1KM000GD",
+    "imageUrl": "https://ksp.co.il/shop/items/416733.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669728
+    }
+  },
+  {
+    "id": "ksp_341332",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - דגם Z1JV000W3",
+    "imageUrl": "https://ksp.co.il/shop/items/341332.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669728
+    }
+  },
+  {
+    "id": "ksp_341328",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 12-Core CPU, 16-Core GPU, 512GB SSD Storage, 48GB Unified Memory - דגם Z1JV000D9",
+    "imageUrl": "https://ksp.co.il/shop/items/341328.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669728
+    }
+  },
+  {
+    "id": "ksp_341390",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 24GB RAM - דגם MCR24HB / A - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341390.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669728
+    }
+  },
+  {
+    "id": "ksp_341394",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 24GB RAM - דגם Z1K80009Z - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341394.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669728
+    }
+  },
+  {
+    "id": "ksp_341396",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 24GB RAM - דגם Z1K7000A6 - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341396.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669729
+    }
+  },
+  {
+    "id": "ksp_341397",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 24GB RAM - דגם Z1K2000A6 - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341397.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669729
+    }
+  },
+  {
+    "id": "ksp_448508",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Midnight - מקלדת עברית / אנגלית - דגם Z1LY000CF",
+    "imageUrl": "https://ksp.co.il/shop/items/448508.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669729
+    }
+  },
+  {
+    "id": "ksp_448492",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - דגם Z1LS000CF",
+    "imageUrl": "https://ksp.co.il/shop/items/448492.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669729
+    }
+  },
+  {
+    "id": "ksp_448464",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Sky Blue - מקלדת עברית / אנגלית - דגם Z1M2000CF",
+    "imageUrl": "https://ksp.co.il/shop/items/448464.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669729
+    }
+  },
+  {
+    "id": "ksp_448500",
+    "name": "מחשב Apple MacBook Air 15 M5 Chip 10-Core CPU, 10-Core GPU, 1TB SSD Storage, 32GB Unified Memory - צבע Starlight - מקלדת עברית / אנגלית - דגם Z1LV000CF",
+    "imageUrl": "https://ksp.co.il/shop/items/448500.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669730
     }
   },
   {
@@ -182,20 +2699,351 @@
     "imageUrl": "https://ksp.co.il/shop/items/371198.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635811,
-      "ksp": 2329,
-      "kspUrl": "https://ksp.co.il/web/item/353616"
+      "updated": 1779436669730
     }
   },
   {
-    "id": "ksp_363442",
-    "name": "לחצו על מנת להרכיב 2024 Apple 14-inch MacBook Pro M4 שמתאים לכם",
-    "imageUrl": "https://ksp.co.il/shop/items/363442.jpg?v=5",
+    "id": "ksp_370546",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 14-Core CPU, 32-Core GPU, 36GB Unified Memory, 512GB SSD Storage - דגם MU963HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/370546.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635811,
-      "ksp": 8619,
-      "kspUrl": "https://ksp.co.il/web/item/363442"
+      "updated": 1779436669730
+    }
+  },
+  {
+    "id": "ksp_448070",
+    "name": "מחשב מותג גיימינג Lenovo Legion T5-30AGB10 Tower 90YJ009EYS",
+    "imageUrl": "https://ksp.co.il/shop/items/448070.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669730,
+      "ksp": 15599,
+      "kspUrl": "https://ksp.co.il/web/item/385189"
+    }
+  },
+  {
+    "id": "ksp_447570",
+    "name": "מחשב מותג גיימינג Asus TUF Gaming T500 (2025) T500MV-07240H004W - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/447570.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669730
+    }
+  },
+  {
+    "id": "ksp_21444",
+    "name": "מחשב נייח Desktop Intel Core i7 14700F - GMR ELITE",
+    "imageUrl": "https://ksp.co.il/shop/items/21444.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669730
+    }
+  },
+  {
+    "id": "ksp_22898",
+    "name": "מחשב נייח  Desktop AMD Ryzen 5 7500X3D - GMR IMPRESS",
+    "imageUrl": "https://ksp.co.il/shop/items/22898.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_341329",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 48GB Unified Memory - דגם Z1JV000W1",
+    "imageUrl": "https://ksp.co.il/shop/items/341329.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_341400",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K1000CC - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341400.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_341406",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K3000AQ - צבע ירוק - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341406.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_341410",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K6000A8 - צבע ורוד - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341410.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_345001",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 512GB Storage 32GB RAM - דגם Z1EH0014K - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/345001.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669731
+    }
+  },
+  {
+    "id": "ksp_341402",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K5000BX - צבע כחול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341402.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669732
+    }
+  },
+  {
+    "id": "ksp_341413",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K2000A7 - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341413.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669732
+    }
+  },
+  {
+    "id": "ksp_341412",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K7000A7 - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341412.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669732
+    }
+  },
+  {
+    "id": "ksp_341408",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 24GB RAM - דגם Z1K8000A0 - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341408.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669732
+    }
+  },
+  {
+    "id": "ksp_448534",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGDR4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448534.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669732
+    }
+  },
+  {
+    "id": "ksp_448608",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGDN4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448608.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669733
+    }
+  },
+  {
+    "id": "ksp_435265",
+    "name": "מחשב מותג Dell Tower Plus Desktop EBT2250 XP-RD33-16567 - מקלדת ועכבר כלולים באריזה",
+    "imageUrl": "https://ksp.co.il/shop/items/435265.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669733
+    }
+  },
+  {
+    "id": "ksp_371043",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 14-Core CPU, 32-Core GPU, 36GB Unified Memory, 1TB SSD Storage - דגם Z1CD000WP",
+    "imageUrl": "https://ksp.co.il/shop/items/371043.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669733
+    }
+  },
+  {
+    "id": "ksp_341335",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 48GB Unified Memory - דגם Z1JV000W4",
+    "imageUrl": "https://ksp.co.il/shop/items/341335.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669733
+    }
+  },
+  {
+    "id": "ksp_341330",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 64GB Unified Memory - דגם Z1JV000W2",
+    "imageUrl": "https://ksp.co.il/shop/items/341330.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669733
+    }
+  },
+  {
+    "id": "ksp_341416",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K1000CD - צבע כסוף - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341416.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341421",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K5000BZ - צבע כחול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341421.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341425",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K8000A1 - צבע כתום - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341425.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341422",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K3000AR - צבע ירוק - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341422.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341428",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K7000A9 - צבע סגול - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341428.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341429",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K2000A8 - צבע צהוב - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341429.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669734
+    }
+  },
+  {
+    "id": "ksp_341427",
+    "name": "מחשב Apple iMac 24 Inch M4 Chip 10-Core CPU 10-Core GPU 1TB Storage 32GB RAM - דגם Z1K6000A9 - צבע ורוד - Standard Glass",
+    "imageUrl": "https://ksp.co.il/shop/items/341427.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_442262",
+    "name": "מחשב מותג גיימינג HP Omen 35L Gaming GT16-0028NJ / CT9W8EA",
+    "imageUrl": "https://ksp.co.il/shop/items/442262.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_417885",
+    "name": "מחשב מותג גיימינג Lenovo LOQ 26ADR10 Tower 91DF004XYS",
+    "imageUrl": "https://ksp.co.il/shop/items/417885.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_448643",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1ML0013U",
+    "imageUrl": "https://ksp.co.il/shop/items/448643.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_448644",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1MH0013G",
+    "imageUrl": "https://ksp.co.il/shop/items/448644.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_15940",
+    "name": "מחשב נייח Desktop Intel Core i9 14900KF - GMR ADVANCED",
+    "imageUrl": "https://ksp.co.il/shop/items/15940.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669735
+    }
+  },
+  {
+    "id": "ksp_341452",
+    "name": "מחשב Apple MacBook Pro 14 Apple M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FE0019X",
+    "imageUrl": "https://ksp.co.il/shop/items/341452.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669736
+    }
+  },
+  {
+    "id": "ksp_341450",
+    "name": "מחשב Apple MacBook Pro 14 Apple M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FB000Z1",
+    "imageUrl": "https://ksp.co.il/shop/items/341450.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669736
+    }
+  },
+  {
+    "id": "ksp_341337",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 64GB Unified Memory - דגם Z1JV000W5",
+    "imageUrl": "https://ksp.co.il/shop/items/341337.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669736
+    }
+  },
+  {
+    "id": "ksp_448610",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 2TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MJLW4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448610.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669736
+    }
+  },
+  {
+    "id": "ksp_448611",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 2TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MJLV4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448611.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669736
+    }
+  },
+  {
+    "id": "ksp_371033",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 16-Core CPU, 40-Core GPU, 48GB Unified Memory, 512GB SSD Storage - דגם Z1CD000WT",
+    "imageUrl": "https://ksp.co.il/shop/items/371033.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669737
     }
   },
   {
@@ -204,18 +3052,117 @@
     "imageUrl": "https://ksp.co.il/shop/items/15944.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635812
+      "updated": 1779436669737
     }
   },
   {
-    "id": "ksp_361418",
-    "name": "לחצו על מנת להרכיב 2024 Apple 16-inch MacBook Pro M4 שמתאים לכם",
-    "imageUrl": "https://ksp.co.il/shop/items/361418.jpg?v=5",
+    "id": "ksp_448668",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGEA4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448668.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635812,
-      "ksp": 10949,
-      "kspUrl": "https://ksp.co.il/web/item/361418"
+      "updated": 1779436669737
+    }
+  },
+  {
+    "id": "ksp_448685",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGE44HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448685.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669737
+    }
+  },
+  {
+    "id": "ksp_463404",
+    "name": "לחצו על מנת להרכיב 2026 Apple 16-inch MacBook Pro M5 שמתאים לכם",
+    "imageUrl": "https://ksp.co.il/shop/items/463404.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669737
+    }
+  },
+  {
+    "id": "ksp_39010",
+    "name": "מחשב נייח Desktop AMD Ryzen 9 9900X3D - GMR LEGEND",
+    "imageUrl": "https://ksp.co.il/shop/items/39010.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738,
+      "ksp": 10150,
+      "kspUrl": "https://ksp.co.il/web/item/39010"
+    }
+  },
+  {
+    "id": "ksp_28139",
+    "name": "מחשב נייח Desktop Intel Core Ultra 7 265F - GMR NEMESIS PBM",
+    "imageUrl": "https://ksp.co.il/shop/items/28139.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738
+    }
+  },
+  {
+    "id": "ksp_448612",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם Z1ML0013Z",
+    "imageUrl": "https://ksp.co.il/shop/items/448612.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738
+    }
+  },
+  {
+    "id": "ksp_448613",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 15-Core CPU, 16-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם Z1MH0013M",
+    "imageUrl": "https://ksp.co.il/shop/items/448613.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738
+    }
+  },
+  {
+    "id": "ksp_341455",
+    "name": "מחשב Apple MacBook Pro 14 Apple M4 Pro Chip 12-Core CPU, 16-Core GPU, 512GB SSD Storage, 48GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FB000Z3",
+    "imageUrl": "https://ksp.co.il/shop/items/341455.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738
+    }
+  },
+  {
+    "id": "ksp_448618",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 2TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGDT4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448618.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669738
+    }
+  },
+  {
+    "id": "ksp_448620",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 2TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGDP4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448620.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669739
+    }
+  },
+  {
+    "id": "ksp_371047",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 16-Core CPU, 40-Core GPU, 48GB Unified Memory, 1TB SSD Storage - דגם Z1CD000X3",
+    "imageUrl": "https://ksp.co.il/shop/items/371047.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669739
+    }
+  },
+  {
+    "id": "ksp_341778",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם Z1FP000GJ",
+    "imageUrl": "https://ksp.co.il/shop/items/341778.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669739
     }
   },
   {
@@ -224,7 +3171,344 @@
     "imageUrl": "https://ksp.co.il/shop/items/39163.jpg?v=5",
     "prices": {
       "zap": 0,
-      "updated": 1779195635813
+      "updated": 1779436669739
+    }
+  },
+  {
+    "id": "ksp_341338",
+    "name": "מחשב Apple Mac Mini 2024 M4 Pro Chip 14-Core CPU, 20-Core GPU, 2TB SSD Storage, 64GB Unified Memory - דגם Z1JV000W6",
+    "imageUrl": "https://ksp.co.il/shop/items/341338.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669739
+    }
+  },
+  {
+    "id": "ksp_448701",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1MZ000XC",
+    "imageUrl": "https://ksp.co.il/shop/items/448701.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669739
+    }
+  },
+  {
+    "id": "ksp_341465",
+    "name": "מחשב Apple MacBook Pro 14 Apple M4 Pro Chip 12-Core CPU, 16-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FB000Z5",
+    "imageUrl": "https://ksp.co.il/shop/items/341465.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669740
+    }
+  },
+  {
+    "id": "ksp_23277",
+    "name": "מחשב נייח Desktop Intel Core Ultra 7 265KF - GMR ULTRA",
+    "imageUrl": "https://ksp.co.il/shop/items/23277.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669740
+    }
+  },
+  {
+    "id": "ksp_371051",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 16-Core CPU, 40-Core GPU, 64GB Unified Memory, 1TB SSD Storage - דגם Z1CD0028P",
+    "imageUrl": "https://ksp.co.il/shop/items/371051.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669740
+    }
+  },
+  {
+    "id": "ksp_341781",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FT000PL",
+    "imageUrl": "https://ksp.co.il/shop/items/341781.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669740
+    }
+  },
+  {
+    "id": "ksp_341782",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Pro Chip 14-Core CPU, 20-Core GPU, 1TB SSD Storage, 24GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FP000GK",
+    "imageUrl": "https://ksp.co.il/shop/items/341782.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669740
+    }
+  },
+  {
+    "id": "ksp_383840",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo Yoga AiO 27IAH10 F0J20038IV - צבע Luna Grey - מקלדת ועכבר אלחוטיים כלולים באריזה",
+    "imageUrl": "https://ksp.co.il/shop/items/383840.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669741
+    }
+  },
+  {
+    "id": "ksp_374841",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo Yoga AIO 32ILL10 F0HX000TIV - צבע Storm Grey - מקלדת ועכבר Ultraslim אלחוטיים כלולים באריזה",
+    "imageUrl": "https://ksp.co.il/shop/items/374841.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669741
+    }
+  },
+  {
+    "id": "ksp_15942",
+    "name": "מחשב נייח  Desktop Intel Core i9 14900KF - GMR XTREME",
+    "imageUrl": "https://ksp.co.il/shop/items/15942.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669741
+    }
+  },
+  {
+    "id": "ksp_371048",
+    "name": "מחשב Apple Mac Studio M4 Max Chip 16-Core CPU, 40-Core GPU, 48GB Unified Memory, 2TB SSD Storage - דגם Z1CD000X4",
+    "imageUrl": "https://ksp.co.il/shop/items/371048.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669741
+    }
+  },
+  {
+    "id": "ksp_448689",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGEC4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448689.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669742
+    }
+  },
+  {
+    "id": "ksp_448622",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 2TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם Z1MM000RL",
+    "imageUrl": "https://ksp.co.il/shop/items/448622.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669742
+    }
+  },
+  {
+    "id": "ksp_385214",
+    "name": "מחשב מותג שולחני גיימרים Lenovo Legion T5-30IAS10 Tower 90YA004QYS - צבע Eclipse Black - שלוש שנות אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/385214.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669742,
+      "ksp": 15599,
+      "kspUrl": "https://ksp.co.il/web/item/385189"
+    }
+  },
+  {
+    "id": "ksp_448704",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1N0000UT",
+    "imageUrl": "https://ksp.co.il/shop/items/448704.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669742
+    }
+  },
+  {
+    "id": "ksp_448695",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Pro Chip 18-Core CPU, 20-Core GPU, 1TB SSD Storage, 64GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם Z1MW000UZ",
+    "imageUrl": "https://ksp.co.il/shop/items/448695.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669742
+    }
+  },
+  {
+    "id": "ksp_448626",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Max Chip 18-Core CPU, 32-Core GPU, 2TB SSD Storage, 36GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGDU4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448626.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669743
+    }
+  },
+  {
+    "id": "ksp_448629",
+    "name": "מחשב Apple MacBook Pro 14 Apple M5 Max Chip 18-Core CPU, 32-Core GPU, 2TB SSD Storage, 36GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGDQ4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448629.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669743
+    }
+  },
+  {
+    "id": "ksp_448713",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Max Chip 18-Core CPU, 32-Core GPU, 2TB SSD Storage, 36GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGED4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448713.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669743
+    }
+  },
+  {
+    "id": "ksp_448717",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Max Chip 18-Core CPU, 32-Core GPU, 2TB SSD Storage, 36GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGE74HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448717.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669743
+    }
+  },
+  {
+    "id": "ksp_342349",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Max Chip 14-Core CPU, 32-Core GPU, 1TB SSD Storage, 36GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FV000KB",
+    "imageUrl": "https://ksp.co.il/shop/items/342349.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669743
+    }
+  },
+  {
+    "id": "ksp_342350",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Max Chip 14-Core CPU, 32-Core GPU, 1TB SSD Storage, 36GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FR000DV",
+    "imageUrl": "https://ksp.co.il/shop/items/342350.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_447519",
+    "name": "מחשב All-in-One ללא מסך מגע Lenovo Yoga AIO 32ILL10 F0HX001CIV - צבע Storm Grey - מקלדת ועכבר Ultraslim אלחוטיים כלולים באריזה",
+    "imageUrl": "https://ksp.co.il/shop/items/447519.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_426417",
+    "name": "מחשב מותג גיימינג Asus ROG G700 (2025) G700TF-7265KF049X - עכבר ומקלדת RGB חוטיים כלולים בתוך האריזה כמתנה!",
+    "imageUrl": "https://ksp.co.il/shop/items/426417.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_442289",
+    "name": "מחשב מותג גיימינג HP Omen 35L Gaming GT16-0026NJ / CT9W7EA",
+    "imageUrl": "https://ksp.co.il/shop/items/442289.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_18785",
+    "name": "מחשב נייח Desktop AMD Ryzen 9 9950X3D2 - GMR DRAGON",
+    "imageUrl": "https://ksp.co.il/shop/items/18785.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_442297",
+    "name": "מחשב מותג גיימינג HP Omen 35L Gaming GT16-0055NJ / CT9W9EA",
+    "imageUrl": "https://ksp.co.il/shop/items/442297.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669744
+    }
+  },
+  {
+    "id": "ksp_370270",
+    "name": "מחשב Apple Mac Studio M3 Ultra Chip 28-Core CPU, 60-Core GPU, 96GB Unified Memory, 1TB SSD Storage - דגם MU973HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/370270.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669745
+    }
+  },
+  {
+    "id": "ksp_448722",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Max Chip 18-Core CPU, 40-Core GPU, 2TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Standard Glass - דגם MGEE4HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448722.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669745
+    }
+  },
+  {
+    "id": "ksp_448724",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Max Chip 18-Core CPU, 40-Core GPU, 2TB SSD Storage, 48GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Standard Glass - דגם MGE94HB / A",
+    "imageUrl": "https://ksp.co.il/shop/items/448724.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669745
+    }
+  },
+  {
+    "id": "ksp_383948",
+    "name": "מחשב מותג שולחני גיימרים Lenovo Legion T7-34IAS10 Tower 90Y6002GYS - צבע Storm Grey - שלוש שנות אחריות",
+    "imageUrl": "https://ksp.co.il/shop/items/383948.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669745,
+      "ksp": 18599,
+      "kspUrl": "https://ksp.co.il/web/item/384807"
+    }
+  },
+  {
+    "id": "ksp_342357",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Max Chip 16-Core CPU, 40-Core GPU, 1TB SSD Storage, 48GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FW000QR",
+    "imageUrl": "https://ksp.co.il/shop/items/342357.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669745
+    }
+  },
+  {
+    "id": "ksp_342389",
+    "name": "מחשב Apple MacBook Pro 16 Apple M4 Max Chip 16-Core CPU, 40-Core GPU, 2TB SSD Storage, 64GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FS000DR",
+    "imageUrl": "https://ksp.co.il/shop/items/342389.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669746
+    }
+  },
+  {
+    "id": "ksp_361907",
+    "name": "מחשב Apple MacBook Pro 14 Apple M4 Max Chip 16-Core CPU, 40-Core GPU, 2TB SSD Storage, 128GB Unified Memory - צבע Silver - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1FD000VJ",
+    "imageUrl": "https://ksp.co.il/shop/items/361907.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669746
+    }
+  },
+  {
+    "id": "ksp_448742",
+    "name": "מחשב Apple MacBook Pro 16 Apple M5 Max Chip 18-Core CPU, 40-Core GPU, 2TB SSD Storage, 128GB Unified Memory - צבע Space Black - מקלדת עברית / אנגלית - Nano Texture Glass - דגם Z1N200170",
+    "imageUrl": "https://ksp.co.il/shop/items/448742.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669746
+    }
+  },
+  {
+    "id": "ksp_452205",
+    "name": "מחשב מותג Dell Alienware Aurora Gaming Desktop ACT1250 AL-RD33-16754",
+    "imageUrl": "https://ksp.co.il/shop/items/452205.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669746
+    }
+  },
+  {
+    "id": "ksp_460338",
+    "name": "מחשב מותג Dell Alienware Area-51 Gaming Desktop AAT2250 AL-RD33-16757",
+    "imageUrl": "https://ksp.co.il/shop/items/460338.jpg?v=5",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436669746
     }
   }
 ]

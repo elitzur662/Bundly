@@ -1,676 +1,535 @@
 [
   {
-    "id": "1212371",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition CFI-2000 CFI-2016",
-    "image": "images/1212371.gif",
-    "imageUrl": "https://img.zap.co.il/pics/6/6/9/8/92138966c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126655
-    },
-    "manufacturer": "Sony",
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
     "id": "1246309",
     "name": "Nintendo Switch 2",
-    "image": "images/1246309.gif",
-    "imageUrl": "https://img.zap.co.il/pics/9/7/6/5/94775679b.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126655
-    },
+    "image": "https://img.zap.co.il/pics/9/7/6/5/94775679c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/7/6/5/94775679c.gif",
     "manufacturer": "Nintendo",
-    "filterTags": {
-      "console": "Switch 2"
-    }
-  },
-  {
-    "id": "1094986980",
-    "name": "מחשב גיימינג נייד Lenovo Legion Go Gen 2 8AHP2 83N10011IV בנפח 1TB בצבע Eclipse Black",
-    "image": "images/1094986980.gif",
-    "imageUrl": "https://img.zap.co.il/pics/5/6/7/4/97694765b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196126656,
-      "ksp": 5699,
-      "kspUrl": "https://ksp.co.il/web/item/414810"
+      "updated": 1779436743923
     },
-    "filterTags": {
-      "storage": "1 TB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1236321",
     "name": "Sony PlayStation 5 Pro 2TB",
-    "image": "images/1236321.gif",
-    "manufacturer": "Sony",
+    "image": "https://img.zap.co.il/pics/4/9/2/9/92719294c.gif",
     "imageUrl": "https://img.zap.co.il/pics/4/9/2/9/92719294c.gif",
+    "manufacturer": "Sony",
     "prices": {
       "zap": 0,
-      "updated": 1779196126657
+      "updated": 1779436743924
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "2 TB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1212371",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition CFI-2000 CFI-2016",
+    "image": "https://img.zap.co.il/pics/6/6/9/8/92138966c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/6/9/8/92138966c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743924
+    },
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1212373",
     "name": "Sony PlayStation 5 Slim 1TB Digital Edition CFI-2000 CFI-2016",
-    "image": "images/1212373.gif",
+    "image": "https://img.zap.co.il/pics/new/193123354661c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/193123354661c.gif",
     "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/new/193123354661b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196126657
+      "updated": 1779436743924
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1214156",
-    "name": "Valve Steam Deck Oled 512GB NVMe SSD",
-    "image": "images/1214156.gif",
-    "manufacturer": "Valve",
-    "imageUrl": "https://img.zap.co.il/pics/7/5/6/0/86470657c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126658
-    },
-    "filterTags": {
-      "storage": "512 GB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1096042",
     "name": "Sony PlayStation 5 825GB Digital Edition",
-    "image": "images/1096042.gif",
-    "manufacturer": "Sony",
+    "image": "https://img.zap.co.il/pics/new/113142538530c.gif",
     "imageUrl": "https://img.zap.co.il/pics/new/113142538530c.gif",
+    "manufacturer": "Sony",
     "prices": {
       "zap": 0,
-      "updated": 1779196126658
+      "updated": 1779436743924
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "825 GB"
-    }
-  },
-  {
-    "id": "1213750",
-    "name": "Nintendo Switch OLED 64GB HEG-001",
-    "image": "images/1213750.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/new/193124913486c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126659
-    },
-    "filterTags": {
-      "console": "Switch",
-      "storage": "64 GB"
-    }
-  },
-  {
-    "id": "1088522",
-    "name": "Microsoft Xbox Series X 1TB Blu-ray Edition",
-    "image": "images/1088522.gif",
-    "manufacturer": "Microsoft",
-    "imageUrl": "https://img.zap.co.il/pics/2/2/1/4/94954122c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126659
-    },
-    "filterTags": {
-      "console": "Xbox Series X",
-      "storage": "1 TB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1246311",
     "name": "Nintendo Switch 2 + Mario Kart World Bundle",
-    "image": "images/1246311.gif",
-    "manufacturer": "Nintendo",
+    "image": "https://img.zap.co.il/pics/3/7/0/7/94317073c.gif",
     "imageUrl": "https://img.zap.co.il/pics/3/7/0/7/94317073c.gif",
+    "manufacturer": "Nintendo",
     "prices": {
       "zap": 0,
-      "updated": 1779196126660
+      "updated": 1779436743924
     },
-    "filterTags": {
-      "console": "Switch 2"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
-    "id": "1043490",
-    "name": "Nintendo Switch HAC-001-01 V1.1",
-    "image": "images/1043490.gif",
+    "id": "1213750",
+    "name": "Nintendo Switch OLED 64GB HEG-001",
+    "image": "https://img.zap.co.il/pics/new/193124913486c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/193124913486c.gif",
     "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/8/6/2/9/92739268c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196126662
+      "updated": 1779436743924
     },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1033415",
-    "name": "Nintendo Switch Lite",
-    "image": "images/1033415.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/2/5/5/7/55827552c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126663
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1088620",
     "name": "Microsoft Xbox Series S 512GB SSD",
-    "image": "images/1088620.gif",
-    "manufacturer": "Microsoft",
+    "image": "https://img.zap.co.il/pics/1/0/6/9/57859601c.gif",
     "imageUrl": "https://img.zap.co.il/pics/1/0/6/9/57859601c.gif",
+    "manufacturer": "Microsoft",
     "prices": {
       "zap": 0,
-      "updated": 1779196126664
+      "updated": 1779436743925
     },
-    "filterTags": {
-      "console": "Xbox Series S",
-      "storage": "512 GB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
-    "id": "943747",
-    "name": "Sony PlayStation 5 825GB Blu-ray Edition",
-    "image": "images/943747.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/4/2/9/2/92532924c.gif",
+    "id": "1088522",
+    "name": "Microsoft Xbox Series X 1TB Blu-ray Edition",
+    "image": "https://img.zap.co.il/pics/2/2/1/4/94954122c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/2/1/4/94954122c.gif",
+    "manufacturer": "Microsoft",
     "prices": {
       "zap": 0,
-      "updated": 1779196126664
+      "updated": 1779436743925
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "825 GB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
-    "id": "1246933",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition 2 Controllers",
-    "image": "images/1246933.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/2/8/3/4/86224382c.gif",
+    "id": "1033415",
+    "name": "Nintendo Switch Lite",
+    "image": "https://img.zap.co.il/pics/2/5/5/7/55827552c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/5/5/7/55827552c.gif",
+    "manufacturer": "Nintendo",
     "prices": {
       "zap": 0,
-      "updated": 1779196126665
+      "updated": 1779436743926
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1214156",
+    "name": "Valve Steam Deck Oled 512GB NVMe SSD",
+    "image": "https://img.zap.co.il/pics/7/5/6/0/86470657c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/6/0/86470657c.gif",
+    "manufacturer": "Valve",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743926
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1043490",
+    "name": "Nintendo Switch HAC-001-01 V1.1",
+    "image": "https://img.zap.co.il/pics/8/6/2/9/92739268c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/6/2/9/92739268c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743926
+    },
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1239365",
     "name": "Microsoft Xbox Series X 1TB Digital Edition",
-    "image": "images/1239365.gif",
-    "manufacturer": "Microsoft",
+    "image": "https://img.zap.co.il/pics/7/0/4/1/90481407c.gif",
     "imageUrl": "https://img.zap.co.il/pics/7/0/4/1/90481407c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126665
-    },
-    "filterTags": {
-      "console": "Xbox Series X",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1258421",
-    "name": "Sony PlayStation 5 Slim 825GB Digital Console",
-    "image": "images/1258421.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/1/8/5/0/96500581c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126666
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "825 GB"
-    }
-  },
-  {
-    "id": "1236317",
-    "name": "Sony PlayStation 5 Digital Edition – 30th Anniversary Limited Edition Bundle",
-    "image": "images/1236317.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/9/1/3/3/94133319c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126666
-    },
-    "filterTags": {
-      "console": "PS5"
-    }
-  },
-  {
-    "id": "1257068",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition FC 26 Bundle",
-    "image": "images/1257068.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/0/2/8/5/96565820c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126667
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1246904",
-    "name": "Lenovo Legion Go S 8ARP1 83L3002GIV",
-    "image": "images/1246904.gif",
-    "manufacturer": "Lenovo",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/1/4/94304190c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126667,
-      "ksp": 3399,
-      "kspUrl": "https://ksp.co.il/web/item/383926"
-    },
-    "filterTags": {}
-  },
-  {
-    "id": "1208049",
-    "name": "Microsoft Xbox Series S 1TB",
-    "image": "images/1208049.gif",
     "manufacturer": "Microsoft",
-    "imageUrl": "https://img.zap.co.il/pics/6/9/2/0/79260296c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196126668
+      "updated": 1779436743926
     },
-    "filterTags": {
-      "console": "Xbox Series S",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1251792",
-    "name": "Nintendo Switch 2 + Pokemon Legends Bundle",
-    "image": "images/1251792.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/3/0/1/4/95274103c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126668
-    },
-    "filterTags": {
-      "console": "Switch 2"
-    }
-  },
-  {
-    "id": "1218665",
-    "name": "Microsoft Xbox Series S 512GB SSD Starter Bundle 3 months Game Pass",
-    "image": "images/1218665.gif",
-    "manufacturer": "Microsoft",
-    "imageUrl": "https://img.zap.co.il/pics/5/5/2/5/92665255c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126669
-    },
-    "filterTags": {
-      "console": "Xbox Series S",
-      "storage": "512 GB"
-    }
-  },
-  {
-    "id": "1259069",
-    "name": "Sony PlayStation 5 Slim 825GB Digital Edition Fortnite Bundle",
-    "image": "images/1259069.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/3/1/2/9/97039213c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126669
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "825 GB"
-    }
-  },
-  {
-    "id": "1246905",
-    "name": "Lenovo Legion Go S 8ARP1 83L3002HIV",
-    "image": "images/1246905.gif",
-    "manufacturer": "Lenovo",
-    "imageUrl": "https://img.zap.co.il/pics/0/4/0/3/94303040c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126670,
-      "ksp": 3399,
-      "kspUrl": "https://ksp.co.il/web/item/383926"
-    },
-    "filterTags": {}
-  },
-  {
-    "id": "1170247",
-    "name": "Nintendo Game And Watch: The Legend of Zelda",
-    "image": "images/1170247.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/4/8/92358490c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126671
-    },
-    "filterTags": {}
-  },
-  {
-    "id": "1246903",
-    "name": "Lenovo Legion Go S 8ARP1 83L3002KIV",
-    "image": "images/1246903.gif",
-    "manufacturer": "Lenovo",
-    "imageUrl": "https://img.zap.co.il/pics/0/9/1/4/94304190c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126671,
-      "ksp": 3399,
-      "kspUrl": "https://ksp.co.il/web/item/383926"
-    },
-    "filterTags": {}
-  },
-  {
-    "id": "1064604",
-    "name": "Nintendo Switch Mario Kart 8 Deluxe Bundle",
-    "image": "images/1064604.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/1/3/2/4/91624231c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126671
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1223688",
-    "name": "Nintendo Switch OLED Mario Kart 8 Deluxe Bundle",
-    "image": "images/1223688.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/1/8/3/5/92655381c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126672
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1197638",
-    "name": "Nintendo Switch OLED Model The Legend of Zelda: Tears of the Kingdom Edition",
-    "image": "images/1197638.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/2/3/4/2/77112432c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126673
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "932720",
-    "name": "Microsoft Xbox One S 1TB",
-    "image": "images/932720.gif",
-    "manufacturer": "Microsoft",
-    "imageUrl": "https://img.zap.co.il/pics/0/2/8/9/52779820c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126673
-    },
-    "filterTags": {
-      "console": "Xbox One",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1246920",
-    "name": "Sony PlayStation 5 Slim 1TB Digital Edition 2 Controllers CFI-1216B-2DS CFI-2016B-2DS",
-    "image": "images/1246920.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/0/8/0/6/86466080c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126674
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1222579",
-    "name": "Nintendo Switch OLED Model Sports",
-    "image": "images/1222579.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/7/0/1/3/95553107c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126675
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1213742",
-    "name": "Nintendo Switch Sports",
-    "image": "images/1213742.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/5/1/0/2/91432015c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126675
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1242074",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Fortnite Cobalt Star",
-    "image": "images/1242074.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/5/0/7/2/94812705c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126676
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1141112",
-    "name": "Nintendo Switch Ring Fit Adventure Set",
-    "image": "images/1141112.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/92757043c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126676
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1170246",
-    "name": "Nintendo Switch OLED Model Pokimon Scarlet & Violet Edition",
-    "image": "images/1170246.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/1/8/8/3/93103881c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126678
-    },
-    "filterTags": {
-      "console": "Switch"
-    }
-  },
-  {
-    "id": "1246900",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Astro Bot Bundle",
-    "image": "images/1246900.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/8/2/5/7/94617528c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126679
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1260106",
-    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition -Fortnite Flowering Chaos",
-    "image": "images/1260106.gif",
-    "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/2/1/2/9/97039212c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126680
-    },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1260945",
-    "name": "Asus ROG Xbox Ally (2025) RC73YA RC73YA-NH002W",
-    "image": "images/1260945.gif",
-    "manufacturer": "Asus",
-    "imageUrl": "https://img.zap.co.il/pics/6/6/5/5/95985566c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126681,
-      "ksp": 2479,
-      "kspUrl": "https://ksp.co.il/web/item/413045"
-    },
-    "filterTags": {}
-  },
-  {
-    "id": "1197634",
-    "name": "Microsoft Xbox Series X 1TB – Forza Horizon 5 Bundle",
-    "image": "images/1197634.gif",
-    "manufacturer": "Microsoft",
-    "imageUrl": "https://img.zap.co.il/pics/8/7/7/0/92920778c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126682
-    },
-    "filterTags": {
-      "console": "Xbox Series X",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1255676",
-    "name": "Asus ROG Xbox Ally X (2025) RC73XA RC73XA-NH011W",
-    "image": "images/1255676.gif",
-    "manufacturer": "Asus",
-    "imageUrl": "https://img.zap.co.il/pics/5/6/5/5/95985565c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126682,
-      "ksp": 2479,
-      "kspUrl": "https://ksp.co.il/web/item/413045"
-    },
-    "filterTags": {}
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1216436",
     "name": "Valve Steam Deck Oled 1TB NVMe SSD",
-    "image": "images/1216436.gif",
-    "manufacturer": "Valve",
+    "image": "https://img.zap.co.il/pics/new/114113019139c.gif",
     "imageUrl": "https://img.zap.co.il/pics/new/114113019139c.gif",
+    "manufacturer": "Valve",
     "prices": {
       "zap": 0,
-      "updated": 1779196126683
+      "updated": 1779436743926
     },
-    "filterTags": {
-      "storage": "1 TB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
-    "id": "1258425",
-    "name": "Sony Playstation 5 Slim 825GB Digital Edition FC 26 Bundle",
-    "image": "images/1258425.gif",
+    "id": "1257068",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition FC 26 Bundle",
+    "image": "https://img.zap.co.il/pics/0/2/8/5/96565820c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/8/5/96565820c.gif",
     "manufacturer": "Sony",
-    "imageUrl": "https://img.zap.co.il/pics/4/0/1/6/96266104c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196126683
+      "updated": 1779436743926
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "825 GB"
-    }
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "943747",
+    "name": "Sony PlayStation 5 825GB Blu-ray Edition",
+    "image": "https://img.zap.co.il/pics/4/2/9/2/92532924c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/9/2/92532924c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743926
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1208049",
+    "name": "Microsoft Xbox Series S 1TB",
+    "image": "https://img.zap.co.il/pics/6/9/2/0/79260296c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/2/0/79260296c.gif",
+    "manufacturer": "Microsoft",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743926
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1236317",
+    "name": "Sony PlayStation 5 Digital Edition – 30th Anniversary Limited Edition Bundle",
+    "image": "https://img.zap.co.il/pics/9/1/3/3/94133319c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/1/3/3/94133319c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743926
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1259069",
+    "name": "Sony PlayStation 5 Slim 825GB Digital Edition Fortnite Bundle",
+    "image": "https://img.zap.co.il/pics/3/1/2/9/97039213c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/2/9/97039213c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1170247",
+    "name": "Nintendo Game And Watch: The Legend of Zelda",
+    "image": "https://img.zap.co.il/pics/0/9/4/8/92358490c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/4/8/92358490c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1197638",
+    "name": "Nintendo Switch OLED Model The Legend of Zelda: Tears of the Kingdom Edition",
+    "image": "https://img.zap.co.il/pics/2/3/4/2/77112432c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/4/2/77112432c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1218665",
+    "name": "Microsoft Xbox Series S 512GB SSD Starter Bundle 3 months Game Pass",
+    "image": "https://img.zap.co.il/pics/5/5/2/5/92665255c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/2/5/92665255c.gif",
+    "manufacturer": "Microsoft",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1246904",
+    "name": "Lenovo Legion Go S 8ARP1 83L3002GIV",
+    "image": "https://img.zap.co.il/pics/0/9/1/4/94304190c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/9/1/4/94304190c.gif",
+    "manufacturer": "Lenovo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1213742",
+    "name": "Nintendo Switch Sports",
+    "image": "https://img.zap.co.il/pics/5/1/0/2/91432015c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/1/0/2/91432015c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1246920",
+    "name": "Sony PlayStation 5 Slim 1TB Digital Edition 2 Controllers CFI-1216B-2DS CFI-2016B-2DS",
+    "image": "https://img.zap.co.il/pics/0/8/0/6/86466080c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/8/0/6/86466080c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1246933",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition 2 Controllers",
+    "image": "https://img.zap.co.il/pics/2/8/3/4/86224382c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/3/4/86224382c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1222579",
+    "name": "Nintendo Switch OLED Model Sports",
+    "image": "https://img.zap.co.il/pics/7/0/1/3/95553107c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/0/1/3/95553107c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743927
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1064604",
+    "name": "Nintendo Switch Mario Kart 8 Deluxe Bundle",
+    "image": "https://img.zap.co.il/pics/1/3/2/4/91624231c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/3/2/4/91624231c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743928
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1251792",
+    "name": "Nintendo Switch 2 + Pokemon Legends Bundle",
+    "image": "https://img.zap.co.il/pics/3/0/1/4/95274103c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/1/4/95274103c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743928
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "932720",
+    "name": "Microsoft Xbox One S 1TB",
+    "image": "https://img.zap.co.il/pics/0/2/8/9/52779820c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/0/2/8/9/52779820c.gif",
+    "manufacturer": "Microsoft",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1170246",
+    "name": "Nintendo Switch OLED Model Pokimon Scarlet & Violet Edition",
+    "image": "https://img.zap.co.il/pics/1/8/8/3/93103881c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/8/3/93103881c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1258421",
+    "name": "Sony PlayStation 5 Slim 825GB Digital Console",
+    "image": "https://img.zap.co.il/pics/1/8/5/0/96500581c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/5/0/96500581c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1223688",
+    "name": "Nintendo Switch OLED Mario Kart 8 Deluxe Bundle",
+    "image": "https://img.zap.co.il/pics/1/8/3/5/92655381c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/3/5/92655381c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1141112",
+    "name": "Nintendo Switch Ring Fit Adventure Set",
+    "image": "https://img.zap.co.il/pics/3/4/0/7/92757043c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/0/7/92757043c.gif",
+    "manufacturer": "Nintendo",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1212378",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Spiderman 2 Bundle",
+    "image": "https://img.zap.co.il/pics/7/3/9/3/93253937c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/3/9/3/93253937c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1246900",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Astro Bot Bundle",
+    "image": "https://img.zap.co.il/pics/8/2/5/7/94617528c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/5/7/94617528c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1242074",
+    "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Fortnite Cobalt Star",
+    "image": "https://img.zap.co.il/pics/5/0/7/2/94812705c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/0/7/2/94812705c.gif",
+    "manufacturer": "Sony",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743929
+    },
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1263747",
     "name": "Sony PlayStation 5 Slim 1TB Blu-ray Edition Ghost of Yotei",
-    "image": "images/1263747.gif",
-    "manufacturer": "Sony",
+    "image": "https://img.zap.co.il/pics/4/7/3/8/96308374c.gif",
     "imageUrl": "https://img.zap.co.il/pics/4/7/3/8/96308374c.gif",
+    "manufacturer": "Sony",
     "prices": {
       "zap": 0,
-      "updated": 1779196126684
+      "updated": 1779436743929
     },
-    "filterTags": {
-      "console": "PS5",
-      "storage": "1 TB"
-    }
-  },
-  {
-    "id": "1242850",
-    "name": "Nintendo Switch OLED Mario Wonder + מנוי NSO",
-    "image": "images/1242850.gif",
-    "manufacturer": "Nintendo",
-    "imageUrl": "https://img.zap.co.il/pics/9/0/6/3/90143609c.gif",
-    "prices": {
-      "zap": 0,
-      "updated": 1779196126685
-    }
+    "filterTags": {},
+    "source": "zap-listing"
   },
   {
     "id": "1179421",
     "name": "Valve Steam Deck LCD 256GB NVMe SSD",
-    "image": "images/1179421.gif",
-    "manufacturer": "Valve",
+    "image": "https://img.zap.co.il/pics/1/6/5/9/75259561c.gif",
     "imageUrl": "https://img.zap.co.il/pics/1/6/5/9/75259561c.gif",
+    "manufacturer": "Valve",
     "prices": {
       "zap": 0,
-      "updated": 1779196126685
-    }
+      "updated": 1779436743930
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1197634",
+    "name": "Microsoft Xbox Series X 1TB – Forza Horizon 5 Bundle",
+    "image": "https://img.zap.co.il/pics/8/7/7/0/92920778c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/7/7/0/92920778c.gif",
+    "manufacturer": "Microsoft",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743930
+    },
+    "filterTags": {},
+    "source": "zap-listing"
+  },
+  {
+    "id": "1255676",
+    "name": "Asus ROG Xbox Ally X (2025) RC73XA RC73XA-NH011W",
+    "image": "https://img.zap.co.il/pics/5/6/5/5/95985565c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/5/6/5/5/95985565c.gif",
+    "manufacturer": "Asus",
+    "prices": {
+      "zap": 0,
+      "updated": 1779436743930
+    },
+    "filterTags": {},
+    "source": "zap-listing"
   }
 ]

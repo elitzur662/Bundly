@@ -7,9 +7,19 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/4/9/90469470c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971101
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/7/4/9/90469470c.gif",
+      "https://img.zap.co.il/pics/6/8/7/1/90471786c.gif",
+      "https://img.zap.co.il/pics/0/2/6/3/90423620c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1239327",
+      "ts": 1779380513742
+    }
   },
   {
     "id": "1138858",
@@ -19,11 +29,20 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/8/0/67640826c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
+      "updated": 1779436971101,
       "ksp": 933,
       "kspUrl": "https://ksp.co.il/web/item/185386"
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/6/2/8/0/67640826c.gif",
+      "https://img.zap.co.il/pics/9/6/9/2/67712969c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1138858",
+      "ts": 1779380514541
+    }
   },
   {
     "id": "1261027",
@@ -33,11 +52,20 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/6/2/97052652c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/442893"
+      "updated": 1779436971102,
+      "ksp": 826,
+      "kspUrl": "https://ksp.co.il/web/item/438454"
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/5/6/2/97052652c.gif",
+      "https://img.zap.co.il/pics/9/2/9/0/97210929c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1261027",
+      "ts": 1779380515362
+    }
   },
   {
     "id": "1148405",
@@ -47,11 +75,21 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/7/7/69077767c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
+      "updated": 1779436971103,
       "ksp": 573,
       "kspUrl": "https://ksp.co.il/web/item/199348"
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/6/7/7/69077767c.gif",
+      "https://img.zap.co.il/pics/4/4/4/3/85553444c.gif",
+      "https://img.zap.co.il/pics/7/0/3/1/79261307c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1148405",
+      "ts": 1779380516197
+    }
   },
   {
     "id": "1174451",
@@ -61,25 +99,44 @@
     "imageUrl": "https://img.zap.co.il/pics/new/211195317666c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/442893"
+      "updated": 1779436971104,
+      "ksp": 826,
+      "kspUrl": "https://ksp.co.il/web/item/438454"
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/211195317666c.gif",
+      "https://img.zap.co.il/pics/1/0/8/9/86339801c.gif",
+      "https://img.zap.co.il/pics/3/9/7/0/80900793c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1174451",
+      "ts": 1779380516958
+    }
   },
   {
     "id": "1262114",
     "name": "מטהר אוויר/מסנן אוויר Xiaomi Smart Pet Care Air Purifier",
     "image": "images/1262114.gif",
     "manufacturer": "Xiaomi",
-    "imageUrl": "https://img.zap.co.il/pics/1/5/9/8/94798951b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/9/8/94798951c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/442893"
+      "updated": 1779436971104,
+      "ksp": 826,
+      "kspUrl": "https://ksp.co.il/web/item/438454"
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/5/9/8/94798951c.gif",
+      "https://img.zap.co.il/pics/4/4/4/1/95541444c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1262114",
+      "ts": 1779380517848
+    }
   },
   {
     "id": "1192692",
@@ -89,9 +146,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/5/2/76712553c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971105
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/5/5/2/76712553c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1192692",
+      "ts": 1779380518561
+    }
   },
   {
     "id": "1234736",
@@ -101,21 +166,37 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/8/0/89720814c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971105
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/1/8/0/89720814c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1234736",
+      "ts": 1779380519262
+    }
   },
   {
     "id": "1192691",
     "name": "מטהר אוויר/מסנן אוויר Levoit Core 300",
     "image": "images/1192691.gif",
     "manufacturer": "Levoit",
-    "imageUrl": "https://img.zap.co.il/pics/3/4/7/4/97684743b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/1/3/76143112c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971105
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/1/1/3/76143112c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1192691",
+      "ts": 1779380520931
+    }
   },
   {
     "id": "1154085",
@@ -125,11 +206,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/6/1/69831628c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495,
-      "ksp": 199,
-      "kspUrl": "https://ksp.co.il/web/item/442893"
+      "updated": 1779436971106
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/2/6/1/69831628c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1154085",
+      "ts": 1779380521981
+    }
   },
   {
     "id": "1141449",
@@ -139,9 +226,18 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/6/3/67963687c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971106
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/8/6/3/67963687c.gif",
+      "https://img.zap.co.il/pics/new/22143728503c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1141449",
+      "ts": 1779380522801
+    }
   },
   {
     "id": "1094963",
@@ -151,9 +247,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/7/4/57504763c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971107
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/6/7/4/57504763c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1094963",
+      "ts": 1779380523682
+    }
   },
   {
     "id": "1141448",
@@ -163,9 +267,18 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/2/5/67965267c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971107
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/6/2/5/67965267c.gif",
+      "https://img.zap.co.il/pics/new/22143812987c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1141448",
+      "ts": 1779380524432
+    }
   },
   {
     "id": "1192690",
@@ -175,21 +288,38 @@
     "imageUrl": "https://img.zap.co.il/pics/1/5/2/8/76778251c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971107
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/5/2/8/76778251c.gif",
+      "https://img.zap.co.il/pics/new/65154731664c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1192690",
+      "ts": 1779380525220
+    }
   },
   {
     "id": "1029788",
     "name": "מפיץ ריח חשמלי/אוטומטי Beurer LA30",
     "image": "images/1029788.gif",
     "manufacturer": "Beurer",
-    "imageUrl": "https://img.zap.co.il/pics/9/6/9/2/50702969b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/6/9/2/50702969c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971108
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/6/9/2/50702969c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1029788",
+      "ts": 1779380526144
+    }
   },
   {
     "id": "1094964",
@@ -199,9 +329,18 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/7/4/57504762c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971108
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/6/7/4/57504762c.gif",
+      "https://img.zap.co.il/pics/2/6/3/5/58795362c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1094964",
+      "ts": 1779380527010
+    }
   },
   {
     "id": "1119471",
@@ -211,9 +350,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/1/4/47234152c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971108
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/5/1/4/47234152c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1119471",
+      "ts": 1779380527809
+    }
   },
   {
     "id": "1098336",
@@ -223,9 +370,18 @@
     "imageUrl": "https://img.zap.co.il/pics/9/4/4/2/59192449c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971109
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/4/4/2/59192449c.gif",
+      "https://img.zap.co.il/pics/1/6/7/4/57504761c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1098336",
+      "ts": 1779380528583
+    }
   },
   {
     "id": "1063855",
@@ -235,9 +391,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/7/0/54640728c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971109
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/2/7/0/54640728c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1063855",
+      "ts": 1779380529473
+    }
   },
   {
     "id": "1161577",
@@ -247,9 +411,17 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/8/5/69515862c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971109
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/6/8/5/69515862c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1161577",
+      "ts": 1779380530400
+    }
   },
   {
     "id": "1212986",
@@ -259,9 +431,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/8/9/86339800c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971109
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/0/8/9/86339800c.gif",
+      "https://img.zap.co.il/pics/8/6/2/6/87596268c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1212986",
+      "ts": 1779380531281
+    }
   },
   {
     "id": "1137305",
@@ -271,21 +452,39 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/6/6/67306693c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971110
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/9/6/6/67306693c.gif",
+      "https://img.zap.co.il/pics/8/5/7/2/76002758c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1137305",
+      "ts": 1779380532087
+    }
   },
   {
     "id": "1225335",
     "name": "Beurer פילטר למטהר אוויר BEURER ביורר דגם LR220REP",
     "image": "images/1225335.gif",
     "manufacturer": "Beurer",
-    "imageUrl": "https://img.zap.co.il/pics/8/1/4/1/86251418b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/1/4/1/86251418c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971110
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/1/4/1/86251418c.gif",
+      "https://img.zap.co.il/pics/3/7/7/7/85207773c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1225335",
+      "ts": 1779380532859
+    }
   },
   {
     "id": "1150910",
@@ -295,33 +494,64 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/2/7/68587215c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971110
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/5/1/2/7/68587215c.gif",
+      "https://img.zap.co.il/pics/1/4/7/1/69801741c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1150910",
+      "ts": 1779380533575
+    }
   },
   {
     "id": "1119307",
     "name": "מפיץ ריח חשמלי/אוטומטי Moodo MoodoGo",
     "image": "images/1119307.gif",
     "manufacturer": "Moodo",
-    "imageUrl": "https://img.zap.co.il/pics/5/2/4/0/90190425b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/4/8/1/59731841c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971111
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/4/8/1/59731841c.gif",
+      "https://img.zap.co.il/pics/6/2/2/7/64697226c.gif",
+      "https://img.zap.co.il/pics/1/8/2/8/65958281c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1119307",
+      "ts": 1779380534354
+    }
   },
   {
     "id": "1119310",
     "name": "מפיץ ריח חשמלי/אוטומטי Moodo Moodo",
     "image": "images/1119310.gif",
     "manufacturer": "Moodo",
-    "imageUrl": "https://img.zap.co.il/pics/3/7/2/2/92442273b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/4/0/62810428c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971111
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/2/4/0/62810428c.gif",
+      "https://img.zap.co.il/pics/4/3/8/1/58431834c.gif",
+      "https://img.zap.co.il/pics/2/5/9/0/58430952c.gif",
+      "https://img.zap.co.il/pics/7/2/4/0/62810427c.gif",
+      "https://img.zap.co.il/pics/4/5/7/4/59304754c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1119310",
+      "ts": 1779380535074
+    }
   },
   {
     "id": "1179358",
@@ -331,9 +561,17 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/1/0/67000127c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971111
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/2/1/0/67000127c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1179358",
+      "ts": 1779380535801
+    }
   },
   {
     "id": "1240078",
@@ -343,9 +581,18 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/0/9/80699047c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971111
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/7/4/0/9/80699047c.gif",
+      "https://img.zap.co.il/pics/0/8/5/0/86780580c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1240078",
+      "ts": 1779380536674
+    }
   },
   {
     "id": "1225337",
@@ -355,9 +602,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/6/7/87907668c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971112
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/6/6/7/87907668c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1225337",
+      "ts": 1779380537403
+    }
   },
   {
     "id": "1167201",
@@ -367,9 +622,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/9/4/70644978c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971112
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/7/9/4/70644978c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1167201",
+      "ts": 1779380538234
+    }
   },
   {
     "id": "1026017",
@@ -379,9 +642,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/8/6/49926868c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971112
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/6/8/6/49926868c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1026017",
+      "ts": 1779380539164
+    }
   },
   {
     "id": "1250936",
@@ -391,9 +662,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/0/3/94143053c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971113
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/5/0/3/94143053c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1250936",
+      "ts": 1779380539966
+    }
   },
   {
     "id": "1079384",
@@ -403,9 +682,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/1/6/56596114c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971113
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/1/1/6/56596114c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1079384",
+      "ts": 1779380540810
+    }
   },
   {
     "id": "1137311",
@@ -415,9 +702,17 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/7/4/66754793c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971113
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/3/9/7/4/66754793c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1137311",
+      "ts": 1779380541544
+    }
   },
   {
     "id": "1250935",
@@ -427,9 +722,18 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/2/4/91504289c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971114
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/8/2/4/91504289c.gif",
+      "https://img.zap.co.il/pics/3/9/9/1/96731993c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1250935",
+      "ts": 1779380542392
+    }
   },
   {
     "id": "1074967",
@@ -439,9 +743,17 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/6/8/47048698c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971114
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/8/9/6/8/47048698c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1074967",
+      "ts": 1779380543324
+    }
   },
   {
     "id": "1119320",
@@ -451,9 +763,17 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/0/1/62941024c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971114
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/4/2/0/1/62941024c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1119320",
+      "ts": 1779380544465
+    }
   },
   {
     "id": "1119458",
@@ -463,9 +783,17 @@
     "imageUrl": "https://img.zap.co.il/pics/new/147111538273c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971114
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/new/147111538273c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1119458",
+      "ts": 1779380545387
+    }
   },
   {
     "id": "1137308",
@@ -475,9 +803,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/4/4/67564400c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971115
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/0/4/4/67564400c.gif",
+      "https://img.zap.co.il/pics/3/1/3/1/69791313c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1137308",
+      "ts": 1779380546201
+    }
   },
   {
     "id": "1124498",
@@ -487,9 +824,18 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/8/5/67865840c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971115
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/0/4/8/5/67865840c.gif",
+      "https://img.zap.co.il/pics/1/0/5/0/64910501c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1124498",
+      "ts": 1779380546921
+    }
   },
   {
     "id": "1250821",
@@ -499,8 +845,16 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/1/5/94135109c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196409495
+      "updated": 1779436971115
     },
-    "filterTags": {}
+    "filterTags": {},
+    "imageUrls": [
+      "https://img.zap.co.il/pics/9/0/1/5/94135109c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1250821",
+      "ts": 1779380547816
+    }
   }
 ]
