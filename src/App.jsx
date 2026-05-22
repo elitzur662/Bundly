@@ -5344,9 +5344,14 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             joinTitle="הוסיפו לקבוצת רכישה כללית"
             joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
             onJoinGroup={deal.catIdx != null ? () => {
-              const pname = deal.name.en || deal.name.he;
-              if (onDirectJoinPool) onDirectJoinPool(deal.catIdx, pname);
-              else onAddToPool?.(deal.catIdx, pname);
+              // Open the demand-pool picker, the user sees similar buying
+              // groups in this category and can join one (or add this product
+              // as a new entry, prefilled). Was a silent counter bump that
+              // looked like "nothing happened".
+              const pname = deal.name.he || deal.name.en;
+              if (onJoinDemandPool) onJoinDemandPool(deal.catIdx, pname);
+              else if (onAddToPool) onAddToPool(deal.catIdx, pname);
+              else onDirectJoinPool?.(deal.catIdx, pname);
             } : undefined}
             onRequestSupplierPrice={onRequestSupplierPrice}
             requestProduct={deal.name.en || deal.name.he}
@@ -22621,7 +22626,7 @@ export default function App() {
       <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
+          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
