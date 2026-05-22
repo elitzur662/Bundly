@@ -1636,6 +1636,109 @@ function RequestSupplierPriceButton({ productName, category, currentLowestPrice,
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  PRICE-REDUCTION OPTIONS, prominent two-option block.
+//  Option 1: connect the product to a general buying group.
+//  Option 2: send a personal price request to suppliers.
+//  Rendered high in the product card (right under the price) so the
+//  two ways to get a lower price are never buried at the bottom.
+// ─────────────────────────────────────────────────────────────────
+function PriceReductionOptions({
+  heading = "איך משיגים מחיר נמוך יותר?",
+  joinTitle, joinSubtitle, onJoinGroup,
+  onRequestSupplierPrice, requestProduct, requestCategory,
+  requestImage = null, currentLowestPrice = null,
+  className = "",
+}) {
+  const [reqOpen, setReqOpen]     = useState(false);
+  const [reqBudget, setReqBudget] = useState("");
+  const [reqNote, setReqNote]     = useState("");
+  const [reqSent, setReqSent]     = useState(false);
+
+  const sendRequest = () => {
+    onRequestSupplierPrice?.({
+      product:  requestProduct || "",
+      category: requestCategory || "אחר",
+      currentLowestPrice: currentLowestPrice || null,
+      isSpecificModel: true,
+      productImage: requestImage || null,
+      note:   reqNote.trim()   || undefined,
+      budget: reqBudget.trim() || undefined,
+    });
+    setReqSent(true);
+    setReqOpen(false);
+  };
+
+  if (!onJoinGroup && !onRequestSupplierPrice) return null;
+
+  return (
+    <div className={className}>
+      <p className="text-[11px] font-black text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <TrendingDown className="w-3.5 h-3.5 text-emerald-600" />
+        {heading}
+      </p>
+      <div className="space-y-2.5">
+
+        {/* Option 1: connect to a general buying group */}
+        {onJoinGroup && (
+          <button type="button" onClick={onJoinGroup}
+            className="w-full text-right rounded-2xl border-2 border-indigo-200 bg-indigo-50/60 hover:border-indigo-400 hover:bg-indigo-50 p-3.5 transition flex items-center gap-3 active:scale-[0.99]">
+            <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center flex-shrink-0 shadow-md">
+              <Users className="w-5 h-5 text-white" />
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-sm font-black text-gray-900">{joinTitle}</span>
+              <span className="block text-[11px] text-gray-500 leading-snug mt-0.5">{joinSubtitle}</span>
+            </span>
+            <ChevronLeft className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+          </button>
+        )}
+
+        {/* Option 2: personal supplier price request */}
+        {onRequestSupplierPrice && (reqSent ? (
+          <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-3.5 flex items-center gap-2.5">
+            <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+            <span className="text-[13px] font-black text-emerald-700 leading-snug">הבקשה נשלחה לספקים, נעדכן אותך כשתגיע הצעה אישית</span>
+          </div>
+        ) : (
+          <div className="rounded-2xl border-2 border-amber-200 bg-amber-50/50 overflow-hidden">
+            <button type="button" onClick={() => setReqOpen(o => !o)}
+              className="w-full text-right p-3.5 flex items-center gap-3 hover:bg-amber-50 transition">
+              <span className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                <Send className="w-5 h-5 text-white" />
+              </span>
+              <span className="flex-1 min-w-0">
+                <span className="block text-sm font-black text-gray-900">בקשת הצעת מחיר אישית מספק</span>
+                <span className="block text-[11px] text-gray-500 leading-snug mt-0.5">ספקים יחזרו אליך עם הצעה אישית למוצר הזה</span>
+              </span>
+              <ChevronDown className={`w-4 h-4 text-amber-400 flex-shrink-0 transition-transform ${reqOpen ? "rotate-180" : ""}`} />
+            </button>
+            {reqOpen && (
+              <div className="px-3.5 pb-3.5 space-y-2">
+                <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-3 py-2">
+                  <span className="text-xs text-gray-400 font-bold flex-shrink-0">₪</span>
+                  <input type="number" value={reqBudget} onChange={e => setReqBudget(e.target.value)}
+                    placeholder="טווח מחיר מבוקש (אופציונלי)"
+                    className="flex-1 bg-transparent text-sm focus:outline-none text-right"
+                    onClick={e => e.stopPropagation()} />
+                </div>
+                <textarea value={reqNote} onChange={e => setReqNote(e.target.value)}
+                  placeholder="הערה לספק, צבע, דגם, תנאי תשלום... (אופציונלי)" rows={2}
+                  className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 resize-none text-right"
+                  onClick={e => e.stopPropagation()} />
+                <button type="button" onClick={sendRequest}
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-black py-2.5 rounded-xl transition shadow-md active:scale-[0.98]">
+                  <Send className="w-3.5 h-3.5" /> שלח בקשה לספקים
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  SHARED UI PRIMITIVES
 // ─────────────────────────────────────────────────────────────────
 function Input({ label, type="text", value, onChange, placeholder, required }) {
@@ -5237,6 +5340,25 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               Renders nothing when there are no (plausible) bids. */}
         {!priceHidden && <BidFeed deal={deal} />}
 
+        {/* ══ 1c. PRICE-REDUCTION OPTIONS, prominent, right under the price ══ */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
+          <PriceReductionOptions
+            heading="דרכים נוספות להוזיל את המחיר"
+            joinTitle="הוסיפו לקבוצת רכישה כללית"
+            joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
+            onJoinGroup={deal.catIdx != null ? () => {
+              const pname = deal.name.en || deal.name.he;
+              if (onDirectJoinPool) onDirectJoinPool(deal.catIdx, pname);
+              else onAddToPool?.(deal.catIdx, pname);
+            } : undefined}
+            onRequestSupplierPrice={onRequestSupplierPrice}
+            requestProduct={deal.name.en || deal.name.he}
+            requestCategory={deal.name.he || deal.name.en}
+            requestImage={deal.image || null}
+            currentLowestPrice={bestBid?.amount || deal.groupOffer || null}
+          />
+        </div>
+
         {/* ══ 2. HOW IT WORKS, "איך זה עובד?" ══ */}
         <div className="bg-gradient-to-br from-indigo-50/80 to-violet-50/50 border border-indigo-100 rounded-2xl p-5">
           <h3 className="text-sm font-black text-gray-900 mb-4 text-center">איך Bundly מוריד לך את המחיר?</h3>
@@ -5456,24 +5578,10 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         })()}
 
 
-        {/* ══ 7. MORE OPTIONS, "אפשרויות נוספות" ══ */}
+        {/* ══ 7. SHARE, "שתפו את הקבוצה" ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
-          <h3 className="text-sm font-black text-gray-800 mb-4">אפשרויות נוספות</h3>
+          <h3 className="text-sm font-black text-gray-800 mb-4">שתפו את הקבוצה</h3>
           <div className="space-y-3">
-            {/* Price reduction options */}
-            <AddToPoolButton
-              productName={deal.name.en || deal.name.he}
-              catIdx={deal.catIdx}
-              demandPools={demandPools || {}}
-              onAddToPool={onAddToPool}
-              onDirectJoinPool={onDirectJoinPool}
-              onRequestSupplierPrice={onRequestSupplierPrice}
-              currentLowestPrice={bestBid?.amount || deal.groupOffer || null}
-              isSpecificModel={true}
-              productImage={deal.image || null}
-              category={deal.name.he || deal.name.en || ""}
-              className="w-full justify-center py-3"
-            />
             {/* Share */}
             <button onClick={handleWhatsApp}
               className="w-full flex items-center justify-center gap-2 py-3 bg-[#25D366] hover:bg-[#20bb58] text-white font-black rounded-xl text-sm transition active:scale-[0.98]">
@@ -11971,6 +12079,25 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             )}
           </div>
 
+          {/* ── PRICE-REDUCTION OPTIONS, prominent, right under the price ── */}
+          <PriceReductionOptions
+            className="mb-4"
+            joinTitle={existingDeal ? "הצטרפו לקבוצת הרכישה הפעילה" : "פתחו קבוצת רכישה כללית"}
+            joinSubtitle={existingDeal
+              ? `👥 ${existingDeal.participants} כבר בקבוצה, ככל שיותר מצטרפים המחיר יורד`
+              : "הצטרפו לקונים נוספים, ככל שיותר מצטרפים המחיר יורד לכולם"}
+            onJoinGroup={() => {
+              const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
+              if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
+              else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
+            }}
+            onRequestSupplierPrice={onRequestSupplierPrice}
+            requestProduct={result.productName || result.productNameEn || ""}
+            requestCategory={result.productName || "אחר"}
+            requestImage={allImages[0] || result.image || null}
+            currentLowestPrice={priceMin || null}
+          />
+
           {/* ── STORES, collapsible ── */}
           {pricedSup.length > 0 && (
             <div className="mb-4">
@@ -12058,64 +12185,6 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             </a>
           </div>
 
-        </div>
-
-        {/* ── STICKY BOTTOM CTA, always the same button ── */}
-        <div className="flex-shrink-0 border-t border-gray-100 bg-white px-5 py-4">
-          {/* ── Luxurious primary CTA, two-line layout on mobile, premium gradient,
-                  shimmer animation, right-aligned chevron for RTL flow.       */}
-          <button
-            onClick={() => {
-              const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
-              if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
-              else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
-            }}
-            className="group relative w-full py-4 sm:py-3.5 px-4 rounded-2xl overflow-hidden active:scale-[0.985] transition-transform"
-            style={{
-              background: "linear-gradient(135deg, #9333ea 0%, #a855f7 35%, #c026d3 70%, #a855f7 100%)",
-              boxShadow: "0 10px 30px -8px rgba(147,51,234,0.55), inset 0 1px 0 rgba(255,255,255,0.18)",
-            }}
-          >
-            {/* Animated diagonal shimmer */}
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none opacity-50"
-              style={{
-                background: "linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
-                animation: "ctaShimmer 2.6s ease-in-out infinite",
-                backgroundSize: "200% 100%",
-              }}
-            />
-            <style>{`
-              @keyframes ctaShimmer {
-                0%, 100% { background-position: 200% 0; }
-                50%      { background-position: -50% 0; }
-              }
-            `}</style>
-
-            {/* Content row, RTL */}
-            <div className="relative flex items-center justify-between gap-3" dir="rtl">
-              <div className="flex items-center gap-2.5 min-w-0">
-                {/* Icon badge */}
-                <span className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center flex-shrink-0 ring-1 ring-white/25">
-                  <Users className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
-                </span>
-                <div className="text-right min-w-0">
-                  <div className="text-white font-black text-base sm:text-sm leading-tight tracking-tight">
-                    {existingDeal ? "פרטים נוספים והצטרפות לקבוצה" : "פרטים נוספים והצטרפות לקבוצת רכישה"}
-                  </div>
-                  <div className="text-white/85 text-[11px] sm:text-[11px] font-semibold leading-tight mt-0.5">
-                    {existingDeal
-                      ? <>👥 {existingDeal.participants} משתתפים · חיסכון משותף</>
-                      : <>הראשונים בקבוצה, הראשונים לחסוך</>
-                    }
-                  </div>
-                </div>
-              </div>
-              {/* Arrow, points LEFT in RTL = "forward" direction */}
-              <ChevronLeft className="w-5 h-5 text-white/95 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
-            </div>
-          </button>
         </div>
 
       </div>
