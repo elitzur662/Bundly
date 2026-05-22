@@ -5340,7 +5340,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         {/* ══ 1c. PRICE-REDUCTION OPTIONS, prominent, right under the price ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
           <PriceReductionOptions
-            heading="דרכים נוספות להוזיל את המחיר"
+            heading="אפשרויות הוזלת מחיר"
             joinTitle="הוסיפו לקבוצת רכישה כללית"
             joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
             onJoinGroup={deal.catIdx != null ? () => {
@@ -11803,6 +11803,14 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   const specs = specsData?.specs?.length > 0 ? specsData.specs : null;
   const specsBullets = !specs && result.specs?.length > 0 ? result.specs : null;
 
+  // Single primary action, opens the full deal page (where the
+  // "אפשרויות הוזלת מחיר" section lives).
+  const handleJoinGroup = () => {
+    const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
+    if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
+    else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center" dir="rtl" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
 
@@ -11942,24 +11950,29 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             )}
           </div>
 
-          {/* ── PRICE-REDUCTION OPTIONS, prominent, right under the price ── */}
-          <PriceReductionOptions
-            className="mb-4"
-            joinTitle={existingDeal ? "הצטרפו לקבוצת הרכישה הפעילה" : "פתחו קבוצת רכישה כללית"}
-            joinSubtitle={existingDeal
-              ? `👥 ${existingDeal.participants} כבר בקבוצה, ככל שיותר מצטרפים המחיר יורד`
-              : "הצטרפו לקונים נוספים, ככל שיותר מצטרפים המחיר יורד לכולם"}
-            onJoinGroup={() => {
-              const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
-              if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
-              else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
-            }}
-            onRequestSupplierPrice={onRequestSupplierPrice}
-            requestProduct={result.productName || result.productNameEn || ""}
-            requestCategory={result.productName || "אחר"}
-            requestImage={allImages[0] || result.image || null}
-            currentLowestPrice={priceMin || null}
-          />
+          {/* ── TRUST ROW, calm neutral chips ── */}
+          <div className="flex items-center gap-1.5 mb-3">
+            {["🛡️ אחריות יצרן", "↩️ ביטול 14 יום", "📊 השוואת שוק"].map((c, i) => (
+              <span key={i} className="flex-1 text-center text-[10px] font-semibold text-gray-500 bg-gray-50 border border-gray-100 rounded-lg px-1.5 py-1.5 leading-tight">
+                {c}
+              </span>
+            ))}
+          </div>
+
+          {/* ── SOCIAL PROOF, real data only, shown only when a group is active ── */}
+          {existingDeal && (
+            <div className="flex items-center gap-2.5 mb-4 bg-indigo-50/60 border border-indigo-100 rounded-xl px-3.5 py-2.5">
+              <Users className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+              <span className="text-[12px] font-bold text-indigo-900">
+                {existingDeal.participants} קונים כבר בקבוצה
+              </span>
+              {existingDeal.closingDate && (
+                <span className="mr-auto">
+                  <CountdownTimer closingDate={existingDeal.closingDate} compact />
+                </span>
+              )}
+            </div>
+          )}
 
           {/* ── STORES, collapsible ── */}
           {pricedSup.length > 0 && (
@@ -11968,10 +11981,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                 className="w-full flex items-center justify-between bg-white rounded-2xl border border-gray-100 shadow-sm p-4 hover:bg-gray-50 transition">
                 <div className="flex items-center gap-2">
                   <TrendingDown className="w-4 h-4 text-emerald-600" />
-                  <span className="font-black text-gray-800 text-sm">{pricedSup.length} חנויות מציעות מחיר</span>
-                  <span className="flex items-center gap-1 text-[10px] text-red-500 font-bold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />LIVE
-                  </span>
+                  <span className="font-black text-gray-800 text-sm">השוואת מחירים, {pricedSup.length} חנויות</span>
                 </div>
                 <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showAllStores ? "rotate-180" : ""}`} />
               </button>
@@ -12037,7 +12047,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
           )}
 
           {/* ── Quick links ── */}
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-2">
             <a href={googleShoppingUrl} target="_blank" rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 transition">
               🛒 השווה מחירים
@@ -12048,6 +12058,22 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             </a>
           </div>
 
+        </div>
+
+        {/* ── STICKY BOTTOM CTA, single primary action ── */}
+        <div className="flex-shrink-0 border-t border-gray-100 bg-white px-4 py-3">
+          <button
+            onClick={handleJoinGroup}
+            className="group w-full rounded-2xl py-3.5 px-5 flex items-center justify-center gap-2.5 text-white font-black active:scale-[0.99] transition-transform"
+            style={{
+              background: "linear-gradient(135deg, #7e22ce 0%, #9333ea 55%, #a855f7 100%)",
+              boxShadow: "0 8px 24px -8px rgba(126,34,206,0.5)",
+            }}
+          >
+            <Users className="w-4 h-4 text-white/90" strokeWidth={2.5} />
+            <span className="text-[15px] tracking-tight">פרטים נוספים והצטרפות לקבוצה</span>
+            <ChevronLeft className="w-4 h-4 text-white/80 group-hover:-translate-x-0.5 transition-transform" strokeWidth={2.5} />
+          </button>
         </div>
 
       </div>
