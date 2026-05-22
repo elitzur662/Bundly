@@ -664,7 +664,7 @@
     "name": "חרמש GPT TOTO40 7291044129403",
     "image": "images/1227761.gif",
     "manufacturer": "GPT",
-    "imageUrl": "https://img.zap.co.il/pics/9/7/8/5/88235879c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/4/1/2/97662142b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -1038,7 +1038,7 @@
     "name": "חרמש Black & Decker STC1820PC-QW 99218-002-13",
     "image": "images/1217408.gif",
     "manufacturer": "Black &amp; Decker",
-    "imageUrl": "https://img.zap.co.il/pics/8/5/9/7/98057958b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/3/1/86481313c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -2002,7 +2002,7 @@
     "name": "חרמש Black & Decker GL250",
     "image": "images/830426.gif",
     "manufacturer": "Black &amp; Decker",
-    "imageUrl": "https://img.zap.co.il/pics/8/4/9/5/98055948b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/9/7/8/47428791c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -3262,7 +3262,7 @@
     "name": "מפוח שואב עלים Ikra ILS 3000 61906290",
     "image": "images/1198210.gif",
     "manufacturer": "Ikra",
-    "imageUrl": "https://img.zap.co.il/pics/2/5/1/1/90231152b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/8/6/0/70420684c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -3370,7 +3370,7 @@
     "name": "חרמש GPT TO124 7291044130232",
     "image": "images/1198205.gif",
     "manufacturer": "GPT",
-    "imageUrl": "https://img.zap.co.il/pics/8/7/3/0/97590378b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/1/2/5/78045212c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -3442,7 +3442,7 @@
     "name": "מכסחת דשא Black & Decker BEMW471BH",
     "image": "images/1032149.gif",
     "manufacturer": "Black &amp; Decker",
-    "imageUrl": "https://img.zap.co.il/pics/3/4/9/5/98055943b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/8/9/6/51196983c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -5162,7 +5162,7 @@
     "name": "חרמש Makita DUR190LZX3",
     "image": "images/1246518.gif",
     "manufacturer": "Makita",
-    "imageUrl": "https://img.zap.co.il/pics/5/5/0/2/92522055c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/1/5/98485124c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -6290,7 +6290,7 @@
     "name": "גוזם גדר חיה Black & Decker BEHT201",
     "image": "images/1032155.gif",
     "manufacturer": "Black &amp; Decker",
-    "imageUrl": "https://img.zap.co.il/pics/2/2/0/8/51838022c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/4/9/5/98055944b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437035813
@@ -10380,5 +10380,69 @@
       "zap": 0,
       "updated": 1779437035813
     }
+  },
+  {
+    "id": "1138885006",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 1999,
+    "image": "images/1138885006.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/3/3/6/5/94335633c.gif"
+  },
+  {
+    "id": "1194710291",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 415,
+    "image": "images/1194710291.gif",
+    "manufacturer": "Roher",
+    "imageUrl": "https://img.zap.co.il/pics/4/5/9/7/90997954c.gif"
+  },
+  {
+    "id": "1127410898",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 5369,
+    "image": "images/1127410898.gif",
+    "manufacturer": "",
+    "imageUrl": "https://img.zap.co.il/pics/5/7/9/5/91595975c.gif"
+  },
+  {
+    "id": "1194710615",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 999,
+    "image": "images/1194710615.gif",
+    "manufacturer": "Krauss",
+    "imageUrl": "https://img.zap.co.il/pics/0/4/4/4/97714440c.gif"
+  },
+  {
+    "id": "1194710285",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 8372,
+    "image": "images/1194710285.gif",
+    "manufacturer": "Calaman",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/3/5/92735355c.gif"
+  },
+  {
+    "id": "1160071533",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 699,
+    "image": "images/1160071533.gif",
+    "manufacturer": "GPT",
+    "imageUrl": "https://img.zap.co.il/pics/7/4/6/3/96893647c.gif"
+  },
+  {
+    "id": "1174517067",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 1420,
+    "image": "images/1174517067.gif",
+    "manufacturer": "Greenworks",
+    "imageUrl": "https://img.zap.co.il/pics/3/9/9/5/96765993c.gif"
+  },
+  {
+    "id": "1140974557",
+    "name": "מדריך: איך קונים חרמש לגינה",
+    "price": 1999,
+    "image": "images/1140974557.gif",
+    "manufacturer": "Greenworks",
+    "imageUrl": "https://img.zap.co.il/pics/6/9/9/8/94828996c.gif"
   }
 ]

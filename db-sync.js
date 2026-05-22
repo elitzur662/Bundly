@@ -1452,13 +1452,18 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     const prevKspUrl   = p.prices?.kspUrl   || "";
     const prevBug      = p.prices?.bug      || 0;
     const prevBugUrl   = p.prices?.bugUrl   || "";
+    // Snapshot the existing ZAP price too. Catalogs built by
+    // build-zap-catalog store the verified listing price in `prices.zap`
+    // and have NO flat `p.price` field — without this, `p.price || 0` would
+    // WIPE that good price to 0 on every price-only sync.
+    const prevZap      = p.prices?.zap      || 0;
 
-    p.prices = { zap: p.price || 0, updated: Date.now() };
+    p.prices = { zap: p.price || prevZap || 0, updated: Date.now() };
 
     // Ivory
     if (hasIvory) {
       const ivMatch = findBestMatch(p.name, ivoryProds, 0.70);
-      if (ivMatch && !_priceImplausible(ivMatch.price, p.price)) { p.prices.ivory = ivMatch.price; p.prices.ivoryUrl = ivMatch.url; }
+      if (ivMatch && !_priceImplausible(ivMatch.price, p.prices.zap)) { p.prices.ivory = ivMatch.price; p.prices.ivoryUrl = ivMatch.url; }
     } else if (prevIvory > 0) {
       // Store returned no data (403/timeout) — carry over last known price
       p.prices.ivory = prevIvory;
@@ -1471,7 +1476,7 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     // Valid specific-model matches score ≥ 0.75 (3+ unique model words all in haystack).
     if (hasKsp) {
       const kspMatch = findBestMatch(p.name, kspProds, 0.70);
-      if (kspMatch && !_priceImplausible(kspMatch.price, p.price)) { p.prices.ksp = kspMatch.price; p.prices.kspUrl = kspMatch.url; }
+      if (kspMatch && !_priceImplausible(kspMatch.price, p.prices.zap)) { p.prices.ksp = kspMatch.price; p.prices.kspUrl = kspMatch.url; }
     } else if (prevKsp > 0) {
       p.prices.ksp = prevKsp;
       if (prevKspUrl) p.prices.kspUrl = prevKspUrl;
@@ -1480,7 +1485,7 @@ function mergePrices(products, ivoryProds, kspProds, bugProds = []) {
     // Bug.co.il
     if (hasBug) {
       const bugMatch = findBestMatch(p.name, bugProds, 0.70);
-      if (bugMatch && !_priceImplausible(bugMatch.price, p.price)) { p.prices.bug = bugMatch.price; p.prices.bugUrl = bugMatch.url; }
+      if (bugMatch && !_priceImplausible(bugMatch.price, p.prices.zap)) { p.prices.bug = bugMatch.price; p.prices.bugUrl = bugMatch.url; }
     } else if (prevBug > 0) {
       p.prices.bug = prevBug;
       if (prevBugUrl) p.prices.bugUrl = prevBugUrl;

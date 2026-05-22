@@ -756,7 +756,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
               </div>
               <div className="p-3">
                 <p className="text-sm font-black text-gray-900 line-clamp-2 leading-tight mb-1 min-h-[2.5em]">{name}</p>
-                <p className="text-base font-black text-pink-700">₪{price.toLocaleString()}</p>
+                <p className="text-base font-black text-pink-700">{price > 0 ? `₪${price.toLocaleString()}` : "מחיר קבוצה בקרוב"}</p>
                 <p className="text-[10px] text-gray-500 mt-1 line-clamp-1">{reason}</p>
                 <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-1">
                   <Users className="w-3 h-3" />

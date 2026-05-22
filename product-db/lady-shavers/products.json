@@ -136,7 +136,7 @@
     "name": "מסיר שיער Braun Silk Expert Pro 5 PL5356",
     "image": "images/1249718.gif",
     "manufacturer": "Braun",
-    "imageUrl": "https://img.zap.co.il/pics/1/3/7/8/96318731b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/1/0/94880167c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436992996
@@ -352,7 +352,7 @@
     "name": "מסיר שיער Braun SE 5541",
     "image": "images/933933.gif",
     "manufacturer": "Braun",
-    "imageUrl": "https://img.zap.co.il/pics/2/8/0/5/98105082b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/1/2/0/56150213c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436992996
@@ -692,5 +692,13 @@
       "zap": 0,
       "updated": 1779436992996
     }
+  },
+  {
+    "id": "904021",
+    "name": "מסיר שיער 5545-2416 Wahl",
+    "price": 149,
+    "image": "images/904021.gif",
+    "manufacturer": "Wahl",
+    "imageUrl": "https://img.zap.co.il/pics/7/9/3/5/41065397c.gif"
   }
 ]
