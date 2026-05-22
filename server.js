@@ -4288,27 +4288,13 @@ app.get("/api/search-products-stream",
     // console hardware so the category shows PS5 / Xbox / Switch devices and
     // not unrelated games. Runs AFTER persist so the shared sog cache keeps
     // the full set (a later "games" query still works).
-    if (detectedSog === "e-tvgame" && Array.isArray(candidates) && candidates.length > 0) {
-      const _qc = String(q || "").toLowerCase();
-      // "games intent" = the user explicitly asked for games, not consoles.
-      const _gamesIntent = !/קונסול/.test(_qc) && /משחקי|\bgames?\b/.test(_qc);
-      if (!_gamesIntent) {
-        const _isConsole = (nm) => {
-          const n = String(nm || "").trim().toLowerCase();
-          if (!n) return false;
-          // A real console name STARTS with the brand+device (or the Hebrew
-          // word קונסולה). Games start with a title ("EA Sports FC 25 PS5"),
-          // accessories with "מעמד"/"ערכת"/"עמדת"/"בקר", toys with
-          // "סטיקרים"/"LEGO" — none of which match this anchored pattern.
-          return /^(sony\s+playstation|microsoft\s+xbox|nintendo\s+switch|valve\s+steam\s*deck|playstation\s*[45]\b|xbox\s+series|xbox\s+one|lenovo\s+legion\s+go|asus\s+rog\s+ally|msi\s+claw|steam\s*deck|קונסול)/.test(n);
-        };
-        const _consoleOnly = candidates.filter(c => _isConsole(c.name || c.nameHe || c.nameEn || c.title));
-        if (_consoleOnly.length >= 3) {
-          console.log(`  ↳ Stream: console-category filter, ${candidates.length} → ${_consoleOnly.length} real consoles (sog=e-tvgame)`);
-          candidates = _consoleOnly;
-        } else {
-          console.log(`  ↳ Stream: console-category filter, only ${_consoleOnly.length} matched, keeping all ${candidates.length}`);
-        }
+    if (_isConsoleCategoryIntent(q, detectedSog) && Array.isArray(candidates) && candidates.length > 0) {
+      const _consoleOnly = candidates.filter(c => _isGameConsoleName(c.name || c.nameHe || c.nameEn || c.title));
+      if (_consoleOnly.length >= 3) {
+        console.log(`  ↳ Stream: console-category filter, ${candidates.length} → ${_consoleOnly.length} real consoles (sog=e-tvgame)`);
+        candidates = _consoleOnly;
+      } else {
+        console.log(`  ↳ Stream: console-category filter, only ${_consoleOnly.length} matched, keeping all ${candidates.length}`);
       }
     }
 
@@ -5074,6 +5060,20 @@ app.get("/api/search-products-stream",
         const rejected = preGuard - finalProducts.length;
         if (rejected > 0) {
           console.log(`  ↳ Stream: SOG content guard, rejected ${rejected}/${preGuard} products that didn't match sog="${detectedSog}" (${SOG_CONTENT_GUARDS[detectedSog]?.name || "unknown"})`);
+        }
+
+        // Console-category guard on the merged list, catches games/toys that
+        // bled in from the KSP / Bug sources (the SOG guard above is too
+        // permissive for e-tvgame, "FIFA 25 PS5" contains "ps5").
+        if (_isConsoleCategoryIntent(q, detectedSog)) {
+          const _preC = finalProducts.length;
+          const _onlyConsoles = finalProducts.filter(p => _isGameConsoleName(p.nameEn || p.nameHe));
+          if (_onlyConsoles.length >= 3) {
+            finalProducts = _onlyConsoles;
+            if (_preC !== finalProducts.length) {
+              console.log(`  ↳ Stream: console-category filter (merged), ${_preC} → ${finalProducts.length} real consoles`);
+            }
+          }
         }
 
         const priced = finalProducts.filter(p => p.priceMin > 0).length;
@@ -6527,6 +6527,25 @@ function _passesSogGuard(product, sog) {
     if (!guard.requireAny.some(kw => text.includes(kw.toLowerCase()))) return false;
   }
   return true;
+}
+
+// True when a product name denotes actual game-console HARDWARE (PlayStation /
+// Xbox / Nintendo Switch / Steam Deck / gaming handheld), as opposed to a
+// boxed game, a console accessory ("מעמד לקונסולה", "בקר"), or a toy. A real
+// console name STARTS with the brand+device or the Hebrew word קונסולה; games
+// start with a title and toys with "סטיקרים"/"LEGO"/etc.
+function _isGameConsoleName(nm) {
+  const n = String(nm || "").trim().toLowerCase();
+  if (!n) return false;
+  return /^(sony\s+playstation|microsoft\s+xbox|nintendo\s+switch|valve\s+steam\s*deck|playstation\s*[45]\b|xbox\s+series|xbox\s+one|lenovo\s+legion\s+go|asus\s+rog\s+ally|msi\s+claw|steam\s*deck|קונסול)/.test(n);
+}
+// True when the search intent is the console CATEGORY (not an explicit
+// "games" query) on the broad e-tvgame sog.
+function _isConsoleCategoryIntent(q, sog) {
+  if (sog !== "e-tvgame") return false;
+  const s = String(q || "").toLowerCase();
+  const gamesIntent = !/קונסול/.test(s) && /משחקי|\bgames?\b/.test(s);
+  return !gamesIntent;
 }
 
 // ── Hardcoded Zap SOG map ─────────────────────────────────────────────────────
