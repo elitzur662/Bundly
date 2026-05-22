@@ -22633,6 +22633,21 @@ export default function App() {
         {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
+        {/* Demand-pool picker, also rendered here so it works when triggered
+            from inside an open deal page (the deal view is its own render
+            block and would otherwise never mount this modal). */}
+        {joinPoolModal && (
+          <JoinDemandPoolModal
+            catIdx={joinPoolModal.catIdx}
+            catName={POOL_NAMES[joinPoolModal.catIdx] || CATEGORIES.he[joinPoolModal.catIdx] || "קטגוריה"}
+            catIcon={CAT_ICONS[joinPoolModal.catIdx] || "📦"}
+            existingModels={demandPools[joinPoolModal.catIdx] || {}}
+            onJoin={joinDemandPool}
+            onClose={() => setJoinPoolModal(null)}
+            initialMode={joinPoolModal.mode || null}
+            prefillModel={joinPoolModal.prefillModel || null}
+          />
+        )}
         {universalBackBtn}
       </div>
     );
