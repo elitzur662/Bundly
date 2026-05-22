@@ -1,12 +1,12 @@
 /**
- * Bundly — Demo data: pending suppliers + initial deals shown on first load.
+ * Bundly, Demo data: pending suppliers + initial deals shown on first load.
  *
- * INITIAL_PENDING_SUPPLIERS — Two demo supplier KYC applications. The owner
+ * INITIAL_PENDING_SUPPLIERS, Two demo supplier KYC applications. The owner
  *                            dashboard shows these so the supplier-approval
  *                            flow is testable end-to-end without onboarding
  *                            a real supplier.
  *
- * INITIAL_DEALS — ~18 demo deals across categories (TV, laptop, phone,
+ * INITIAL_DEALS, ~18 demo deals across categories (TV, laptop, phone,
  *                 fridge, etc.) with bid history and supplier counts.
  *                 Used as seed data on every page-load: appended to the
  *                 server-fetched deal list so the home grid is never empty,
@@ -14,7 +14,7 @@
  *
  *                 Each entry's _demo flag is set elsewhere (in App.jsx
  *                 initialization) so the UI renders a 'דוגמה' badge on
- *                 these cards — customers shouldn't mistake demo prices
+ *                 these cards, customers shouldn't mistake demo prices
  *                 for live group rounds.
  */
 import { IMG } from './images.js';

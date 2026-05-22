@@ -1,15 +1,15 @@
 /**
- * Bundly — Top-level category lists and guided-search category data.
+ * Bundly, Top-level category lists and guided-search category data.
  *
  * Three exports:
  *
- *   CATEGORIES — 4-language array of top-level category labels. The index
+ *   CATEGORIES, 4-language array of top-level category labels. The index
  *                position is the canonical "catIdx" used as a numeric key
  *                across the app (deal.catIdx, DEAL_SUPPLIER map, etc.).
  *
- *   CAT_ICONS  — Emoji icon per catIdx, parallel-indexed with CATEGORIES.
+ *   CAT_ICONS , Emoji icon per catIdx, parallel-indexed with CATEGORIES.
  *
- *   SEARCH_CATEGORIES — Hierarchical data for the guided product-search
+ *   SEARCH_CATEGORIES, Hierarchical data for the guided product-search
  *                       flow ("pick category → brand → model"). Each item
  *                       lists popular brands per category and known models
  *                       per brand. Independent of catIdx.

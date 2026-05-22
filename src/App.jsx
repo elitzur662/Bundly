@@ -27,7 +27,7 @@ import { flyToCart } from "./animations/flyToCart.js";
 
 
 // ─────────────────────────────────────────────────────────────────
-//  STRIPE CARD SECTION — shared by DepositModal and OfferAcceptModal
+//  STRIPE CARD SECTION, shared by DepositModal and OfferAcceptModal
 //  Renders Stripe's hosted CardElement iframe (PCI-scope SAQ-A) with a
 //  cardholder-name input. The parent passes a `cardRef` so it can call
 //  `cardRef.current.confirm(clientSecret)` from its submit handler.
@@ -55,7 +55,7 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
       confirm: async (clientSecret, { stub, mode = "payment" } = {}) => {
         if (!name.trim()) return { ok: false, error: "חובה למלא שם על הכרטיס" };
         if (stub || !stripe || !elements) {
-          // Demo / stub mode — server already returned a fake clientSecret;
+          // Demo / stub mode, server already returned a fake clientSecret;
           // the setup/preauth was logged on the server, nothing to confirm.
           return { ok: true, stub: true };
         }
@@ -74,7 +74,7 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
           // a terminal "money is secured" status as success.
           const piStatus = result.paymentIntent?.status;
           if (piStatus !== "succeeded" && piStatus !== "requires_capture") {
-            return { ok: false, error: "אימות התשלום לא הושלם — נסה שוב" };
+            return { ok: false, error: "אימות התשלום לא הושלם, נסה שוב" };
           }
         }
         if (mode === "setup") {
@@ -131,28 +131,28 @@ function StripeCardSection({ name, onNameChange, cardRef, disabled }) {
         </div>
       ) : (
         <div className="border border-amber-200 bg-amber-50 rounded-xl px-3 py-3 text-[12px] text-amber-900 leading-relaxed space-y-1">
-          <p><strong>מצב הדגמה — Stripe לא מוגדר.</strong></p>
+          <p><strong>מצב הדגמה, Stripe לא מוגדר.</strong></p>
           <p>שדה הכרטיס המאובטח לא מוצג כי אין מפתחות Stripe בקובץ <code>.env</code>. כדי להפעיל הזנת אשראי אמיתית:</p>
           <ol className="list-decimal pr-4 space-y-0.5">
             <li>היכנס ל-<a href="https://dashboard.stripe.com/test/apikeys" target="_blank" rel="noreferrer" className="underline font-bold">dashboard.stripe.com/test/apikeys</a> והעתק את שני המפתחות.</li>
             <li>הוסף ל-<code>.env</code>: <code>STRIPE_SECRET_KEY=sk_test_…</code> ו-<code>STRIPE_PUBLISHABLE_KEY=pk_test_…</code></li>
             <li>הפעל מחדש את השרת (<code>npm start</code>).</li>
           </ol>
-          <p className="text-amber-800">בינתיים אפשר להמשיך — הפיקדון יירשם ב-DB אך לא יבוצע חיוב אמיתי.</p>
+          <p className="text-amber-800">בינתיים אפשר להמשיך, הפיקדון יירשם ב-DB אך לא יבוצע חיוב אמיתי.</p>
         </div>
       )}
       {cardError && <p className="text-xs text-red-500 mt-1">{cardError}</p>}
       <p className="text-[10px] text-gray-400 text-center mt-2 flex items-center justify-center gap-1">
         <Lock className="w-3 h-3" />
         {stripe
-          ? "השדות מאוחסנים ישירות אצל Stripe — האתר לא רואה את מספר הכרטיס"
-          : "מצב הדגמה — לא יבוצע חיוב"}
+          ? "השדות מאוחסנים ישירות אצל Stripe, האתר לא רואה את מספר הכרטיס"
+          : "מצב הדגמה, לא יבוצע חיוב"}
       </p>
     </div>
   );
 }
 
-// Safe localStorage accessor — iOS Safari private mode throws SecurityError
+// Safe localStorage accessor, iOS Safari private mode throws SecurityError
 // on every localStorage operation, which used to crash the whole app at
 // module-init. Wrap every read/write in try/catch. (round 3 P0 fix.)
 function _safeLS(key) {
@@ -161,7 +161,7 @@ function _safeLS(key) {
 }
 function _safeLSSet(key, value) {
   try { if (typeof localStorage !== "undefined") localStorage.setItem(key, value); }
-  catch { /* private mode / quota — silent */ }
+  catch { /* private mode / quota, silent */ }
 }
 function _safeLSRemove(key) {
   try { if (typeof localStorage !== "undefined") localStorage.removeItem(key); }
@@ -172,7 +172,7 @@ function _getToken() { return _safeLS("bundly_token"); }
 // Clean product names: strip HTML entities, RTL/LTR marks, extra spaces
 // ── Auth-aware fetch: auto-refreshes token on TOKEN_EXPIRED, logs out on failure.
 //      Also enforces a default 20s timeout so mobile users on slow 3G don't hang
-//      forever — pass `timeout: <ms>` in options to override per-call.            ──
+//      forever, pass `timeout: <ms>` in options to override per-call.            ──
 async function fetchWithAuth(url, options = {}) {
   const token = _getToken();
   const timeoutMs = options.timeout || 20_000;
@@ -194,7 +194,7 @@ async function fetchWithAuth(url, options = {}) {
       ...(token && { Authorization: `Bearer ${token}` }),
     },
   };
-  // Strip the custom `timeout` key — fetch() doesn't recognize it and
+  // Strip the custom `timeout` key, fetch() doesn't recognize it and
   // some browsers warn about unknown options.
   delete withAuth.timeout;
 
@@ -224,7 +224,7 @@ async function fetchWithAuth(url, options = {}) {
   } catch (e) {
     if (timeoutId) clearTimeout(timeoutId);
     // Re-throw with a clearer message; callers should display this when caught
-    if (e.name === "AbortError") throw new Error("בקשה ארכה מדי — בדוק את החיבור לאינטרנט");
+    if (e.name === "AbortError") throw new Error("בקשה ארכה מדי, בדוק את החיבור לאינטרנט");
     throw e;
   }
 }
@@ -251,10 +251,10 @@ const CROSS_BORDER_FAKERS_FE = new Set([
 const ISRAELI_COM_STORES_FE = new Set([
   "terminalx.com",  // Israeli chain
   "ksp.com",        // KSP .com mirror
-  "apple.com",      // apple.com/il-he — Israeli Apple storefront
-  "samsung.com",    // samsung.com/il — Israeli Samsung store
+  "apple.com",      // apple.com/il-he, Israeli Apple storefront
+  "samsung.com",    // samsung.com/il, Israeli Samsung store
 ]);
-// Return a URL only if it is a safe http/https link — otherwise "".
+// Return a URL only if it is a safe http/https link, otherwise "".
 // Blocks javascript:, data:, vbscript: etc. from ever reaching an href/src
 // (scraped supplier links are untrusted input → stored-XSS vector).
 function safeHttpUrl(url) {
@@ -268,10 +268,10 @@ function isIsraeliLink(url = "") {
   if (!url) return false;
   try {
     const parsed = new URL(url);
-    // Only ever trust http/https — reject javascript:/data:/etc.
+    // Only ever trust http/https, reject javascript:/data:/etc.
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
     const domain = parsed.hostname.replace(/^www\./, "");
-    // ❌ Block cross-border fakers FIRST — even if they have .co.il
+    // ❌ Block cross-border fakers FIRST, even if they have .co.il
     if (CROSS_BORDER_FAKERS_FE.has(domain)) return false;
     // ✅ Accept genuine Israeli TLDs
     if (domain.endsWith(".co.il") || domain.endsWith(".net.il") ||
@@ -296,7 +296,7 @@ const IMPLAUSIBLE_BID_RATIO = 0.4; // >60%-off the market reference = typo
 
 // Best available market reference for a deal: the highest of its known
 // market figures, falling back to the asking group price. Returns 0 when
-// we have no usable reference (then no guard is applied — fail open).
+// we have no usable reference (then no guard is applied, fail open).
 function dealMarketReference(deal) {
   if (!deal) return 0;
   const candidates = [
@@ -332,7 +332,7 @@ function lowestPlausibleBid(deal) {
 
 
 // ─────────────────────────────────────────────────────────────────
-//  VARIANTS — sub-specs per model (storage, size, config)
+//  VARIANTS, sub-specs per model (storage, size, config)
 // ─────────────────────────────────────────────────────────────────
 const VARIANTS = {
   // iPhones
@@ -379,7 +379,7 @@ const VARIANTS = {
 };
 
 // ─────────────────────────────────────────────────────────────────
-//  COMPETITORS — direct rivals per model (same tier, diff brand)
+//  COMPETITORS, direct rivals per model (same tier, diff brand)
 // ─────────────────────────────────────────────────────────────────
 const COMPETITORS = {
   // ── iPhones ──────────────────────────────────────────────────
@@ -564,7 +564,7 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
               <rect x="3" y="7" width="16" height="3" rx="0.5" fill={s.roof} opacity="0.7"/>
             </svg>
 
-            {/* Price bubble — appears when car stops at this store */}
+            {/* Price bubble, appears when car stops at this store */}
             {s.price && (
               <div style={{
                 animation:`srP${i+1} ${DUR} ease-out infinite`,
@@ -645,17 +645,17 @@ function StreamingRoadBanner({ count = 0, phase = "streaming", products = [] }) 
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  DEAL OF THE DAY — countdown banner
+//  DEAL OF THE DAY, countdown banner
 // ─────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────
-//  PERSONAL RECOMMENDATIONS — "מותאם בשבילך"
+//  PERSONAL RECOMMENDATIONS, "מותאם בשבילך"
 //  Pulls scored deal IDs from the recommender and renders a horizontal
 //  carousel above the standard deal grid. When the user has no history,
 //  the server returns a popularity fallback (so the carousel is never
 //  empty for new visitors).
 // ─────────────────────────────────────────────────────────────────
 function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
-  // Memoize the deal lookup map and the filtered/joined item list — without
+  // Memoize the deal lookup map and the filtered/joined item list, without
   // this, every parent re-render rebuilds them, which becomes expensive on
   // pages with hundreds of deals.
   const dealById = useMemo(() => new Map(deals.map(d => [d.id, d])), [deals]);
@@ -666,7 +666,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
   ), [recos, dealById]);
   // Hover-arrow state: dimmed scroll buttons appear on the carousel edges
   // when the cursor is over the strip, fade out on leave. Mobile keeps
-  // swipe-only — arrows are hidden by default and only shown on hover.
+  // swipe-only, arrows are hidden by default and only shown on hover.
   const scrollRef = useRef(null);
   const [hovered, setHovered] = useState(false);
   const scrollBy = (dir) => {
@@ -695,7 +695,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
           <p className="text-xs text-gray-500 line-clamp-1">
             {isPersonalized
               ? `דירגנו את הקבוצות לפי ההתנהגות שלך באתר${profile?.topBrands?.length ? ` · אוהב ${profile.topBrands.slice(0, 2).join(", ")}` : ""}${profile?.topCategories?.length ? ` · קטגוריות ${profile.topCategories.slice(0, 2).join(", ")}` : ""}`
-              : "התחל לעיין ולשמור פריטים — והמלצות אישיות יופיעו פה"}
+              : "התחל לעיין ולשמור פריטים, והמלצות אישיות יופיעו פה"}
           </p>
         </div>
         <span className="text-[10px] text-pink-500 font-bold whitespace-nowrap hidden sm:inline">
@@ -703,7 +703,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
         </span>
       </div>
 
-      {/* Hover scroll arrows — show on mouse-over, fade out on leave. */}
+      {/* Hover scroll arrows, show on mouse-over, fade out on leave. */}
       <button
         type="button"
         aria-label="גלול שמאלה"
@@ -724,10 +724,10 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
       {/*
         Horizontal snap-scroll carousel.
         - `snap-x snap-mandatory` makes each card snap to the start of the
-          viewport when the user releases — feels native, not laggy.
+          viewport when the user releases, feels native, not laggy.
         - `pl-4 pr-[20%]` (or rtl-equivalent) leaves the next card peeking
           ~20% of the screen width to make swipeability obvious.
-        - Cards: w-[60%] sm:w-56 — ~1.5 cards visible on mobile.
+        - Cards: w-[60%] sm:w-56, ~1.5 cards visible on mobile.
       */}
       <div
         ref={scrollRef}
@@ -748,7 +748,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
               className="snap-start flex-shrink-0 w-[62%] sm:w-56 text-right bg-white rounded-2xl border-2 border-pink-100 hover:border-pink-300 hover:shadow-lg transition overflow-hidden active:scale-[0.98]"
             >
               <div className="h-28 sm:h-32 bg-gray-50 flex items-center justify-center overflow-hidden relative">
-                {/* Always show an image — falls back to a category-matched
+                {/* Always show an image, falls back to a category-matched
                       stock photo if the deal has no specific image yet. */}
                 <img
                   loading="lazy"
@@ -786,7 +786,7 @@ function PersonalRecommendations({ recos, deals, onDealClick, lang }) {
 
 function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
   // Pick the hottest deal (most participants, hot:true preferred).
-  // Guard against empty `deals` — after launch-hardening hid the seeded
+  // Guard against empty `deals`, after launch-hardening hid the seeded
   // demo deals in prod, this array starts empty until /api/deals hydrates,
   // and reduce-without-initial-value would throw on first render.
   const hotDeals = (deals || []).filter(d => d.hot);
@@ -840,7 +840,7 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
       <div className="absolute -bottom-8 -left-8 w-24 h-24 sm:w-32 sm:h-32 bg-white/10 rounded-full pointer-events-none" />
 
       <div className="relative z-10 p-3.5 sm:p-5 text-white">
-        {/* Header — flex-wrap so the digital clock drops below the title row on
+        {/* Header, flex-wrap so the digital clock drops below the title row on
               small phones instead of cropping. */}
         <div className="flex items-center gap-2 mb-2.5 sm:mb-3 flex-wrap">
           <span className="text-xl sm:text-2xl">🔥</span>
@@ -910,7 +910,7 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
 
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER / PROTECTION FIELDS — augment INITIAL_DEALS at startup
+//  SUPPLIER / PROTECTION FIELDS, augment INITIAL_DEALS at startup
 // ─────────────────────────────────────────────────────────────────
 {
   const DEAL_SUPPLIER = {
@@ -925,7 +925,7 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
     sup1:"ספק רשמי 01", sup2:"ספק רשמי 02", sup3:"ספק רשמי 03",
     sup4:"ספק רשמי 04", sup5:"ספק רשמי 05", sup6:"ספק רשמי 06",
   };
-  // BASE is "today" — relative dates so demo never goes stale.
+  // BASE is "today", relative dates so demo never goes stale.
   // Each deal's closingDate is set to today + d.daysLeft, so deals stay "active"
   // for d.daysLeft days from whenever the page is loaded.
   const BASE = new Date();
@@ -957,18 +957,18 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SMART BUNDLES — "חבילות נדל״ן" (product bundles for movers etc.)
+//  SMART BUNDLES, "חבילות נדל״ן" (product bundles for movers etc.)
 // ─────────────────────────────────────────────────────────────────
 // NOTE: every `image` below is a real catalog product photo (imageUrl copied
 // verbatim from product-db/<category>/products.json). `marketPrice` values are
-// sensible round ₪ estimates assigned per product — the catalog `prices` are
+// sensible round ₪ estimates assigned per product, the catalog `prices` are
 // mostly 0 so they are NOT used. bundlePrice ≈ 76-80% of totalMarket.
 const INITIAL_BUNDLES = [
   // ── חבילת מעבר דירה (6 מוצרים) ──
   {
     id: "bundle-moving",
     title: "חבילת מעבר דירה",
-    subtitle: "מקרר + כביסה + מייבש + תנור + מדיח + מזגן — הכל לדירה החדשה",
+    subtitle: "מקרר + כביסה + מייבש + תנור + מדיח + מזגן, הכל לדירה החדשה",
     icon: "🏠",
     color: "from-rose-500 to-pink-500",
     bg: "bg-rose-50",
@@ -992,7 +992,7 @@ const INITIAL_BUNDLES = [
   {
     id: "bundle-young-couple",
     title: "חבילת זוג צעיר",
-    subtitle: "מקרר + כביסה + תנור + טלוויזיה + מדיח — התחלה חכמה",
+    subtitle: "מקרר + כביסה + תנור + טלוויזיה + מדיח, התחלה חכמה",
     icon: "💑",
     color: "from-pink-500 to-fuchsia-500",
     bg: "bg-pink-50",
@@ -1015,7 +1015,7 @@ const INITIAL_BUNDLES = [
   {
     id: "bundle-kitchen",
     title: "חבילת מטבח שלמה",
-    subtitle: "מקרר + תנור + מדיח — הכל במכה אחת",
+    subtitle: "מקרר + תנור + מדיח, הכל במכה אחת",
     icon: "🍳",
     color: "from-orange-500 to-amber-500",
     bg: "bg-orange-50",
@@ -1057,7 +1057,7 @@ const INITIAL_BUNDLES = [
   {
     id: "bundle-office",
     title: "חבילת עבודה מהבית",
-    subtitle: "לפטופ + מסך + אוזניות — סטאפ מושלם",
+    subtitle: "לפטופ + מסך + אוזניות, סטאפ מושלם",
     icon: "💻",
     color: "from-emerald-500 to-teal-500",
     bg: "bg-emerald-50",
@@ -1095,13 +1095,13 @@ const INITIAL_BUNDLES = [
     daysLeft: 5,
     catIdx: 11,
   },
-  // ── חבילת מטבח חכם (4 מוצרים) — replaces the old "baby" bundle:
+  // ── חבילת מטבח חכם (4 מוצרים), replaces the old "baby" bundle:
   //    the catalog has no baby category, so this is built from real
   //    kitchen-gadget categories (coffee / blender / microwave / kettle).
   {
     id: "bundle-kitchen-gadgets",
     title: "חבילת גאדג'טים למטבח",
-    subtitle: "מכונת אספרסו + מיקרוגל + בלנדר + קומקום — שדרוג למטבח",
+    subtitle: "מכונת אספרסו + מיקרוגל + בלנדר + קומקום, שדרוג למטבח",
     icon: "☕",
     color: "from-amber-500 to-yellow-500",
     bg: "bg-amber-50",
@@ -1122,7 +1122,7 @@ const INITIAL_BUNDLES = [
 ];
 
 // ─────────────────────────────────────────────────────────────────
-//  DEMAND POOLS — pre-seeded demo data
+//  DEMAND POOLS, pre-seeded demo data
 //  Key = catIdx (matches CATEGORIES / CAT_ICONS arrays)
 //  Value = { modelName: participantCount }
 // ─────────────────────────────────────────────────────────────────
@@ -1241,7 +1241,7 @@ function mapToBroadCategory(cat) {
       if (lower.includes(kw)) return hc.name;
     }
   }
-  return null; // unmapped — skip
+  return null; // unmapped, skip
 }
 
 // Specific human-readable names for each demand pool (overrides generic category name)
@@ -1289,7 +1289,7 @@ const SOG_TO_CAT_IDX = {
 //  supplier does not stock TVs.
 //
 //  Previously deal.catIdx came from a tiny 5-entry map that defaulted
-//  to 0 (TVs) — so a "מכונת אספרסו Nespresso Creatista Pro" wrongly
+//  to 0 (TVs), so a "מכונת אספרסו Nespresso Creatista Pro" wrongly
 //  joined the OLED/QLED TV group. classifyCatIdx scans the product
 //  name (+ optional sog / category hints) against keyword tables and
 //  returns the correct CATEGORIES.he index, falling back to null
@@ -1321,7 +1321,7 @@ const CAT_KEYWORDS = [
   { idx: 13, kw: ["מד לחץ דם", "blood pressure", "אינהלר", "nebulizer", "מסז'", "massager", "מד חום"] },
   { idx: 6,  kw: ["ספה", "sofa", "מיטה", "bed", "כורסה", "armchair", "כיסא גיימינג", "gaming chair", "שולחן"] },
   { idx: 7,  kw: ["הליכון", "treadmill", "אופני כושר", "exercise bike", "אליפטי", "cross trainer", "כושר"] },
-  // Broad appliances LAST — generic words that would otherwise swallow kitchen items.
+  // Broad appliances LAST, generic words that would otherwise swallow kitchen items.
   { idx: 3,  kw: ["מקרר", "fridge", "refrigerator", "מקפיא", "freezer", "מכונת כביסה", "washing machine",
                    "מייבש", "dryer", "מדיח", "dishwasher", "תנור", "oven", "שואב אבק", "vacuum",
                    "roomba", "roborock", "מגהץ", "iron", "מטהר אוויר", "air purifier",
@@ -1333,7 +1333,7 @@ const CAT_KEYWORDS = [
 // Classify a product into a CATEGORIES.he index. Tries the ZAP sog first
 // (most reliable when present), then keyword-matches the name + an optional
 // free-text category hint. Returns a number, or `fallback` when nothing
-// matches (default null — caller decides; we never silently pick TVs).
+// matches (default null, caller decides; we never silently pick TVs).
 function classifyCatIdx(productName, { sog = null, category = null, fallback = null } = {}) {
   if (sog && SOG_TO_CAT_IDX[sog] != null) return SOG_TO_CAT_IDX[sog];
   const hay = `${productName || ""} ${category || ""}`.toLowerCase();
@@ -1348,7 +1348,7 @@ function classifyCatIdx(productName, { sog = null, category = null, fallback = n
 
 // Check if a product already has demand in the given pool.
 // Returns { model, count } if match found, null otherwise.
-// All matching delegates to productNamesMatch (./dealMatch.js) — see that
+// All matching delegates to productNamesMatch (./dealMatch.js), see that
 // module for the strict rules (version-token equality + ≥80% overlap).
 function findPoolForProduct(productName, catIdx, demandPools) {
   const pool = demandPools?.[catIdx];
@@ -1360,7 +1360,7 @@ function findPoolForProduct(productName, catIdx, demandPools) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  ADD TO POOL BUTTON — shown on every product card
+//  ADD TO POOL BUTTON, shown on every product card
 // ─────────────────────────────────────────────────────────────────
 function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDirectJoinPool, onRequestSupplierPrice, currentLowestPrice, isSpecificModel, productImage, category, className = "" }) {
   const [showOptions, setShowOptions] = useState(false);
@@ -1491,7 +1491,7 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
             {!successType && (
               <div className="p-4 space-y-3">
 
-                {/* Option 1: Join demand pool — with inline pool preview */}
+                {/* Option 1: Join demand pool, with inline pool preview */}
                 {onAddToPool && (
                   <div className="rounded-2xl border-2 border-indigo-100 overflow-hidden">
                     <div className="p-4">
@@ -1502,7 +1502,7 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-black text-gray-900">הוסף לקבוצת רכישה כללית</p>
                           <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
-                            הצטרף לקונים נוספים שמחפשים מוצרים דומים — ככל שיותר מצטרפים, המחיר יורד
+                            הצטרף לקונים נוספים שמחפשים מוצרים דומים, ככל שיותר מצטרפים, המחיר יורד
                           </p>
                         </div>
                       </div>
@@ -1567,7 +1567,7 @@ function AddToPoolButton({ productName, catIdx, demandPools, onAddToPool, onDire
                         <textarea
                           value={note}
                           onChange={e => setNote(e.target.value)}
-                          placeholder="הערה לספק — צבע, דגם, תנאי תשלום... (אופציונלי)"
+                          placeholder="הערה לספק, צבע, דגם, תנאי תשלום... (אופציונלי)"
                           rows={2}
                           className="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 resize-none text-right"
                           onClick={e => e.stopPropagation()}
@@ -1672,7 +1672,7 @@ function Modal({ onClose, children, wide }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  ADDRESS AUTOCOMPLETE — fetches from data.gov.il via server proxy
+//  ADDRESS AUTOCOMPLETE, fetches from data.gov.il via server proxy
 // ─────────────────────────────────────────────────────────────────
 function AddressAutocomplete({ value, onChange, placeholder, fetchUrl, disabled, className, allowFreeText }) {
   const [query, setQuery] = useState(value || "");
@@ -1749,7 +1749,7 @@ function AddressAutocomplete({ value, onChange, placeholder, fetchUrl, disabled,
             </button>
           )) : (
             allowFreeText && query.length > 0 && (
-              <div className="px-3 py-2 text-xs text-gray-400 text-center">לא נמצא — ניתן להקליד חופשי</div>
+              <div className="px-3 py-2 text-xs text-gray-400 text-center">לא נמצא, ניתן להקליד חופשי</div>
             )
           )}
         </div>
@@ -1777,7 +1777,7 @@ function AuthModal({ t, onSuccess, onClose }) {
   const [street, setStreet]       = useState("");
   const [buildingNum, setBuildingNum]   = useState("");
   const [apartmentNum, setApartmentNum] = useState("");
-  // Required terms-acceptance checkbox — gates the signup flow's "Continue"
+  // Required terms-acceptance checkbox, gates the signup flow's "Continue"
   // button. Stored on the user record at registration time as
   // termsAcceptedAt for audit / legal record.
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -1787,7 +1787,7 @@ function AuthModal({ t, onSuccess, onClose }) {
   const [isNew, setIsNew]     = useState(false);
   const [token, setToken]     = useState("");
 
-  // hCaptcha — widget renders only when a site key is configured (so dev
+  // hCaptcha, widget renders only when a site key is configured (so dev
   // installs without HCAPTCHA env keep working). Token resets after each
   // submit (hCaptcha tokens are single-use).
   const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
@@ -1798,7 +1798,7 @@ function AuthModal({ t, onSuccess, onClose }) {
   // ── Existing user: check phone+email then send OTP ───────────
   const handleExistingLogin = async () => {
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
-    // Email format validation — only when an email is supplied (it's optional)
+    // Email format validation, only when an email is supplied (it's optional)
     if (loginEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginEmail.trim())) {
       setError("פורמט אימייל לא תקין"); return;
     }
@@ -1808,11 +1808,11 @@ function AuthModal({ t, onSuccess, onClose }) {
       const check = await fetch("/api/auth/check-existing", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, email: loginEmail }) });
       const checkData = await check.json();
       if (!checkData.ok) {
-        if (checkData.reason === "not_found") throw new Error("מספר הנייד לא נמצא במערכת. אם אתה משתמש חדש — לחץ 'חזור' ובחר הרשמה.");
+        if (checkData.reason === "not_found") throw new Error("מספר הנייד לא נמצא במערכת. אם אתה משתמש חדש, לחץ 'חזור' ובחר הרשמה.");
         if (checkData.reason === "mismatch") throw new Error("האימייל לא תואם למספר הנייד במערכת.");
         throw new Error("שגיאה באימות");
       }
-      // Phone exists — send OTP (with captcha token if widget enabled)
+      // Phone exists, send OTP (with captcha token if widget enabled)
       if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); setLoading(false); return; }
       const res  = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, captchaToken }) });
       const data = await res.json();
@@ -1851,7 +1851,7 @@ function AuthModal({ t, onSuccess, onClose }) {
       setIsNew(data.isNew);
 
       // If the user clicked "Register" but the phone is already in the system,
-      // they ARE an existing user — log them straight in instead of routing
+      // they ARE an existing user, log them straight in instead of routing
       // through the profile-filling flow (which would overwrite their saved
       // first/last name, email, address fields with empty defaults).
       const phoneAlreadyExists = data.isNew === false;
@@ -1859,7 +1859,7 @@ function AuthModal({ t, onSuccess, onClose }) {
 
       if (authMode === "existing" || phoneAlreadyExists) {
         if (!profileComplete) {
-          // Edge case: old user with no profile — send to fill, pre-populated
+          // Edge case: old user with no profile, send to fill, pre-populated
           if (data.user?.firstName) setFirstName(data.user.firstName);
           if (data.user?.lastName) setLastName(data.user.lastName);
           if (data.user?.email) setEmail(data.user.email);
@@ -1869,7 +1869,7 @@ function AuthModal({ t, onSuccess, onClose }) {
           if (data.user?.apartmentNum) setApartmentNum(data.user.apartmentNum);
           setStep("profile");
         } else {
-          // Returning user — clicking "Register" by mistake should not
+          // Returning user, clicking "Register" by mistake should not
           // re-prompt for profile data. Just log them in.
           if (authMode === "new" && phoneAlreadyExists) {
             setError("הטלפון הזה כבר רשום. מחבר אותך לחשבון הקיים…");
@@ -1879,7 +1879,7 @@ function AuthModal({ t, onSuccess, onClose }) {
           }
         }
       } else {
-        // Genuinely new user — go to profile step
+        // Genuinely new user, go to profile step
         setStep("profile");
       }
     } catch(e) { setError(e.message); setOtp(""); }
@@ -1975,7 +1975,7 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
               <div className="text-right">
                 <p className="font-bold text-gray-800">משתמש קיים</p>
-                <p className="text-xs text-gray-400">יש לי כבר חשבון — אני רוצה להתחבר</p>
+                <p className="text-xs text-gray-400">יש לי כבר חשבון, אני רוצה להתחבר</p>
               </div>
             </button>
             <button onClick={() => { setAuthMode("new"); setError(""); setStep("welcome"); }}
@@ -2092,7 +2092,7 @@ function AuthModal({ t, onSuccess, onClose }) {
             </div>
             {devCode && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 text-center">
-                <p className="text-xs text-yellow-700 font-semibold">מצב פיתוח — Twilio לא מוגדר</p>
+                <p className="text-xs text-yellow-700 font-semibold">מצב פיתוח, Twilio לא מוגדר</p>
                 <p className="text-2xl font-mono font-black text-yellow-800 mt-1">{devCode}</p>
               </div>
             )}
@@ -2187,7 +2187,7 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </div>
 
-            {/* Required terms-of-service consent — gates the "Continue"
+            {/* Required terms-of-service consent, gates the "Continue"
                 button. The terms (public/terms.html) explicitly disclose
                 that the site is in Beta and may show wrong prices/images,
                 so users acknowledge they've read those caveats. */}
@@ -2219,7 +2219,7 @@ function AuthModal({ t, onSuccess, onClose }) {
             <p className="text-sm text-gray-500 mb-3">מה תרצה לקבל עדכונים על?</p>
             <div className="bg-gray-50 rounded-2xl divide-y divide-gray-100">
               <PrefToggle label="עדכון ירידת מחיר" icon="📉" checked={prefs.priceDrop} onChange={() => setPrefs(p=>({...p,priceDrop:!p.priceDrop}))} />
-              <PrefToggle label="דיל הופעל — ספק אושר" icon="✅" checked={prefs.dealActivated} onChange={() => setPrefs(p=>({...p,dealActivated:!p.dealActivated}))} />
+              <PrefToggle label="דיל הופעל, ספק אושר" icon="✅" checked={prefs.dealActivated} onChange={() => setPrefs(p=>({...p,dealActivated:!p.dealActivated}))} />
               <PrefToggle label="ספק הצטרף לדיל שלי" icon="🏪" checked={prefs.supplierJoined} onChange={() => setPrefs(p=>({...p,supplierJoined:!p.supplierJoined}))} />
             </div>
             <p className="text-xs text-gray-400 mt-2 mb-1 font-semibold">קבלה דרך:</p>
@@ -2248,12 +2248,12 @@ function AuthModal({ t, onSuccess, onClose }) {
   );
 }
 
-// NOTE: the old SupplierModal was removed — supplier registration is now
+// NOTE: the old SupplierModal was removed, supplier registration is now
 // handled by the single SupplierKYCModal (see below). It was the more
 // complete form and its field names already match the server contract.
 
 // ─────────────────────────────────────────────────────────────────
-//  PROFILE MODAL — personal info + address + notification settings
+//  PROFILE MODAL, personal info + address + notification settings
 // ─────────────────────────────────────────────────────────────────
 function ProfileModal({ user, token, onClose, onUpdate, onNotify, onLogout }) {
   const [tab, setTab] = useState("profile"); // "profile" | "settings"
@@ -2484,7 +2484,7 @@ function ProfileModal({ user, token, onClose, onUpdate, onNotify, onLogout }) {
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "שמור הגדרות"}
             </Btn>
 
-            {/* ── Logout — separated from settings by a divider so it's a
+            {/* ── Logout, separated from settings by a divider so it's a
                   deliberate action, not an accidental click. */}
             {onLogout && (
               <div className="pt-4 mt-4 border-t border-gray-100">
@@ -2541,7 +2541,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
-  // landing page is also a supplier-context page — the founder asked for
+  // landing page is also a supplier-context page, the founder asked for
   // COMPLETE separation: no customer cart / offers / orders on /לספקים
   // either, only on customer-area pages. (Re-broadened after the
   // round-4 regression-agent flip-flop.)
@@ -2585,7 +2585,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
 
         <div className="flex-1" />
 
-        {/* Desktop nav — supplier vs customer */}
+        {/* Desktop nav, supplier vs customer */}
         {isSupplierMode ? (
           /* SUPPLIER nav: business name + clean exit. No customer pages. */
           <div className="hidden md:flex items-center gap-2">
@@ -2619,7 +2619,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               <Sparkles className="w-4 h-4 animate-pulse" />
               <span className="font-black">איך זה עובד?</span>
             </a>
-            {/* Supplier entry — routed through the shared exit-customer-context
+            {/* Supplier entry, routed through the shared exit-customer-context
                 handler so an open product page is fully left behind. */}
             <button
               onClick={() => onEnterSupplier ? onEnterSupplier() : setMode("suppliers")}
@@ -2635,12 +2635,12 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
           </div>
         )}
 
-        {/* Second spacer — together with the first one (after the logo) this
+        {/* Second spacer, together with the first one (after the logo) this
             centers the nav group between the logo and the action icons. */}
         <div className="flex-1" />
 
         <div className="flex items-center gap-2">
-          {/* CUSTOMER-only action icons (cart, offers, orders) — hidden in supplier mode */}
+          {/* CUSTOMER-only action icons (cart, offers, orders), hidden in supplier mode */}
           {!isSupplierMode && user && (
             <>
               <button onClick={() => setMode("offers")} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="ההצעות שלי">
@@ -2682,7 +2682,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               <button onClick={onProfileClick} title="הגדרות" className="hidden md:flex p-2 rounded-xl text-gray-500 hover:bg-gray-100 transition">
                 <Settings className="w-4 h-4" />
               </button>
-              {/* Admin/Owner panel button removed from navbar — accessible
+              {/* Admin/Owner panel button removed from navbar, accessible
                   via the OwnerLogin password gate at /?owner or by clicking
                   the small admin link inside Profile. Customers shouldn't
                   see "ניהול" in the top bar. */}
@@ -2693,7 +2693,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
           ) : (
             <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
           )}
-          {/* Mobile hamburger — always last. Wrapped in event-stop to ensure
+          {/* Mobile hamburger, always last. Wrapped in event-stop to ensure
                 clicks aren't swallowed by accidental parent handlers. */}
           <button
             type="button"
@@ -2711,7 +2711,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
         </div>
       </div>
 
-      {/* Mobile drawer — rendered via portal to document.body so it escapes
+      {/* Mobile drawer, rendered via portal to document.body so it escapes
             the <nav> sticky/backdrop-blur containing block (which was clipping
             it to navbar height). This way the drawer always covers the full
             viewport regardless of where Navbar is in the JSX tree. */}
@@ -2735,7 +2735,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </button>
             </div>
             <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-              {/* Primary navigation — branches on supplier vs customer mode
+              {/* Primary navigation, branches on supplier vs customer mode
                   so the supplier doesn't see customer pages cluttering the
                   drawer (and vice-versa). */}
               {isSupplierMode ? (
@@ -2797,11 +2797,11 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                     className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-50 min-h-[44px]">
                     <User className="w-5 h-5" />הפרופיל שלי
                   </button>
-                  {/* Owner panel entry removed — admin access via /?owner only. */}
+                  {/* Owner panel entry removed, admin access via /?owner only. */}
                 </>
               )}
 
-              {/* Language selector — RTL/LTR + Hebrew/English/Arabic/Russian */}
+              {/* Language selector, RTL/LTR + Hebrew/English/Arabic/Russian */}
               <div className="border-t border-gray-100 my-3" />
               <p className="text-[11px] font-bold text-gray-400 px-4 mb-1 uppercase tracking-wider">שפה</p>
               <div className="px-2 grid grid-cols-2 gap-1.5">
@@ -2838,7 +2838,7 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER NAVBAR — distinct emerald-teal palette so suppliers always
+//  SUPPLIER NAVBAR, distinct emerald-teal palette so suppliers always
 //  know they're inside the supplier portal, not the customer site.
 // ─────────────────────────────────────────────────────────────────
 function SupplierNavbar({ supplier, onLogout, onExitToCustomer }) {
@@ -2895,7 +2895,7 @@ function SupplierNavbar({ supplier, onLogout, onExitToCustomer }) {
 //  TRUST STRIP
 // ─────────────────────────────────────────────────────────────────
 function TrustStrip({ t }) {
-  // Removed "ספקים מאומתים" (trustVerified) — supplier verification
+  // Removed "ספקים מאומתים" (trustVerified), supplier verification
   // process isn't live yet, so claiming it on the home strip is misleading.
   // Re-add once we have a real verification flow + supplier badging.
   const items = [
@@ -2974,7 +2974,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
   return (
     <div className="relative overflow-hidden text-white">
 
-      {/* ── Background photo — luxurious modern living room w/ home goods ── */}
+      {/* ── Background photo, luxurious modern living room w/ home goods ── */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat"
         style={{
@@ -2983,9 +2983,9 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         }}
       />
 
-      {/* ── Radial overlay — soft purple "spotlight" centered behind the
+      {/* ── Radial overlay, soft purple "spotlight" centered behind the
             search/categories block, fading to neutral dark at the edges.
-            No frames, no card, no ring — just light density. */}
+            No frames, no card, no ring, just light density. */}
       <div
         className="absolute inset-0"
         style={{
@@ -2994,14 +2994,14 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         }}
       />
 
-      {/* ── Soft vignette at bottom (very subtle now — radial gradient
+      {/* ── Soft vignette at bottom (very subtle now, radial gradient
             already darkens the edges; vignette just adds a touch of depth). */}
       <div className="absolute bottom-0 left-0 right-0 h-20"
         style={{ background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.25))" }} />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 pt-10 pb-20 flex flex-col items-center text-center">
 
-        {/* Trust badge removed — supplier verification isn't live yet,
+        {/* Trust badge removed, supplier verification isn't live yet,
             so claiming "ספקים מאומתים" at the hero top was misleading. */}
 
         {/* Title */}
@@ -3022,7 +3022,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
         </p>
 
         {/* Search + categories sit directly on the radial purple glow that
-            comes from the hero overlay. No card, no ring — just the content. */}
+            comes from the hero overlay. No card, no ring, just the content. */}
         <div className="w-full max-w-3xl">
 
           {/* Search + paired browse-by-category button. */}
@@ -3070,12 +3070,12 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
             Bundly סורקת מאות חנויות ישראליות ומוצאת את המחיר הכי טוב
           </p>
 
-          {/* Demand-sorted category grid — sits on the hero photo directly. */}
+          {/* Demand-sorted category grid, sits on the hero photo directly. */}
           <div className="mt-7">
             <div className="flex items-center gap-2 mb-3 justify-center" dir="rtl">
               <TrendingUp className="w-4 h-4 text-yellow-300 flex-shrink-0 drop-shadow-sm" />
               <p className="text-white/90 text-[12px] font-bold" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                קטגוריות חמות לפי ביקוש בזמן אמת — ככל שיותר מצטרפים, המחיר יורד
+                קטגוריות חמות לפי ביקוש בזמן אמת, ככל שיותר מצטרפים, המחיר יורד
               </p>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
@@ -3110,7 +3110,7 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           </div>
         </div>
 
-        {/* Bottom secondary actions — small, low-emphasis */}
+        {/* Bottom secondary actions, small, low-emphasis */}
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-5 text-xs">
           <button onClick={onDeals} className="text-white/90 font-semibold hover:text-white underline-offset-4 hover:underline transition">
             {t.heroCta} ←
@@ -3121,13 +3121,13 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
           </button>
         </div>
 
-        {/* FOMO line removed 2026-05-21 — "12 joined today" / "3 more to
+        {/* FOMO line removed 2026-05-21, "12 joined today" / "3 more to
             next price drop" were fabricated fixed numbers. On a brand-new
             platform with no real activity yet, showing invented counts
             destroys trust. Real participant counts live on each deal card. */}
       </div>
 
-      {/* ── Scroll affordance — gentle bouncing chevron at the bottom of the
+      {/* ── Scroll affordance, gentle bouncing chevron at the bottom of the
             hero so the user knows there's more content below the fold. */}
       <div
         className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 pointer-events-none flex flex-col items-center gap-1"
@@ -3153,13 +3153,13 @@ function HeroSection({ t, onDeals, onPersonal, onSearchResult, onWizard, onCateg
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  PRODUCT IMAGE — lazy-loads real high-res image from SerpAPI
+//  PRODUCT IMAGE, lazy-loads real high-res image from SerpAPI
 //  Falls back to `fallback` (Unsplash) when SerpAPI not available.
 //  Module-level cache so each model is fetched only once per session.
 // ─────────────────────────────────────────────────────────────────
 // (Module-level _imgCache moved below ProductImage to be shared with smartCategoryFallback)
 
-// Smart fallback image picker — chooses an Unsplash image from the IMG map
+// Smart fallback image picker, chooses an Unsplash image from the IMG map
 // based on keywords in the product/deal name. Ensures every product has SOME
 // visual representation even when the dynamic /api/product-image search fails.
 function smartCategoryFallback(name = "", category = "", catName = "") {
@@ -3190,14 +3190,14 @@ function smartCategoryFallback(name = "", category = "", catName = "") {
   if (/bike|אופניים|ebike|אופני/i.test(t)) return IMG.bike;
   if (/watch|שעון חכם|smartwatch|apple watch/i.test(t)) return IMG.watch;
   if (/sofa|ספה|couch|כורסא/i.test(t)) return IMG.couch;
-  // Last-resort generic — TV photo works for most home electronics
+  // Last-resort generic, TV photo works for most home electronics
   return IMG.tv;
 }
 
 // ── Persistent product-image cache ─────────────────────────────────────
 //   Memory cache (per page-load) + localStorage cache (survives reloads).
 //   Once we successfully fetch a specific image for a product, it sticks
-//   forever — no more shuffling between fallbacks each session.
+//   forever, no more shuffling between fallbacks each session.
 const _imgCache = (typeof window !== "undefined" && window._bundlyImgCache) || new Map();
 if (typeof window !== "undefined") window._bundlyImgCache = _imgCache;
 
@@ -3212,7 +3212,7 @@ try {
   if (typeof localStorage !== "undefined" && localStorage.getItem("bundly_img_cache_v1")) {
     localStorage.removeItem("bundly_img_cache_v1");
   }
-} catch { /* private mode / storage disabled — no-op */ }
+} catch { /* private mode / storage disabled, no-op */ }
 
 function _imgLsGet(key) {
   try {
@@ -3230,22 +3230,22 @@ function _imgLsSet(key, url) {
     // Cap at 500 entries to bound localStorage growth
     const keys = Object.keys(obj);
     if (keys.length > 500) {
-      // Drop the oldest 50 (insertion order — Object.keys preserves it on
+      // Drop the oldest 50 (insertion order, Object.keys preserves it on
       // modern engines). Removes ~10% to avoid frequent capping.
       keys.slice(0, 50).forEach(k => delete obj[k]);
     }
     localStorage.setItem(_IMG_LS_KEY, JSON.stringify(obj));
-  } catch { /* localStorage full / disabled — no-op */ }
+  } catch { /* localStorage full / disabled, no-op */ }
 }
 
 function ProductImage({ query, fallback, alt, className, imgClassName, productName, category, catName }) {
   // PRIORITY ORDER for the image src:
-  //   1. localStorage cached image for THIS query (verified — locked from prior API hit)
-  //   2. memory cache for THIS query (verified — set by another component this session)
-  //   3. local product-db image (/product-db/...) — bound to modelId, trusted
-  //   4. fallback prop (e.g. deal.image scraped from ZAP/Unsplash/elsewhere) — display only
-  //   5. smart category fallback (Unsplash by keyword) — display only
-  //   6. Dynamic fetch from /api/product-image (DataForSEO) — async, verified, locks on success
+  //   1. localStorage cached image for THIS query (verified, locked from prior API hit)
+  //   2. memory cache for THIS query (verified, set by another component this session)
+  //   3. local product-db image (/product-db/...), bound to modelId, trusted
+  //   4. fallback prop (e.g. deal.image scraped from ZAP/Unsplash/elsewhere), display only
+  //   5. smart category fallback (Unsplash by keyword), display only
+  //   6. Dynamic fetch from /api/product-image (DataForSEO), async, verified, locks on success
   //
   // CORRECTNESS RULE: only LOCK to images we trust 100% to match the query.
   // Trusted sources:
@@ -3258,7 +3258,7 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
   // Untrusted fallbacks display instantly for UX but always get replaced by
   // the API result if it returns. This avoids the "wrong oven image" bug
   // where a generic-but-specific fallback locked permanently.
-  // A product image is ONLY ever the product's own catalog photo — the
+  // A product image is ONLY ever the product's own catalog photo, the
   // `fallback` prop, sourced from Zap / product-db where the photo is bound
   // to the exact model. We deliberately do NOT fetch images by keyword from
   // the web: that path returned generic, unrelated photos (stock images,
@@ -3270,7 +3270,7 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
   const [src, setSrc] = useState(fallbackImage || smartFb);
 
   if (!src) {
-    // Last-resort empty state — branded, never blank. Shows the Package icon
+    // Last-resort empty state, branded, never blank. Shows the Package icon
     // with the product name beneath so the user always sees SOMETHING and
     // doesn't think the card is broken.
     return (
@@ -3292,7 +3292,7 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
       loading="lazy"
       className={`${className} ${imgClassName || ""}`}
       onError={() => {
-        // Image URL broke — try smart fallback once. If that also breaks,
+        // Image URL broke, try smart fallback once. If that also breaks,
         // give up and let the wrapper show the empty state.
         const fb = smartCategoryFallback(productName || query, category, catName);
         if (src !== fb) setSrc(fb);
@@ -3306,7 +3306,7 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
 //  DEMAND FORECAST  (shared between card + detail page)
 // ─────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────
-//  COUNTDOWN TIMER — live days/hours/minutes until deal closes
+//  COUNTDOWN TIMER, live days/hours/minutes until deal closes
 // ─────────────────────────────────────────────────────────────────
 function CountdownTimer({ closingDate, compact = false, className = "" }) {
   const calc = () => {
@@ -3328,7 +3328,7 @@ function CountdownTimer({ closingDate, compact = false, className = "" }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  DIGITAL CLOCK TIMER — compact HH:MM:SS display, updates every second.
+//  DIGITAL CLOCK TIMER, compact HH:MM:SS display, updates every second.
 //  When >24h remain, shows D:HH:MM:SS (days prefix). Always tabular-nums
 //  so the digits don't shift width as they tick.
 // ─────────────────────────────────────────────────────────────────
@@ -3393,7 +3393,7 @@ function DigitalClockTimer({ closingDate, label = "נסגר בעוד" }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  ANALOG CLOCK TIMER — 7-day countdown with ring + digit boxes
+//  ANALOG CLOCK TIMER, 7-day countdown with ring + digit boxes
 // ─────────────────────────────────────────────────────────────────
 function AnalogClockTimer({ closingDate, size = 80 }) {
   const calc = () => {
@@ -3481,7 +3481,7 @@ function AnalogClockTimer({ closingDate, size = 80 }) {
 
       {/* Status label */}
       <p className={`text-[10px] font-bold ${accentText}`}>
-        {t.d > 3 ? "⏳ הקבוצה נסגרת בעוד שבוע" : t.d > 0 ? "🔥 ממהרים — נשארו ימים ספורים!" : "⚡ דקות אחרונות לסגירה!"}
+        {t.d > 3 ? "⏳ הקבוצה נסגרת בעוד שבוע" : t.d > 0 ? "🔥 ממהרים, נשארו ימים ספורים!" : "⚡ דקות אחרונות לסגירה!"}
       </p>
     </div>
   );
@@ -3497,13 +3497,13 @@ function DealStatusBadge({ deal, className = "" }) {
   );
   return (
     <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 border border-gray-200 ${className}`}>
-      ✕ בוטל — לא הגיע למינימום
+      ✕ בוטל, לא הגיע למינימום
     </span>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  usePoolProductPrices — fetches cheapest price data for each
+//  usePoolProductPrices, fetches cheapest price data for each
 //  model name in the pool, in parallel, from /api/search-products
 // ─────────────────────────────────────────────────────────────────
 function usePoolProductPrices(modelNames) {
@@ -3521,7 +3521,7 @@ function usePoolProductPrices(modelNames) {
       const ctrl = new AbortController();
       aborts[name] = ctrl;
       try {
-        // Fast catalog lookup — avoids full search-products pipeline
+        // Fast catalog lookup, avoids full search-products pipeline
         const r = await fetch(`/api/pool-product-quick?q=${encodeURIComponent(name)}`, { signal: ctrl.signal });
         if (!r.ok) throw new Error("not found");
         const d = await r.json();
@@ -3539,7 +3539,7 @@ function usePoolProductPrices(modelNames) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  POOL PRODUCT DETAIL MODAL — full product card with prices +
+//  POOL PRODUCT DETAIL MODAL, full product card with prices +
 //  "הוסף לקבוצת ביקוש" CTA at the bottom
 // ─────────────────────────────────────────────────────────────────
 function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName, poolIcon, onJoin, onBack, onClose }) {
@@ -3550,7 +3550,7 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
     const ctrl = new AbortController();
     (async () => {
       try {
-        // Prefer direct ZAP model lookup when we have the modelId — guarantees
+        // Prefer direct ZAP model lookup when we have the modelId, guarantees
         // we display the exact product the user clicked. Fall back to keyword
         // search only when no modelId is available (e.g. manually entered names).
         let product = null;
@@ -3558,7 +3558,7 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
           const r = await fetch(`/api/zap-model?modelId=${encodeURIComponent(modelId)}&name=${encodeURIComponent(modelName || "")}`, { signal: ctrl.signal });
           if (r.ok) {
             const d = await r.json();
-            // /api/zap-model returns a single product shape — adapt to the
+            // /api/zap-model returns a single product shape, adapt to the
             // fields the modal renders below (image / nameHe / priceMin / stores).
             product = {
               image:    d.image || null,
@@ -3654,12 +3654,12 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
                   </div>
                   <p className="text-3xl font-black text-blue-700">₪{(product.priceAvg || Math.round(((product.priceMin || 0) + (product.priceMax || 0)) / 2)).toLocaleString()}</p>
                   {product.priceMax > product.priceMin && (
-                    <p className="text-xs text-gray-400 mt-0.5">טווח מחירים: ₪{Number(product.priceMin || 0).toLocaleString()} – ₪{Number(product.priceMax || 0).toLocaleString()}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">טווח מחירים: ₪{Number(product.priceMin || 0).toLocaleString()}, ₪{Number(product.priceMax || 0).toLocaleString()}</p>
                   )}
                 </div>
               )}
 
-              {/* Price ladder — anonymised (no store names). Per brand
+              {/* Price ladder, anonymised (no store names). Per brand
                   request: don't reveal that prices come from external
                   retailers; show only positional ranking + price. */}
               {(product.stores || []).length > 0 && (
@@ -3694,12 +3694,12 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
             </>
           )}
 
-          {/* CTA — add to pool */}
+          {/* CTA, add to pool */}
           <button
             onClick={() => onJoin(modelName)}
             className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-black py-3.5 rounded-2xl hover:from-indigo-700 hover:to-violet-700 transition flex items-center justify-center gap-2 text-sm mt-2"
           >
-            <Plus className="w-4 h-4" /> הוסף לקבוצת ביקוש — {poolIcon} {poolName}
+            <Plus className="w-4 h-4" /> הוסף לקבוצת ביקוש, {poolIcon} {poolName}
           </button>
           <p className="text-center text-[10px] text-gray-400 mt-2">
             ספקים יראו את הביקוש ויציעו מחיר קבוצתי לדגם זה
@@ -3711,10 +3711,10 @@ function PoolProductDetailModal({ modelName, modelId, interestedCount, poolName,
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  DEMAND POOL PAGE — full-screen overlay showing all pool models
+//  DEMAND POOL PAGE, full-screen overlay showing all pool models
 //  with live prices from /api/search-products
 // ─────────────────────────────────────────────────────────────────
-//  POOL PRODUCT SEARCH PAGE — full-screen results list from
+//  POOL PRODUCT SEARCH PAGE, full-screen results list from
 //  /api/search-products, shown when user types in "הוסף מוצר" mode.
 //  User picks a model → parent shows PoolProductDetailModal.
 // ─────────────────────────────────────────────────────────────────
@@ -3807,7 +3807,7 @@ function PoolProductSearchPage({ query, poolName, catIcon, onSelectProduct, onBa
           {!loading && !error && products.length > 0 && (
             <>
               <p className="text-xs text-gray-400 mb-3 font-semibold">
-                נמצאו {products.length} דגמים — לחץ לראות פרטים ולהוסיף לקבוצה
+                נמצאו {products.length} דגמים, לחץ לראות פרטים ולהוסיף לקבוצה
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {products.map((p, i) => {
@@ -3935,7 +3935,7 @@ function DemandPoolPage({ catIdx, pool, poolName, catIcon, onJoin, onAddNew, onC
             <button aria-label="סגור" onClick={onClose} className="text-gray-300 hover:text-gray-500 transition"><X className="w-5 h-5" /></button>
           </div>
           <p className="text-xs text-indigo-500 bg-indigo-50 rounded-xl px-3 py-1.5 border border-indigo-100 mt-2">
-            💡 הצטרף לדגם שאתה רוצה — כשיהיה מספיק ביקוש ספק יציע מחיר קבוצתי
+            💡 הצטרף לדגם שאתה רוצה, כשיהיה מספיק ביקוש ספק יציע מחיר קבוצתי
           </p>
         </div>
 
@@ -4039,7 +4039,7 @@ function DemandPoolPage({ catIdx, pool, poolName, catIcon, onJoin, onAddNew, onC
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  JOIN DEMAND POOL MODAL — three modes:
+//  JOIN DEMAND POOL MODAL, three modes:
 //  null         → pick action: join-existing or add-new
 //  "existing"   → show current models as chips, click to join
 //  "add"        → free search + brand chips + Google autocomplete
@@ -4048,7 +4048,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
   const [mode, setMode] = useState(initialMode); // null | "existing" | "add"
   const [searchQuery, setSearchQuery] = useState(prefillModel || "");
   const [joined, setJoined] = useState(null); // null | modelName
-  const [pendingDetail, setPendingDetail] = useState(null); // { name, modelId? } — modelId enables exact ZAP lookup
+  const [pendingDetail, setPendingDetail] = useState(null); // { name, modelId? }, modelId enables exact ZAP lookup
   const [pendingSearch, setPendingSearch] = useState(null); // { query } → show PoolProductSearchPage
 
   // Autocomplete for "add" mode
@@ -4056,7 +4056,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
 
   const brandChips = POOL_BRAND_CHIPS[catIdx] || [];
 
-  const [confirmDeposit, setConfirmDeposit] = useState(null); // { modelName } — shows deposit confirmation step
+  const [confirmDeposit, setConfirmDeposit] = useState(null); // { modelName }, shows deposit confirmation step
 
   const startJoin = (modelName) => {
     if (!modelName.trim()) return;
@@ -4091,7 +4091,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
 
         {/* ── DEPOSIT CONFIRMATION STEP ──
               Required before joining a demand pool. Free joins create
-              noise — anyone can register interest without commitment.
+              noise, anyone can register interest without commitment.
               ₪25 deposit filters serious buyers and gives suppliers
               a clearer demand signal. Refundable in full if no group
               forms within 30 days. */}
@@ -4106,13 +4106,13 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
             </div>
             <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border-2 border-indigo-100 rounded-2xl p-5 mb-4">
               <div className="text-3xl mb-2 text-center">🔒</div>
-              <h3 className="text-lg font-black text-gray-900 text-center mb-1">פיקדון ₪25 — מקום שמור</h3>
+              <h3 className="text-lg font-black text-gray-900 text-center mb-1">פיקדון ₪25, מקום שמור</h3>
               <p className="text-sm text-indigo-700 font-semibold text-center mb-3">{confirmDeposit.modelName}</p>
               <ul className="space-y-1.5 text-xs text-gray-600 leading-relaxed">
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> הסכום מוקפא בכרטיס בלבד — לא יחויב כעת</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> הסכום מוקפא בכרטיס בלבד, לא יחויב כעת</li>
                 <li className="flex gap-2"><span className="text-indigo-500">✓</span> מקוזז מהמחיר הסופי כשהקבוצה נסגרת</li>
                 <li className="flex gap-2"><span className="text-indigo-500">✓</span> מוחזר במלואו אם הקבוצה לא נפתחה תוך 30 יום</li>
-                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מסמן ספקים על ביקוש <strong>אמיתי</strong> — לא רעש</li>
+                <li className="flex gap-2"><span className="text-indigo-500">✓</span> מסמן ספקים על ביקוש <strong>אמיתי</strong>, לא רעש</li>
               </ul>
             </div>
             <button onClick={() => confirmJoin(confirmDeposit.modelName)}
@@ -4166,7 +4166,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
           <div className="space-y-3">
             <p className="text-xs text-gray-500 bg-indigo-50 rounded-2xl p-3 border border-indigo-100">
               💡 קבוצת הביקוש מאגדת קונים שרוצים מוצרים <strong>שונים</strong> באותה קטגוריה.
-              כשיש מספיק ביקוש — ספק יציע מחיר קבוצתי לכל דגם בנפרד.
+              כשיש מספיק ביקוש, ספק יציע מחיר קבוצתי לכל דגם בנפרד.
             </p>
 
             {/* Join existing */}
@@ -4179,7 +4179,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
               </div>
               <div className="flex-1">
                 <p className="font-bold text-gray-900 text-sm">הצטרף למוצר קיים</p>
-                <p className="text-xs text-gray-400">{Object.keys(existingModels).length} דגמים בקבוצה — לחץ כדי להצטרף</p>
+                <p className="text-xs text-gray-400">{Object.keys(existingModels).length} דגמים בקבוצה, לחץ כדי להצטרף</p>
               </div>
               <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-indigo-400 transition flex-shrink-0" />
             </button>
@@ -4343,7 +4343,7 @@ function JoinDemandPoolModal({ catIdx, catName, catIcon, existingModels, onJoin,
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  DEMAND POOL CARD — compact card for the deals list section
+//  DEMAND POOL CARD, compact card for the deals list section
 // ─────────────────────────────────────────────────────────────────
 function DemandPoolCard({ catIdx, pool, onJoinExisting, onAddNew, onDetails }) {
   const poolName = POOL_NAMES[catIdx] || CATEGORIES.he[catIdx] || "קטגוריה";
@@ -4388,7 +4388,7 @@ function DemandPoolCard({ catIdx, pool, onJoinExisting, onAddNew, onDetails }) {
         )}
         {/* Graduation hint */}
         <p className="text-[10px] text-gray-400 mt-2 leading-snug">
-          ✨ דגם שצובר 3 מעוניינים — נפתחת עליו אוטומטית קבוצת רכישה ייעודית
+          ✨ דגם שצובר 3 מעוניינים, נפתחת עליו אוטומטית קבוצת רכישה ייעודית
         </p>
       </div>
 
@@ -4460,9 +4460,9 @@ function DemandForecast({ deal, compact = false }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  LIVE BID FEED — reverse-auction timeline on the deal page
+//  LIVE BID FEED, reverse-auction timeline on the deal page
 //  Suppliers bid the price DOWN; this surfaces that to the customer so
-//  the core differentiator is visible. Suppliers stay anonymous — we
+//  the core differentiator is visible. Suppliers stay anonymous, we
 //  show the bid `code` (e.g. "BL07"), never a real business name.
 //  Implausibly-low (typo) bids are filtered with isImplausibleBid so a
 //  mistyped offer never appears in the feed.
@@ -4475,7 +4475,7 @@ function BidFeed({ deal }) {
     .filter(b => b && Number.isFinite(Number(b.amount)) && !isImplausibleBid(b.amount, deal))
     .slice(-5)
     .reverse();
-  // Empty state — show nothing at all (per spec).
+  // Empty state, show nothing at all (per spec).
   if (feed.length === 0) return null;
   const lowest = Math.min(...feed.map(b => Number(b.amount)));
   return (
@@ -4489,7 +4489,7 @@ function BidFeed({ deal }) {
         </span>
       </div>
       <p className="text-[11px] text-gray-400 mb-3 leading-snug">
-        ספקים מתחרים על הקבוצה — כל הצעה חדשה מורידה את המחיר.
+        ספקים מתחרים על הקבוצה, כל הצעה חדשה מורידה את המחיר.
       </p>
       <div className="space-y-1.5">
         {feed.map((b, i) => {
@@ -4537,7 +4537,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
   const maxParticipants  = deal.maxParticipants || 0;
   const interestedCount  = deal.interested || 0;
   const daysLeft         = deal.daysLeft ?? 0;
-  // Bell-jingle state — fires the bellRing CSS animation once per click on
+  // Bell-jingle state, fires the bellRing CSS animation once per click on
   // the "updates only" button. Resets after ~700ms (animation duration) so
   // repeated clicks each trigger a fresh ring.
   const [bellRinging, setBellRinging] = useState(false);
@@ -4547,7 +4547,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
     onSelectTier("interested");
   };
 
-  // ── Compact mode (sticky header) — minimal indicator ──
+  // ── Compact mode (sticky header), minimal indicator ──
   if (compact) {
     if (joinedTier === "committed") {
       return (
@@ -4569,7 +4569,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       <div className="flex items-center gap-2">
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
-          אני בפנים — נעלו לי את המחיר
+          אני בפנים, נעלו לי את המחיר
         </button>
         <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
           className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
@@ -4589,7 +4589,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
               <span className="text-white text-xl">✓</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm text-indigo-900">אתם בפנים — המחיר נעול עליכם</p>
+              <p className="font-black text-sm text-indigo-900">אתם בפנים, המחיר נעול עליכם</p>
               <p className="text-gray-600 text-[12px] mt-1 leading-relaxed">
                 סכום של ₪{COMMITTED_DEPOSIT.toLocaleString()} שמור על שמכם. היתרה תיגבה רק כשהקבוצה תיסגר במחיר הסופי.
               </p>
@@ -4621,7 +4621,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         {/* Upgrade to formal order */}
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
-          <span>אני בפנים — נעלו לי את המחיר</span>
+          <span>אני בפנים, נעלו לי את המחיר</span>
           <span className="text-[10px] text-gray-400 font-normal mr-1">(נעילת מחיר ₪{COMMITTED_DEPOSIT.toLocaleString()})</span>
           <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
         </button>
@@ -4656,18 +4656,18 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         </div>
       </div>
 
-      {/* Primary action — formal submission */}
+      {/* Primary action, formal submission */}
       <button
         onClick={(e) => onSelectTier("committed", e.currentTarget)}
         className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
       >
-        <span className="text-[15px] font-black">אני בפנים — נעלו לי את המחיר</span>
+        <span className="text-[15px] font-black">אני בפנים, נעלו לי את המחיר</span>
         <span className="text-[11px] font-medium text-white/85">
           נעילת מחיר · שמירת אמצעי תשלום (לא נחייב כעת)
         </span>
       </button>
 
-      {/* Reassurance — cancel-anytime guarantee under the join button.
+      {/* Reassurance, cancel-anytime guarantee under the join button.
           Per user feedback: customers hesitate because they think saving
           a card commits them. The green check + concise copy converts. */}
       <div className="flex items-center justify-center gap-1.5 text-[12px] font-semibold text-emerald-700">
@@ -4675,7 +4675,7 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         <span>ניתן לבטל בכל עת</span>
       </div>
 
-      {/* Secondary action — colourful bell pill, jingles on click */}
+      {/* Secondary action, colourful bell pill, jingles on click */}
       <button
         onClick={ringBellAndJoin}
         className="w-full rounded-2xl border-2 border-amber-200 bg-gradient-to-l from-amber-50 via-yellow-50 to-pink-50 hover:from-amber-100 hover:via-yellow-100 hover:to-pink-100 hover:border-amber-300 text-gray-800 py-2.5 px-4 flex items-center justify-center gap-2 text-[13px] font-bold transition-all active:scale-[0.99] shadow-sm"
@@ -4684,13 +4684,13 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
           className={`w-5 h-5 text-amber-500 drop-shadow-sm ${bellRinging ? "bell-ring" : ""}`}
           fill="currentColor"
         />
-        <span>רק עדכנו אותי — בלי להתחייב</span>
+        <span>רק עדכנו אותי, בלי להתחייב</span>
         {interestedCount > 0 && (
           <span className="text-[11px] font-medium text-amber-600/80">({interestedCount} רשומים)</span>
         )}
       </button>
 
-      {/* Footnote — explains the SetupIntent (no-charge) flow */}
+      {/* Footnote, explains the SetupIntent (no-charge) flow */}
       <p className="text-center text-[10px] text-gray-400 leading-relaxed">
         המחיר נשמר לכם ללא חיוב. החיוב יבוצע רק לאחר אישורכם בסגירת הקבוצה, ולא יבוצע כלל אם המינימום לא הושג.
       </p>
@@ -4721,7 +4721,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
       onClick={onClick}
       className="bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-indigo-100 transition-all duration-200 cursor-pointer overflow-hidden group flex flex-col"
     >
-      {/* Image area — h-32 on mobile compact, h-48 default. */}
+      {/* Image area, h-32 on mobile compact, h-48 default. */}
       <div className={`relative overflow-hidden bg-gradient-to-br from-slate-50 to-indigo-50/40 ${compact ? "h-28 sm:h-36 lg:h-40" : "h-48"}`}>
         <ProductImage
           query={deal.name.en}
@@ -4815,7 +4815,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
           )}
         </div>
 
-        {/* Timer — compact digital HH:MM:SS in compact mode (used on mobile
+        {/* Timer, compact digital HH:MM:SS in compact mode (used on mobile
               home grid), full analog ring elsewhere. */}
         {dealStatus === "active" && deal.participants >= 2 && (
           <div className="flex justify-center mb-3 mt-auto">
@@ -4931,7 +4931,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     try { const c = localStorage.getItem(cacheKey); if (c) { setGptDesc(c); return; } } catch {}
     let alive = true;
     const specStr = (deal.specs || []).slice(0, 8).join(", ");
-    // 12s timeout — on slow mobile networks GPT calls can hang. Without this
+    // 12s timeout, on slow mobile networks GPT calls can hang. Without this
     // the skeleton spins forever and the user thinks the page is broken.
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), 12000);
@@ -4943,7 +4943,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           setGptDesc(data.description);
           try { localStorage.setItem(cacheKey, data.description); } catch {}
         } else {
-          // Non-200 or {ok:false} — clear skeleton, hide the block
+          // Non-200 or {ok:false}, clear skeleton, hide the block
           setGptDesc("");
         }
       })
@@ -4965,8 +4965,8 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (user && pendingTierRef.current) {
       const tier = pendingTierRef.current;
       pendingTierRef.current = null;
-      // For "interested" — no deposit, mark joined immediately.
-      // For "committed" — must collect a card hold via Stripe; skipping
+      // For "interested", no deposit, mark joined immediately.
+      // For "committed", must collect a card hold via Stripe; skipping
       // straight to setJoinedTier would falsely confirm an order without
       // any payment method ever being saved (the original bug).
       if (tier === "interested") {
@@ -5011,7 +5011,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
     if (notify) notify("✅ נעלת את המחיר! המקדמה הוקפאה.");
   };
   const handleWhatsApp = () => {
-    // Stable product URL — /product/<key> re-resolves on the recipient's
+    // Stable product URL, /product/<key> re-resolves on the recipient's
     // side (server lookup by Zap model id, or by product name), so the
     // link always opens the product page itself, never the home page.
     const productKey = deal.productKey || productKeyFrom(deal);
@@ -5038,7 +5038,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         {t.backToDeals}
       </button>
 
-      {/* ── DEMO BANNER — prominent so customers don't mistake demo deals
+      {/* ── DEMO BANNER, prominent so customers don't mistake demo deals
               for real active rounds with real discounts ── */}
       {deal._demo && (
         <div className="mb-4 rounded-2xl border-2 border-amber-300 bg-gradient-to-r from-amber-50 to-orange-50 p-3 flex items-center gap-3 shadow-sm">
@@ -5048,7 +5048,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           <div className="flex-1 min-w-0">
             <p className="text-sm font-black text-amber-900">קבוצה לדוגמה</p>
             <p className="text-[11px] text-amber-700 leading-tight mt-0.5">
-              זהו מוצר תצוגה — המחירים והקבוצה אינם מקבוצת קנייה אמיתית. ה־UI כאן הוא הדמיה של חוויית קנייה קבוצתית.
+              זהו מוצר תצוגה, המחירים והקבוצה אינם מקבוצת קנייה אמיתית. ה־UI כאן הוא הדמיה של חוויית קנייה קבוצתית.
             </p>
           </div>
         </div>
@@ -5096,10 +5096,10 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
 
         {/* ══ HERO: Image + Info ══ */}
         <div className="bg-white rounded-3xl border border-gray-100 shadow-md overflow-hidden">
-          {/* Image — full width */}
+          {/* Image, full width */}
           <div className="relative bg-white">
             <div className="cursor-zoom-in" onClick={() => setImgZoomed(true)}>
-              {/* Single image — extraImages multi-carousel was reverted in
+              {/* Single image, extraImages multi-carousel was reverted in
                   commit e076377 because the multi-image API returned
                   wrong-product photos for many queries. Show the single
                   verified image if we have one (deal.image or resolvedImg),
@@ -5128,7 +5128,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                 ))}
               </div>
             )}
-            {/* Badges — positioned at the BOTTOM of the image (with safe
+            {/* Badges, positioned at the BOTTOM of the image (with safe
                   margin) so they never overlap the product title below.   */}
             <div className="absolute bottom-3 left-3 z-10">
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg ring-2 ring-white/50">
@@ -5163,7 +5163,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         </div>
 
-        {/* ══ GPT PRODUCT REVIEW — right below product image ══
+        {/* ══ GPT PRODUCT REVIEW, right below product image ══
               States: null = loading skeleton, "" = failed (show fallback so user
               isn't left with a missing section), string = real GPT-generated review. */}
         {gptDesc ? (
@@ -5185,7 +5185,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             </div>
           </div>
         ) : (
-          /* Fallback when GPT failed — show what we know from the product itself */
+          /* Fallback when GPT failed, show what we know from the product itself */
           (deal.specs?.length || deal.description) ? (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
               <h3 className="text-sm font-black text-gray-900 mb-3 flex items-center gap-2">
@@ -5208,7 +5208,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           ) : null
         )}
 
-        {/* ══ 1. PRICE COMPARISON — "המחיר בשוק vs מחיר Bundly" ══ */}
+        {/* ══ 1. PRICE COMPARISON, "המחיר בשוק vs מחיר Bundly" ══ */}
         {!priceHidden && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
             <h3 className="text-sm font-black text-gray-800 mb-4 flex items-center gap-2">
@@ -5218,7 +5218,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               <div className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
                 <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">מחיר בשוק</p>
                 <p className="text-xl font-black text-gray-400 line-through">₪{Number(deal.marketMax || 0).toLocaleString()}</p>
-                <p className="text-[11px] text-gray-400 mt-1">₪{Number(deal.marketMin || 0).toLocaleString()} – ₪{Number(deal.marketMax || 0).toLocaleString()}</p>
+                <p className="text-[11px] text-gray-400 mt-1">₪{Number(deal.marketMin || 0).toLocaleString()}, ₪{Number(deal.marketMax || 0).toLocaleString()}</p>
               </div>
               <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl p-4 text-center shadow-lg relative overflow-hidden">
                 <div className="absolute -top-3 -right-3 w-16 h-16 bg-white/10 rounded-full blur-lg" />
@@ -5232,18 +5232,18 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         )}
 
-        {/* ══ 1b. LIVE BID FEED — reverse-auction timeline ══
+        {/* ══ 1b. LIVE BID FEED, reverse-auction timeline ══
               Surfaces the supplier-vs-supplier price war to the customer.
               Renders nothing when there are no (plausible) bids. */}
         {!priceHidden && <BidFeed deal={deal} />}
 
-        {/* ══ 2. HOW IT WORKS — "איך זה עובד?" ══ */}
+        {/* ══ 2. HOW IT WORKS, "איך זה עובד?" ══ */}
         <div className="bg-gradient-to-br from-indigo-50/80 to-violet-50/50 border border-indigo-100 rounded-2xl p-5">
           <h3 className="text-sm font-black text-gray-900 mb-4 text-center">איך Bundly מוריד לך את המחיר?</h3>
           <div className="grid grid-cols-3 gap-3 text-center">
             {[
               { icon: "👥", title: "מצטרפים", desc: "אנשים שרוצים את אותו מוצר מתאגדים" },
-              { icon: "📉", title: "המחיר יורד", desc: "ככל שיותר מצטרפים — המחיר יורד לכולם" },
+              { icon: "📉", title: "המחיר יורד", desc: "ככל שיותר מצטרפים, המחיר יורד לכולם" },
               { icon: "🏆", title: "ספקים מתחרים", desc: "ספקים רואים את הביקוש ומציעים את המחיר הכי טוב" },
             ].map((s, i) => (
               <div key={i} className="flex flex-col items-center gap-1.5">
@@ -5255,7 +5255,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         </div>
 
-        {/* ══ 3. TIER SELECTOR — "בחר רמת הצטרפות" (anchor for sticky) ══ */}
+        {/* ══ 3. TIER SELECTOR, "בחר רמת הצטרפות" (anchor for sticky) ══ */}
         <div ref={tierRef}>
           {deal.participants >= deal.maxParticipants ? (
             <div className="text-center py-3 bg-gray-100 rounded-2xl text-gray-500 text-sm font-medium">{t.groupFull}</div>
@@ -5266,7 +5266,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           )}
         </div>
 
-        {/* ══ 4. GROUP ACTIVITY — "כמה אנשים כבר בקבוצה" ══ */}
+        {/* ══ 4. GROUP ACTIVITY, "כמה אנשים כבר בקבוצה" ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
           <div className="flex items-center gap-3 mb-3">
             <div className="flex items-center gap-1">
@@ -5294,11 +5294,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
               <div className={`h-full rounded-full transition-all ${criticalMass ? "bg-emerald-500" : "bg-gradient-to-r from-indigo-400 to-indigo-600"}`} style={{ width: `${pct}%` }} />
             </div>
-            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✓ הקבוצה הגיעה למינימום — הסגירה מאושרת</p>}
+            {criticalMass && <p className="text-emerald-600 text-xs font-bold mt-1.5 text-center">✓ הקבוצה הגיעה למינימום, הסגירה מאושרת</p>}
           </div>
         </div>
 
-        {/* ══ COMMITTED — Locked-in price banner ══ */}
+        {/* ══ COMMITTED, Locked-in price banner ══ */}
         {joinedTier === "committed" && !priceHidden && (() => {
           const finalPrice = Number(bestBid?.amount || deal.groupOffer) || 0;
           const deposit = Math.round(finalPrice * 0.25);
@@ -5306,7 +5306,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           // BUG FIX (round 4 P0): when the deal is closed and the user is
           // committed, they need an explicit "approve charge" button or the
           // off-session charge is never triggered. dealStatus comes from
-          // /api/deals/:id state — "closed" / "filled" both indicate the
+          // /api/deals/:id state, "closed" / "filled" both indicate the
           // group reached its minimum and the customer must approve.
           const dealClosed = ["closed", "filled"].includes(String(deal.status || "").toLowerCase());
           return (
@@ -5317,7 +5317,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               </div>
               <div className="relative pr-14">
                 <p className="text-xs text-emerald-100 font-bold mb-1">
-                  {dealClosed ? "🎉 הקבוצה נסגרה — נדרש אישור חיוב" : "🔒 המחיר נעול — מקדמה הוקפאה"}
+                  {dealClosed ? "🎉 הקבוצה נסגרה, נדרש אישור חיוב" : "🔒 המחיר נעול, מקדמה הוקפאה"}
                 </p>
                 <p className="text-3xl font-black tracking-tight">₪{finalPrice.toLocaleString()}</p>
                 <div className="flex items-center gap-3 text-[11px] text-emerald-50 mt-2 bg-white/10 rounded-lg px-3 py-2">
@@ -5349,12 +5349,12 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                       } catch (e) { alert("שגיאה: " + e.message); }
                     }}
                     className="mt-3 w-full py-3 bg-white text-emerald-700 font-black rounded-xl text-sm hover:bg-emerald-50 transition active:scale-[0.98]">
-                    אשר חיוב כעת — ₪{finalPrice.toLocaleString()}
+                    אשר חיוב כעת, ₪{finalPrice.toLocaleString()}
                   </button>
                 ) : (
                   <p className="text-[10px] text-emerald-200 mt-2">
-                    ✓ אם המחיר הקבוצתי יורד עוד — תקבל את המחיר הנמוך
-                    <br />✓ אם הקבוצה לא מתמלאת — המקדמה משוחררת אוטומטית
+                    ✓ אם המחיר הקבוצתי יורד עוד, תקבל את המחיר הנמוך
+                    <br />✓ אם הקבוצה לא מתמלאת, המקדמה משוחררת אוטומטית
                   </p>
                 )}
               </div>
@@ -5362,7 +5362,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           );
         })()}
 
-        {/* ══ 5. TIER LADDER — "מחיר יורד ככל שמצטרפים" ══ */}
+        {/* ══ 5. TIER LADDER, "מחיר יורד ככל שמצטרפים" ══ */}
         {!priceHidden && (() => {
           const tiers = makeTiers(deal.marketMin);
           const active = activeTier(tiers, deal.participants);
@@ -5404,14 +5404,14 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
 
               <div className="mb-3">
                 <h3 className="text-sm font-black text-gray-800 flex items-center gap-2">
-                  <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר — ככל שמצטרפים, חוסכים יותר
+                  <TrendingDown className="w-4 h-4 text-indigo-500" /> מדרגות מחיר, ככל שמצטרפים, חוסכים יותר
                 </h3>
-                {/* Non-binding disclaimer — the numbers below are a
+                {/* Non-binding disclaimer, the numbers below are a
                     suggested ladder for the supplier to bid against,
                     NOT a binding promise of price at each tier. */}
                 <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-1.5 inline-flex items-center gap-1.5">
                   <span>💡</span>
-                  <span><strong>רעיון למחיר</strong> — המחירים להלן הם הצעה בלבד וכפופים להצעת הספק הסופית.</span>
+                  <span><strong>רעיון למחיר</strong>, המחירים להלן הם הצעה בלבד וכפופים להצעת הספק הסופית.</span>
                 </p>
               </div>
               <div className="space-y-1.5 mb-4">
@@ -5437,14 +5437,14 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                     <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all" style={{ width: `${Math.round((deal.participants / next.people) * 100)}%` }} />
                   </div>
                   <p className="text-[10px] text-amber-600 mt-1.5 font-semibold">
-                    💡 שתפו את הקבוצה עם חברים — ככל שיותר מצטרפים, המחיר יורד לכולם
+                    💡 שתפו את הקבוצה עם חברים, ככל שיותר מצטרפים, המחיר יורד לכולם
                   </p>
                 </div>
               )}
               {/* Closing warning */}
               <div className="bg-red-50 border border-red-100 rounded-xl p-3">
                 <p className="text-xs text-red-700 font-bold leading-snug">
-                  ⚠️ אחרי סגירת הקבוצה — המחיר חוזר ל-₪{marketPrice.toLocaleString()} בחנויות. את ההצעה הזו לא תוכל לקבל בחזרה.
+                  ⚠️ אחרי סגירת הקבוצה, המחיר חוזר ל-₪{marketPrice.toLocaleString()} בחנויות. את ההצעה הזו לא תוכל לקבל בחזרה.
                 </p>
               </div>
 
@@ -5456,7 +5456,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
         })()}
 
 
-        {/* ══ 7. MORE OPTIONS — "אפשרויות נוספות" ══ */}
+        {/* ══ 7. MORE OPTIONS, "אפשרויות נוספות" ══ */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
           <h3 className="text-sm font-black text-gray-800 mb-4">אפשרויות נוספות</h3>
           <div className="space-y-3">
@@ -5477,7 +5477,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             {/* Share */}
             <button onClick={handleWhatsApp}
               className="w-full flex items-center justify-center gap-2 py-3 bg-[#25D366] hover:bg-[#20bb58] text-white font-black rounded-xl text-sm transition active:scale-[0.98]">
-              <Share2 className="w-4 h-4" /> שתף עם חברים ב-WhatsApp — יותר אנשים = מחיר נמוך יותר
+              <Share2 className="w-4 h-4" /> שתף עם חברים ב-WhatsApp, יותר אנשים = מחיר נמוך יותר
             </button>
           </div>
         </div>
@@ -5515,7 +5515,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
           </div>
         )}
 
-        {/* ══ 9. TRUST — "למה Bundly בטוח" ══ */}
+        {/* ══ 9. TRUST, "למה Bundly בטוח" ══ */}
         <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-5">
           <h3 className="text-sm font-black text-gray-900 mb-3 flex items-center gap-2">
             <Shield className="w-4 h-4 text-emerald-600" /> למה לקנות דרך Bundly?
@@ -5557,7 +5557,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  DEAL Q&A WIDGET — buyers ask, supplier (or admin) answers
+//  DEAL Q&A WIDGET, buyers ask, supplier (or admin) answers
 //  Shown at the bottom of every DealDetailsPage. Anonymous Qs allowed.
 // ─────────────────────────────────────────────────────────────────
 function DealQA({ dealId, user }) {
@@ -5578,7 +5578,7 @@ function DealQA({ dealId, user }) {
 
   const post = async () => {
     if (!draft.trim() || draft.trim().length < 3 || submitting) return;
-    // Posting a question now requires being logged in — the server derives the
+    // Posting a question now requires being logged in, the server derives the
     // asker name from the JWT, so an anonymous post would be rejected (401).
     const tok = user?.token || _getToken();
     if (!tok) { setPostError("יש להתחבר כדי לשאול שאלה"); return; }
@@ -5596,7 +5596,7 @@ function DealQA({ dealId, user }) {
       } else if (r.status === 401) {
         setPostError("יש להתחבר כדי לשאול שאלה");
       } else {
-        setPostError("שגיאה בשליחת השאלה — נסה שוב");
+        setPostError("שגיאה בשליחת השאלה, נסה שוב");
       }
     } finally { setSubmitting(false); }
   };
@@ -5871,10 +5871,10 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
                 <span className="text-xs bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-medium">ממתין לבדיקה</span>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm mb-4">
-                <div><p className="text-gray-400 text-xs">בעל העסק</p><p className="font-medium">{s.ownerName || "—"}</p></div>
+                <div><p className="text-gray-400 text-xs">בעל העסק</p><p className="font-medium">{s.ownerName || "-"}</p></div>
                 <div><p className="text-gray-400 text-xs">טלפון</p><p className="font-medium">{s.phone}</p></div>
                 <div><p className="text-gray-400 text-xs">מייל</p><p className="font-medium text-xs">{s.email}</p></div>
-                <div><p className="text-gray-400 text-xs">כתובת</p><p className="font-medium text-xs">{s.address || "—"}</p></div>
+                <div><p className="text-gray-400 text-xs">כתובת</p><p className="font-medium text-xs">{s.address || "-"}</p></div>
               </div>
               {s.description && <p className="text-xs text-gray-600 bg-gray-50 rounded-lg p-3 mb-3">{s.description}</p>}
               <div className="flex gap-2">
@@ -5978,7 +5978,7 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
                   <div className="flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-xl px-3 py-2">
                     <span>🛡️</span>
                     <p className="text-xs text-blue-700 font-semibold">
-                      מחיר רצפה מוגן: <strong>₪{auctionDeal.priceFloor.toLocaleString()}</strong> — לא ניתן להגיש מתחת לזה
+                      מחיר רצפה מוגן: <strong>₪{auctionDeal.priceFloor.toLocaleString()}</strong>, לא ניתן להגיש מתחת לזה
                     </p>
                   </div>
                 )}
@@ -6104,7 +6104,7 @@ function SupplierLoginModal({ onSuccess, onClose }) {
         {showDemo && (
           <div className="pt-3 mt-3 border-t border-dashed border-gray-200 space-y-2">
             <p className="text-[10px] text-gray-400 text-center font-bold uppercase tracking-wide">
-              מצב הדגמה — לפגישות עם ספקים
+              מצב הדגמה, לפגישות עם ספקים
             </p>
             {demoErr && <p className="text-xs text-red-500 text-center">{demoErr}</p>}
             <button
@@ -6125,15 +6125,15 @@ function SupplierLoginModal({ onSuccess, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER REAL LOGIN MODAL — ח.פ + OTP verification
+//  SUPPLIER REAL LOGIN MODAL, ח.פ + OTP verification
 //
 //  SECURITY: replaces the old "instant connect" path on the supplier
 //  landing page. A returning supplier must prove account ownership:
-//    Step 1 — enter ח.פ (businessNumber) + a registered email/phone,
+//    Step 1, enter ח.פ (businessNumber) + a registered email/phone,
 //             request a one-time code (POST supplier-login/start).
-//    Step 2 — enter the 6-digit code (POST supplier-login/verify).
+//    Step 2, enter the 6-digit code (POST supplier-login/verify).
 //  Only a verified code yields a JWT. onSuccess receives the
-//  { user, supplier, token } payload — same shape as the demo login —
+//  { user, supplier, token } payload, same shape as the demo login —
 //  so the parent can lift the session and route to the dashboard.
 // ─────────────────────────────────────────────────────────────────
 function SupplierRealLoginModal({ onSuccess, onClose }) {
@@ -6141,7 +6141,7 @@ function SupplierRealLoginModal({ onSuccess, onClose }) {
   const [businessNumber, setBusinessNumber] = useState("");
   const [contact, setContact] = useState("");
   const [otp, setOtp]         = useState("");
-  const [channel, setChannel] = useState("");      // "sms" | "email" — set by /start
+  const [channel, setChannel] = useState("");      // "sms" | "email", set by /start
   const [devCode, setDevCode] = useState("");      // dev-only convenience
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState("");
@@ -6186,7 +6186,7 @@ function SupplierRealLoginModal({ onSuccess, onClose }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || "קוד שגוי");
-      // Verified — hand the full payload to the parent.
+      // Verified, hand the full payload to the parent.
       onSuccess?.({ user: data.user, supplier: data.supplier, token: data.token });
     } catch (e) {
       setError(e.message);
@@ -6210,7 +6210,7 @@ function SupplierRealLoginModal({ onSuccess, onClose }) {
         {step === "ident" && (
           <>
             <p className="text-sm text-gray-600">
-              הזן את מספר ח.פ של העסק ופרט קשר רשום (אימייל או טלפון) — נשלח אליו קוד אימות חד-פעמי.
+              הזן את מספר ח.פ של העסק ופרט קשר רשום (אימייל או טלפון), נשלח אליו קוד אימות חד-פעמי.
             </p>
             <Input
               label="ח.פ / מספר עוסק"
@@ -6277,7 +6277,7 @@ function SupplierRealLoginModal({ onSuccess, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  IMPORT CATALOG — CSV upload + Product Feed URL config
+//  IMPORT CATALOG, CSV upload + Product Feed URL config
 //
 //  Two on-ramps for syncing the supplier's existing catalog into Bundly:
 //    1. Drop a CSV (one-shot import) → preview → commit
@@ -6358,7 +6358,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
   // ── Feed URL save (PUT) ──
   const saveFeedUrl = async () => {
     if (!feedUrl || !/^https?:\/\//i.test(feedUrl)) {
-      setFeedErr("URL לא תקין — נדרשת כתובת http:// או https://"); return;
+      setFeedErr("URL לא תקין, נדרשת כתובת http:// או https://"); return;
     }
     setFeedBusy(true); setFeedErr("");
     try {
@@ -6369,7 +6369,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
       });
       const d = await r.json();
       if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
-      onNotify?.(`✅ Feed הוגדר — ${d.synced} מוצרים סונכרנו (${d.detectedFmt})${d.invalid ? `, ${d.invalid} דולגו` : ""}`);
+      onNotify?.(`✅ Feed הוגדר, ${d.synced} מוצרים סונכרנו (${d.detectedFmt})${d.invalid ? `, ${d.invalid} דולגו` : ""}`);
       // Refresh status
       const s = await fetch(`/api/suppliers/${encodeURIComponent(supplierId)}/feed-url`, { headers });
       const sd = await s.json();
@@ -6398,7 +6398,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
       {/* Header */}
       <div className="bg-gradient-to-br from-sky-50 to-cyan-50 border border-sky-100 rounded-2xl p-5">
         <h2 className="text-xl font-black text-sky-900 mb-1">🔗 ייבוא קטלוג</h2>
-        <p className="text-sm text-sky-700">סנכרן את כל המוצרים מהאתר שלך ל-Bundly. שתי דרכים — חד-פעמי או אוטומטי.</p>
+        <p className="text-sm text-sky-700">סנכרן את כל המוצרים מהאתר שלך ל-Bundly. שתי דרכים, חד-פעמי או אוטומטי.</p>
       </div>
 
       {/* Tab toggle */}
@@ -6420,7 +6420,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
             <div>
               <h3 className="font-black text-gray-900 mb-1">העלה קובץ CSV</h3>
               <p className="text-xs text-gray-500">
-                שורה ראשונה — כותרות עמודות (אנגלית או עברית). נדרש: <strong>name</strong>, <strong>price</strong>.
+                שורה ראשונה, כותרות עמודות (אנגלית או עברית). נדרש: <strong>name</strong>, <strong>price</strong>.
                 אופציונלי: sku, qty, image_url, description, category, brand.
               </p>
             </div>
@@ -6474,7 +6474,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
 
               {csvPreview.preview?.length > 0 && (
                 <div>
-                  <h4 className="font-bold text-sm text-gray-900 mb-2">תצוגה מקדימה — 20 ראשונים:</h4>
+                  <h4 className="font-bold text-sm text-gray-900 mb-2">תצוגה מקדימה, 20 ראשונים:</h4>
                   <div className="overflow-x-auto max-h-64 overflow-y-auto border border-gray-100 rounded-lg">
                     <table className="w-full text-xs">
                       <thead className="bg-gray-50 sticky top-0">
@@ -6515,7 +6515,7 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
         <div className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
             <div>
-              <h3 className="font-black text-gray-900 mb-1">Feed URL — סנכרון אוטומטי</h3>
+              <h3 className="font-black text-gray-900 mb-1">Feed URL, סנכרון אוטומטי</h3>
               <p className="text-xs text-gray-500">
                 ספק את כתובת ה-Feed של האתר שלך. Bundly מסנכרנת אוטומטית כל 6 שעות.
                 תומך ב-CSV, JSON, XML/RSS/Atom (Shopify, WooCommerce, Google Merchant).
@@ -6582,12 +6582,12 @@ function ImportCatalogPanel({ supplierId, headers, onNotify }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER DASHBOARD — private view of the supplier's deals
+//  SUPPLIER DASHBOARD, private view of the supplier's deals
 // ─────────────────────────────────────────────────────────────────
 function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, personalRequests = [], bundles = [], onSelectBundle, onUpdateRequest, onNotify, onAddBid, onCancelBid }) {
-  // Deal currently being bid on — opens the BidModal when set
+  // Deal currently being bid on, opens the BidModal when set
   const [bidDeal, setBidDeal] = useState(null);
-  // Bid currently being cancelled — opens the CancelBidModal when set.
+  // Bid currently being cancelled, opens the CancelBidModal when set.
   // Shape: { dealId, bid, dealName }
   const [cancelTarget, setCancelTarget] = useState(null);
   // ── Supplier-side data (orders received, earnings, reviews) ──
@@ -6602,7 +6602,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   // server's `requireSupplierMatch` middleware lets it through.
   //
   // SECURITY NOTE: the server no longer trusts the x-supplier-* headers
-  // alone — they're hints. The Authorization Bearer (the customer JWT
+  // alone, they're hints. The Authorization Bearer (the customer JWT
   // whose user.email matches a registered supplier) is the real auth.
   // Suppliers must log in to Bundly as customers with the same email
   // they registered with as a supplier. Without a Bearer the server
@@ -6639,7 +6639,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     const email = supplier?.email;
     if (email) {
       const enc = encodeURIComponent(email.toLowerCase());
-      // SECURITY: must use supplierFetch (sends Authorization: Bearer) — plain
+      // SECURITY: must use supplierFetch (sends Authorization: Bearer), plain
       // fetch hits requireSupplierMatchOnEmail → requireSupplierMatch which 401s
       // without a Bearer, silently leaving Overview KPIs at zero forever.
       supplierFetch(`/api/suppliers/by-email/${enc}/orders`).then(r => r.ok ? r.json() : null).then(d => { if (d?.ok) setSupplierOrders(d.orders || []); }).catch(() => {});
@@ -6653,7 +6653,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     supplierFetch(`/api/suppliers/${sidEnc}/listings`).then(r => r.ok ? r.json() : []).then(d => setListings(Array.isArray(d) ? d : [])).catch(() => {});
   }, [supplier?.email, sidEnc, supplierFetch]);
 
-  // Notifications poll every 30s — feeds the bell badge.
+  // Notifications poll every 30s, feeds the bell badge.
   useEffect(() => {
     let cancelled = false;
     const tick = async () => {
@@ -6834,7 +6834,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       const data = await res.json();
       if (data?.ok) {
         setSupplierOrders(prev => prev.map(o => o.id === orderId ? data.order : o));
-        onNotify?.(`✅ הזמנה #${orderId} — סטטוס עודכן`);
+        onNotify?.(`✅ הזמנה #${orderId}, סטטוס עודכן`);
       }
     } catch { /* ignore */ }
   };
@@ -6858,7 +6858,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     .sort((a, b) => (a.myBid?.amount || 0) - (b.myBid?.amount || 0)),
     [deals, supplier.id]
   );
-  // ALL active group-buys on the platform (not filtered by supplier) — what suppliers most need to see
+  // ALL active group-buys on the platform (not filtered by supplier), what suppliers most need to see
   const allActiveDeals = useMemo(() => (deals || [])
     .filter(d => {
       const status = getDealStatus(d);
@@ -6867,7 +6867,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
     .sort((a, b) => (b.participants || 0) - (a.participants || 0)),
     [deals]
   );
-  // Default to "overview" — supplier's home view with KPIs, leading deals, and activity feed
+  // Default to "overview", supplier's home view with KPIs, leading deals, and activity feed
   const [activeTab, setActiveTab] = useState("overview");
   const [allDealsCategoryFilter, setAllDealsCategoryFilter] = useState(null);
   const [hiddenMap, setHiddenMap] = useState(
@@ -6903,7 +6903,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   // Which category card is currently expanded (null = none, only grid shown)
   const [selectedCategory, setSelectedCategory] = useState(null);
   const categoryDetailRef = useRef(null);
-  // Auto-scroll to the detail panel when a supplier picks a category — without
+  // Auto-scroll to the detail panel when a supplier picks a category, without
   // this, on mobile the detail appears below the fold and the supplier has
   // to manually scroll to find their requests.
   useEffect(() => {
@@ -6931,7 +6931,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
 
   return (
     <div className="max-w-4xl mx-auto pb-10">
-      {/* ── PROFILE STRIP — top of supplier dashboard ── */}
+      {/* ── PROFILE STRIP, top of supplier dashboard ── */}
       {/* Always visible. When complete, collapses into a status badge.
           When incomplete, shows progress + "Complete now" CTA. The bell lives
           here too so suppliers can see notifications at a glance. */}
@@ -6965,7 +6965,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               )}
             </div>
             <p className="text-xs text-gray-500 mt-0.5">{supplier.email || "ספק רשום"}</p>
-            {/* Progress bar — visible when not 100% */}
+            {/* Progress bar, visible when not 100% */}
             {(profile?.completionPct ?? 0) < 100 && (
               <div className="mt-3">
                 <div className="flex items-center justify-between mb-1">
@@ -6998,7 +6998,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               </div>
             )}
           </div>
-          {/* 🔔 Notifications bell — kept inside the profile strip */}
+          {/* 🔔 Notifications bell, kept inside the profile strip */}
           <button
             onClick={() => setShowNotifPanel(v => !v)}
             className="relative w-11 h-11 rounded-2xl bg-white border border-gray-200 hover:border-indigo-300 hover:shadow flex items-center justify-center transition flex-shrink-0">
@@ -7012,7 +7012,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       </div>
 
-      {/* Notification panel — drops down from the bell when toggled */}
+      {/* Notification panel, drops down from the bell when toggled */}
       {showNotifPanel && (
         <div className="bg-white rounded-2xl border border-gray-200 shadow-2xl p-4 mb-5 max-h-[400px] overflow-y-auto">
           <div className="flex items-center justify-between mb-3">
@@ -7047,7 +7047,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── HERO STRIP — total active buying-group activity (hidden on overview to give it space) ── */}
+      {/* ── HERO STRIP, total active buying-group activity (hidden on overview to give it space) ── */}
       {activeTab !== "overview" && (() => {
         // Cold-start: a brand-new platform may have zero rounds, pools and
         // requests. Instead of a wall of zeros, show an inviting "we're new"
@@ -7062,7 +7062,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                 <p className="text-[11px] text-white/75 font-bold tracking-wider uppercase mb-1">🌱 פלטפורמה חדשה</p>
                 <h3 className="text-xl sm:text-2xl font-black leading-tight">עדיין אין סבבים פתוחים</h3>
                 <p className="text-sm text-white/90 mt-1.5 max-w-lg leading-relaxed">
-                  אנחנו רק מתחילים. ברגע שקונים יפתחו דרישות — הן יופיעו כאן, ותוכל להגיש הצעת מחיר.
+                  אנחנו רק מתחילים. ברגע שקונים יפתחו דרישות, הן יופיעו כאן, ותוכל להגיש הצעת מחיר.
                   בינתיים כדאי להשלים את פרופיל העסק כדי להיות מוכן מהרגע הראשון.
                 </p>
               </div>
@@ -7097,14 +7097,14 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         <span className="text-[11px] font-black text-gray-500 uppercase tracking-wider">🛒 מכירות וקבוצות</span>
         <div className="flex-1 h-px bg-gray-200"></div>
       </div>
-      {/* ── PRIMARY: BUYING GROUPS — biggest, most prominent ── */}
+      {/* ── PRIMARY: BUYING GROUPS, biggest, most prominent ── */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-3">
         {[
-          { key:"overview",     label:"סקירה",         icon:"🏠", count: 0, color:"from-blue-500 via-indigo-500 to-violet-500",   desc:"המסך הראשי שלך — סטטיסטיקות, הזמנות וקבוצות שמובילים בהן" },
-          { key:"all-active",   label:"כל הקבוצות",    icon:"🛒", count: allActiveDeals.length, color:"from-indigo-500 via-violet-500 to-fuchsia-500", desc:"כל קבוצות הרכישה הפעילות בפלטפורמה — הגש הצעת מחיר",  hot:true },
-          { key:"my-bids",      label:"ההצעות שלי",  icon:"📥", count: myBidDeals.length,     color:"from-violet-500 via-purple-500 to-fuchsia-500", desc:"קבוצות שאליהן הגשת הצעת מחיר — עקוב אחר התחרות" },
-          { key:"demand-pools", label:"ביקושי קטגוריה", icon:"📊", count: poolEntries.length,    color:"from-emerald-500 via-teal-500 to-cyan-500",     desc:"ביקוש כללי לקטגוריה — שלח הצעות לדגמים פופולריים" },
-          { key:"deals",        label:"העסקאות שלי",   icon:"🏪", count: myDeals.length,         color:"from-amber-500 via-orange-500 to-red-500",      desc:"קבוצות שכבר הפעלת — עקוב אחר משתתפים" },
+          { key:"overview",     label:"סקירה",         icon:"🏠", count: 0, color:"from-blue-500 via-indigo-500 to-violet-500",   desc:"המסך הראשי שלך, סטטיסטיקות, הזמנות וקבוצות שמובילים בהן" },
+          { key:"all-active",   label:"כל הקבוצות",    icon:"🛒", count: allActiveDeals.length, color:"from-indigo-500 via-violet-500 to-fuchsia-500", desc:"כל קבוצות הרכישה הפעילות בפלטפורמה, הגש הצעת מחיר",  hot:true },
+          { key:"my-bids",      label:"ההצעות שלי",  icon:"📥", count: myBidDeals.length,     color:"from-violet-500 via-purple-500 to-fuchsia-500", desc:"קבוצות שאליהן הגשת הצעת מחיר, עקוב אחר התחרות" },
+          { key:"demand-pools", label:"ביקושי קטגוריה", icon:"📊", count: poolEntries.length,    color:"from-emerald-500 via-teal-500 to-cyan-500",     desc:"ביקוש כללי לקטגוריה, שלח הצעות לדגמים פופולריים" },
+          { key:"deals",        label:"העסקאות שלי",   icon:"🏪", count: myDeals.length,         color:"from-amber-500 via-orange-500 to-red-500",      desc:"קבוצות שכבר הפעלת, עקוב אחר משתתפים" },
           { key:"requests",     label:"בקשות לקוחות", icon:"📋", count: pendingRequests.length, color:"from-blue-500 via-indigo-500 to-purple-500",    desc:"בקשות אישיות ממתינות להצעת מחיר" },
         ].map(tab => {
           const active = activeTab === tab.key;
@@ -7209,10 +7209,10 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         );
       })()}
 
-      {/* ── OVERVIEW / HOME — supplier's main dashboard view ── */}
+      {/* ── OVERVIEW / HOME, supplier's main dashboard view ── */}
       {activeTab === "overview" && (
         <div className="space-y-5">
-          {/* KPI Cards — at-a-glance status */}
+          {/* KPI Cards, at-a-glance status */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <button onClick={() => setActiveTab("earnings")}
               className="text-right bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-4 hover:shadow-md hover:border-emerald-300 transition active:scale-95">
@@ -7252,7 +7252,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                 <span className="text-2xl">⭐</span>
                 <span className="text-[10px] font-bold text-yellow-600 uppercase tracking-wider">דירוג</span>
               </div>
-              <p className="text-2xl font-black text-yellow-800">{supplierReviews.rating ? supplierReviews.rating.toFixed(1) : "—"}</p>
+              <p className="text-2xl font-black text-yellow-800">{supplierReviews.rating ? supplierReviews.rating.toFixed(1) : "-"}</p>
               <p className="text-[11px] font-bold text-yellow-700 mt-1">{supplierReviews.reviews.length} ביקורות ←</p>
             </button>
           </div>
@@ -7382,13 +7382,13 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         <div className="space-y-4">
           <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
             <p className="text-sm font-black text-emerald-800 mb-1">🧾 הזמנות שהתקבלו</p>
-            <p className="text-xs text-emerald-600">לקוחות שאישרו את ההצעות שלך — עדכן סטטוס משלוח כאן</p>
+            <p className="text-xs text-emerald-600">לקוחות שאישרו את ההצעות שלך, עדכן סטטוס משלוח כאן</p>
           </div>
           {supplierOrders.length === 0 ? (
             <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
               <Package className="w-12 h-12 mx-auto mb-3 opacity-30" />
               <p className="font-bold">אין הזמנות עדיין</p>
-              <p className="text-xs mt-1">כאשר לקוח יאשר הצעה שלך — היא תופיע כאן</p>
+              <p className="text-xs mt-1">כאשר לקוח יאשר הצעה שלך, היא תופיע כאן</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -7418,7 +7418,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                     <div className="bg-gray-50 rounded-xl p-3 mb-3 text-sm">
                       <p className="text-[10px] font-bold text-gray-400 mb-1">📍 כתובת משלוח</p>
                       <p className="text-gray-800">
-                        {order.shippingAddress.street} {order.shippingAddress.building}, דירה {order.shippingAddress.apartment || "—"}, {order.shippingAddress.city}
+                        {order.shippingAddress.street} {order.shippingAddress.building}, דירה {order.shippingAddress.apartment || "-"}, {order.shippingAddress.city}
                         {order.shippingAddress.zip && ` · ${order.shippingAddress.zip}`}
                       </p>
                     </div>
@@ -7602,7 +7602,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
       {activeTab === "reviews" && (
         <div className="space-y-4">
           <div className="bg-gradient-to-br from-amber-50 to-yellow-50 border border-amber-100 rounded-2xl p-5 text-center">
-            <p className="text-5xl font-black text-amber-700">{supplierReviews.rating?.toFixed(1) || "—"}</p>
+            <p className="text-5xl font-black text-amber-700">{supplierReviews.rating?.toFixed(1) || "-"}</p>
             <div className="flex items-center justify-center gap-0.5 mt-2">
               {[1,2,3,4,5].map(s => (
                 <svg key={s} viewBox="0 0 20 20" className={`w-5 h-5 ${s <= Math.round(supplierReviews.rating || 0) ? "text-amber-400" : "text-gray-200"} fill-current`}>
@@ -7666,7 +7666,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               ככל שהמספר גבוה יותר, כך כסף נכנס מהר יותר.
             </p>
             <p className="text-xs text-gray-600 leading-relaxed mt-2">
-              לאסטרטגיה אגרסיבית — הוסף חוקי <strong>אוטומציה</strong> שיורידו אוטומטית מתחת למתחרים. לראות מה הציעו וכמה ב-<strong>טרנד מחירים</strong> בכל deal.
+              לאסטרטגיה אגרסיבית, הוסף חוקי <strong>אוטומציה</strong> שיורידו אוטומטית מתחת למתחרים. לראות מה הציעו וכמה ב-<strong>טרנד מחירים</strong> בכל deal.
             </p>
           </div>
         </div>
@@ -7722,7 +7722,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         />
       )}
 
-      {/* ── ALL ACTIVE BUYING GROUPS — every group on the platform ── */}
+      {/* ── ALL ACTIVE BUYING GROUPS, every group on the platform ── */}
       {activeTab === "all-active" && (
         <AllActiveDealsPanel
           deals={allActiveDeals}
@@ -7738,7 +7738,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         <div className="space-y-4">
           <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl p-4">
             <p className="text-sm font-black text-indigo-800 mb-1">🛒 כל קבוצות הרכישה הפעילות</p>
-            <p className="text-xs text-indigo-600">{allActiveDeals.length} קבוצות פעילות בפלטפורמה — בחר קבוצה והגש הצעת מחיר משופרת מהמתחרים. ככל שתהיה זול יותר, כך יותר קונים יצטרפו אליך.</p>
+            <p className="text-xs text-indigo-600">{allActiveDeals.length} קבוצות פעילות בפלטפורמה, בחר קבוצה והגש הצעת מחיר משופרת מהמתחרים. ככל שתהיה זול יותר, כך יותר קונים יצטרפו אליך.</p>
           </div>
 
           {/* Deal grid */}
@@ -7751,7 +7751,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                 <div className="text-center py-16 text-gray-400 bg-white rounded-2xl border border-gray-100">
                   <ShoppingCart className="w-12 h-12 mx-auto mb-3 opacity-30" />
                   <p className="font-bold">אין קבוצות פעילות כרגע</p>
-                  <p className="text-xs mt-1">קבוצות חדשות נפתחות כל הזמן — בדוק שוב בקרוב</p>
+                  <p className="text-xs mt-1">קבוצות חדשות נפתחות כל הזמן, בדוק שוב בקרוב</p>
                 </div>
               );
             }
@@ -7774,7 +7774,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                       )}
                       <div className="flex-1 min-w-0 flex flex-col">
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "—"}</h4>
+                          <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "-"}</h4>
                           {isMine && <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2 py-0.5 rounded-full flex-shrink-0">שלך ✓</span>}
                         </div>
                         <div className="flex items-baseline gap-2 mb-2">
@@ -7783,7 +7783,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                           {savings > 0 && <span className="text-[10px] text-emerald-600 font-bold">-₪{savings.toLocaleString()}</span>}
                         </div>
                         <div className="text-[11px] text-gray-500 mb-2">
-                          👥 {d.participants || 0}/{d.maxParticipants || "—"} קונים
+                          👥 {d.participants || 0}/{d.maxParticipants || "-"} קונים
                           {d.bids?.length > 0 && <> · 📥 {d.bids.length} הצעות ספקים</>}
                         </div>
                         <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden mb-2">
@@ -7796,7 +7796,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                                 setActiveTab("deals");
                               } else {
                                 // If the supplier already has a bid on this deal, an update can
-                                // only go DOWN — the modal enforces it via `previousBid`.
+                                // only go DOWN, the modal enforces it via `previousBid`.
                                 const myExisting = (d.bids || [])
                                   .filter(b => b.supplierId === supplier.id)
                                   .sort((a, b) => (a.amount || 0) - (b.amount || 0))[0] || null;
@@ -7817,7 +7817,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── ההצעות שלי — every deal where this supplier has placed a bid ── */}
+      {/* ── ההצעות שלי, every deal where this supplier has placed a bid ── */}
       {activeTab === "my-bids" && (
         <div>
           <div className="bg-violet-50 border border-violet-200 rounded-2xl p-3 mb-5">
@@ -7852,7 +7852,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                     )}
                     <div className="flex-1 min-w-0 flex flex-col">
                       <div className="flex items-start justify-between gap-2 mb-1">
-                        <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "—"}</h4>
+                        <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "-"}</h4>
                         {d.myBidIsLowest
                           ? <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2 py-0.5 rounded-full flex-shrink-0">מובחן ✓</span>
                           : <span className="bg-amber-100 text-amber-700 text-[9px] font-black px-2 py-0.5 rounded-full flex-shrink-0">יש זול יותר</span>}
@@ -7885,7 +7885,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                           onClick={() => setCancelTarget({
                             dealId:   d.id,
                             bid:      d.myBid,
-                            dealName: d.name?.he || d.name?.en || d.productName || "—",
+                            dealName: d.name?.he || d.name?.en || d.productName || "-",
                           })}
                           title="בטל את ההצעה"
                           className="px-3 py-2 bg-white border border-red-200 hover:bg-red-50 hover:border-red-300 text-red-600 text-xs font-black rounded-lg transition">
@@ -8000,8 +8000,8 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                   <p className="text-xs font-bold mb-2 text-gray-700">📊 דוח מכירה</p>
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div><p className="text-[10px] text-gray-400">קונים</p><p className="font-black text-gray-800 text-sm">{d.participants}</p></div>
-                    <div><p className="text-[10px] text-gray-400">מחיר סגירה</p><p className="font-black text-gray-800 text-sm">{status === "filled" ? `₪${price.toLocaleString()}` : "—"}</p></div>
-                    <div><p className="text-[10px] text-gray-400">ערך כולל</p><p className="font-black text-gray-800 text-sm">{status === "filled" ? `₪${(price*d.participants).toLocaleString()}` : "—"}</p></div>
+                    <div><p className="text-[10px] text-gray-400">מחיר סגירה</p><p className="font-black text-gray-800 text-sm">{status === "filled" ? `₪${price.toLocaleString()}` : "-"}</p></div>
+                    <div><p className="text-[10px] text-gray-400">ערך כולל</p><p className="font-black text-gray-800 text-sm">{status === "filled" ? `₪${(price*d.participants).toLocaleString()}` : "-"}</p></div>
                   </div>
                 </div>
               )}
@@ -8016,7 +8016,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
           <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mb-2">
             <p className="text-sm font-bold text-indigo-700 mb-1">📊 ביקוש מצטבר ממשתמשים</p>
             <p className="text-xs text-indigo-500">
-              ביקוש לפי דגם ספציפי — לחץ "שלח הצעה" כדי לשלוח מחיר קבוצתי לאותם קונים.
+              ביקוש לפי דגם ספציפי, לחץ "שלח הצעה" כדי לשלוח מחיר קבוצתי לאותם קונים.
             </p>
           </div>
           {poolEntries.length === 0 && (
@@ -8079,7 +8079,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── CUSTOMER REQUESTS tab — grid of visual category cards ── */}
+      {/* ── CUSTOMER REQUESTS tab, grid of visual category cards ── */}
       {activeTab === "requests" && (
         <div className="space-y-5">
           {/* Header banner */}
@@ -8097,7 +8097,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             </div>
           </div>
 
-          {/* Visual grid of broad category cards — always shows all curated categories */}
+          {/* Visual grid of broad category cards, always shows all curated categories */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {broadCatGrid.map(({ name, count, pending, offered }) => {
               const visual = CATEGORY_VISUAL_MAP[name] || CATEGORY_VISUAL_MAP._default;
@@ -8119,12 +8119,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                   <img src={visual.image} alt={name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={e => { e.target.style.display = "none"; }} />
-                  {/* Light tinted overlay — lets the image stay vibrant */}
+                  {/* Light tinted overlay, lets the image stay vibrant */}
                   <div className={`absolute inset-0 bg-gradient-to-t ${visual.gradient} opacity-40 mix-blend-multiply`} />
                   {/* Bottom-only dark gradient for text legibility */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                  {/* Demand badge — top right */}
+                  {/* Demand badge, top right */}
                   {hasDemand && (
                     <div className="absolute top-2.5 right-2.5 z-10 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1 shadow-sm">
                       <Users className="w-3 h-3 text-indigo-600" />
@@ -8133,14 +8133,14 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                     </div>
                   )}
 
-                  {/* Pending badge — top left */}
+                  {/* Pending badge, top left */}
                   {pending > 0 && (
                     <div className="absolute top-2.5 left-2.5 z-10 bg-amber-500/90 backdrop-blur-sm text-white text-[10px] font-black px-2 py-0.5 rounded-full shadow">
                       ⏳ {pending} ממתינות
                     </div>
                   )}
 
-                  {/* Category name + icon — bottom */}
+                  {/* Category name + icon, bottom */}
                   <div className="absolute bottom-0 left-0 right-0 p-3 text-right z-10">
                     <div className="flex items-center gap-2 justify-end">
                       <p className="text-white font-black text-sm drop-shadow-lg leading-tight">{name}</p>
@@ -8163,7 +8163,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
             })}
           </div>
 
-          {/* Selected category — detail view */}
+          {/* Selected category, detail view */}
           {selectedCategory && requestsByCategory[selectedCategory] && (
             <div ref={categoryDetailRef} className="bg-white rounded-2xl border-2 border-indigo-100 shadow-lg overflow-hidden">
               <div className="px-5 py-4 bg-gradient-to-br from-indigo-50 to-violet-50 border-b border-indigo-100 flex items-center gap-3">
@@ -8250,7 +8250,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                                   🎯 המחיר הזול ביותר שהלקוח רואה כרגע
                                 </p>
                                 <p className="text-[11px] text-gray-500 leading-tight">
-                                  הלקוח מחפש הצעה טובה יותר — תוכל להציע <b className="text-amber-700">הצעת נגד</b> מתחת למחיר הזה.
+                                  הלקוח מחפש הצעה טובה יותר, תוכל להציע <b className="text-amber-700">הצעת נגד</b> מתחת למחיר הזה.
                                 </p>
                               </div>
                               <div className="flex-shrink-0 text-center bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg px-3 py-2 border border-amber-200">
@@ -8289,7 +8289,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                                   value={offerVal}
                                   onChange={e => setRequestOffers(p => ({ ...p, [req.id]: e.target.value }))}
                                   placeholder={isCounterOffer
-                                    ? `הצעת נגד — מתחת ל-₪${req.currentLowestPrice.toLocaleString()}`
+                                    ? `הצעת נגד, מתחת ל-₪${req.currentLowestPrice.toLocaleString()}`
                                     : "הכנס הצעת מחיר"}
                                   className="flex-1 bg-transparent text-sm font-bold focus:outline-none text-right"
                                 />
@@ -8336,12 +8336,12 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
         </div>
       )}
 
-      {/* ── IMPORT CATALOG tab — CSV upload + Feed URL config ── */}
+      {/* ── IMPORT CATALOG tab, CSV upload + Feed URL config ── */}
       {activeTab === "import-catalog" && (
         <ImportCatalogPanel supplierId={sid} headers={supplierAuthHeaders} onNotify={onNotify} />
       )}
 
-      {/* ── BUNDLES tab — show all bundles (moving home, kitchen, etc.) ── */}
+      {/* ── BUNDLES tab, show all bundles (moving home, kitchen, etc.) ── */}
       {activeTab === "bundles" && (
         <div className="space-y-5">
           {/* Header banner */}
@@ -8462,7 +8462,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               supplierName: supplier.name || supplier.businessName || "",
             };
             onAddBid?.(bidDeal.deal.id, bid);
-            onNotify?.(`✅ הצעה הוגשה: ₪${amount.toLocaleString()} על "${bidDeal.deal.name?.he || bidDeal.deal.productName || "—"}"`);
+            onNotify?.(`✅ הצעה הוגשה: ₪${amount.toLocaleString()} על "${bidDeal.deal.name?.he || bidDeal.deal.productName || "-"}"`);
             setBidDeal(null);
           }}
           onClose={() => setBidDeal(null)}
@@ -8500,7 +8500,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
     return bestScore >= 2 ? best : null;
   }, [inventory, deal]);
   // When the supplier already has a bid on this deal, only DOWNWARD updates
-  // are allowed — they can lower their offer, never raise it. The "accept
+  // are allowed, they can lower their offer, never raise it. The "accept
   // group price" path is hidden in update mode if the group price is >= the
   // existing bid (would be an upward move).
   const isUpdate = !!previousBid;
@@ -8537,7 +8537,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
       const ref = dealMarketReference(deal);
       const ok = window.confirm(
         `המחיר שהזנת (₪${amt.toLocaleString()}) נמוך באופן חריג ממחיר השוק ` +
-        `(₪${ref.toLocaleString()}) — ודא שלא טעית.\n` +
+        `(₪${ref.toLocaleString()}), ודא שלא טעית.\n` +
         `אישור ישלח את ההצעה כפי שהיא; ביטול יחזיר אותך לתקן את המחיר.`
       );
       if (!ok) return;
@@ -8558,14 +8558,14 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
         </div>
 
         <div className="p-5 space-y-4">
-          {/* Existing-bid banner — visible only when updating an old offer */}
+          {/* Existing-bid banner, visible only when updating an old offer */}
           {isUpdate && (
             <div className="bg-violet-50 border border-violet-200 rounded-2xl p-3 flex items-start gap-2">
               <span>📥</span>
               <div className="flex-1">
                 <p className="text-xs font-bold text-violet-700">ההצעה הקיימת שלך: ₪{prevAmt.toLocaleString()}</p>
                 <p className="text-[11px] text-violet-600 mt-0.5">
-                  עדכון אפשרי רק כלפי <strong>מטה</strong> — חייב להיות זול ממחיר זה.
+                  עדכון אפשרי רק כלפי <strong>מטה</strong>, חייב להיות זול ממחיר זה.
                 </p>
               </div>
             </div>
@@ -8573,7 +8573,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
 
           {/* Deal summary */}
           <div className="bg-gray-50 border border-gray-100 rounded-2xl p-3">
-            <div className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">{deal.name?.he || deal.productName || "—"}</div>
+            <div className="text-sm font-bold text-gray-900 mb-1 line-clamp-2">{deal.name?.he || deal.productName || "-"}</div>
             <div className="flex items-baseline gap-2">
               <span className="text-xs text-gray-500">מחיר הקבוצה:</span>
               <span className="text-lg font-black text-indigo-700">₪{groupPrice.toLocaleString()}</span>
@@ -8582,7 +8582,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
               )}
             </div>
             <div className="text-[11px] text-gray-500 mt-1">
-              👥 {deal.participants || 0}/{deal.maxParticipants || "—"} קונים
+              👥 {deal.participants || 0}/{deal.maxParticipants || "-"} קונים
               {deal.bids?.length > 0 && <> · 📥 {deal.bids.length} הצעות מתחרים</>}
             </div>
           </div>
@@ -8619,7 +8619,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
               <p className="text-xs text-emerald-700 mb-1">תספק במחיר שהקבוצה מבקשת:</p>
               <p className="text-2xl font-black text-emerald-700">₪{groupPrice.toLocaleString()}</p>
-              <p className="text-[11px] text-emerald-600 mt-2">הצעתך תיכנס לרשימה ותוצג ללקוחות שמצטרפים. ככל שאתה הראשון להגיש — מחיר זהה הופך אותך למובחר.</p>
+              <p className="text-[11px] text-emerald-600 mt-2">הצעתך תיכנס לרשימה ותוצג ללקוחות שמצטרפים. ככל שאתה הראשון להגיש, מחיר זהה הופך אותך למובחר.</p>
             </div>
           )}
 
@@ -8651,14 +8651,14 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
                 {floor > 0 && !belowFloor && (
                   <p className="text-[11px] text-blue-600">🛡️ מחיר רצפה: ₪{floor.toLocaleString()}</p>
                 )}
-                {/* Below floor = competitive winning territory — celebrate it */}
+                {/* Below floor = competitive winning territory, celebrate it */}
                 {belowFloor && (
                   <div className="space-y-0.5">
                     <p className="text-[11px] text-emerald-700 font-bold">
-                      ✓ מתחת למחיר הרצפה — הצעה אטרקטיבית במיוחד
+                      ✓ מתחת למחיר הרצפה, הצעה אטרקטיבית במיוחד
                     </p>
                     <p className="text-[11px] text-emerald-700 font-bold">
-                      ✓ סיכוי גבוה לסגירה — הזולה מבין כל המתחרים
+                      ✓ סיכוי גבוה לסגירה, הזולה מבין כל המתחרים
                     </p>
                     <p className="text-[11px] text-emerald-700 font-bold">
                       ✓ קונים נוטים להצטרף מהר להצעה במחיר זה
@@ -8667,22 +8667,22 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
                 )}
                 {tooHigh && (
                   <p className="text-[11px] text-red-600 font-bold">
-                    🚫 לא ניתן לעדכן מחיר כלפי מעלה — חייב להיות זול מ-₪{prevAmt.toLocaleString()}
+                    🚫 לא ניתן לעדכן מחיר כלפי מעלה, חייב להיות זול מ-₪{prevAmt.toLocaleString()}
                   </p>
                 )}
-                {/* Implausibly-low typo guard — flag a price that is far
+                {/* Implausibly-low typo guard, flag a price that is far
                     below the product's real market price. */}
                 {implausible && !tooHigh && (
                   <p className="text-[11px] text-red-600 font-bold">
-                    ⚠️ המחיר שהזנת נמוך באופן חריג ממחיר השוק — ודא שלא טעית
+                    ⚠️ המחיר שהזנת נמוך באופן חריג ממחיר השוק, ודא שלא טעית
                   </p>
                 )}
                 {!isUpdate && validAmt && amtNum > groupPrice && (
                   <p className="text-[11px] text-amber-700">
-                    הצעתך גבוהה ב-₪{(amtNum - groupPrice).toLocaleString()} ממחיר הקבוצה — ייתכן שלקוחות לא יקבלו.
+                    הצעתך גבוהה ב-₪{(amtNum - groupPrice).toLocaleString()} ממחיר הקבוצה, ייתכן שלקוחות לא יקבלו.
                   </p>
                 )}
-                {/* Cost-basis margin readout — only when the deal matches a
+                {/* Cost-basis margin readout, only when the deal matches a
                     SKU in the supplier's inventory with a recorded cost. */}
                 {matchedInvItem?.cost > 0 && validAmt && (() => {
                   const margin    = amtNum - matchedInvItem.cost;
@@ -8703,7 +8703,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
                 })()}
                 {validAmt && amtNum < groupPrice && !belowFloor && (
                   <p className="text-[11px] text-emerald-700 font-bold">
-                    ✓ זול מהמחיר שהקבוצה מבקשת — הצעה אטרקטיבית!
+                    ✓ זול מהמחיר שהקבוצה מבקשת, הצעה אטרקטיבית!
                   </p>
                 )}
                 {isUpdate && validAmt && !tooHigh && (
@@ -8739,7 +8739,7 @@ function SupplierBidModal({ deal, currentPrice, marketPrice, previousBid, invent
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  CANCEL BID MODAL — supplier removes their offer with a required reason.
+//  CANCEL BID MODAL, supplier removes their offer with a required reason.
 //  The reason is persisted to db.cancelledBids for audit (admins can review).
 // ─────────────────────────────────────────────────────────────────
 function CancelBidModal({ dealName, bid, onConfirm, onClose }) {
@@ -8826,7 +8826,7 @@ function CancelBidModal({ dealName, bid, onConfirm, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER QUESTIONS PANEL — answers customer Qs across the supplier's deals.
+//  SUPPLIER QUESTIONS PANEL, answers customer Qs across the supplier's deals.
 //  Pulls /api/deals/:dealId/questions for each deal where the supplier has
 //  a bid (+ deals they own), groups by deal, and lets them answer inline.
 // ─────────────────────────────────────────────────────────────────
@@ -8963,7 +8963,7 @@ function SupplierQuestionsPanel({ deals, supplier, supplierFetch, onNotify }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  ALL ACTIVE DEALS PANEL — supplier-side browser of every group with
+//  ALL ACTIVE DEALS PANEL, supplier-side browser of every group with
 //  rich filters: category, search, status (closing soon, no-bids = easy win,
 //  near-min-threshold), and sort.
 // ─────────────────────────────────────────────────────────────────
@@ -9111,7 +9111,7 @@ function AllActiveDealsPanel({ deals, supplier, allDealsCategoryFilter, setAllDe
                 )}
                 <div className="flex-1 min-w-0 flex flex-col">
                   <div className="flex items-start justify-between gap-2 mb-1">
-                    <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "—"}</h4>
+                    <h4 className="text-sm font-black text-gray-900 leading-tight line-clamp-2">{d.name?.he || d.name?.en || d.productName || "-"}</h4>
                     <div className="flex flex-col items-end gap-1 flex-shrink-0">
                       {isMine     && <span className="bg-emerald-100 text-emerald-700 text-[9px] font-black px-2 py-0.5 rounded-full">שלך ✓</span>}
                       {undercutMe && <span className="bg-amber-100  text-amber-700  text-[9px] font-black px-2 py-0.5 rounded-full">⚠️ עוקפים</span>}
@@ -9124,7 +9124,7 @@ function AllActiveDealsPanel({ deals, supplier, allDealsCategoryFilter, setAllDe
                     {savings > 0 && <span className="text-[10px] text-emerald-600 font-bold">-₪{savings.toLocaleString()}</span>}
                   </div>
                   <div className="text-[11px] text-gray-500 mb-2">
-                    👥 {d.participants || 0}/{d.maxParticipants || "—"} קונים
+                    👥 {d.participants || 0}/{d.maxParticipants || "-"} קונים
                     {d.bids?.length > 0 && <> · 📥 {d.bids.length} הצעות ספקים</>}
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden mb-2">
@@ -9157,7 +9157,7 @@ function AllActiveDealsPanel({ deals, supplier, allDealsCategoryFilter, setAllDe
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER AUTO-BID PANEL — declarative rules that fire bids automatically
+//  SUPPLIER AUTO-BID PANEL, declarative rules that fire bids automatically
 //  when a matching buying group exists. Server still enforces same checks.
 // ─────────────────────────────────────────────────────────────────
 function SupplierAutoBidPanel({ rules, onSave, onToggle, onDelete }) {
@@ -9166,10 +9166,10 @@ function SupplierAutoBidPanel({ rules, onSave, onToggle, onDelete }) {
   return (
     <div className="space-y-4">
       <div className="bg-purple-50 border border-purple-200 rounded-2xl p-4">
-        <p className="text-sm font-black text-purple-800 mb-1">🤖 אוטומציה — הצעות אוטומטיות</p>
+        <p className="text-sm font-black text-purple-800 mb-1">🤖 אוטומציה, הצעות אוטומטיות</p>
         <p className="text-xs text-purple-700 leading-relaxed">
           הגדר חוק והמערכת תגיש בשמך הצעה בכל קבוצה שעונה על התנאים: כשמתחרה ירד מתחתיך,
-          תוגש אוטומטית הצעה חדשה ב-X ש"ח מתחת לזולה ביותר — כל עוד אתה לא חורג מהמחיר המרבי שהגדרת.
+          תוגש אוטומטית הצעה חדשה ב-X ש"ח מתחת לזולה ביותר, כל עוד אתה לא חורג מהמחיר המרבי שהגדרת.
         </p>
       </div>
 
@@ -9273,7 +9273,7 @@ function SupplierAutoBidPanel({ rules, onSave, onToggle, onDelete }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER LISTINGS PANEL — supplier publishes products in 3 ways:
+//  SUPPLIER LISTINGS PANEL, supplier publishes products in 3 ways:
 //   • Free creation: supplier types name/image/price from scratch
 //   • From inventory: pick a SKU they already manage, set its sale price
 //   • From ZAP catalog: search ZAP and pick an existing model (canonical name + image)
@@ -9316,7 +9316,7 @@ function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDele
           }`}>
           <div className="text-3xl mb-2">🔎</div>
           <p className="text-sm font-black text-gray-900">חיפוש דגם מדויק</p>
-          <p className="text-[11px] text-gray-500 mt-1">מצא דגם במאגר בנדלי — תמונה ושם רשמי</p>
+          <p className="text-[11px] text-gray-500 mt-1">מצא דגם במאגר בנדלי, תמונה ושם רשמי</p>
         </button>
       </div>
 
@@ -9379,7 +9379,7 @@ function SupplierListingsPanel({ listings, inventory, onCreate, onToggle, onDele
   );
 }
 
-// — Sub-form: free creation
+//, Sub-form: free creation
 function FreeListingForm({ onSave, onCancel }) {
   const [f, setF] = useState({ name: "", image: "", category: "", brand: "", basePrice: "", qty: "", description: "" });
   const valid = f.name.trim() && Number(f.basePrice) > 0;
@@ -9435,7 +9435,7 @@ function FreeListingForm({ onSave, onCancel }) {
   );
 }
 
-// — Sub-form: pick from existing inventory
+//, Sub-form: pick from existing inventory
 function InventoryListingForm({ inventory, onSave, onCancel }) {
   const [picked, setPicked] = useState(null);
   const [price, setPrice]   = useState("");
@@ -9497,7 +9497,7 @@ function InventoryListingForm({ inventory, onSave, onCancel }) {
   );
 }
 
-// — Sub-form: search ZAP and pick an exact model
+//, Sub-form: search ZAP and pick an exact model
 // Map a /api/catalog-search product into the shape ZapListingForm expects.
 // The home search engine returns { id, name, image, price, slug, manufacturer }.
 // `price` is a single market reference price; we surface it as both
@@ -9525,7 +9525,7 @@ function ZapListingForm({ onSave, onCancel }) {
   const [qty, setQty]       = useState("");
 
   // Same autocomplete the home SmartSearchBar uses: hits /api/catalog-search
-  // (the reliable in-memory catalog engine). includeRecommend=false — suppliers
+  // (the reliable in-memory catalog engine). includeRecommend=false, suppliers
   // are sellers, they don't need a "buy this for me" recommendation row.
   const { suggestions, showSug, setShowSug, activeSug, setActiveSug, clearSug, containerRef } =
     useAutocomplete(q, { includeRecommend: false });
@@ -9673,7 +9673,7 @@ function ZapListingForm({ onSave, onCancel }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER INVENTORY PANEL — SKU table with stock + cost.
+//  SUPPLIER INVENTORY PANEL, SKU table with stock + cost.
 //  Supports CSV upload (paste rows).
 // ─────────────────────────────────────────────────────────────────
 function SupplierInventoryPanel({ inventory, onSave, onDelete, onBulkUpload }) {
@@ -9701,7 +9701,7 @@ function SupplierInventoryPanel({ inventory, onSave, onDelete, onBulkUpload }) {
   // CSV/TSV parser that handles quoted fields with commas: the line
   //   REF-100, "Samsung 55"" QLED, premium", 12, 2400, Samsung
   // is parsed into [REF-100, "Samsung 55\" QLED, premium", 12, 2400, Samsung]
-  // — the second field keeps its embedded comma.
+  //, the second field keeps its embedded comma.
   const parseCsvLine = (line) => {
     const out = [];
     let cur = "";
@@ -9785,7 +9785,7 @@ function SupplierInventoryPanel({ inventory, onSave, onDelete, onBulkUpload }) {
       <details className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
         <summary className="text-sm font-black text-gray-900 cursor-pointer">📥 העלאה מרובה (CSV/TSV)</summary>
         <div className="mt-3">
-          <p className="text-[11px] text-gray-500 mb-2">פורמט: <code>sku, name, qty, cost, brand, category</code> — שורה לכל פריט</p>
+          <p className="text-[11px] text-gray-500 mb-2">פורמט: <code>sku, name, qty, cost, brand, category</code>, שורה לכל פריט</p>
           <textarea value={csv} onChange={e => setCsv(e.target.value)} rows={6}
             placeholder={"REF-100, מקרר Samsung 600L, 12, 2400, Samsung, מקררים\nWASH-200, מכונת כביסה LG 9KG, 3, 1800, LG, מכונות כביסה"}
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-rose-300" />
@@ -9823,9 +9823,9 @@ function SupplierInventoryPanel({ inventory, onSave, onDelete, onBulkUpload }) {
                   <tr key={it.sku} className={`border-b border-gray-50 ${it.qty === 0 ? "bg-red-50" : it.qty < 5 ? "bg-amber-50" : ""}`}>
                     <td className="py-2 px-2 font-mono text-[11px] text-gray-700">{it.sku}</td>
                     <td className="py-2 px-2 font-bold text-gray-900">{it.name}</td>
-                    <td className="py-2 px-2 text-gray-600">{it.brand || "—"}</td>
+                    <td className="py-2 px-2 text-gray-600">{it.brand || "-"}</td>
                     <td className={`py-2 px-2 font-black ${it.qty === 0 ? "text-red-600" : it.qty < 5 ? "text-amber-600" : "text-emerald-600"}`}>{it.qty}</td>
-                    <td className="py-2 px-2 text-gray-700">{it.cost ? `₪${it.cost.toLocaleString()}` : "—"}</td>
+                    <td className="py-2 px-2 text-gray-700">{it.cost ? `₪${it.cost.toLocaleString()}` : "-"}</td>
                     <td className="py-2 px-2 text-left">
                       <button
                         onClick={() => { if (window.confirm(`למחוק את "${it.name}" מהמלאי?`)) onDelete(it.sku); }}
@@ -9844,7 +9844,7 @@ function SupplierInventoryPanel({ inventory, onSave, onDelete, onBulkUpload }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER PROFILE PANEL — onboarding checklist + business details
+//  SUPPLIER PROFILE PANEL, onboarding checklist + business details
 // ─────────────────────────────────────────────────────────────────
 function SupplierProfilePanel({ profile, supplier, onSave }) {
   const [form, setForm] = useState({
@@ -9866,7 +9866,7 @@ function SupplierProfilePanel({ profile, supplier, onSave }) {
     paymentLink:        profile?.paymentLink        || "",
   });
   // Track whether the user has touched any field locally. We only re-sync
-  // the form from the server when the form is "clean" — otherwise the user
+  // the form from the server when the form is "clean", otherwise the user
   // would lose unsaved edits whenever the parent refreshed the profile
   // (e.g. after the supplier-fetch interval reloads).
   const [isDirty, setIsDirty] = useState(false);
@@ -10112,7 +10112,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  MY PRODUCTS PAGE — "העגלה שלי" / "המוצרים שלי"
+//  MY PRODUCTS PAGE, "העגלה שלי" / "המוצרים שלי"
 // ─────────────────────────────────────────────────────────────────
 function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
   const TIER_META = {
@@ -10141,7 +10141,7 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
         <div className="text-center py-16 text-gray-400">
           <ShoppingCart className="w-14 h-14 mx-auto mb-3 opacity-20" />
           <p className="font-bold mb-1 text-gray-500">העגלה ריקה</p>
-          <p className="text-sm">חפש מוצר והצטרף לקבוצת קנייה — הוא יופיע כאן</p>
+          <p className="text-sm">חפש מוצר והצטרף לקבוצת קנייה, הוא יופיע כאן</p>
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -10154,7 +10154,7 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
             // image API for every saved product and sometimes replacing the
             // correct stored thumbnail with a wrong one (the API matches by
             // query string and can drift). Use the image the user saw when
-            // they saved the product — that's by definition the right one.
+            // they saved the product, that's by definition the right one.
             const savedImg = p.image || visual.image;
             return (
               <div key={p.addedAt || i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:shadow-lg transition-all cursor-pointer"
@@ -10166,7 +10166,7 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
                     alt={p.name || catName}
                     loading="lazy"
                     onError={(e) => {
-                      // If the stored URL is dead (rare — happens when a
+                      // If the stored URL is dead (rare, happens when a
                       // ZAP CDN URL expires), fall back to the category visual.
                       if (e.currentTarget.src !== visual.image) {
                         e.currentTarget.src = visual.image;
@@ -10174,11 +10174,11 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
                     }}
                     className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                   />
-                  {/* Tier badge — top right */}
+                  {/* Tier badge, top right */}
                   <span className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded-full border shadow-sm ${tier.color}`}>
                     {tier.emoji} {tier.label}
                   </span>
-                  {/* Remove — top left */}
+                  {/* Remove, top left */}
                   <button
                     onClick={(e) => { e.stopPropagation(); onRemove?.(p); }}
                     className="absolute top-2 left-2 w-7 h-7 bg-white/80 backdrop-blur-sm hover:bg-red-50 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 transition shadow-sm"
@@ -10208,7 +10208,7 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  OFFERS INBOX — customer sees supplier offers on their requests
+//  OFFERS INBOX, customer sees supplier offers on their requests
 // ─────────────────────────────────────────────────────────────────
 // ── Reusable auth gate: shows login prompt if no token ──
 function AuthGate({ token, onBack, onLoginClick, title = "צריך להתחבר" }) {
@@ -10251,7 +10251,7 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
         <Mail className="w-5 h-5 text-indigo-500" /> ההצעות שלי
         <span className="text-sm font-normal text-gray-400">({offers.length})</span>
       </h2>
-      <p className="text-sm text-gray-500 mb-6">הצעות מספקים על הבקשות שלך — לחץ כדי לראות פרטים ולאשר/לדחות</p>
+      <p className="text-sm text-gray-500 mb-6">הצעות מספקים על הבקשות שלך, לחץ כדי לראות פרטים ולאשר/לדחות</p>
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16 text-gray-400 gap-3">
@@ -10305,16 +10305,16 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 
 // ── Accept/reject modal with shipping address ──────────────────
 // ─────────────────────────────────────────────────────────────────
-//  DEPOSIT MODAL — collects + saves card (no charge) for a tier upgrade
+//  DEPOSIT MODAL, collects + saves card (no charge) for a tier upgrade
 //  New flow (per user request):
 //    • At join time we VALIDATE + SAVE the card via Stripe SetupIntent.
-//      No money moves now — Stripe runs at most a $0/$1 verification that
+//      No money moves now, Stripe runs at most a $0/$1 verification that
 //      is immediately voided. The PaymentMethod is attached to a Customer.
 //    • When the deal closes successfully, the user receives a notification
 //      and approves the actual charge (see /api/deals/:id/charge-confirmed).
-//    • If the deal cancels, nothing was charged — nothing to refund.
+//    • If the deal cancels, nothing was charged, nothing to refund.
 //  Tier semantics:
-//    - "committed": user signalled intent to buy — saves a card (no charge)
+//    - "committed": user signalled intent to buy, saves a card (no charge)
 //      to lock in the current group price.
 // ─────────────────────────────────────────────────────────────────
 function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) {
@@ -10331,8 +10331,8 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       gradient: "from-indigo-500 to-violet-600",
       explainer: `שומרים את הכרטיס לחיוב עתידי במחיר הקבוצתי הנוכחי (₪${(depositAmount * 4).toLocaleString()}). לא נחייב כעת.`,
       bullets: [
-        `✓ נעילת מחיר — המחיר הנוכחי שמור עבורך`,
-        `✓ אפס חיוב היום — רק וידוא תוקף הכרטיס`,
+        `✓ נעילת מחיר, המחיר הנוכחי שמור עבורך`,
+        `✓ אפס חיוב היום, רק וידוא תוקף הכרטיס`,
         `✓ סגירת הקבוצה? נשלח הודעה, ותאשר את החיוב בלחיצה`,
       ],
     },
@@ -10345,7 +10345,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
     setSubmitting(true); setError("");
     try {
       // 1) Server creates a SetupIntent + Stripe Customer, returns clientSecret.
-      //    No charge — only card validation + save.
+      //    No charge, only card validation + save.
       const endpoint = `/api/deals/${deal.id}/commit-deposit`;
       const res = await fetch(endpoint, {
         method: "POST",
@@ -10355,12 +10355,12 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "שגיאה בשמירת הכרטיס");
       if (!data.stub && !data.clientSecret) {
-        throw new Error("שרת התשלום לא החזיר מזהה — נסה שוב");
+        throw new Error("שרת התשלום לא החזיר מזהה, נסה שוב");
       }
       if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
         throw new Error("טופס הכרטיס לא נטען. רענן את הדף ונסה שוב.");
       }
-      // 2) Stripe.js confirms the SetupIntent — saves the card on the customer
+      // 2) Stripe.js confirms the SetupIntent, saves the card on the customer
       //    without charging. Returns the PaymentMethod id.
       const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub, mode: "setup" });
       if (!confirm?.ok) throw new Error(confirm?.error || "שמירת הכרטיס נכשלה");
@@ -10424,11 +10424,11 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
                   ? `כרטיס שמסתיים ב-${done.cardLast4} נשמר לטובת חיוב עתידי בלבד.`
                   : "אמצעי התשלום נשמר לטובת חיוב עתידי בלבד."}
               </p>
-              <p className="text-[11px] text-gray-500 mt-1">לא חויבת — נשלח הודעה אם הקבוצה תיסגר וננחה אותך לאשר את החיוב.</p>
+              <p className="text-[11px] text-gray-500 mt-1">לא חויבת, נשלח הודעה אם הקבוצה תיסגר וננחה אותך לאשר את החיוב.</p>
             </div>
           ) : (
             <>
-              {/* "Today you pay ₪0" — leading visual emphasis */}
+              {/* "Today you pay ₪0", leading visual emphasis */}
               <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
                 <p className="text-[10px] text-emerald-700 font-bold tracking-wide uppercase">חיוב היום</p>
                 <p className="text-3xl font-black text-emerald-700 mt-1">₪0</p>
@@ -10442,7 +10442,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
                 ))}
               </div>
 
-              {/* Card form — Stripe Elements (PCI-compliant iframe) */}
+              {/* Card form, Stripe Elements (PCI-compliant iframe) */}
               <StripeCardSection
                 name={cardName}
                 onNameChange={setCardName}
@@ -10456,7 +10456,7 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
                 className={`w-full py-3.5 bg-gradient-to-r ${info.gradient} text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50`}>
                 {submitting ? "שומר..." : `🔒 שמור אמצעי תשלום (אפס חיוב)`}
               </button>
-              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב היום — רק יוודא שהוא תקף. תקבל הודעה אחרי סגירת הקבוצה לאישור החיוב.</p>
+              <p className="text-[10px] text-gray-400 text-center">הכרטיס לא יחויב היום, רק יוודא שהוא תקף. תקבל הודעה אחרי סגירת הקבוצה לאישור החיוב.</p>
             </>
           )}
         </div>
@@ -10496,7 +10496,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
       // 2) Confirm card against Stripe (or short-circuit in stub mode)
       const isStub = !!data.payment?.stub;
       if (!isStub && !data.payment?.clientSecret) {
-        throw new Error("שרת התשלום לא החזיר מזהה — נסה שוב");
+        throw new Error("שרת התשלום לא החזיר מזהה, נסה שוב");
       }
       if (!cardRef.current || typeof cardRef.current.confirm !== "function") {
         throw new Error("טופס התשלום לא נטען. רענן את הדף ונסה שוב.");
@@ -10509,7 +10509,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
     } catch (e) { setError(e.message); setSubmitting(false); }
   };
 
-  // Option 2 — pay the supplier directly. Bundly records the order but never
+  // Option 2, pay the supplier directly. Bundly records the order but never
   // touches the card; the customer is sent to the supplier's own payment link.
   const handleSupplierDirect = async () => {
     if (submitting) return;
@@ -10537,7 +10537,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
     setSubmitting(true);
     try {
       const res = await fetch(`/api/user/offers/${offer.id}/reject`, { method: "POST", headers: { Authorization: `Bearer ${token}` } });
-      if (!res.ok) throw new Error("שגיאה בדחיית ההצעה — נסה שוב");
+      if (!res.ok) throw new Error("שגיאה בדחיית ההצעה, נסה שוב");
       onRejected?.();
     } catch (e) {
       setError(e.message || "שגיאה בדחיית ההצעה");
@@ -10624,8 +10624,8 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
                     <Lock className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                     <div className="text-[11px] text-amber-900 leading-relaxed">
-                      <p className="font-bold mb-0.5">💳 הכרטיס שלך יוקפא — לא יחויב כעת</p>
-                      <p>הסכום יוקפא בכרטיס בלבד. החיוב בפועל יתבצע רק כשהקבוצה תיסגר בהצלחה. אם לא נגיע למינימום — הכרטיס משוחרר אוטומטית.</p>
+                      <p className="font-bold mb-0.5">💳 הכרטיס שלך יוקפא, לא יחויב כעת</p>
+                      <p>הסכום יוקפא בכרטיס בלבד. החיוב בפועל יתבצע רק כשהקבוצה תיסגר בהצלחה. אם לא נגיע למינימום, הכרטיס משוחרר אוטומטית.</p>
                     </div>
                   </div>
 
@@ -10641,7 +10641,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                   {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
                   <button onClick={handleAccept} disabled={submitting}
                     className="w-full py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-black rounded-xl text-sm shadow-md active:scale-[0.98] transition disabled:opacity-50">
-                    {submitting ? "מקפיא את המחיר..." : "🔒 נעל את המחיר — ₪" + offer.offerPrice.toLocaleString()}
+                    {submitting ? "מקפיא את המחיר..." : "🔒 נעל את המחיר, ₪" + offer.offerPrice.toLocaleString()}
                   </button>
                   <p className="text-[10px] text-gray-400 text-center">בלחיצה אתה מאשר להקפיא את הסכום בכרטיס. החיוב בפועל רק כשהקבוצה תיסגר.</p>
                 </>
@@ -10653,7 +10653,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                     <Lock className="w-4 h-4 text-indigo-600 flex-shrink-0 mt-0.5" />
                     <div className="text-[11px] text-indigo-900 leading-relaxed">
                       <p className="font-bold mb-0.5">תשלום ישיר לספק</p>
-                      <p>נעביר אותך לעמוד התשלום המאובטח של הספק. בנדלי לא נוגעת בפרטי האשראי שלך — ההזמנה תירשם אצלנו לצורך מעקב.</p>
+                      <p>נעביר אותך לעמוד התשלום המאובטח של הספק. בנדלי לא נוגעת בפרטי האשראי שלך, ההזמנה תירשם אצלנו לצורך מעקב.</p>
                     </div>
                   </div>
 
@@ -10683,7 +10683,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                 <Check className="w-10 h-10 mx-auto mb-2 text-white" />
                 <p className="text-sm font-black mb-1">נפתח עמוד התשלום של הספק</p>
                 <p className="text-[11px] text-indigo-100 leading-relaxed">
-                  ההזמנה נרשמה — מספר #{supplierInfo.order?.id}
+                  ההזמנה נרשמה, מספר #{supplierInfo.order?.id}
                   <br />השלם את התשלום באתר הספק כדי לסיים.
                 </p>
               </div>
@@ -10708,13 +10708,13 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
                 <p className="text-xs text-emerald-100 font-bold mb-1">המחיר שלך נעול ✓</p>
                 <p className="text-4xl font-black tracking-tight">₪{Number(lockInfo.lockedInPrice).toLocaleString()}</p>
                 <p className="text-[11px] text-emerald-100 mt-3 leading-relaxed">
-                  הכרטיס שלך <strong>לא חויב</strong> — רק הוקפא.
+                  הכרטיס שלך <strong>לא חויב</strong>, רק הוקפא.
                   <br />החיוב יתבצע רק כשהקבוצה תיסגר בהצלחה.
                 </p>
               </div>
               <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-[12px] text-gray-700">
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם המחיר הקבוצתי ירד עוד — תקבל את המחיר הנמוך</div>
-                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם הקבוצה לא תתמלא — הכרטיס משוחרר אוטומטית תוך 7 ימים</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם המחיר הקבוצתי ירד עוד, תקבל את המחיר הנמוך</div>
+                <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> אם הקבוצה לא תתמלא, הכרטיס משוחרר אוטומטית תוך 7 ימים</div>
                 <div className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-500" /> מספר הזמנה: #{lockInfo.order?.id}</div>
                 {lockInfo.lockedUntil && (
                   <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-amber-500" /> נעול עד: {new Date(lockInfo.lockedUntil).toLocaleDateString("he-IL")}</div>
@@ -10733,7 +10733,7 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  ORDERS PAGE — all orders with status tracker
+//  ORDERS PAGE, all orders with status tracker
 // ─────────────────────────────────────────────────────────────────
 function OrdersPage({ token, onBack, onLoginClick }) {
   if (!token) return <AuthGate token={token} onBack={onBack} onLoginClick={onLoginClick} title="ההזמנות שלי" />;
@@ -10800,7 +10800,7 @@ function OrdersPage({ token, onBack, onLoginClick }) {
                     <span className={`inline-block mt-1 text-[10px] font-black px-2 py-0.5 rounded-full ${meta.color}`}>{meta.label}</span>
                   </div>
                 </div>
-                {/* Status tracker — horizontal scroll on very small screens */}
+                {/* Status tracker, horizontal scroll on very small screens */}
                 {order.status !== "cancelled" && (
                   <div className="flex items-center gap-1 sm:gap-2 mt-3">
                     {[
@@ -10856,7 +10856,7 @@ function OrdersPage({ token, onBack, onLoginClick }) {
   );
 }
 
-// ── Confirm-receipt button — shipped → delivered, customer-driven ──
+// ── Confirm-receipt button, shipped → delivered, customer-driven ──
 function ConfirmReceiptButton({ order, token, onConfirmed }) {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -10908,7 +10908,7 @@ function OrderReviewButton({ order, token }) {
       });
       const d = await r.json().catch(() => ({}));
       if (r.status === 409) { setErr("כבר דירגת את ההזמנה הזו"); setSubmitting(false); return; }
-      if (!r.ok) { setErr(d?.error || "שגיאה — נסה/י שוב"); setSubmitting(false); return; }
+      if (!r.ok) { setErr(d?.error || "שגיאה, נסה/י שוב"); setSubmitting(false); return; }
       setSent(true); setTimeout(() => setOpen(false), 1500);
     } catch (e) {
       setErr(e.message || "שגיאת רשת");
@@ -10977,7 +10977,7 @@ function DisputeButton({ order, token }) {
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4" onClick={e=>{if(e.target===e.currentTarget) setOpen(false);}}>
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full" dir="rtl">
             <p className="font-black text-gray-900 mb-3">פתיחת תיק תמיכה</p>
-            <p className="text-sm text-gray-500 mb-4">הזמנה #{order.id} — {order.productName}</p>
+            <p className="text-sm text-gray-500 mb-4">הזמנה #{order.id}, {order.productName}</p>
             <div className="space-y-2 mb-3">
               {REASONS.map(r => (
                 <label key={r.value} className="flex items-center gap-2 p-3 border border-gray-200 rounded-xl cursor-pointer hover:border-red-300">
@@ -11000,16 +11000,16 @@ function DisputeButton({ order, token }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER KYC REGISTRATION — new supplier signup with business details
+//  SUPPLIER KYC REGISTRATION, new supplier signup with business details
 // ─────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER REGISTRATION MODAL — the SINGLE supplier-registration form.
+//  SUPPLIER REGISTRATION MODAL, the SINGLE supplier-registration form.
 //  Previously there were two divergent forms (SupplierModal +
 //  SupplierKYCModal) that both POSTed /api/suppliers/register with
-//  different field names — a maintenance trap. Consolidated here:
+//  different field names, a maintenance trap. Consolidated here:
 //  this is the more complete form (bank details, KYC notice) and its
 //  field names already match the server contract 1:1.
-//  onRegistered(legacySupplier) — optional; fires right after a
+//  onRegistered(legacySupplier), optional; fires right after a
 //  successful server registration with a legacy-shaped object so the
 //  owner dashboard's local pending-suppliers list stays in sync.
 // ─────────────────────────────────────────────────────────────────
@@ -11028,7 +11028,7 @@ function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
 
   // BUG FIX (audit round 4 P0): the FIRST supplier-registration modal
   // (SupplierModal) got the hCaptcha widget last round, but this second
-  // KYC modal was missed — once HCAPTCHA_SECRET is set in prod, every
+  // KYC modal was missed, once HCAPTCHA_SECRET is set in prod, every
   // POST /api/suppliers/register from THIS modal returns 403 silently.
   const HCAPTCHA_SITE_KEY = import.meta.env.VITE_HCAPTCHA_SITE_KEY || "";
   const [captchaToken, setCaptchaToken] = useState("");
@@ -11143,7 +11143,7 @@ function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
             </div>
           </div>
           <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800 leading-relaxed">
-            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) מתבצע מול הצוות שלנו במייל — אין צורך להעלות קבצים כאן.
+            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) מתבצע מול הצוות שלנו במייל, אין צורך להעלות קבצים כאן.
           </div>
           {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
           {HCAPTCHA_SITE_KEY && (
@@ -11239,7 +11239,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
           activeSug: mqActiveSug, setActiveSug: setMqActiveSug,
           clearSug: clearMqSug, containerRef: mqContainerRef } = useAutocomplete(modelQuery);
 
-  // Similar community products — same category + different brand + similar price (±40%)
+  // Similar community products, same category + different brand + similar price (±40%)
   const similarCommunity = communityProducts.filter(p => {
     if (!modelQuery && !result) return false;
     const myBrand = (selectedBrand || "").toLowerCase();
@@ -11272,7 +11272,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
   };
 
   const handleAddCommunity = () => {
-    if (!user) { if (notify) notify("יש להתחבר קודם — לחץ על 'התחבר' בתפריט"); return; }
+    if (!user) { if (notify) notify("יש להתחבר קודם, לחץ על 'התחבר' בתפריט"); return; }
     if (!result) return;
     const note = noteText.trim() ? { text: noteText.trim(), author: user.name || "משתמש" } : null;
     onAddCommunity({ ...result, id: Date.now(), notes: note ? [note] : [], voters: [user.phone || "anon"] });
@@ -11451,7 +11451,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-6 flex items-start gap-2">
           <AlertCircle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700 leading-relaxed">
-            כדי לקבל מחיר מדויק — בחר את המפרט הספציפי. מחיר של 128GB שונה מ-256GB.
+            כדי לקבל מחיר מדויק, בחר את המפרט הספציפי. מחיר של 128GB שונה מ-256GB.
           </p>
         </div>
 
@@ -11532,7 +11532,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-          {/* LEFT — product info */}
+          {/* LEFT, product info */}
           <div className="lg:col-span-3 space-y-4">
             {/* Image + name */}
             <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
@@ -11557,7 +11557,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
             {result.suppliers?.length > 0 && (
               <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
                 <h3 className="font-bold text-gray-800 text-sm mb-3 flex items-center gap-2">
-                  <TrendingDown className="w-4 h-4 text-indigo-500" />{t.psCurrentPrice} — {t.psCheapest}
+                  <TrendingDown className="w-4 h-4 text-indigo-500" />{t.psCurrentPrice}, {t.psCheapest}
                 </h3>
                 <div className="space-y-2">
                   {[...result.suppliers].sort((a,b)=>a.price-b.price).map((s, i) => {
@@ -11614,13 +11614,13 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                 <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
                 <div>
                   <p className="text-emerald-700 font-bold text-sm">נוסף לקהילה! 🎉</p>
-                  <p className="text-emerald-500 text-xs">כשמשתמשים יחפשו מוצרים דומים — זה יקפוץ להם כאופציה</p>
+                  <p className="text-emerald-500 text-xs">כשמשתמשים יחפשו מוצרים דומים, זה יקפוץ להם כאופציה</p>
                 </div>
               </div>
             )}
           </div>
 
-          {/* RIGHT — price panel */}
+          {/* RIGHT, price panel */}
           <div className="lg:col-span-2">
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sticky top-20 space-y-4">
 
@@ -11632,7 +11632,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
                 </div>
                 <p className="text-3xl font-black text-blue-700">₪{(result.marketAvg || result.marketMin)?.toLocaleString()}</p>
                 {result.marketMin > 0 && result.marketMax > result.marketMin && (
-                  <p className="text-xs text-blue-500 mt-1">טווח מחירים: ₪{result.marketMin?.toLocaleString()} – ₪{result.marketMax?.toLocaleString()}</p>
+                  <p className="text-xs text-blue-500 mt-1">טווח מחירים: ₪{result.marketMin?.toLocaleString()}, ₪{result.marketMax?.toLocaleString()}</p>
                 )}
               </div>
 
@@ -11640,7 +11640,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
               <div className="border border-dashed border-indigo-400 rounded-xl p-4 text-center bg-gradient-to-br from-indigo-50 to-purple-50">
                 <p className="text-xs font-bold text-indigo-500 mb-1 uppercase tracking-wide">🎯 יעד הקבוצה</p>
                 <p className="text-xl font-black text-indigo-700 leading-tight">הצטרף וחסוך עשרות אחוזים</p>
-                <p className="text-xs text-indigo-400 mt-1.5 leading-relaxed">ככל שיצטרפו יותר אנשים — כך הספקים יתחרו ביניהם ויורידו את המחיר</p>
+                <p className="text-xs text-indigo-400 mt-1.5 leading-relaxed">ככל שיצטרפו יותר אנשים, כך הספקים יתחרו ביניהם ויורידו את המחיר</p>
                 <div className="flex items-center justify-center gap-1.5 mt-2">
                   <span className="text-[11px] bg-indigo-100 text-indigo-600 font-bold px-2 py-0.5 rounded-full">📉 מחיר שוק ממוצע: ₪{(result.marketAvg || result.marketMin)?.toLocaleString()}</span>
                   <span className="text-[11px] text-indigo-400 font-bold">→</span>
@@ -11650,13 +11650,13 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
 
               {/* Market range context */}
               <div className="flex justify-between text-xs text-gray-400 px-1">
-                <span>טווח: <strong className="text-gray-600">₪{result.marketMin?.toLocaleString()} – ₪{result.marketMax?.toLocaleString()}</strong></span>
+                <span>טווח: <strong className="text-gray-600">₪{result.marketMin?.toLocaleString()}, ₪{result.marketMax?.toLocaleString()}</strong></span>
                 <span>חיסכון פוטנציאלי: <strong className="text-emerald-600">עד {result.discount}%</strong></span>
               </div>
 
               {/* CTA: Add note */}
               {!justAdded && !showNoteInput && (
-                <button onClick={() => user ? setShowNoteInput(true) : (notify && notify("יש להתחבר קודם — לחץ על 'התחבר' בתפריט"))}
+                <button onClick={() => user ? setShowNoteInput(true) : (notify && notify("יש להתחבר קודם, לחץ על 'התחבר' בתפריט"))}
                   className="w-full border border-gray-200 text-gray-500 hover:bg-gray-50 font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 transition text-sm">
                   <Star className="w-4 h-4 text-yellow-400" />{t.psAddNote}
                 </button>
@@ -11670,7 +11670,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
           <div className="mt-8">
             <div className="flex items-center gap-2 mb-4">
               <TrendingDown className="w-4 h-4 text-purple-500" />
-              <p className="text-sm font-bold text-gray-700">חלופות מתחרות — אותה קטגוריה, מותג שונה</p>
+              <p className="text-sm font-bold text-gray-700">חלופות מתחרות, אותה קטגוריה, מותג שונה</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {competitors.map((rival, i) => (
@@ -11741,12 +11741,12 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   const [showAllStores, setShowAllStores] = useState(false);
   const [showSpecs, setShowSpecs] = useState(false);
 
-  // ── Product image — ONLY the product's own verified photo ──────────
+  // ── Product image, ONLY the product's own verified photo ──────────
   // The product image is the one from the catalog (sourced from Zap, where
   // it is guaranteed to belong to that exact model). The old
   // /api/product-images path ran a Google-Images search, which returned
-  // generic, unrelated web photos — influencer lifestyle shots, stock
-  // images — that have nothing to do with the product. Never use that.
+  // generic, unrelated web photos, influencer lifestyle shots, stock
+  // images, that have nothing to do with the product. Never use that.
   const allImages = useMemo(
     () => (result.image ? [result.image] : []),
     [result.image]);
@@ -11777,25 +11777,25 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
     return () => { alive = false; };
   }, [result._zapModelId, result.productNameEn, result.productName]);
 
-  // ── Fetch GPT product description (localStorage + server cache — never calls GPT twice) ──
+  // ── Fetch GPT product description (localStorage + server cache, never calls GPT twice) ──
   // States: null = loading, "" = failed/empty, string = loaded.
   useEffect(() => {
     const name = result.productName || result.productNameEn || "";
     if (!name || specsLoading) return;
     const cacheKey = `bundly_desc_${name.trim().toLowerCase()}`;
-    // 1. Try localStorage first — instant
+    // 1. Try localStorage first, instant
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) { setGptDesc(cached); return; }
     } catch {}
-    // 2. Fetch from server (server has its own file cache — only calls GPT if truly new)
+    // 2. Fetch from server (server has its own file cache, only calls GPT if truly new)
     let alive = true;
     const allSpecs = [];
     if (specsData?.specs) specsData.specs.forEach(s => allSpecs.push(`${s.name}: ${s.value}`));
     if (allSpecs.length === 0 && result.specs) result.specs.slice(0, 8).forEach(s => allSpecs.push(s));
     const specStr = allSpecs.slice(0, 10).join(", ");
     const price = sortedSuppliers[0]?.price || "";
-    // 12s timeout — slow mobile networks + GPT cold-start can hang otherwise.
+    // 12s timeout, slow mobile networks + GPT cold-start can hang otherwise.
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), 12000);
     fetch(`/api/product-description?name=${encodeURIComponent(name)}&specs=${encodeURIComponent(specStr)}&price=${price}`, { signal: ac.signal })
@@ -11815,7 +11815,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   }, [result.productName, result.productNameEn, specsLoading]);
 
   // ── Derived values ─────────────────────────────────────────────
-  // Single source of truth for deal matching — see src/dealMatch.js
+  // Single source of truth for deal matching, see src/dealMatch.js
   const resultSog = result._pageSog || null;
   const existingDeal = findDealForProduct(deals, result, { pageSog: resultSog });
   const pricedSup = sortedSuppliers.filter(s => s.price > 0);
@@ -11843,7 +11843,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
           </button>
           {/* Counter */}
           <div className="absolute top-4 right-4 z-10 text-white/60 text-sm font-bold">{imgIdx + 1} / {allImages.length}</div>
-          {/* Main carousel area — mouse position controls which image shows */}
+          {/* Main carousel area, mouse position controls which image shows */}
           <div className="flex-1 flex items-center justify-center relative overflow-hidden"
             onClick={e => e.stopPropagation()}
             onMouseMove={e => {
@@ -11873,7 +11873,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
 
       <div className="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden max-h-[95vh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
 
-        {/* ── IMAGE — full width ── */}
+        {/* ── IMAGE, full width ── */}
         <div className="relative bg-white flex-shrink-0">
           {/* Close / Back */}
           <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
@@ -11887,7 +11887,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               חיסכון עד {savingVsAvg}%
             </div>
           )}
-          {/* Main product image — fixed-aspect container so the image is
+          {/* Main product image, fixed-aspect container so the image is
               constrained from first paint, preventing the "huge image flash"
               on slow loads where the browser briefly used the natural size. */}
           <div
@@ -11948,7 +11948,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">המחיר הזול ביותר</p>
                 <p className="text-3xl font-black text-gray-900 leading-none mt-1">
-                  {priceMin > 0 ? `₪${priceMin.toLocaleString()}` : "—"}
+                  {priceMin > 0 ? `₪${priceMin.toLocaleString()}` : "-"}
                 </p>
                 {cheapest && <p className="text-[11px] text-gray-400 mt-0.5">מתוך השוואת מחירים בשוק</p>}
               </div>
@@ -11971,7 +11971,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             )}
           </div>
 
-          {/* ── STORES — collapsible ── */}
+          {/* ── STORES, collapsible ── */}
           {pricedSup.length > 0 && (
             <div className="mb-4">
               <button onClick={() => setShowAllStores(!showAllStores)}
@@ -11988,7 +11988,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               {showAllStores && (
                 <div className="mt-2 space-y-1.5">
                   {pricedSup.slice(0, 8).map((s, i) => {
-                    // Anonymised rank label — never show store names to the
+                    // Anonymised rank label, never show store names to the
                     // customer. Brand keeps the appearance of a curated
                     // market comparison, not a price-scraping aggregator.
                     const rankLabel = i === 0 ? "המחיר הזול ביותר בשוק"
@@ -12012,7 +12012,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             </div>
           )}
 
-          {/* ── SPECS — collapsible ── */}
+          {/* ── SPECS, collapsible ── */}
           {(specs || specsBullets) && (
             <div className="mb-4">
               <button onClick={() => setShowSpecs(!showSpecs)}
@@ -12060,9 +12060,9 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
 
         </div>
 
-        {/* ── STICKY BOTTOM CTA — always the same button ── */}
+        {/* ── STICKY BOTTOM CTA, always the same button ── */}
         <div className="flex-shrink-0 border-t border-gray-100 bg-white px-5 py-4">
-          {/* ── Luxurious primary CTA — two-line layout on mobile, premium gradient,
+          {/* ── Luxurious primary CTA, two-line layout on mobile, premium gradient,
                   shimmer animation, right-aligned chevron for RTL flow.       */}
           <button
             onClick={() => {
@@ -12093,7 +12093,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
               }
             `}</style>
 
-            {/* Content row — RTL */}
+            {/* Content row, RTL */}
             <div className="relative flex items-center justify-between gap-3" dir="rtl">
               <div className="flex items-center gap-2.5 min-w-0">
                 {/* Icon badge */}
@@ -12107,12 +12107,12 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                   <div className="text-white/85 text-[11px] sm:text-[11px] font-semibold leading-tight mt-0.5">
                     {existingDeal
                       ? <>👥 {existingDeal.participants} משתתפים · חיסכון משותף</>
-                      : <>הראשונים בקבוצה — הראשונים לחסוך</>
+                      : <>הראשונים בקבוצה, הראשונים לחסוך</>
                     }
                   </div>
                 </div>
               </div>
-              {/* Arrow — points LEFT in RTL = "forward" direction */}
+              {/* Arrow, points LEFT in RTL = "forward" direction */}
               <ChevronLeft className="w-5 h-5 text-white/95 flex-shrink-0 transition-transform group-hover:-translate-x-1" strokeWidth={2.5} />
             </div>
           </button>
@@ -12125,7 +12125,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
 
 // ─────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────
-//  PRICE RANGE SLIDER — dual-thumb slider for price filtering
+//  PRICE RANGE SLIDER, dual-thumb slider for price filtering
 // ─────────────────────────────────────────────────────────────────
 function PriceRangeSlider({ min, max, valueMin, valueMax, onChange, onClose }) {
   const [localMin, setLocalMin] = useState(valueMin);
@@ -12532,7 +12532,7 @@ const QUERY_SUBTYPE_FILTERS = {
 // ─────────────────────────────────────────────────────────────────
 function isUsableProduct(p) {
   if (!p) return false;
-  // Skeletons are transient placeholders during streaming — let them through.
+  // Skeletons are transient placeholders during streaming, let them through.
   if (p._phase === "skeleton") return true;
 
   // ── Title ──
@@ -12562,7 +12562,7 @@ function isUsableProduct(p) {
 
 // ── Model-identity key for de-duplication ───────────────────────────
 // The Israeli catalog (product-db) carries MANY separate ZAP store
-// listings for the *same physical product* — each with its own modelid
+// listings for the *same physical product*, each with its own modelid
 // (→ its own _streamKey) and its own store-uploaded thumbnail. They get
 // normalised to near-identical names that nonetheless differ in Hebrew
 // wording ("שואב אבק רובוטי Dreame X50 Ultra",
@@ -12590,7 +12590,7 @@ function dedupKey(p) {
   const latin = (n.toLowerCase().match(/[a-z0-9]+(?:[+/][a-z0-9]+)*\+?/g) || [])
     .filter(w => w.length >= 2 && !/^(the|and|for|with|new)$/.test(w));
   if (latin.length >= 2) return latin.join(" ");
-  // No usable Latin model code — fall back to the cleaned, noise-stripped name.
+  // No usable Latin model code, fall back to the cleaned, noise-stripped name.
   return n.toLowerCase().replace(/[^a-z0-9א-ת]+/gi, " ").replace(/\s{2,}/g, " ").trim();
 }
 
@@ -12615,7 +12615,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   const [refineReady, setRefineReady]   = useState(false);
   const [refinedQuery, setRefinedQuery] = useState(null); // non-null means stream restarted with refined q
   const [refining, setRefining]         = useState(false); // true while refined stream is loading (keeps old products dimmed)
-  const [refineTermFilters, setRefineTermFilters] = useState({}); // questionId → searchTerm — instant client-side filters
+  const [refineTermFilters, setRefineTermFilters] = useState({}); // questionId → searchTerm, instant client-side filters
 
   // ── Filter state ──────────────────────────────────────────────
   // ── Pagination ───────────────────────────────────────────────
@@ -12655,7 +12655,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   // Replaces the old blocking disambiguation modal. `disambig` (passed from
   // App) carries { question, options:[{label,icon,desc,query,match}] }. The
   // user picks a tile to narrow the ALREADY-LOADED results client-side.
-  // null = "all" (everything shown — the default).
+  // null = "all" (everything shown, the default).
   const [subCategory, setSubCategory] = useState(null);
 
   // ── Stream products progressively via SSE ────────────────────
@@ -12736,21 +12736,21 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     };
 
     es.onmessage = (e) => {
-      if (cancelled) { es.close(); return; } // stale stream — discard immediately
+      if (cancelled) { es.close(); return; } // stale stream, discard immediately
       try {
         const msg = JSON.parse(e.data);
         if (msg.type === "candidates") {
-          // First signal: we have product names — show the list
+          // First signal: we have product names, show the list
           mergeProducts(msg.products);
           if (msg.sog) setPageSog(msg.sog);
           if (msg.nearbySizes) setNearbySizes(msg.nearbySizes);
           setLoading(false);
           setStreamPhase("streaming");
         } else if (msg.type === "batch") {
-          // Zap model page loaded — upgrade skeleton cards with real prices
+          // Zap model page loaded, upgrade skeleton cards with real prices
           mergeProducts(msg.products);
         } else if (msg.type === "final") {
-          // OpenAI-structured products — these are richer/cleaner versions
+          // OpenAI-structured products, these are richer/cleaner versions
           // of a subset (often just the top 5-10) of the existing cards.
           // Earlier we REPLACED the whole list with msg.products, which made
           // "סמארטפון" go from 400 visible cards → 5 once the AI step
@@ -12775,7 +12775,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   }, [query]);
 
   // ── Fetch category-specific filter questions in background ──────
-  // Runs immediately alongside the stream — questions appear as soon as ready.
+  // Runs immediately alongside the stream, questions appear as soon as ready.
   // NOTE: setRefinedQuery(null) was intentionally moved to the main stream useEffect above
   // so that answering wizard questions (which sets refinedQuery) doesn't accidentally get
   // undone if this effect somehow re-runs. The UI already guards with !refinedQuery.
@@ -12797,7 +12797,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     fetch(`/api/wizard-questions?q=${encodeURIComponent(query)}`)
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (cancelled) return; // query changed before this fetch resolved — discard
+        if (cancelled) return; // query changed before this fetch resolved, discard
         let qs = data?.questions || [];
         if (qs.length === 0) return; // no questions for this query (e.g. very specific model)
         // Add a budget question if not already present
@@ -12852,11 +12852,11 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
   // ── Extract available brands from product titles ───────────────
   // 3-tier resolution so we always pick the canonical manufacturer:
-  //   1. ZAP's authoritative brand list for the current category — if any
+  //   1. ZAP's authoritative brand list for the current category, if any
   //      ZAP brand appears as a substring in the product name, that wins.
   //      This catches niche brands (Hisense, Beko, Midea…) automatically
   //      without needing to hardcode each in BRAND_ALIASES.
-  //   2. BRAND_ALIASES dictionary — for sub-brands / model lines that
+  //   2. BRAND_ALIASES dictionary, for sub-brands / model lines that
   //      shouldn't be treated as their own manufacturer (iPhone → Apple,
   //      ROG → Asus, ThinkPad → Lenovo, etc.)
   //   3. Fall back to the first Latin token (legacy behavior).
@@ -12940,12 +12940,12 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
   // ── Apply filters + sort ───────────────────────────────────────
   const displayProducts = useMemo(() => {
-    // Quality gate first — hide rows with broken images, junk prices, empty
+    // Quality gate first, hide rows with broken images, junk prices, empty
     // names. If everything is filtered out here, the JSX branch below shows
     // the branded "no products yet" message instead.
     let result = withGroupBuy.filter(isUsableProduct);
 
-    // ── Wizard term filters — instant client-side, from selected option searchTerms ──
+    // ── Wizard term filters, instant client-side, from selected option searchTerms ──
     // Each selected option adds a searchTerm (English) matched against the product name.
     // Example: fan-type "מאוורר תקרה" → searchTerm "ceiling fan" → filter by name.
     const termEntries = Object.values(refineTermFilters).filter(Boolean);
@@ -12980,7 +12980,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     // ── Inline sub-category tile filter ───────────────────────────────────
     // The user picked a sub-category tile at the top of the results page.
     // `subCategory` holds the chosen option's `match` ({include,exclude}).
-    // Narrows the already-loaded results client-side — no re-search.
+    // Narrows the already-loaded results client-side, no re-search.
     if (subCategory?.match) {
       const { include, exclude } = subCategory.match;
       result = result.filter(p => {
@@ -12996,9 +12996,9 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     const maxP = parseInt(priceMax) || 0;
     if (minP > 0 || maxP > 0) {
       result = result.filter(p => {
-        if (p._phase === "skeleton") return true; // skeleton cards always pass — no price yet
+        if (p._phase === "skeleton") return true; // skeleton cards always pass, no price yet
         const price = p.priceMin || 0;
-        if (price === 0) return true; // unknown price — keep
+        if (price === 0) return true; // unknown price, keep
         if (minP > 0 && price < minP) return false;
         if (maxP > 0 && price > maxP) return false;
         return true;
@@ -13044,7 +13044,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     // The chip values come out as "256 GB" / "1 TB" (with a space) from the
     // dim builder, but product names usually write "256GB" / "1TB" without
     // one. A naive .includes() therefore matches nothing. We tolerate any
-    // whitespace between the number and the unit on both sides — and also
+    // whitespace between the number and the unit on both sides, and also
     // accept the filterTags storage field (which is space-separated) when
     // present, so server-tagged products always match correctly.
     if (selectedStorage) {
@@ -13195,7 +13195,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
             if (hz) return `${hz[1]}Hz`;
           }
           if (key === "panel") {
-            // Same relaxed boundaries as extractSpecs — handles model-embedded acronyms
+            // Same relaxed boundaries as extractSpecs, handles model-embedded acronyms
             if (/\bQD[-\s]?OLED/i.test(n))    return "QD-OLED";
             if (/\bMini[-\s]?LED/i.test(n))    return "Mini-LED";
             if (/\bQLED\b/i.test(n))            return "QLED";
@@ -13225,7 +13225,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     // ── De-duplicate identical products ──────────────────────────────────
     // The catalog holds many separate ZAP store listings of the SAME product
     // (different modelid → different _streamKey, often a different store-
-    // uploaded photo — some genuinely the wrong product type). Without this
+    // uploaded photo, some genuinely the wrong product type). Without this
     // step the user sees ~100 identical-name cards, each with a mismatched
     // image. Collapse every dedupKey() group to ONE representative card.
     {
@@ -13240,7 +13240,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       const deduped = [];
       for (const grp of groups.values()) {
         if (grp.length === 1) { deduped.push(grp[0]); continue; }
-        // Representative: the listing with the most populated data — prefer
+        // Representative: the listing with the most populated data, prefer
         // the highest store count, then a present price, then a present image.
         const rep = grp.slice().sort((a, b) =>
           (b.storeCount || 0) - (a.storeCount || 0) ||
@@ -13300,7 +13300,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
   // Anything not in the allowlist is suppressed for that category to avoid
   // nonsense filters like "Screen Size" on washing machines.
   const FILTER_DIM_BY_SOG = {
-    // Computers / monitors / phones / TVs — full spec set
+    // Computers / monitors / phones / TVs, full spec set
     "c-pclaptop":      ["storage","screen","cpu","ram","os","gpu","resolution","refresh","panel"],
     "c-pcdesktop":     ["storage","cpu","ram","os","gpu"],
     "c-tabletpc":      ["storage","screen","cpu","ram","os"],
@@ -13320,7 +13320,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     "e-camera":        ["resolution"],
     "e-mediaplayer":   ["resolution"],
     "e-tvgame":        ["storage"],
-    // Major appliances — only sort+price+brand+color, no spec dims
+    // Major appliances, only sort+price+brand+color, no spec dims
     "e-fridge":          [],
     "e-freezer":         [],
     "e-washingmachine":  [],
@@ -13484,7 +13484,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         // Large values = storage; ignore small ones (they're RAM)
         stoGb.forEach(v => { const k = v + " GB"; storageMap.set(k, (storageMap.get(k) || 0) + 1); });
       } else if (smallGb.length > 0) {
-        // Only small values → GPU VRAM or small storage — include them
+        // Only small values → GPU VRAM or small storage, include them
         smallGb.forEach(v => { const k = v + " GB"; storageMap.set(k, (storageMap.get(k) || 0) + 1); });
       }
       allTb.forEach(v => { const k = v + " TB"; storageMap.set(k, (storageMap.get(k) || 0) + 1); });
@@ -13520,7 +13520,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         const m1 = name.match(/\b(\d{1,2}\.?\d?)\s*["״]/g) || [];
         // English inch OR Hebrew אינטש (monitors, TVs: "27 אינטש", "55 אינטש")
         const m2 = name.match(/\b(\d{1,2}\.?\d?)\s*(?:inch|אינטש)/gi) || [];
-        // Tablet decimal sizes: 10.9, 13.1, 8.7 — distinctive and unlikely to be anything else
+        // Tablet decimal sizes: 10.9, 13.1, 8.7, distinctive and unlikely to be anything else
         const m3 = [...name.matchAll(/\b(\d{1,2}\.\d)\b/g)]
           .map(m => m[0])
           .filter(s => { const v = parseFloat(s); return v >= 7.0 && v <= 15.9; });
@@ -13529,7 +13529,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           if (num) sizeSet.add(`${num}"`);
         });
       });
-      // Fallback: use ZAP's screen sizes — but ONLY ones that actually appear
+      // Fallback: use ZAP's screen sizes, but ONLY ones that actually appear
       // in at least one product name on this page. Without this filter ZAP's
       // full taxonomy (6.1/6.2/6.6/6.67/6.78/...) was shown for every search,
       // even when the results only have iPhone 16/17 Pro = 6.3"/6.9".
@@ -13567,13 +13567,13 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       }
     }
 
-    // Color filter intentionally removed — most catalog products don't have
+    // Color filter intentionally removed, most catalog products don't have
     // a meaningful "color" attribute (or it's a noisy false-positive from
     // brand names like "Black & Decker"). If a category truly needs color
     // (rare), gate it via FILTER_DIM_BY_SOG above.
 
     // ── Per-product spec extraction (laptop and general) ───────────
-    // Runs once per render across all real products — extracts CPU/RAM/OS/GPU/Resolution/Hz
+    // Runs once per render across all real products, extracts CPU/RAM/OS/GPU/Resolution/Hz
     const extractSpecs = (name) => {
       const n = name || "";
       // CPU
@@ -13600,7 +13600,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       else if (/\bPentium\b/i.test(n))                cpu = "Intel Pentium";
       else if (/\bSnapdragon\s*X\b/i.test(n))         cpu = "Snapdragon X";
 
-      // RAM — distinguish from storage: RAM ≤ 64GB, storage ≥ 128GB or has SSD/TB
+      // RAM, distinguish from storage: RAM ≤ 64GB, storage ≥ 128GB or has SSD/TB
       let ram = null;
       const explicitRam = n.match(/\b(\d+)\s*GB\s+(?:RAM|LPDDR\d*|DDR\d*|Unified Memory|Shared Memory)\b/i)
                        || n.match(/(?:RAM|Memory)\s+(\d+)\s*GB/i);
@@ -13615,7 +13615,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           ram = `${Math.min(...ramVals)}GB`;
         } else if (ramVals.length > 0 && storageVals.length === 0 && !/\d+\s*TB\b/i.test(n)
                    && !/\bSSD\b|\bHDD\b|\bNVMe\b/i.test(n)) {
-          // Only small GB values, no storage hint — treat as RAM
+          // Only small GB values, no storage hint, treat as RAM
           ram = `${Math.max(...ramVals)}GB`;
         }
       }
@@ -13656,7 +13656,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       const hz = n.match(/\b(360|300|240|165|144|120|90|75|60)\s*Hz\b/i);
       if (hz) refreshRate = `${hz[1]}Hz`;
 
-      // Panel type — relaxed word boundaries for model-embedded acronyms:
+      // Panel type, relaxed word boundaries for model-embedded acronyms:
       // OLED may be embedded: "OLED55C56LA" (no word boundary after OLED)
       // IPS may be at end of model code: "G27IPS" (no word boundary before IPS)
       let panel = null;
@@ -13664,8 +13664,8 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       else if (/\bMini[-\s]?LED/i.test(n))    panel = "Mini-LED";
       else if (/\bQLED\b/i.test(n))            panel = "QLED";
       else if (/\bNano\s*IPS\b/i.test(n))      panel = "Nano IPS";
-      else if (/\bOLED/i.test(n))              panel = "OLED";   // no trailing \b — OLED55 etc.
-      else if (/IPS\b/i.test(n))               panel = "IPS";    // no leading \b — G27IPS etc.
+      else if (/\bOLED/i.test(n))              panel = "OLED";   // no trailing \b, OLED55 etc.
+      else if (/IPS\b/i.test(n))               panel = "IPS";    // no leading \b, G27IPS etc.
       else if (/\bVA\b/i.test(n))              panel = "VA";
       else if (/\bTN\b/i.test(n))              panel = "TN";
 
@@ -13724,7 +13724,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         if (!grp) continue;
         for (const v of grp.options) {
           // ZAP taxonomy occasionally returns null / non-string entries for
-          // certain filter groups — skip those to avoid `v.toLowerCase()`
+          // certain filter groups, skip those to avoid `v.toLowerCase()`
           // throwing "Cannot read properties of undefined".
           if (typeof v !== "string" || !v) continue;
           const vLower = v.toLowerCase();
@@ -13756,7 +13756,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     };
 
     // ── CPU / מעבד ─────────────────────────────────────────────
-    // Show only CPU options that actually appear in product names — otherwise
+    // Show only CPU options that actually appear in product names, otherwise
     // the user picks (e.g.) "Intel Core i7" and gets 0 results because our
     // catalog names don't carry CPU info. Better to show fewer, working options.
     const cpuDim = makeSpecDim({ id:"cpu", icon:"🖥️", label:"מעבד", key:"cpu",
@@ -13764,7 +13764,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     const anyCpuDetected = specMap.some(({ specs }) => specs.cpu !== null);
     const zapCpuGrp = zapFilterGroups.find(g => g.paramKey === "cpu");
     if (!cpuDim && !anyCpuDetected) {
-      // ZAP fallback — only options that match ≥1 product name
+      // ZAP fallback, only options that match ≥1 product name
       const zapCpuDim = makeZapDim({ id:"cpu", icon:"🖥️", label:"מעבד",
         zapGrp: zapCpuGrp, setter: setSelectedCPU, selected: selectedCPU });
       if (zapCpuDim) dims.push(zapCpuDim);
@@ -13779,7 +13779,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     const anyRamDetected = specMap.some(({ specs }) => specs.ram !== null);
     const zapRamGrp = zapFilterGroups.find(g => g.paramKey === "mem");
     if (!ramDim && !anyRamDetected) {
-      // ZAP fallback — only show options that appear in at least one product name
+      // ZAP fallback, only show options that appear in at least one product name
       const zapRamDim = makeZapDim({ id:"ram", icon:"🧠", label:"זיכרון RAM",
         zapGrp: zapRamGrp, setter: setSelectedRAM, selected: selectedRAM });
       if (zapRamDim) dims.push(zapRamDim);
@@ -13793,7 +13793,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       setter: setSelectedOS, selected: selectedOS });
     const zapOsGrp = zapFilterGroups.find(g => g.paramKey === "os");
     if (!osDim) {
-      // ZAP fallback — only if options appear in product names
+      // ZAP fallback, only if options appear in product names
       const zapOsDim = makeZapDim({ id:"os", icon:"💿", label:"מערכת הפעלה",
         zapGrp: zapOsGrp, setter: setSelectedOS, selected: selectedOS });
       if (zapOsDim) dims.push(zapOsDim);
@@ -14006,7 +14006,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         res = await fetch(`/api/search?q=${encodeURIComponent(fullName)}`);
       }
       if (!res) {
-        setError("המוצר הזה לא זמין כרגע — נסה אחר או חפש בשורת החיפוש");
+        setError("המוצר הזה לא זמין כרגע, נסה אחר או חפש בשורת החיפוש");
         return;
       }
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "המוצר אינו זמין");
@@ -14014,7 +14014,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
       // ── Identity lock ───────────────────────────────────────────────
       // The /api/zap-model and /api/search round-trips can resolve to a
-      // DIFFERENT product than the card the user tapped — a stale price
+      // DIFFERENT product than the card the user tapped, a stale price
       // cache, a ZAP model-id merge/redirect, or the search fallback that
       // "returns whatever ranks first". The card the user clicked IS the
       // product they want, so its name + image ALWAYS win. The server
@@ -14030,11 +14030,11 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
       const result = {
         ...data,
-        // identity — always the clicked card
+        // identity, always the clicked card
         productName:   cardName || data.productName,
         productNameEn: product.nameEn || cardName || data.productNameEn,
         image:         product.image || data.image || null,
-        // prices/suppliers — only when the server described THIS product;
+        // prices/suppliers, only when the server described THIS product;
         // otherwise fall back to the card's own cached numbers
         suppliers:  sameProduct ? (data.suppliers || []) : [],
         marketMin:  sameProduct ? (data.marketMin || product.priceMin || 0) : (product.priceMin || 0),
@@ -14072,15 +14072,15 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
 
   // Eagerly preload images for the CURRENT page (no delay) and for the
   // NEXT page after a short delay. When the user jumps directly to a page,
-  // its images start loading immediately — not just on visible <img> render.
+  // its images start loading immediately, not just on visible <img> render.
   useEffect(() => {
-    // Current page — fire immediately so jumping to e.g. page 24 starts
+    // Current page, fire immediately so jumping to e.g. page 24 starts
     // image downloads right away in parallel with React's render.
     pagedProducts.forEach(p => {
       if (!p?.image || p._phase === "skeleton") return;
       try { const img = new Image(); img.src = p.image; } catch {}
     });
-    // Next page — slight delay so the active page renders first.
+    // Next page, slight delay so the active page renders first.
     if (safePage < totalPages) {
       const next = displayProducts.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
       const t = setTimeout(() => {
@@ -14093,7 +14093,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     }
   }, [safePage, totalPages, displayProducts, pagedProducts]);
 
-  // ── Spec tagging — fetch authoritative specs from ZAP for each visible
+  // ── Spec tagging, fetch authoritative specs from ZAP for each visible
   // product so filters (CPU/RAM/OS/GPU/screen/resolution/Hz/panel) work
   // even when product names don't carry that info (most laptops have only
   // model codes like "FA608PM-RV010" with no CPU/RAM in the title).
@@ -14204,7 +14204,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       if (!p || p._phase === "skeleton") return false;
       if (!p._streamKey) return false;
       // Server-attached tags (filterTags) and client-fetched (_filterTags)
-      // both count as already-tagged — skip the lazy fetch in either case.
+      // both count as already-tagged, skip the lazy fetch in either case.
       if (p._filterTags || p.filterTags) return false;
       return !specsTaggedRef.current.has(p._streamKey);
     });
@@ -14307,7 +14307,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           }
         } catch {}
       }
-      // Step 3: full /api/search fallback — slower but works without modelId
+      // Step 3: full /api/search fallback, slower but works without modelId
       try {
         const r3 = await fetch(`/api/search?q=${encodeURIComponent(name)}`);
         if (!r3.ok || cancelled) return;
@@ -14318,7 +14318,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       } catch {}
     };
 
-    // Fire 12 in parallel — the visible page is at most 48 products and
+    // Fire 12 in parallel, the visible page is at most 48 products and
     // the catalog endpoint is in-memory; modest concurrency keeps direct
     // page jumps (e.g. page 24) feeling instant while not flooding the API.
     let inflight = 0, idx = 0;
@@ -14343,10 +14343,10 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     if (autoOpenedRef.current === query) return;
     if (loadingProduct) return;
     if (streamPhase !== "streaming" && streamPhase !== "done") return;
-    // Only auto-open when stream is finalizing — don't fire on transient counts
+    // Only auto-open when stream is finalizing, don't fire on transient counts
     if (streamPhase === "streaming" && displayProducts.length !== 1) return;
     if (displayProducts.length !== 1) return;
-    // Don't auto-open if user is filtering — they may want to broaden
+    // Don't auto-open if user is filtering, they may want to broaden
     if (priceMin || priceMax || selectedBrands.length > 0 || selectedStorage || selectedColor ||
         selectedScreenSize || selectedCPU || selectedRAM || selectedOS || selectedGPU ||
         selectedResolution || selectedRefreshRate || selectedPanel) return;
@@ -14392,13 +14392,13 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         // Normalise: strip commas and the ₪ sign so we work with plain digits
         const label = opt.label.replace(/,/g, "").replace(/₪/g, "").trim();
 
-        // "עד X" or "עד X" — upper bound only
+        // "עד X" or "עד X", upper bound only
         const upTo = label.match(/עד\s*(\d+)/);
-        // "מעל X" or "מעל X" — lower bound only (no upper cap)
+        // "מעל X" or "מעל X", lower bound only (no upper cap)
         const above = label.match(/מעל\s*(\d+)/);
-        // "X+" — lower bound only
+        // "X+", lower bound only
         const plus = label.match(/(\d+)\s*\+/);
-        // "X – Y" / "X - Y" / "X–Y" with optional spaces — range
+        // "X, Y" / "X - Y" / "X–Y" with optional spaces, range
         const range = label.match(/(\d+)\s*[–\-]\s*(\d+)/);
 
         if (upTo)  { setPriceMax(String(parseInt(upTo[1],  10))); }
@@ -14412,7 +14412,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     }
 
     // ── Non-budget, non-skip: apply searchTerm as instant client-side filter ──
-    // No stream restart — filter the existing product list in place.
+    // No stream restart, filter the existing product list in place.
     if (optValue !== "dontcare" && questionId !== "budget") {
       const thisQ  = refineQs.find(rq => rq.id === questionId);
       const chosen = thisQ?.options?.find(o => o.value === optValue);
@@ -14425,7 +14425,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
     if (refineIdx < refineQs.length - 1) {
       setRefineIdx(prev => prev + 1);
     } else {
-      setRefineReady(false); // hide strip — filtering already applied above
+      setRefineReady(false); // hide strip, filtering already applied above
     }
   };
 
@@ -14439,7 +14439,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           IMPORTANT: top offset must clear the global <Navbar> (sticky
           top-0 z-40, 3.75rem tall). Without it the navbar covers this
           header on scroll and the "חזרה" / "B home" buttons become
-          unreachable on mobile — that was the bug. */}
+          unreachable on mobile, that was the bug. */}
       <div className="sticky z-30 bg-white border-b border-gray-100 shadow-sm" style={{ top: "3.75rem" }}>
         <div className="max-w-7xl mx-auto px-4">
 
@@ -14496,7 +14496,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
                 <div className="flex items-center gap-2">
                   <input type="number" placeholder="₪ מינימום" value={priceMin} onChange={e => setPriceMin(e.target.value)}
                     className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-                  <span className="text-gray-300 font-bold">—</span>
+                  <span className="text-gray-300 font-bold">-</span>
                   <input type="number" placeholder="₪ מקסימום" value={priceMax} onChange={e => setPriceMax(e.target.value)}
                     className="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-sm text-right focus:outline-none focus:ring-2 focus:ring-indigo-300" />
                 </div>
@@ -14554,7 +14554,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         </div>
       </div>
 
-      {/* ── Sub-category tiles — inline replacement for the old disambiguation modal ──
+      {/* ── Sub-category tiles, inline replacement for the old disambiguation modal ──
           Replaces the blocking "what kind of X?" pop-up. ALL results load first;
           tapping a tile narrows the loaded list client-side (no re-search).
           "הכל" tile (selected by default) shows everything. */}
@@ -14562,7 +14562,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         <div className="bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 py-3">
             <div className="flex items-center gap-2.5 overflow-x-auto pb-0.5" style={{ scrollbarWidth: "none" }}>
-              {/* "הכל" tile — resets to all results */}
+              {/* "הכל" tile, resets to all results */}
               {(() => {
                 const isAll = !subCategory;
                 return (
@@ -14604,11 +14604,11 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         </div>
       )}
 
-      {/* ── Smart Filter Bar — all filters visible as chip buttons ── */}
+      {/* ── Smart Filter Bar, all filters visible as chip buttons ── */}
       {allProducts.length > 0 && smartFilterDims.length > 0 && (
         <div className="bg-white border-b border-gray-100 shadow-sm relative">
           <div className="max-w-7xl mx-auto px-4 py-2.5">
-            {/* Scrollable chip row — NOTE: dropdown is rendered OUTSIDE this div
+            {/* Scrollable chip row, NOTE: dropdown is rendered OUTSIDE this div
                 because overflow-x:auto clips overflow-y (browser CSS spec) */}
             <div className="flex items-center gap-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
               {smartFilterDims.map(dim => {
@@ -14658,7 +14658,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
             </div>
           </div>
 
-          {/* ── Dropdown — rendered OUTSIDE overflow container to avoid clipping ── */}
+          {/* ── Dropdown, rendered OUTSIDE overflow container to avoid clipping ── */}
           {activeFilterChip && (() => {
             const dim = smartFilterDims.find(d => d.id === activeFilterChip);
             if (!dim) return null;
@@ -14692,7 +14692,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
               <>
                 {/* Invisible backdrop closes dropdown on outside click */}
                 <div className="fixed inset-0 z-40" onClick={() => setActiveFilterChip(null)} />
-                {/* Dropdown panel — absolute inside relative filter bar, z above backdrop */}
+                {/* Dropdown panel, absolute inside relative filter bar, z above backdrop */}
                 <div className="absolute right-4 left-4 top-full z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 py-1.5 max-h-72 overflow-y-auto">
                   <div className="flex flex-wrap gap-1.5 px-3 py-2">
                     {dim.options.map(opt => {
@@ -14787,7 +14787,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           </div>
         )}
 
-        {/* Empty state — three branches:
+        {/* Empty state, three branches:
             (a) System genuinely has nothing usable in this category (0 results
                 from server, OR results came back but all failed the quality
                 gate) → branded aspirational message, NOT "clear filters".
@@ -14809,7 +14809,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
                   עדיין אין מוצרים זמינים בקטגוריה הזו
                 </p>
                 <p className="text-sm text-gray-500 leading-relaxed mb-6">
-                  פתח דרישה למוצר שאתה מחפש — נאסוף קונים נוספים ונביא הצעת מחיר מספק.
+                  פתח דרישה למוצר שאתה מחפש, נאסוף קונים נוספים ונביא הצעת מחיר מספק.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
                   {onRequestSupplierPrice && query && (
@@ -14842,7 +14842,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
           return null;
         })()}
 
-        {/* Product grid — shown as soon as first products arrive */}
+        {/* Product grid, shown as soon as first products arrive */}
         {!error && displayProducts.length > 0 && (
           <div className={`transition-opacity duration-300 ${refining ? "opacity-40 pointer-events-none" : ""}`}><>
             {/* Quick sort chips (always visible below header) */}
@@ -14870,7 +14870,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
               )}
             </div>
 
-            {/* Category-variant chips — appears at the top of any results
+            {/* Category-variant chips, appears at the top of any results
                 page whose query matches a category in CATEGORY_VARIANT_CHIPS.
                 Replaces the old per-category drilldown modal: the user lands
                 directly on results, and the variant choice is offered here. */}
@@ -14903,7 +14903,7 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
               );
             })()}
 
-            {/* TV size chips — only shown when server confirmed nearby sizes exist */}
+            {/* TV size chips, only shown when server confirmed nearby sizes exist */}
             {nearbySizes && nearbySizes.length > 0 && onReSearch && (() => {
               const sizeMatch = query.match(/\b(32|40|43|48|50|55|65|75|77|83|85)\b/);
               if (!sizeMatch) return null;
@@ -15113,7 +15113,7 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "שגיאה בחיפוש");
       const data = await res.json();
 
-      // Identity lock — the search round-trip can rank a different product
+      // Identity lock, the search round-trip can rank a different product
       // first; the row the user picked stays authoritative for name + image.
       const cardName = product.nameHe || product.nameEn || "";
       const tok = (s) => String(s || "").toLowerCase()
@@ -15171,7 +15171,7 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {products.map((p, i) => {
-              // Single source of truth — see src/dealMatch.js
+              // Single source of truth, see src/dealMatch.js
               const existingDeal = findDealForProduct(deals, p, { pageSog });
               const isLoading = loadingIdx === i;
               const isDisabled = loadingIdx !== null;
@@ -15226,7 +15226,7 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
                   <div className="flex items-center justify-between mb-3">
                     <span className="font-black text-indigo-700 text-sm">
                       ₪{p.priceMin?.toLocaleString()}
-                      {p.priceMax && p.priceMax !== p.priceMin ? ` — ₪${p.priceMax?.toLocaleString()}` : ""}
+                      {p.priceMax && p.priceMax !== p.priceMin ? `, ₪${p.priceMax?.toLocaleString()}` : ""}
                     </span>
                     {p.storeCount > 1 && (
                       <span className="text-[10px] text-gray-400 font-semibold">{p.storeCount} חנויות</span>
@@ -15255,7 +15255,7 @@ function ProductListModal({ products, query, deals, t, onResult, onClose, pageSo
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  PRODUCT FINDER MODAL — wizard-style guided search
+//  PRODUCT FINDER MODAL, wizard-style guided search
 //  Shows category-specific filter questions one by one, then a
 //  product list. User picks exact model → full AI search runs.
 // ─────────────────────────────────────────────────────────────────
@@ -15323,7 +15323,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     // If the user typed a generic Hebrew category name (no English/digits), use the
     // clean bilingual base (e.g. "מיקרוגל microwave").
     // If they typed a specific product ("iPhone 15 Pro Max", "Samsung S24"), keep
-    // their original query — replacing it with a generic base loses the model name.
+    // their original query, replacing it with a generic base loses the model name.
     const queryIsGeneric = !/[a-zA-Z0-9]/.test(query);
     const base = queryIsGeneric ? (CATEGORY_BASE_EN[category] || query) : query;
     const addedWords = new Set(base.toLowerCase().split(/\s+/));
@@ -15335,7 +15335,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       if (!chosen || chosen === "dontcare") return;
       const opt = q.options.find(o => o.value === chosen);
       if (!opt?.searchTerm) return;
-      // Skip price/budget terms — meaningless to Google Shopping
+      // Skip price/budget terms, meaningless to Google Shopping
       if (/\d+\s*(ILS|₪|NIS)|budget|premium|high.?end|mid.?range/i.test(opt.searchTerm)) return;
       // Add only words not already in base (dedup)
       opt.searchTerm.split(/\s+/).forEach(w => {
@@ -15373,8 +15373,8 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
 
   // Extract all capacity/size/type constraint notes from wizard answers.
   // Scans EVERY question for options that have a `capacityNote` OR `specNote` field.
-  // capacityNote — volume/size constraints (e.g. "350–500 ליטר", "מסך 55 אינץ׳")
-  // specNote     — type/tech constraints (e.g. "Side-by-Side", "OLED", "Front Load")
+  // capacityNote, volume/size constraints (e.g. "350–500 ליטר", "מסך 55 אינץ׳")
+  // specNote    , type/tech constraints (e.g. "Side-by-Side", "OLED", "Front Load")
   //               These are passed to OpenAI so it can filter by product type too.
   const extractCapacityNote = (ans, qs) => {
     const notes = [];
@@ -15392,7 +15392,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     setPhase("searching");
     try {
       // After the wizard narrows down to a specific model, go directly to price search.
-      // No product-picker intermediate step — one result with the top 5 cheapest stores.
+      // No product-picker intermediate step, one result with the top 5 cheapest stores.
       const r = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
       if (r.ok) {
         const result = await r.json();
@@ -15409,7 +15409,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     }
   };
 
-  // Multi-product search — returns a LIST of products matching query + budget
+  // Multi-product search, returns a LIST of products matching query + budget
   // Used for category searches (מקרר, תנור, מזגן etc.) where user hasn't picked a specific model
   const searchMultiProducts = async (q, priceRange = {}, brand = "", capacityNote = "") => {
     setPhase("searching");
@@ -15449,20 +15449,20 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     }
   };
 
-  // Comprehensive fallback wizard questions — covers all Zap.co.il categories
+  // Comprehensive fallback wizard questions, covers all Zap.co.il categories
   const getFallbackQuestions = (q) => {
     const s = q.toLowerCase();
 
     // ══════════════════════════════════════════════════════════
-    // SPECIFIC PRODUCTS — ask only what's truly unknown
+    // SPECIFIC PRODUCTS, ask only what's truly unknown
     // skipServer:true means don't bother hitting the AI endpoint
     // questions:[]     means skip wizard entirely → go to results
     // ══════════════════════════════════════════════════════════
 
-    // Roomba j9+ — fully specified, no questions needed
+    // Roomba j9+, fully specified, no questions needed
     if (/roomba\s*j9/.test(s)) return { skipServer:true, category:"Roomba j9+", questions:[] };
 
-    // AirPods Pro — only ask: which generation
+    // AirPods Pro, only ask: which generation
     if (/airpods\s*pro/.test(s)) return { skipServer:true, category:"AirPods Pro", questions:[
       { id:"gen", label:"איזה דור?", icon:"🎧", sublabel:"", options:[
         { value:"g1", label:"AirPods Pro 2 (נוכחי)", searchTerm:"AirPods Pro 2nd generation", desc:"עם Hearing Aid ו-ANC משופר" },
@@ -15470,7 +15470,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // AirPods (ללא Pro) — ask model
+    // AirPods (ללא Pro), ask model
     if (/airpods/.test(s)) return { skipServer:true, category:"AirPods", questions:[
       { id:"model", label:"איזה דגם?", icon:"🎧", sublabel:"", options:[
         { value:"m1", label:"AirPods 4",     searchTerm:"AirPods 4th generation",     desc:"הכי חדש" },
@@ -15479,7 +15479,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // iPhone / אייפון + דגם ספציפי — רק נפח (אין צורך בשאלת תקציב!)
+    // iPhone / אייפון + דגם ספציפי, רק נפח (אין צורך בשאלת תקציב!)
     if (/(?:iphone|אייפון)\s*(17|16|15|14|13)/i.test(s)) {
       // Extract full English model name for search
       const heMatch = q.match(/אייפון\s*([\d\w\s פרו מקס פלוס]+)/i);
@@ -15503,7 +15503,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]};
     }
 
-    // Samsung Galaxy / סמסונג גלקסי — דגם ספציפי — רק נפח
+    // Samsung Galaxy / סמסונג גלקסי, דגם ספציפי, רק נפח
     if (/(?:galaxy|גלקסי)\s*(s2[0-9]|a[0-9]{2})\s*(ultra|plus|\+|fe)?/i.test(s)) {
       let model = (q.match(/(?:galaxy|גלקסי)[\s\w+]+/i) || [q])[0].trim();
       model = model.replace(/גלקסי/gi, "Galaxy").trim();
@@ -15517,7 +15517,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]};
     }
 
-    // MacBook Pro — צ'יפ + גודל + נפח
+    // MacBook Pro, צ'יפ + גודל + נפח
     if (/macbook\s*pro/.test(s)) return { skipServer:true, category:"MacBook Pro", questions:[
       { id:"chip", label:"איזה צ'יפ?", icon:"⚙️", sublabel:"", options:[
         { value:"c1", label:"M4",               searchTerm:"MacBook Pro M4",      desc:"הכי חדש" },
@@ -15536,10 +15536,10 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // MacBook Air — צ'יפ + גודל + נפח
+    // MacBook Air, צ'יפ + גודל + נפח
     if (/macbook\s*air/.test(s)) return { skipServer:true, category:"MacBook Air", questions:[
       { id:"chip", label:"איזה צ'יפ?", icon:"⚙️", sublabel:"", options:[
-        { value:"c1", label:"M4", searchTerm:"MacBook Air M4", desc:"הכי חדש — 2025" },
+        { value:"c1", label:"M4", searchTerm:"MacBook Air M4", desc:"הכי חדש, 2025" },
         { value:"c2", label:"M3", searchTerm:"MacBook Air M3", desc:"" },
         { value:"c3", label:"M2", searchTerm:"MacBook Air M2", desc:"" },
       ]},
@@ -15554,7 +15554,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // MacBook (גנרי) — קודם בחר מודל
+    // MacBook (גנרי), קודם בחר מודל
     if (/macbook/.test(s)) return { skipServer:true, category:"MacBook", questions:[
       { id:"model", label:"איזה מודל?", icon:"💻", sublabel:"", options:[
         { value:"m1", label:'MacBook Air 13" M4',  searchTerm:"MacBook Air 13 M4",  desc:"קל וחסכוני" },
@@ -15569,7 +15569,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // PS5 — רק גרסה (דיסק / דיגיטל / Pro)
+    // PS5, רק גרסה (דיסק / דיגיטל / Pro)
     if (/ps5|playstation\s*5/.test(s)) return { skipServer:true, category:"PlayStation 5", questions:[
       { id:"edition", label:"איזה גרסה?", icon:"🎮", sublabel:"", options:[
         { value:"e1", label:"PS5 Slim (כונן דיסק)",  searchTerm:"PlayStation 5 Slim disc",     desc:"יריץ דיסקים" },
@@ -15578,7 +15578,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // OLED 65" — רק מותג (גודל וטכנולוגיה כבר ידועים)
+    // OLED 65", רק מותג (גודל וטכנולוגיה כבר ידועים)
     if (/oled.*65|65.*oled/.test(s)) return { skipServer:true, category:'OLED 65"', questions:[
       { id:"brand", label:"מותג מועדף", icon:"🏷️", sublabel:"", options:[
         { value:"br1", label:"LG",          searchTerm:"LG OLED 65",      desc:"ה-OLED המקורי" },
@@ -15604,14 +15604,14 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     // כל הטווחים מבוססים על נתוני Zap האמיתיים (מספר מוצרים בכל טווח)
     // ─────────────────────────────────────────────────────────────
 
-    // ── מחשב גנרי — שאל על סוג → ברנד → תקציב ──
+    // ── מחשב גנרי, שאל על סוג → ברנד → תקציב ──
     // חייב להיות לפני "מחשב נייד" ו"מחשב נייח" כדי שהוא לא יתנגש איתם
-    // base = "computer" (from CATEGORY_BASE_EN) — ועל זה מצטרפים searchTerms
+    // base = "computer" (from CATEGORY_BASE_EN), ועל זה מצטרפים searchTerms
     if (/^מחשב(ים)?$/.test(s.trim())) return { category: "מחשב", questions: [
       { id:"type", label:"איזה סוג מחשב?", icon:"💻", sublabel:"", options:[
-        { value:"t1", label:"מחשב נייד",         searchTerm:"laptop",         desc:"לפטופ — לנייד איתו" },
+        { value:"t1", label:"מחשב נייד",         searchTerm:"laptop",         desc:"לפטופ, לנייד איתו" },
         { value:"t2", label:"מחשב גיימינג נייד", searchTerm:"gaming laptop",  desc:"כוח + ניידות" },
-        { value:"t3", label:"מחשב נייח",         searchTerm:"desktop",        desc:"שולחני — ביצועים גבוהים" },
+        { value:"t3", label:"מחשב נייח",         searchTerm:"desktop",        desc:"שולחני, ביצועים גבוהים" },
         { value:"t4", label:"All-in-One",         searchTerm:"All-in-One",     desc:"מסך + מחשב ביחד" },
       ]},
       { id:"brand", label:"איזה ברנד מועדף?", icon:"🏷️", sublabel:"", options:[
@@ -15630,7 +15630,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     ]};
 
     // ── מחשבים ניידים ──
-    // מחשב.{0,4}ניי — matches both singular "מחשב נייד" and plural "מחשבים ניידים"
+    // מחשב.{0,4}ניי, matches both singular "מחשב נייד" and plural "מחשבים ניידים"
     if (/מחשב.{0,4}ניי|לפטופ|laptop|notebook/.test(s)) {
       const isGaming = /גיימינג|gaming/.test(s);
       return { category: isGaming ? "מחשב נייד גיימינג" : "מחשב נייד", questions: [
@@ -15662,7 +15662,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
         ]},
         { id:"ram", label:"כמות RAM", icon:"💾", sublabel:"", options:[
           { value:"r1", label:"8GB",           searchTerm:"8GB RAM laptop", desc:"בסיסי" },
-          { value:"r2", label:"16GB",          searchTerm:"16GB RAM laptop", desc:"מומלץ — הכי נפוץ" },
+          { value:"r2", label:"16GB",          searchTerm:"16GB RAM laptop", desc:"מומלץ, הכי נפוץ" },
           { value:"r3", label:"24GB–32GB",     searchTerm:"24GB 32GB RAM laptop", desc:"מקצועי" },
           { value:"r4", label:"64GB+",         searchTerm:"64GB RAM laptop workstation", desc:"תחנת עבודה" },
         ]},
@@ -15670,7 +15670,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     }
 
     // ── מחשבים נייחים ──
-    // base = CATEGORY_BASE_EN["מחשב נייח"] = "desktop" — שאילתה אנגלית נקייה
+    // base = CATEGORY_BASE_EN["מחשב נייח"] = "desktop", שאילתה אנגלית נקייה
     if (/מחשב נייח|מחשב שולחני|desktop|all.?in.?one/.test(s)) return { category: "מחשב נייח", questions: [
       { id:"use", label:"שימוש עיקרי", icon:"🎯", sublabel:"", options:[
         { value:"u1", label:"גיימינג",        searchTerm:"gaming RTX",    desc:"כרטיס מסך חזק" },
@@ -15693,17 +15693,17 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // ── טאבלטים ── (חייב להיות לפני סמארטפון — Galaxy Tab מכיל "galaxy"!)
+    // ── טאבלטים ── (חייב להיות לפני סמארטפון, Galaxy Tab מכיל "galaxy"!)
     if (/טאבלט|tablet|ipad|אייפד|galaxy.?tab|samsung.?tab|lenovo.?tab|\btab\s+[as]\d/i.test(s)) return { category: "טאבלט", questions: [
       { id:"brand", label:"מותג מועדף", icon:"🏷️", sublabel:"", options:[
-        { value:"br1", label:"Apple iPad",           searchTerm:"Apple iPad", desc:"iOS — הכי חלק" },
+        { value:"br1", label:"Apple iPad",           searchTerm:"Apple iPad", desc:"iOS, הכי חלק" },
         { value:"br2", label:"Samsung Galaxy Tab",   searchTerm:"Samsung Galaxy Tab", desc:"אנדרואיד" },
         { value:"br3", label:"Lenovo / Microsoft",   searchTerm:"Lenovo tablet Windows", desc:"" },
         { value:"br4", label:"לא חשוב",             searchTerm:"", desc:"" },
       ]},
       { id:"size", label:"גודל מסך", icon:"📱", sublabel:"", options:[
         { value:"s1", label:"עד 9 אינץ׳",    searchTerm:"", capacityNote:"טאבלט עד 9 אינץ׳",    desc:"קומפקטי" },
-        { value:"s2", label:'10–11 אינץ׳',   searchTerm:"", capacityNote:"טאבלט 10–11 אינץ׳",   desc:"סטנדרטי — הכי נפוץ" },
+        { value:"s2", label:'10–11 אינץ׳',   searchTerm:"", capacityNote:"טאבלט 10–11 אינץ׳",   desc:"סטנדרטי, הכי נפוץ" },
         { value:"s3", label:'12–13 אינץ׳',   searchTerm:"", capacityNote:"טאבלט 12–13 אינץ׳",   desc:"מסך גדול" },
         { value:"s4", label:'מעל 13 אינץ׳',  searchTerm:"", capacityNote:"טאבלט מעל 13 אינץ׳",  desc:"מחשב-על" },
       ]},
@@ -15718,17 +15718,17 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     ]};
 
     // ── טלוויזיות ──
-    // טלו{1,2}יזי — matches both "טלוויזיה" (2 וו) and "טלויזיות" (1 ו) from CATEGORY_TREE
+    // טלו{1,2}יזי, matches both "טלוויזיה" (2 וו) and "טלויזיות" (1 ו) from CATEGORY_TREE
     if (/טלו{1,2}יזי|television|\btv\b|oled|qled|סמארט טי/.test(s)) return { category: "טלוויזיה", questions: [
       { id:"size", label:"גודל מסך", icon:"📺", sublabel:"", options:[
         { value:"s1", label:'32 אינץ׳',           searchTerm:"", capacityNote:'32 אינץ׳',          desc:"חדר שינה קטן" },
         { value:"s2", label:'43–50 אינץ׳',        searchTerm:"", capacityNote:'43–50 אינץ׳',       desc:"חדר שינה / מטבח" },
         { value:"s3", label:'55 אינץ׳',           searchTerm:"", capacityNote:'55 אינץ׳',          desc:"סלון קטן-בינוני" },
-        { value:"s4", label:'65 אינץ׳',           searchTerm:"", capacityNote:'65 אינץ׳',          desc:"סלון — הכי נפוץ" },
+        { value:"s4", label:'65 אינץ׳',           searchTerm:"", capacityNote:'65 אינץ׳',          desc:"סלון, הכי נפוץ" },
         { value:"s5", label:'75–85 אינץ׳ ומעלה', searchTerm:"", capacityNote:'75–85 אינץ׳ ומעלה', desc:"קולנוע ביתי" },
       ]},
       { id:"tech", label:"טכנולוגיית תצוגה", icon:"✨", sublabel:"", options:[
-        { value:"t1", label:"LED / 4K רגיל",      searchTerm:"4K LED",        specNote:"LED 4K",             desc:"מחיר טוב — הכי נפוץ" },
+        { value:"t1", label:"LED / 4K רגיל",      searchTerm:"4K LED",        specNote:"LED 4K",             desc:"מחיר טוב, הכי נפוץ" },
         { value:"t2", label:"QLED",                searchTerm:"QLED",          specNote:"QLED",               desc:"צבעים עשירים ובהיר" },
         { value:"t3", label:"Mini LED / Neo QLED", searchTerm:"Mini LED QLED", specNote:"Mini LED / Neo QLED", desc:"ניגודיות גבוהה" },
         { value:"t4", label:"OLED / QD-OLED",      searchTerm:"OLED",          specNote:"OLED / QD-OLED",      desc:"שחור אמיתי, הכי טוב" },
@@ -15750,8 +15750,8 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]},
     ]};
 
-    // ── סמארטפון — דגם ספציפי (כל מותג + מספר דגם) ──
-    // אם המשתמש חיפש דגם מפורש (Pixel 9 Pro, Xiaomi 14T, OnePlus 13 וכו') — רק נפח, ללא תקציב
+    // ── סמארטפון, דגם ספציפי (כל מותג + מספר דגם) ──
+    // אם המשתמש חיפש דגם מפורש (Pixel 9 Pro, Xiaomi 14T, OnePlus 13 וכו'), רק נפח, ללא תקציב
     const specificPhoneRe = /(?:pixel|xiaomi|שיאומי|redmi|realme|oppo|oneplus|vivo|motorola|moto|nokia|sony|xperia|huawei|honor|nothing\s*phone|asus\s*zenfone|zte)\s*\d+/i;
     if (specificPhoneRe.test(s)) {
       const model = q.trim();
@@ -15765,11 +15765,11 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       ]};
     }
 
-    // ── סמארטפונים ── (חיפוש כללי — שואל תקציב, מותג וכו׳)
-    // ⚠️ galaxy(?!\s*tab) — מונע ש-"Samsung Galaxy Tab" ייתפס כסמארטפון
-    // סמארטפו — matches both "סמארטפון" and plural "סמארטפונים" (ן→נ+ים)
-    // אייפו[ןנ] — matches both "אייפון" (singular) and "אייפונים" (plural)
-    // טלפו[ןנ].*חכ — matches "טלפון חכם" and "טלפונים חכמים"
+    // ── סמארטפונים ── (חיפוש כללי, שואל תקציב, מותג וכו׳)
+    // ⚠️ galaxy(?!\s*tab), מונע ש-"Samsung Galaxy Tab" ייתפס כסמארטפון
+    // סמארטפו, matches both "סמארטפון" and plural "סמארטפונים" (ן→נ+ים)
+    // אייפו[ןנ], matches both "אייפון" (singular) and "אייפונים" (plural)
+    // טלפו[ןנ].*חכ, matches "טלפון חכם" and "טלפונים חכמים"
     if (/סלולר|טלפו[ןנ].*חכ|סמארטפו|אייפו[ןנ]|iphone|galaxy(?!\s*(?:tab|watch))|pixel|smartphone/.test(s)) return { category: "סמארטפון", questions: [
       { id:"budget", label:"מה התקציב?", icon:"💰", sublabel:"", options:[
         { value:"b1", label:"עד ₪700",        searchTerm:"smartphone budget 700 ILS basic Android", desc:"בסיסי" },
@@ -15909,7 +15909,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       { id:"type", label:"סוג מקרר", icon:"🧊", sublabel:"", options:[
         { value:"t1", label:"מקפיא תחתון",                searchTerm:"bottom freezer refrigerator", specNote:"מקפיא תחתון (Bottom Freezer)", desc:"הכי נוח לשימוש" },
         { value:"t2", label:"מקפיא עליון",                searchTerm:"top freezer refrigerator",    specNote:"מקפיא עליון (Top Freezer)",    desc:"חסכוני וקלאסי" },
-        { value:"t3", label:"דלת ליד דלת (Side-by-Side)", searchTerm:"side by side refrigerator",   specNote:"דלת ליד דלת — Side-by-Side",   desc:"למטבח מרווח" },
+        { value:"t3", label:"דלת ליד דלת (Side-by-Side)", searchTerm:"side by side refrigerator",   specNote:"דלת ליד דלת, Side-by-Side",   desc:"למטבח מרווח" },
         { value:"t4", label:"ללא מקפיא",                  searchTerm:"refrigerator no freezer",     specNote:"ללא מקפיא (No Freezer)",       desc:"לעסקים/בר" },
       ]},
       { id:"brand", label:"מותג מועדף", icon:"🏷️", sublabel:"", options:[
@@ -15961,7 +15961,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       { id:"type", label:"סוג מייבש", icon:"🌀", sublabel:"", options:[
         { value:"t1", label:"מייבש חשמלי (אוויר חם)",    searchTerm:"electric dryer vented",             desc:"מחיר נמוך, צריך פתח" },
         { value:"t2", label:"מייבש עם משאבת חום",        searchTerm:"heat pump dryer",                   desc:"חסכוני, ללא פתח" },
-        { value:"t3", label:"מייבש קונדנסציה",            searchTerm:"condenser dryer",                   desc:"ללא פתח — הנפוץ ביותר" },
+        { value:"t3", label:"מייבש קונדנסציה",            searchTerm:"condenser dryer",                   desc:"ללא פתח, הנפוץ ביותר" },
         { value:"t4", label:"מכונת כביסה + מייבש (2 ב-1)", searchTerm:"washer dryer combo all in one",  desc:"שתיים במחיר אחת" },
       ]},
       { id:"budget", label:"מה התקציב?", icon:"💰", sublabel:"", options:[
@@ -16018,7 +16018,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     ]};
 
     // ── שואבי אבק ──
-    // שואב.{0,3}אבק — matches "שואב אבק" (singular) and "שואבי אבק" (plural construct)
+    // שואב.{0,3}אבק, matches "שואב אבק" (singular) and "שואבי אבק" (plural construct)
     if (/שואב.{0,3}אבק|vacuum|שואב.{0,3}רובוט|רובוטי|roomba|dyson/.test(s)) return { category: "שואב אבק", questions: [
       { id:"type", label:"סוג שואב", icon:"🤖", sublabel:"", options:[
         { value:"t1", label:"עומד (מקל)",    searchTerm:"stick cordless vacuum cleaner", desc:"קל ונוח" },
@@ -16161,9 +16161,9 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
         { value:"b5", label:"₪3,500+",        searchTerm:"monitor OLED 4K gaming high end", desc:"OLED / פרימיום" },
       ]},
       { id:"panel", label:"סוג פאנל", icon:"🎨", sublabel:"", options:[
-        { value:"p1", label:"IPS — צבעים מדויקים",  searchTerm:"IPS panel monitor",   specNote:"IPS",  desc:"" },
-        { value:"p2", label:"VA — ניגודיות גבוהה",   searchTerm:"VA panel monitor",    specNote:"VA",   desc:"" },
-        { value:"p3", label:"OLED — מושלם לגיימינג", searchTerm:"OLED gaming monitor", specNote:"OLED", desc:"" },
+        { value:"p1", label:"IPS, צבעים מדויקים",  searchTerm:"IPS panel monitor",   specNote:"IPS",  desc:"" },
+        { value:"p2", label:"VA, ניגודיות גבוהה",   searchTerm:"VA panel monitor",    specNote:"VA",   desc:"" },
+        { value:"p3", label:"OLED, מושלם לגיימינג", searchTerm:"OLED gaming monitor", specNote:"OLED", desc:"" },
         { value:"p4", label:"לא חשוב",               searchTerm:"", desc:"" },
       ]},
     ]};
@@ -16280,7 +16280,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
     ]};
 
     // ── שעונים חכמים ──
-    // שעו[ןנ].*חכ — matches "שעון חכם" (singular) and "שעונים חכמים" (plural, ן→נ+ים)
+    // שעו[ןנ].*חכ, matches "שעון חכם" (singular) and "שעונים חכמים" (plural, ן→נ+ים)
     if (/שעו[ןנ].*חכ|smartwatch|apple watch|galaxy watch/.test(s)) return { category: "שעון חכם", questions: [
       { id:"brand", label:"מותג מועדף", icon:"⌚", sublabel:"", options:[
         { value:"br1", label:"Apple Watch",           searchTerm:"Apple Watch Series 10", desc:"לאייפון בלבד" },
@@ -16623,7 +16623,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       // ── Step 1: check local knowledge first ──
       const fb = getFallbackQuestions(query);
 
-      // Fully-specified product (e.g. "Roomba j9+") — skip wizard entirely
+      // Fully-specified product (e.g. "Roomba j9+"), skip wizard entirely
       if (fb.skipServer && fb.questions.length === 0) {
         setIsSpecificProduct(true);
         searchProducts(query);
@@ -16631,7 +16631,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
       }
 
       // Specific product with known questions (e.g. "iPhone 16 Pro" → storage only)
-      // No need to hit the AI server — use the precise local questions directly
+      // No need to hit the AI server, use the precise local questions directly
       if (fb.skipServer) {
         setIsSpecificProduct(true);  // → after wizard, go to single result
         setQuestions(injectDontCare(fb.questions));
@@ -16651,7 +16651,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
         return;
       }
 
-      // ── Step 3: truly unknown category — ask AI server ──
+      // ── Step 3: truly unknown category, ask AI server ──
       try {
         const r = await fetch(`/api/wizard-questions?q=${encodeURIComponent(query)}`);
         if (!r.ok) throw new Error("endpoint unavailable");
@@ -16662,7 +16662,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
           setCategory(data.category || "");
           setPhase("wizard");
         } else if (data.questions?.length === 1) {
-          // AI gave 1 question — add generic budget as fallback second question
+          // AI gave 1 question, add generic budget as fallback second question
           const withBudget = [
             data.questions[0],
             { id:"budget", label:"מה התקציב?", icon:"💰", sublabel:"", options:[
@@ -16676,13 +16676,13 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
           setCategory(data.category || "");
           setPhase("wizard");
         } else {
-          // AI returned 0 questions — use generic fallback
+          // AI returned 0 questions, use generic fallback
           setQuestions(injectDontCare(fb.questions));
           setCategory(fb.category);
           setPhase("wizard");
         }
       } catch {
-        // Server unreachable — use generic fallback
+        // Server unreachable, use generic fallback
         setQuestions(injectDontCare(fb.questions));
         setCategory(fb.category);
         setPhase("wizard");
@@ -16773,7 +16773,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
         // Fall back to: original category query + model (if known)
         q2 = product.model ? `${query} ${product.model}` : query;
       } else {
-        // Use clean product name (with model appended) — also prepend category keyword
+        // Use clean product name (with model appended), also prepend category keyword
         // e.g. "מיקרוגל LG MS2336GIB" instead of just "MS2336GIB"
         const catKeyword = category && !nameWithModel.includes(category) ? `${category} ` : "";
         q2 = (catKeyword + nameWithModel).slice(0, 80);
@@ -16885,7 +16885,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
                 {q.sublabel && <p className="text-sm text-gray-400">{q.sublabel}</p>}
               </div>
 
-              {/* Options grid — exclude dontcare */}
+              {/* Options grid, exclude dontcare */}
               {(() => {
                 const mainOpts = q.options.filter(o => o.value !== "dontcare");
                 const dontcareOpt = q.options.find(o => o.value === "dontcare");
@@ -16903,7 +16903,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
                       ))}
                     </div>
 
-                    {/* "תציע לי" — large prominent bottom button */}
+                    {/* "תציע לי", large prominent bottom button */}
                     <div className="mt-5">
                       {(() => {
                         const skipHandler = () => dontcareOpt ? handleAnswer(q.id, dontcareOpt.value) : handleAnswer(q.id, null);
@@ -17064,7 +17064,7 @@ function ProductFinderModal({ query, t, deals, onResult, onClose, initialState }
           )}
         </div>
 
-        {/* ── Footer — back button during wizard ── */}
+        {/* ── Footer, back button during wizard ── */}
         {phase === "wizard" && currentQ > 0 && (
           <div className="flex-shrink-0 px-6 py-4 border-t border-gray-100">
             <button type="button"
@@ -17191,7 +17191,7 @@ function AutocompleteDropdown({ suggestions, activeSug, setActiveSug, onSelect, 
         const price = s?.price || 0;
         const active = activeSug === i;
 
-        // Special "recommend me" row — first, highlighted, distinct styling
+        // Special "recommend me" row, first, highlighted, distinct styling
         if (isRecommend) {
           return (
             <button
@@ -17219,7 +17219,7 @@ function AutocompleteDropdown({ suggestions, activeSug, setActiveSug, onSelect, 
           );
         }
 
-        // "Propose product" row — supplier fallback when no catalog match
+        // "Propose product" row, supplier fallback when no catalog match
         if (isPropose) {
           return (
             <button
@@ -17238,7 +17238,7 @@ function AutocompleteDropdown({ suggestions, activeSug, setActiveSug, onSelect, 
               </div>
               <div className="flex-1 min-w-0 text-right">
                 <p className="font-black text-amber-700 line-clamp-2 leading-tight">{s.label}</p>
-                <p className="text-[10px] text-amber-600 mt-0.5">המוצר עדיין לא באתר — תוכל להיות הראשון להציע אותו</p>
+                <p className="text-[10px] text-amber-600 mt-0.5">המוצר עדיין לא באתר, תוכל להיות הראשון להציע אותו</p>
               </div>
               <span className="text-[10px] bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold px-2 py-0.5 rounded-full flex-shrink-0">
                 חדש 🔥
@@ -17293,7 +17293,7 @@ function AutocompleteDropdown({ suggestions, activeSug, setActiveSug, onSelect, 
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  BIG SEARCH BAR — Google autocomplete + AI search
+//  BIG SEARCH BAR, Google autocomplete + AI search
 //  Use variant="hero" for full-width white-bg hero version
 //  Use variant="compact" for the deals page inline version
 // ─────────────────────────────────────────────────────────────────
@@ -17458,7 +17458,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, p
           )}
         </div>
 
-        {/* Search button — full-width below the input on mobile, side-by-side on sm+ */}
+        {/* Search button, full-width below the input on mobile, side-by-side on sm+ */}
         <button
           onMouseDown={() => clearSug()}
           onClick={() => handleSearch(query)}
@@ -17476,7 +17476,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, p
         </button>
       </div>
 
-      {/* Error — when a search dead-ends, offer to open a request for the
+      {/* Error, when a search dead-ends, offer to open a request for the
           product instead of leaving the user at a plain error message. */}
       {error && (
         <div className="bg-red-50 rounded-xl px-4 py-3 space-y-2">
@@ -17495,13 +17495,13 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, p
         </div>
       )}
 
-      {/* Loading panel — Bundly branded */}
+      {/* Loading panel, Bundly branded */}
       {loading && (
         <div className="bg-white border border-indigo-100 rounded-2xl px-4 py-4 flex items-center gap-4 shadow-sm">
           <BundlyRoadLoader compact productName={query} />
           <div>
             <p className="text-indigo-700 text-sm font-bold">מחפש את המחיר הכי טוב בישראל...</p>
-            <p className="text-indigo-400 text-xs mt-0.5">סורק מאות חנויות וספקים — עשוי לקחת כמה שניות</p>
+            <p className="text-indigo-400 text-xs mt-0.5">סורק מאות חנויות וספקים, עשוי לקחת כמה שניות</p>
           </div>
         </div>
       )}
@@ -17517,7 +17517,7 @@ function SmartSearchBar({ t, onResult, onProductList, onWizard, onOpenRequest, p
 // ─────────────────────────────────────────────────────────────────
 function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
   const [openFaq, setOpenFaq] = useState(null);
-  // Demand-checker tool removed 2026-05-21 — it returned Math.random()
+  // Demand-checker tool removed 2026-05-21, it returned Math.random()
   // "high demand" results. A fabricated "high demand" signal that leads a
   // supplier to an empty platform is a trust trap. Real demand lives in the
   // demand pools; suppliers see genuine signals inside the dashboard.
@@ -17527,36 +17527,36 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
       icon: "🔥",
       title: "חיסול מלאי תקוע",
       sub: "הפוך מלאי עודף לכסף מהיר",
-      desc: "מלאי מעונה קודמת? אריזות ישנות? דגמים שנשארו בודדים? נעטוף את זה כ'דיל יבואן בלעדי' — ותמכור בכבוד, בלי להיראות נואש.",
+      desc: "מלאי מעונה קודמת? אריזות ישנות? דגמים שנשארו בודדים? נעטוף את זה כ'דיל יבואן בלעדי', ותמכור בכבוד, בלי להיראות נואש.",
       badge: "הכי פופולרי",
       badgeColor: "bg-red-100 text-red-600",
     },
     {
       icon: "💳",
       title: "כל קונה מאמת כרטיס מראש",
-      sub: "פרטי כרטיס נשמרים — חיוב אוטומטי בסגירה",
-      desc: "לפני שאתה משקיע במלאי או באריזה, הקונים כבר אישרו כרטיס תקף ב-Stripe. הקבוצה נסגרת? הסליקה רצה אוטומטית באותו רגע — בלי \"שלחתי בקשת תשלום ולא ענו\". לא נסגרת? אין חיוב, אין חוב פתוח.",
+      sub: "פרטי כרטיס נשמרים, חיוב אוטומטי בסגירה",
+      desc: "לפני שאתה משקיע במלאי או באריזה, הקונים כבר אישרו כרטיס תקף ב-Stripe. הקבוצה נסגרת? הסליקה רצה אוטומטית באותו רגע, בלי \"שלחתי בקשת תשלום ולא ענו\". לא נסגרת? אין חיוב, אין חוב פתוח.",
       badge: "אמיתי",
       badgeColor: "bg-blue-100 text-blue-600",
     },
     {
       icon: "🛒",
       title: "לידים חמים, לא חשיפה קרה",
-      sub: "קונים עם כוונת רכישה — לא גולשים",
+      sub: "קונים עם כוונת רכישה, לא גולשים",
       desc: "שכחו מ'חשיפה'. אצלנו אתה מקבל לקוחות שכבר הרימו יד ואמרו 'אני רוצה לקנות'. הקבוצה נפתחת רק כשיש ביקוש אמיתי.",
       badge: null, badgeColor: null,
     },
     {
       icon: "🤖",
       title: "AI כותב לך את הדף",
-      sub: "תיאור מוצר, כותרת, קריאה לפעולה — אוטומטי",
-      desc: "אין לך כוח לשיווק? הכנס שם מוצר ומחיר — הAI יבנה לך עמוד מכירה מקצועי עם כותרת שיווקית, תיאור, יתרונות, וקריאה לפעולה.",
+      sub: "תיאור מוצר, כותרת, קריאה לפעולה, אוטומטי",
+      desc: "אין לך כוח לשיווק? הכנס שם מוצר ומחיר, הAI יבנה לך עמוד מכירה מקצועי עם כותרת שיווקית, תיאור, יתרונות, וקריאה לפעולה.",
       badge: "בקרוב",
       badgeColor: "bg-purple-100 text-purple-600",
     },
     {
       icon: "⚡",
-      title: "מכירה מהירה — 72 שעות",
+      title: "מכירה מהירה, 72 שעות",
       sub: "דיל אגרסיבי, חשיפה מקסימלית",
       desc: "פתח דיל מהיר ל-72 שעות ותוך האזור 'דילים חמים' באתר. מתאים במיוחד למלאי תקוע, הזדמנויות יבוא, או צורך מהיר בתזרים.",
       badge: null, badgeColor: null,
@@ -17564,8 +17564,8 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
     {
       icon: "💰",
       title: "אין מכירה = אין סיכון",
-      sub: "2% עמלה — רק על עסקה שנסגרה",
-      desc: "בלי דמי הקמה. בלי התחייבות חודשית. בלי תשלום על פרסום. 2% מסכום העסקה — רק כשמכרת בפועל. 3 חודשי ניסיון ראשונים — בלי עמלה כלל.",
+      sub: "2% עמלה, רק על עסקה שנסגרה",
+      desc: "בלי דמי הקמה. בלי התחייבות חודשית. בלי תשלום על פרסום. 2% מסכום העסקה, רק כשמכרת בפועל. 3 חודשי ניסיון ראשונים, בלי עמלה כלל.",
       badge: "ללא סיכון",
       badgeColor: "bg-emerald-100 text-emerald-600",
     },
@@ -17578,30 +17578,30 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
     },
     {
       icon: "🎯",
-      title: "בקשות מהקהל — ביקוש מוכן",
+      title: "בקשות מהקהל, ביקוש מוכן",
       sub: "לקוחות כבר מחפשים את המוצר שלך",
-      desc: "לקוחות מעלים בקשות: 'מחפשים שואב עד 500₪', 'רוצים מזגן'. אתה רואה ביקוש מוכן ומגיש הצעה — בלי לנחש מה השוק רוצה.",
+      desc: "לקוחות מעלים בקשות: 'מחפשים שואב עד 500₪', 'רוצים מזגן'. אתה רואה ביקוש מוכן ומגיש הצעה, בלי לנחש מה השוק רוצה.",
       badge: null, badgeColor: null,
     },
     {
       icon: "📦",
       title: "מכירת חבילות וסטים",
       sub: "הגדל את ממוצע העסקה",
-      desc: "מכור סט ניקיון, חבילת מטבח, מארז משפחתי — לא רק מוצר בודד. הלקוח מרגיש שהוא חוסך, אתה מוכר יותר בפחות מאמץ.",
+      desc: "מכור סט ניקיון, חבילת מטבח, מארז משפחתי, לא רק מוצר בודד. הלקוח מרגיש שהוא חוסך, אתה מוכר יותר בפחות מאמץ.",
       badge: null, badgeColor: null,
     },
     {
       icon: "🏅",
       title: "תג 'ספק מאומת'",
       sub: "אמינות, דירוג, קידום אורגני",
-      desc: "ספקים עם שירות טוב מקבלים תג אימות ועולים לראש הרשימה. דירוג לפי: זמן תגובה, עמידה בזמנים, שביעות רצון — כולם רואים את זה.",
+      desc: "ספקים עם שירות טוב מקבלים תג אימות ועולים לראש הרשימה. דירוג לפי: זמן תגובה, עמידה בזמנים, שביעות רצון, כולם רואים את זה.",
       badge: null, badgeColor: null,
     },
     {
       icon: "📍",
       title: "מכירה אזורית חכמה",
       sub: "שלוט בלוגיסטיקה שלך",
-      desc: "בחר: כל הארץ, רק מרכז, איסוף עצמי, או משלוח מרוכז לעיר. אתה קובע איפה אתה מוכר — אנחנו מביאים את הקונים לשם.",
+      desc: "בחר: כל הארץ, רק מרכז, איסוף עצמי, או משלוח מרוכז לעיר. אתה קובע איפה אתה מוכר, אנחנו מביאים את הקונים לשם.",
       badge: null, badgeColor: null,
     },
     {
@@ -17615,26 +17615,26 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
 
   const steps = [
     { num: "01", title: "נרשם בחינם", desc: "3 חודשי ניסיון ללא עמלת בנדלי. הגדרת פרופיל ממותג תוך 10 דקות, ללא כרטיס אשראי." },
-    { num: "02", title: "מקבל קונים מאומתים", desc: "לקוחות שכבר אישרו כרטיס תקף ב-Stripe מחפשים את המוצרים שלך. אתה לא צריך לרדוף — הם מגיעים אליך מוכנים לקנות." },
-    { num: "03", title: "קובע מחיר לקבוצות רכישה", desc: "אתה מציע מחיר לפי גודל הקבוצה. הצעות תחרותיות מספקים אחרים — אתה תמיד יכול להוריד את שלך, רק להיטיב." },
+    { num: "02", title: "מקבל קונים מאומתים", desc: "לקוחות שכבר אישרו כרטיס תקף ב-Stripe מחפשים את המוצרים שלך. אתה לא צריך לרדוף, הם מגיעים אליך מוכנים לקנות." },
+    { num: "03", title: "קובע מחיר לקבוצות רכישה", desc: "אתה מציע מחיר לפי גודל הקבוצה. הצעות תחרותיות מספקים אחרים, אתה תמיד יכול להוריד את שלך, רק להיטיב." },
     { num: "04", title: "מקבל תשלום מאובטח", desc: "הקבוצה נסגרת → הסליקה אוטומטית → התשלום מועבר תוך 21 ימי עסקים מאספקה. בלי גבייה ידנית, בלי חיובים חוזרים." },
   ];
 
   const faqs = [
-    { q: "כמה עמלה אתם לוקחים?", a: "2% מסכום העסקה לפני מע\"מ, על עסקה שנסגרה בלבד. 3 חודשי הניסיון הראשונים — ללא עמלה כלל. לא משלמים על חשיפה, על רישום, או על העלאת מוצרים." },
-    { q: "מתי מקבלים את הכסף?", a: "התשלום מועבר תוך עד 21 ימי עסקים מאספקה ללקוח. הסליקה אוטומטית — בלי גבייה ידנית, בלי חיובים חוזרים." },
+    { q: "כמה עמלה אתם לוקחים?", a: "2% מסכום העסקה לפני מע\"מ, על עסקה שנסגרה בלבד. 3 חודשי הניסיון הראשונים, ללא עמלה כלל. לא משלמים על חשיפה, על רישום, או על העלאת מוצרים." },
+    { q: "מתי מקבלים את הכסף?", a: "התשלום מועבר תוך עד 21 ימי עסקים מאספקה ללקוח. הסליקה אוטומטית, בלי גבייה ידנית, בלי חיובים חוזרים." },
     { q: "מה קורה אם הקבוצה לא מגיעה למינימום?", a: "הקבוצה לא נסגרת, אין חיוב לאף לקוח, ואין התחייבות לאף ספק. הצעת המחיר שלך פשוט נמחקת. אתה יכול להגיש הצעה חדשה בקבוצה הבאה." },
     { q: "מי מטפל בגבייה ובביטולים?", a: "הפלטפורמה מנהלת את הסליקה (Stripe), מדיניות הביטולים (14 יום לפי חוק הגנת הצרכן), ומעבירה לך תשלום מרוכז. אתה רק שולח את הסחורה." },
-    { q: "האם אני יכול למכור רק באזורים מסוימים?", a: "כן. אתה בוחר — כל הארץ, אזורים ספציפיים, איסוף עצמי, או שילוב. הלוגיסטיקה שלך, הכללים שלך." },
-    { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל יכול להיות חי תוך 10 דקות. ההצעה הראשונה לקבוצה פתוחה — מיד אחרי אימות העסק. עסקה ראשונה — תלוי בגודל הקבוצה ובמחיר שתציע." },
+    { q: "האם אני יכול למכור רק באזורים מסוימים?", a: "כן. אתה בוחר, כל הארץ, אזורים ספציפיים, איסוף עצמי, או שילוב. הלוגיסטיקה שלך, הכללים שלך." },
+    { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל יכול להיות חי תוך 10 דקות. ההצעה הראשונה לקבוצה פתוחה, מיד אחרי אימות העסק. עסקה ראשונה, תלוי בגודל הקבוצה ובמחיר שתציע." },
   ];
 
-  // Honest framing for a brand-new platform — no fabricated metrics.
+  // Honest framing for a brand-new platform, no fabricated metrics.
   // These are value propositions, not invented numbers.
   const stats = [
     { num: "0%", label: "עמלה ב-3 חודשי הניסיון" },
     { num: "10 דק׳", label: "להקמת פרופיל ספק" },
-    { num: "חדש", label: "פלטפורמה — היו מהראשונים" },
+    { num: "חדש", label: "פלטפורמה, היו מהראשונים" },
     { num: "2%", label: "עמלה על עסקה שנסגרה בלבד" },
   ];
 
@@ -17663,18 +17663,18 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl">
-              לא עוד פרסום שמבזבז תקציב. Bundly מרכזת עבורכם ביקוש אמיתי, מנהלת גבייה, ומשלמת לכם — אתם רק שולחים את הסחורה.
+              לא עוד פרסום שמבזבז תקציב. Bundly מרכזת עבורכם ביקוש אמיתי, מנהלת גבייה, ומשלמת לכם, אתם רק שולחים את הסחורה.
             </p>
             <div className="flex flex-wrap gap-4">
               <button type="button" onClick={onJoin}
                 className="group flex items-center gap-2.5 px-8 py-4 rounded-2xl font-black text-lg text-white transition-all"
                 style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
                 <Building2 className="w-5 h-5" />
-                הצטרף כספק — חינם
+                הצטרף כספק, חינם
                 <span className="mr-1 opacity-70 group-hover:opacity-100 transition">←</span>
               </button>
               {/* Login entry for suppliers who already registered. Reuses the
-                  standard customer OTP login — App resolves the supplier
+                  standard customer OTP login, App resolves the supplier
                   account by email and routes into the dashboard. */}
               {typeof onLogin === "function" && (
                 <button type="button" onClick={onLogin}
@@ -17683,7 +17683,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
                   כבר רשומים? התחברו
                 </button>
               )}
-              {/* Demo-supplier — visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
+              {/* Demo-supplier, visible only when VITE_ALLOW_DEMO_SUPPLIER=true.
                   Quick path into a synthetic supplier dashboard for live
                   sales meetings. Server side also gated by ALLOW_DEMO_SUPPLIER.
                   Hands the result to the App-level onDemoLogin so it can set
@@ -17708,7 +17708,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
                     } catch (e) { alert("שגיאה: " + e.message); }
                   }}
                   className="flex items-center gap-2 px-6 py-4 rounded-2xl font-black text-base border-2 border-dashed border-amber-400 text-amber-200 hover:bg-amber-500/10 transition"
-                  title="כניסת ספק להדגמה — מצב הדגמה, לא שומר נתונים אמיתיים"
+                  title="כניסת ספק להדגמה, מצב הדגמה, לא שומר נתונים אמיתיים"
                 >
                   🧪 כניסת ספק להדגמה
                 </button>
@@ -17741,7 +17741,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
               <span className="text-indigo-600">הם מחפשים מנוע מכירות.</span>
             </h2>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-              במקום לשלם על פרסום ולחכות — אתה מקבל כאן קונים עם כוונת רכישה, גבייה מסודרת, ותשלום מרוכז.
+              במקום לשלם על פרסום ולחכות, אתה מקבל כאן קונים עם כוונת רכישה, גבייה מסודרת, ותשלום מרוכז.
             </p>
           </div>
 
@@ -17765,7 +17765,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
                 <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-lg">🚀</div>
                 <h3 className="font-black text-indigo-700">Bundly</h3>
               </div>
-              {["עמלה רק על עסקה שנסגרה","קונים עם כוונת רכישה","גבייה מסודרת אוטומטית","דשבורד עם דאטה בזמן אמת","ביקוש מרוכז — לא מפוזר"].map((item, i) => (
+              {["עמלה רק על עסקה שנסגרה","קונים עם כוונת רכישה","גבייה מסודרת אוטומטית","דשבורד עם דאטה בזמן אמת","ביקוש מרוכז, לא מפוזר"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5 py-2.5 border-b border-indigo-100/50 last:border-0">
                   <CheckCircle className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                   <span className="text-sm text-indigo-700 font-semibold">{item}</span>
@@ -17776,13 +17776,13 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
         </div>
       </section>
 
-      {/* DEMAND CHECKER section removed — kept handlers/state above for potential reuse */}
+      {/* DEMAND CHECKER section removed, kept handlers/state above for potential reuse */}
 
       {/* ── FEATURES GRID ───────────────────────────────── */}
       <section className="bg-white py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">כל מה שספק צריך — במקום אחד</h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-3">כל מה שספק צריך, במקום אחד</h2>
             <p className="text-gray-500 text-lg">12 כלים שגורמים לך למכור יותר, עם פחות מאמץ</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -17807,7 +17807,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-3">איך זה עובד?</h2>
-            <p className="text-white/60 text-lg">4 צעדים — מרישום לכסף בחשבון</p>
+            <p className="text-white/60 text-lg">4 צעדים, מרישום לכסף בחשבון</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {steps.map((s, i) => (
@@ -17829,7 +17829,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
               className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl font-black text-lg text-white transition"
               style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 32px rgba(192,38,211,0.4)" }}>
               <Building2 className="w-5 h-5" />
-              מתחילים עכשיו — חינם
+              מתחילים עכשיו, חינם
             </button>
             <p className="text-white/40 text-sm mt-3">בלי כרטיס אשראי. בלי התחייבות.</p>
           </div>
@@ -17845,11 +17845,11 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
-              { icon: "📦", title: "יבואנים וסיטונאים", desc: "חיסול קונטיינר, משטח, או מלאי עודף — בצורה מכובדת, בלי להוריד מחיר רשמי." },
+              { icon: "📦", title: "יבואנים וסיטונאים", desc: "חיסול קונטיינר, משטח, או מלאי עודף, בצורה מכובדת, בלי להוריד מחיר רשמי." },
               { icon: "🏪", title: "עסקים קטנים ובינוניים", desc: "מוצרים איכותיים שקשה לשווק לבד? נביא לך קהל שכבר רוצה לקנות." },
-              { icon: "🏭", title: "יצרנים מקומיים", desc: "מכירה ישירה לצרכן, בכמות, בלי ביניים — והמותג שלך מקדימה." },
+              { icon: "🏭", title: "יצרנים מקומיים", desc: "מכירה ישירה לצרכן, בכמות, בלי ביניים, והמותג שלך מקדימה." },
               { icon: "💼", title: "ועדי עובדים וארגונים", desc: "רכישה קבוצתית לעובדים? אנחנו מתאימים גם לרכישות קבוצתיות פרטיות." },
-              { icon: "🛍️", title: "מותגים שרוצים להיחשף", desc: "לא רק מכירה — גם בניית אמון, ביקורות, ודף מותג בפני קהל חדש." },
+              { icon: "🛍️", title: "מותגים שרוצים להיחשף", desc: "לא רק מכירה, גם בניית אמון, ביקורות, ודף מותג בפני קהל חדש." },
               { icon: "📱", title: "מוצרי אלקטרוניקה וטכנולוגיה", desc: "קטגוריה הכי חמה אצלנו. ביקוש גבוה, קונים שיודעים מה הם רוצים." },
             ].map((c, i) => (
               <div key={i} className="rounded-3xl border border-gray-100 p-6 hover:border-violet-200 hover:bg-violet-50/20 transition-all">
@@ -17929,14 +17929,14 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
             </span>
           </h2>
           <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">
-            3 חודשי ניסיון ללא עמלה. בלי כרטיס אשראי. אחרי הניסיון — 2% בלבד, על עסקה שנסגרה.
+            3 חודשי ניסיון ללא עמלה. בלי כרטיס אשראי. אחרי הניסיון, 2% בלבד, על עסקה שנסגרה.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button type="button" onClick={onJoin}
               className="flex items-center gap-3 px-10 py-5 rounded-2xl font-black text-xl text-white"
               style={{ background: "linear-gradient(135deg, #c026d3, #9333ea)", boxShadow: "0 8px 48px rgba(192,38,211,0.5)" }}>
               <Building2 className="w-6 h-6" />
-              הצטרף עכשיו — חינם
+              הצטרף עכשיו, חינם
             </button>
           </div>
           <p className="text-white/30 text-sm mt-6">מצטרפים לצד הספקים שכבר מוכרים בBundly</p>
@@ -17954,7 +17954,7 @@ function Footer({ t, setMode, onEnterSupplier }) {
           <div className="md:col-span-2">
             <span className="text-2xl font-black text-white">{BRAND_NAME}</span>
             <p className="text-sm text-gray-500 mt-2 leading-relaxed max-w-xs">{t.footerAbout}</p>
-            {/* Honest company trust block — founding year, location and a
+            {/* Honest company trust block, founding year, location and a
                 real support contact. No fake testimonials or press logos. */}
             <div className="mt-4 space-y-1.5">
               <p className="flex items-center gap-1.5 text-xs text-gray-500">
@@ -17993,7 +17993,7 @@ function Footer({ t, setMode, onEnterSupplier }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  BUNDLE CARD — compact card for smart bundle display
+//  BUNDLE CARD, compact card for smart bundle display
 // ─────────────────────────────────────────────────────────────────
 function BundleCard({ bundle, onClick, isSaved, compact = false }) {
   const savePct = Math.round(((bundle.totalMarket - bundle.bundlePrice) / bundle.totalMarket) * 100);
@@ -18003,7 +18003,7 @@ function BundleCard({ bundle, onClick, isSaved, compact = false }) {
       onClick={() => onClick?.(bundle)}
       className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden group"
     >
-      {/* Product image strip — show max 4 images, +N overflow */}
+      {/* Product image strip, show max 4 images, +N overflow */}
       {(() => {
         const shown = bundle.products.slice(0, compact ? 3 : 4);
         const extra = bundle.products.length - shown.length;
@@ -18077,12 +18077,12 @@ function BundleCard({ bundle, onClick, isSaved, compact = false }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  BUNDLE DETAIL MODAL — full-page overlay for bundle details
+//  BUNDLE DETAIL MODAL, full-page overlay for bundle details
 // ─────────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────────
-//  PRODUCT PICKER FOR BUNDLES — browse categories to add products
+//  PRODUCT PICKER FOR BUNDLES, browse categories to add products
 // ─────────────────────────────────────────────────────────────────
-// "Any" option — first option on every criteria field so user can always skip
+// "Any" option, first option on every criteria field so user can always skip
 const ANY_OPTION = { value: "", label: "תציע לי" };
 
 // Common budget options used across all categories
@@ -18141,7 +18141,7 @@ function getBundleCriteriaFor(name) {
       ]},
       budgetField,
     ];
-  // Laptop — match singular + plural forms (מחשב נייד / מחשבים ניידים)
+  // Laptop, match singular + plural forms (מחשב נייד / מחשבים ניידים)
   if (/לפטופ|ניידים?|מחשב\s*נייד|macbook|laptop|notebook|chromebook/i.test(name))
     return [
       { key: "useCase", label: "שימוש עיקרי", type: "select", options: [
@@ -18223,7 +18223,7 @@ function getBundleCriteriaFor(name) {
       ]},
       budgetField,
     ];
-  // Default — just budget
+  // Default, just budget
   return [budgetField];
 }
 
@@ -18231,7 +18231,7 @@ function getBundleCriteriaFor(name) {
 // Used to restrict the catalog-search to the correct category ONLY,
 // so searching "כיריים" doesn't accidentally return "תנור משולב כיריים".
 const BUNDLE_ITEM_TO_SLUG = {
-  // Electronics — kitchen & home
+  // Electronics, kitchen & home
   "מקררים":               "fridges",
   "מקפיאים":              "freezers",
   "מדיחי כלים":           "dishwashers",
@@ -18396,9 +18396,9 @@ const isHebrew = (s) => /[\u0590-\u05FF]/.test(s);
 
 // Build /api/catalog-search query + structured filters from base name + criteria.
 // Returns: { q, priceMax, softFilters }
-//   q          — short Hebrew query used by catalog-search (just the base name)
-//   priceMax   — server-applied price ceiling
-//   softFilters — array of Hebrew strings that should ideally appear in the
+//   q         , short Hebrew query used by catalog-search (just the base name)
+//   priceMax  , server-applied price ceiling
+//   softFilters, array of Hebrew strings that should ideally appear in the
 //                 product name. Used client-side for RANKING (not hard filtering)
 //                 so we show matching products first without losing coverage.
 function buildBundleQuery(baseName, criteria, values) {
@@ -18410,7 +18410,7 @@ function buildBundleQuery(baseName, criteria, values) {
     const v = values[field.key];
     if (!v) continue; // empty = "תציע לי"
 
-    // Budget — extract numeric ceiling from value or wizard searchTerm
+    // Budget, extract numeric ceiling from value or wizard searchTerm
     if (field.key === "budget" || /budget|תקציב|מחיר/.test(field.label || "")) {
       const opt = (field.options || []).find(o => o.value === v);
       let ceiling = 0;
@@ -18423,7 +18423,7 @@ function buildBundleQuery(baseName, criteria, values) {
     // Look up the full option object for wizard criteria
     const opt = (field.options || []).find(o => o.value === v);
 
-    // Prefer the Hebrew label for matching — it's what appears in product names.
+    // Prefer the Hebrew label for matching, it's what appears in product names.
     // English searchTerms ("top freezer") almost never match Hebrew names ("מקפיא עליון").
     let softTerm = "";
     if (opt?.label && isHebrew(opt.label)) {
@@ -18434,7 +18434,7 @@ function buildBundleQuery(baseName, criteria, values) {
       softTerm = opt.searchTerm;
     }
 
-    // Collect individual words from the soft term — skip stop-words and
+    // Collect individual words from the soft term, skip stop-words and
     // common filler that would match nothing useful.
     if (softTerm) {
       const STOP = new Set(["לי","את","עם","של","ללא","יותר","פחות","עד","או","גדול","קטן","בינוני","ממוצע","לא","משנה","כל","הכל"]);
@@ -18482,7 +18482,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
   };
 
   // User picked a sub-category → show specific items list (level 2).
-  // If the sub has only ONE item (a passthrough — used for categories like
+  // If the sub has only ONE item (a passthrough, used for categories like
   // "מסכי מחשב" where the per-screen-size breakdown is redundant once the
   // results-page filter chips exist), jump straight to the search criteria
   // for that item without rendering the level-2 button page.
@@ -18539,7 +18539,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
   }, [freeSearchInput]);
 
   // Load wizard questions from the SAME /api/wizard-questions endpoint the
-  // main screen uses — GPT-generated, category-aware questions with chip
+  // main screen uses, GPT-generated, category-aware questions with chip
   // options and search terms. Higher quality than hardcoded criteria.
   const [wizardLoading, setWizardLoading] = useState(false);
 
@@ -18598,7 +18598,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
     setLastQuery(q);
     try {
       // Restrict the search to the exact product-db slug for this item, if known.
-      // This is the single most important fix — searching "כיריים" inside the
+      // This is the single most important fix, searching "כיריים" inside the
       // `hobs` slug will NEVER return "תנור משולב כיריים" (which lives in `ovens`).
       const slug = BUNDLE_ITEM_TO_SLUG[criteriaBase] || null;
       const slugParam = slug ? `&slug=${encodeURIComponent(slug)}` : "";
@@ -18617,7 +18617,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
       }));
 
       // Price filter (products without a price are excluded when budget is set
-      // — since we can't verify they fit the budget).
+      //, since we can't verify they fit the budget).
       if (priceMax > 0) {
         products = products.filter(p => p.priceAvg > 0 && p.priceAvg <= priceMax);
       }
@@ -18787,7 +18787,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                 )}
 
                 {freeSearchInput.trim().length < 2 && (
-                  <p className="text-[10px] text-gray-500 mt-2">חייב לבחור מוצר מתוך הרשימה — לא ניתן להקליד מוצר שלא קיים באתר</p>
+                  <p className="text-[10px] text-gray-500 mt-2">חייב לבחור מוצר מתוך הרשימה, לא ניתן להקליד מוצר שלא קיים באתר</p>
                 )}
               </div>
 
@@ -18798,7 +18798,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                 <div className="flex-1 h-px bg-gray-200" />
               </div>
 
-              {/* Level 0 — Main categories */}
+              {/* Level 0, Main categories */}
               {level === 0 && (
                 <div className="grid grid-cols-2 gap-3">
                   {CATEGORY_TREE.map((cat) => (
@@ -18814,7 +18814,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                 </div>
               )}
 
-              {/* Level 1 — Sub-categories */}
+              {/* Level 1, Sub-categories */}
               {level === 1 && selectedCat && (
                 <div className="grid grid-cols-1 gap-2">
                   {selectedCat.sub.map((sub, i) => (
@@ -18833,7 +18833,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                 </div>
               )}
 
-              {/* Level 2 — Specific items (e.g. "מקררים", "מקפיאים") */}
+              {/* Level 2, Specific items (e.g. "מקררים", "מקפיאים") */}
               {level === 2 && selectedCat && selectedSub && (
                 <div className="grid grid-cols-2 gap-2">
                   {selectedSub.items.map((item, i) => (
@@ -18854,7 +18854,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
               <div className="bg-indigo-50 border border-indigo-200 rounded-2xl p-3 flex items-center gap-2">
                 <Tag className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                 <p className="text-xs text-indigo-700 flex-1">
-                  {wizardLoading ? "טוען שאלות חכמות..." : "צמצם את החיפוש — בחר מאפיינים שמתאימים לך. לא צריך דגם ספציפי."}
+                  {wizardLoading ? "טוען שאלות חכמות..." : "צמצם את החיפוש, בחר מאפיינים שמתאימים לך. לא צריך דגם ספציפי."}
                 </p>
               </div>
 
@@ -18954,7 +18954,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
               {!searching && !searchError && searchResults.length > 0 && (
                 <>
                   <p className="text-xs text-gray-500 mb-3 font-semibold">
-                    {searchResults.length} מוצרים — לחץ על "פרטי המוצר" לפרטים מלאים
+                    {searchResults.length} מוצרים, לחץ על "פרטי המוצר" לפרטים מלאים
                   </p>
                   <div className="space-y-2.5">
                     {searchResults.map((p, i) => {
@@ -19013,7 +19013,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
           )}
         </div>
 
-        {/* Footer — done button */}
+        {/* Footer, done button */}
         <div className="px-5 py-3 border-t border-gray-100 flex-shrink-0">
           <button onClick={onClose}
             className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-sm transition">
@@ -19081,7 +19081,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                     <p className="text-2xl font-black text-indigo-700">₪{price.toLocaleString()}</p>
                     {minP > 0 && maxP > 0 && minP !== maxP && (
                       <p className="text-[11px] text-indigo-400 mt-1">
-                        טווח: ₪{minP.toLocaleString()} – ₪{maxP.toLocaleString()}
+                        טווח: ₪{minP.toLocaleString()}, ₪{maxP.toLocaleString()}
                       </p>
                     )}
                   </div>
@@ -19108,7 +19108,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
                 </p>
               </div>
 
-              {/* Bottom CTA — view full details + add to bundle */}
+              {/* Bottom CTA, view full details + add to bundle */}
               <div className="border-t border-gray-100 p-4 flex-shrink-0 space-y-2">
                 {onViewFullDetails && (
                   <button
@@ -19143,7 +19143,7 @@ function ProductPickerForBundle({ onAddProduct, onClose, onViewFullDetails }) {
 }
 
 function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, onViewFullDetails }) {
-  // Edit is always active — use local products state that auto-syncs to parent via onEdit
+  // Edit is always active, use local products state that auto-syncs to parent via onEdit
   const [prods, setProds] = useState(bundle.products);
   // BUG FIX (round 3 P1): re-sync when parent passes a DIFFERENT bundle.
   // useState's initializer only runs on first mount, so opening modal A,
@@ -19156,7 +19156,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
   const [joined, setJoined] = useState(false);
   const [saved, setSaved] = useState(isSaved);
   const [showPicker, setShowPicker] = useState(false);
-  // "Send to suppliers" private-request path — bundle is dispatched to
+  // "Send to suppliers" private-request path, bundle is dispatched to
   // every approved supplier as a personal request, without making the
   // bundle public on the deals feed.
   const [sentToSuppliers, setSentToSuppliers] = useState(false);
@@ -19253,7 +19253,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
               <span className="text-2xl">{bundle.icon}</span>
               <div>
                 <p className="text-sm font-black text-gray-900">למה כדאי לקנות חבילה?</p>
-                <p className="text-xs text-gray-600">ספקים מעדיפים למכור סט שלם — ולכן נותנים הנחה נוספת</p>
+                <p className="text-xs text-gray-600">ספקים מעדיפים למכור סט שלם, ולכן נותנים הנחה נוספת</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2 mt-3">
@@ -19303,7 +19303,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
               {prods.length === 0 && (
                 <div className="text-center py-6 text-gray-400">
                   <Package className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                  <p className="text-xs">החבילה ריקה — לחץ "הוסף מוצר" כדי להתחיל</p>
+                  <p className="text-xs">החבילה ריקה, לחץ "הוסף מוצר" כדי להתחיל</p>
                 </div>
               )}
             </div>
@@ -19355,7 +19355,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
             </button>
           )}
 
-          {/* Private path — send the bundle directly to suppliers without
+          {/* Private path, send the bundle directly to suppliers without
               joining a public group. Hides itself once sent so the user
               has clear confirmation. Per user request 2026-05-15. */}
           {sentToSuppliers ? (
@@ -19381,7 +19381,7 @@ function BundleDetailModal({ bundle, onClose, onJoin, onSave, onEdit, isSaved, o
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  CREATE BUNDLE MODAL — wizard for creating custom bundles
+//  CREATE BUNDLE MODAL, wizard for creating custom bundles
 // ─────────────────────────────────────────────────────────────────
 const BUNDLE_TEMPLATES = [
   { id: "moving",  icon: "🏠", label: "מעבר דירה",   color: "from-rose-500 to-pink-500" },
@@ -19520,8 +19520,8 @@ function CreateBundleModal({ onClose, onCreate, onViewFullDetails }) {
                   <Search className="w-3.5 h-3.5" />
                   בחר מוצר ספציפי מהאתר
                 </button>
-                <p className="text-[10px] text-gray-400 text-center mb-2">— או דרישה כללית "מקרר עד ₪1,500" —</p>
-                {/* Quick category templates — tap to pre-fill the input below */}
+                <p className="text-[10px] text-gray-400 text-center mb-2">או דרישה כללית "מקרר עד ₪1,500"</p>
+                {/* Quick category templates, tap to pre-fill the input below */}
                 <div className="grid grid-cols-4 gap-1.5 mb-2">
                   {[
                     { label: "מקרר",     icon: "🧊", price: 4500 },
@@ -19650,7 +19650,7 @@ function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onL
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white border-t border-gray-200 shadow-lg"
-      // Inline safe-area padding — `safe-bottom` Tailwind class isn't reliable
+      // Inline safe-area padding, `safe-bottom` Tailwind class isn't reliable
       // across all builds, so we add the env() padding directly.
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
@@ -19680,7 +19680,7 @@ function MobileBottomNav({ t, mode, setMode, wishlistCount, myProductsCount, onL
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  CATEGORY IMAGES — Unsplash CDN, sized for cards (400x260, q=75).
+//  CATEGORY IMAGES, Unsplash CDN, sized for cards (400x260, q=75).
 //  Each Hebrew category/subcategory name maps to a specific photo ID.
 //  The component falls back to the emoji icon when a name isn't in the map.
 //  All photos are Unsplash-licensed (free for commercial use, no attribution
@@ -19761,7 +19761,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
   const [selectedCat, setSelectedCat] = useState(null);
   const [selectedSub, setSelectedSub] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [variantsFor, setVariantsFor] = useState(null); // { itemName, data } — shows variant picker
+  const [variantsFor, setVariantsFor] = useState(null); // { itemName, data }, shows variant picker
 
   const handleMainCat = (cat) => {
     setSelectedCat(cat);
@@ -19870,8 +19870,8 @@ function CategoryBrowseModal({ onWizard, onClose }) {
             </div>
           )}
 
-          {/* Level 0 — Main categories */}
-          {/* Level 0 — Main categories with bold gradient icons (no images,
+          {/* Level 0, Main categories */}
+          {/* Level 0, Main categories with bold gradient icons (no images,
                 user feedback: images were inconsistent + ZAP-style icons feel
                 cleaner). Each card: gradient circle with emoji + name. */}
           {!flatSearch && level === 0 && (
@@ -19901,7 +19901,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
             </div>
           )}
 
-          {/* Level 1 — Sub-categories: icon-first list-style cards (cleaner
+          {/* Level 1, Sub-categories: icon-first list-style cards (cleaner
                 than image cards now that we removed photos).               */}
           {!flatSearch && level === 1 && selectedCat && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -19925,7 +19925,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
             </div>
           )}
 
-          {/* Level 2 — Items */}
+          {/* Level 2, Items */}
           {!flatSearch && level === 2 && selectedSub && (
             <div>
               <p className="text-xs text-gray-400 mb-4">בחר מוצר כדי לפתוח את אשף הבחירה המודרך</p>
@@ -20034,7 +20034,7 @@ function CategoryBrowseModal({ onWizard, onClose }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  CATEGORY ITEM WIZARD MODAL — quick option selector
+//  CATEGORY ITEM WIZARD MODAL, quick option selector
 //  Pops up when user clicks a category item (e.g. "מקרר"). Fetches
 //  /api/wizard-questions, shows questions one-by-one, then navigates
 //  with a refined query. If no questions, goes straight to results.
@@ -20218,7 +20218,7 @@ function CategoryItemWizardModal({ query, onClose, onDone }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  BUNDLY ADVISOR — AI Chat Assistant
+//  BUNDLY ADVISOR, AI Chat Assistant
 // ─────────────────────────────────────────────────────────────────
 // ── Persistent chat state (survives component unmount & page navigation) ──
 // Module-level: shared across all BundlyAdvisor instances. Cleared on full page refresh.
@@ -20240,14 +20240,14 @@ function BundlyFab({ onOpen, showPulse }) {
     return () => clearTimeout(t);
   }, []);
 
-  // Round button — 56×56, anchored to bottom-right with safe-area padding.
+  // Round button, 56×56, anchored to bottom-right with safe-area padding.
   const fabBottom = "max(80px, calc(env(safe-area-inset-bottom, 0px) + 80px))";
   const fabSize = 56;
   const gap = 12;
 
   return (
     <>
-      {/* The button itself — always at the same fixed position on the right edge */}
+      {/* The button itself, always at the same fixed position on the right edge */}
       <button
         onClick={onOpen}
         onMouseEnter={() => setLabelVisible(true)}
@@ -20277,7 +20277,7 @@ function BundlyFab({ onOpen, showPulse }) {
         </span>
       </button>
 
-      {/* Speech bubble — separate fixed element positioned to the LEFT of the
+      {/* Speech bubble, separate fixed element positioned to the LEFT of the
            button. Doesn't affect the button's position; just slides in/out. */}
       <div
         className="fixed z-50 pointer-events-none transition-all duration-300 ease-out"
@@ -20317,14 +20317,14 @@ function BundlyFab({ onOpen, showPulse }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
-//  CHAT INTENT PARSER — extracts category + filters from a free-text query
+//  CHAT INTENT PARSER, extracts category + filters from a free-text query
 //  before falling through to GPT. When a query like "טלוויזיה 60-70 אינץ עד
 //  1500" lands, we recognise the structured shape and drive the results
 //  page directly with pre-applied filters, skipping the chat round-trip.
 //  Returns null when the query is conversational / no clear category match.
 // ─────────────────────────────────────────────────────────────────
 const _CHAT_CATEGORY_RX = [
-  // Order matters — more specific patterns first.
+  // Order matters, more specific patterns first.
   { rx: /טלוויז|טלויז|\btv\b/i,                                 q: "טלוויזיה",      type: "tv" },
   { rx: /סמארטפון|אייפון|\biphone\b|גלקסי|galaxy|טלפון.*סלולר/i, q: "סמארטפון",     type: "phone" },
   { rx: /מקבוק|\bmacbook\b|מחשב.*נייד|לפטופ|\blaptop\b/i,        q: "מחשב נייד",     type: "laptop" },
@@ -20377,7 +20377,7 @@ function parseChatIntent(text) {
   const { q: category, type } = catHit;
 
   // ── Price range ────────────────────────────────────────────────
-  // Phase 1 — explicit forms: "עד 1500", "עד ₪3,000", "מתחת ל-2000"
+  // Phase 1, explicit forms: "עד 1500", "עד ₪3,000", "מתחת ל-2000"
   let priceMax = null, priceMin = null;
   const maxRx = /(?:עד|מקס|max|under|מתחת.*ל|לא יותר מ|תקציב)\s*₪?\s*([\d,]{3,8})\s*(?:שח|שקלים|₪|nis|ils)?/i;
   const maxM  = t.match(maxRx);
@@ -20393,7 +20393,7 @@ function parseChatIntent(text) {
     const b = parseInt(rangeM[2].replace(/,/g, ""), 10);
     if (a >= 100 && b >= 100) { priceMin = Math.min(a, b); priceMax = Math.max(a, b); }
   }
-  // Phase 2 — bare-number fallback. In multi-turn chats the user often
+  // Phase 2, bare-number fallback. In multi-turn chats the user often
   // replies with just "1800" when asked "מה התקציב?". Pick the LARGEST
   // standalone number ≥ a category-specific floor as the budget.
   // (Numbers below the floor are probably model years, screen sizes, etc.)
@@ -20474,7 +20474,7 @@ function parseChatIntent(text) {
   if (storage)       filters.storage    = storage;
   if (brands.length) filters.brands     = brands;
 
-  // Bare category like "טלוויזיה" alone still goes through GPT — the user
+  // Bare category like "טלוויזיה" alone still goes through GPT, the user
   // may want a conversation. We only bypass GPT when at least one filter
   // was detected.
   if (Object.keys(filters).length === 0) return null;
@@ -20523,7 +20523,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
   }, [isOpen]);
 
   // Send welcome message on first open (only if no prior messages).
-  // The greeting is different for suppliers vs customers — suppliers want
+  // The greeting is different for suppliers vs customers, suppliers want
   // strategic advice, customers want product recommendations.
   // On a cold-start home (zero deals), the customer greeting proactively
   // offers to open a round so the empty platform still feels actionable.
@@ -20534,10 +20534,10 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
       setMessages([{
         role: "assistant",
         content: supplierMode
-          ? `שלום${supplierName ? " " + supplierName : ""}! 👋 אני היועץ של Bundly לספקים.\nאפשר לשאול אותי על: מחירי שוק לדגם ספציפי, אסטרטגיית הצעות, איך להעלות אחוז הובלה, איך לבנות חוקי אוטומציה — כל מה שיעזור לך למכור יותר.`
+          ? `שלום${supplierName ? " " + supplierName : ""}! 👋 אני היועץ של Bundly לספקים.\nאפשר לשאול אותי על: מחירי שוק לדגם ספציפי, אסטרטגיית הצעות, איך להעלות אחוז הובלה, איך לבנות חוקי אוטומציה, כל מה שיעזור לך למכור יותר.`
           : noDeals
-            ? "היי! 👋 אני היועץ של Bundly.\nאנחנו רק מתחילים — עדיין אין קבוצות קנייה פעילות. ספר לי מה אתה מחפש ואפתח לך קבוצה חדשה, נאסוף קונים נוספים ונביא לך מחיר טוב."
-            : "היי! 👋 אני היועץ של Bundly.\nספר לי מה אתה מחפש — אני מכיר את כל השוק ואמצא לך את המחיר הכי טוב!",
+            ? "היי! 👋 אני היועץ של Bundly.\nאנחנו רק מתחילים, עדיין אין קבוצות קנייה פעילות. ספר לי מה אתה מחפש ואפתח לך קבוצה חדשה, נאסוף קונים נוספים ונביא לך מחיר טוב."
+            : "היי! 👋 אני היועץ של Bundly.\nספר לי מה אתה מחפש, אני מכיר את כל השוק ואמצא לך את המחיר הכי טוב!",
         ts: Date.now(),
       }]);
     }
@@ -20547,7 +20547,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
     const newMsgs = [{
       role: "assistant",
       content: supplierMode
-        ? "שיחה חדשה! 🔄 על מה לדבר — דגם ספציפי, מחיר, אסטרטגיית הצעה?"
+        ? "שיחה חדשה! 🔄 על מה לדבר, דגם ספציפי, מחיר, אסטרטגיית הצעה?"
         : "שיחה חדשה! 🔄 ספר לי מה אתה מחפש",
       ts: Date.now(),
     }];
@@ -20579,7 +20579,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
     // Skip the GPT round-trip when the user typed a clear filter-shaped
     // request (e.g. "טלוויזיה 60-70 אינץ עד 1500"). We acknowledge in
     // the chat, then close it and drive the results page with the
-    // detected filters pre-applied. Customers only — supplier chat
+    // detected filters pre-applied. Customers only, supplier chat
     // always goes through the AI persona.
     if (!supplierMode && onSearchProduct) {
       const intent = parseChatIntent(text);
@@ -20588,7 +20588,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
         setMessages(prev => [...prev, {
           role: "assistant",
           content:
-            `מצוין — מחפש ${intent.query}${summary ? ` (${summary})` : ""} עם עדיפות לקבוצות פעילות. ` +
+            `מצוין, מחפש ${intent.query}${summary ? ` (${summary})` : ""} עם עדיפות לקבוצות פעילות. ` +
             `פותח את התוצאות בעמוד עם הסינון מוכן.`,
           ts: Date.now(),
         }]);
@@ -20665,7 +20665,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
     }
   };
 
-  // Topic-based default chips — used when GPT asks a question without listing
+  // Topic-based default chips, used when GPT asks a question without listing
   // any options in the text itself (e.g. "אוקי, מה התקציב שלך?").
   // Detected from keywords in the assistant message.
   const TOPIC_DEFAULT_CHIPS = [
@@ -20717,7 +20717,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
       if (cleaned.length >= 2 && cleaned.length <= 6) return cleaned;
     }
 
-    // Pattern 3: topic-based defaults — question contains a known topic keyword
+    // Pattern 3: topic-based defaults, question contains a known topic keyword
     for (const topic of TOPIC_DEFAULT_CHIPS) {
       if (topic.rx.test(text)) return topic.chips;
     }
@@ -20725,13 +20725,13 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
     return [];
   };
 
-  // Quick suggestions — pulled from the last assistant message's quickReplies
+  // Quick suggestions, pulled from the last assistant message's quickReplies
   // field (structured options that GPT emits as [OPTIONS: a|b|c|d]).
   // Falls back to inline-text parsing if GPT didn't emit the marker.
   const getQuickSuggestions = () => {
     const userMsgCount = messages.filter(m => m.role === "user").length;
     if (userMsgCount === 0) {
-      // Opening prompts only — shown when chat is fresh.
+      // Opening prompts only, shown when chat is fresh.
       return ["אני מחפש טלוויזיה", "מחפש לפטופ", "צריך טלפון חדש", "מה העסקאות הכי שוות?"];
     }
     const lastAssistant = [...messages].reverse().find(m => m.role === "assistant");
@@ -20739,7 +20739,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
 
     // ONLY show chips when the server explicitly sent structured options
     // (via [OPTIONS:...] marker in its system prompt). Removing the inline
-    // text-parsing + topic-keyword fallbacks — they fired on stale words and
+    // text-parsing + topic-keyword fallbacks, they fired on stale words and
     // showed wrong options after the user changed the subject.
     if (Array.isArray(lastAssistant.quickReplies) && lastAssistant.quickReplies.length > 0) {
       return lastAssistant.quickReplies;
@@ -20751,7 +20751,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
 
   return (
     <>
-      {/* ── FAB Button — round B-logo + auto-fading tooltip ──
+      {/* ── FAB Button, round B-logo + auto-fading tooltip ──
             Compact circular button with the Bundly "B" mark. The "התייעץ עם
             Bundly" label appears as a speech bubble for ~5s after first render,
             then fades out so it doesn't clutter the screen. Re-appears on hover
@@ -20765,11 +20765,11 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             On mobile (≤640px) it's fullscreen so the keyboard doesn't push the
             input off-screen. On desktop it floats in the bottom-right corner.
             Uses 100dvh (dynamic viewport height) so iOS Safari's URL bar
-            doesn't cut off the bottom — fallback to --vh CSS var on older
+            doesn't cut off the bottom, fallback to --vh CSS var on older
             browsers (set in main.jsx). */}
       {isOpen && (
         <>
-          {/* Backdrop — light tint so the rest of the page is still visible
+          {/* Backdrop, light tint so the rest of the page is still visible
                 behind the half-height sheet. Click to close.   */}
           <div
             className="fixed inset-0 z-40 sm:hidden"
@@ -20813,7 +20813,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             .chat-results-btn:hover { animation: none; }
           `}</style>
 
-          {/* Drag handle — visual cue that the sheet can be dismissed */}
+          {/* Drag handle, visual cue that the sheet can be dismissed */}
           <div className="sm:hidden flex justify-center pt-2 pb-1 flex-shrink-0">
             <span className="w-10 h-1 bg-gray-300 rounded-full" />
           </div>
@@ -20859,7 +20859,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
                 }`} style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                   {msg.role === "assistant" ? renderContent(msg.content) : msg.content}
 
-                  {/* "Take me to results" button — shown only when GPT signals readyToRecommend */}
+                  {/* "Take me to results" button, shown only when GPT signals readyToRecommend */}
                   {msg.redirectToResults && msg.searchQuery && (
                     <div className="mt-2.5 pt-2 border-t border-gray-200/60">
                       <button
@@ -20876,7 +20876,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
                           // size / brand fields the category page can pre-apply.
                           // When the parser identifies a clean category, we prefer
                           // its broad Hebrew query name ("טלוויזיה") over GPT's
-                          // enriched string ("tv OLED 60-70") — the enriched
+                          // enriched string ("tv OLED 60-70"), the enriched
                           // version triggers the strict post-filter on ZAP and
                           // narrows 600 TVs to 28 OLED-only. Filters go in the UI
                           // where the user can see + tweak them.
@@ -20915,7 +20915,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
             <div ref={messagesEndRef} />
           </div>
 
-          {/* ── Quick-reply chips — always shown under latest assistant message ── */}
+          {/* ── Quick-reply chips, always shown under latest assistant message ── */}
           {!loading && quickSuggestions.length > 0 && (
             <div className="px-3 pb-2 pt-1 flex flex-wrap gap-2 flex-shrink-0 border-t border-gray-100" style={{ direction: "rtl" }}>
               {quickSuggestions.map(q => {
@@ -20982,7 +20982,7 @@ function BundlyAdvisor({ deals, lang, t, onNavigateToDeal, onSearchProduct, supp
 //  are shareable and the browser back/forward buttons work. The URL is
 //  the single source of truth, derived from `mode` + `selectedDeal`.
 //  Gated admin areas (owner / supplier dashboard) are intentionally NOT
-//  routed — they must not be reachable just by typing a URL.
+//  routed, they must not be reachable just by typing a URL.
 // ─────────────────────────────────────────────────────────────────
 const MODE_TO_PATH = {
   home:       "/",
@@ -21019,7 +21019,7 @@ function productKeyFrom(src) {
 }
 
 // Parse a pathname into navigation state. Unknown paths fall back to home
-// (SPA-friendly — no hard 404 for app routes).
+// (SPA-friendly, no hard 404 for app routes).
 function parsePath(pathname) {
   const path = (pathname || "/").replace(/\/{2,}/g, "/").replace(/(.)\/+$/, "$1");
   const m = path.match(/^\/product\/(.+)$/);
@@ -21028,7 +21028,7 @@ function parsePath(pathname) {
 }
 
 // Build the path for a navigation state. Returns null for gated modes that
-// must not own a URL — the caller then leaves the address bar untouched.
+// must not own a URL, the caller then leaves the address bar untouched.
 function buildPath({ mode, productKey }) {
   if (productKey) return `/product/${encodeURIComponent(productKey)}`;
   return MODE_TO_PATH[mode] || null;
@@ -21044,7 +21044,7 @@ export default function App() {
 
   const [mode, setMode] = useState(() => {
     // Seed from the URL so a deep link / refresh lands on the right page
-    // synchronously — no flash of the home page before the router runs.
+    // synchronously, no flash of the home page before the router runs.
     try { return parsePath(window.location.pathname).mode || "home"; }
     catch { return "home"; }
   });
@@ -21064,7 +21064,7 @@ export default function App() {
   // Hydrate persisted DEALS from the server on boot. Deals now live in the
   // server-side `deals` collection (GET /api/deals). We merge them into the
   // local state, deduping by productKey (preferred) or id so a server deal
-  // never duplicates a demo deal. Demo deals stay DEV-only — production
+  // never duplicates a demo deal. Demo deals stay DEV-only, production
   // starts from an empty list and shows ONLY real persisted deals.
   useEffect(() => {
     let cancelled = false;
@@ -21087,7 +21087,7 @@ export default function App() {
             if (d.productKey && keys.has(String(d.productKey))) return false;
             if (ids.has(String(d.id))) return false;
             return true;
-          // Normalise shape — a persisted deal missing `name`/`groupOffer`/`bids`
+          // Normalise shape, a persisted deal missing `name`/`groupOffer`/`bids`
           // would otherwise crash the deal card and white-screen the home page.
           }).map(d => ({
             ...d,
@@ -21177,7 +21177,7 @@ export default function App() {
   // Wrap setSelectedDeal so every deal open is logged for personalization.
   // Components keep calling setSelectedDeal as before; the wrapper transparently
   // records a "click" event with the deal's metadata.
-  // (Defined later once `deals`/`trackEvent` exist — placeholder import here)
+  // (Defined later once `deals`/`trackEvent` exist, placeholder import here)
 
   // Personalisation: every meaningful action (click/join/buy/search/wishlist)
   // is fire-and-forget logged to /api/users/:id/track. The id is the user's
@@ -21250,7 +21250,7 @@ export default function App() {
   }, [user?.id, user?.token, deals]);
   useEffect(() => { refreshPersonalRecos(); }, [refreshPersonalRecos]);
 
-  // Deal closing watcher — runs once a minute on the home page. For each
+  // Deal closing watcher, runs once a minute on the home page. For each
   // deal whose closingDate has passed and we haven't yet dispatched a close
   // event for, POST /api/deals/:id/close so the server can fire winner /
   // runner-up / cancellation notifications. Prevents the same deal from
@@ -21259,7 +21259,7 @@ export default function App() {
   // BUG FIX: /api/deals/:id/close requires adminMiddleware. Anonymous
   // customers were spamming it with 401s on every page load (visible in
   // console: "POST /api/deals/10/close 401"). Gated on the presence of
-  // an admin token in localStorage — the server-side cron handles
+  // an admin token in localStorage, the server-side cron handles
   // deal-close for regular users.
   const _closedDealsRef = useRef(new Set());
   useEffect(() => {
@@ -21300,7 +21300,7 @@ export default function App() {
   // 1000 entries with LRU eviction so it can't grow unbounded.
   const _autoBidScannedRef = useRef(new Set());
   // Track whether we've completed the initial deal-list mount. The very first
-  // pass over `deals` should NOT fire scans — those deals already exist
+  // pass over `deals` should NOT fire scans, those deals already exist
   // server-side and their auto-bid rules were already evaluated in earlier
   // sessions / nightly refresh. Firing 18 simultaneous POSTs on every page
   // load was exhausting the global 300/min rate limit (causing /api/auto-bid/scan
@@ -21318,7 +21318,7 @@ export default function App() {
     (deals || []).forEach(d => {
       if (_autoBidScannedRef.current.has(d.id)) return;
       _autoBidScannedRef.current.add(d.id);
-      // LRU cap — drop the first 200 inserted ids when we cross 1000
+      // LRU cap, drop the first 200 inserted ids when we cross 1000
       if (_autoBidScannedRef.current.size > 1000) {
         const arr = [..._autoBidScannedRef.current];
         _autoBidScannedRef.current = new Set(arr.slice(200));
@@ -21326,7 +21326,7 @@ export default function App() {
       const startLow = (d.bids?.length > 0
         ? Math.min(...d.bids.map(b => b.amount || Infinity))
         : (d.groupOffer || d.marketMin || d.marketMax || 0));
-      // /api/auto-bid/scan now requires admin auth — fire only if we have an
+      // /api/auto-bid/scan now requires admin auth, fire only if we have an
       // admin token cached. Anonymous customers shouldn't trigger this; the
       // server's hourly cron handles auto-bid evaluation for regular users.
       const _adminTok = _safeLS("bundly_admin_token");
@@ -21359,11 +21359,11 @@ export default function App() {
     }
     setSelectedDeal(d);
     // The address bar is updated centrally by the URL router effect,
-    // which is keyed on `selectedDeal` — see the "URL ROUTER" block below.
+    // which is keyed on `selectedDeal`, see the "URL ROUTER" block below.
   }, [trackEvent]);
 
   // Deep-link parsing, URL writing and back/forward sync all live together
-  // in the unified "URL ROUTER" block further down — it is placed there
+  // in the unified "URL ROUTER" block further down, it is placed there
   // because it depends on handleAddDealFromSearch (defined below).
 
   // Restore session from localStorage on first load
@@ -21407,7 +21407,7 @@ export default function App() {
   const POOL_GRADUATION_THRESHOLD = 3;
   const [demandPools, setDemandPools] = useState(INITIAL_DEMAND_POOLS);
   const [joinPoolModal, setJoinPoolModal] = useState(null); // { catIdx, mode? } or null
-  const [selectedPool, setSelectedPool] = useState(null); // { catIdx } or null — for DemandPoolPage
+  const [selectedPool, setSelectedPool] = useState(null); // { catIdx } or null, for DemandPoolPage
   const joinDemandPool = (catIdx, modelName) => {
     let graduated = null;
     setDemandPools(prev => {
@@ -21423,7 +21423,7 @@ export default function App() {
       return { ...prev, [catIdx]: cat };
     });
     if (graduated) {
-      // Create a dedicated deal for this model — prices fetched async below.
+      // Create a dedicated deal for this model, prices fetched async below.
       // Seed with category default so the card never shows ₪0 even briefly.
       const newDealId = Date.now() + Math.floor(Math.random() * 1000);
       const fb = CATEGORY_DEFAULT_PRICES[catIdx] || { min: 1500, max: 3500 };
@@ -21443,7 +21443,7 @@ export default function App() {
         minParticipants: 5,
         daysLeft: 7,
         specs: [],
-        desc: { he: `קבוצת רכישה חדשה — נפתחה כשנצברו ${graduated.count} מעוניינים`, en: "", ar: "", ru: "" },
+        desc: { he: `קבוצת רכישה חדשה, נפתחה כשנצברו ${graduated.count} מעוניינים`, en: "", ar: "", ru: "" },
         bids: [],
         supplierId: null,
         supplierName: null,
@@ -21456,7 +21456,7 @@ export default function App() {
         _enriching: true,
       };
       setDeals(prev => [newDeal, ...prev]);
-      notify?.(`🎉 "${graduated.modelName}" עבר לקבוצה ייעודית! ${graduated.count} מעוניינים — קבוצה פעילה נפתחה.`);
+      notify?.(`🎉 "${graduated.modelName}" עבר לקבוצה ייעודית! ${graduated.count} מעוניינים, קבוצה פעילה נפתחה.`);
       enrichDealPrices(newDealId, graduated.modelName);
     }
   };
@@ -21464,7 +21464,7 @@ export default function App() {
   // Async: fetch real market prices for an auto-created deal from the local
   // in-memory product catalog (ZAP_CAT_CACHE in server). Resolves in ~5ms
   // because the catalog (image + multi-store prices) is already on disk.
-  // Category-default fallback prices in ILS — used only when both the local
+  // Category-default fallback prices in ILS, used only when both the local
   // catalog and the live /api/search return no usable pricing for an
   // auto-created pool-graduation deal. Ensures every deal shows a real price.
   const CATEGORY_DEFAULT_PRICES = {
@@ -21520,7 +21520,7 @@ export default function App() {
             const max = prices.length ? Math.max(...prices) : min;
             if (apply(min, max, stores, product.image, "מהקטלוג")) return;
           }
-          // Catalog had image but no price — keep image, continue to step 2
+          // Catalog had image but no price, keep image, continue to step 2
           if (catalogImage) {
             setDeals(prev => prev.map(x => x.id === dealId
               ? { ...x, image: x.image || catalogImage }
@@ -21611,7 +21611,7 @@ export default function App() {
             minParticipants: 5,
             daysLeft: 7,
             specs: [],
-            desc: { he: `קבוצת רכישה — ${p.count} מעוניינים`, en: "", ar: "", ru: "" },
+            desc: { he: `קבוצת רכישה, ${p.count} מעוניינים`, en: "", ar: "", ru: "" },
             bids: [],
             supplierId: null,
             supplierName: null,
@@ -21626,7 +21626,7 @@ export default function App() {
         });
       return newDeals.length > 0 ? [...newDeals, ...prev] : prev;
     });
-    // Fire price lookups in parallel — endpoint is in-memory (~5ms), no need to stagger
+    // Fire price lookups in parallel, endpoint is in-memory (~5ms), no need to stagger
     idsToEnrich.forEach(item => enrichDealPrices(item.id, item.modelName));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -21635,11 +21635,11 @@ export default function App() {
   // Fetch authoritative personal requests from server on mount.
   // Server-seeded + customer-submitted requests are shared across all
   // browsers/devices. Falls back to the local INITIAL_* seed if the API is down.
-  // NOTE: only overwrite state if the server returns a non-empty list — an
+  // NOTE: only overwrite state if the server returns a non-empty list, an
   // empty response (server cold-started before seeding) should not wipe the
   // visual category grid that the local INITIAL_* seed provides.
   const fetchPersonalRequests = useCallback(async () => {
-    // Skip entirely for non-suppliers — the endpoint requires supplier auth
+    // Skip entirely for non-suppliers, the endpoint requires supplier auth
     // (PII protection: phones/emails). Calling it without a supplier produces
     // a 401, a red console error, and a PII_BLOCKED audit entry on every page
     // load. Customers don't need this list anyway.
@@ -21664,11 +21664,11 @@ export default function App() {
   useEffect(() => { fetchPersonalRequests(); }, [fetchPersonalRequests]);
 
   // Poll for new customer requests every 15s while the supplier dashboard
-  // is mounted — this is how a supplier sees a request submitted by a
+  // is mounted, this is how a supplier sees a request submitted by a
   // customer on another device without a page refresh.
   useEffect(() => {
     if (mode !== "supplier-dashboard") return;
-    // 60-second poll instead of 15s — with PII protection on the endpoint and
+    // 60-second poll instead of 15s, with PII protection on the endpoint and
     // a per-supplier identity check, hammering it every 15s burned both bandwidth
     // and the per-IP rate-limit bucket. 60s is fast enough for the supplier
     // workflow and 4× cheaper.
@@ -21683,7 +21683,7 @@ export default function App() {
     try { return JSON.parse(localStorage.getItem("bundly_wishlist") || "[]"); }
     catch { return []; }
   });
-  // ── "המוצרים שלי" — personal cart of joined/saved products ──
+  // ── "המוצרים שלי", personal cart of joined/saved products ──
   // Each entry: { id, name, image, tier, action, catIdx, price, addedAt }
   const [myProducts, setMyProducts] = useState([]);
 
@@ -21711,7 +21711,7 @@ export default function App() {
       }
       return [...prev, { ...product, addedAt: Date.now(), _cachedResult: fullResult || null }];
     });
-    // Visual fly-to-cart feedback — only when the product is newly added and
+    // Visual fly-to-cart feedback, only when the product is newly added and
     // we have a source element to fly from. Purely decorative, never blocks.
     if (sourceEl && !alreadySaved) {
       try { flyToCart(sourceEl); } catch {}
@@ -21725,22 +21725,22 @@ export default function App() {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ ...product, _cachedResult: fullResult || null }),
       });
-    } catch { /* ignore — local state already updated */ }
+    } catch { /* ignore, local state already updated */ }
   };
-  // Stack of notifications instead of single overwrite — each notify() pushes
+  // Stack of notifications instead of single overwrite, each notify() pushes
   // a new toast that auto-dismisses individually after 3.5s. Up to 3 visible.
   const [toastStack, setToastStack] = useState([]); // [{ id, msg }]
   // Keep the old single-value `notification` state name available (some code
-  // paths read it directly — we mirror the latest toast for backwards-compat).
+  // paths read it directly, we mirror the latest toast for backwards-compat).
   const notification = toastStack[toastStack.length - 1]?.msg || null;
   const [searchResult, setSearchResult] = useState(null);
-  const [productList, setProductList] = useState(null); // { products, query } — legacy direct product list
-  const [finderQuery, setFinderQuery] = useState(null); // string — triggers ProductFinderModal (wizard flow)
+  const [productList, setProductList] = useState(null); // { products, query }, legacy direct product list
+  const [finderQuery, setFinderQuery] = useState(null); // string, triggers ProductFinderModal (wizard flow)
   const [finderInitialState, setFinderInitialState] = useState(null); // saved state for "back to results"
-  const [categoryQuery, setCategoryQuery] = useState(null); // string — triggers CategoryResultsPage (new flow)
+  const [categoryQuery, setCategoryQuery] = useState(null); // string, triggers CategoryResultsPage (new flow)
   const [categoryInitialFilters, setCategoryInitialFilters] = useState(null); // {priceMax, priceMin, brands} from advisor
-  const [categoryDisambig, setCategoryDisambig] = useState(null); // {question,options:[{label,icon,desc,query,match}]} — inline sub-category tiles
-  const [disambigModal, setDisambigModal] = useState(null); // legacy — kept for back/overlay refs; never set (inline tiles replaced the modal)
+  const [categoryDisambig, setCategoryDisambig] = useState(null); // {question,options:[{label,icon,desc,query,match}]}, inline sub-category tiles
+  const [disambigModal, setDisambigModal] = useState(null); // legacy, kept for back/overlay refs; never set (inline tiles replaced the modal)
   const [showCategoryBrowse, setShowCategoryBrowse] = useState(false);
   const [communityProducts, setCommunityProducts] = useState([]); // products users want as group buys
 
@@ -21779,13 +21779,13 @@ export default function App() {
     });
     const d = deals.find(x => x.id === id);
     if (d) trackEvent({ type: "wishlist", dealId: d.id, productName: d.name?.he || d.productName, category: d.catName || d.category, brand: d.brand, price: d.groupOffer || d.marketMin });
-    // Only animate on ADD — un-wishlisting shouldn't fling anything to the cart.
+    // Only animate on ADD, un-wishlisting shouldn't fling anything to the cart.
     if (added && sourceEl) {
       try { flyToCart(sourceEl); } catch {}
     }
   };
   const handleJoin = (id, tier = "committed", sourceEl = null) => {
-    // Login gate for BOTH tiers — even "interested" needs a user identity
+    // Login gate for BOTH tiers, even "interested" needs a user identity
     // so we can notify them when the deal moves, and so the count we show
     // isn't gameable by anonymous spam clicks.
     if (!user) {
@@ -21801,7 +21801,7 @@ export default function App() {
         interested:   tier === "interested" ? (d.interested  || 0) + 1 : (d.interested  || 0),
       };
     }));
-    // Track for personalization — joining is a strong intent signal.
+    // Track for personalization, joining is a strong intent signal.
     const dt = deals.find(x => x.id === id);
     if (dt) {
       trackEvent({
@@ -21813,7 +21813,7 @@ export default function App() {
         price:       dt.groupOffer || dt.marketMin,
       });
     }
-    const tierMsg = tier === "committed" ? "✓ אתם בפנים — המחיר נעול עליכם"
+    const tierMsg = tier === "committed" ? "✓ אתם בפנים, המחיר נעול עליכם"
                    : "✓ נרשמתם לעדכוני הקבוצה";
     notify(tierMsg);
     // Save to "המוצרים שלי"
@@ -21859,7 +21859,7 @@ export default function App() {
     } catch (e) {
       console.warn("[bid cancel] failed:", e.message);
       // Roll back: restore the cancelled bid so the UI stays in sync with
-      // the server (which still has the bid). 404 is left as-is — the bid
+      // the server (which still has the bid). 404 is left as-is, the bid
       // was already gone server-side, so the optimistic removal was right.
       if (cancelledBid && !/HTTP 404/.test(e.message)) {
         setDeals(prev => prev.map(d => {
@@ -21871,13 +21871,13 @@ export default function App() {
           return { ...d, bids, groupOffer: Math.min(d.groupOffer || lowest, lowest) };
         }));
       }
-      notify("⚠️ ביטול לא נשמר — נסה שוב");
+      notify("⚠️ ביטול לא נשמר, נסה שוב");
     }
   };
 
   const handleAddBid = async (dealId, bid) => {
     // Stable id sent by the client so the optimistic state and the server's
-    // canonical bid line up exactly — prevents the cancel-modal from looking
+    // canonical bid line up exactly, prevents the cancel-modal from looking
     // up a stale optimistic id and 404'ing.
     const stableId = bid.id || `b${Date.now()}_${Math.random().toString(36).slice(2,7)}`;
     const enrichedBid = { ...bid, id: stableId };
@@ -21935,11 +21935,11 @@ export default function App() {
           groupOffer: Number.isFinite(lowest) ? lowest : (d.marketMin || d.groupOffer),
         };
       }));
-      notify("⚠️ ההצעה לא נשמרה — נסה שוב");
+      notify("⚠️ ההצעה לא נשמרה, נסה שוב");
     }
   };
   // SECURITY (S15): the legacy OwnerDashboard supplier approve/reject buttons
-  // previously only mutated local React state — a supplier was never actually
+  // previously only mutated local React state, a supplier was never actually
   // KYC-approved/rejected on the server. Wire them to the real KYC endpoint
   // (same call the dedicated KYC tab uses) so the action is persisted.
   const _adminKycHeaders = () => {
@@ -21955,7 +21955,7 @@ export default function App() {
       if (!r.ok) throw new Error("kyc approve failed");
       setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"approved"}:s));
       notify(t.approved+" ✅");
-    } catch { notify("⚠️ אישור הספק נכשל — נסה שוב"); }
+    } catch { notify("⚠️ אישור הספק נכשל, נסה שוב"); }
   };
   const handleReject = async id => {
     try {
@@ -21965,7 +21965,7 @@ export default function App() {
       });
       if (!r.ok) throw new Error("kyc reject failed");
       setPendingSuppliers(p=>p.map(s=>s.id===id?{...s,status:"rejected"}:s));
-    } catch { notify("⚠️ דחיית הספק נכשלה — נסה שוב"); }
+    } catch { notify("⚠️ דחיית הספק נכשלה, נסה שוב"); }
   };
 
   // Convert an AI search result into a live deal and navigate to it.
@@ -21976,7 +21976,7 @@ export default function App() {
   // If the POST fails we keep the client-only deal so the UX never breaks.
   const handleAddDealFromSearch = async (result) => {
     // catIdx drives which per-category buying group this product joins.
-    // The old 5-entry catMap defaulted everything else to 0 (TVs) — so an
+    // The old 5-entry catMap defaulted everything else to 0 (TVs), so an
     // espresso machine wrongly offered to join the OLED/QLED TV group.
     // classifyCatIdx scans the sog + product name + category hint and
     // returns the REAL category; legacy catMap kept only as a last hint.
@@ -21988,7 +21988,7 @@ export default function App() {
     );
     const newDeal = {
       id: Date.now(),
-      // Stable, re-resolvable key — powers the permanent /product/<key> URL.
+      // Stable, re-resolvable key, powers the permanent /product/<key> URL.
       productKey: result.productKey || productKeyFrom(result),
       name: { he: result.productName, en: result.productNameEn || result.productName, ar: result.productName, ru: result.productName },
       desc: { he: result.description || "", en: result.description || "", ar: result.description || "", ru: result.description || "" },
@@ -22040,7 +22040,7 @@ export default function App() {
       if (!serverDeal || !serverDeal.id) return;
       // Replace the optimistic temp-id deal with the server's row. If the
       // server deduped to an existing deal, this also collapses our temp
-      // deal onto the shared one — no duplicate remains in state.
+      // deal onto the shared one, no duplicate remains in state.
       setDeals(prev => {
         const withoutTemp = prev.filter(d => d.id !== newDeal.id && d.id !== serverDeal.id);
         // Preserve client-only display fields the server doesn't store,
@@ -22071,7 +22071,7 @@ export default function App() {
 
   // Increment voter count on a community product
   const handleJoinCommunity = (productId) => {
-    if (!user) { notify("יש להתחבר קודם — לחץ על 'התחבר' בתפריט"); return; }
+    if (!user) { notify("יש להתחבר קודם, לחץ על 'התחבר' בתפריט"); return; }
     setCommunityProducts(prev => prev.map(p =>
       p.id === productId && !p.voters?.includes(user.phone)
         ? { ...p, voters: [...(p.voters || []), user.phone] }
@@ -22133,7 +22133,7 @@ export default function App() {
   };
   // ── Supplier login for ALREADY-REGISTERED suppliers ──────────────
   // A returning supplier authenticates through the SAME customer OTP
-  // login (phone) — no separate password store. After they're logged
+  // login (phone), no separate password store. After they're logged
   // in we ask the server whether that account is a KYC-approved
   // supplier (/api/suppliers/me, identity resolved from the JWT) and,
   // if so, set currentSupplier + route into the dashboard.
@@ -22163,7 +22163,7 @@ export default function App() {
       }
       return false;
     } catch {
-      notify("⚠️ ההתחברות נכשלה — נסה שוב");
+      notify("⚠️ ההתחברות נכשלה, נסה שוב");
       return false;
     }
   }, [notify]);
@@ -22172,7 +22172,7 @@ export default function App() {
   // landing page.
   //
   // SECURITY: this used to log a matching customer STRAIGHT into the
-  // supplier dashboard with no proof of account ownership — anyone
+  // supplier dashboard with no proof of account ownership, anyone
   // already signed in with an email that happened to match a supplier
   // record reached the dashboard. It now ALWAYS requires a fresh
   // ח.פ + OTP verification (SupplierRealLoginModal) unless the supplier
@@ -22217,7 +22217,7 @@ export default function App() {
     notify(t.welcome);
   }, [pendingSupplierLogin, resolveSupplierForCurrentUser, notify, t.welcome]);
 
-  // Navbar "supplier dashboard" click — same path as the landing-page
+  // Navbar "supplier dashboard" click, same path as the landing-page
   // login CTA so both entry points behave identically.
   const handleSupplierDashClick = () =>
     currentSupplier ? setMode("supplier-dashboard") : handleSupplierLogin();
@@ -22226,7 +22226,7 @@ export default function App() {
     // SECURITY (audit C-A3): call /api/auth/logout so the server can
     // revoke the JTI before we drop the token locally. Without this,
     // a stolen token (XSS, lingering tab, shared device) remains valid
-    // server-side for the full 30-day lifetime. Fire-and-forget — the
+    // server-side for the full 30-day lifetime. Fire-and-forget, the
     // local cleanup runs regardless of server reachability.
     try {
       const token = _getToken();
@@ -22258,7 +22258,7 @@ export default function App() {
     setPersonalRequests([]);
     setSavedBundles([]);
     setMode("home");
-    // Force a soft reload via state changes — user-specific fetches will re-run
+    // Force a soft reload via state changes, user-specific fetches will re-run
     // when a new user logs in.
   };
 
@@ -22266,7 +22266,7 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       if (user) {
-        notify("פג תוקף החיבור — התחבר/י שוב");
+        notify("פג תוקף החיבור, התחבר/י שוב");
         setUser(null);
         setMode("home");
         setTimeout(() => setShowAuth(true), 500);
@@ -22278,7 +22278,7 @@ export default function App() {
   const goHome = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); setMode("home"); };
   const goToMyProducts = () => { setSelectedDeal(null); setDisambigModal(null); setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); setMode("myproducts"); };
 
-  // ── Enter the supplier area — single shared exit-from-customer-context
+  // ── Enter the supplier area, single shared exit-from-customer-context
   //    handler. Routed by EVERY supplier-entry button (navbar, footer,
   //    landing page). It must cleanly leave ALL customer context:
   //    clears the open product (`selectedDeal`) and every soft overlay,
@@ -22302,16 +22302,16 @@ export default function App() {
       if (/^\/product\//.test(window.location.pathname)) {
         window.history.replaceState({}, "", "/suppliers");
       }
-    } catch { /* history API blocked — fail silent */ }
+    } catch { /* history API blocked, fail silent */ }
     setMode("suppliers");
   }, []);
 
-  // ── Universal "back" — peels off one navigation layer at a time.
+  // ── Universal "back", peels off one navigation layer at a time.
   //    Order matters: most-recently-opened state is unwound first.
   const canGoBack = !!selectedDeal || !!searchResult || !!categoryQuery
                   || !!disambigModal || !!joinPoolModal || !!showCategoryBrowse
                   || !!showAuth || (mode !== "home");
-  // Pages that ALREADY render their own native back button — don't show the
+  // Pages that ALREADY render their own native back button, don't show the
   // floating universal one on top of them (it overlaps tier cards / share
   // buttons / shopping content).
   const hideUniversalBack = !!selectedDeal || !!categoryQuery || !!disambigModal
@@ -22338,7 +22338,7 @@ export default function App() {
                     || !!joinPoolModal || !!showCategoryBrowse || !!showAuth;
 
   // True while a deep-linked /product/<key> (or legacy ?deal=/?q= link) is
-  // still being resolved — the write-effect must not overwrite the URL
+  // still being resolved, the write-effect must not overwrite the URL
   // during that async window. Seeded synchronously so it is correct from
   // the very first render (StrictMode double-invokes effects in dev).
   const bootProductPending = useRef((() => {
@@ -22368,14 +22368,14 @@ export default function App() {
       handleAddDealFromSearch({ ...data, productKey: key });
     } catch {
       bootProductPending.current = false;
-      notify("המוצר לא זמין כרגע — נסה לחפש אותו");
+      notify("המוצר לא זמין כרגע, נסה לחפש אותו");
       setMode("home");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deals, selectedDeal]);
 
   // Boot: `mode` is already seeded from the URL by useState, so here we only
-  // handle the async cases — deep-linked products and legacy share links.
+  // handle the async cases, deep-linked products and legacy share links.
   const routeBooted = useRef(false);
   useEffect(() => {
     if (routeBooted.current) return;
@@ -22393,7 +22393,7 @@ export default function App() {
       }
       const { productKey } = parsePath(window.location.pathname);
       if (productKey) resolveProductKey(productKey);
-    } catch { /* history/URL unavailable — stay on home */ }
+    } catch { /* history/URL unavailable, stay on home */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -22412,7 +22412,7 @@ export default function App() {
       if (target && window.location.pathname !== target) {
         window.history.pushState({}, "", target);
       }
-    } catch { /* history API blocked — fail silent */ }
+    } catch { /* history API blocked, fail silent */ }
   }, [mode, selectedDeal]);
 
   // Back/forward: a single popstate handler. A soft overlay is peeled
@@ -22527,9 +22527,9 @@ export default function App() {
   const _DISAMBIG_COFFEE = {
     question: "איזה סוג מכונת קפה אתה מחפש?",
     options: [
-      { label: "מכונת קפסולות",     icon: "☕", desc: "Nespresso, Dolce Gusto — פשוטה ומהירה",   query: "מכונת קפה קפסולות",
+      { label: "מכונת קפסולות",     icon: "☕", desc: "Nespresso, Dolce Gusto, פשוטה ומהירה",   query: "מכונת קפה קפסולות",
         match: { include: ["nespresso", "capsule", "pod", "dolce gusto", "vertuo", "קפסול", "tassimo"] } },
-      { label: "מכונת אספרסו אוטומטית", icon: "🫘", desc: "טוחנת פולים, מכינה חלב — מקצועית לבית", query: "מכונת קפה אוטומטית",
+      { label: "מכונת אספרסו אוטומטית", icon: "🫘", desc: "טוחנת פולים, מכינה חלב, מקצועית לבית", query: "מכונת קפה אוטומטית",
         match: { include: ["automatic", "super automatic", "bean to cup", "full auto",
                  "automat", "automata", "superautomatic", "vollautomat"],
                  exclude: ["nespresso", "capsule", "pod", "dolce", "drip", "filter coffee", "tassimo"] } },
@@ -22542,11 +22542,11 @@ export default function App() {
   const _DISAMBIG_SPEAKERS = {
     question: "איזה סוג רמקול אתה מחפש?",
     options: [
-      { label: "רמקול נייד (Bluetooth)", icon: "📻", desc: "לים, לטיולים, לחוץ — אלחוטי ועמיד",     query: "רמקולים ניידים",
+      { label: "רמקול נייד (Bluetooth)", icon: "📻", desc: "לים, לטיולים, לחוץ, אלחוטי ועמיד",     query: "רמקולים ניידים",
         match: { include: ["portable", "bluetooth", "נייד", "wireless speaker", "jbl", "flip", "charge",
                  "go ", "clip", "boombox", "soundlink", "wonderboom", "party"],
                  exclude: ["soundbar", "סאונדבר", "hi-fi", "bookshelf", "מדף", "tower speaker"] } },
-      { label: "רמקול לבית (Hi-Fi)",     icon: "🔊", desc: "שולחני, מדפי ביתי — לאיכות שמע גבוהה", query: "רמקולים לבית",
+      { label: "רמקול לבית (Hi-Fi)",     icon: "🔊", desc: "שולחני, מדפי ביתי, לאיכות שמע גבוהה", query: "רמקולים לבית",
         match: { include: ["hi-fi", "hifi", "bookshelf", "מדף", "ביתי", "shelf", "tower speaker",
                  "studio monitor", "floor standing", "מדפי", "שולחני"],
                  exclude: ["portable", "נייד", "flip", "clip", "boombox", "wonderboom"] } },
@@ -22555,7 +22555,7 @@ export default function App() {
   const _DISAMBIG_VACUUM = {
     question: "איזה סוג שואב אבק אתה מחפש?",
     options: [
-      { label: "רובוטי — מנקה לבד",   icon: "🤖", desc: "אוטונומי לחלוטין: Roomba / Roborock / Ecovacs / Dreame",  query: "שואב אבק רובוטי",
+      { label: "רובוטי, מנקה לבד",   icon: "🤖", desc: "אוטונומי לחלוטין: Roomba / Roborock / Ecovacs / Dreame",  query: "שואב אבק רובוטי",
         match: { include: ["robot", "רובוט", "roomba", "roborock", "dreame", "ecovacs", "deebot"],
                  exclude: ["stick", "מקל", "canister", "נגרר"] } },
       { label: "עומד / ידני",         icon: "🧹", desc: "שואב מוט שמפעילים ביד: Dyson, Samsung, Bosch ועוד",       query: "שואב אבק עומד אלחוטי",
@@ -22567,9 +22567,9 @@ export default function App() {
   const _DISAMBIG_BLENDER = {
     question: "איזה סוג בלנדר אתה מחפש?",
     options: [
-      { label: "בלנדר שולחני",      icon: "🥤", desc: "קנקן קשיח, Vitamix / NutriBullet — לשייקים וסמות'י", query: "בלנדר שולחני",
+      { label: "בלנדר שולחני",      icon: "🥤", desc: "קנקן קשיח, Vitamix / NutriBullet, לשייקים וסמות'י", query: "בלנדר שולחני",
         match: { exclude: ["stick", "hand blender", "immersion", "מקל", "hand-blender"] } },
-      { label: "בלנדר יד (צלליל)", icon: "🫙", desc: "נוח לסירים, ידני, מיני — לפירה ומרקים",             query: "בלנדר יד",
+      { label: "בלנדר יד (צלליל)", icon: "🫙", desc: "נוח לסירים, ידני, מיני, לפירה ומרקים",             query: "בלנדר יד",
         match: { include: ["stick", "hand", "immersion", "מקל", "hand blender", "hand-blender", "מוט"] } },
     ],
   };
@@ -22780,7 +22780,7 @@ export default function App() {
         </>
       )}
 
-      {/* Stacked toasts — newest on top, dismissable */}
+      {/* Stacked toasts, newest on top, dismissable */}
       {toastStack.length > 0 && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[110] flex flex-col items-center gap-2" style={{ pointerEvents: "none" }}>
           {toastStack.map(t => (
@@ -22825,7 +22825,7 @@ export default function App() {
         setShowSupplierLogin(false);
         setMode("supplier-dashboard");
       }} onClose={()=>setShowSupplierLogin(false)} />}
-      {/* Real supplier login — ח.פ + OTP. Only path into the dashboard
+      {/* Real supplier login, ח.פ + OTP. Only path into the dashboard
           for a returning supplier; verification happens server-side. */}
       {showSupplierRealLogin && <SupplierRealLoginModal
         onSuccess={handleSupplierRealLoginSuccess}
@@ -22969,7 +22969,7 @@ export default function App() {
             {/* Deal of the Day */}
             <DealOfTheDayBanner deals={deals} lang={lang} t={t} onDealClick={openDeal} />
 
-            {/* ── PERSONAL RECOMMENDATIONS — "מותאם בשבילך" ── */}
+            {/* ── PERSONAL RECOMMENDATIONS, "מותאם בשבילך" ── */}
             <PersonalRecommendations
               recos={personalRecos}
               deals={deals}
@@ -22979,14 +22979,14 @@ export default function App() {
 
             <h2 className="text-xl font-bold text-gray-900 mb-5">{t.activeGroups}</h2>
             {/* Mobile: 2 per row (4 felt cramped for product cards with images +
-                  Hebrew names). Tablet 3, desktop 4 — denser than before.    */}
+                  Hebrew names). Tablet 3, desktop 4, denser than before.    */}
             {deals.length === 0 ? (
               <div className="text-center py-12 px-6 bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 rounded-2xl">
                 <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                   <Sparkles className="w-8 h-8 text-indigo-500" />
                 </div>
                 <p className="text-base font-bold text-gray-800 mb-1">עדיין אין קבוצות קנייה פעילות</p>
-                <p className="text-sm text-gray-500 mb-5 max-w-sm mx-auto">היה הראשון לפתוח דרישה — נאסוף קונים נוספים ונביא לך הצעת מחיר מספק.</p>
+                <p className="text-sm text-gray-500 mb-5 max-w-sm mx-auto">היה הראשון לפתוח דרישה, נאסוף קונים נוספים ונביא לך הצעת מחיר מספק.</p>
                 <button onClick={() => setMode("personal")}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-sm hover:from-indigo-700 transition shadow-md active:scale-95">
                   <Plus className="w-4 h-4" /> פתח דרישה חדשה
@@ -23008,7 +23008,7 @@ export default function App() {
               </div>
             )}
 
-            {/* ── DEMAND POOLS — "קבוצות ביקוש פעילות" ── */}
+            {/* ── DEMAND POOLS, "קבוצות ביקוש פעילות" ── */}
             {Object.keys(demandPools).length > 0 && (
               <div className="mt-10">
                 <div className="flex items-center gap-3 mb-5">
@@ -23017,7 +23017,7 @@ export default function App() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h2 className="text-xl font-bold text-gray-900">קבוצות ביקוש כלליות</h2>
-                    <p className="text-xs text-gray-500">אין קבוצה פעילה על המוצר שלך? הוסף לקבוצה כללית — כשנצברים 3 מעוניינים, נפתחת קבוצה ייעודית</p>
+                    <p className="text-xs text-gray-500">אין קבוצה פעילה על המוצר שלך? הוסף לקבוצה כללית, כשנצברים 3 מעוניינים, נפתחת קבוצה ייעודית</p>
                   </div>
                   <button onClick={() => setMode("deals")}
                     className="hidden md:flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-indigo-600 hover:bg-indigo-50 rounded-lg transition">
@@ -23042,7 +23042,7 @@ export default function App() {
               </div>
             )}
 
-            {/* ── SMART BUNDLES — "חבילות נדל״ן" ── */}
+            {/* ── SMART BUNDLES, "חבילות נדל״ן" ── */}
             {bundles.length > 0 && (
               <div className="mt-10">
                 <div className="flex items-center gap-3 mb-5">
@@ -23056,7 +23056,7 @@ export default function App() {
                     <Plus className="w-3.5 h-3.5" /> צור חבילה
                   </button>
                 </div>
-                {/* Mobile: 2 per row (was 1) — bundles are summary cards so
+                {/* Mobile: 2 per row (was 1), bundles are summary cards so
                       they fit comfortably side-by-side at small widths.   */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                   {bundles.map(b => <BundleCard key={b.id} bundle={b} onClick={setSelectedBundle} isSaved={savedBundles.includes(b.id)} compact={true} />)}
@@ -23085,7 +23085,7 @@ export default function App() {
               onWizard={(q, opts) => openCategory(q, opts)}
               onOpenRequest={() => setMode("personal")}
             />
-            {/* ── Premium "Browse by category" CTA — sits right under the
+            {/* ── Premium "Browse by category" CTA, sits right under the
                   search bar so it's the first thing users see on mobile.    */}
             <button
               onClick={() => setShowCategoryBrowse(true)}
@@ -23117,7 +23117,7 @@ export default function App() {
 
               <div className="relative flex items-center justify-between gap-3 px-4 py-3.5" dir="rtl">
                 <div className="flex items-center gap-3 min-w-0">
-                  {/* Animated grid icon — represents categories */}
+                  {/* Animated grid icon, represents categories */}
                   <span className="w-10 h-10 rounded-xl bg-white/22 backdrop-blur-sm flex items-center justify-center flex-shrink-0 ring-1 ring-white/30 group-hover:rotate-6 transition-transform duration-300">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="3" y="3" width="7" height="7" rx="1.5" />
@@ -23131,7 +23131,7 @@ export default function App() {
                       חיפוש לפי קטגוריה
                     </div>
                     <div className="text-white/85 text-[11px] font-semibold leading-tight mt-0.5">
-                      גלה אלפי מוצרים מסווגים — מקררים, סמארטפונים, ועוד
+                      גלה אלפי מוצרים מסווגים, מקררים, סמארטפונים, ועוד
                     </div>
                   </div>
                 </div>
@@ -23171,7 +23171,7 @@ export default function App() {
                 </div>
                 <div>
                   <h2 className="font-black text-gray-900 text-base">קבוצות ביקוש כלליות</h2>
-                  <p className="text-xs text-gray-400">אין קבוצה פעילה על המוצר שלך? הוסף לקבוצה כללית — כשנצברים 3 מעוניינים, נפתחת קבוצה ייעודית</p>
+                  <p className="text-xs text-gray-400">אין קבוצה פעילה על המוצר שלך? הוסף לקבוצה כללית, כשנצברים 3 מעוניינים, נפתחת קבוצה ייעודית</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -23194,7 +23194,7 @@ export default function App() {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-lg">📦</span>
-                <h2 className="text-lg font-bold text-gray-900">חבילות חכמות — קונים ביחד, חוסכים יותר</h2>
+                <h2 className="text-lg font-bold text-gray-900">חבילות חכמות, קונים ביחד, חוסכים יותר</h2>
                 <button onClick={() => setShowCreateBundle(true)}
                   className="mr-auto flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold rounded-xl text-xs hover:from-violet-700 transition shadow-md active:scale-95">
                   <Plus className="w-3.5 h-3.5" /> צור חבילה
@@ -23215,7 +23215,7 @@ export default function App() {
                 {catFilter !== null ? "אין קבוצות קנייה פעילות בקטגוריה הזו" : "עדיין אין קבוצות קנייה פעילות"}
               </p>
               <p className="text-sm text-gray-500 mb-5 max-w-sm mx-auto">
-                פתח דרישה למוצר שאתה מחפש — נאסוף קונים נוספים ונביא הצעת מחיר מספק.
+                פתח דרישה למוצר שאתה מחפש, נאסוף קונים נוספים ונביא הצעת מחיר מספק.
               </p>
               <button onClick={() => setMode("personal")}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl text-sm hover:from-indigo-700 transition shadow-md active:scale-95">
@@ -23233,7 +23233,7 @@ export default function App() {
             </div>
           )}
 
-          {/* Community wants — products users found and want as group buys */}
+          {/* Community wants, products users found and want as group buys */}
           {communityProducts.length > 0 && (
             <div className="mt-12">
               <div className="flex items-center justify-between mb-5">
@@ -23295,7 +23295,7 @@ export default function App() {
             onUpdateRequest={async (id, updates) => {
               // Optimistic local update so the UI reflects the offer instantly
               setPersonalRequests(prev => prev.map(r => r.id === id ? { ...r, ...updates } : r));
-              // Temp ids haven't been persisted yet — no server round-trip possible
+              // Temp ids haven't been persisted yet, no server round-trip possible
               if (String(id).startsWith("tmp-")) return;
               try {
                 const res = await fetch(`/api/personal-requests/${id}`, {
@@ -23316,7 +23316,7 @@ export default function App() {
         </main>
       )}
 
-      {/* ── התייעץ עם בנדלי — supplier-side advisor ──
+      {/* ── התייעץ עם בנדלי, supplier-side advisor ──
           The chat is mounted alongside the supplier dashboard so suppliers can
           ask "what should I bid for an LG OLED 65?" or "how do I grow win rate?"
           without leaving the page. Same /api/chat backend as customers, with
@@ -23344,7 +23344,7 @@ export default function App() {
                 if (p._cachedResult) { setSearchResult(p._cachedResult); return; }
                 const q = p.name || p.productName || "";
                 if (!q) return;
-                // OPEN IMMEDIATELY with minimal data from cart item — no blocking
+                // OPEN IMMEDIATELY with minimal data from cart item, no blocking
                 const stubResult = {
                   productName:   q,
                   productNameEn: q,
@@ -23358,7 +23358,7 @@ export default function App() {
                   _loading:      true,
                 };
                 setSearchResult(stubResult);
-                // Enrich in background — replaces stub with real data when ready
+                // Enrich in background, replaces stub with real data when ready
                 fetch(`/api/search?q=${encodeURIComponent(q)}`)
                   .then(r => r.ok ? r.json() : null)
                   .then(data => {
@@ -23446,7 +23446,7 @@ export default function App() {
         onSearchProduct={(q, filters) => { openCategory(q, { filters }); }}
       />
       {universalBackBtn}
-      {/* Accessibility menu — global, always-on-top floating widget.
+      {/* Accessibility menu, global, always-on-top floating widget.
           Mounted last so it sits above modals + the chat advisor. */}
       <AccessibilityWidget />
     </div>

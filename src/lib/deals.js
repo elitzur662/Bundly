@@ -1,5 +1,5 @@
 /**
- * Bundly — Deal pricing, status, and similarity helpers (no React).
+ * Bundly, Deal pricing, status, and similarity helpers (no React).
  */
 
 /**
@@ -34,9 +34,9 @@ export function nextTier(tiers, participants) {
 
 /**
  * Closing-date-derived deal status.
- *   active    — closingDate in the future
- *   filled    — closed and minParticipants reached
- *   cancelled — closed and minParticipants NOT reached (refunds the deposits)
+ *   active   , closingDate in the future
+ *   filled   , closed and minParticipants reached
+ *   cancelled, closed and minParticipants NOT reached (refunds the deposits)
  */
 export function getDealStatus(deal) {
   const closed = new Date() > new Date(deal.closingDate);
@@ -46,12 +46,12 @@ export function getDealStatus(deal) {
 }
 
 /**
- * Sub-category-aware "you might also like" — only deals that share the
+ * Sub-category-aware "you might also like", only deals that share the
  * leading Hebrew noun phrase of the reference deal's name.
  *
  * Was: matched by `catIdx` (top-level), which lumped refrigerators with
  * washing machines and dishwashers under "home appliances". Per user
- * feedback that's too loose — they want fridge↔fridge, not fridge↔TV.
+ * feedback that's too loose, they want fridge↔fridge, not fridge↔TV.
  *
  * `subCategoryKey` pulls the Hebrew prefix before the first Latin or
  * digit character. That's the natural product-type label in our data:
@@ -74,7 +74,7 @@ function subCategoryKey(deal) {
   // Prefer the leading Hebrew word(s) before any Latin/digit character.
   const heLead = s.match(/^[֐-׿\s'"]+/);
   if (heLead && heLead[0].trim().length >= 2) return heLead[0].trim();
-  // No Hebrew prefix — fall back to the first Latin word, lower-cased.
+  // No Hebrew prefix, fall back to the first Latin word, lower-cased.
   const latinLead = s.match(/^[A-Za-z][A-Za-z0-9]*/);
   return latinLead ? latinLead[0].toLowerCase() : s.slice(0, 12).toLowerCase();
 }

@@ -1,7 +1,7 @@
 /**
- * Bundly — Mobile category browser tree + per-category variant chips.
+ * Bundly, Mobile category browser tree + per-category variant chips.
  *
- * CATEGORY_TREE — Hierarchical category structure for the mobile 'חפש'
+ * CATEGORY_TREE, Hierarchical category structure for the mobile 'חפש'
  *                 browser. 7 top-level cards (electronics, computers,
  *                 bikes, beauty, sport, home, car), each with subcategories
  *                 and a flat 'items' list rendered as tappable tiles. The
@@ -9,7 +9,7 @@
  *                 the server in server.js#CATEGORY_TREE_ITEMS for the
  *                 prewarm queue.
  *
- * CATEGORY_VARIANT_CHIPS — Variant chips shown at the top of category
+ * CATEGORY_VARIANT_CHIPS, Variant chips shown at the top of category
  *                          results when the category has clear sub-types
  *                          (e.g. refrigerators have 'מקפיא תחתון',
  *                          'דלת ליד דלת', etc.). Clicking a chip re-routes
@@ -19,19 +19,19 @@
 // ─────────────────────────────────────────────────────────────────
 //  CATEGORY TREE DATA (from Zap.co.il + Israeli shopping sites)
 // ─────────────────────────────────────────────────────────────────
-// Pruned 2026-05-15 — was 232 leaves across 7 tops + 26 subs. Audit
+// Pruned 2026-05-15, was 232 leaves across 7 tops + 26 subs. Audit
 // (audit-categories.mjs) joined the category cache + price cache and
 // flagged what's broken / missing. Strategy revision: instead of
 // deleting every empty leaf, keep all mainstream consumer-electronics
-// leaves (people buy these often) — the empty ones will be filled by
+// leaves (people buy these often), the empty ones will be filled by
 // the next pre-warm or a targeted refresh. We only DROP categories
 // where the underlying source (ZAP) is structurally broken:
-//   • Bicycles  — ZAP's bike catalogue is mostly brand-only stubs,
+//   • Bicycles , ZAP's bike catalogue is mostly brand-only stubs,
 //                 no model-page prices. Specialty bike retailers would
 //                 be needed for real coverage. Not in scope.
-//   • Cars      — ZAP automotive coverage is sparse. Better via
+//   • Cars     , ZAP automotive coverage is sparse. Better via
 //                 dedicated automotive retailers.
-//   • Gardening — niche power equipment, low buy-frequency.
+//   • Gardening, niche power equipment, low buy-frequency.
 //   • Inside-tree: dropped non-electric items (gym benches, sit-up
 //     racks), photography "sleds" typo, and "games" leaves under
 //     consoles (ZAP doesn't sell video games as a category).
@@ -45,7 +45,7 @@ export const CATEGORY_TREE = [
     id: "electronics", name: "חשמל ואלקטרוניקה", icon: "⚡", color: "from-amber-400 to-orange-500", bg: "bg-amber-50", border: "border-amber-200",
     sub: [
       { name: "מטבח וחשמל ביתי", icon: "🍳", items: ["מקררים","מקפיאים","מדיחי כלים","תנורי אפייה","כיריים","קולטי אדים","מיקרוגלים","טוסטרים","בלנדרים","מיקסרים","מעבדי מזון","מכונות קפה","קומקומים ומיחמים","מסחטות","מתקני מים","סירי בישול וטיגון","פלטות חשמליות"] },
-      // רובוטי ניקיון moved here from the dropped "בית חכם" sub — natural fit
+      // רובוטי ניקיון moved here from the dropped "בית חכם" sub, natural fit
       // alongside vacuums, and it was the strongest leaf in the smart-home set.
       { name: "ניקיון וכביסה", icon: "🧹", items: ["שואבי אבק","רובוטי ניקיון","מכונות כביסה","מייבשי כביסה","ערכות ניקוי בקיטור","מגהצים","מכונות שטיפה וטאטוא"] },
       { name: "טלוויזיות ושמע", icon: "📺", items: ["טלויזיות","אוזניות","סאונד בר","רמקולים ניידים","מקרנים","סטרימרים","רמקולים","מיקרופונים","קולנוע ביתי","מציאות מדומה"] },
@@ -53,7 +53,7 @@ export const CATEGORY_TREE = [
       // scripts/scrape-empty-categories.mjs (ZAP doesn't catalogue games).
       { name: "קונסולות משחק", icon: "🎮", items: ["PS5","PS4","Nintendo Switch","Xbox Series X","Xbox Series S","ג'ויסטיקים ואביזרי משחק","משחקי PS5","משחקי Nintendo"] },
       { name: "חימום וקירור", icon: "❄️", items: ["מזגנים","מאווררים","מפזרי חום","תנורי חשמל","מטהרי אוויר","מכשירי לחות"] },
-      // Dropped: "מזחלות" (sled/luggage typo — wasn't a photography item).
+      // Dropped: "מזחלות" (sled/luggage typo, wasn't a photography item).
       { name: "צילום", icon: "📷", items: ["מצלמות מירורלס","מצלמות DSLR","מצלמות אקסטרים","מצלמות קומפקטיות","עדשות","חצובות","תיקי מצלמה","מצלמות אבטחה","מזל\"טים"] },
     ]
   },
@@ -72,7 +72,7 @@ export const CATEGORY_TREE = [
       { name: "מחשבים ניידים", icon: "💻", items: ["מחשבים ניידים","מחשבים ניידים לגיימינג","MacBook Air","MacBook Pro","Chromebook","מחשבים ניידים לעסקים"] },
       { name: "מחשבים נייחים", icon: "🖥️", items: ["מחשבים נייחים","מחשבי All-in-One","Mac Mini","iMac","מחשבי גיימינג","שרתים","מחשבי מיני"] },
       { name: "טאבלטים", icon: "📱", items: ["iPad Pro","iPad Air","iPad","Samsung Galaxy Tab","Lenovo Tab","טאבלטים לילדים"] },
-      // No drilldown — filter chips on the results page handle screen-size /
+      // No drilldown, filter chips on the results page handle screen-size /
       // resolution / refresh-rate / panel.
       { name: "מסכי מחשב", icon: "🖥️", items: ["מסכי מחשב"] },
       { name: "חומרה ורכיבים", icon: "🔧", items: ["כרטיסי מסך","מעבדים","לוחות אם","זיכרון RAM","כוננים SSD","ספקי כוח","מארזי מחשב","מאווררים וקירור"] },
@@ -84,7 +84,7 @@ export const CATEGORY_TREE = [
     id: "beauty", name: "טיפוח ויופי", icon: "💄", color: "from-pink-400 to-rose-500", bg: "bg-pink-50", border: "border-pink-200",
     sub: [
       // Note: many of these are currently no-cache and rely on the next
-      // pre-warm cycle for content. Keep them — beauty appliances are a
+      // pre-warm cycle for content. Keep them, beauty appliances are a
       // very common consumer purchase and the sogs are valid.
       { name: "שיער", icon: "💇", items: ["מייבשי שיער","מחליקי שיער","תלתלנים חשמליים","מסרקים חשמליים","מכשירי קרליות","מברשות מסלסלות","מייבשי נסיעה"] },
       { name: "הסרת שיער", icon: "✨", items: ["אפילטורים חשמליים","מכשירי IPL ביתי","מכשירי לייזר ביתי","מכשירי הסרת שיער","מכשירי שעווה חשמלית"] },
@@ -96,7 +96,7 @@ export const CATEGORY_TREE = [
   {
     id: "sport", name: "פנאי וספורט", icon: "🏃", color: "from-orange-400 to-red-500", bg: "bg-orange-50", border: "border-orange-200",
     sub: [
-      // Dropped: "ספסלי כושר", "מכשירי כפיפות ישיבה" — not electric/electronic
+      // Dropped: "ספסלי כושר", "מכשירי כפיפות ישיבה", not electric/electronic
       // products, mis-categorized in the original tree.
       { name: "ציוד כושר חשמלי", icon: "🏋️", items: ["הליכונים חשמליים","אופניים נייחים חשמליים","אליפטיקל","מכשירי חתירה"] },
       { name: "ניידות חשמלית", icon: "🛴", items: ["קורקינטים חשמליים","קלנועיות","מונופד חשמלי","Hoverboard","סגוויי"] },
@@ -106,7 +106,7 @@ export const CATEGORY_TREE = [
   {
     id: "home", name: "בית וגן", icon: "🏠", color: "from-lime-500 to-green-600", bg: "bg-lime-50", border: "border-lime-200",
     sub: [
-      // Dropped sub: "גינון חשמלי" — niche, low buy-frequency for our
+      // Dropped sub: "גינון חשמלי", niche, low buy-frequency for our
       // electronics-focused audience. Power tools kept (DIYers buy these).
       { name: "כלי עבודה חשמליים", icon: "🔧", items: ["מברגות חשמליות","מקדחות חשמליות","מסורי דיסק","מסורי ג'יגסאו","מטחנות זווית","מכשירי שיוף","נעצות חשמליות","מפוחים חשמליים"] },
       // Note: smart-vacuums (רובוטי ניקיון) moved to ניקיון וכביסה sub above —
@@ -115,7 +115,7 @@ export const CATEGORY_TREE = [
     ]
   },
   // Dropped tops: "אופניים ואביזרים" (ZAP bicycle catalog is brand-only
-  // stubs — needs specialty retailer integration to be useful) and
+  // stubs, needs specialty retailer integration to be useful) and
   // "רכב ואביזרים" (ZAP automotive coverage is sparse).
 ];
 
@@ -155,7 +155,7 @@ export const CATEGORY_VARIANT_CHIPS = {
     title: "איזה סוג מייבש כביסה?",
     variants: [
       { label: "משאבת חום (חסכוני)",    query: "מייבש כביסה משאבת חום", icon: "♻️", desc: "חיסכון מקסימלי" },
-      { label: "קונדנסציה",              query: "מייבש כביסה קונדנסר",  icon: "💧", desc: "ללא פתח — הנפוץ" },
+      { label: "קונדנסציה",              query: "מייבש כביסה קונדנסר",  icon: "💧", desc: "ללא פתח, הנפוץ" },
       { label: "אוויר חם (פשוט)",        query: "מייבש כביסה חשמלי",     icon: "🔥", desc: "מחיר נמוך" },
     ],
   },

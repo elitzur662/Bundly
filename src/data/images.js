@@ -1,8 +1,8 @@
 /**
- * Bundly — neutral "no image" placeholder.
+ * Bundly, neutral "no image" placeholder.
  *
  * Shown ONLY when a product genuinely has no real photo. It is a clean,
- * neutral graphic — never a generic stock photo of some other product, and
+ * neutral graphic, never a generic stock photo of some other product, and
  * never a random image from the web. Real product photos always come from
  * the catalog (sourced from Zap, where the photo is guaranteed to belong to
  * that exact model).

@@ -1,5 +1,5 @@
 /**
- * Bundly — Email Service (Nodemailer + Gmail)
+ * Bundly, Email Service (Nodemailer + Gmail)
  * Requires: EMAIL_USER and EMAIL_PASS (Gmail App Password) in .env
  */
 import nodemailer from "nodemailer";
@@ -18,7 +18,7 @@ const BRAND_LOGO  = "🛒";
 
 // SECURITY (audit M-NEW-1): every user-controlled string interpolated into
 // our email/invoice HTML MUST go through this helper. Order/product/supplier
-// names are attacker-influenced — a supplier registering with a businessName
+// names are attacker-influenced, a supplier registering with a businessName
 // of `<a href="https://evil.tld/phish">לחץ לזיכוי</a>` previously got their
 // link rendered inside every customer email and every on-disk invoice HTML
 // (served at /invoices/:filename under our origin, so cookies are in scope).
@@ -71,7 +71,7 @@ function baseTemplate(content) {
     </div>
     <div class="body">${content}</div>
     <div class="footer">
-      <p>© ${new Date().getFullYear()} ${BRAND_NAME} — Israel 🇮🇱</p>
+      <p>© ${new Date().getFullYear()} ${BRAND_NAME}, Israel 🇮🇱</p>
       <p style="margin-top:6px">לביטול עדכונים השב "הסר" לכל הודעה</p>
     </div>
   </div>
@@ -86,12 +86,12 @@ export async function sendOtpEmail(to, code) {
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `${code} — קוד האימות שלך ב-${BRAND_NAME}`,
+      subject: `${code}, קוד האימות שלך ב-${BRAND_NAME}`,
       html: baseTemplate(`
         <h2>קוד האימות שלך</h2>
         <p>הכנס את הקוד הבא כדי לסיים את ההרשמה:</p>
         <div class="otp-box">${code}</div>
-        <p style="color:#9ca3af;font-size:13px">הקוד תקף ל-5 דקות. אם לא ביקשת קוד — התעלם מהודעה זו.</p>
+        <p style="color:#9ca3af;font-size:13px">הקוד תקף ל-5 דקות. אם לא ביקשת קוד, התעלם מהודעה זו.</p>
       `),
     });
   } catch (e) { console.warn("[Email] OTP send failed:", e.message); }
@@ -107,7 +107,7 @@ export async function sendWelcomeEmail(to, name) {
     subject: `ברוכים הבאים ל-${BRAND_NAME}! 🎉`,
     html: baseTemplate(`
       <h2>היי ${_esc(name || "")}! ברוכים הבאים 👋</h2>
-      <p>שמחים שהצטרפת ל-<strong>Bundly</strong> — המקום שבו קבוצות קונים ביחד וחוסכים ביחד.</p>
+      <p>שמחים שהצטרפת ל-<strong>Bundly</strong>, המקום שבו קבוצות קונים ביחד וחוסכים ביחד.</p>
       <div class="highlight">
         <p style="margin:0;font-weight:700;color:#3730a3">מה אפשר לעשות עכשיו?</p>
         <ul style="margin:8px 0 0;padding-right:20px;color:#4338ca;font-size:14px;line-height:2">
@@ -117,7 +117,7 @@ export async function sendWelcomeEmail(to, name) {
           <li>💬 שתף עם חברים ב-WhatsApp</li>
         </ul>
       </div>
-      <p>כל שאלה — אנחנו כאן 💙</p>
+      <p>כל שאלה, אנחנו כאן 💙</p>
       <p>צוות Bundly</p>
     `),
   });
@@ -133,7 +133,7 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
   await transporter.sendMail({
     from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
     to,
-    subject: `📉 ירידת מחיר! ${_esc(productName)} — עכשיו ₪${newPrice.toLocaleString()}`,
+    subject: `📉 ירידת מחיר! ${_esc(productName)}, עכשיו ₪${newPrice.toLocaleString()}`,
     html: baseTemplate(`
       <h2>📉 ירידת מחיר!</h2>
       <p>המוצר שעקבת אחריו ירד במחיר:</p>
@@ -141,7 +141,7 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
         <p style="margin:0 0 4px;font-weight:700">${_esc(productName)}</p>
         <p style="margin:0;text-decoration:line-through;color:#9ca3af;font-size:13px">₪${oldPrice.toLocaleString()}</p>
         <p class="price">₪${newPrice.toLocaleString()}</p>
-        <span class="badge">חיסכון של ${pct}% — ₪${saving.toLocaleString()}</span>
+        <span class="badge">חיסכון של ${pct}%, ₪${saving.toLocaleString()}</span>
       </div>
       ${_safeUrl(link) ? `<a class="btn" href="${_safeUrl(link)}">לצפייה בדיל ←</a>` : ""}
     `),
@@ -162,7 +162,7 @@ export async function sendSupplierOfferEmail(to, { productName, offerPrice, supp
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `${header} — ${_esc(productName)} ₪${Number(offerPrice).toLocaleString()}`,
+      subject: `${header}, ${_esc(productName)} ₪${Number(offerPrice).toLocaleString()}`,
       html: baseTemplate(`
         <h2>${header}</h2>
         <p>קיבלת הצעת מחיר חדשה על הבקשה ששלחת:</p>
@@ -189,14 +189,14 @@ export async function sendOrderStatusEmail(to, { orderId, productName, status, t
     confirmed: { emoji: "✅", title: "ההזמנה שלך אושרה!",       body: "קיבלנו את התשלום. הספק מתחיל להכין את ההזמנה." },
     shipped:   { emoji: "📦", title: "ההזמנה שלך נשלחה!",       body: "ההזמנה יצאה לדרך. תוכל/י לעקוב דרך האפליקציה." },
     delivered: { emoji: "🎉", title: "ההזמנה שלך הגיעה!",       body: "מקווים שאת/ה מרוצ/ה! אם משהו לא בסדר, ניתן לפתוח תיק תמיכה." },
-    cancelled: { emoji: "❌", title: "ההזמנה שלך בוטלה",         body: "ההזמנה בוטלה. אם שולם — הכסף יוחזר תוך 7 ימי עסקים." },
+    cancelled: { emoji: "❌", title: "ההזמנה שלך בוטלה",         body: "ההזמנה בוטלה. אם שולם, הכסף יוחזר תוך 7 ימי עסקים." },
   };
   const meta = STATUS_META[status] || STATUS_META.confirmed;
   try {
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `${meta.emoji} ${meta.title} — הזמנה #${_esc(orderId)}`,
+      subject: `${meta.emoji} ${meta.title}, הזמנה #${_esc(orderId)}`,
       html: baseTemplate(`
         <h2>${meta.emoji} ${meta.title}</h2>
         <p>${meta.body}</p>
@@ -240,14 +240,14 @@ export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resol
   if (!process.env.EMAIL_USER || !to) return;
   const msg = {
     refunded: "קיבלנו את הבקשה שלך והחזר כספי מלא בוצע. הכסף יחזור לאמצעי התשלום תוך 7 ימי עסקים.",
-    replaced: "קיבלנו את הבקשה שלך. הספק יחליף לך את המוצר — נעדכן כשהמוצר החדש יצא לדרך.",
-    rejected: "לאחר בדיקה, הבקשה שלך נדחתה. אם יש לך שאלות — ניתן ליצור קשר עם התמיכה.",
+    replaced: "קיבלנו את הבקשה שלך. הספק יחליף לך את המוצר, נעדכן כשהמוצר החדש יצא לדרך.",
+    rejected: "לאחר בדיקה, הבקשה שלך נדחתה. אם יש לך שאלות, ניתן ליצור קשר עם התמיכה.",
   };
   try {
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
       to,
-      subject: `תיק תמיכה #${_esc(disputeId)} — עודכן`,
+      subject: `תיק תמיכה #${_esc(disputeId)}, עודכן`,
       html: baseTemplate(`
         <h2>תיק תמיכה ${resolution === "rejected" ? "נסגר" : "נפתר"}</h2>
         <p>${msg[resolution] || "התיק עודכן"}</p>
@@ -269,7 +269,7 @@ export async function sendDealActivatedEmail(to, { productName, price, participa
       subject: `✅ הדיל הופעל! ${_esc(productName)}`,
       html: baseTemplate(`
         <h2>✅ הדיל שלך הופעל!</h2>
-        <p>${Number(participants) || 0} משתתפים הצטרפו לדיל — הספקים מתחילים להתחרות!</p>
+        <p>${Number(participants) || 0} משתתפים הצטרפו לדיל, הספקים מתחילים להתחרות!</p>
         <div class="highlight">
           <p style="margin:0;font-weight:700">${_esc(productName)}</p>
           <p class="price">₪${price?.toLocaleString()}</p>
@@ -280,12 +280,12 @@ export async function sendDealActivatedEmail(to, { productName, price, participa
   } catch (e) { console.warn("[Email] deal-activated failed:", e.message); }
 }
 
-// Fired when a NEW member joins a deal — emails every existing member so
+// Fired when a NEW member joins a deal, emails every existing member so
 // they can feel the momentum and stay engaged. Subject + body emphasise
 // the rising count and the gap to the next price tier (when known).
 export async function sendDealMemberJoinedEmail(to, {
   productName,
-  joinerName,        // optional — display "אנונימי" if missing for privacy
+  joinerName,        // optional, display "אנונימי" if missing for privacy
   currentCount,
   targetCount,       // min size needed to activate the deal
   link,
@@ -295,13 +295,13 @@ export async function sendDealMemberJoinedEmail(to, {
     ? Math.max(0, targetCount - currentCount)
     : 0;
   const safeProductName = _esc(productName);
-  // SECURITY (red-team round 2 — L-R2-5): use the escaped+CRLF-stripped
+  // SECURITY (red-team round 2, L-R2-5): use the escaped+CRLF-stripped
   // product name in the Subject too. Other email subjects already do this;
   // this one was the only inconsistency. Defends against header injection
   // if productName ever flows through with embedded \r\n.
   const subjectSafe = String(safeProductName).replace(/[\r\n]+/g, " ").slice(0, 200);
   const subject = remaining > 0
-    ? `🎉 עוד משתתף הצטרף — ${currentCount} כבר בסבב של ${subjectSafe}`
+    ? `🎉 עוד משתתף הצטרף, ${currentCount} כבר בסבב של ${subjectSafe}`
     : `🔥 הסבב מתמלא! ${currentCount} משתתפים על ${subjectSafe}`;
   const progressBar = targetCount
     ? `
@@ -313,8 +313,8 @@ export async function sendDealMemberJoinedEmail(to, {
       </p>`
     : "";
   const cta = remaining > 0
-    ? `<p style="font-size:15px;margin-top:14px">עוד <strong>${remaining}</strong> משתתפים ונפעיל מחיר קבוצתי נמוך יותר. שתפו עם חברים — כל מצטרף מקרב את כולם להנחה.</p>`
-    : `<p style="font-size:15px;margin-top:14px">הקבוצה כבר מספיק גדולה כדי להפעיל מחיר נמוך — אנחנו ניצור קשר ברגע שהסבב נסגר.</p>`;
+    ? `<p style="font-size:15px;margin-top:14px">עוד <strong>${remaining}</strong> משתתפים ונפעיל מחיר קבוצתי נמוך יותר. שתפו עם חברים, כל מצטרף מקרב את כולם להנחה.</p>`
+    : `<p style="font-size:15px;margin-top:14px">הקבוצה כבר מספיק גדולה כדי להפעיל מחיר נמוך, אנחנו ניצור קשר ברגע שהסבב נסגר.</p>`;
   try {
     await transporter.sendMail({
       from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,

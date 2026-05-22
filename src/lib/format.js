@@ -1,5 +1,5 @@
 /**
- * Bundly — String and item formatting helpers (no React, no DOM).
+ * Bundly, String and item formatting helpers (no React, no DOM).
  */
 
 /**
@@ -19,7 +19,7 @@ export function cleanName(s) {
 }
 
 /**
- * Suggestion item normalisation — backwards-compatible with two shapes:
+ * Suggestion item normalisation, backwards-compatible with two shapes:
  *   1. plain string (legacy autocomplete API)
  *   2. object { text, isProduct, slug }
  * Use sugText() to render the label, sugIsProduct() to branch on type.

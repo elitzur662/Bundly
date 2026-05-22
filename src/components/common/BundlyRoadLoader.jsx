@@ -1,5 +1,5 @@
 /**
- * Bundly — Branded loading indicator.
+ * Bundly, Branded loading indicator.
  *
  * Previously animated a delivery van around a winding race-circuit. Per
  * user feedback 2026-05-15 the van was too busy/playful for the spot
@@ -11,13 +11,13 @@
  *   compact=true  → 40×40 mini puck for inline status pills
  *   compact=false → 96×96 hero loader for modal/page-level loading
  *
- * Same props as the old loader — drop-in replacement, every caller in
+ * Same props as the old loader, drop-in replacement, every caller in
  * App.jsx keeps working without changes.
  */
 
 export default function BundlyRoadLoader({ message, subMessage, compact = false, productName = '' }) {
   // productName is unused now (was driving fake per-store prices in the
-  // old design) — kept in the signature so existing call sites compile.
+  // old design), kept in the signature so existing call sites compile.
   void productName;
 
   const size = compact ? 40 : 96;
@@ -46,7 +46,7 @@ export default function BundlyRoadLoader({ message, subMessage, compact = false,
           fill="none" stroke="#ede9fe"
           strokeWidth={ringThick}
         />
-        {/* Spinning arc — three-quarters of the circle so the motion reads cleanly */}
+        {/* Spinning arc, three-quarters of the circle so the motion reads cleanly */}
         <path
           d="M 50 8 A 42 42 0 0 1 92 50"
           fill="none"
@@ -56,7 +56,7 @@ export default function BundlyRoadLoader({ message, subMessage, compact = false,
         />
       </svg>
 
-      {/* Centre "B" — sits ON TOP of the spinning ring, not inside the
+      {/* Centre "B", sits ON TOP of the spinning ring, not inside the
           rotating SVG, so the letter stays upright while the ring rotates. */}
       <div
         style={{

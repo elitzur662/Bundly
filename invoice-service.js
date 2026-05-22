@@ -128,7 +128,7 @@ function _buildHtmlInvoice(inv) {
     <div class="block">
       <h3>מוכר</h3>
       <p><strong>${_esc(inv.seller.businessName)}</strong></p>
-      <p>ח.פ / ע.מ: ${_esc(inv.seller.businessNumber || "—")}</p>
+      <p>ח.פ / ע.מ: ${_esc(inv.seller.businessNumber || "-")}</p>
       <p>${_esc(inv.seller.address || "")}</p>
       <p>${_esc(inv.seller.email || "")}</p>
     </div>

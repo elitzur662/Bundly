@@ -1,12 +1,12 @@
 /**
- * Bundly — Accessibility menu widget.
+ * Bundly, Accessibility menu widget.
  *
  * Mounted once at app root. Persists user preferences in localStorage so
  * the chosen adjustments survive page reloads. Toggles classes on the
  * <html> element which are picked up by CSS rules in index.css.
  *
  * Complies with Israeli law (תקנות שוויון זכויות לאנשים עם מוגבלות,
- * תשע״ג-2013, סעיף 35) and WCAG 2.0 AA — the menu itself is
+ * תשע״ג-2013, סעיף 35) and WCAG 2.0 AA, the menu itself is
  * keyboard-navigable, has labelled controls, and never blocks the page.
  */
 
@@ -90,7 +90,7 @@ export default function AccessibilityWidget() {
 
   const reset = () => setPrefs(new Set());
 
-  // Speech synthesis — read the selected text aloud (Web Speech API)
+  // Speech synthesis, read the selected text aloud (Web Speech API)
   const readSelection = () => {
     try {
       const text = window.getSelection?.()?.toString().trim();
@@ -120,10 +120,10 @@ export default function AccessibilityWidget() {
 
   return (
     <>
-      {/* Skip-to-content link — keyboard-only, jumps over the navbar */}
+      {/* Skip-to-content link, keyboard-only, jumps over the navbar */}
       <a href="#main" className="bundly-skip-link" onClick={handleSkip}>דלג לתוכן הראשי</a>
 
-      {/* Toggle button — bottom-LEFT corner in RTL (insetInlineEnd = left in RTL).
+      {/* Toggle button, bottom-LEFT corner in RTL (insetInlineEnd = left in RTL).
           The chat advisor lives bottom-right (insetInlineStart), so we sit on the
           opposite corner and never overlap it. We clear the mobile bottom nav
           (~64px tall) plus a small breathing margin. Discreet styling: 40px disc,

@@ -1,5 +1,5 @@
 /**
- * Bundly — JSON File Database (no native deps required)
+ * Bundly, JSON File Database (no native deps required)
  * Stores all data in bundly-db.json next to server.js
  */
 import fs   from "fs";
@@ -19,7 +19,7 @@ const DB_FILE   = path.join(_DATA_DIR, "bundly-db.json");
 // Exported: server.js calls `_prodDb.load()` in requireSupplierMatch,
 // _resolveVerifiedSupplier, charge-confirmed and the deal handlers. It was
 // a private function, so every one of those calls threw "_prodDb.load is
-// not a function" — 403ing the whole supplier dashboard.
+// not a function", 403ing the whole supplier dashboard.
 export function load() {
   let data;
   try {
@@ -37,7 +37,7 @@ export function load() {
   if (!Array.isArray(data.cannedResponses))   data.cannedResponses   = [];
   if (!Array.isArray(data.reviews))           data.reviews           = [];
   if (!Array.isArray(data.savedProducts))     data.savedProducts     = [];
-  // dealBids: { [dealId]: [bid, bid, ...] } — supplier offers per deal.
+  // dealBids: { [dealId]: [bid, bid, ...] }, supplier offers per deal.
   // Stored as a map to keep lookups O(1) per deal page.
   if (!data.dealBids || typeof data.dealBids !== "object" || Array.isArray(data.dealBids)) {
     data.dealBids = {};
@@ -77,7 +77,7 @@ export function load() {
   //   source: "free"|"zap"|"inventory", zapModelId?, sku?, name, image,
   //   category, brand, basePrice, qty, description, active, createdAt }
   if (!Array.isArray(data.supplierListings)) data.supplierListings = [];
-  // deals: persisted group-buy deals. One deal per productKey — everyone
+  // deals: persisted group-buy deals. One deal per productKey, everyone
   // interested in the same product joins the SAME deal. Shape per item:
   //   { id, productKey, name{}, desc{}, image, catIdx, marketMin, marketMax,
   //     groupOffer, discount, participants, maxParticipants, minParticipants,
@@ -139,14 +139,14 @@ let _db = load();
 // in one synchronous critical section: it loads the freshest snapshot,
 // runs the mutator against it, persists, and returns the mutator's result.
 // Because the whole body runs synchronously with no `await`, two in-flight
-// requests can never read-modify-write the same file concurrently — the
+// requests can never read-modify-write the same file concurrently, the
 // second call only starts after the first has fully returned (incl. save).
 // A re-entrancy depth counter lets a mutator that internally calls another
 // mutator-style helper share the single load/save (no nested double-write).
 let _mutateDepth = 0;
 function _mutate(fn) {
   if (_mutateDepth > 0) {
-    // Re-entrant call — operate on the already-loaded snapshot, the
+    // Re-entrant call, operate on the already-loaded snapshot, the
     // outermost _mutate() will perform the single save.
     return fn(_db);
   }
@@ -193,7 +193,7 @@ export function getUserByPhone(phone) {
   return _db.users.find(u => u.phone === phone) || null;
 }
 
-// Lookup by email — used to prevent a second account being created with an
+// Lookup by email, used to prevent a second account being created with an
 // email that's already attached to a different phone. Case-insensitive
 // because emails are case-insensitive per RFC 5321.
 export function getUserByEmail(email) {
@@ -232,7 +232,7 @@ export function saveOtp(phone, code) {
   save(_db);
 }
 
-// Constant-time string comparison — prevents timing attacks that could
+// Constant-time string comparison, prevents timing attacks that could
 // reveal an OTP digit-by-digit. Length is compared first (OTPs are fixed
 // 6-digit so length is not a meaningful secret), then every char is XORed.
 function _constantTimeEqual(a, b) {
@@ -309,7 +309,7 @@ export function getWatchlist(userId) {
 // Fields: product, category, budget, desc, name, phone, email,
 //         timestamp, status (pending|offered|closed), offerPrice,
 //         offerSupplier, currentLowestPrice, isSpecificModel, productImage,
-//         userId (optional — null for guest)
+//         userId (optional, null for guest)
 const PERSONAL_REQUEST_FIELDS = [
   "product", "category", "budget", "desc", "name", "phone", "email",
   "currentLowestPrice", "isSpecificModel", "productImage", "userId",
@@ -461,7 +461,7 @@ export function createOrder({ userId, supplierId, supplierName, productName, pro
     quantity: Number(quantity) || 1,
     totalAmount: (Number(price) || 0) * (Number(quantity) || 1),
     requestId: requestId ? Number(requestId) : null,
-    // dealId may be a string (e.g. "deal_abc") or a number — preserve as-is.
+    // dealId may be a string (e.g. "deal_abc") or a number, preserve as-is.
     // The earlier Number() coercion silently became NaN for string ids,
     // so the dealId field was lost on every group-buy order.
     dealId: dealId != null && dealId !== "" ? String(dealId) : null,
@@ -505,7 +505,7 @@ export function updateOrder(id, fields) {
   }
   // Auto-stamp transition timestamps so the order timeline is complete
   // without callers having to remember every field. The "shipped at"
-  // missing was particularly painful — the stale-shipped-order automation
+  // missing was particularly painful, the stale-shipped-order automation
   // had to fall back to updatedAt which would change again on delivery.
   const now = new Date().toISOString();
   if (fields.status === "shipped"   && !order.shippedAt)   order.shippedAt   = now;
@@ -574,9 +574,9 @@ export function createSupplier({ businessName, businessNumber, ownerName, email,
     category: category || "",
     description: description || "",
     licenseDoc,                   // path to uploaded business license PDF
-    bankAccount,                  // { bank, branch, accountNumber } — for payouts
-    paymentLink: "",              // supplier's own payment URL — used when a customer picks "pay supplier directly"
-    commissionRate: 8,            // percent — Bundly commission billed to the supplier later
+    bankAccount,                  // { bank, branch, accountNumber }, for payouts
+    paymentLink: "",              // supplier's own payment URL, used when a customer picks "pay supplier directly"
+    commissionRate: 8,            // percent, Bundly commission billed to the supplier later
     kycStatus: "pending",         // pending | approved | rejected
     kycReviewedAt: null,
     kycReviewedBy: null,
@@ -637,7 +637,7 @@ export function updateSupplier(id, fields) {
 // ── Disputes / Support Tickets ─────────────────────────────────
 // "Disputes" was historically only per-order. We now also use this collection
 // for general support tickets (no orderId), complaints, and feature requests
-// — distinguished by `type`. New fields:
+//, distinguished by `type`. New fields:
 //   • type:        "order_dispute" | "general_support" | "complaint" | "feature_request"
 //   • subject:     short title for general tickets
 //   • category:    "billing" | "delivery" | "product" | "account" | "other"
@@ -936,7 +936,7 @@ export function getDealBids(dealId) {
 }
 
 // Cap the cancellation audit log to 5,000 entries (drop oldest).
-// Without this, the log grew forever — every cancel adds one entry.
+// Without this, the log grew forever, every cancel adds one entry.
 function _capCancelledBids(list) {
   if (!Array.isArray(list)) return [];
   if (list.length <= 5000) return list;
@@ -1072,7 +1072,7 @@ export function upsertInventoryItem(supplierId, item) {
   save(_db);
   return enriched;
 }
-// Real bulk upsert — single load + single save. Calling upsertInventoryItem
+// Real bulk upsert, single load + single save. Calling upsertInventoryItem
 // in a loop would do 2× len(items) disk operations; this reduces it to 2.
 export function bulkUpsertInventory(supplierId, items) {
   if (!Array.isArray(items) || items.length === 0) return [];
@@ -1162,7 +1162,7 @@ export function deleteAutoBidRule(ruleId, supplierId) {
 }
 
 // ── Notifications ──────────────────────────────────────────────
-// Pure factory for a notification record — used by both the single-push and
+// Pure factory for a notification record, used by both the single-push and
 // the batch-push helpers below so the shape stays identical.
 // Strip HTML tags and JS-protocol URLs from any string we persist + show
 // later. Defends against stored XSS if these strings end up rendered raw
@@ -1351,7 +1351,7 @@ export function createSupplierListing(supplierId, listing) {
   const source  = allowed.has(listing.source) ? listing.source : "free";
   // Whitelist & sanitize. Trim long strings to bounded sizes so a single
   // listing can't bloat the JSON file.
-  // Validate image URL — only http(s) allowed (no javascript:, data:, file:).
+  // Validate image URL, only http(s) allowed (no javascript:, data:, file:).
   const cleanImg = String(listing.image || "").trim().slice(0, 500);
   const safeImg  = /^https?:\/\//i.test(cleanImg) ? cleanImg : "";
   const newListing = {
@@ -1381,7 +1381,7 @@ export function updateSupplierListing(listingId, supplierId, fields) {
   const list = _db.supplierListings || [];
   const idx  = list.findIndex(l => l.id === listingId && l.supplierId === String(supplierId));
   if (idx === -1) return null;
-  // Only mutate whitelisted fields — never source/supplierId/createdAt
+  // Only mutate whitelisted fields, never source/supplierId/createdAt
   const ALLOWED = ["name","image","category","brand","basePrice","qty","description","active"];
   const merged = { ...list[idx] };
   for (const k of ALLOWED) if (k in fields) merged[k] = fields[k];
@@ -1446,7 +1446,7 @@ export function trackUserInteraction(userId, event) {
     ts:          new Date().toISOString(),
   };
   _db.userInteractions.push(entry);
-  // Per-user cap of 500 events — without this, a single noisy user (or bot)
+  // Per-user cap of 500 events, without this, a single noisy user (or bot)
   // could drown out other users' taste profiles by stealing all of the 30K
   // global slots. The global cap of 50K is a defence-in-depth backstop.
   const PER_USER_CAP = 500;
@@ -1488,7 +1488,7 @@ export function setUserTasteProfile(userId, profile) {
   return _db.userTasteProfile[String(userId)];
 }
 // Compute a taste profile heuristically from raw interactions.
-// (No AI — fast, runs on every recommendations call. AI summary is
+// (No AI, fast, runs on every recommendations call. AI summary is
 // added separately on the server.)
 export function buildTasteProfileFromInteractions(userId) {
   const events = listUserInteractions(userId, { limit: 500, sinceDays: 180 });
@@ -1519,11 +1519,11 @@ export function buildTasteProfileFromInteractions(userId) {
 
 // ── Deals (persisted group-buy deals) ───────────────────────────
 // One deal per productKey. Everyone interested in the same product joins
-// the SAME deal — that is the group-buy concept. createDeal dedupes by
+// the SAME deal, that is the group-buy concept. createDeal dedupes by
 // productKey: if a deal with that key already exists it is returned as-is.
 //
 // Server id style mirrors the other string-id collections in this file
-// (notifications, listings, invoices): `d<timestamp>_<rand>` — NOT
+// (notifications, listings, invoices): `d<timestamp>_<rand>`, NOT
 // Date.now() alone, which is collision-prone and was the broken client id.
 function _newDealId() {
   return `d${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
@@ -1533,7 +1533,7 @@ export function createDeal(data = {}) {
   return _mutate(db => {
     if (!Array.isArray(db.deals)) db.deals = [];
     const productKey = data.productKey ? String(data.productKey) : null;
-    // Dedupe by productKey — return the existing group-buy deal so all
+    // Dedupe by productKey, return the existing group-buy deal so all
     // interested buyers converge on ONE deal instead of forking duplicates.
     if (productKey) {
       const existing = db.deals.find(d => d.productKey && String(d.productKey) === productKey);
@@ -1594,7 +1594,7 @@ export function updateDeal(id, patch = {}) {
     if (!Array.isArray(db.deals)) db.deals = [];
     const deal = db.deals.find(d => String(d.id) === String(id));
     if (!deal) return null;
-    // Whitelist mutable fields — never let a caller rewrite id/productKey/createdAt.
+    // Whitelist mutable fields, never let a caller rewrite id/productKey/createdAt.
     const allowed = [
       "name", "desc", "image", "catIdx", "marketMin", "marketMax",
       "groupOffer", "discount", "participants", "maxParticipants",
