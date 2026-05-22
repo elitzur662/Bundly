@@ -358,7 +358,7 @@
     "name": "מכונת תספורת Panasonic ER1421",
     "image": "images/753768.gif",
     "manufacturer": "Panasonic",
-    "imageUrl": "https://img.zap.co.il/pics/4/0/3/8/34728304c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/9/6/5/94245698b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -399,7 +399,7 @@
     "name": "מכונת תספורת Wahl Cordless Legend 8594-016",
     "image": "images/1174285.gif",
     "manufacturer": "Wahl",
-    "imageUrl": "https://img.zap.co.il/pics/8/3/1/7/76077138c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/3/1/7/76077138b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -732,7 +732,7 @@
     "name": "מכונת תספורת 1400-0050 1400-0278 1400-0087 Moser",
     "image": "images/8374.gif",
     "manufacturer": "Moser",
-    "imageUrl": "https://img.zap.co.il/pics/3/0/1/2/11932103b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/0/1/2/11932103c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -753,7 +753,7 @@
     "name": "מכונת תספורת Wahl Cordless Detailer LI 08171-016H",
     "image": "images/1212465.gif",
     "manufacturer": "Wahl",
-    "imageUrl": "https://img.zap.co.il/pics/2/0/2/7/81937202c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/0/2/7/81937202b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -877,7 +877,7 @@
     "name": "מכונת תספורת Wahl Cordless Senior Metal Edition 3000116",
     "image": "images/1211895.gif",
     "manufacturer": "Wahl",
-    "imageUrl": "https://img.zap.co.il/pics/3/4/1/6/77826143c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/3/4/1/6/77826143b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -918,7 +918,7 @@
     "name": "מכונת תספורת Wahl 08504-2316H",
     "image": "images/1140159.gif",
     "manufacturer": "Wahl",
-    "imageUrl": "https://img.zap.co.il/pics/8/0/6/0/65380608c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/6/0/65380608b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779436997263
@@ -6246,5 +6246,29 @@
       "modelid": "1263086",
       "ts": 1779380808884
     }
+  },
+  {
+    "id": "1186360",
+    "name": "מכונת תספורת 1902-0465 Wahl",
+    "price": 369,
+    "image": "images/1186360.gif",
+    "manufacturer": "Wahl",
+    "imageUrl": "https://img.zap.co.il/pics/5/5/9/6/76006955c.gif"
+  },
+  {
+    "id": "1152983",
+    "name": "מכונת תספורת Electro Hanan EL207",
+    "price": 0,
+    "image": "images/1152983.gif",
+    "manufacturer": "Electro Hanan",
+    "imageUrl": "https://img.zap.co.il/pics/6/2/2/0/67200226c.gif"
+  },
+  {
+    "id": "1186346",
+    "name": "מכונת תספורת Gamma Piu Skin",
+    "price": 449,
+    "image": "images/1186346.gif",
+    "manufacturer": "Gamma Piu",
+    "imageUrl": "https://img.zap.co.il/pics/8/0/2/9/75239208c.gif"
   }
 ]

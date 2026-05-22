@@ -8269,6 +8269,39 @@ const _DATA_DIR_ROOT = (() => {
 const _PRODUCT_DB_DIR = join(_DATA_DIR_ROOT, "product-db");
 try { if (!existsSync(_PRODUCT_DB_DIR)) mkdirSync(_PRODUCT_DB_DIR, { recursive: true }); } catch {}
 
+// ── Price-sanity floors ─────────────────────────────────────────────────────
+// A store price below the floor for a big-ticket category is impossible — it
+// is an accessory mis-match (a ₪30 phone case priced as the phone) or a parse
+// error. We zero such prices the moment the catalog loads into memory, so no
+// implausible price can ever reach the UI — whatever ends up on disk.
+const _PRICE_FLOOR = {
+  phones: 200, laptops: 600, tablets: 200, desktops: 500,
+  tvs: 350, monitors: 130,
+  fridges: 500, freezers: 450, "washing-machines": 500, dryers: 500,
+  dishwashers: 500, ovens: 250, "air-conditioners": 600, "range-hoods": 150,
+  microwaves: 130, "coffee-machines": 130, "robot-vacuums": 200,
+  "graphics-cards": 200, "gaming-consoles": 250,
+  treadmills: 400, "cross-trainers": 350, "exercise-bikes": 300,
+  cameras: 250, projectors: 250, "electric-scooters": 300, bicycles: 350,
+  "water-dispensers": 150, "lawn-mowers": 130,
+};
+/** Zero out any store price that is implausibly low for the category. */
+function _sanitizeProductPrices(products, slug) {
+  const floor = _PRICE_FLOOR[slug] || 0;
+  if (floor <= 0 || !Array.isArray(products)) return products;
+  for (const p of products) {
+    const pr = p && p.prices;
+    if (!pr || typeof pr !== "object") continue;
+    for (const k of ["ivory", "ksp", "bug", "zap"]) {
+      if ((Number(pr[k]) || 0) > 0 && Number(pr[k]) < floor) {
+        pr[k] = 0;
+        if (pr[k + "Url"] !== undefined) delete pr[k + "Url"];
+      }
+    }
+  }
+  return products;
+}
+
 function loadProductDbIntoCache() {
   let totalLoaded = 0;
   let slugsLoaded = 0;
@@ -8277,7 +8310,8 @@ function loadProductDbIntoCache() {
     const mFile = join(_PRODUCT_DB_DIR, slug, "meta.json");
     if (!existsSync(pFile)) continue;
     try {
-      const products = JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, ""));
+      const products = _sanitizeProductPrices(
+        JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, "")), slug);
       const meta     = existsSync(mFile) ? JSON.parse(readFileSync(mFile, "utf8").replace(/\0+$/g, "")) : {};
       const ts       = meta.catalogTs || meta.pricesTs || Date.now();
 
@@ -8405,7 +8439,9 @@ async function _doPersistToSlug(slug, candidates) {
       if (idx >= 0) {
         const p = products[idx];
         const incomingPrice = c.listingPrice || c.price || 0;
-        if (incomingPrice > 0) {
+        // Only accept a price that is plausible for this category — never let
+        // an accessory-contaminated low price overwrite a real product price.
+        if (incomingPrice > 0 && incomingPrice >= (_PRICE_FLOOR[slug] || 0)) {
           p.prices = p.prices || {};
           // Track each store separately so historical stores aren't lost
           if (!p.prices.zap || incomingPrice < p.prices.zap) p.prices.zap = incomingPrice;
@@ -8513,7 +8549,8 @@ function _loadSlugToMem(slug) {
   if (!existsSync(pFile)) return null;
   try {
     const mtime    = statSync(pFile).mtimeMs;
-    const products = JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, ""));
+    const products = _sanitizeProductPrices(
+      JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, "")), slug);
     const meta     = existsSync(mFile) ? JSON.parse(readFileSync(mFile, "utf8").replace(/\0+$/g, "")) : {};
     PRODUCT_MEM.set(slug, { products, mtime, pricesTs: meta.pricesTs || 0, catalogTs: meta.catalogTs || 0 });
     return products.length;
@@ -11657,6 +11694,16 @@ app.post("/api/deals",
   if (!productKey)            return res.status(400).json({ error: "Missing productKey" });
   if (!nameHe || String(nameHe).trim().length < 2) {
     return res.status(400).json({ error: "Missing deal name" });
+  }
+  // Price-sanity gate: a group-buy deal is always for a real product, never
+  // an accessory. A market price under ₪80 means the source product carried
+  // a contaminated price (e.g. a ₪30 phone-case match) — reject so a broken
+  // price can never be persisted into a deal and shown on the home page.
+  const _dealPrices = [body.marketMin, body.marketMax, body.groupOffer,
+    ...(Array.isArray(body.bids) ? body.bids.map(b => b && b.amount) : [])]
+    .map(n => Number(n) || 0).filter(n => n > 0);
+  if (_dealPrices.length > 0 && Math.max(..._dealPrices) < 80) {
+    return res.status(400).json({ error: "Implausible price — deal not created" });
   }
   try {
     // createDeal() itself dedupes by productKey and returns the existing

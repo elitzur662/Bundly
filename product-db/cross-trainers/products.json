@@ -220,7 +220,7 @@
     "name": "אליפטיקל Tritur EL302",
     "image": "images/820163.gif",
     "manufacturer": "Tritur",
-    "imageUrl": "https://img.zap.co.il/pics/6/6/3/3/92363366b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/6/0/1/25611067c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437021433
@@ -342,7 +342,7 @@
     "name": "אליפטיקל Tritur EL607 Royal",
     "image": "images/1189716.gif",
     "manufacturer": "Tritur",
-    "imageUrl": "https://img.zap.co.il/pics/7/9/3/9/91489397b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/4/5/75975481c.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437021435
@@ -378,7 +378,7 @@
     "name": "Citysport אליפטיקל מגנטי 339059 מבית CITYSPORT גלגל 14 ק\"ג",
     "image": "images/1155236.gif",
     "manufacturer": "Citysport",
-    "imageUrl": "https://img.zap.co.il/pics/3/7/8/5/70445873c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/4/2/7/4/92604724b.gif",
     "prices": {
       "zap": 0,
       "updated": 1779437021436
@@ -648,5 +648,13 @@
       "updated": 1779437021448
     },
     "filterTags": {}
+  },
+  {
+    "id": "1176467801",
+    "name": "Tritur אליפטיקל מקצועי TRITUR 609 גלגל תנופה 32 ק\"ג אחריות לכל החיים לשלדה מחשב ומייסבים",
+    "price": 1490,
+    "image": "images/1176467801.gif",
+    "manufacturer": "B-Core",
+    "imageUrl": "https://img.zap.co.il/pics/4/0/2/4/98554204c.gif"
   }
 ]
