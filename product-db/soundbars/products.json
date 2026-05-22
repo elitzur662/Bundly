@@ -6,7 +6,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/5/9/69919520c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089171
+      "updated": 1779421385489
     },
     "manufacturer": "Sonos",
     "filterTags": {}
@@ -18,7 +18,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/201015162955c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089172
+      "updated": 1779421385489
     },
     "manufacturer": "Sonos",
     "filterTags": {}
@@ -30,7 +30,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/3/4/96554375c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089173,
+      "updated": 1779421385489,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210",
       "ksp": 799,
@@ -46,7 +46,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/0/3/75953039c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089173
+      "updated": 1779421385489
     },
     "manufacturer": "Pure Acoustics",
     "filterTags": {}
@@ -56,7 +56,7 @@
     "name": "מקרן קול Samsung HW-Q930F",
     "prices": {
       "zap": 0,
-      "updated": 1779196089174,
+      "updated": 1779421385489,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -72,7 +72,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/9/6/75886986c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089175
+      "updated": 1779421385489
     },
     "manufacturer": "Aiwa",
     "filterTags": {}
@@ -84,7 +84,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/0/1/86171030c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089175
+      "updated": 1779421385489
     },
     "manufacturer": "Aiwa",
     "filterTags": {}
@@ -96,7 +96,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/5/2/75222598c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089176
+      "updated": 1779421385490
     },
     "manufacturer": "Sennheiser",
     "filterTags": {}
@@ -108,7 +108,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/4/0/76320492c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089177
+      "updated": 1779421385490,
+      "ksp": 8999,
+      "kspUrl": "https://ksp.co.il/web/item/78837"
     },
     "manufacturer": "Sennheiser",
     "filterTags": {}
@@ -120,7 +122,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/2/8/68638268c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089177,
+      "updated": 1779421385490,
       "ksp": 599,
       "kspUrl": "https://ksp.co.il/web/item/329764",
       "bug": 2190,
@@ -135,7 +137,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/3/4/89084323c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089178
+      "updated": 1779421385490
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -144,10 +146,10 @@
     "id": "1247468",
     "name": "מקרן קול Samsung HW-B750D",
     "image": "images/1247468.gif",
-    "imageUrl": "https://img.zap.co.il/pics/2/8/3/0/94890382c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/0/0/5/94475006b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089179,
+      "updated": 1779421385490,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -161,7 +163,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/9/7/88407914c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089181
+      "updated": 1779421385490
     },
     "manufacturer": "Sony",
     "filterTags": {}
@@ -173,9 +175,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/1/8/76138132c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089182,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385490,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -187,7 +189,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/1/1/98041164b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089182,
+      "updated": 1779421385490,
       "ivory": 799,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160699"
     },
@@ -201,7 +203,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/8/7/96897862c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089183,
+      "updated": 1779421385490,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -215,7 +217,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/8/7/96897861c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089184,
+      "updated": 1779421385490,
       "ivory": 985,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=160702"
     },
@@ -229,7 +231,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/9/6/75616931c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089184,
+      "updated": 1779421385490,
       "ksp": 599,
       "kspUrl": "https://ksp.co.il/web/item/329764",
       "bug": 2190,
@@ -245,7 +247,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/9/1/89331914c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089186
+      "updated": 1779421385491
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -257,7 +259,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/9/9/92879979c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089186,
+      "updated": 1779421385491,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -271,7 +273,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/9/3/89143984c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089187
+      "updated": 1779421385491
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -283,7 +285,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/27810205376c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089188,
+      "updated": 1779421385491,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -297,7 +299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/278102346680c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089189
+      "updated": 1779421385491
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -309,7 +311,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/4/4/5/96285443c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089190
+      "updated": 1779421385491
     },
     "manufacturer": "TCL",
     "filterTags": {}
@@ -321,7 +323,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/8/6/98636807c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089190,
+      "updated": 1779421385491,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/379816"
     },
@@ -335,7 +337,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/27810228844c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089191,
+      "updated": 1779421385491,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -349,7 +351,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/246155833723c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089192
+      "updated": 1779421385491
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -361,7 +363,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/3/8/93398322c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089192
+      "updated": 1779421385491
     },
     "manufacturer": "Sonos",
     "filterTags": {}
@@ -373,7 +375,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/2/0/87290206c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089192
+      "updated": 1779421385491
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -385,7 +387,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/8/1/89331899c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089193
+      "updated": 1779421385491
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -397,7 +399,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/1/3/68553127c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089193
+      "updated": 1779421385492,
+      "ksp": 939,
+      "kspUrl": "https://ksp.co.il/web/item/253887"
     },
     "manufacturer": "Polk Audio",
     "filterTags": {
@@ -411,7 +415,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/7/5/56265747c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089194
+      "updated": 1779421385492
     },
     "manufacturer": "Sonos",
     "filterTags": {}
@@ -423,7 +427,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/5/3/96993591c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089195
+      "updated": 1779421385492
     },
     "manufacturer": "TCL",
     "filterTags": {}
@@ -435,7 +439,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/1/6/96856173c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089195
+      "updated": 1779421385492
     },
     "manufacturer": "TCL",
     "filterTags": {}
@@ -447,8 +451,8 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/3/8/95438325c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089197,
-      "ksp": 888,
+      "updated": 1779421385492,
+      "ksp": 979,
       "kspUrl": "https://ksp.co.il/web/item/445015"
     },
     "manufacturer": "LG",
@@ -461,7 +465,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/4/0/76950400c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089198
+      "updated": 1779421385492
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -473,7 +477,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/20816553291c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089199
+      "updated": 1779421385492
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -487,7 +491,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/1/8/70378104c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089199
+      "updated": 1779421385492
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -499,8 +503,8 @@
     "imageUrl": "https://img.zap.co.il/pics/4/7/5/4/97214574c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089200,
-      "ksp": 888,
+      "updated": 1779421385492,
+      "ksp": 979,
       "kspUrl": "https://ksp.co.il/web/item/445015"
     },
     "manufacturer": "LG",
@@ -513,7 +517,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/27810224152c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089201,
+      "updated": 1779421385492,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -527,7 +531,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/2/6/96116241c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089201
+      "updated": 1779421385492
     },
     "manufacturer": "TCL",
     "filterTags": {}
@@ -539,7 +543,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/9/5/53495926c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089202
+      "updated": 1779421385492
     },
     "manufacturer": "Yamaha",
     "filterTags": {}
@@ -551,7 +555,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/3/0/97180389c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089203
+      "updated": 1779421385492
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -563,7 +567,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/7/3/83853781c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089203
+      "updated": 1779421385492
     },
     "manufacturer": "Sony",
     "filterTags": {}
@@ -572,10 +576,10 @@
     "id": "1261311",
     "name": "מקרן קול JBL Cinema SB580",
     "image": "images/1261311.gif",
-    "imageUrl": "https://img.zap.co.il/pics/4/4/2/3/97203244c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/2/4/8/95378427b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089204,
+      "updated": 1779421385493,
       "ksp": 990,
       "kspUrl": "https://ksp.co.il/web/item/401201"
     },
@@ -589,7 +593,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/7/5/52725703c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089204
+      "updated": 1779421385493
     },
     "manufacturer": "JBL",
     "filterTags": {
@@ -603,7 +607,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/0/0/53670014c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089205
+      "updated": 1779421385493
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -617,7 +621,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/6/0/86470631c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089206,
+      "updated": 1779421385493,
+      "ksp": 1940,
+      "kspUrl": "https://ksp.co.il/web/item/293806",
       "bug": 2690,
       "bugUrl": "https://www.bug.co.il/מקרן-קול-512-bose-91015030sbultrabl"
     },
@@ -631,7 +637,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/7/3/94393766c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089206,
+      "updated": 1779421385493,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -645,7 +651,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/1/1/74831127c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089207
+      "updated": 1779421385493
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -657,7 +663,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/8/4/78464879c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089207
+      "updated": 1779421385493
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -669,7 +675,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/278102140652c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089208,
+      "updated": 1779421385493,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -683,7 +689,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/9/8/95188931c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089209,
+      "updated": 1779421385493,
       "ksp": 1579,
       "kspUrl": "https://ksp.co.il/web/item/322452"
     },
@@ -697,7 +703,9 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/8/1/49171893c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089210
+      "updated": 1779421385493,
+      "ksp": 939,
+      "kspUrl": "https://ksp.co.il/web/item/253887"
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -709,7 +717,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/0/4/97484028c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089210
+      "updated": 1779421385493
     },
     "manufacturer": "Aiwa",
     "filterTags": {}
@@ -721,7 +729,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/7/0/60990754c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089211
+      "updated": 1779421385493
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -735,7 +743,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/4/9/78249465c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089211
+      "updated": 1779421385494
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -747,7 +755,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/5/8/84698512c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089212,
+      "updated": 1779421385494,
       "ksp": 2799,
       "kspUrl": "https://ksp.co.il/web/item/281337"
     },
@@ -761,7 +769,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/2/8/69508200c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089214
+      "updated": 1779421385494
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -773,9 +781,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/2/0/78550254c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089215,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385494,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -787,7 +795,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/2/6/60776295c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089215
+      "updated": 1779421385494
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -801,7 +809,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/7/1/75431725c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089216,
+      "updated": 1779421385494,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -815,7 +823,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/6/7/75897666c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089216
+      "updated": 1779421385494
     },
     "manufacturer": "Aiwa",
     "filterTags": {}
@@ -827,7 +835,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/0/4/0/76950401c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089217
+      "updated": 1779421385494
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -839,7 +847,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/1/2/6/96496218c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089218
+      "updated": 1779421385494
     },
     "manufacturer": "Marshall",
     "filterTags": {}
@@ -851,7 +859,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/2/0/87290207c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089218
+      "updated": 1779421385494
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -863,7 +871,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/2/3/74743250c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089219
+      "updated": 1779421385494
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -875,7 +883,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/7/7/77827713c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089219
+      "updated": 1779421385494
     },
     "manufacturer": "Next Audio",
     "filterTags": {}
@@ -887,7 +895,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/8/2/74832879c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089220,
+      "updated": 1779421385494,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -901,7 +909,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/6/1/41621663c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089221
+      "updated": 1779421385495
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -913,7 +921,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/7/6/78886709c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089221
+      "updated": 1779421385495
     },
     "manufacturer": "Next Audio",
     "filterTags": {}
@@ -925,7 +933,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/3/3/56633306c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089222,
+      "updated": 1779421385495,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -941,7 +949,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/8/2/48312884c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089222
+      "updated": 1779421385495
     },
     "manufacturer": "SimplySound",
     "filterTags": {}
@@ -953,7 +961,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/1/9/74609105c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089223
+      "updated": 1779421385495
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -965,7 +973,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/23775911485c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089224
+      "updated": 1779421385495
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -977,7 +985,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/2/1/70371250c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089224
+      "updated": 1779421385495
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -989,7 +997,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/1/6/93276185c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089225,
+      "updated": 1779421385495,
       "ksp": 1579,
       "kspUrl": "https://ksp.co.il/web/item/322452"
     },
@@ -1003,7 +1011,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/1/6/66676131c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089225,
+      "updated": 1779421385495,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1019,9 +1027,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/0/2/56472009c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089226,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385495,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {
@@ -1035,7 +1043,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/5/6/74886570c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089227
+      "updated": 1779421385495
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -1047,7 +1055,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/9/7/52547998c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089227
+      "updated": 1779421385495
     },
     "manufacturer": "Polk Audio",
     "filterTags": {
@@ -1061,7 +1069,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/9/8/1/49171890c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089228,
+      "updated": 1779421385495,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/344569"
     },
@@ -1075,9 +1083,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/4/9/75629471c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089228,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385496,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -1089,7 +1097,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/8/2/74832880c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089230,
+      "updated": 1779421385496,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1103,7 +1111,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/0/9/86839003c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089231
+      "updated": 1779421385496
     },
     "manufacturer": "Aiwa",
     "filterTags": {}
@@ -1115,7 +1123,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/4/9/46279432c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089232
+      "updated": 1779421385496
     },
     "manufacturer": "Yamaha",
     "filterTags": {}
@@ -1127,7 +1135,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/7/4/64414729c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089233
+      "updated": 1779421385496,
+      "ksp": 939,
+      "kspUrl": "https://ksp.co.il/web/item/253887"
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -1139,7 +1149,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/6/6/56486619c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089233,
+      "updated": 1779421385496,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1155,7 +1165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/7/5/74515799c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089234,
+      "updated": 1779421385496,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1169,7 +1179,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/1/0/46860112c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089235
+      "updated": 1779421385496
     },
     "manufacturer": "Bose",
     "filterTags": {}
@@ -1181,7 +1191,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/4/7/60737486c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089235
+      "updated": 1779421385496
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -1195,7 +1205,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/7/3/93193770c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089236,
+      "updated": 1779421385496,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/344569"
     },
@@ -1209,7 +1219,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/6/8/58728628c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089236
+      "updated": 1779421385496
     },
     "manufacturer": "Klipsch",
     "filterTags": {}
@@ -1221,7 +1231,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/2/9/86629224c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089237,
+      "updated": 1779421385496,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/344569"
     },
@@ -1235,7 +1245,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/3/1/52341341c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089238
+      "updated": 1779421385497
     },
     "manufacturer": "Blaupunkt",
     "filterTags": {}
@@ -1247,7 +1257,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/7/5/53785705c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089238
+      "updated": 1779421385497
     },
     "manufacturer": "Aiwa",
     "filterTags": {
@@ -1261,7 +1271,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/2/5/57515228c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089239,
+      "updated": 1779421385497,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1277,7 +1287,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/7/3/96783784c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089239
+      "updated": 1779421385497
     },
     "manufacturer": "Denon",
     "filterTags": {}
@@ -1289,7 +1299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/4/7/9/53909748c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089240
+      "updated": 1779421385497
     },
     "manufacturer": "JBL",
     "filterTags": {
@@ -1303,7 +1313,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/6/5/45145626c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089241
+      "updated": 1779421385497,
+      "ksp": 939,
+      "kspUrl": "https://ksp.co.il/web/item/253887"
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -1315,7 +1327,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/284135058354c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089241,
+      "updated": 1779421385497,
       "bug": 2190,
       "bugUrl": "https://www.bug.co.il/מקרן-קול-bose-91015030smartsbblk"
     },
@@ -1331,7 +1343,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/3/2/1/50541236c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089242
+      "updated": 1779421385497
     },
     "manufacturer": "Denon",
     "filterTags": {}
@@ -1343,7 +1355,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/1/1/64711181c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089242,
+      "updated": 1779421385497,
       "ksp": 399,
       "kspUrl": "https://ksp.co.il/web/item/344569"
     },
@@ -1359,7 +1371,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/8/8/60908860c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089243
+      "updated": 1779421385497
     },
     "manufacturer": "Blaupunkt",
     "filterTags": {
@@ -1373,7 +1385,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/5/8/45868513c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089244
+      "updated": 1779421385497
     },
     "manufacturer": "Samsung",
     "filterTags": {
@@ -1387,9 +1399,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/6/2/79172698c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089244,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385497,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -1401,7 +1413,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/6/3/5/47545361c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089245
+      "updated": 1779421385497
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -1413,7 +1425,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/3/2/70382316c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089245
+      "updated": 1779421385498
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -1427,7 +1439,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/7/7/47727744c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089247
+      "updated": 1779421385498
     },
     "manufacturer": "Yamaha",
     "filterTags": {
@@ -1441,7 +1453,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/1/8/55718140c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089247
+      "updated": 1779421385498
     },
     "manufacturer": "Monitor Audio",
     "filterTags": {}
@@ -1453,7 +1465,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/3110214729707c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089248
+      "updated": 1779421385498
     },
     "manufacturer": "JBL",
     "filterTags": {}
@@ -1465,7 +1477,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/9/0/97210910c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089248
+      "updated": 1779421385498
     },
     "manufacturer": "Harman Kardon",
     "filterTags": {}
@@ -1477,7 +1489,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/1/8/47218199c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089249
+      "updated": 1779421385498
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -1489,7 +1501,9 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/9/6/41616998c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089249
+      "updated": 1779421385498,
+      "ksp": 2449,
+      "kspUrl": "https://ksp.co.il/web/item/455996"
     },
     "manufacturer": "Cambridge Audio",
     "filterTags": {}
@@ -1501,7 +1515,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/7/5/95795730c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089250
+      "updated": 1779421385498
     },
     "manufacturer": "Sony",
     "filterTags": {}
@@ -1513,7 +1527,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/9/9/53819959c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089251
+      "updated": 1779421385498
     },
     "manufacturer": "B&amp;W",
     "filterTags": {}
@@ -1525,7 +1539,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/4/9/78249464c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089251
+      "updated": 1779421385498
     },
     "manufacturer": "Samsung",
     "filterTags": {}
@@ -1537,7 +1551,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/8/7/88147804c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089252
+      "updated": 1779421385498
     },
     "manufacturer": "IQ",
     "filterTags": {}
@@ -1549,7 +1563,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/2311162458729c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089253
+      "updated": 1779421385498
     },
     "manufacturer": "Sony",
     "filterTags": {}
@@ -1561,7 +1575,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/0/2/53032032c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089253
+      "updated": 1779421385499
     },
     "manufacturer": "Denon",
     "filterTags": {
@@ -1575,7 +1589,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/2/7/60987275c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089254
+      "updated": 1779421385499
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -1589,7 +1603,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/9/0/87290972c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089254
+      "updated": 1779421385499
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -1601,9 +1615,9 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/3/5/46145350c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089255,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385499,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {
@@ -1617,7 +1631,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/1/5/69105131c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089255
+      "updated": 1779421385499,
+      "ksp": 939,
+      "kspUrl": "https://ksp.co.il/web/item/253887"
     },
     "manufacturer": "Polk Audio",
     "filterTags": {}
@@ -1629,7 +1645,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/0/8/3/60863808c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089256
+      "updated": 1779421385499
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -1643,7 +1659,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/3/3/44823384c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089257
+      "updated": 1779421385499
     },
     "manufacturer": "Yamaha",
     "filterTags": {
@@ -1657,7 +1673,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/3/8/74698378c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089257,
+      "updated": 1779421385500,
       "ivory": 549,
       "ivoryUrl": "https://www.ivory.co.il/catalog.php?id=154210"
     },
@@ -1671,7 +1687,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/5/8/92328577c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089258
+      "updated": 1779421385500
     },
     "manufacturer": "Denon",
     "filterTags": {}
@@ -1683,7 +1699,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/0/6/1/78201600c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089258
+      "updated": 1779421385501
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -1695,7 +1711,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/7/2/75382785c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089259
+      "updated": 1779421385501
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -1707,7 +1723,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/9/5/49145919c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089260
+      "updated": 1779421385501
     },
     "manufacturer": "Sonos",
     "filterTags": {}
@@ -1719,9 +1735,9 @@
     "imageUrl": "https://img.zap.co.il/pics/2/4/8/1/47141842c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089260,
-      "ksp": 4990,
-      "kspUrl": "https://ksp.co.il/web/item/283958"
+      "updated": 1779421385501,
+      "ksp": 3490,
+      "kspUrl": "https://ksp.co.il/web/item/464099"
     },
     "manufacturer": "JBL",
     "filterTags": {
@@ -1735,7 +1751,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/0/0/53670016c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089261
+      "updated": 1779421385501
     },
     "manufacturer": "LG",
     "filterTags": {
@@ -1749,7 +1765,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/4/1/0/57940146c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089261
+      "updated": 1779421385501
     },
     "manufacturer": "Harman Kardon",
     "filterTags": {}
@@ -1761,7 +1777,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/9/4/68394955c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089262
+      "updated": 1779421385501
     },
     "manufacturer": "LG",
     "filterTags": {}
@@ -1773,7 +1789,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/2/5/39105205c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089264
+      "updated": 1779421385502
     },
     "manufacturer": "Pioneer",
     "filterTags": {}
@@ -1785,7 +1801,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/4/0/3/38303043c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089265
+      "updated": 1779421385502
     },
     "manufacturer": "Kef",
     "filterTags": {}
@@ -1797,7 +1813,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/5/4/37154529c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089265
+      "updated": 1779421385502
     },
     "manufacturer": "Pioneer",
     "filterTags": {}
@@ -1809,7 +1825,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/4/7/7/47167747c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089266
+      "updated": 1779421385502
     },
     "manufacturer": "Yamaha",
     "filterTags": {
@@ -1823,7 +1839,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/1/4/3/43183417c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089266
+      "updated": 1779421385502
     },
     "manufacturer": "Yamaha",
     "filterTags": {
@@ -1837,7 +1853,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/8/7/57887815c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089267
+      "updated": 1779421385502
     },
     "manufacturer": "Harman Kardon",
     "filterTags": {}
@@ -1849,7 +1865,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/7/0/69360766c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089268
+      "updated": 1779421385502
     },
     "manufacturer": "Bluesound",
     "filterTags": {}
@@ -1861,7 +1877,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/0/2/3/73973202c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089268
+      "updated": 1779421385502
     },
     "manufacturer": "Bang &amp; Olufsen",
     "filterTags": {}
@@ -1873,7 +1889,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/2/8/68638268c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089269
+      "updated": 1779421385502
     },
     "manufacturer": "Sony",
     "filterTags": {}
@@ -1885,7 +1901,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/4/3/50773458c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089269
+      "updated": 1779421385502
     },
     "manufacturer": "Cabasse",
     "filterTags": {
@@ -1900,7 +1916,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/9/2/87852914c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089270,
+      "updated": 1779421385502,
       "ksp": 249,
       "kspUrl": "https://ksp.co.il/web/item/368901"
     },
@@ -1914,7 +1930,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/2/0/53150205c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089271
+      "updated": 1779421385502
     },
     "filterTags": {
       "channels": "3.1"
@@ -1928,7 +1944,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/9/7/88407915c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089271
+      "updated": 1779421385503
     },
     "filterTags": {}
   },
@@ -1940,7 +1956,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/7/4/58054710c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089272
+      "updated": 1779421385503
     },
     "filterTags": {}
   },
@@ -1952,7 +1968,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/5/2/96592522c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089272
+      "updated": 1779421385503
     }
   },
   {
@@ -1963,7 +1979,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/8/7/2/75382785c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196089273
+      "updated": 1779421385503
     }
   }
 ]

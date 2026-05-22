@@ -1,5 +1,49 @@
 [
   {
+    "id": "ksp_286459",
+    "name": "מצנם 2 פרוסות 700W רב תכליתי חימום והפשרה מבית Arrow - לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/286459.jpg?v=5",
+    "prices": {
+      "ksp": 46,
+      "kspUrl": "https://ksp.co.il/web/item/286459",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_340360",
+    "name": "טוסטר קופץ 2 פרוסות 750W דגם ATL-017 מבית Gold Line - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/340360.jpg?v=5",
+    "prices": {
+      "ksp": 55,
+      "kspUrl": "https://ksp.co.il/web/item/340360",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_386309",
+    "name": "מצנם 2 פרוסות Hemilton HEM-1370 750W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/386309.jpg?v=5",
+    "prices": {
+      "ksp": 57,
+      "kspUrl": "https://ksp.co.il/web/item/386309",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_386312",
+    "name": "מצנם 2 פרוסות Hemilton HEM-1371 750W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/386312.jpg?v=5",
+    "prices": {
+      "ksp": 57,
+      "kspUrl": "https://ksp.co.il/web/item/386312",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
     "id": "ksp_284063",
     "name": "טוסטר סנדוויץ' משולשים 2 פרוסות דגם בוסטון Matrix MX-SW-805-T-WH 750W - צבע לבן",
     "imageUrl": "https://ksp.co.il/shop/items/284063.jpg?v=5",
@@ -7,7 +51,40 @@
       "ksp": 59,
       "kspUrl": "https://ksp.co.il/web/item/284063",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_284065",
+    "name": "טוסטר סנדוויץ' פסים 2 פרוסות דגם בוסטון Matrix MX-SW-805-G-WH 750W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/284065.jpg?v=5",
+    "prices": {
+      "ksp": 59,
+      "kspUrl": "https://ksp.co.il/web/item/284065",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_284064",
+    "name": "טוסטר סנדוויץ' משולשים 2 פרוסות דגם בוסטון Matrix MX-SW-805-T-WH 750W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/284064.jpg?v=5",
+    "prices": {
+      "ksp": 59,
+      "kspUrl": "https://ksp.co.il/web/item/284064",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_286457",
+    "name": "מצנם 2 פרוסות 700W נירוסטה רב תכליתי חימום והפשרה מבית Arrow - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/286457.jpg?v=5",
+    "prices": {
+      "ksp": 59,
+      "kspUrl": "https://ksp.co.il/web/item/286457",
+      "zap": 0,
+      "updated": 1779433759478
     }
   },
   {
@@ -18,7 +95,293 @@
       "ksp": 66,
       "kspUrl": "https://ksp.co.il/web/item/312236",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_58007",
+    "name": "טוסטר לחיצה גריל 2 פרוסות Hyundai HYT-1608 צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/58007.jpg?v=5",
+    "prices": {
+      "ksp": 66,
+      "kspUrl": "https://ksp.co.il/web/item/58007",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_251846",
+    "name": "טוסטר גריל זוגי מהודר 1000W דגם ATL-271 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251846.jpg?v=5",
+    "prices": {
+      "ksp": 69,
+      "kspUrl": "https://ksp.co.il/web/item/251846",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_75956",
+    "name": "מצנם 2 פרוסות Hemilton HEM-106 750W",
+    "imageUrl": "https://ksp.co.il/shop/items/75956.jpg?v=5",
+    "prices": {
+      "ksp": 69,
+      "kspUrl": "https://ksp.co.il/web/item/75956",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_375413",
+    "name": "מכשיר להכנת וופל בלגי 1000W דגם ATL-243 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/375413.jpg?v=5",
+    "prices": {
+      "ksp": 69,
+      "kspUrl": "https://ksp.co.il/web/item/375413",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_30721",
+    "name": "טוסטר לחיצה 2 פרוסות Hyundai HYT-8806S צבע כסף",
+    "imageUrl": "https://ksp.co.il/shop/items/30721.jpg?v=5",
+    "prices": {
+      "ksp": 70,
+      "kspUrl": "https://ksp.co.il/web/item/30721",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_251801",
+    "name": "מצנם קופץ 2 פרוסות 650W דגם ATL-022 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251801.jpg?v=5",
+    "prices": {
+      "ksp": 71,
+      "kspUrl": "https://ksp.co.il/web/item/251801",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_43301",
+    "name": "טוסטר לחיצה גריל 2 פרוסות Hyundai HYT-220 צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/43301.jpg?v=5",
+    "prices": {
+      "ksp": 72,
+      "kspUrl": "https://ksp.co.il/web/item/43301",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_464145",
+    "name": "טוסטר סנדוויץ' פסים 2 פרוסות Matrix Boston 750W - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/464145.jpg?v=5",
+    "prices": {
+      "ksp": 72,
+      "kspUrl": "https://ksp.co.il/web/item/464145",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_464140",
+    "name": "טוסטר סנדוויץ' פסים 2 פרוסות Matrix Boston 750W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/464140.jpg?v=5",
+    "prices": {
+      "ksp": 72,
+      "kspUrl": "https://ksp.co.il/web/item/464140",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_452322",
+    "name": "מצנם 2 פרוסות EcoEuro ECT-6002 750W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/452322.jpg?v=5",
+    "prices": {
+      "ksp": 72,
+      "kspUrl": "https://ksp.co.il/web/item/452322",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_108547",
+    "name": "מכשיר להכנת וופל בלגי Gold Line HIP HOP Double Belgian Waffle Maker ATL-262",
+    "imageUrl": "https://ksp.co.il/shop/items/108547.jpg?v=5",
+    "prices": {
+      "ksp": 78,
+      "kspUrl": "https://ksp.co.il/web/item/108547",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_329688",
+    "name": "טוסטר לחיצה עוצמתי 750W - בעל פלטות עם ציפוי נגד הדבקה לניקוי קל ומהיר דגם BXSA752E מבית Black+Decker - שנתיים אחריות יבואן רשמי.",
+    "imageUrl": "https://ksp.co.il/shop/items/329688.jpg?v=5",
+    "prices": {
+      "ksp": 79,
+      "kspUrl": "https://ksp.co.il/web/item/329688",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_390692",
+    "name": "מצנם 2 פרוסות 700W עם מעמד נשלף ללחמניות ובייגלים Benaton BT-4410 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/390692.jpg?v=5",
+    "prices": {
+      "ksp": 81,
+      "kspUrl": "https://ksp.co.il/web/item/390692",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_408272",
+    "name": "טוסטר לחיצה 4 פרוסות משולשים 1500W דגם Gold Line ATL-240",
+    "imageUrl": "https://ksp.co.il/shop/items/408272.jpg?v=5",
+    "prices": {
+      "ksp": 82,
+      "kspUrl": "https://ksp.co.il/web/item/408272",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_340361",
+    "name": "טוסטר קופץ 2 פרוסות 800W דגם ATL-036 מבית Gold Line - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/340361.jpg?v=5",
+    "prices": {
+      "ksp": 84,
+      "kspUrl": "https://ksp.co.il/web/item/340361",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_464150",
+    "name": "מצנם 2 פרוסות Matrix Paris 750W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/464150.jpg?v=5",
+    "prices": {
+      "ksp": 85,
+      "kspUrl": "https://ksp.co.il/web/item/464150",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_284051",
+    "name": "טוסטר סנדוויץ' פלטות נשלפות 2 פרוסות דגם מונקו Matrix MX-SW-908B-G-BK 750W",
+    "imageUrl": "https://ksp.co.il/shop/items/284051.jpg?v=5",
+    "prices": {
+      "ksp": 89,
+      "kspUrl": "https://ksp.co.il/web/item/284051",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_463579",
+    "name": "מצנם 2 פרוסות Graetz GR-2055 800W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/463579.jpg?v=5",
+    "prices": {
+      "ksp": 89,
+      "kspUrl": "https://ksp.co.il/web/item/463579",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_147466",
+    "name": "מצנם 2 פרוסות COOL TOUCH דגם Gold Line ATL-031",
+    "imageUrl": "https://ksp.co.il/shop/items/147466.jpg?v=5",
+    "prices": {
+      "ksp": 89,
+      "kspUrl": "https://ksp.co.il/web/item/147466",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_119823",
+    "name": "מכשיר להכנת ביצים Selmor SE-695",
+    "imageUrl": "https://ksp.co.il/shop/items/119823.jpg?v=5",
+    "prices": {
+      "ksp": 89,
+      "kspUrl": "https://ksp.co.il/web/item/119823",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_251844",
+    "name": "טוסטר לחיצה 4 פרוסות ''לאס וגאס'' 1400W דגם ATL-268W מבית Gold Line - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/251844.jpg?v=5",
+    "prices": {
+      "ksp": 91,
+      "kspUrl": "https://ksp.co.il/web/item/251844",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_284218",
+    "name": "טוסטר לחיצה 2 פרוסות דגם ATL-295 מבית Gold Line - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/284218.jpg?v=5",
+    "prices": {
+      "ksp": 92,
+      "kspUrl": "https://ksp.co.il/web/item/284218",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_100569",
+    "name": "מכשיר להכנת וופל בלגי Gold Line  ATL-263",
+    "imageUrl": "https://ksp.co.il/shop/items/100569.jpg?v=5",
+    "prices": {
+      "ksp": 92,
+      "kspUrl": "https://ksp.co.il/web/item/100569",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_156905",
+    "name": "טוסטר לחיצה משפחתי 4 פרוסות דגם Gold Line ATL-268N",
+    "imageUrl": "https://ksp.co.il/shop/items/156905.jpg?v=5",
+    "prices": {
+      "ksp": 93,
+      "kspUrl": "https://ksp.co.il/web/item/156905",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_293647",
+    "name": "טוסטר לחיצה 2 פרוסות 1500W מבית Arrow",
+    "imageUrl": "https://ksp.co.il/shop/items/293647.jpg?v=5",
+    "prices": {
+      "ksp": 93,
+      "kspUrl": "https://ksp.co.il/web/item/293647",
+      "zap": 0,
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_251784",
+    "name": "טוסטר אובן 10 ליטר 600W דגם ATL-6610 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251784.jpg?v=5",
+    "prices": {
+      "ksp": 97,
+      "kspUrl": "https://ksp.co.il/web/item/251784",
+      "zap": 0,
+      "updated": 1779433759478
     }
   },
   {
@@ -29,7 +392,260 @@
       "ksp": 98,
       "kspUrl": "https://ksp.co.il/web/item/381868",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759478
+    }
+  },
+  {
+    "id": "ksp_360143",
+    "name": "טוסטר לחיצה 4 פרוסות 1400W דגם AHY-258 מבית Luxor",
+    "imageUrl": "https://ksp.co.il/shop/items/360143.jpg?v=5",
+    "prices": {
+      "ksp": 99,
+      "kspUrl": "https://ksp.co.il/web/item/360143",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284056",
+    "name": "טוסטר סנדוויץ' פסים 4 פרוסות דגם ברלין Matrix MX-SW-811-G-WH 1400W - צבע לבן / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/284056.jpg?v=5",
+    "prices": {
+      "ksp": 99,
+      "kspUrl": "https://ksp.co.il/web/item/284056",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284023",
+    "name": "טוסטר קופץ מעוצב 4 פרוסות Popup דגם לונדון Matrix MX-T4006-WH 1400W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/284023.jpg?v=5",
+    "prices": {
+      "ksp": 99,
+      "kspUrl": "https://ksp.co.il/web/item/284023",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_405206",
+    "name": "טוסטר לחיצה משולשים דגם NRI-8633 מבית Universe - תהילה בד''ץ",
+    "imageUrl": "https://ksp.co.il/shop/items/405206.jpg?v=5",
+    "prices": {
+      "ksp": 99,
+      "kspUrl": "https://ksp.co.il/web/item/405206",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_186042",
+    "name": "טוסטר לחיצה 4 פרוסות Normande ND-7720 1200W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/186042.jpg?v=5",
+    "prices": {
+      "ksp": 109,
+      "kspUrl": "https://ksp.co.il/web/item/186042",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284062",
+    "name": "טוסטר סנדוויץ' פסים 4 פרוסות דגם ברלין Matrix MX-SW-811-G-BK 1400W - צבע שחור / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/284062.jpg?v=5",
+    "prices": {
+      "ksp": 109,
+      "kspUrl": "https://ksp.co.il/web/item/284062",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_340173",
+    "name": "טוסטר לחיצה 2000W עם תרמוסטט דגם חללית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/340173.jpg?v=5",
+    "prices": {
+      "ksp": 110,
+      "kspUrl": "https://ksp.co.il/web/item/340173",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_435650",
+    "name": "מציאון ועודפים - טוסטר אובן 9 ליטר Selmor SE-87 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/435650.jpg?v=5",
+    "prices": {
+      "ksp": 110,
+      "kspUrl": "https://ksp.co.il/web/item/435650",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_63684",
+    "name": "מכשיר להכנת וופל Gold Line ATL-260",
+    "imageUrl": "https://ksp.co.il/shop/items/63684.jpg?v=5",
+    "prices": {
+      "ksp": 113,
+      "kspUrl": "https://ksp.co.il/web/item/63684",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_311913",
+    "name": "מכשיר אפייה 4 ב-1 Gold Line My Cake ATL-2777",
+    "imageUrl": "https://ksp.co.il/shop/items/311913.jpg?v=5",
+    "prices": {
+      "ksp": 117,
+      "kspUrl": "https://ksp.co.il/web/item/311913",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_358732",
+    "name": "מצנם 2 פרוסות 970W דגם ST-846-CG מבית Luxor - צבע ניקל",
+    "imageUrl": "https://ksp.co.il/shop/items/358732.jpg?v=5",
+    "prices": {
+      "ksp": 119,
+      "kspUrl": "https://ksp.co.il/web/item/358732",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_358720",
+    "name": "מצנם 2 פרוסות 970W דגם ST-846-BG מבית Luxor - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/358720.jpg?v=5",
+    "prices": {
+      "ksp": 119,
+      "kspUrl": "https://ksp.co.il/web/item/358720",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_385068",
+    "name": "מצנם 2 פרוסות ,תהילה בד״צ 750W דגם NRI-8810 מבית Universe  - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/385068.jpg?v=5",
+    "prices": {
+      "ksp": 119,
+      "kspUrl": "https://ksp.co.il/web/item/385068",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_385062",
+    "name": "מצנם 2 פרוסות ,תהילה בד״צ 750W דגם NRI-8810 מבית Universe  - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/385062.jpg?v=5",
+    "prices": {
+      "ksp": 119,
+      "kspUrl": "https://ksp.co.il/web/item/385062",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_43302",
+    "name": "טוסטר לחיצה 4 פרוסות Hyundai HYT-160 צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/43302.jpg?v=5",
+    "prices": {
+      "ksp": 121,
+      "kspUrl": "https://ksp.co.il/web/item/43302",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_92054",
+    "name": "טוסטר אובן 9 ליטר Hyundai  HATO-90B 650W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/92054.jpg?v=5",
+    "prices": {
+      "ksp": 123,
+      "kspUrl": "https://ksp.co.il/web/item/92054",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_305411",
+    "name": "מצנם 2 פרוסות Moulinex LT160127 850W - צבע לבן / אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/305411.jpg?v=5",
+    "prices": {
+      "ksp": 128,
+      "kspUrl": "https://ksp.co.il/web/item/305411",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284059",
+    "name": "טוסטר סנדוויץ' פסים 4 פרוסות דגם מינכן Matrix MX-SW-903-G-R 1400W - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/284059.jpg?v=5",
+    "prices": {
+      "ksp": 129,
+      "kspUrl": "https://ksp.co.il/web/item/284059",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284053",
+    "name": "טוסטר סנדוויץ' פסים 4 פרוסות דגם מינכן Matrix MX-SW-903-G-WH 1400W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/284053.jpg?v=5",
+    "prices": {
+      "ksp": 129,
+      "kspUrl": "https://ksp.co.il/web/item/284053",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_409325",
+    "name": "מציאון ועודפים - מצנם 2 פרוסות Braun Breakfast 1 HT1010WH - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/409325.jpg?v=5",
+    "prices": {
+      "ksp": 129,
+      "kspUrl": "https://ksp.co.il/web/item/409325",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_393020",
+    "name": "מצנם דיגיטלי 2 פרוסות Midea MT-RP2L21W 770-920W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/393020.jpg?v=5",
+    "prices": {
+      "ksp": 130,
+      "kspUrl": "https://ksp.co.il/web/item/393020",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_347991",
+    "name": "מצנם קופץ 2 פרוסות Midea 800-950W MT-RP2L22W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/347991.jpg?v=5",
+    "prices": {
+      "ksp": 131,
+      "kspUrl": "https://ksp.co.il/web/item/347991",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_112489",
+    "name": "טוסטר וופל בלגי Benaton BT-2507",
+    "imageUrl": "https://ksp.co.il/shop/items/112489.jpg?v=5",
+    "prices": {
+      "ksp": 133,
+      "kspUrl": "https://ksp.co.il/web/item/112489",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -40,7 +656,249 @@
       "ksp": 134,
       "kspUrl": "https://ksp.co.il/web/item/251826",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_347994",
+    "name": "מצנם קופץ 2 פרוסות Midea 800-950W MT-RP2L22W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/347994.jpg?v=5",
+    "prices": {
+      "ksp": 139,
+      "kspUrl": "https://ksp.co.il/web/item/347994",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_336754",
+    "name": "מצנם נקניקיות כפול Selmor SE-925 - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/336754.jpg?v=5",
+    "prices": {
+      "ksp": 139,
+      "kspUrl": "https://ksp.co.il/web/item/336754",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_30692",
+    "name": "טוסטר לחיצה נירוסטה Hyundai HYT-043",
+    "imageUrl": "https://ksp.co.il/shop/items/30692.jpg?v=5",
+    "prices": {
+      "ksp": 149,
+      "kspUrl": "https://ksp.co.il/web/item/30692",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_358725",
+    "name": "מצנם 2 פרוסות 970W דגם ST-827 מבית Luxor - שחור / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/358725.jpg?v=5",
+    "prices": {
+      "ksp": 149,
+      "kspUrl": "https://ksp.co.il/web/item/358725",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_115562",
+    "name": "טוסטר אובן 9 ליטר Selmor SE-87 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/115562.jpg?v=5",
+    "prices": {
+      "ksp": 149,
+      "kspUrl": "https://ksp.co.il/web/item/115562",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_311572",
+    "name": "מכשיר להכנת וופל בלגי משפחתי Gold Line 1200W ATL-265",
+    "imageUrl": "https://ksp.co.il/shop/items/311572.jpg?v=5",
+    "prices": {
+      "ksp": 149,
+      "kspUrl": "https://ksp.co.il/web/item/311572",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_115456",
+    "name": "מצנם 2 פרוסות UNIVERSE Pop Up Toaster NRI-873 - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/115456.jpg?v=5",
+    "prices": {
+      "ksp": 151,
+      "kspUrl": "https://ksp.co.il/web/item/115456",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_233216",
+    "name": "מצנם 2 פרוסות Braun Breakfast 1 HT1010WH - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/233216.jpg?v=5",
+    "prices": {
+      "ksp": 155,
+      "kspUrl": "https://ksp.co.il/web/item/233216",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_213995",
+    "name": "מצנם 2 פרוסות Braun Breakfast 1 HT1010BK - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/213995.jpg?v=5",
+    "prices": {
+      "ksp": 155,
+      "kspUrl": "https://ksp.co.il/web/item/213995",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_122519",
+    "name": "טוסטר וופל בלגי 2 פלטות Hamilton Beach 22083-IS - צבע שחור / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/122519.jpg?v=5",
+    "prices": {
+      "ksp": 156,
+      "kspUrl": "https://ksp.co.il/web/item/122519",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157038",
+    "name": "טוסטר אובן 21 ליטר Gold Line  ATL-6621W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/157038.jpg?v=5",
+    "prices": {
+      "ksp": 156,
+      "kspUrl": "https://ksp.co.il/web/item/157038",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157071",
+    "name": "טוסטר אובן 21 ליטר Gold Line  ATL-6621 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/157071.jpg?v=5",
+    "prices": {
+      "ksp": 157,
+      "kspUrl": "https://ksp.co.il/web/item/157071",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_115489",
+    "name": "טוסטר וופל בלגי Selmor SE-604",
+    "imageUrl": "https://ksp.co.il/shop/items/115489.jpg?v=5",
+    "prices": {
+      "ksp": 159,
+      "kspUrl": "https://ksp.co.il/web/item/115489",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157076",
+    "name": "טוסטר אובן 21 ליטר Gold Line  ATL-6621S - צבע כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/157076.jpg?v=5",
+    "prices": {
+      "ksp": 162,
+      "kspUrl": "https://ksp.co.il/web/item/157076",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_340543",
+    "name": "מצנם קופץ 4 פרוסות 1400W דגם ATL-037 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/340543.jpg?v=5",
+    "prices": {
+      "ksp": 165,
+      "kspUrl": "https://ksp.co.il/web/item/340543",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_319912",
+    "name": "מצנם 2 פרוסות 850W דגם TT2M1B27 מבית Tefal - צבע שמנת",
+    "imageUrl": "https://ksp.co.il/shop/items/319912.jpg?v=5",
+    "prices": {
+      "ksp": 169,
+      "kspUrl": "https://ksp.co.il/web/item/319912",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_303097",
+    "name": "מצנם רטרו 2 פרוסות Universe Retro 2 slice NR-883 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/303097.jpg?v=5",
+    "prices": {
+      "ksp": 170,
+      "kspUrl": "https://ksp.co.il/web/item/303097",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_409082",
+    "name": "מצנם 2 פרוסות 850W בעיצוב רטרו מבית Arrow - צבע שחור עם עיטורי כרום",
+    "imageUrl": "https://ksp.co.il/shop/items/409082.jpg?v=5",
+    "prices": {
+      "ksp": 171,
+      "kspUrl": "https://ksp.co.il/web/item/409082",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_251833",
+    "name": "טוסטר לחיצה נירוסטה אבן שיש 1300W דגם Sharden ATL-272 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251833.jpg?v=5",
+    "prices": {
+      "ksp": 179,
+      "kspUrl": "https://ksp.co.il/web/item/251833",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_439954",
+    "name": "מצנם דיגטלי 2 פרוסות Berlinger Haus BH9661 870W - שחור / רוז גולד",
+    "imageUrl": "https://ksp.co.il/shop/items/439954.jpg?v=5",
+    "prices": {
+      "ksp": 179,
+      "kspUrl": "https://ksp.co.il/web/item/439954",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_303100",
+    "name": "מצנם רטרו 2 פרוסות Universe Retro 2 slice NR-883 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/303100.jpg?v=5",
+    "prices": {
+      "ksp": 180,
+      "kspUrl": "https://ksp.co.il/web/item/303100",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_228767",
+    "name": "מצנם נירוסטה קופץ 2 פרוסות Bosch DesignLine Popup TAT3P420 970W - צבע נירוסטה - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/228767.jpg?v=5",
+    "prices": {
+      "ksp": 180,
+      "kspUrl": "https://ksp.co.il/web/item/228767",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -51,7 +909,73 @@
       "ksp": 181,
       "kspUrl": "https://ksp.co.il/web/item/442337",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_280939",
+    "name": "מצנם חשמלי 2 פרוסות 820W פונקציות הפשרה וחימום מחדש, רשתות קלייה נשלפות ומגש פירורים לניקוי קל דגם BXTOA820E מבית Black+Decker – שנתיים אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/280939.jpg?v=5",
+    "prices": {
+      "ksp": 189,
+      "kspUrl": "https://ksp.co.il/web/item/280939",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_367590",
+    "name": "מצנם 2 פרוסות Selmor SE-9561W 1080W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/367590.jpg?v=5",
+    "prices": {
+      "ksp": 189,
+      "kspUrl": "https://ksp.co.il/web/item/367590",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_367594",
+    "name": "מצנם 2 פרוסות Selmor SE-9561B 1080W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/367594.jpg?v=5",
+    "prices": {
+      "ksp": 189,
+      "kspUrl": "https://ksp.co.il/web/item/367594",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_129495",
+    "name": "מצנם 2 פרוסות Westinghouse WKTT802WH 930W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/129495.jpg?v=5",
+    "prices": {
+      "ksp": 195,
+      "kspUrl": "https://ksp.co.il/web/item/129495",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_129492",
+    "name": "מצנם 2 פרוסות Westinghouse WKTT802BK 930W - צבע שחור / נחושת",
+    "imageUrl": "https://ksp.co.il/shop/items/129492.jpg?v=5",
+    "prices": {
+      "ksp": 195,
+      "kspUrl": "https://ksp.co.il/web/item/129492",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_292169",
+    "name": "מצנם 2 פרוסות Caso Classico 850W T2 - צבע נירוסטה מוברשת",
+    "imageUrl": "https://ksp.co.il/shop/items/292169.jpg?v=5",
+    "prices": {
+      "ksp": 197,
+      "kspUrl": "https://ksp.co.il/web/item/292169",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -62,7 +986,150 @@
       "ksp": 199,
       "kspUrl": "https://ksp.co.il/web/item/289742",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_326277",
+    "name": "מצנם קופץ 2 פרוסות Bosch MyMoment TAT3M123 950W - צבע שחור - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/326277.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/326277",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_360768",
+    "name": "מצנם חשמלי 2 פרוסות 900W עם 7 דרגות השחמה, פונקציות הפשרה וחימום מחדש ומגש פירורים נשלף בגימור נירוסטה דגם BXTO901E מבית Black+Decker – שנתיים אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/360768.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/360768",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_175355",
+    "name": "טוסטר וופל בלגי SE-240 מבית Selmor",
+    "imageUrl": "https://ksp.co.il/shop/items/175355.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/175355",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_409077",
+    "name": "מצנם 2 פרוסות 850W בעיצוב רטרו מבית Arrow - צבע לבן עם עיטורי עץ",
+    "imageUrl": "https://ksp.co.il/shop/items/409077.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/409077",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_429882",
+    "name": "טוסטר אובן 20 ליטר Hemilton HEM-1165 1000W - צבע אפור",
+    "imageUrl": "https://ksp.co.il/shop/items/429882.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/429882",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_260034",
+    "name": "מצנם 2 פרוסות Hamilton Beach 22705-IS-BM - שחור מט",
+    "imageUrl": "https://ksp.co.il/shop/items/260034.jpg?v=5",
+    "prices": {
+      "ksp": 199,
+      "kspUrl": "https://ksp.co.il/web/item/260034",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_228768",
+    "name": "מצנם נירוסטה קופץ 2 פרוסות Bosch DesignLine Popup TAT3P424 970W - צבע אדום - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/228768.jpg?v=5",
+    "prices": {
+      "ksp": 202,
+      "kspUrl": "https://ksp.co.il/web/item/228768",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_313963",
+    "name": "מצנם קופץ 2 פרוסות Bosch MyMoment TAT3M121 950W - צבע לבן - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/313963.jpg?v=5",
+    "prices": {
+      "ksp": 206,
+      "kspUrl": "https://ksp.co.il/web/item/313963",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_127602",
+    "name": "מצנם 4 פרוסות Sol SL-3417 1500W - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/127602.jpg?v=5",
+    "prices": {
+      "ksp": 209,
+      "kspUrl": "https://ksp.co.il/web/item/127602",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_228760",
+    "name": "מצנם נירוסטה קופץ 2 פרוסות Bosch DesignLine Popup TAT3P423 970W - צבע שחור - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/228760.jpg?v=5",
+    "prices": {
+      "ksp": 210,
+      "kspUrl": "https://ksp.co.il/web/item/228760",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_449211",
+    "name": "מצנם דיגיטלי 2 פרוסות Nutricook Toastie 2 Slice NC-TS201 850W - צבע נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/449211.jpg?v=5",
+    "prices": {
+      "ksp": 219,
+      "kspUrl": "https://ksp.co.il/web/item/449211",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_327425",
+    "name": "מכשיר להכנת 8 ביצים Caso E9 400W",
+    "imageUrl": "https://ksp.co.il/shop/items/327425.jpg?v=5",
+    "prices": {
+      "ksp": 223,
+      "kspUrl": "https://ksp.co.il/web/item/327425",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_383280",
+    "name": "טוסטר לחיצה 4 פרוסות Hemilton HEM-1365 2000W - צבע נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/383280.jpg?v=5",
+    "prices": {
+      "ksp": 224,
+      "kspUrl": "https://ksp.co.il/web/item/383280",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -73,7 +1140,216 @@
       "ksp": 225,
       "kspUrl": "https://ksp.co.il/web/item/309808",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_260037",
+    "name": "מצנם 2 פרוסות Hamilton Beach 22706-IS-BM - קרם מט",
+    "imageUrl": "https://ksp.co.il/shop/items/260037.jpg?v=5",
+    "prices": {
+      "ksp": 229,
+      "kspUrl": "https://ksp.co.il/web/item/260037",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_437622",
+    "name": "מצנם רטרו 2 פרוסות 850W דגם DRT701 מבית Davo - צבע ורוד",
+    "imageUrl": "https://ksp.co.il/shop/items/437622.jpg?v=5",
+    "prices": {
+      "ksp": 229,
+      "kspUrl": "https://ksp.co.il/web/item/437622",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157109",
+    "name": "טוסטר אובן 40 ליטר Gold Line ATL-6640",
+    "imageUrl": "https://ksp.co.il/shop/items/157109.jpg?v=5",
+    "prices": {
+      "ksp": 238,
+      "kspUrl": "https://ksp.co.il/web/item/157109",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_127131",
+    "name": "טוסטר אובן UNIVERSE NRI260-15L 15L 1200W",
+    "imageUrl": "https://ksp.co.il/shop/items/127131.jpg?v=5",
+    "prices": {
+      "ksp": 240,
+      "kspUrl": "https://ksp.co.il/web/item/127131",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_340549",
+    "name": "טוסטר אובן 25 ליטר 1600W דגם ATL-6625C מבית Gold Line - צבע קרם",
+    "imageUrl": "https://ksp.co.il/shop/items/340549.jpg?v=5",
+    "prices": {
+      "ksp": 243,
+      "kspUrl": "https://ksp.co.il/web/item/340549",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_217064",
+    "name": "טוסטר לחיצה - גריל 4 פרוסות Chromex TG-500 1800W נירוסטה מוברשת",
+    "imageUrl": "https://ksp.co.il/shop/items/217064.jpg?v=5",
+    "prices": {
+      "ksp": 245,
+      "kspUrl": "https://ksp.co.il/web/item/217064",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_289251",
+    "name": "טוסטר אובן 35 ליטר 1600W מבית Arrow - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/289251.jpg?v=5",
+    "prices": {
+      "ksp": 247,
+      "kspUrl": "https://ksp.co.il/web/item/289251",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_255391",
+    "name": "מצנם נירוסטה קופץ 2 פרוסות Bosch DesignLine Popup TAT5P425 970W - צבע אפור / נירוסטה - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/255391.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/255391",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_174649",
+    "name": "מצנם 2 פרוסות Westinghouse Retro WKTTB857WH - צבע קרם / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/174649.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/174649",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_336759",
+    "name": "מצנם 2 פרוסות Westinghouse Retro WKTTB857BU - צבע כחול",
+    "imageUrl": "https://ksp.co.il/shop/items/336759.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/336759",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_174638",
+    "name": "מצנם 2 פרוסות Westinghouse Retro WKTTB857BK - צבע שחור / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/174638.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/174638",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_174654",
+    "name": "מצנם 2 פרוסות Westinghouse Retro WKTTB857RD - צבע אדום / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/174654.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/174654",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_122511",
+    "name": "טוסטר וופל בלגי 4 פלטות Hamilton Beach 26021-IS - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/122511.jpg?v=5",
+    "prices": {
+      "ksp": 249,
+      "kspUrl": "https://ksp.co.il/web/item/122511",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157103",
+    "name": "טוסטר אובן 32 ליטר Gold Line  ATL-6632",
+    "imageUrl": "https://ksp.co.il/shop/items/157103.jpg?v=5",
+    "prices": {
+      "ksp": 254,
+      "kspUrl": "https://ksp.co.il/web/item/157103",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_236686",
+    "name": "מצנם נירוסטה קופץ 2 פרוסות Bosch DesignLine Popup TAT5P420 970W - צבע נירוסטה - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/236686.jpg?v=5",
+    "prices": {
+      "ksp": 255,
+      "kspUrl": "https://ksp.co.il/web/item/236686",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_358824",
+    "name": "טוסטר אובן 35 ליטר 1600W דגם TO-35 מבית Luxor - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/358824.jpg?v=5",
+    "prices": {
+      "ksp": 255,
+      "kspUrl": "https://ksp.co.il/web/item/358824",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_281176",
+    "name": "טוסטר אובן 28 ליטר Hemilton HEM-1161 1404W - צבע אפור כהה",
+    "imageUrl": "https://ksp.co.il/shop/items/281176.jpg?v=5",
+    "prices": {
+      "ksp": 255,
+      "kspUrl": "https://ksp.co.il/web/item/281176",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_64458",
+    "name": "טוסטר אובן 30 ליטר Hyundai HATO-300B 1600W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/64458.jpg?v=5",
+    "prices": {
+      "ksp": 259,
+      "kspUrl": "https://ksp.co.il/web/item/64458",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_70183",
+    "name": "מכשיר להכנת וופל בלגי / קאפקייקס/ פופקייקס / פיצה Selmor SE-183 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/70183.jpg?v=5",
+    "prices": {
+      "ksp": 259,
+      "kspUrl": "https://ksp.co.il/web/item/70183",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -84,7 +1360,216 @@
       "ksp": 269,
       "kspUrl": "https://ksp.co.il/web/item/93573",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_274732",
+    "name": "טוסטר אובן 38 ליטר Hyundai 1600W  - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/274732.jpg?v=5",
+    "prices": {
+      "ksp": 270,
+      "kspUrl": "https://ksp.co.il/web/item/274732",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_459296",
+    "name": "מכשיר להכנת מאפים עם 4 פלטות מתחלפות Anybake מבית Food appeal",
+    "imageUrl": "https://ksp.co.il/shop/items/459296.jpg?v=5",
+    "prices": {
+      "ksp": 275,
+      "kspUrl": "https://ksp.co.il/web/item/459296",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_442338",
+    "name": "טוסטר לחיצה וגריל 4 פרוסות Chromex TG-580 1800W",
+    "imageUrl": "https://ksp.co.il/shop/items/442338.jpg?v=5",
+    "prices": {
+      "ksp": 276,
+      "kspUrl": "https://ksp.co.il/web/item/442338",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_150231",
+    "name": "מצנם 2 פרוסות דיגיטלי עם מתקן לקרואסונים Westinghouse WKTTA10181000W - צבע נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/150231.jpg?v=5",
+    "prices": {
+      "ksp": 279,
+      "kspUrl": "https://ksp.co.il/web/item/150231",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_80844",
+    "name": "קומקום נירוסטה כסופה 1.7 ליטר Bosch DesignLine TWK4P440 2400W - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/80844.jpg?v=5",
+    "prices": {
+      "ksp": 285,
+      "kspUrl": "https://ksp.co.il/web/item/80844",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_359355",
+    "name": "טוסטר אובן 25 ליטר Benaton BT-2500 1400W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/359355.jpg?v=5",
+    "prices": {
+      "ksp": 289,
+      "kspUrl": "https://ksp.co.il/web/item/359355",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_80952",
+    "name": "מצנם קופץ 2 פרוסות Bosch ComfortLine TAT7203 1090W - צבע שחור / נירוסטה - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/80952.jpg?v=5",
+    "prices": {
+      "ksp": 299,
+      "kspUrl": "https://ksp.co.il/web/item/80952",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_340553",
+    "name": "טוסטר אובן 34 ליטר 1600W דגם ATL-6634 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/340553.jpg?v=5",
+    "prices": {
+      "ksp": 303,
+      "kspUrl": "https://ksp.co.il/web/item/340553",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_115556",
+    "name": "טוסטר אובן 34 ליטר Selmor SE-34 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/115556.jpg?v=5",
+    "prices": {
+      "ksp": 309,
+      "kspUrl": "https://ksp.co.il/web/item/115556",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_145623",
+    "name": "טוסטר אובן 34 ליטר Selmor SE-34 - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/145623.jpg?v=5",
+    "prices": {
+      "ksp": 309,
+      "kspUrl": "https://ksp.co.il/web/item/145623",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284227",
+    "name": "טוסטר אובן 42 ליטר 2000W דגם Sharden ATL-6642C מבית Gold Line - צבע קרם",
+    "imageUrl": "https://ksp.co.il/shop/items/284227.jpg?v=5",
+    "prices": {
+      "ksp": 315,
+      "kspUrl": "https://ksp.co.il/web/item/284227",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_284219",
+    "name": "טוסטר אובן 42 ליטר 2000W דגם Sharden ATL-6642B מבית Gold Line - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/284219.jpg?v=5",
+    "prices": {
+      "ksp": 315,
+      "kspUrl": "https://ksp.co.il/web/item/284219",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_449340",
+    "name": "מצנם דיגיטלי 4 פרוסות Nutricook Toastie 4 Slice NC-TS401 1450W - צבע נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/449340.jpg?v=5",
+    "prices": {
+      "ksp": 319,
+      "kspUrl": "https://ksp.co.il/web/item/449340",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_188191",
+    "name": "טוסטר וופל בלגי Krups FDK251 850W - צבע נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/188191.jpg?v=5",
+    "prices": {
+      "ksp": 325,
+      "kspUrl": "https://ksp.co.il/web/item/188191",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_359363",
+    "name": "טוסטר אובן 30 ליטר Benaton BT-3510 1500W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/359363.jpg?v=5",
+    "prices": {
+      "ksp": 329,
+      "kspUrl": "https://ksp.co.il/web/item/359363",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_220315",
+    "name": "מצנם קופץ 2 פרוסות Delonghi Icona CTOC2103 900W צבע צהוב",
+    "imageUrl": "https://ksp.co.il/shop/items/220315.jpg?v=5",
+    "prices": {
+      "ksp": 333,
+      "kspUrl": "https://ksp.co.il/web/item/220315",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_112381",
+    "name": "טוסטר אובן 48 ליטר Hyundai HATO-480B 2000W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/112381.jpg?v=5",
+    "prices": {
+      "ksp": 338,
+      "kspUrl": "https://ksp.co.il/web/item/112381",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_220325",
+    "name": "מצנם קופץ 2 פרוסות Delonghi Icona CTOC2103 900W צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/220325.jpg?v=5",
+    "prices": {
+      "ksp": 339,
+      "kspUrl": "https://ksp.co.il/web/item/220325",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_157125",
+    "name": "טוסטר אובן 60 ליטר Gold Line ATL-6660",
+    "imageUrl": "https://ksp.co.il/shop/items/157125.jpg?v=5",
+    "prices": {
+      "ksp": 348,
+      "kspUrl": "https://ksp.co.il/web/item/157125",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -95,7 +1580,183 @@
       "ksp": 349,
       "kspUrl": "https://ksp.co.il/web/item/437587",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_444849",
+    "name": "מצנם חשמלי עוצמתי עם פתח רחב במיוחד Black+Decker BXTO1002E 1000W - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/444849.jpg?v=5",
+    "prices": {
+      "ksp": 349,
+      "kspUrl": "https://ksp.co.il/web/item/444849",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_251781",
+    "name": "טוסטר אובן 48 ליטר 2000W דגם Sharden ATL-6648 מבית Gold Line",
+    "imageUrl": "https://ksp.co.il/shop/items/251781.jpg?v=5",
+    "prices": {
+      "ksp": 355,
+      "kspUrl": "https://ksp.co.il/web/item/251781",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109214",
+    "name": "מצנם קופץ 2 פרוסות Ariete Vintage 0155 810W - צבע קרם / תכלת",
+    "imageUrl": "https://ksp.co.il/shop/items/109214.jpg?v=5",
+    "prices": {
+      "ksp": 369,
+      "kspUrl": "https://ksp.co.il/web/item/109214",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109237",
+    "name": "מצנם קופץ 2 פרוסות Ariete Vintage 0155 810W - צבע קרם / ירוק",
+    "imageUrl": "https://ksp.co.il/shop/items/109237.jpg?v=5",
+    "prices": {
+      "ksp": 369,
+      "kspUrl": "https://ksp.co.il/web/item/109237",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_328964",
+    "name": "טוסטר אובן 35 ליטר Midea MC32AHC 1500W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/328964.jpg?v=5",
+    "prices": {
+      "ksp": 369,
+      "kspUrl": "https://ksp.co.il/web/item/328964",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_327409",
+    "name": "מכשיר להכנת וופל בלגי Caso WaffleUp 2932 800W",
+    "imageUrl": "https://ksp.co.il/shop/items/327409.jpg?v=5",
+    "prices": {
+      "ksp": 389,
+      "kspUrl": "https://ksp.co.il/web/item/327409",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109251",
+    "name": "מצנם קופץ 2 פרוסות Ariete Classica 0158 810W - צבע ברונזה",
+    "imageUrl": "https://ksp.co.il/shop/items/109251.jpg?v=5",
+    "prices": {
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/109251",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_296789",
+    "name": "מצנם 4 פרוסות בעוצמה של 1960W עם מסך LCD, בקרת השחמה אלקטרונית ו-6 דרגות חום, בגימור נירוסטה BXTO1960E מבית Black+Decker – שנתיים אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/296789.jpg?v=5",
+    "prices": {
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/296789",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_329005",
+    "name": "טוסטר אובן 45 ליטר Midea MC38EGK 1800W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/329005.jpg?v=5",
+    "prices": {
+      "ksp": 399,
+      "kspUrl": "https://ksp.co.il/web/item/329005",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_197887",
+    "name": "טוסטר לחיצה 3 ב-1 Bosch 2000W TCG4104 - אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/197887.jpg?v=5",
+    "prices": {
+      "ksp": 410,
+      "kspUrl": "https://ksp.co.il/web/item/197887",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109235",
+    "name": "מצנם קופץ 2 פרוסות Ariete Vintage 0155 810W - צבע קרם / בז'",
+    "imageUrl": "https://ksp.co.il/shop/items/109235.jpg?v=5",
+    "prices": {
+      "ksp": 412,
+      "kspUrl": "https://ksp.co.il/web/item/109235",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_228749",
+    "name": "קומקום נירוסטה 1.7 ליטר Bosch TWK7203 2200W - צבע נירוסטה - שנתיים אחריות יבואן רשמי BSH",
+    "imageUrl": "https://ksp.co.il/shop/items/228749.jpg?v=5",
+    "prices": {
+      "ksp": 412,
+      "kspUrl": "https://ksp.co.il/web/item/228749",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_376421",
+    "name": "טוסטר לחיצה / גריל הספק 1800W דגם KG2398 מבית Severin",
+    "imageUrl": "https://ksp.co.il/shop/items/376421.jpg?v=5",
+    "prices": {
+      "ksp": 429,
+      "kspUrl": "https://ksp.co.il/web/item/376421",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_174693",
+    "name": "מצנם 4 פרוסות Westinghouse Retro WKTTB809BK - צבע שחור / נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/174693.jpg?v=5",
+    "prices": {
+      "ksp": 429,
+      "kspUrl": "https://ksp.co.il/web/item/174693",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_383443",
+    "name": "מצנם קופץ 2 פרוסות Ariete Capri 155 810W - צבע Capri",
+    "imageUrl": "https://ksp.co.il/shop/items/383443.jpg?v=5",
+    "prices": {
+      "ksp": 439,
+      "kspUrl": "https://ksp.co.il/web/item/383443",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_396111",
+    "name": "מצנם קופץ 2 פרוסות Ariete Vintage 155 815W - צבע Positano",
+    "imageUrl": "https://ksp.co.il/shop/items/396111.jpg?v=5",
+    "prices": {
+      "ksp": 439,
+      "kspUrl": "https://ksp.co.il/web/item/396111",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -106,7 +1767,18 @@
       "ksp": 449,
       "kspUrl": "https://ksp.co.il/web/item/310006",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_189310",
+    "name": "מצנם קופץ 4 פרוסות Ariete Vintage 0156 1600W - צבע קרם / ירוק",
+    "imageUrl": "https://ksp.co.il/shop/items/189310.jpg?v=5",
+    "prices": {
+      "ksp": 459,
+      "kspUrl": "https://ksp.co.il/web/item/189310",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -117,7 +1789,271 @@
       "ksp": 469,
       "kspUrl": "https://ksp.co.il/web/item/295942",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_392044",
+    "name": "מצנם קופץ 2 פרוסות Delonghi Eclettica CTY2103.BK 900W - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/392044.jpg?v=5",
+    "prices": {
+      "ksp": 474,
+      "kspUrl": "https://ksp.co.il/web/item/392044",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_462723",
+    "name": "מציאון ועודפים - טוסטר לחיצה משולב גריל Tefal Compact GC306012 2000W - צבע נירוסטה / שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/462723.jpg?v=5",
+    "prices": {
+      "ksp": 479,
+      "kspUrl": "https://ksp.co.il/web/item/462723",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109439",
+    "name": "טוסטר אובן Ariete Vintage 0979 1380W - צבע קרם / ירוק",
+    "imageUrl": "https://ksp.co.il/shop/items/109439.jpg?v=5",
+    "prices": {
+      "ksp": 485,
+      "kspUrl": "https://ksp.co.il/web/item/109439",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_340763",
+    "name": "טוסטר גריל חשמלי רחב ועוצמתי 2200W עם שליטה דיגיטלית כפולה, פתיחה ל־180° ומגש ניקוז בגימור נירוסטה / שחור דגם BXGR2200E מבית Black+Decker – שנתיים אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/340763.jpg?v=5",
+    "prices": {
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/340763",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109437",
+    "name": "טוסטר אובן Ariete Vintage 0979 1380W - צבע קרם / בז'",
+    "imageUrl": "https://ksp.co.il/shop/items/109437.jpg?v=5",
+    "prices": {
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/109437",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_383444",
+    "name": "מצנם קופץ 4 פרוסות Ariete Capri 0156 1600W - צבע Capri",
+    "imageUrl": "https://ksp.co.il/shop/items/383444.jpg?v=5",
+    "prices": {
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/383444",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_359374",
+    "name": "טוסטר אובן טורבו 60 ליטר Benaton BT-6050  - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/359374.jpg?v=5",
+    "prices": {
+      "ksp": 499,
+      "kspUrl": "https://ksp.co.il/web/item/359374",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_318595",
+    "name": "מצנם 2 פרוסות Novis T2 הספק 900W - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/318595.jpg?v=5",
+    "prices": {
+      "ksp": 509,
+      "kspUrl": "https://ksp.co.il/web/item/318595",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_306827",
+    "name": "טוסטר לחיצה משולב גריל Tefal Compact GC306012 2000W - צבע נירוסטה / שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/306827.jpg?v=5",
+    "prices": {
+      "ksp": 521,
+      "kspUrl": "https://ksp.co.il/web/item/306827",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_109427",
+    "name": "טוסטר אובן Ariete Vintage 0979 1380W - צבע קרם / תכלת",
+    "imageUrl": "https://ksp.co.il/shop/items/109427.jpg?v=5",
+    "prices": {
+      "ksp": 527,
+      "kspUrl": "https://ksp.co.il/web/item/109427",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_396124",
+    "name": "מצנם קופץ 4 פרוסות Ariete Vintage 156 1630W - צבע Positano",
+    "imageUrl": "https://ksp.co.il/shop/items/396124.jpg?v=5",
+    "prices": {
+      "ksp": 529,
+      "kspUrl": "https://ksp.co.il/web/item/396124",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_197896",
+    "name": "טוסטר לחיצה 3 ב-1 Bosch 2000W TCG4215 - צבע Smoke Silver",
+    "imageUrl": "https://ksp.co.il/shop/items/197896.jpg?v=5",
+    "prices": {
+      "ksp": 564,
+      "kspUrl": "https://ksp.co.il/web/item/197896",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_376431",
+    "name": "טוסטר לחיצה / גריל בעל כפתורי מגע (טאצ') הספק 1800W דגם KG2399 מבית Severin",
+    "imageUrl": "https://ksp.co.il/shop/items/376431.jpg?v=5",
+    "prices": {
+      "ksp": 569,
+      "kspUrl": "https://ksp.co.il/web/item/376431",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_310164",
+    "name": "טוסטר גריל חשמלי יוקרתי 2000W עם שליטה דיגיטלית כפולה, פתיחה ל־180°, פלטות נשלפות ומגש ניקוז בגימור נירוסטה / שחור דגם BXGR2000E מבית Black+Decker – שנתיים אחריות יבואן רשמי",
+    "imageUrl": "https://ksp.co.il/shop/items/310164.jpg?v=5",
+    "prices": {
+      "ksp": 589,
+      "kspUrl": "https://ksp.co.il/web/item/310164",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_464560",
+    "name": "מצנם 3 ב-1 Ninja Foodi ST202EU 2400W",
+    "imageUrl": "https://ksp.co.il/shop/items/464560.jpg?v=5",
+    "prices": {
+      "ksp": 599,
+      "kspUrl": "https://ksp.co.il/web/item/464560",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_317059",
+    "name": "טוסטר אובן טורבו 60 ליטר Selmor SE-60 2100W - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/317059.jpg?v=5",
+    "prices": {
+      "ksp": 619,
+      "kspUrl": "https://ksp.co.il/web/item/317059",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_334224",
+    "name": "טוסטר / גריל לחיצה Braun CG7020 2000W",
+    "imageUrl": "https://ksp.co.il/shop/items/334224.jpg?v=5",
+    "prices": {
+      "ksp": 635,
+      "kspUrl": "https://ksp.co.il/web/item/334224",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_366836",
+    "name": "טוסטר אובן + טורבו 40 ליטר Toshiba TL-MC40EZF(GR)-IL 1800W - אפור טיטניום",
+    "imageUrl": "https://ksp.co.il/shop/items/366836.jpg?v=5",
+    "prices": {
+      "ksp": 698,
+      "kspUrl": "https://ksp.co.il/web/item/366836",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_334248",
+    "name": "טוסטר / גריל לחיצה דיגיטלי Braun CG7040 2000W",
+    "imageUrl": "https://ksp.co.il/shop/items/334248.jpg?v=5",
+    "prices": {
+      "ksp": 741,
+      "kspUrl": "https://ksp.co.il/web/item/334248",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_373761",
+    "name": "טוסטר אובן 90 ליטר 2400W דגם TO-90 מבית Luxor - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/373761.jpg?v=5",
+    "prices": {
+      "ksp": 749,
+      "kspUrl": "https://ksp.co.il/web/item/373761",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_456838",
+    "name": "מצנם קופץ 4 פרוסות 1500W דגם TSF02PB מבית SMEG - צבע כחול פסטל",
+    "imageUrl": "https://ksp.co.il/shop/items/456838.jpg?v=5",
+    "prices": {
+      "ksp": 789,
+      "kspUrl": "https://ksp.co.il/web/item/456838",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_438426",
+    "name": "טוסטר גריל לחיצה 5 ב-1 Davo Pro DGR810 2000W - כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/438426.jpg?v=5",
+    "prices": {
+      "ksp": 803,
+      "kspUrl": "https://ksp.co.il/web/item/438426",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_438433",
+    "name": "טוסטר גריל לחיצה 6 תוכניות Davo Pro DGR820 2000W - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/438433.jpg?v=5",
+    "prices": {
+      "ksp": 922,
+      "kspUrl": "https://ksp.co.il/web/item/438433",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_405760",
+    "name": "טוסטר גריל לחיצה Tefal OptiGrill+ XL 2000W GC7278G1 - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/405760.jpg?v=5",
+    "prices": {
+      "ksp": 924,
+      "kspUrl": "https://ksp.co.il/web/item/405760",
+      "zap": 0,
+      "updated": 1779433759479
     }
   },
   {
@@ -125,10 +2061,208 @@
     "name": "טוסטר גריל לחיצה Caso SteakChef Double 2000W / 2400W - שחור / כסוף",
     "imageUrl": "https://ksp.co.il/shop/items/414850.jpg?v=5",
     "prices": {
-      "ksp": 959,
+      "ksp": 932,
       "kspUrl": "https://ksp.co.il/web/item/414850",
       "zap": 0,
-      "updated": 1779196352838
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_267667",
+    "name": "מכונת וופל בלגי לעסקים בועות מבית החוויה",
+    "imageUrl": "https://ksp.co.il/shop/items/267667.jpg?v=5",
+    "prices": {
+      "ksp": 978,
+      "kspUrl": "https://ksp.co.il/web/item/267667",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_452316",
+    "name": "מולטי-קוקר - טיגון באוויר, אפייה ובישול חכם 12 ב-1 דגם Combi מבית Ninja",
+    "imageUrl": "https://ksp.co.il/shop/items/452316.jpg?v=5",
+    "prices": {
+      "ksp": 999,
+      "kspUrl": "https://ksp.co.il/web/item/452316",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_334284",
+    "name": "טוסטר / גריל לחיצה דיגיטלי רחב Braun CG9140 2200W",
+    "imageUrl": "https://ksp.co.il/shop/items/334284.jpg?v=5",
+    "prices": {
+      "ksp": 1138,
+      "kspUrl": "https://ksp.co.il/web/item/334284",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_372987",
+    "name": "מכונת וופל בלגי עגול 1300W מבית החוויה",
+    "imageUrl": "https://ksp.co.il/shop/items/372987.jpg?v=5",
+    "prices": {
+      "ksp": 1279,
+      "kspUrl": "https://ksp.co.il/web/item/372987",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_267670",
+    "name": "מכונת וופל בלגי ריבועים לעסקים מבית החוויה",
+    "imageUrl": "https://ksp.co.il/shop/items/267670.jpg?v=5",
+    "prices": {
+      "ksp": 1299,
+      "kspUrl": "https://ksp.co.il/web/item/267670",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_414842",
+    "name": "סטייק גריל לחיצה נפתח לפלטה גריל Caso SteakMaster Pro 2000W - שחור / כסוף",
+    "imageUrl": "https://ksp.co.il/shop/items/414842.jpg?v=5",
+    "prices": {
+      "ksp": 1690,
+      "kspUrl": "https://ksp.co.il/web/item/414842",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_374310",
+    "name": "טוסטר מקצועי משונן כפול 3600W מבית החוויה",
+    "imageUrl": "https://ksp.co.il/shop/items/374310.jpg?v=5",
+    "prices": {
+      "ksp": 1989,
+      "kspUrl": "https://ksp.co.il/web/item/374310",
+      "zap": 0,
+      "updated": 1779433759479
+    }
+  },
+  {
+    "id": "ksp_421622",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - נירוסטה",
+    "imageUrl": "https://ksp.co.il/shop/items/421622.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421622",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421579",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע ורוד",
+    "imageUrl": "https://ksp.co.il/shop/items/421579.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421579",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421545",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע אדום",
+    "imageUrl": "https://ksp.co.il/shop/items/421545.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421545",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421609",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע שמפניה מט",
+    "imageUrl": "https://ksp.co.il/shop/items/421609.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421609",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421618",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע ירוק מט",
+    "imageUrl": "https://ksp.co.il/shop/items/421618.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421618",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421596",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע כחול מט",
+    "imageUrl": "https://ksp.co.il/shop/items/421596.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421596",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421576",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע שמנת",
+    "imageUrl": "https://ksp.co.il/shop/items/421576.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421576",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421568",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע שחור",
+    "imageUrl": "https://ksp.co.il/shop/items/421568.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421568",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421584",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע לבן",
+    "imageUrl": "https://ksp.co.il/shop/items/421584.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421584",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421591",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע שחור מט",
+    "imageUrl": "https://ksp.co.il/shop/items/421591.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421591",
+      "zap": 0,
+      "updated": 1779433759480
+    }
+  },
+  {
+    "id": "ksp_421626",
+    "name": "קומקום חשמלי 1.7 ליטר 2400W + מצנם 2 פרוסות 950W מבית SMEG - צבע כחול פסטל",
+    "imageUrl": "https://ksp.co.il/shop/items/421626.jpg?v=5",
+    "prices": {
+      "ksp": 2200,
+      "kspUrl": "https://ksp.co.il/web/item/421626",
+      "zap": 0,
+      "updated": 1779433759480
     }
   }
 ]

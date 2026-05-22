@@ -158,7 +158,7 @@
   {
     "id": "ksp_368938",
     "name": "סוללת גיבוי PicoGo Dig-Display בנפח 10000mAh בהספק מקסימלי של 45W מבית Baseus - צבע לבן",
-    "imageUrl": "https://ksp.co.il/shop/items/368938.jpg?v=5",
+    "imageUrl": "https://img.zap.co.il/pics/2/3/7/4/93984732c.gif",
     "manufacturer": "",
     "prices": {
       "zap": 0,
@@ -166,7 +166,16 @@
       "ksp": 219,
       "kspUrl": "https://ksp.co.il/web/item/368938"
     },
-    "filterTags": null
+    "filterTags": null,
+    "image": "https://img.zap.co.il/pics/2/3/7/4/93984732c.gif",
+    "imageUrls": [
+      "https://img.zap.co.il/pics/2/3/7/4/93984732c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1245796",
+      "ts": 1779381709737
+    }
   },
   {
     "id": "ksp_335541",
@@ -223,7 +232,7 @@
   {
     "id": "ksp_340193",
     "name": "סוללת גיבוי ניידת עם כבל מובנה Xiaomi 10000mAh - צבע שמנת  - שנה אחריות יבואן רשמי על ידי המילטון",
-    "imageUrl": "https://ksp.co.il/shop/items/340193.jpg?v=5",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/0/2/92722081c.gif",
     "manufacturer": "",
     "prices": {
       "zap": 0,
@@ -231,7 +240,16 @@
       "ksp": 99,
       "kspUrl": "https://ksp.co.il/web/item/340193"
     },
-    "filterTags": null
+    "filterTags": null,
+    "image": "https://img.zap.co.il/pics/1/8/0/2/92722081c.gif",
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/8/0/2/92722081c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1249486",
+      "ts": 1779381732928
+    }
   },
   {
     "id": "ksp_328875",
@@ -366,7 +384,7 @@
   {
     "id": "ksp_410583",
     "name": "מטען אלחוטי Apple MagSafe עם כבל באורך 1 מטר",
-    "imageUrl": "https://ksp.co.il/shop/items/410583.jpg?v=5",
+    "imageUrl": "https://img.zap.co.il/pics/1/2/6/9/74439621c.gif",
     "manufacturer": "",
     "prices": {
       "zap": 0,
@@ -374,7 +392,18 @@
       "ksp": 165,
       "kspUrl": "https://ksp.co.il/web/item/410583"
     },
-    "filterTags": null
+    "filterTags": null,
+    "image": "https://img.zap.co.il/pics/1/2/6/9/74439621c.gif",
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/2/6/9/74439621c.gif",
+      "https://img.zap.co.il/pics/8/6/5/1/66281568c.gif",
+      "https://img.zap.co.il/pics/5/4/8/5/66285845c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1182165",
+      "ts": 1779381779022
+    }
   },
   {
     "id": "ksp_442830",
@@ -444,7 +473,7 @@
   {
     "id": "ksp_153626",
     "name": "מעמד טעינה אלחוטית Xiaomi Mi 20W - צבע שחור",
-    "imageUrl": "https://ksp.co.il/shop/items/153626.jpg?v=5",
+    "imageUrl": "https://img.zap.co.il/pics/1/5/3/4/75614351c.gif",
     "manufacturer": "",
     "prices": {
       "zap": 0,
@@ -452,7 +481,16 @@
       "ksp": 139,
       "kspUrl": "https://ksp.co.il/web/item/153626"
     },
-    "filterTags": null
+    "filterTags": null,
+    "image": "https://img.zap.co.il/pics/1/5/3/4/75614351c.gif",
+    "imageUrls": [
+      "https://img.zap.co.il/pics/1/5/3/4/75614351c.gif"
+    ],
+    "imagesMeta": {
+      "source": "zap",
+      "modelid": "1181720",
+      "ts": 1779381807130
+    }
   },
   {
     "id": "ksp_448630",

@@ -3,10 +3,10 @@
     "id": "1260785",
     "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 MASTER ICE 32G GV-N5090AORUSM ICE-32GD",
     "image": "images/1260785.gif",
-    "imageUrl": "https://img.zap.co.il/pics/4/8/4/0/94780484c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/7/5/6/6/97286657b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174420
+      "updated": 1779421458242
     },
     "manufacturer": "Gigabyte",
     "filterTags": {
@@ -18,7 +18,7 @@
     "name": "כרטיס מסך Gigabyte GeForce RTX 5090 GAMING OC 32G GV-N5090GAMING OC-32GD",
     "prices": {
       "zap": 0,
-      "updated": 1779196174422
+      "updated": 1779421458242
     },
     "imageUrl": "https://img.zap.co.il/pics/8/1/9/7/97857918b.gif",
     "image": "images/1260859.gif",
@@ -34,7 +34,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/9/0/94320965c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174424
+      "updated": 1779421458242
     },
     "manufacturer": "Gigabyte",
     "filterTags": {
@@ -48,7 +48,9 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/7/7/94017784c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174425
+      "updated": 1779421458242,
+      "ksp": 4690,
+      "kspUrl": "https://ksp.co.il/web/item/390623"
     },
     "manufacturer": "Gigabyte",
     "filterTags": {
@@ -62,7 +64,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/4/3/94013470c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174426
+      "updated": 1779421458243
     },
     "manufacturer": "Gigabyte",
     "filterTags": {
@@ -76,7 +78,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/0/7/96127032c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174430
+      "updated": 1779421458243
     },
     "manufacturer": "Gigabyte",
     "filterTags": {
@@ -91,7 +93,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/1/2/94442160c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174432
+      "updated": 1779421458243
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -105,7 +107,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/5/8/95218523c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174435
+      "updated": 1779421458243
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -119,7 +121,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/1/2/94442158c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174437
+      "updated": 1779421458244
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -133,7 +135,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/2/7/88237280c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174438
+      "updated": 1779421458244
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -147,7 +149,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/1/5/4/96734514c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174440
+      "updated": 1779421458244
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -161,7 +163,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/9/6/95526941c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174442
+      "updated": 1779421458244
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -175,7 +177,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/0/7/96127035c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174446
+      "updated": 1779421458244
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -189,7 +191,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/8/9/94489840c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174447
+      "updated": 1779421458245
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -203,7 +205,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/94529158c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174448
+      "updated": 1779421458245
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -217,7 +219,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/9/7/47297971c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174450
+      "updated": 1779421458245
     },
     "filterTags": {}
   },
@@ -229,7 +231,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/0/6/94696044c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174452
+      "updated": 1779421458245
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -243,7 +245,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/2/0/5/95075027c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174454
+      "updated": 1779421458245
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -257,7 +259,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/6/5/95215607c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174455
+      "updated": 1779421458245
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -268,10 +270,12 @@
     "name": "כרטיס מסך Gigabyte Radeon RX 9060 XT GAMING OC 16G GV-R9060XTGAMING OC-16GD",
     "image": "images/1260789.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/7/8/8/6/97366887b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/7/8/9/95079876c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174457
+      "updated": 1779421458246,
+      "ksp": 3470,
+      "kspUrl": "https://ksp.co.il/web/item/374016"
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -285,7 +289,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/8/9/94489838c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174459
+      "updated": 1779421458246
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -299,7 +303,9 @@
     "imageUrl": "https://img.zap.co.il/pics/9/5/3/0/97060359c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174462
+      "updated": 1779421458246,
+      "ksp": 3090,
+      "kspUrl": "https://ksp.co.il/web/item/379789"
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -310,10 +316,10 @@
     "name": "כרטיס מסך Gigabyte Radeon RX 7600 GV-R76GAMING OC-8GD",
     "image": "images/1196977.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/7/2/1/4/97034127b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/new/96235158513c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174464
+      "updated": 1779421458246
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -327,7 +333,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/2/0/5/95075026c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174465
+      "updated": 1779421458246
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -341,7 +347,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/6/2/78212668c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174467
+      "updated": 1779421458246
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 40xx"
@@ -355,7 +361,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/8/9/94489840c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174469
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -369,7 +375,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/0/6/3/95553605c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174471
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -383,7 +389,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/6/6/95426634c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174473
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -397,7 +403,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/5/9/95129506c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174474
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -411,7 +417,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/7/8/9/95079875c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174476
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -425,7 +431,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/1/7/94717183c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174479
+      "updated": 1779421458247
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -439,7 +445,9 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/6/9/97189665c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174480
+      "updated": 1779421458248,
+      "ksp": 3470,
+      "kspUrl": "https://ksp.co.il/web/item/374016"
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -453,7 +461,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/5/2/9/94279252c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174482
+      "updated": 1779421458248
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -467,7 +475,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/9/6/95526940c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174484
+      "updated": 1779421458248
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -481,7 +489,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/3/4/96894341c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174486
+      "updated": 1779421458248,
+      "ksp": 999,
+      "kspUrl": "https://ksp.co.il/web/item/311308"
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -495,7 +505,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/3/9/1/95601935c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174487
+      "updated": 1779421458248
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -509,7 +519,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/3/7/94037391c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174489
+      "updated": 1779421458249,
+      "ksp": 3470,
+      "kspUrl": "https://ksp.co.il/web/item/374016"
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -523,7 +535,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/0/6/95606038c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174491
+      "updated": 1779421458249
     },
     "filterTags": {}
   },
@@ -535,7 +547,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/8/0/2/86312084c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174493
+      "updated": 1779421458249
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -549,7 +561,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/7/8/6/97366878c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174496
+      "updated": 1779421458249
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -563,7 +575,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/3/6/3/75843632c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174497
+      "updated": 1779421458249
     },
     "filterTags": {
       "gpu": "NVIDIA GTX 16xx"
@@ -577,7 +589,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/2/2/3/87223223c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174498
+      "updated": 1779421458249
     },
     "filterTags": {}
   },
@@ -589,7 +601,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/8/5/93385813c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174500
+      "updated": 1779421458250
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -603,7 +615,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/2/7/79207220c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174502
+      "updated": 1779421458250
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -617,7 +629,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/7/8/7/70357874c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174503
+      "updated": 1779421458250
     },
     "filterTags": {}
   },
@@ -629,7 +641,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/0/0/2/95552009c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174505
+      "updated": 1779421458250
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -643,7 +655,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/0/8/89908093c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174507,
+      "updated": 1779421458250,
       "bug": 489,
       "bugUrl": "https://www.bug.co.il/brand/msi/geforce/gt1030/4gd4/lp/oc"
     },
@@ -657,7 +669,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/5/4/93964592c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174509
+      "updated": 1779421458250
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -671,7 +683,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/5/2/97152541c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174510
+      "updated": 1779421458251
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -685,7 +697,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/0/5/95075025c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174513
+      "updated": 1779421458251
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -696,10 +708,10 @@
     "name": "כרטיס מסך Gigabyte GeForce RTX 5060 Ti 16GB GAMING GV-N506TGAMING OC-16GD",
     "image": "images/1260756.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/6/0/4/2/95022406c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/2/8/8/6/97366882b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174515
+      "updated": 1779421458251
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -713,7 +725,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/2/8/94898225c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174517
+      "updated": 1779421458251
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -727,7 +739,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/7/0/96930715c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174518
+      "updated": 1779421458251
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -741,7 +753,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/1/9/94529163c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174520
+      "updated": 1779421458252
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -755,7 +767,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/1/5/49355106c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174522
+      "updated": 1779421458252
     },
     "filterTags": {
       "gpu": "NVIDIA GTX 16xx"
@@ -769,7 +781,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/5/5/95685583c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174524
+      "updated": 1779421458252
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -783,7 +795,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/6/3/8/96808366c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174526
+      "updated": 1779421458252
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -797,7 +809,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/1/2/93922131c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174529
+      "updated": 1779421458252
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -811,7 +823,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/7/2/95452711c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174531
+      "updated": 1779421458252,
+      "ksp": 2060,
+      "kspUrl": "https://ksp.co.il/web/item/390895"
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -825,7 +839,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/6/4/8/95158465c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174534
+      "updated": 1779421458253
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -839,7 +853,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/3/4/94754362c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174537,
+      "updated": 1779421458253,
       "ksp": 1890,
       "kspUrl": "https://ksp.co.il/web/item/382318"
     },
@@ -855,7 +869,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/22135249161c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174540,
+      "updated": 1779421458253,
       "ksp": 1890,
       "kspUrl": "https://ksp.co.il/web/item/382318"
     },
@@ -871,7 +885,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/510101630608c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174541
+      "updated": 1779421458253
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -885,7 +899,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/8/9/94489839c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174543
+      "updated": 1779421458253
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -899,7 +913,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/19112422739c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174544
+      "updated": 1779421458253
     },
     "filterTags": {
       "gpu": "NVIDIA GTX 16xx"
@@ -913,7 +927,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/6/1/2/95692162c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174547
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -927,7 +941,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/5/1/9/94529155c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174548
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -941,7 +955,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/4/5/96795472c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174550
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -955,7 +969,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/1/7/5/96485712c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174552
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -969,7 +983,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/9/9/6/57976991c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174554
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA GTX 16xx"
@@ -983,7 +997,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/3/2/68822311c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174555
+      "updated": 1779421458254
     },
     "filterTags": {
       "gpu": "NVIDIA RTX"
@@ -994,10 +1008,10 @@
     "name": "כרטיס מסך Gigabyte GeForce RTX 3090 TURBO 24G GV-N3090TURBO-24GD",
     "image": "images/1095750.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/3/9/8/8/97608893b.gif",
+    "imageUrl": "https://img.zap.co.il/pics/8/2/3/0/58810328c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174557
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1011,7 +1025,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/3/3/2/67202331c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174559
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1025,7 +1039,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/6/3/97093673c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174561
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1039,7 +1053,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/4/5/8/95928548c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174563
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1053,7 +1067,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/7/5/95215760c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174565
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1067,7 +1081,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/2/4/2/95222428c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174567
+      "updated": 1779421458255
     },
     "filterTags": {
       "gpu": "AMD Radeon RX"
@@ -1081,7 +1095,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/7/6/69966715c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174568
+      "updated": 1779421458256
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1095,7 +1109,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/2/7/59667216c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174570
+      "updated": 1779421458256
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1109,7 +1123,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/3/0/97060358c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174572
+      "updated": 1779421458256
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1123,7 +1137,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/3/9/1/95601934c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174574
+      "updated": 1779421458256
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1137,7 +1151,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/7/9/2/94872971c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174576
+      "updated": 1779421458256
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1151,7 +1165,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/7/9/0/96910972c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174577
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1165,7 +1179,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/2/1/96351288c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174579
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1179,7 +1193,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/7/9/0/96910976c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174581
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1190,10 +1204,10 @@
     "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5080 MASTER ICE 16G GV-N5080AORUSM ICE-16GD",
     "image": "images/1260729.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/9/5/1/9/94529159c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/9/5/1/9/94529159b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174583
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1207,7 +1221,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/9/2/75222906c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174585
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 40xx"
@@ -1218,10 +1232,10 @@
     "name": "כרטיס מסך Gigabyte AORUS GeForce RTX 5090 MASTER 32G GV-N5090AORUS M-32GD",
     "image": "images/1260813.gif",
     "manufacturer": "Gigabyte",
-    "imageUrl": "https://img.zap.co.il/pics/9/0/6/2/97202609c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/6/5/6/6/97286656b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174586
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1235,7 +1249,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/3/1/7/62307138c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174588
+      "updated": 1779421458257
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1249,7 +1263,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/9/7/7/75517795c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174590
+      "updated": 1779421458258
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 40xx"
@@ -1263,7 +1277,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/2/8/7/95097829c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174591
+      "updated": 1779421458258
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1277,7 +1291,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/3/0/96490319c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174593
+      "updated": 1779421458258
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1291,7 +1305,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/6/4/97094607c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174596
+      "updated": 1779421458258
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1305,7 +1319,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/9/5/1/74221593c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174598
+      "updated": 1779421458258
     },
     "filterTags": {
       "gpu": "NVIDIA RTX"
@@ -1319,7 +1333,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/5/2/7/66107250c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174599
+      "updated": 1779421458259
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 30xx"
@@ -1333,7 +1347,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/5/2/1/57351257c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174601
+      "updated": 1779421458259
     },
     "filterTags": {}
   },
@@ -1345,7 +1359,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/5/1/9/70359158c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174603
+      "updated": 1779421458259
     },
     "filterTags": {}
   },
@@ -1357,7 +1371,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/7/2/3/95573279c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174604,
+      "updated": 1779421458259,
       "ksp": 1890,
       "kspUrl": "https://ksp.co.il/web/item/382318"
     },
@@ -1373,7 +1387,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/8/7/1/96931786c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174606,
+      "updated": 1779421458259,
       "ksp": 3260,
       "kspUrl": "https://ksp.co.il/web/item/372105"
     },
@@ -1389,7 +1403,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/0/7/96127020c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174608
+      "updated": 1779421458260
     },
     "filterTags": {
       "gpu": "NVIDIA RTX 50xx"
@@ -1403,7 +1417,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/1/6/7/74817610c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174610
+      "updated": 1779421458260
     }
   },
   {
@@ -1414,7 +1428,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/1/5/4/95674515c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174612
+      "updated": 1779421458260
     }
   },
   {
@@ -1425,7 +1439,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/6/1/2/94442163c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174614
+      "updated": 1779421458260
     }
   },
   {
@@ -1436,7 +1450,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/1/3/8/87258313c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174616
+      "updated": 1779421458260
     }
   },
   {
@@ -1447,7 +1461,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/0/4/2/95022404c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174617
+      "updated": 1779421458260
     }
   },
   {
@@ -1458,7 +1472,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/1/1/9/90279119c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174619
+      "updated": 1779421458261
     }
   },
   {
@@ -1469,7 +1483,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/2/8/0/86960822c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174621
+      "updated": 1779421458261
     }
   },
   {
@@ -1480,7 +1494,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/2111141258963c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779196174627
+      "updated": 1779421458261
     }
   },
   {
@@ -1490,8 +1504,8 @@
     "manufacturer": "Gigabyte",
     "imageUrl": "https://img.zap.co.il/pics/1/7/0/2/77612071c.gif",
     "prices": {
-      "zap": 2192,
-      "updated": 1779196174629
+      "zap": 0,
+      "updated": 1779421458261
     }
   },
   {
@@ -1501,8 +1515,10 @@
     "manufacturer": "Gigabyte",
     "imageUrl": "https://img.zap.co.il/pics/7/8/5/7/86387587c.gif",
     "prices": {
-      "zap": 2950,
-      "updated": 1779196174631
+      "zap": 0,
+      "updated": 1779421458261,
+      "ksp": 3470,
+      "kspUrl": "https://ksp.co.il/web/item/374016"
     }
   },
   {
@@ -1512,8 +1528,8 @@
     "manufacturer": "PNY",
     "imageUrl": "https://img.zap.co.il/pics/1/1/3/2/68822311c.gif",
     "prices": {
-      "zap": 2805,
-      "updated": 1779196174633
+      "zap": 0,
+      "updated": 1779421458261
     }
   },
   {
@@ -1523,8 +1539,8 @@
     "manufacturer": "PNY",
     "imageUrl": "https://img.zap.co.il/pics/9/0/9/3/90003909c.gif",
     "prices": {
-      "zap": 2806,
-      "updated": 1779196174635
+      "zap": 0,
+      "updated": 1779421458262
     }
   },
   {
@@ -1534,8 +1550,32 @@
     "manufacturer": "Gigabyte",
     "imageUrl": "https://img.zap.co.il/pics/7/9/9/3/74923997c.gif",
     "prices": {
-      "zap": 5619,
-      "updated": 1779196174636
+      "zap": 0,
+      "updated": 1779421458262
+    }
+  },
+  {
+    "id": "1028243",
+    "name": "כרטיס מסך MSI GeForce GT 710 2GD3H LP",
+    "image": "images/1028243.gif",
+    "manufacturer": "MSI",
+    "imageUrl": "https://img.zap.co.il/pics/4/9/2/2/49982294c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1779421458262
+    }
+  },
+  {
+    "id": "1260965",
+    "name": "כרטיס מסך Asus Prime GeForce RTX 5070 OC Edition 12GB 90YV0M10-M0NA00",
+    "image": "images/1260965.gif",
+    "manufacturer": "Asus",
+    "imageUrl": "https://img.zap.co.il/pics/9/9/3/6/95076399c.gif",
+    "prices": {
+      "zap": 0,
+      "updated": 1779421458263,
+      "ksp": 3260,
+      "kspUrl": "https://ksp.co.il/web/item/372105"
     }
   }
 ]
