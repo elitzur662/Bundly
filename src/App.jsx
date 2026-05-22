@@ -254,10 +254,23 @@ const ISRAELI_COM_STORES_FE = new Set([
   "apple.com",      // apple.com/il-he — Israeli Apple storefront
   "samsung.com",    // samsung.com/il — Israeli Samsung store
 ]);
+// Return a URL only if it is a safe http/https link — otherwise "".
+// Blocks javascript:, data:, vbscript: etc. from ever reaching an href/src
+// (scraped supplier links are untrusted input → stored-XSS vector).
+function safeHttpUrl(url) {
+  if (!url || typeof url !== "string") return "";
+  try {
+    const p = new URL(url).protocol;
+    return (p === "http:" || p === "https:") ? url : "";
+  } catch { return ""; }
+}
 function isIsraeliLink(url = "") {
   if (!url) return false;
   try {
-    const domain = new URL(url).hostname.replace(/^www\./, "");
+    const parsed = new URL(url);
+    // Only ever trust http/https — reject javascript:/data:/etc.
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+    const domain = parsed.hostname.replace(/^www\./, "");
     // ❌ Block cross-border fakers FIRST — even if they have .co.il
     if (CROSS_BORDER_FAKERS_FE.has(domain)) return false;
     // ✅ Accept genuine Israeli TLDs
@@ -5525,7 +5538,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                     </div>
                     <div className="p-2.5">
                       <p className="text-xs font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-violet-700 transition">{altName}</p>
-                      <p className="text-sm font-black text-indigo-600 mt-1">₪{alt.groupOffer.toLocaleString()}</p>
+                      <p className="text-sm font-black text-indigo-600 mt-1">₪{(Number(alt.groupOffer) || 0).toLocaleString()}</p>
                     </div>
                   </div>
                 );
@@ -11769,7 +11782,10 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
     const cacheKey = `bundly_imgs_${q.trim().toLowerCase()}`;
     try {
       const cached = localStorage.getItem(cacheKey);
-      if (cached) { setExtraImages(JSON.parse(cached)); return; }
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed)) { setExtraImages(parsed); return; }
+      }
     } catch {}
     let alive = true;
     fetch(`/api/product-images?q=${encodeURIComponent(q.trim())}`)
@@ -11872,7 +11888,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   const savingVsAvg = priceAvg > 0 && groupTarget > 0 ? Math.round(((priceAvg - groupTarget) / priceAvg) * 100) : 0;
   const pName = result.productNameEn || result.productName || "";
   const googleShoppingUrl = `https://www.google.com/search?tbm=shop&q=${encodeURIComponent(pName)}`;
-  const storeLink = (s) => { const link = s.link || ""; return (!link || /zap\.co\.il/i.test(link)) ? googleShoppingUrl : link; };
+  const storeLink = (s) => { const link = safeHttpUrl(s.link || ""); return (!link || /zap\.co\.il/i.test(link)) ? googleShoppingUrl : link; };
   const description = gptDesc || result.marketingDesc || specsData?.description || result.description || "";
   const specs = specsData?.specs?.length > 0 ? specsData.specs : null;
   const specsBullets = !specs && result.specs?.length > 0 ? result.specs : null;
@@ -12047,7 +12063,7 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
                         }`}>
                         <span className={`text-sm font-black ${i === 0 ? "text-white" : "text-gray-300"}`}>{i === 0 ? "🥇" : i + 1}</span>
                         <span className={`flex-1 text-sm font-bold truncate ${i === 0 ? "text-white" : "text-gray-700"}`}>{rankLabel}</span>
-                        <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{s.price.toLocaleString()}</span>
+                        <span className={`font-black text-base ${i === 0 ? "text-white" : "text-gray-900"}`}>₪{(Number(s.price) || 0).toLocaleString()}</span>
                         <ExternalLink className={`w-3 h-3 ${i === 0 ? "text-white/60" : "text-gray-300"}`} />
                       </a>
                     );
@@ -21128,10 +21144,27 @@ export default function App() {
             ids.add(String(d.id));
           }
           const fresh = serverDeals.filter(d => {
+            if (!d || !d.id) return false;
             if (d.productKey && keys.has(String(d.productKey))) return false;
             if (ids.has(String(d.id))) return false;
             return true;
-          });
+          // Normalise shape — a persisted deal missing `name`/`groupOffer`/`bids`
+          // would otherwise crash the deal card and white-screen the home page.
+          }).map(d => ({
+            ...d,
+            name: (d.name && typeof d.name === "object") ? d.name
+                  : { he: String(d.name || "מוצר"), en: String(d.name || "Product"),
+                      ar: String(d.name || "מוצר"), ru: String(d.name || "מוצר") },
+            desc: (d.desc && typeof d.desc === "object") ? d.desc : { he: "", en: "", ar: "", ru: "" },
+            image:        d.image || "",
+            groupOffer:   Number(d.groupOffer)   || 0,
+            marketMin:    Number(d.marketMin)    || 0,
+            marketMax:    Number(d.marketMax)    || 0,
+            discount:     Number(d.discount)     || 0,
+            participants: Number(d.participants) || 1,
+            catIdx:       Number.isFinite(Number(d.catIdx)) ? Number(d.catIdx) : 0,
+            bids:         Array.isArray(d.bids) ? d.bids : [],
+          }));
           // Persisted server deals first, then any local (dev demo) deals.
           return [...fresh, ...prev];
         });
