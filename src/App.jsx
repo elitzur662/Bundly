@@ -3258,48 +3258,16 @@ function ProductImage({ query, fallback, alt, className, imgClassName, productNa
   // Untrusted fallbacks display instantly for UX but always get replaced by
   // the API result if it returns. This avoids the "wrong oven image" bug
   // where a generic-but-specific fallback locked permanently.
+  // A product image is ONLY ever the product's own catalog photo — the
+  // `fallback` prop, sourced from Zap / product-db where the photo is bound
+  // to the exact model. We deliberately do NOT fetch images by keyword from
+  // the web: that path returned generic, unrelated photos (stock images,
+  // lifestyle shots of people holding a phone) that don't match the product.
   const fallbackImage = fallback || null;
-  const queryKey = query ? query.trim().toLowerCase() : null;
-  const lsCached = queryKey ? _imgLsGet(queryKey) : null;
-  const memCached = queryKey && _imgCache.has(queryKey) ? _imgCache.get(queryKey) : null;
-  // Trusted = produced by our server scraper, tightly bound to modelId.
-  const isTrustedFallback = !!fallbackImage && /^\/product-db\//.test(fallbackImage);
-  const smartFb = !fallbackImage && !lsCached && !memCached
+  const smartFb = !fallbackImage
     ? smartCategoryFallback(productName || query, category, catName)
     : null;
-  // Display priority: per-query cache > trusted local > untrusted fallback > smart.
-  const initial = lsCached || memCached || fallbackImage || smartFb;
-
-  const [src, setSrc] = useState(initial);
-  // Lock only when source is trusted for this exact query:
-  //   - lsCached / memCached: prior API success for THIS query
-  //   - product-db path: server-bound to modelId
-  // Everything else (external URLs, Unsplash, smart fallback) → unlocked,
-  // API verifies and replaces if a better match is found.
-  const lockedRef = useRef(!!(lsCached || memCached) || isTrustedFallback);
-
-  useEffect(() => {
-    if (!queryKey) return;
-    // Already locked (we know this image is correct) — don't refetch
-    if (lockedRef.current) return;
-    let alive = true;
-    fetch(`/api/product-image?q=${encodeURIComponent(query.trim())}`)
-      .then(r => r.ok ? r.json() : { image: null })
-      .then(d => {
-        if (!alive) return;
-        const url = d?.image || null;
-        if (url) {
-          _imgCache.set(queryKey, url);
-          _imgLsSet(queryKey, url);
-          lockedRef.current = true;
-          setSrc(url);
-        }
-        // No result → keep the untrusted fallback as best-effort. Don't
-        // cache null permanently so a later page-load can retry.
-      })
-      .catch(() => { /* keep fallback */ });
-    return () => { alive = false; };
-  }, [queryKey, query]);
+  const [src, setSrc] = useState(fallbackImage || smartFb);
 
   if (!src) {
     // Last-resort empty state — branded, never blank. Shows the Package icon
@@ -11773,44 +11741,15 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   const [showAllStores, setShowAllStores] = useState(false);
   const [showSpecs, setShowSpecs] = useState(false);
 
-  // ── Fetch multiple product images from different angles ─────────
-  const [extraImages, setExtraImages] = useState([]);
-  useEffect(() => {
-    const q = result.productNameEn || result.productName || "";
-    if (!q) return;
-    // Check localStorage cache first
-    const cacheKey = `bundly_imgs_${q.trim().toLowerCase()}`;
-    try {
-      const cached = localStorage.getItem(cacheKey);
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed)) { setExtraImages(parsed); return; }
-      }
-    } catch {}
-    let alive = true;
-    fetch(`/api/product-images?q=${encodeURIComponent(q.trim())}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (!alive || !data?.ok || !Array.isArray(data.images)) return;
-        setExtraImages(data.images);
-        try { localStorage.setItem(cacheKey, JSON.stringify(data.images)); } catch {}
-      })
-      .catch(() => {});
-    return () => { alive = false; };
-  }, [result.productNameEn, result.productName]);
-
-  // ── Collect all available images (deduplicated) ────────────────
-  const allImages = useMemo(() => {
-    const imgs = [];
-    if (result.image) imgs.push(result.image);
-    for (const url of extraImages) {
-      if (url && !imgs.includes(url)) imgs.push(url);
-    }
-    for (const s of (result.suppliers || [])) {
-      if (s.image && !imgs.includes(s.image)) imgs.push(s.image);
-    }
-    return imgs.length > 0 ? imgs : [];
-  }, [result.image, result.suppliers, extraImages]);
+  // ── Product image — ONLY the product's own verified photo ──────────
+  // The product image is the one from the catalog (sourced from Zap, where
+  // it is guaranteed to belong to that exact model). The old
+  // /api/product-images path ran a Google-Images search, which returned
+  // generic, unrelated web photos — influencer lifestyle shots, stock
+  // images — that have nothing to do with the product. Never use that.
+  const allImages = useMemo(
+    () => (result.image ? [result.image] : []),
+    [result.image]);
 
   // ── Fetch specs + rating ───────────────────────────────────────
   useEffect(() => {
