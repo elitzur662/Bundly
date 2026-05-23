@@ -8,7 +8,8 @@ import {
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
   BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, LogIn, User,
   SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home,
-  RefreshCw, Inbox, MessageSquare, Activity, ClipboardList
+  RefreshCw, Inbox, MessageSquare, Activity, ClipboardList,
+  FileText, Edit2
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { findDealForProduct, productNamesMatch } from "./dealMatch.js";
@@ -6153,6 +6154,208 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  ADMIN SUPPLIER MODAL, view full details / fill in details on behalf
+//  of the supplier ("הקם ספק") / request additional documents by email.
+//  Used by the AdminDashboard pending-suppliers card. Single component,
+//  3 modes selectable via top tabs (mode=view|edit|docs).
+// ─────────────────────────────────────────────────────────────────
+function SupplierAdminModal({ supplierId, initialMode = "view", onClose, onSaved }) {
+  const [mode, setMode]       = useState(initialMode);
+  const [supplier, setSupplier] = useState(null);
+  const [profile, setProfile]   = useState(null);
+  const [loading, setLoading]   = useState(true);
+  const [saving, setSaving]     = useState(false);
+  const [error, setError]       = useState("");
+  const [okMsg, setOkMsg]       = useState("");
+  // Editable form state, populated after fetch.
+  const [form, setForm] = useState({
+    businessName: "", businessNumber: "", ownerName: "", email: "", phone: "",
+    address: "", category: "", description: "", bankAccount: "",
+  });
+  // Docs-request state.
+  const DOC_OPTIONS = [
+    "תעודת עוסק מורשה / רישיון עסק",
+    "צילום ת.ז. של בעל העסק",
+    "אישור ניהול חשבון בנק",
+    "אישור ניכוי מס במקור",
+    "אישור ביטוח אחריות מקצועית",
+    "קטלוג מוצרים / רשימת מחירים",
+  ];
+  const [docsSel, setDocsSel] = useState({});
+  const [docsNote, setDocsNote] = useState("");
+
+  const authHeaders = () => {
+    const tok = _safeLS("bundly_admin_token");
+    return tok ? { Authorization: `Bearer ${tok}` } : {};
+  };
+  const adminJson = () => ({ "Content-Type": "application/json", ...authHeaders() });
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true); setError("");
+      try {
+        const r = await fetch(`/api/admin/suppliers/${supplierId}`, { headers: authHeaders() });
+        const d = await r.json();
+        if (cancelled) return;
+        if (!r.ok || !d.ok) throw new Error(d.error || "טעינה נכשלה");
+        setSupplier(d.supplier);
+        setProfile(d.profile || null);
+        setForm({
+          businessName:   d.supplier.businessName   || "",
+          businessNumber: d.supplier.businessNumber || "",
+          ownerName:      d.supplier.ownerName      || "",
+          email:          d.supplier.email          || "",
+          phone:          d.supplier.phone          || "",
+          address:        d.supplier.address        || "",
+          category:       d.supplier.category       || "",
+          description:    d.supplier.description    || "",
+          bankAccount:    typeof d.supplier.bankAccount === "string" ? d.supplier.bankAccount : "",
+        });
+      } catch (e) { if (!cancelled) setError(e.message); }
+      finally { if (!cancelled) setLoading(false); }
+    })();
+    return () => { cancelled = true; };
+  }, [supplierId]);
+
+  const upd = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
+
+  const save = async () => {
+    setSaving(true); setError(""); setOkMsg("");
+    try {
+      const r = await fetch(`/api/admin/suppliers/${supplierId}`, {
+        method: "PATCH", headers: adminJson(),
+        body: JSON.stringify(form),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
+      setSupplier(d.supplier);
+      setOkMsg("✓ הפרטים נשמרו");
+      onSaved?.(d.supplier);
+      setTimeout(() => setOkMsg(""), 2500);
+    } catch (e) { setError(e.message); }
+    finally { setSaving(false); }
+  };
+
+  const sendDocsRequest = async () => {
+    const items = DOC_OPTIONS.filter(o => docsSel[o]);
+    if (items.length === 0 && !docsNote.trim()) {
+      setError("בחר לפחות פריט אחד או הוסף הערה"); return;
+    }
+    setSaving(true); setError(""); setOkMsg("");
+    try {
+      const r = await fetch(`/api/admin/suppliers/${supplierId}/request-documents`, {
+        method: "POST", headers: adminJson(),
+        body: JSON.stringify({ items, note: docsNote.trim() }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שליחה נכשלה");
+      setOkMsg("✓ נשלחה בקשה למסמכים");
+      setDocsSel({}); setDocsNote("");
+      setTimeout(() => { setOkMsg(""); }, 2500);
+    } catch (e) { setError(e.message); }
+    finally { setSaving(false); }
+  };
+
+  const TABS = [
+    { k: "view", label: "פרטים" },
+    { k: "edit", label: "הקם ספק" },
+    { k: "docs", label: "דרוש מסמכים" },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" dir="rtl">
+      <div className="bg-white w-full max-w-2xl rounded-3xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="min-w-0">
+            <h3 className="font-black text-gray-900 truncate">{supplier?.businessName || "ספק"}</h3>
+            <p className="text-[11px] text-gray-500 mt-0.5">{supplier?.email || ""} {supplier?.phone ? `· ${supplier.phone}` : ""}</p>
+          </div>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
+        </div>
+        <div className="flex gap-1 px-5 pt-3 border-b border-gray-100">
+          {TABS.map(tb => (
+            <button key={tb.k} onClick={() => { setMode(tb.k); setError(""); setOkMsg(""); }}
+              className={`px-3 py-2 text-xs font-bold rounded-t-lg transition ${mode===tb.k ? "bg-purple-50 text-purple-700 border-b-2 border-purple-600" : "text-gray-500 hover:text-gray-700"}`}>
+              {tb.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex-1 overflow-y-auto p-5 space-y-3">
+          {loading && <p className="text-sm text-gray-500 text-center py-6">טוען...</p>}
+          {error && <div className="bg-red-50 text-red-700 rounded-xl p-3 text-xs">{error}</div>}
+          {okMsg && <div className="bg-emerald-50 text-emerald-700 rounded-xl p-3 text-xs">{okMsg}</div>}
+
+          {/* ── VIEW MODE ── */}
+          {!loading && mode === "view" && supplier && (
+            <div className="space-y-2">
+              {[
+                ["שם העסק",       supplier.businessName],
+                ["ח.פ / ע.מ",     supplier.businessNumber],
+                ["שם בעל העסק",   supplier.ownerName],
+                ["מייל",          supplier.email],
+                ["טלפון",         supplier.phone],
+                ["כתובת",         supplier.address],
+                ["קטגוריה",       supplier.category],
+                ["תיאור העסק",    supplier.description],
+                ["חשבון בנק",     typeof supplier.bankAccount === "string" ? supplier.bankAccount : (supplier.bankAccount ? `${supplier.bankAccount.bank || ""} / ${supplier.bankAccount.branch || ""} / ${supplier.bankAccount.accountNumber || ""}` : "")],
+                ["מסמך רישיון",   supplier.hasLicenseDoc ? "✓ קיים" : "× לא הועלה"],
+                ["סטטוס KYC",     supplier.kycStatus],
+                ["נרשם בתאריך",   supplier.createdAt ? new Date(supplier.createdAt).toLocaleString("he-IL") : ""],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-3 py-2 border-b border-gray-50">
+                  <span className="text-[11px] font-bold text-gray-500 w-32 shrink-0">{k}</span>
+                  <span className="text-xs text-gray-900 text-right break-all">{v || "-"}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── EDIT MODE ── */}
+          {!loading && mode === "edit" && (
+            <div className="space-y-3">
+              <p className="text-[11px] text-gray-500">השלם או תקן את פרטי הספק לפני האישור. השדות נשמרים ברישום הספק.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><label className="text-[10px] font-bold text-gray-500">שם העסק</label><input value={form.businessName} onChange={upd("businessName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">ח.פ / ע.מ</label><input value={form.businessNumber} onChange={upd("businessNumber")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">שם בעל העסק</label><input value={form.ownerName} onChange={upd("ownerName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">מייל</label><input type="email" value={form.email} onChange={upd("email")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">טלפון</label><input value={form.phone} onChange={upd("phone")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">קטגוריה</label><input value={form.category} onChange={upd("category")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">כתובת</label><input value={form.address} onChange={upd("address")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">תיאור העסק</label><textarea rows={2} value={form.description} onChange={upd("description")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">חשבון בנק (לתשלומים עתידיים)</label><input value={form.bankAccount} onChange={upd("bankAccount")} placeholder='לדוגמה: "לאומי / סניף 800 / חשבון 12345"' className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+              </div>
+              <Btn onClick={save} disabled={saving} size="sm" variant="primary"><CheckCircle className="w-3.5 h-3.5" />{saving ? "שומר..." : "שמור פרטים"}</Btn>
+            </div>
+          )}
+
+          {/* ── REQUEST DOCS MODE ── */}
+          {!loading && mode === "docs" && (
+            <div className="space-y-3">
+              <p className="text-[11px] text-gray-500">סמן אילו מסמכים נדרשים. הספק יקבל מייל בעברית עם רשימת הפריטים והערה אופציונלית, ישלח אותם בתשובה למייל.</p>
+              <div className="space-y-1.5">
+                {DOC_OPTIONS.map(opt => (
+                  <label key={opt} className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer hover:bg-gray-50 rounded-lg p-2">
+                    <input type="checkbox" checked={!!docsSel[opt]} onChange={e => setDocsSel(p => ({ ...p, [opt]: e.target.checked }))} className="rounded" />
+                    <span>{opt}</span>
+                  </label>
+                ))}
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-gray-500">הערה לספק (אופציונלי)</label>
+                <textarea rows={3} value={docsNote} onChange={e => setDocsNote(e.target.value)} placeholder="לדוגמה: אנא שלחו בקובץ PDF בלבד" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" />
+              </div>
+              <Btn onClick={sendDocsRequest} disabled={saving} size="sm" variant="primary"><Send className="w-3.5 h-3.5" />{saving ? "שולח..." : "שלח בקשה לספק"}</Btn>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  ADMIN DASHBOARD, unified founder/admin control panel.
 //
 //  Rendered when the AuthModal returns role:"admin" (unified login via
@@ -6182,6 +6385,9 @@ function AdminDashboard({ onLogout }) {
   const [ticketStatusFilter, setTicketStatusFilter] = useState("open");
   const [replyDrafts, setReplyDrafts] = useState({});
   const [error, setError]       = useState("");
+  // Per-supplier admin modal: { id, mode } where mode = view|edit|docs.
+  // Surfaces "פרטים / הקם ספק / דרוש מסמכים" on each pending-supplier card.
+  const [supplierModal, setSupplierModal] = useState(null);
 
   const authHeaders = () => {
     const tok = _safeLS("bundly_admin_token");
@@ -6419,7 +6625,10 @@ function AdminDashboard({ onLogout }) {
                   </div>
                   <span className="shrink-0 text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">{s.kycStatus || "pending"}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "view" })} variant="ghost"   size="sm"><Eye className="w-3.5 h-3.5" />פרטים</Btn>
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "docs" })} variant="ghost"   size="sm"><FileText className="w-3.5 h-3.5" />דרוש מסמכים</Btn>
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "edit" })} variant="primary" size="sm"><Edit2 className="w-3.5 h-3.5" />הקם ספק</Btn>
                   <Btn onClick={() => approveSupplier(s.id)} variant="success" size="sm"><CheckCircle className="w-3.5 h-3.5" />אשר</Btn>
                   <Btn onClick={() => rejectSupplier(s.id)} variant="danger"  size="sm"><X className="w-3.5 h-3.5" />דחה</Btn>
                 </div>
@@ -6638,6 +6847,18 @@ function AdminDashboard({ onLogout }) {
           </div>
         )}
       </div>
+
+      {/* Per-supplier admin modal: view / edit / request-docs. Mounted at
+          the AdminDashboard level so it stays accessible regardless of
+          which tab is active. */}
+      {supplierModal && (
+        <SupplierAdminModal
+          supplierId={supplierModal.id}
+          initialMode={supplierModal.mode}
+          onClose={() => setSupplierModal(null)}
+          onSaved={() => { loadSuppliers(); }}
+        />
+      )}
     </div>
   );
 }

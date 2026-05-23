@@ -235,6 +235,35 @@ export async function sendKycDecisionEmail(to, { businessName, approved, rejectR
   } catch (e) { console.warn("[Email] KYC decision failed:", e.message); }
 }
 
+// ── Documents request to supplier (post-signup, pre-approval) ─────
+// Sent by an admin from the pending-suppliers card. The admin picks
+// which items to request (license, ID copy, bank details, certificates)
+// and can add a free-text note. We render a clean Hebrew checklist so
+// the supplier knows exactly what to send back by reply.
+export async function sendSupplierDocsRequestEmail(to, { businessName, items = [], note = "" }) {
+  if (!process.env.EMAIL_USER || !to) return;
+  const list = (items || []).filter(Boolean);
+  const listHtml = list.length
+    ? `<ul style="padding-right:18px;margin:8px 0">${list.map(i => `<li>${_esc(i)}</li>`).join("")}</ul>`
+    : "";
+  try {
+    await transporter.sendMail({
+      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+      to,
+      subject: `📋 דרושים מסמכים להשלמת ההצטרפות ל-Bundly`,
+      html: baseTemplate(`
+        <h2>📋 דרושים מסמכים נוספים</h2>
+        <p>שלום ${_esc(businessName || "")},</p>
+        <p>תודה שנרשמת ל-Bundly. כדי שנוכל לאשר את החשבון, נשמח לקבל את הפריטים הבאים בתשובה למייל זה:</p>
+        ${listHtml}
+        ${note ? `<div class="highlight"><strong>הערה:</strong> ${_esc(note)}</div>` : ""}
+        <p>נשלח אליך עדכון מיד לאחר הבדיקה. תודה!</p>
+      `),
+    });
+    console.log(`[Email] supplier docs request sent to ${to}`);
+  } catch (e) { console.warn("[Email] supplier docs request failed:", e.message); }
+}
+
 // ── Dispute resolution notification ────────────────────────────────
 export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resolution }) {
   if (!process.env.EMAIL_USER || !to) return;

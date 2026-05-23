@@ -143,6 +143,7 @@ try {
   globalThis._notif = {
     sendOrderStatusEmail:        emailMod.sendOrderStatusEmail,
     sendKycDecisionEmail:        emailMod.sendKycDecisionEmail,
+    sendSupplierDocsRequestEmail:emailMod.sendSupplierDocsRequestEmail,
     sendDisputeResolutionEmail:  emailMod.sendDisputeResolutionEmail,
     sendDealMemberJoinedEmail:   emailMod.sendDealMemberJoinedEmail,
     sendOrderStatusSms:          smsMod.sendOrderStatusSms,
@@ -13994,6 +13995,65 @@ app.patch("/api/admin/suppliers/:id/kyc", adminMiddleware, adminFreshAuth, AUTH_
       }).catch(() => {});
     }
     res.json({ ok: true, supplier });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// GET /api/admin/suppliers/:id
+// Full supplier record (registry + profile), UNMASKED bankAccount.
+// Used by the admin "פרטים" / "הקם ספק" modal to view all supplier data.
+app.get("/api/admin/suppliers/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const supplier = _prodDb.getSupplier(req.params.id);
+    if (!supplier) return res.status(404).json({ error: "Supplier not found" });
+    // Strip the binary licenseDoc from the response but expose its presence.
+    const { licenseDoc, ...rest } = supplier;
+    const profile = (typeof getSupplierProfile === "function")
+      ? (getSupplierProfile(supplier.id) || null)
+      : null;
+    res.json({ ok: true, supplier: { ...rest, hasLicenseDoc: !!licenseDoc }, profile });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// PATCH /api/admin/suppliers/:id
+// Admin-side onboarding: fill in/correct supplier registry fields on
+// behalf of the supplier ("הקם ספק"). Whitelisted to avoid letting an
+// admin accidentally bypass KYC by patching kycStatus through here, use
+// the dedicated /kyc endpoint for that.
+app.patch("/api/admin/suppliers/:id", adminMiddleware, adminFreshAuth, express.json({ limit: "32kb" }), AUTH_READY ? (req, res) => {
+  try {
+    const ALLOWED = ["businessName","businessNumber","ownerName","email","phone",
+                     "address","category","description","bankAccount"];
+    const fields = {};
+    for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
+    if (Object.keys(fields).length === 0) {
+      return res.status(400).json({ error: "אין שדות לעדכון" });
+    }
+    const updated = _prodDb.updateSupplier(req.params.id, fields);
+    if (!updated) return res.status(404).json({ error: "Supplier not found" });
+    try { logActivity("admin_supplier_updated", { supplier_id: req.params.id, fields: Object.keys(fields).join(",") }); } catch (_) {}
+    res.json({ ok: true, supplier: updated });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/admin/suppliers/:id/request-documents
+// Body: { items: string[], note?: string }
+// Sends a Hebrew email to the supplier listing what they need to send
+// back. Used from the pending-suppliers card "דרוש מסמכים" button.
+app.post("/api/admin/suppliers/:id/request-documents", adminMiddleware, adminFreshAuth, express.json({ limit: "8kb" }), AUTH_READY ? async (req, res) => {
+  try {
+    const { items = [], note = "" } = req.body || {};
+    if (!Array.isArray(items) || (items.length === 0 && !String(note || "").trim())) {
+      return res.status(400).json({ error: "בחר לפחות פריט אחד או הוסף הערה" });
+    }
+    const supplier = _prodDb.getSupplier(req.params.id);
+    if (!supplier) return res.status(404).json({ error: "Supplier not found" });
+    if (!supplier.email) return res.status(400).json({ error: "אין מייל לספק זה" });
+    await globalThis._notif?.sendSupplierDocsRequestEmail?.(supplier.email, {
+      businessName: supplier.businessName,
+      items, note,
+    });
+    try { logActivity("admin_supplier_docs_requested", { supplier_id: req.params.id, items_count: items.length }); } catch (_) {}
+    res.json({ ok: true });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
