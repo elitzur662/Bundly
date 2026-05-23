@@ -7,7 +7,8 @@ import {
   MapPin, X, Eye, EyeOff, Shield, ArrowLeft, Clock, TrendingDown, TrendingUp,
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
   BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, LogIn, User,
-  SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home
+  SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home,
+  RefreshCw, Inbox, MessageSquare, Activity, ClipboardList
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { findDealForProduct, productNamesMatch } from "./dealMatch.js";
@@ -1867,12 +1868,18 @@ function AddressAutocomplete({ value, onChange, placeholder, fetchUrl, disabled,
 function AuthModal({ t, onSuccess, onClose }) {
   // step: "choose" → "login-phone" → "otp" → (existing user done)
   //   OR: "choose" → "welcome" → "phone" → "otp" → "profile" → "prefs" → "done"
+  //   OR: "choose" → "admin-login" → (admin dashboard)
   const [step, setStep]       = useState("choose");
   const [authMode, setAuthMode] = useState(""); // "existing" or "new"
   const [phone, setPhone]     = useState("");
   const [otp, setOtp]         = useState("");
   const [devCode, setDevCode] = useState(""); // shown only when Twilio not configured
   const [loginEmail, setLoginEmail] = useState(""); // email for existing user verification
+  // ── Admin email+password login (unified with customer auth modal) ───
+  // Activated by the small "כניסת מנהל" link on the choose step. Stays
+  // out of the way for normal customers; only the operator clicks it.
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName]   = useState("");
   const [email, setEmail]         = useState("");
@@ -2029,6 +2036,28 @@ function AuthModal({ t, onSuccess, onClose }) {
     finally { setLoading(false); }
   };
 
+  // ── Admin login: email + bcrypt password via /api/admin/login ──
+  // Server detects email+password vs the legacy password-only flow and
+  // returns role:"admin" + a 4h admin JWT.
+  const handleAdminLogin = async () => {
+    if (!adminEmail.trim() || !adminPassword) { setError("הכנס מייל וסיסמה"); return; }
+    setError(""); setLoading(true);
+    try {
+      const res  = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: adminEmail.trim(), password: adminPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "כניסה נכשלה");
+      // Store the admin token separately so it doesn't collide with the
+      // customer token, and signal the app via role:"admin" in onSuccess.
+      _safeLSSet("bundly_admin_token", data.token);
+      onSuccess({ role: "admin", email: adminEmail.trim(), token: data.token });
+    } catch (e) { setError(e.message); }
+    finally { setLoading(false); }
+  };
+
   const PrefToggle = ({ label, icon, checked, onChange }) => (
     <label className="flex items-center justify-between gap-3 py-2.5 px-3 rounded-xl hover:bg-gray-50 cursor-pointer">
       <div className="flex items-center gap-2">
@@ -2054,7 +2083,7 @@ function AuthModal({ t, onSuccess, onClose }) {
           <div>
             <span className="text-2xl font-black text-indigo-600">{BRAND_NAME}</span>
             <p className="text-xs text-gray-400 mt-0.5">
-              {step==="choose"&&"כניסה / הרשמה"}{step==="login-phone"&&"כניסה למשתמש קיים"}{step==="phone"&&"הרשמה"}{step==="welcome"&&"ברוכים הבאים!"}{step==="otp"&&"אימות נייד"}{step==="profile"&&"פרטים אישיים"}{step==="prefs"&&"העדפות התראות"}{step==="done"&&""}
+              {step==="choose"&&"כניסה / הרשמה"}{step==="login-phone"&&"כניסה למשתמש קיים"}{step==="phone"&&"הרשמה"}{step==="welcome"&&"ברוכים הבאים!"}{step==="otp"&&"אימות נייד"}{step==="profile"&&"פרטים אישיים"}{step==="prefs"&&"העדפות התראות"}{step==="admin-login"&&"כניסת מנהל"}{step==="done"&&""}
             </p>
           </div>
           <button aria-label="סגור" onClick={onClose} className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-xl active:bg-gray-200"><X className="w-5 h-5 text-gray-500" /></button>
@@ -2098,6 +2127,47 @@ function AuthModal({ t, onSuccess, onClose }) {
                 in production builds it relied on the absence of a single env
                 var. Real launch = real OTP only. Restore from git history if
                 you need it back for local QA. */}
+
+            {/* Discreet admin entry. Operators click this; customers ignore
+                it. Routes to the same /api/admin/login endpoint used by the
+                legacy OwnerLoginModal but with email + bcrypt-hashed pw. */}
+            <button
+              onClick={() => { setError(""); setStep("admin-login"); }}
+              className="block w-full text-center text-[11px] text-gray-400 hover:text-indigo-600 mt-2 underline-offset-2 hover:underline"
+            >
+              כניסת מנהל
+            </button>
+          </div>
+        )}
+
+        {/* ── Admin login: email + password (unified entry) ── */}
+        {step === "admin-login" && (
+          <div className="space-y-4">
+            <div className="text-center mb-2">
+              <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Lock className="w-7 h-7 text-purple-700" />
+              </div>
+              <p className="text-gray-700 text-sm font-semibold">כניסת מנהל</p>
+              <p className="text-xs text-gray-400 mt-0.5">אזור ניהול בנדלי, מורשים בלבד</p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">מייל מנהל</label>
+              <input value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" placeholder="admin@bundly.co"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" dir="ltr"
+                autoComplete="username" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">סיסמה</label>
+              <input value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" placeholder="••••••••"
+                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" dir="ltr"
+                autoComplete="current-password"
+                onKeyDown={e => e.key === "Enter" && handleAdminLogin()} />
+            </div>
+            <Btn onClick={handleAdminLogin} disabled={loading} className="w-full" size="lg">
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Lock className="w-4 h-4" />כניסה</>}
+            </Btn>
+            <button onClick={() => { setStep("choose"); setAdminEmail(""); setAdminPassword(""); setError(""); }}
+              className="w-full text-center text-xs text-indigo-500 hover:underline">חזרה</button>
           </div>
         )}
 
@@ -5344,9 +5414,14 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
             joinTitle="הוסיפו לקבוצת רכישה כללית"
             joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
             onJoinGroup={deal.catIdx != null ? () => {
-              const pname = deal.name.en || deal.name.he;
-              if (onDirectJoinPool) onDirectJoinPool(deal.catIdx, pname);
-              else onAddToPool?.(deal.catIdx, pname);
+              // Open the demand-pool picker, the user sees similar buying
+              // groups in this category and can join one (or add this product
+              // as a new entry, prefilled). Was a silent counter bump that
+              // looked like "nothing happened".
+              const pname = deal.name.he || deal.name.en;
+              if (onJoinDemandPool) onJoinDemandPool(deal.catIdx, pname);
+              else if (onAddToPool) onAddToPool(deal.catIdx, pname);
+              else onDirectJoinPool?.(deal.catIdx, pname);
             } : undefined}
             onRequestSupplierPrice={onRequestSupplierPrice}
             requestProduct={deal.name.en || deal.name.he}
@@ -6089,6 +6164,496 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  ADMIN DASHBOARD, unified founder/admin control panel.
+//
+//  Rendered when the AuthModal returns role:"admin" (unified login via
+//  /api/admin/login with email + bcrypt password). Reuses the same admin
+//  JWT stored in `bundly_admin_token` as the legacy OwnerLoginModal flow,
+//  so both entry points coexist without conflict.
+//
+//  Sections, top tabs in Hebrew RTL:
+//   1. בקשות ספקים חדשים      → /api/admin/suppliers?kycStatus=pending
+//   2. פניות תמיכה             → /api/admin/tickets (+ stats, reply)
+//   3. בקשות הצעת מחיר אישיות   → /api/admin/personal-requests
+//   4. הזמנות אחרונות          → /api/admin/orders
+//   5. תנועות תשלום            → /api/admin/transactions
+//   6. פיד פעילות חי           → /api/admin/activity
+// ─────────────────────────────────────────────────────────────────
+function AdminDashboard({ onLogout }) {
+  const PURPLE = "#7e22ce";
+  const [tab, setTab] = useState("suppliers");
+  const [loading, setLoading] = useState({});
+  const [pendingSuppliers, setPendingSuppliers] = useState([]);
+  const [tickets, setTickets]   = useState([]);
+  const [ticketStats, setTicketStats] = useState(null);
+  const [personalReqs, setPersonalReqs] = useState([]);
+  const [orders, setOrders]     = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [activity, setActivity] = useState({ events: [], stats: null });
+  const [ticketStatusFilter, setTicketStatusFilter] = useState("open");
+  const [replyDrafts, setReplyDrafts] = useState({});
+  const [error, setError]       = useState("");
+
+  const authHeaders = () => {
+    const tok = _safeLS("bundly_admin_token");
+    return tok ? { Authorization: `Bearer ${tok}` } : {};
+  };
+  const adminJson = () => ({ "Content-Type": "application/json", ...authHeaders() });
+
+  const setBusy = (k, v) => setLoading(prev => ({ ...prev, [k]: v }));
+
+  const loadSuppliers = useCallback(async () => {
+    setBusy("suppliers", true);
+    try {
+      const r = await fetch("/api/admin/suppliers?kycStatus=pending", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setPendingSuppliers(d.suppliers || []);
+    } catch (e) { setError(e.message); }
+    finally { setBusy("suppliers", false); }
+  }, []);
+
+  const loadTickets = useCallback(async () => {
+    setBusy("tickets", true);
+    try {
+      const q = ticketStatusFilter && ticketStatusFilter !== "all" ? `?status=${ticketStatusFilter}` : "";
+      const [r1, r2] = await Promise.all([
+        fetch(`/api/admin/tickets${q}`, { headers: authHeaders() }),
+        fetch("/api/admin/tickets/stats", { headers: authHeaders() }),
+      ]);
+      const d1 = await r1.json();
+      const d2 = await r2.json();
+      if (d1?.ok) setTickets(d1.tickets || []);
+      if (d2?.ok) setTicketStats(d2.stats || null);
+    } catch (e) { setError(e.message); }
+    finally { setBusy("tickets", false); }
+  }, [ticketStatusFilter]);
+
+  const loadPersonalReqs = useCallback(async () => {
+    setBusy("requests", true);
+    try {
+      const r = await fetch("/api/admin/personal-requests?limit=200", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setPersonalReqs(d.requests || []);
+    } catch (e) { setError(e.message); }
+    finally { setBusy("requests", false); }
+  }, []);
+
+  const loadOrders = useCallback(async () => {
+    setBusy("orders", true);
+    try {
+      const r = await fetch("/api/admin/orders?limit=100", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setOrders(d.orders || []);
+    } catch (e) { setError(e.message); }
+    finally { setBusy("orders", false); }
+  }, []);
+
+  const loadTransactions = useCallback(async () => {
+    setBusy("transactions", true);
+    try {
+      const r = await fetch("/api/admin/transactions?limit=100", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setTransactions(d.transactions || []);
+    } catch (e) { setError(e.message); }
+    finally { setBusy("transactions", false); }
+  }, []);
+
+  const loadActivity = useCallback(async () => {
+    setBusy("activity", true);
+    try {
+      const r = await fetch("/api/admin/activity?limit=150", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setActivity({ events: d.events || [], stats: d.stats || null });
+    } catch (e) { setError(e.message); }
+    finally { setBusy("activity", false); }
+  }, []);
+
+  // Initial load: pull everything so counts / badges are accurate from the start.
+  useEffect(() => {
+    loadSuppliers();
+    loadTickets();
+    loadPersonalReqs();
+    loadOrders();
+    loadTransactions();
+    loadActivity();
+  }, [loadSuppliers, loadTickets, loadPersonalReqs, loadOrders, loadTransactions, loadActivity]);
+
+  // Re-fetch tickets when the status filter changes.
+  useEffect(() => { loadTickets(); }, [ticketStatusFilter, loadTickets]);
+
+  const approveSupplier = async (id) => {
+    try {
+      const r = await fetch(`/api/admin/suppliers/${id}/kyc`, { method: "PATCH", headers: adminJson(), body: JSON.stringify({ kycStatus: "approved" }) });
+      if (!r.ok) throw new Error("שגיאה באישור הספק");
+      setPendingSuppliers(prev => prev.filter(s => s.id !== id));
+    } catch (e) { setError(e.message); }
+  };
+  const rejectSupplier = async (id) => {
+    const reason = window.prompt("סיבת דחיה (אופציונלי):") || "";
+    try {
+      const r = await fetch(`/api/admin/suppliers/${id}/kyc`, { method: "PATCH", headers: adminJson(), body: JSON.stringify({ kycStatus: "rejected", kycRejectReason: reason }) });
+      if (!r.ok) throw new Error("שגיאה בדחיית הספק");
+      setPendingSuppliers(prev => prev.filter(s => s.id !== id));
+    } catch (e) { setError(e.message); }
+  };
+
+  const replyToTicket = async (ticketId) => {
+    const text = (replyDrafts[ticketId] || "").trim();
+    if (!text) return;
+    try {
+      const r = await fetch(`/api/admin/tickets/${ticketId}/reply`, { method: "POST", headers: adminJson(), body: JSON.stringify({ text }) });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שליחת תגובה נכשלה");
+      setReplyDrafts(prev => ({ ...prev, [ticketId]: "" }));
+      // Refresh the list, updated ticket replaces the old row.
+      await loadTickets();
+    } catch (e) { setError(e.message); }
+  };
+  const closeTicket = async (ticketId) => {
+    try {
+      const r = await fetch(`/api/admin/tickets/${ticketId}`, { method: "PATCH", headers: adminJson(), body: JSON.stringify({ status: "resolved" }) });
+      if (!r.ok) throw new Error("שגיאה בסגירת הפניה");
+      await loadTickets();
+    } catch (e) { setError(e.message); }
+  };
+
+  const openTicketCount = useMemo(
+    () => tickets.filter(t => t.status === "open" || !t.status).length,
+    [tickets]
+  );
+
+  const SECTIONS = [
+    { key: "suppliers",    label: "בקשות ספקים חדשים",   icon: ShieldCheck,    count: pendingSuppliers.length },
+    { key: "tickets",      label: "פניות תמיכה",          icon: MessageSquare,  count: openTicketCount },
+    { key: "requests",     label: "בקשות הצעת מחיר אישיות", icon: ClipboardList, count: personalReqs.filter(r => r.status !== "offered" && r.status !== "closed").length },
+    { key: "orders",       label: "הזמנות אחרונות",       icon: ShoppingCart,   count: orders.length },
+    { key: "transactions", label: "תנועות תשלום",         icon: Banknote,       count: transactions.length },
+    { key: "activity",     label: "פיד פעילות חי",        icon: Activity,       count: activity.events.length },
+  ];
+
+  const refreshCurrent = () => {
+    if (tab === "suppliers")    return loadSuppliers();
+    if (tab === "tickets")      return loadTickets();
+    if (tab === "requests")     return loadPersonalReqs();
+    if (tab === "orders")       return loadOrders();
+    if (tab === "transactions") return loadTransactions();
+    if (tab === "activity")     return loadActivity();
+  };
+
+  const fmtDate = (iso) => {
+    if (!iso) return "";
+    try { return new Date(iso).toLocaleString("he-IL"); } catch { return String(iso); }
+  };
+  const fmtMoney = (n) => `₪${Math.abs(Number(n) || 0).toLocaleString("he-IL")}`;
+
+  return (
+    <div className="max-w-6xl mx-auto" dir="rtl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background: PURPLE }}>
+            <Shield className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-black text-gray-900 leading-tight">לוח ניהול בנדלי</h2>
+            <p className="text-xs text-gray-500 mt-0.5">פאנל מנהל מאוחד, ניטור ותפעול</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Btn onClick={refreshCurrent} variant="ghost" size="sm" disabled={loading[tab]}>
+            <RefreshCw className={`w-3.5 h-3.5 ${loading[tab] ? "animate-spin" : ""}`} />
+            רענן
+          </Btn>
+          <Btn onClick={onLogout} variant="ghost" size="sm">
+            <LogOut className="w-3.5 h-3.5" />
+            יציאה
+          </Btn>
+        </div>
+      </div>
+
+      {/* Stat strip */}
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-5">
+        {SECTIONS.map(s => {
+          const Icon = s.icon;
+          const active = tab === s.key;
+          return (
+            <button
+              key={s.key}
+              onClick={() => setTab(s.key)}
+              className={`text-right rounded-2xl border p-3 transition-all min-h-[78px] ${active ? "border-transparent shadow-md" : "border-gray-200 bg-white hover:border-purple-200"}`}
+              style={active ? { background: PURPLE, color: "white" } : undefined}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <Icon className={`w-4 h-4 ${active ? "text-white" : "text-purple-700"}`} />
+                {s.count > 0 && (
+                  <span className={`text-[11px] font-bold rounded-full px-2 py-0.5 ${active ? "bg-white/20 text-white" : "bg-purple-100 text-purple-800"}`}>
+                    {s.count}
+                  </span>
+                )}
+              </div>
+              <p className={`text-[12px] font-bold leading-tight ${active ? "text-white" : "text-gray-800"}`}>{s.label}</p>
+            </button>
+          );
+        })}
+      </div>
+
+      {error && (
+        <div className="bg-red-50 text-red-700 rounded-xl p-3 text-sm mb-3 flex items-center justify-between">
+          <span>{error}</span>
+          <button onClick={() => setError("")} className="text-red-500 hover:text-red-700"><X className="w-4 h-4" /></button>
+        </div>
+      )}
+
+      {/* Body */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-4 md:p-5 min-h-[400px]">
+        {/* ─── Suppliers ─── */}
+        {tab === "suppliers" && (
+          <div className="space-y-3">
+            {pendingSuppliers.length === 0 && !loading.suppliers && (
+              <div className="text-center py-12 text-gray-400">
+                <ShieldCheck className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">אין בקשות ספקים ממתינות</p>
+              </div>
+            )}
+            {pendingSuppliers.map(s => (
+              <div key={s.id} className="rounded-xl border border-gray-100 p-4 hover:border-purple-200 transition">
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-gray-900 text-sm truncate">{s.businessName || s.bizName || "ספק"}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5 truncate">
+                      {s.email || ""}
+                      {s.phone ? `${s.email ? " , " : ""}${s.phone}` : ""}
+                    </p>
+                    {(s.categories && s.categories.length > 0) && (
+                      <p className="text-[11px] text-gray-400 mt-1">קטגוריות: {(s.categories || []).join(", ")}</p>
+                    )}
+                  </div>
+                  <span className="shrink-0 text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">{s.kycStatus || "pending"}</span>
+                </div>
+                <div className="flex gap-2">
+                  <Btn onClick={() => approveSupplier(s.id)} variant="success" size="sm"><CheckCircle className="w-3.5 h-3.5" />אשר</Btn>
+                  <Btn onClick={() => rejectSupplier(s.id)} variant="danger"  size="sm"><X className="w-3.5 h-3.5" />דחה</Btn>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── Tickets ─── */}
+        {tab === "tickets" && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex gap-2 flex-wrap">
+                {["open","resolved","all"].map(s => (
+                  <button key={s} onClick={() => setTicketStatusFilter(s)}
+                    className={`text-[12px] font-bold px-3 py-1.5 rounded-full transition ${ticketStatusFilter===s ? "bg-purple-700 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
+                    {s === "open" ? "פתוחות" : s === "resolved" ? "סגורות" : "הכל"}
+                  </button>
+                ))}
+              </div>
+              {ticketStats && (
+                <div className="text-[11px] text-gray-500">
+                  סהכ: <b>{ticketStats.total || 0}</b> · פתוחות: <b className="text-purple-700">{ticketStats.open || 0}</b>
+                </div>
+              )}
+            </div>
+            {tickets.length === 0 && !loading.tickets && (
+              <div className="text-center py-12 text-gray-400">
+                <MessageSquare className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">אין פניות להצגה</p>
+              </div>
+            )}
+            {tickets.map(tk => (
+              <div key={tk.id} className="rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-gray-900 text-sm">
+                      פנייה #{tk.id}
+                      {tk.subject ? ` , ${tk.subject}` : ""}
+                    </h3>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                      {fmtDate(tk.createdAt)}
+                      {tk.contactEmail ? ` · ${tk.contactEmail}` : ""}
+                      {tk.priority ? ` · עדיפות: ${tk.priority}` : ""}
+                    </p>
+                  </div>
+                  <span className={`shrink-0 text-[11px] px-2 py-0.5 rounded-full font-bold ${
+                    tk.status === "resolved" ? "bg-emerald-100 text-emerald-800" :
+                    tk.status === "rejected" ? "bg-gray-200 text-gray-600" :
+                    "bg-purple-100 text-purple-800"
+                  }`}>
+                    {tk.status || "open"}
+                  </span>
+                </div>
+                {tk.description && (
+                  <p className="text-sm text-gray-700 bg-gray-50 rounded-lg p-3 mb-3 whitespace-pre-wrap">{tk.description}</p>
+                )}
+                {(tk.status !== "resolved" && tk.status !== "rejected") && (
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      value={replyDrafts[tk.id] || ""}
+                      onChange={e => setReplyDrafts(prev => ({ ...prev, [tk.id]: e.target.value }))}
+                      placeholder="כתוב תגובה ללקוח..."
+                      className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                      onKeyDown={e => e.key === "Enter" && replyToTicket(tk.id)}
+                    />
+                    <div className="flex gap-2">
+                      <Btn onClick={() => replyToTicket(tk.id)} size="sm" disabled={!(replyDrafts[tk.id] || "").trim()}>
+                        <Send className="w-3.5 h-3.5" />שלח
+                      </Btn>
+                      <Btn onClick={() => closeTicket(tk.id)} variant="ghost" size="sm">סגור פניה</Btn>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── Personal requests ─── */}
+        {tab === "requests" && (
+          <div className="space-y-3">
+            {personalReqs.length === 0 && !loading.requests && (
+              <div className="text-center py-12 text-gray-400">
+                <ClipboardList className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">אין בקשות אישיות</p>
+              </div>
+            )}
+            {personalReqs.map(r => (
+              <div key={r.id} className="rounded-xl border border-gray-100 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h3 className="font-bold text-gray-900 text-sm truncate">{r.product || r.productName || "ללא שם"}</h3>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                      {r.category || "כללי"} · {fmtDate(r.createdAt)}
+                      {r.budget ? ` · תקציב ${fmtMoney(r.budget)}` : ""}
+                    </p>
+                    <p className="text-[11px] text-gray-500 mt-0.5">
+                      {r.name || "לקוח"} · {r.phone || ""} {r.email ? `· ${r.email}` : ""}
+                    </p>
+                  </div>
+                  <div className="text-left shrink-0">
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
+                      r.status === "offered" ? "bg-emerald-100 text-emerald-800" :
+                      r.status === "closed"  ? "bg-gray-200 text-gray-700" :
+                      "bg-purple-100 text-purple-800"
+                    }`}>{r.status || "open"}</span>
+                    {r.offerPrice && (
+                      <p className="text-[12px] font-black text-emerald-700 mt-1">{fmtMoney(r.offerPrice)}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── Orders ─── */}
+        {tab === "orders" && (
+          <div className="space-y-2">
+            {orders.length === 0 && !loading.orders && (
+              <div className="text-center py-12 text-gray-400">
+                <ShoppingCart className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">אין הזמנות להצגה</p>
+              </div>
+            )}
+            {orders.map(o => (
+              <div key={o.id} className="rounded-xl border border-gray-100 p-3 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-purple-100 shrink-0">
+                  <Package className="w-4 h-4 text-purple-700" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-gray-900 text-sm truncate">
+                    הזמנה #{o.id}
+                    {o.productName ? ` , ${o.productName}` : ""}
+                  </p>
+                  <p className="text-[11px] text-gray-500 mt-0.5">
+                    {fmtDate(o.createdAt)}
+                    {o.supplierId ? ` · ספק: ${o.supplierId}` : ""}
+                    {o.userId ? ` · לקוח #${o.userId}` : ""}
+                  </p>
+                </div>
+                <div className="text-left shrink-0">
+                  {o.amount != null && <p className="font-black text-sm text-gray-900">{fmtMoney(o.amount)}</p>}
+                  <p className="text-[10px] text-gray-500">{o.status || ""}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── Transactions ─── */}
+        {tab === "transactions" && (
+          <div className="space-y-2">
+            {transactions.length === 0 && !loading.transactions && (
+              <div className="text-center py-12 text-gray-400">
+                <Banknote className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                <p className="text-sm">אין תנועות תשלום</p>
+              </div>
+            )}
+            {transactions.map(tx => (
+              <div key={tx.id} className="rounded-xl border border-gray-100 p-3 flex items-center gap-3">
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                  tx.type === "charge" ? "bg-emerald-100 text-emerald-700" :
+                  tx.type === "refund" ? "bg-red-100 text-red-700" :
+                  tx.type === "payout" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500"
+                }`}>
+                  {tx.type === "refund" ? "↑" : tx.type === "payout" ? "→" : "↓"}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-gray-900 text-sm">
+                    {tx.type === "charge" ? "תשלום" : tx.type === "refund" ? "החזר" : tx.type === "payout" ? "תשלום לספק" : (tx.type || "תנועה")}
+                    {tx.orderId ? <span className="text-[11px] text-gray-400 font-normal mr-2">· הזמנה #{tx.orderId}</span> : null}
+                  </p>
+                  <p className="text-[10px] text-gray-500 mt-0.5">{fmtDate(tx.createdAt)}</p>
+                </div>
+                <div className="text-left shrink-0">
+                  <p className={`font-black text-sm ${Number(tx.amount) >= 0 ? "text-emerald-700" : "text-red-600"}`}>
+                    {Number(tx.amount) >= 0 ? "+" : "-"}{fmtMoney(tx.amount)}
+                  </p>
+                  <p className="text-[10px] text-gray-400">{tx.status || ""}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* ─── Activity ─── */}
+        {tab === "activity" && (
+          <div>
+            {activity.stats && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                {Object.entries(activity.stats).slice(0, 8).map(([k, v]) => (
+                  <div key={k} className="rounded-xl border border-gray-100 p-2 text-center">
+                    <p className="text-[10px] text-gray-500 truncate">{k}</p>
+                    <p className="text-sm font-black text-purple-700">{typeof v === "number" ? v : (v?.count ?? "")}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="space-y-1.5 max-h-[600px] overflow-y-auto pr-1">
+              {activity.events.length === 0 && !loading.activity && (
+                <div className="text-center py-10 text-gray-400">
+                  <Activity className="w-10 h-10 mx-auto mb-2 opacity-40" />
+                  <p className="text-sm">אין פעילות אחרונה</p>
+                </div>
+              )}
+              {activity.events.map((ev, idx) => (
+                <div key={`${ev.id || idx}-${ev.timestamp || idx}`} className="text-[12px] font-mono bg-gray-50 rounded-lg px-3 py-1.5 flex items-center gap-3">
+                  <span className="text-purple-700 font-bold shrink-0">{ev.type}</span>
+                  <span className="text-gray-400 shrink-0">{fmtDate(ev.timestamp)}</span>
+                  <span className="text-gray-700 truncate">{ev.details ? JSON.stringify(ev.details).slice(0, 160) : ""}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  OWNER LOGIN
 // ─────────────────────────────────────────────────────────────────
 function OwnerLoginModal({ t, onSuccess, onClose }) {
@@ -6189,7 +6754,7 @@ function SupplierLoginModal({ onSuccess, onClose }) {
           כניסת ספקים מתבצעת דרך הכניסה הראשית של Bundly עם הטלפון/המייל הרשומים על חשבון הספק.
         </p>
         <p className="text-xs text-gray-400 text-center">
-          עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co.shop@gmail.com</strong>
+          עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co@bundly.co</strong>
         </p>
         <Btn className="w-full" onClick={onClose}>סגור</Btn>
 
@@ -6323,7 +6888,7 @@ function SupplierRealLoginModal({ onSuccess, onClose }) {
               {loading ? "שולח..." : "שלח קוד"}
             </Btn>
             <p className="text-[11px] text-gray-400 text-center">
-              עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co.shop@gmail.com</strong>
+              עדיין לא נרשמת כספק? פנה אלינו: <strong>bundly.co@bundly.co</strong>
             </p>
           </>
         )}
@@ -21348,7 +21913,10 @@ export default function App() {
   }, []);
   const [showSupplier, setShowSupplier] = useState(false);
   const [showOwnerLogin, setShowOwnerLogin] = useState(false);
-  const [ownerLoggedIn, setOwnerLoggedIn] = useState(false);
+  // Restore admin session from localStorage so the admin doesn't have to
+  // re-login after every page refresh, the JWT itself is what authorizes
+  // the /api/admin/* requests (4h TTL, revocable on /api/admin/logout).
+  const [ownerLoggedIn, setOwnerLoggedIn] = useState(() => !!_safeLS("bundly_admin_token"));
   const [showSupplierLogin, setShowSupplierLogin] = useState(false);
   // Real supplier login modal (ח.פ + OTP). Opened by "כבר רשומים? התחברו".
   const [showSupplierRealLogin, setShowSupplierRealLogin] = useState(false);
@@ -22162,8 +22730,17 @@ export default function App() {
 
   // Shared AuthModal success handler. Normal login just lifts the user;
   // if the login was triggered by the supplier-login CTA, also resolve
-  // the supplier account and route into the dashboard.
+  // the supplier account and route into the dashboard. If the auth modal
+  // returned role:"admin" (unified admin login), route to the admin
+  // dashboard and DO NOT touch the regular user/customer session.
   const handleAuthSuccess = useCallback(async (u) => {
+    if (u && u.role === "admin") {
+      setShowAuth(false);
+      setOwnerLoggedIn(true);
+      setMode("admin");
+      notify("ברוכים, מנהל");
+      return;
+    }
     setUser(u);
     setShowAuth(false);
     if (pendingSupplierLogin) {
@@ -22621,13 +23198,28 @@ export default function App() {
       <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx) => setJoinPoolModal({ catIdx, mode: null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
+          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
         {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
+        {/* Demand-pool picker, also rendered here so it works when triggered
+            from inside an open deal page (the deal view is its own render
+            block and would otherwise never mount this modal). */}
+        {joinPoolModal && (
+          <JoinDemandPoolModal
+            catIdx={joinPoolModal.catIdx}
+            catName={POOL_NAMES[joinPoolModal.catIdx] || CATEGORIES.he[joinPoolModal.catIdx] || "קטגוריה"}
+            catIcon={CAT_ICONS[joinPoolModal.catIdx] || "📦"}
+            existingModels={demandPools[joinPoolModal.catIdx] || {}}
+            onJoin={joinDemandPool}
+            onClose={() => setJoinPoolModal(null)}
+            initialMode={joinPoolModal.mode || null}
+            prefillModel={joinPoolModal.prefillModel || null}
+          />
+        )}
         {universalBackBtn}
       </div>
     );
@@ -23235,6 +23827,24 @@ export default function App() {
       {mode === "owner" && ownerLoggedIn && (
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
           <OwnerDashboard t={t} deals={deals} requests={personalRequests} pendingSuppliers={pendingSuppliers} onSendOffer={(id,price)=>{setPersonalRequests(p=>p.map(r=>r.id===id?{...r,offerPrice:price}:r));notify(t.offerSent);}} onAddBid={handleAddBid} onApprove={handleApprove} onReject={handleReject} onLogout={()=>{_safeLSRemove("bundly_admin_token");setOwnerLoggedIn(false);setMode("deals");}} />
+        </main>
+      )}
+
+      {/* Unified admin dashboard, rendered when the AuthModal admin login
+          set role:"admin" and routed us to mode="admin". Coexists with the
+          legacy mode="owner" (OwnerDashboard via OwnerLoginModal). */}
+      {mode === "admin" && ownerLoggedIn && (
+        <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
+          <AdminDashboard onLogout={async () => {
+            const tok = _safeLS("bundly_admin_token");
+            if (tok) {
+              try { await fetch("/api/admin/logout", { method: "POST", headers: { Authorization: `Bearer ${tok}` } }); } catch {}
+            }
+            _safeLSRemove("bundly_admin_token");
+            setOwnerLoggedIn(false);
+            setMode("home");
+            notify("יצאת מאזור הניהול");
+          }} />
         </main>
       )}
 

@@ -18,6 +18,7 @@
 import "dotenv/config";
 
 import express from "express";
+import bcrypt from "bcryptjs";
 // import cors from "cors"; // replaced by strictCors in security-middleware.js
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -199,7 +200,23 @@ function _assertStrongSecret(name, value, minLen = 32) {
 // env is missing/weak, _assertStrongSecret below exits before any token is signed.
 _assertStrongSecret("JWT_SECRET", process.env.JWT_SECRET, 32);
 _assertStrongSecret("URL_SIGN_SECRET", process.env.URL_SIGN_SECRET, 32);
-_assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
+// Admin auth, two supported modes (either is fine):
+//   1) Legacy: ADMIN_PASSWORD (plain) compared via constant-time equals.
+//   2) New:    BUNDLY_ADMIN_EMAIL + BUNDLY_ADMIN_PASSWORD_HASH (bcrypt), used
+//      by the unified email+password login from the customer auth modal.
+// At least one mode must be configured. The hash itself is not a secret string
+// in the FORBIDDEN_SECRETS sense (it's a bcrypt $2... hash), so we only assert
+// it is non-empty and looks bcrypt-shaped.
+if (process.env.ADMIN_PASSWORD) {
+  _assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
+} else if (!process.env.BUNDLY_ADMIN_PASSWORD_HASH) {
+  console.error("❌ FATAL: neither ADMIN_PASSWORD nor BUNDLY_ADMIN_PASSWORD_HASH is set. Generate a hash via: node scripts/hash-admin-password.mjs <password>");
+  process.exit(1);
+}
+if (process.env.BUNDLY_ADMIN_PASSWORD_HASH && !/^\$2[aby]?\$\d{2}\$/.test(process.env.BUNDLY_ADMIN_PASSWORD_HASH)) {
+  console.error("❌ FATAL: BUNDLY_ADMIN_PASSWORD_HASH does not look like a bcrypt hash. Generate via: node scripts/hash-admin-password.mjs <password>");
+  process.exit(1);
+}
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // LAUNCH HARDENING, in production:
@@ -4280,6 +4297,63 @@ app.get("/api/search-products-stream",
         console.warn(`  ↳ Stream: ⚠️  sog="${sogCacheKey}" failed sanity check, not cached, will retry next request`);
       }
     }
+
+    // ── Console-category guard ──────────────────────────────────────────
+    // The gaming-consoles sog (e-tvgame) is a broad Zap bucket that also
+    // holds boxed games, board-games, stickers and LEGO. When the intent is
+    // the console CATEGORY (not an explicit "games" query), merge in the
+    // curated product-db/gaming-consoles catalog (hand-picked real consoles)
+    // and then keep only real console hardware, so the category shows a full
+    // PS5 / Xbox / Switch line-up and not unrelated games. Runs AFTER persist
+    // so the shared sog cache keeps the full set (a later "games" query still
+    // works).
+    if (_isConsoleCategoryIntent(q, detectedSog) && Array.isArray(candidates)) {
+      const curatedConsoles = _curatedCatalogCandidates("gaming-consoles");
+      const beforeMerge = candidates.length;
+      candidates = _mergeCandidatesByName(candidates, curatedConsoles);
+      if (candidates.length !== beforeMerge) {
+        console.log(`  ↳ Stream: console-category merge, +${candidates.length - beforeMerge} curated consoles (${beforeMerge} → ${candidates.length})`);
+      }
+      const _consoleOnly = candidates.filter(c => _isGameConsoleName(c.name || c.nameHe || c.nameEn || c.title));
+      if (_consoleOnly.length >= 3) {
+        console.log(`  ↳ Stream: console-category filter, ${candidates.length} → ${_consoleOnly.length} real consoles (sog=e-tvgame)`);
+        candidates = _consoleOnly;
+      } else {
+        console.log(`  ↳ Stream: console-category filter, only ${_consoleOnly.length} matched, keeping all ${candidates.length}`);
+      }
+    }
+
+    // ── Games-category guard ────────────────────────────────────────────
+    // The same broad e-tvgame sog also serves "משחקי PS5" / "משחקי Nintendo"
+    // browses. The Zap bucket and the cached catalog are contaminated with
+    // accessories, building-block toys, board games and console hardware, so
+    // merge in the curated product-db games catalogs for the requested
+    // platform and keep only real video games.
+    if (_isGamesCategoryIntent(q, detectedSog) && Array.isArray(candidates)) {
+      const platform = _gamesCategoryPlatform(q);
+      const curatedSlugs = platform === "nintendo" ? ["nintendo-games", "ps5-games"]
+        : platform === "ps4"                       ? ["ps4-games", "ps5-games"]
+        : platform === "ps5"                       ? ["ps5-games", "ps4-games"]
+        : ["ps5-games", "ps4-games", "nintendo-games"];
+      let curatedGames = [];
+      for (const slug of curatedSlugs) curatedGames = curatedGames.concat(_curatedCatalogCandidates(slug));
+      const beforeMerge = candidates.length;
+      candidates = _mergeCandidatesByName(candidates, curatedGames);
+      if (candidates.length !== beforeMerge) {
+        console.log(`  ↳ Stream: games-category merge, +${candidates.length - beforeMerge} curated games (${beforeMerge} → ${candidates.length})`);
+      }
+      const _gamesOnly = candidates.filter(c => {
+        const nm = c.name || c.nameHe || c.nameEn || c.title;
+        return _isVideoGameName(nm) && _videoGameMatchesPlatform(nm, platform);
+      });
+      if (_gamesOnly.length >= 3) {
+        console.log(`  ↳ Stream: games-category filter, ${candidates.length} → ${_gamesOnly.length} real games (platform=${platform || "any"})`);
+        candidates = _gamesOnly;
+      } else {
+        console.log(`  ↳ Stream: games-category filter, only ${_gamesOnly.length} matched, keeping all ${candidates.length}`);
+      }
+    }
+
     const toFetch = candidates.slice(0, ZAP_MAX_MODELS);
 
     // ── KSP category fallback: fires when ZAP is CF-blocked with no candidates ──
@@ -5042,6 +5116,37 @@ app.get("/api/search-products-stream",
         const rejected = preGuard - finalProducts.length;
         if (rejected > 0) {
           console.log(`  ↳ Stream: SOG content guard, rejected ${rejected}/${preGuard} products that didn't match sog="${detectedSog}" (${SOG_CONTENT_GUARDS[detectedSog]?.name || "unknown"})`);
+        }
+
+        // Console-category guard on the merged list, catches games/toys that
+        // bled in from the KSP / Bug sources (the SOG guard above is too
+        // permissive for e-tvgame, "FIFA 25 PS5" contains "ps5").
+        if (_isConsoleCategoryIntent(q, detectedSog)) {
+          const _preC = finalProducts.length;
+          const _onlyConsoles = finalProducts.filter(p => _isGameConsoleName(p.nameEn || p.nameHe));
+          if (_onlyConsoles.length >= 3) {
+            finalProducts = _onlyConsoles;
+            if (_preC !== finalProducts.length) {
+              console.log(`  ↳ Stream: console-category filter (merged), ${_preC} → ${finalProducts.length} real consoles`);
+            }
+          }
+        }
+
+        // Games-category guard on the merged list, drops accessories / toys /
+        // console hardware that bled in from KSP / Bug for a "games" browse.
+        if (_isGamesCategoryIntent(q, detectedSog)) {
+          const _preG = finalProducts.length;
+          const _platform = _gamesCategoryPlatform(q);
+          const _onlyGames = finalProducts.filter(p => {
+            const nm = p.nameEn || p.nameHe;
+            return _isVideoGameName(nm) && _videoGameMatchesPlatform(nm, _platform);
+          });
+          if (_onlyGames.length >= 3) {
+            finalProducts = _onlyGames;
+            if (_preG !== finalProducts.length) {
+              console.log(`  ↳ Stream: games-category filter (merged), ${_preG} → ${finalProducts.length} real games (platform=${_platform || "any"})`);
+            }
+          }
         }
 
         const priced = finalProducts.filter(p => p.priceMin > 0).length;
@@ -6497,6 +6602,162 @@ function _passesSogGuard(product, sog) {
   return true;
 }
 
+// Strip a leading marketing prefix ("מציאון ועודפים", "מבצע", "חדש") so the
+// classifiers below see the real product name. Bundly catalog rows sometimes
+// carry such a prefix before the actual title.
+function _stripMarketingPrefix(s) {
+  return String(s || "").replace(/^\s*(מציאון ועודפים|מבצע|חדש)\s*[-–]\s*/u, "").trim();
+}
+
+// True when a product name denotes actual game-console HARDWARE (PlayStation /
+// Xbox / Nintendo Switch / Steam Deck / gaming handheld), as opposed to a
+// boxed game, a console accessory ("מעמד לקונסולה", "בקר"), or a toy. A real
+// console name STARTS with the brand+device or the Hebrew word קונסולה; games
+// start with a title and toys with "סטיקרים"/"LEGO"/etc.
+function _isGameConsoleName(nm) {
+  const n = _stripMarketingPrefix(nm).toLowerCase();
+  if (!n) return false;
+  return /^(sony\s+playstation|microsoft\s+xbox|nintendo\s+switch|valve\s+steam\s*deck|playstation\s*[45]\b|xbox\s+series|xbox\s+one|lenovo\s+legion\s+go|asus\s+rog(\s+xbox)?\s+ally|msi\s+claw|steam\s*deck|nintendo\s+game\s*(and|&)\s*watch|קונסול)/.test(n);
+}
+
+// True when a product name denotes an actual VIDEO GAME for a console
+// platform, as opposed to console hardware, an accessory (controller / dock /
+// headset / racing wheel / case), a building-block toy (LEGO / Plus Plus /
+// K'nex), or a board/card game from a toy maker. A real video game carries a
+// platform token (PS5 / PS4 / PlayStation / Xbox / Nintendo / Switch) and the
+// Hebrew word "משחק".
+function _isVideoGameName(nm) {
+  const raw = _stripMarketingPrefix(nm);
+  if (!raw) return false;
+  const n = raw.toLowerCase();
+  // Console hardware is not a game.
+  if (_isGameConsoleName(raw)) return false;
+  // A leading "קונסול" / gaming laptop denotes the device itself. Note that
+  // "לקונסולת" (a game FOR a console) further inside the name is fine.
+  if (/^קונסול/.test(raw)) return false;
+  if (/מחשב\s+גיימינג/.test(raw)) return false;
+  // Building-block toys / construction sets.
+  if (/\blego\b/i.test(raw) || /plus\s*plus/i.test(raw) || /\bk['’]?nex\b/i.test(raw)
+      || /\bengino\b/i.test(raw) || /\bcada\b/i.test(raw)) return false;
+  // Board / card / party games from toy makers (not video games).
+  if (/מבית\s+(קודקוד|פוקסמיינד|foxmind|שפיר|ravensburger|battat)/i.test(raw)) return false;
+  if (/\b(foxmind|ravensburger)\b/i.test(raw)) return false;
+  if (/\bbattat\b/i.test(raw) || /b\.\s*toys/i.test(raw)) return false;
+  if (/קודקוד\s*$/.test(raw) || /משחקי\s+שפיר/.test(raw)) return false;
+  // Accessories / peripherals by leading Hebrew noun. Hebrew letters are not
+  // \w in JS regex, so a whitespace lookahead replaces \b.
+  if (/^(בקר|אוזניות|אוזניה|הגה|עמדת|מעמד|מתקן|כיסויי|כיסוי|סטיקרים|מדבקות|מחברת|מצלמה|מצלמת|כונן|מסך|משקפי|ידית|בסיס|דוושות|דוושת|ערכת|מצערת|מוט|תיק|מארז|נרתיק|רצועת|רצועה|זוג|מגן|מגני|שלט|מערכת|כבל|כבלי|כפתור|מתאם|מצנח|סט)(?=\s)/.test(raw)) return false;
+  if (/^2\s/.test(raw)) return false;
+  // Controllers / docks / headsets / racing wheels named in English.
+  if (/\b(dualsense|joy-?con|charge\s+dock|charging\s+dock|racing\s+wheel|sim\s+racing|driving\s+force|throttle\s+quadrant|h-shifter|handbrake)\b/i.test(n)) return false;
+  // Must carry a platform token.
+  if (!/(ps5|ps4|ps3|playstation|פלייסטיישן|xbox|nintendo|switch)/i.test(raw)) return false;
+  // Must look like a game: says "משחק" or is a known game collection.
+  const saysGame = /משחק/.test(raw);
+  const isCollection = /\bcollection\b/i.test(n) && /ל-?\s*ps[45]\b/i.test(n);
+  return saysGame || isCollection;
+}
+
+// Detect which console platform a "games" category browse targets, from the
+// query text. Returns "ps5" | "ps4" | "nintendo" | null (null = any platform).
+function _gamesCategoryPlatform(q) {
+  const s = String(q || "").toLowerCase();
+  if (/nintendo|נינטנדו|switch|סוויץ/.test(s)) return "nintendo";
+  if (/ps5|ps 5|פלייסטיישן 5/.test(s)) return "ps5";
+  if (/ps4|ps 4|פלייסטיישן 4/.test(s)) return "ps4";
+  return null;
+}
+
+// True when a video-game name matches a target platform ("ps5" | "ps4" |
+// "nintendo"). A null platform matches every video game.
+function _videoGameMatchesPlatform(nm, platform) {
+  if (!platform) return true;
+  const n = _stripMarketingPrefix(nm).toLowerCase();
+  if (platform === "nintendo") return /nintendo|switch|נינטנדו/.test(n);
+  if (platform === "ps5") return /ps5|ps 5|playstation 5|פלייסטיישן 5/.test(n);
+  if (platform === "ps4") return /ps4|ps 4|playstation 4|פלייסטיישן 4/.test(n);
+  return true;
+}
+
+// True when the search intent is the console CATEGORY (not an explicit
+// "games" query) on the broad e-tvgame sog.
+function _isConsoleCategoryIntent(q, sog) {
+  if (sog !== "e-tvgame") return false;
+  const s = String(q || "").toLowerCase();
+  const gamesIntent = !/קונסול/.test(s) && /משחקי|\bgames?\b/.test(s);
+  return !gamesIntent;
+}
+
+// True when the search intent is the games CATEGORY ("משחקי PS5", "משחקי
+// Nintendo", "PS5 games") on the broad e-tvgame sog, as opposed to the
+// console-hardware category.
+function _isGamesCategoryIntent(q, sog) {
+  if (sog !== "e-tvgame") return false;
+  const s = String(q || "").toLowerCase();
+  return !/קונסול/.test(s) && /משחקי|\bgames?\b/.test(s);
+}
+
+// ── Curated product-db catalog reader ───────────────────────────────────────
+// Reads product-db/<slug>/products.json and maps it to the candidate shape the
+// streaming-search endpoint expects (id, name, price, image, per-store prices,
+// filterTags). Mirrors the mapper in loadProductDbIntoCache so curated products
+// render as normal cards. Used to back the gaming-consoles / games categories
+// with the hand-picked local catalog even when the live Zap cache is thin.
+function _curatedCatalogCandidates(slug) {
+  try {
+    const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
+    if (!existsSync(pFile)) return [];
+    const products = JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, ""));
+    if (!Array.isArray(products)) return [];
+    return products
+      .filter(p => p && p.id && p.name)
+      .map(p => ({
+        id:           p.id,
+        name:         p.name,
+        price:        p.prices?.ivory || p.prices?.ksp || p.prices?.bug || p.prices?.zap || 0,
+        listingPrice: p.prices?.ivory || p.prices?.ksp || p.prices?.bug || p.prices?.zap || 0,
+        image:        (() => {
+          const u = p.imageUrl;
+          if (u && /\.svg(?:\?|$)/i.test(u)) return "";
+          if (u) return u;
+          if (!p.image) return "";
+          if (p.image.startsWith("images/")) return `/product-db/${slug}/${p.image}`;
+          return p.image;
+        })(),
+        ivoryPrice:   p.prices?.ivory  || 0,
+        ivoryUrl:     p.prices?.ivoryUrl || "",
+        kspPrice:     p.prices?.ksp    || 0,
+        kspUrl:       p.prices?.kspUrl || "",
+        bugPrice:     p.prices?.bug    || 0,
+        bugUrl:       p.prices?.bugUrl || "",
+        filterTags:   p.filterTags || null,
+      }));
+  } catch (e) {
+    console.warn(`[curatedCatalog] ${slug}: ${e.message}`);
+    return [];
+  }
+}
+
+// Merge curated catalog candidates into a live candidate list, deduped by
+// normalized product name (curated entries win, live extras are appended).
+function _mergeCandidatesByName(primary, extra) {
+  const norm = (s) => _stripMarketingPrefix(s).toLowerCase().replace(/\s+/g, " ").trim();
+  const seen = new Set();
+  const out = [];
+  for (const c of primary) {
+    const key = norm(c.name || c.nameHe || c.nameEn || c.title);
+    if (key) seen.add(key);
+    out.push(c);
+  }
+  for (const c of extra) {
+    const key = norm(c.name || c.nameHe || c.nameEn || c.title);
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    out.push(c);
+  }
+  return out;
+}
+
 // ── Hardcoded Zap SOG map ─────────────────────────────────────────────────────
 // Maps common Hebrew category queries → Zap sog category ID.
 // Used as primary SOG source to bypass search.aspx WAF/redirect failures.
@@ -6547,6 +6808,9 @@ const ZAP_SOG_MAP = {
   // ── קונסולות משחק ──────────────────────────────────────────────────────────
   "קונסולות משחק": "e-tvgame", "קונסולת משחק": "e-tvgame",
   "PS5": "e-tvgame", "Xbox": "e-tvgame", "Nintendo Switch": "e-tvgame",
+  // ── משחקי קונסולה (same broad e-tvgame sog, games-category filter narrows) ──
+  "משחקי PS5": "e-tvgame", "משחקי PS4": "e-tvgame", "משחקי Nintendo": "e-tvgame",
+  "משחקים לקונסולה": "e-tvgame", "משחקי קונסולה": "e-tvgame",
   // ── סטרימרים, e-mediaplayer (NOT e-tvgame which is gaming consoles) ──────
   "סטרימרים": "e-mediaplayer", "סטרימר": "e-mediaplayer",
   "נגני מדיה": "e-mediaplayer", "נגן מדיה": "e-mediaplayer",
@@ -9903,7 +10167,7 @@ function requireSupplierMatch(req, res, next) {
   if (!supplierIdParam) return res.status(400).json({ error: "Missing supplierId in path" });
   const wantedLower = String(supplierIdParam).toLowerCase();
   if (wantedLower === "guest-supplier") {
-    return res.status(403).json({ error: "Demo supplier removed, sign up at bundly.co.shop@gmail.com" });
+    return res.status(403).json({ error: "Demo supplier removed, sign up at bundly.co@bundly.co" });
   }
 
   // ── Parse Bearer JWT ───────────────────────────────────────────────────
@@ -10200,24 +10464,48 @@ function _clearAdminGlobalFailures() {
   _adminGlobalLock.lockedUntil = 0;
 }
 
+// Admin email used by the unified email+password login. Defaults to the
+// business support address so the founder can log in immediately after
+// setting BUNDLY_ADMIN_PASSWORD_HASH without an extra env var.
+const BUNDLY_ADMIN_EMAIL = (process.env.BUNDLY_ADMIN_EMAIL || "bundly.co@bundly.co").toLowerCase();
+
 app.post("/api/admin/login",
   rateLimit({ windowMs: 15 * 60_000, max: 10, label: "admin-login" }),
   AUTH_READY ? async (req, res) => {
-    const { password } = req.body || {};
-    const envPw = process.env.ADMIN_PASSWORD;
-    if (!envPw) return res.status(503).json({ error: "ADMIN_PASSWORD not configured" });
-    // Account-lockout check (Redis or in-memory), per-IP …
+    const { password, email } = req.body || {};
+    const envPw   = process.env.ADMIN_PASSWORD;
+    const envHash = process.env.BUNDLY_ADMIN_PASSWORD_HASH;
+    if (!envPw && !envHash) return res.status(503).json({ error: "Admin auth not configured" });
+    // Account-lockout check (Redis or in-memory), per-IP.
     if (await isLocked(req.ip)) {
       audit("ADMIN_LOCKED", req);
       return res.status(429).json({ error: "יותר מדי ניסיונות כושלים, נסה/י שוב בעוד 30 דקות" });
     }
-    // … and global per-account (defeats IP rotation).
+    // Global per-account (defeats IP rotation).
     if (_isAdminGloballyLocked()) {
       audit("ADMIN_LOCKED_GLOBAL", req);
       return res.status(429).json({ error: "יותר מדי ניסיונות כושלים, נסה/י שוב בעוד 30 דקות" });
     }
-    // Constant-time compare (prevents timing attacks that reveal prefix)
-    if (!password || typeof password !== "string" || !safeEqual(password, envPw)) {
+    let ok = false;
+    if (typeof password === "string" && password.length > 0) {
+      // Mode A: email + bcrypt hash (preferred, used by the unified AuthModal).
+      if (email && envHash) {
+        const emailLc = String(email).trim().toLowerCase();
+        if (emailLc === BUNDLY_ADMIN_EMAIL) {
+          try { ok = await bcrypt.compare(password, envHash); } catch { ok = false; }
+        } else {
+          // Always run a dummy compare to keep response time uniform, so we
+          // don't leak the admin email via timing.
+          try { await bcrypt.compare(password, "$2a$10$abcdefghijklmnopqrstuu1234567890123456789012345678901a"); } catch {}
+          ok = false;
+        }
+      }
+      // Mode B (legacy): plain ADMIN_PASSWORD (back-compat with OwnerLoginModal).
+      if (!ok && !email && envPw) {
+        ok = safeEqual(password, envPw);
+      }
+    }
+    if (!ok) {
       const { locked } = await trackFailedLogin(req.ip);
       const globalLocked = _trackAdminGlobalFailure();
       audit("ADMIN_FAIL", req);
@@ -10228,7 +10516,7 @@ app.post("/api/admin/login",
     const token = _signToken({ role: "admin", id: 0 }, { expiresIn: "4h", algorithm: "HS256" });
     markFreshAuth(0);
     audit("ADMIN_LOGIN", req);
-    res.json({ ok: true, token });
+    res.json({ ok: true, token, role: "admin" });
   } : notReady);
 
 // ── Token refresh ──────────────────────────────────────────────
@@ -13741,6 +14029,41 @@ app.post("/api/admin/tickets/:id/reply", adminMiddleware, AUTH_READY ? async (re
     }
     try { logActivity("ticket_admin_reply", { ticketId: t.id, adminId: req.user.id, isCanned }); } catch (_) {}
     res.json({ ok: true, message: msg, ticket: _prodDb.getDispute(t.id) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin: personal price-quote requests (customer → suppliers) ──
+// Used by the unified AdminDashboard to surface "בקשות הצעת מחיר אישיות".
+app.get("/api/admin/personal-requests", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const limit = Math.max(1, Math.min(500, Number(req.query.limit) || 100));
+    const status = req.query.status ? String(req.query.status) : null;
+    let all = _prodDb.listPersonalRequests() || [];
+    if (status) all = all.filter(r => r.status === status);
+    // Newest first (these are pushed in id order, so reverse is enough).
+    all = all.slice().reverse().slice(0, limit);
+    res.json({ ok: true, requests: all, total: all.length });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin: recent orders across all customers/suppliers ──────────
+// Listed for the "הזמנות אחרונות" tab.
+app.get("/api/admin/orders", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const limit = Math.max(1, Math.min(500, Number(req.query.limit) || 100));
+    const offset = Math.max(0, Number(req.query.offset) || 0);
+    const status = req.query.status ? String(req.query.status) : null;
+    let all = _prodDb.listOrders() || [];
+    if (status) all = all.filter(o => o.status === status);
+    // Newest first by createdAt if present, otherwise by id.
+    all.sort((a, b) => {
+      const ta = a?.createdAt ? Date.parse(a.createdAt) : 0;
+      const tb = b?.createdAt ? Date.parse(b.createdAt) : 0;
+      if (tb !== ta) return tb - ta;
+      return (Number(b?.id) || 0) - (Number(a?.id) || 0);
+    });
+    const page = all.slice(offset, offset + limit);
+    res.json({ ok: true, orders: page, total: all.length, limit, offset });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
