@@ -1868,18 +1868,14 @@ function AddressAutocomplete({ value, onChange, placeholder, fetchUrl, disabled,
 function AuthModal({ t, onSuccess, onClose }) {
   // step: "choose" → "login-phone" → "otp" → (existing user done)
   //   OR: "choose" → "welcome" → "phone" → "otp" → "profile" → "prefs" → "done"
-  //   OR: "choose" → "admin-login" → (admin dashboard)
+  // Admin login is invisible, the SAME OTP flow with no extra UI; the server
+  // recognizes the admin's phone (BUNDLY_ADMIN_PHONE) and returns role:"admin".
   const [step, setStep]       = useState("choose");
   const [authMode, setAuthMode] = useState(""); // "existing" or "new"
   const [phone, setPhone]     = useState("");
   const [otp, setOtp]         = useState("");
   const [devCode, setDevCode] = useState(""); // shown only when Twilio not configured
   const [loginEmail, setLoginEmail] = useState(""); // email for existing user verification
-  // ── Admin email+password login (unified with customer auth modal) ───
-  // Activated by the small "כניסת מנהל" link on the choose step. Stays
-  // out of the way for normal customers; only the operator clicks it.
-  const [adminEmail, setAdminEmail] = useState("");
-  const [adminPassword, setAdminPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName]   = useState("");
   const [email, setEmail]         = useState("");
@@ -1956,6 +1952,16 @@ function AuthModal({ t, onSuccess, onClose }) {
       const res  = await fetch("/api/auth/verify-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ phone, code: otp }) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "קוד שגוי");
+      // Admin-phone path: the server identified this phone as BUNDLY_ADMIN_PHONE.
+      // Store the JWT under the admin key, skip the customer flow entirely, and
+      // signal the App to open the admin dashboard. No customer session is
+      // created on this device, and nothing about it is visible to anyone else.
+      if (data.role === "admin") {
+        _safeLSSet("bundly_admin_token", data.token);
+        setStep("done");
+        setTimeout(() => onSuccess({ role: "admin", token: data.token }), 600);
+        return;
+      }
       _safeLSSet("bundly_token", data.token);
       setToken(data.token);
       setIsNew(data.isNew);
@@ -2036,28 +2042,6 @@ function AuthModal({ t, onSuccess, onClose }) {
     finally { setLoading(false); }
   };
 
-  // ── Admin login: email + bcrypt password via /api/admin/login ──
-  // Server detects email+password vs the legacy password-only flow and
-  // returns role:"admin" + a 4h admin JWT.
-  const handleAdminLogin = async () => {
-    if (!adminEmail.trim() || !adminPassword) { setError("הכנס מייל וסיסמה"); return; }
-    setError(""); setLoading(true);
-    try {
-      const res  = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: adminEmail.trim(), password: adminPassword }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || "כניסה נכשלה");
-      // Store the admin token separately so it doesn't collide with the
-      // customer token, and signal the app via role:"admin" in onSuccess.
-      _safeLSSet("bundly_admin_token", data.token);
-      onSuccess({ role: "admin", email: adminEmail.trim(), token: data.token });
-    } catch (e) { setError(e.message); }
-    finally { setLoading(false); }
-  };
-
   const PrefToggle = ({ label, icon, checked, onChange }) => (
     <label className="flex items-center justify-between gap-3 py-2.5 px-3 rounded-xl hover:bg-gray-50 cursor-pointer">
       <div className="flex items-center gap-2">
@@ -2083,7 +2067,7 @@ function AuthModal({ t, onSuccess, onClose }) {
           <div>
             <span className="text-2xl font-black text-indigo-600">{BRAND_NAME}</span>
             <p className="text-xs text-gray-400 mt-0.5">
-              {step==="choose"&&"כניסה / הרשמה"}{step==="login-phone"&&"כניסה למשתמש קיים"}{step==="phone"&&"הרשמה"}{step==="welcome"&&"ברוכים הבאים!"}{step==="otp"&&"אימות נייד"}{step==="profile"&&"פרטים אישיים"}{step==="prefs"&&"העדפות התראות"}{step==="admin-login"&&"כניסת מנהל"}{step==="done"&&""}
+              {step==="choose"&&"כניסה / הרשמה"}{step==="login-phone"&&"כניסה למשתמש קיים"}{step==="phone"&&"הרשמה"}{step==="welcome"&&"ברוכים הבאים!"}{step==="otp"&&"אימות נייד"}{step==="profile"&&"פרטים אישיים"}{step==="prefs"&&"העדפות התראות"}{step==="done"&&""}
             </p>
           </div>
           <button aria-label="סגור" onClick={onClose} className="min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-gray-100 rounded-xl active:bg-gray-200"><X className="w-5 h-5 text-gray-500" /></button>
@@ -2128,46 +2112,6 @@ function AuthModal({ t, onSuccess, onClose }) {
                 var. Real launch = real OTP only. Restore from git history if
                 you need it back for local QA. */}
 
-            {/* Discreet admin entry. Operators click this; customers ignore
-                it. Routes to the same /api/admin/login endpoint used by the
-                legacy OwnerLoginModal but with email + bcrypt-hashed pw. */}
-            <button
-              onClick={() => { setError(""); setStep("admin-login"); }}
-              className="block w-full text-center text-[11px] text-gray-400 hover:text-indigo-600 mt-2 underline-offset-2 hover:underline"
-            >
-              כניסת מנהל
-            </button>
-          </div>
-        )}
-
-        {/* ── Admin login: email + password (unified entry) ── */}
-        {step === "admin-login" && (
-          <div className="space-y-4">
-            <div className="text-center mb-2">
-              <div className="w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Lock className="w-7 h-7 text-purple-700" />
-              </div>
-              <p className="text-gray-700 text-sm font-semibold">כניסת מנהל</p>
-              <p className="text-xs text-gray-400 mt-0.5">אזור ניהול בנדלי, מורשים בלבד</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">מייל מנהל</label>
-              <input value={adminEmail} onChange={e => setAdminEmail(e.target.value)} type="email" placeholder="admin@bundly.co"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" dir="ltr"
-                autoComplete="username" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">סיסמה</label>
-              <input value={adminPassword} onChange={e => setAdminPassword(e.target.value)} type="password" placeholder="••••••••"
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" dir="ltr"
-                autoComplete="current-password"
-                onKeyDown={e => e.key === "Enter" && handleAdminLogin()} />
-            </div>
-            <Btn onClick={handleAdminLogin} disabled={loading} className="w-full" size="lg">
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Lock className="w-4 h-4" />כניסה</>}
-            </Btn>
-            <button onClick={() => { setStep("choose"); setAdminEmail(""); setAdminPassword(""); setError(""); }}
-              className="w-full text-center text-xs text-indigo-500 hover:underline">חזרה</button>
           </div>
         )}
 
