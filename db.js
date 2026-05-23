@@ -1533,11 +1533,26 @@ export function createDeal(data = {}) {
   return _mutate(db => {
     if (!Array.isArray(db.deals)) db.deals = [];
     const productKey = data.productKey ? String(data.productKey) : null;
-    // Dedupe by productKey, return the existing group-buy deal so all
-    // interested buyers converge on ONE deal instead of forking duplicates.
+    // Dedupe by productKey + name match. Same productKey AND same name = same
+    // product → return the existing deal so all interested buyers converge on
+    // ONE deal. Same productKey but DIFFERENT name = upstream key collision
+    // (rare, but it produced the "every TV → one TV" routing bug), so we
+    // create a fresh deal instead of collapsing the wrong product onto an
+    // unrelated one. The name comparison normalizes whitespace + case so a
+    // re-fetch with cosmetic differences still dedupes correctly.
+    const _normName = (n) => {
+      if (!n) return "";
+      const s = typeof n === "string" ? n : (n.he || n.en || "");
+      return String(s).trim().toLowerCase().replace(/\s+/g, " ");
+    };
+    const incomingName = _normName(data.name);
     if (productKey) {
       const existing = db.deals.find(d => d.productKey && String(d.productKey) === productKey);
-      if (existing) return existing;
+      if (existing) {
+        const existingName = _normName(existing.name);
+        if (!incomingName || !existingName || incomingName === existingName) return existing;
+        console.warn(`[createDeal] productKey collision, different names: existing="${existingName.slice(0,60)}" incoming="${incomingName.slice(0,60)}" — creating a new deal instead of collapsing`);
+      }
     }
     const now = new Date().toISOString();
     const deal = {
