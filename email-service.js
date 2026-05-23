@@ -62,17 +62,39 @@ export async function verifyTransport() {
   }
   try {
     const r = await resend.domains.list();
-    if (r?.error) throw new Error(r.error.message || JSON.stringify(r.error));
+    if (r?.error) {
+      const msg = r.error.message || JSON.stringify(r.error);
+      // SECURITY: a "Sending only" / restricted Resend API key cannot
+      // list domains but CAN send. That's actually the recommended
+      // posture (principle of least privilege). Treat as healthy.
+      if (/restricted|sending|not allowed|insufficient/i.test(msg)) {
+        _status.ready = true;
+        _status.lastError = "";
+        _status.verifiedAt = new Date().toISOString();
+        console.log(`[Email] Resend OK (send-only key), sender=${_from()}`);
+        return true;
+      }
+      throw new Error(msg);
+    }
     _status.ready = true;
     _status.lastError = "";
     _status.verifiedAt = new Date().toISOString();
     console.log(`[Email] Resend OK, sender=${_from()}`);
     return true;
   } catch (e) {
+    const msg = e.message || String(e);
+    // Same fallback for the SDK-thrown variant of the restricted-key error.
+    if (/restricted|sending|not allowed|insufficient/i.test(msg)) {
+      _status.ready = true;
+      _status.lastError = "";
+      _status.verifiedAt = new Date().toISOString();
+      console.log(`[Email] Resend OK (send-only key), sender=${_from()}`);
+      return true;
+    }
     _status.ready = false;
-    _status.lastError = e.message || String(e);
+    _status.lastError = msg;
     _status.verifiedAt = new Date().toISOString();
-    console.warn(`[Email] Resend verify failed: ${_status.lastError}`);
+    console.warn(`[Email] Resend verify failed: ${msg}`);
     return false;
   }
 }
