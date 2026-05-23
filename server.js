@@ -121,7 +121,6 @@ try {
   const db        = await import("./db.js");
   ({
     upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
-    aggregateCustomerInterests,
     listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest,
     seedPersonalRequestsIfEmpty,
     listDealBids, getDealBids, addDealBid, cancelDealBid,
