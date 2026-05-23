@@ -5176,7 +5176,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
 // ─────────────────────────────────────────────────────────────────
 //  DEAL DETAILS PAGE
 // ─────────────────────────────────────────────────────────────────
-function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLoginPrompt, onJoinDemandPool, notify, onRequestSupplierPrice, demandPools, onAddToPool, onDirectJoinPool }) {
+function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimilar, user, onLoginPrompt, onJoinDemandPool, notify, onRequestSupplierPrice, demandPools, onAddToPool, onDirectJoinPool }) {
   const name = cleanName(deal.name[lang] || deal.name.en);
   const desc = deal.desc[lang] || deal.desc.en;
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
@@ -5565,7 +5565,11 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                   return (
                     <div
                       key={d.id}
-                      onClick={() => onJoin?.(d.id)}
+                      // Per user feedback 2026-05-23: clicking a similar
+                      // product opens its detail page so the user can see
+                      // the alternative and decide. NOT auto-join, which
+                      // previously caused phantom additions to "המוצרים שלי".
+                      onClick={() => onViewSimilar?.(d) ?? onJoin?.(d.id)}
                       className="rounded-2xl border border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer overflow-hidden bg-white"
                     >
                       <div className="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
@@ -11242,7 +11246,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 //  MY PRODUCTS PAGE, "העגלה שלי" / "המוצרים שלי"
 // ─────────────────────────────────────────────────────────────────
-function MyProductsPage({ myProducts, onRemove, onBack, onProductClick, demandPools = {} }) {
+function MyProductsPage({ myProducts, onRemove, onBack, onProductClick, onQuantityChange, demandPools = {} }) {
   const TIER_META = {
     committed:  { emoji: "📝", label: "בקבוצה",        color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
     interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
@@ -11331,6 +11335,34 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick, demandPo
                       👥 {poolCount} בקבוצה
                     </span>
                   )}
+                  {/* Quantity stepper, the user can adjust how many units
+                      they want from this product. Demand pool tracks 1
+                      entry per user per product (no duplicate inflation);
+                      the supplier sees both the count of interested
+                      customers AND the total units wanted via the cart
+                      sync. Range 1..10 by design, keeps household orders
+                      sane and prevents accidental B2B-scale orders. */}
+                  <div className="flex items-center justify-between mt-2 mb-1.5 bg-gray-50 rounded-lg px-2 py-1.5"
+                       onClick={(e) => e.stopPropagation()}>
+                    <span className="text-[10px] font-bold text-gray-500">כמות</span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onQuantityChange?.(p, -1); }}
+                        disabled={(Number(p.quantity) || 1) <= 1}
+                        className="w-6 h-6 rounded-md bg-white border border-gray-200 text-gray-700 font-black text-sm flex items-center justify-center hover:bg-indigo-50 hover:border-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        aria-label="הפחת כמות"
+                      >−</button>
+                      <span className="text-xs font-black text-gray-900 min-w-[20px] text-center">{Number(p.quantity) || 1}</span>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onQuantityChange?.(p, +1); }}
+                        disabled={(Number(p.quantity) || 1) >= 10}
+                        className="w-6 h-6 rounded-md bg-white border border-gray-200 text-gray-700 font-black text-sm flex items-center justify-center hover:bg-indigo-50 hover:border-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                        aria-label="הוסף כמות"
+                      >+</button>
+                    </div>
+                  </div>
                   <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-medium">
                     <span>{catIcon}</span>
                     <span>{ACTION_LABEL[p.action] || "נוסף"}</span>
@@ -12998,9 +13030,13 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
             )}
           </div>
 
-          {/* ── TRUST ROW, calm neutral chips ── */}
+          {/* ── TRUST ROW, calm neutral chips ──
+              "אחריות יצרן" removed 2026-05-23, the warranty terms depend
+              on the supplier and the import channel, so we can't promise it
+              uniformly on every card. The two remaining chips are universal
+              (consumer-protection right + market comparison). */}
           <div className="flex items-center gap-1.5 mb-3">
-            {["🛡️ אחריות יצרן", "↩️ ביטול 14 יום", "📊 השוואת שוק"].map((c, i) => (
+            {["↩️ ביטול 14 יום", "📊 השוואת שוק"].map((c, i) => (
               <span key={i} className="flex-1 text-center text-[10px] font-semibold text-gray-500 bg-gray-50 border border-gray-100 rounded-lg px-1.5 py-1.5 leading-tight">
                 {c}
               </span>
@@ -22953,6 +22989,16 @@ export default function App() {
   }, [user?.id]);
 
   const addToMyProducts = async (product, fullResult, sourceEl) => {
+    // Dedup is BY PRODUCT NAME, normalised. If a row for this product
+    // already exists we DO NOT add a second row, even if the user clicked
+    // the same product from multiple places. Otherwise the supplier-facing
+    // demand pool would inflate from "one customer clicked 5 times" into
+    // "5 customers want this", which is misleading.
+    //
+    // Quantity is tracked per-row (default 1) and is edited from the
+    // MyProductsPage. Repeated clicks here are silent no-ops, not a
+    // quantity increment, because clicks come from many flows (search,
+    // similar-strip, deal page) and would surprise the user.
     const key = (product.name || product.productName || "").toLowerCase();
     let alreadySaved = false;
     setMyProducts(prev => {
@@ -22960,7 +23006,7 @@ export default function App() {
         alreadySaved = true;
         return prev;
       }
-      return [...prev, { ...product, addedAt: Date.now(), _cachedResult: fullResult || null }];
+      return [...prev, { ...product, quantity: Number(product.quantity) || 1, addedAt: Date.now(), _cachedResult: fullResult || null }];
     });
     // Visual fly-to-cart feedback, only when the product is newly added and
     // we have a source element to fly from. Purely decorative, never blocks.
@@ -23228,6 +23274,23 @@ export default function App() {
   // with the server-returned row (its stable server id + dedupe result).
   // If the POST fails we keep the client-only deal so the UX never breaks.
   const handleAddDealFromSearch = async (result) => {
+    // Idempotency check, BEFORE creating any state. If the user already
+    // joined a group for this product (any flow), bail out silently with
+    // a toast. Without this, repeated clicks would inflate the demand
+    // pool from N clicks of one customer into "N customers want this".
+    const _normName = String(result?.productName || "").toLowerCase();
+    if (_normName && myProducts.some(p =>
+      String(p.name || p.productName || "").toLowerCase() === _normName
+    )) {
+      notify("כבר חבר/ה בקבוצה הזו, שינוי כמות אפשרי ב'המוצרים שלי'");
+      // Try to surface the existing deal if we know it, so the user lands
+      // on the right page after the dismissal.
+      const existing = (deals || []).find(d =>
+        ((d.name && (d.name.he || d.name.en)) || "").toLowerCase() === _normName
+      );
+      if (existing) setSelectedDeal(existing);
+      return;
+    }
     // catIdx drives which per-category buying group this product joins.
     // The old 5-entry catMap defaulted everything else to 0 (TVs), so an
     // espresso machine wrongly offered to join the OLED/QLED TV group.
@@ -23381,6 +23444,19 @@ export default function App() {
     setSelectedDeal(d);
     setSearchResult(null);
     const modelName = (d.name && (d.name.en || d.name.he)) || d.name || "";
+    const normName = String(modelName).toLowerCase();
+    // Idempotency: if the user already joined this product, don't inflate
+    // the demand pool or "המוצרים שלי" with a phantom second join. We
+    // route them to the deal page silently, and surface a small toast so
+    // they know nothing was added. Inflating the pool from N click-throughs
+    // would mislead suppliers about real demand.
+    const alreadyJoined = myProducts.some(p =>
+      String(p.name || p.productName || "").toLowerCase() === normName
+    );
+    if (alreadyJoined) {
+      notify("כבר חבר/ה בקבוצה הזו, שינוי כמות אפשרי ב'המוצרים שלי'");
+      return;
+    }
     if (d.catIdx != null && modelName) {
       try { joinDemandPool(d.catIdx, modelName); } catch {}
     }
@@ -24030,7 +24106,7 @@ export default function App() {
       <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
+          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} onViewSimilar={(d) => setSelectedDeal(d)} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
@@ -24219,10 +24295,14 @@ export default function App() {
             onBackHome={() => { setJoinCelebration(null); setSelectedDeal(null); setMode("home"); }}
             onClose={() => setJoinCelebration(null)}
             onJoinSimilar={(otherId) => {
+              // Per user feedback 2026-05-23: clicking a similar product
+              // should NOT auto-join, the user wants to see the alternative
+              // first and decide. Close the celebration and navigate to
+              // that deal's detail page; they'll join from there explicitly.
               const other = (deals || []).find(x => x.id === otherId);
               if (!other) return;
               setJoinCelebration(null);
-              handleJoinExistingDeal(other);
+              setSelectedDeal(other);
             }}
           />
         );
@@ -24779,6 +24859,24 @@ export default function App() {
               myProducts={myProducts}
               demandPools={demandPools}
               onRemove={(p) => setMyProducts(prev => prev.filter(x => x.addedAt !== p.addedAt))}
+              onQuantityChange={(p, delta) => {
+                setMyProducts(prev => prev.map(x => {
+                  if (x.addedAt !== p.addedAt) return x;
+                  const current = Number(x.quantity) || 1;
+                  const next = Math.max(1, Math.min(10, current + delta));
+                  return { ...x, quantity: next };
+                }));
+                // Best-effort sync to server. The endpoint upserts saved-products
+                // keyed by name; quantity rides along in the payload.
+                const token = user?.token || _getToken();
+                if (!token) return;
+                const updated = { ...p, quantity: Math.max(1, Math.min(10, (Number(p.quantity) || 1) + delta)) };
+                fetch("/api/user/saved-products", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+                  body: JSON.stringify(updated),
+                }).catch(() => { /* offline ok, local state still updated */ });
+              }}
               onBack={() => setMode("home")}
               onProductClick={(p) => {
                 if (p._cachedResult) { setSearchResult(p._cachedResult); return; }
