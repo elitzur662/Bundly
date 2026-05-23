@@ -22104,6 +22104,181 @@ function buildPath({ mode, productKey }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  GROUP-JOIN CELEBRATION, the "wow" moment after a user joins a deal.
+//  Replaces the bare toast with an interactive modal: animated count,
+//  perks list, similar groups for cross-pollination, share CTA.
+//
+//  Props:
+//    deal:           the deal the user just joined (required)
+//    prevCount:      participants BEFORE this user's join (for animation)
+//    newCount:       participants AFTER (current participants value)
+//    poolCount:      total demand across the broader category (live leverage)
+//    similarDeals:   up to 3 deals in same category/price band, for cross-join
+//    onContinue:     close and stay on deal page (default action)
+//    onBackHome:     close and route back to home
+//    onClose:        light dismiss (clicking outside / X)
+// ─────────────────────────────────────────────────────────────────
+function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0, similarDeals = [], lang = "he", onContinue, onBackHome, onClose, onJoinSimilar }) {
+  // Animate the participant count from prev → new over 700ms. Pure visual,
+  // the actual value is already committed in App state.
+  const [displayCount, setDisplayCount] = useState(prevCount);
+  useEffect(() => {
+    if (newCount === prevCount) return;
+    const start = Date.now();
+    const dur = 700;
+    const id = setInterval(() => {
+      const t = Math.min(1, (Date.now() - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      setDisplayCount(Math.round(prevCount + (newCount - prevCount) * eased));
+      if (t >= 1) clearInterval(id);
+    }, 30);
+    return () => clearInterval(id);
+  }, [prevCount, newCount]);
+
+  const dealName = (deal?.name && (deal.name[lang] || deal.name.he || deal.name.en)) || "";
+  const marketPrice = Number(deal?.marketMin) || Number(deal?.marketMax) || 0;
+  const groupOffer  = Number(deal?.groupOffer) || 0;
+  // Activation threshold: prefer explicit field; else a sensible default (15)
+  // for the progress-bar UX. The exact number isn't strictly meaningful, the
+  // signal "the more, the better the price" is what motivates the user.
+  const target = Number(deal?.minMembers) || Number(deal?.targetCount) || 15;
+  const pct    = Math.min(100, Math.round((newCount / target) * 100));
+  const remaining = Math.max(0, target - newCount);
+
+  const PERKS = [
+    { icon: "🔔", text: "עדכוני SMS אוטומטיים כשהקבוצה גדלה ומחיר משתפר" },
+    { icon: "💰", text: "הצעות מחיר מותאמות אישית מספקים שמתחרים עליך" },
+    { icon: "⚡", text: "עדיפות במידע על דילים חדשים באותה קטגוריה" },
+    { icon: "🛒", text: 'המוצר נשמר אוטומטית ב-"המוצרים שלי" למעקב נוח' },
+  ];
+
+  // Share to WhatsApp helper. Falls back to navigator.share on mobile.
+  const handleShare = () => {
+    const productKey = deal?.productKey || deal?.id || "";
+    const shareUrl = `${window.location.origin}/product/${encodeURIComponent(productKey)}`;
+    const text = `הצטרפתי לקבוצת רכישה ב-Bundly עבור ${dealName}. כבר ${newCount} משתתפים, ככל שיותר מצטרפים, המחיר יורד. הצטרפו גם אתם:`;
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(text + " " + shareUrl)}`;
+    try {
+      if (navigator.share) navigator.share({ title: dealName, text, url: shareUrl }).catch(() => window.open(waUrl, "_blank"));
+      else window.open(waUrl, "_blank");
+    } catch { window.open(waUrl, "_blank"); }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center bg-black/60 p-3 sm:p-4" dir="rtl" onClick={onClose}>
+      <div
+        className="bg-white w-full max-w-md rounded-3xl overflow-hidden max-h-[92vh] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-300"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Hero, gradient celebration banner */}
+        <div className="relative px-5 pt-6 pb-5 text-center text-white overflow-hidden"
+             style={{ background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%)" }}>
+          <button onClick={onClose} aria-label="סגור"
+            className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition">
+            <X className="w-4 h-4" />
+          </button>
+          <div className="text-5xl mb-2 animate-bounce" style={{ animationDuration: "2s" }}>🎉</div>
+          <h2 className="text-xl font-black mb-1">הצטרפת לקבוצה!</h2>
+          <p className="text-sm text-white/80 line-clamp-1">{dealName}</p>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          {/* Animated count + progress */}
+          <div className="bg-gradient-to-br from-indigo-50 to-violet-50/60 border border-indigo-100 rounded-2xl p-4 text-center">
+            <p className="text-[11px] font-bold text-indigo-600 mb-1">משתתפים בקבוצה כרגע</p>
+            <div className="text-4xl font-black bg-gradient-to-r from-indigo-700 to-violet-700 bg-clip-text text-transparent">
+              {displayCount.toLocaleString()}
+            </div>
+            <div className="mt-3 bg-white rounded-full h-2.5 overflow-hidden border border-indigo-100">
+              <div className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-700 ease-out"
+                   style={{ width: `${pct}%` }} />
+            </div>
+            <p className="text-[11px] text-gray-600 mt-2 font-semibold">
+              {remaining > 0
+                ? <>עוד <span className="text-indigo-700 font-black">{remaining}</span> משתתפים והקבוצה נכנסת לסיבוב הצעות מספקים</>
+                : <>הקבוצה מספיק גדולה, ספקים מתחילים להתחרות על המחיר 🔥</>}
+            </p>
+            {poolCount > newCount && (
+              <p className="text-[10px] text-gray-500 mt-1.5">
+                💡 <span className="font-bold text-violet-700">{poolCount}</span> אנשים מחפשים מוצרים דומים בקטגוריה, מינוף נוסף עבורך
+              </p>
+            )}
+          </div>
+
+          {/* Price snapshot, optional */}
+          {(marketPrice > 0 || groupOffer > 0) && (
+            <div className="flex items-center justify-around bg-emerald-50/60 border border-emerald-100 rounded-2xl p-3">
+              {marketPrice > 0 && (
+                <div className="text-center">
+                  <p className="text-[10px] text-gray-500 font-bold">מחיר שוק</p>
+                  <p className="text-sm font-bold text-gray-400 line-through">₪{marketPrice.toLocaleString()}</p>
+                </div>
+              )}
+              {groupOffer > 0 && (
+                <div className="text-center">
+                  <p className="text-[10px] text-emerald-700 font-bold">מחיר קבוצתי משוער</p>
+                  <p className="text-lg font-black text-emerald-700">₪{groupOffer.toLocaleString()}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Perks, what the user just got */}
+          <div>
+            <p className="text-xs font-black text-gray-900 mb-2 flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4 text-emerald-500" /> מה כלול בהצטרפות
+            </p>
+            <ul className="space-y-2">
+              {PERKS.map((p, i) => (
+                <li key={i} className="flex items-start gap-2 text-[12px] text-gray-700 leading-snug">
+                  <span className="text-base leading-none flex-shrink-0 mt-0.5">{p.icon}</span>
+                  <span>{p.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Similar groups for cross-join. Hidden when empty. */}
+          {similarDeals && similarDeals.length > 0 && (
+            <div>
+              <p className="text-xs font-black text-gray-900 mb-2">💡 דגמים דומים בקבוצות פעילות</p>
+              <div className="space-y-1.5">
+                {similarDeals.slice(0, 3).map(d => {
+                  const dn = (d.name && (d.name[lang] || d.name.he || d.name.en)) || "";
+                  const dp = Number(d.marketMin) || Number(d.marketMax) || 0;
+                  const dc = Number(d.participants) || 0;
+                  return (
+                    <button key={d.id} type="button" onClick={() => onJoinSimilar?.(d.id)}
+                      className="w-full text-right flex items-center gap-3 p-2.5 rounded-xl border border-gray-100 hover:border-indigo-300 hover:bg-indigo-50/40 transition">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] font-bold text-gray-900 truncate">{dn}</p>
+                        <p className="text-[11px] text-gray-500">{dp > 0 ? `₪${dp.toLocaleString()}` : ""} · 👥 {dc} בקבוצה</p>
+                      </div>
+                      <ChevronLeft className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sticky footer CTAs */}
+        <div className="border-t border-gray-100 p-4 space-y-2 bg-white">
+          <Btn onClick={handleShare} className="w-full" size="lg" variant="primary">
+            <Share2 className="w-4 h-4" />שתף עם חברים, יותר משתתפים = מחיר טוב יותר
+          </Btn>
+          <div className="grid grid-cols-2 gap-2">
+            <Btn onClick={onContinue} variant="ghost" size="sm">המשך לקבוצה ←</Btn>
+            <Btn onClick={onBackHome} variant="ghost" size="sm">חזור לחיפוש</Btn>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  APP ROOT
 // ─────────────────────────────────────────────────────────────────
 export default function App() {
@@ -22214,6 +22389,11 @@ export default function App() {
   const [showCreateBundle, setShowCreateBundle] = useState(false);
   const [savedBundles, setSavedBundles] = useState([]); // array of bundle ids
   const [selectedDeal, setSelectedDeal] = useState(null);
+  // Group-join celebration state. Set by handleAddDealFromSearch /
+  // handleJoinExistingDeal right after the user joins; the GroupJoinCelebration
+  // modal renders at App root level and reads from here.
+  // Shape: { deal, prevCount, newCount } | null
+  const [joinCelebration, setJoinCelebration] = useState(null);
   const [catFilter, setCatFilter] = useState(null);
   const [searchQ, setSearchQ] = useState("");
 
@@ -23108,7 +23288,13 @@ export default function App() {
     if (newDeal.catIdx != null) {
       try { joinDemandPool(newDeal.catIdx, result.productName); } catch {}
     }
-    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
+    // Surface a celebration modal instead of a bare toast, with live
+    // participant count, perks, and similar groups to keep the user engaged.
+    setJoinCelebration({
+      deal: newDeal,
+      prevCount: Math.max(0, (Number(newDeal.participants) || 1) - 1),
+      newCount:  Number(newDeal.participants) || 1,
+    });
 
     // Persist server-side and reconcile with the canonical deal (server id +
     // dedupe). Resilient: any failure leaves the optimistic client deal in
@@ -23206,7 +23392,15 @@ export default function App() {
       catIdx: d.catIdx,
       price: Number(d.groupOffer) || Number(d.marketMin) || 0,
     });
-    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
+    // Celebration modal instead of a bare toast. prevCount is the deal's
+    // current participants count BEFORE this join (server will increment
+    // it next time deals refresh); we simulate +1 for the animation.
+    const _curr = Number(d.participants) || 0;
+    setJoinCelebration({
+      deal: d,
+      prevCount: _curr,
+      newCount:  _curr + 1,
+    });
   };
 
   // Add a product from the search page to the community "want list"
@@ -23993,6 +24187,46 @@ export default function App() {
           <style>{`@keyframes toastIn{from{opacity:0;transform:translateY(-20px) scale(0.95)}to{opacity:1;transform:none}}`}</style>
         </div>
       )}
+
+      {/* Group-join celebration: the "wow" moment after joining a deal.
+          Mounted once at App root so it overlays whatever mode the user is in.
+          Computes similar deals on the fly from the live deals list. */}
+      {joinCelebration && joinCelebration.deal && (() => {
+        const d = joinCelebration.deal;
+        const basePrice = Number(d.marketMin) || Number(d.marketMax) || Number(d.groupOffer) || 0;
+        const similar = (d.catIdx != null && basePrice > 0)
+          ? (deals || [])
+              .filter(x => x && x.id !== d.id && x.catIdx === d.catIdx)
+              .filter(x => {
+                const dp = Number(x.marketMin) || Number(x.marketMax) || 0;
+                return dp > 0 && Math.abs(dp - basePrice) / basePrice <= 0.2;
+              })
+              .sort((a, b) => (Number(b.participants) || 0) - (Number(a.participants) || 0))
+              .slice(0, 3)
+          : [];
+        const poolCount = (d.catIdx != null && demandPools && demandPools[d.catIdx])
+          ? Object.values(demandPools[d.catIdx]).reduce((s, n) => s + (Number(n) || 0), 0)
+          : 0;
+        return (
+          <GroupJoinCelebration
+            deal={d}
+            lang={lang}
+            prevCount={joinCelebration.prevCount}
+            newCount={joinCelebration.newCount}
+            poolCount={poolCount}
+            similarDeals={similar}
+            onContinue={() => { setJoinCelebration(null); }}
+            onBackHome={() => { setJoinCelebration(null); setSelectedDeal(null); setMode("home"); }}
+            onClose={() => setJoinCelebration(null)}
+            onJoinSimilar={(otherId) => {
+              const other = (deals || []).find(x => x.id === otherId);
+              if (!other) return;
+              setJoinCelebration(null);
+              handleJoinExistingDeal(other);
+            }}
+          />
+        );
+      })()}
 
       {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
