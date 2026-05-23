@@ -910,11 +910,18 @@ export function listSavedProducts(userId) {
 
 export function addSavedProduct(userId, product) {
   _db = load();
-  // Dedupe by product name per user
+  // Dedupe by product name per user. If the user is updating quantity
+  // on an existing entry, refresh that field in place (no second row).
   const key = (product.name || product.productName || "").toLowerCase();
   if (!key) return null;
   const exists = _db.savedProducts.find(p => p.userId === Number(userId) && (p.name || "").toLowerCase() === key);
-  if (exists) return exists;
+  if (exists) {
+    if (product.quantity != null) {
+      exists.quantity = Math.max(1, Math.min(10, Number(product.quantity) || 1));
+    }
+    save(_db);
+    return exists;
+  }
   const row = {
     id: nextId(_db.savedProducts),
     userId: Number(userId),
@@ -924,12 +931,69 @@ export function addSavedProduct(userId, product) {
     action: product.action || "saved",
     catIdx: product.catIdx ?? null,
     price: Number(product.price) || 0,
+    quantity: Math.max(1, Math.min(10, Number(product.quantity) || 1)),
     _cachedResult: product._cachedResult || null,
     addedAt: new Date().toISOString(),
   };
   _db.savedProducts.push(row);
   save(_db);
   return row;
+}
+
+// Aggregate "מתעניינים" (interested customers) per product, used by the
+// supplier dashboard to show real demand signals without exposing PII.
+// Returns rows: { name, image, catIdx, customers, units, latest, price }
+// where `customers` is the count of distinct users who saved this product
+// and `units` is the sum of their quantities.
+// catIdxFilter: optional array of catIdx values the supplier serves; only
+// rows matching these are returned (suppliers only see demand in their
+// own categories).
+export function aggregateCustomerInterests({ catIdxFilter = null, limit = 50 } = {}) {
+  _db = load();
+  const buckets = new Map();
+  for (const row of (_db.savedProducts || [])) {
+    if (!row || !row.name) continue;
+    if (Array.isArray(catIdxFilter) && catIdxFilter.length > 0
+        && (row.catIdx == null || !catIdxFilter.includes(row.catIdx))) continue;
+    const key = String(row.name).trim().toLowerCase();
+    if (!key) continue;
+    const bucket = buckets.get(key) || {
+      name: row.name,
+      image: row.image || "",
+      catIdx: row.catIdx,
+      customers: 0,
+      units: 0,
+      latest: null,
+      avgPrice: 0,
+      _prices: [],
+      _userIds: new Set(),
+    };
+    if (!bucket._userIds.has(row.userId)) {
+      bucket._userIds.add(row.userId);
+      bucket.customers += 1;
+    }
+    bucket.units += Math.max(1, Number(row.quantity) || 1);
+    if (Number(row.price) > 0) bucket._prices.push(Number(row.price));
+    const added = row.addedAt ? new Date(row.addedAt).getTime() : 0;
+    if (!bucket.latest || added > new Date(bucket.latest).getTime()) {
+      bucket.latest = row.addedAt;
+    }
+    buckets.set(key, bucket);
+  }
+  return Array.from(buckets.values())
+    .map(b => ({
+      name:      b.name,
+      image:     b.image,
+      catIdx:    b.catIdx,
+      customers: b.customers,
+      units:     b.units,
+      latest:    b.latest,
+      avgPrice:  b._prices.length
+        ? Math.round(b._prices.reduce((s, n) => s + n, 0) / b._prices.length)
+        : 0,
+    }))
+    .sort((a, b) => b.customers - a.customers || b.units - a.units)
+    .slice(0, limit);
 }
 
 export function removeSavedProduct(userId, productId) {

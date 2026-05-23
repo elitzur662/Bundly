@@ -8011,6 +8011,32 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
   const poolEntries = Object.entries(demandPools).filter(([, pool]) => Object.keys(pool).length > 0);
   const [modelOffers, setModelOffers] = useState({}); // { "catIdx::modelName": priceString }
 
+  // "מתעניינים" feed: server-aggregated customer interest signals scoped to
+  // this supplier's primary categories. Refreshed on mount + every 90s while
+  // the dashboard is open so the supplier sees demand in something close to
+  // real time without hammering the endpoint.
+  const [customerInterests, setCustomerInterests] = useState([]);
+  useEffect(() => {
+    if (!supplier?.id && !supplier?.email) return;
+    const supplierKey = String(supplier.id || supplier.email || "").toLowerCase();
+    if (!supplierKey) return;
+    let cancelled = false;
+    const fetchInterests = async () => {
+      try {
+        const token = _safeLS("bundly_token") || "";
+        const r = await fetch(`/api/suppliers/${encodeURIComponent(supplierKey)}/customer-interests?limit=20`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
+        if (!r.ok) return;
+        const data = await r.json();
+        if (!cancelled && data?.ok) setCustomerInterests(data.interests || []);
+      } catch { /* offline ok */ }
+    };
+    fetchInterests();
+    const iv = setInterval(fetchInterests, 90_000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, [supplier?.id, supplier?.email]);
+
   // Group personal customer requests by BROAD category (using HOME_CATEGORIES mapping)
   const pendingRequests = personalRequests.filter(r => r.status === "pending");
   const requestsByCategory = personalRequests.reduce((acc, r) => {
@@ -8388,6 +8414,69 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
               <p className="text-[11px] font-bold text-yellow-700 mt-1">{supplierReviews.reviews.length} ביקורות ←</p>
             </button>
           </div>
+
+          {/* "מתעניינים" tile, real-time customer demand for the supplier's
+              categories. Sourced from saved-products aggregation on the
+              server: counts of distinct interested customers + total unit
+              demand per product. No PII surfaced, the supplier responds
+              via existing offer/listing flow ("שלח הצעה / הוסף מוצר"). */}
+          {customerInterests.length > 0 && (
+            <div className="bg-gradient-to-br from-indigo-50 via-white to-violet-50 rounded-2xl border border-indigo-100 shadow-sm p-5">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">👀</span>
+                  <h3 className="text-sm font-black text-gray-900">מתעניינים, ביקוש פעיל ממש עכשיו</h3>
+                </div>
+                <span className="text-[11px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded-full">
+                  {customerInterests.length} מוצרים
+                </span>
+              </div>
+              <p className="text-[11px] text-gray-500 mb-3">
+                לקוחות שמתעניינים במוצרים בקטגוריות שלך. השב להם בהצעת מחיר או הצע מוצר חלופי, יותר תגובות = יותר עסקאות.
+              </p>
+              <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1">
+                {customerInterests.slice(0, 10).map((it, i) => {
+                  const catName = CATEGORIES.he[it.catIdx] || "";
+                  const catIcon = CAT_ICONS[it.catIdx] || "📦";
+                  return (
+                    <div key={`${it.name}-${i}`} className="flex items-center gap-3 bg-white rounded-xl border border-indigo-50 p-2.5 hover:border-indigo-200 transition">
+                      <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                        {it.image
+                          ? <img src={it.image} alt="" className="w-full h-full object-contain" onError={e => { e.currentTarget.style.display = "none"; }} />
+                          : <span className="text-xl">{catIcon}</span>}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[12px] font-bold text-gray-900 truncate">{it.name}</p>
+                        <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                          <span className="text-[10px] text-indigo-700 font-bold bg-indigo-50 border border-indigo-100 rounded-full px-2 py-0.5">
+                            👥 {it.customers} {it.customers === 1 ? "מתעניין" : "מתעניינים"}
+                          </span>
+                          {it.units > it.customers && (
+                            <span className="text-[10px] text-violet-700 font-bold bg-violet-50 border border-violet-100 rounded-full px-2 py-0.5">
+                              📦 {it.units} יח׳ מבוקשות
+                            </span>
+                          )}
+                          {it.avgPrice > 0 && (
+                            <span className="text-[10px] text-gray-500 font-bold">
+                              מחיר ממוצע: ₪{it.avgPrice.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => { setActiveTab("listings"); }}
+                        className="text-[11px] font-black text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg px-3 py-1.5 flex-shrink-0 transition"
+                        title="עבור ליצירת הצעה / מוצר"
+                      >
+                        השב ←
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Active leading deals widget */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">

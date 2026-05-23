@@ -121,6 +121,7 @@ try {
   const db        = await import("./db.js");
   ({
     upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
+    aggregateCustomerInterests,
     listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest,
     seedPersonalRequestsIfEmpty,
     listDealBids, getDealBids, addDealBid, cancelDealBid,
@@ -12775,6 +12776,34 @@ app.post("/api/deals/:dealId/bids/:bidId/cancel",
 app.get("/api/suppliers/:supplierId/profile", requireSupplierMatch, (req, res) => {
   if (!getSupplierProfile) return res.json(null);
   res.json(getSupplierProfile(req.params.supplierId) || { supplierId: req.params.supplierId, completionPct: 0, checklist: {} });
+});
+
+// GET /api/suppliers/:supplierId/customer-interests
+// Returns aggregated demand signals for the supplier dashboard "מתעניינים"
+// tile: products that have customers in their saved list, with counts of
+// distinct interested customers + total unit demand. No PII is exposed,
+// supplier sees counts only, then uses the existing offer/listing flow
+// to respond. Filtered to the supplier's primaryCategories when known.
+app.get("/api/suppliers/:supplierId/customer-interests", requireSupplierMatch, (req, res) => {
+  try {
+    if (typeof _prodDb.aggregateCustomerInterests !== "function") {
+      return res.json({ ok: true, interests: [] });
+    }
+    // Filter by the supplier's served categories when the profile has them,
+    // so a smart-home supplier doesn't see kitchen demand signals.
+    let catIdxFilter = null;
+    if (typeof getSupplierProfile === "function") {
+      const profile = getSupplierProfile(req.params.supplierId);
+      const cats = Array.isArray(profile?.primaryCategories) ? profile.primaryCategories : [];
+      // primaryCategories may be either names or numeric catIdx values.
+      // Coerce to numeric where possible; drop non-numeric entries.
+      const numeric = cats.map(c => Number(c)).filter(n => Number.isFinite(n));
+      if (numeric.length > 0) catIdxFilter = numeric;
+    }
+    const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 30));
+    const interests = _prodDb.aggregateCustomerInterests({ catIdxFilter, limit });
+    res.json({ ok: true, interests });
+  } catch (e) { res.status(500).json({ error: e.message }); }
 });
 app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.json({ limit: "32kb" }), (req, res) => {
   if (!upsertSupplierProfile) return res.status(503).json({ error: "DB not ready" });
