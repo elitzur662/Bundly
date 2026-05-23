@@ -22,10 +22,32 @@ const DB_FILE   = path.join(_DATA_DIR, "bundly-db.json");
 // not a function", 403ing the whole supplier dashboard.
 export function load() {
   let data;
+  let primaryError = null;
   try {
     data = JSON.parse(fs.readFileSync(DB_FILE, "utf8"));
-  } catch {
-    data = { users: [], otps: [], prefs: [], watchlist: [] };
+  } catch (e) {
+    primaryError = e;
+    // SECURITY (P0, audit 2026-05-23): if the primary DB file is missing or
+    // corrupt (the SIGKILL'd-mid-rename case in save()), try to recover from
+    // the rolling .bak before falling through to an empty seed. Without this,
+    // the next save() would copy the empty seed over the .bak too and we
+    // would have destroyed both copies of the data.
+    const bakPath = DB_FILE + ".bak";
+    try {
+      if (fs.existsSync(bakPath)) {
+        data = JSON.parse(fs.readFileSync(bakPath, "utf8"));
+        console.warn(`[DB] primary load failed (${e.message}), restored from .bak with ${Array.isArray(data?.users) ? data.users.length : 0} users`);
+        // Eagerly write the restored data back as the primary so a future
+        // save() doesn't overwrite our .bak with the soon-to-arrive snapshot.
+        try { fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf8"); } catch (_) {}
+      }
+    } catch (e2) {
+      console.warn(`[DB] .bak restore also failed (${e2.message}); starting from empty seed`);
+    }
+    if (!data) {
+      data = { users: [], otps: [], prefs: [], watchlist: [] };
+      console.warn(`[DB] LOADING EMPTY SEED, primary error: ${primaryError.message}`);
+    }
   }
   // Ensure new collections exist on upgrade
   if (!Array.isArray(data.personalRequests))  data.personalRequests  = [];
@@ -226,13 +248,38 @@ export function updateUser(id, fields) {
   _db = load();
   const user = _db.users.find(u => u.id === id);
   if (user) {
-    const allowed = ["name","firstName","lastName","email","city","street","buildingNum","apartmentNum"];
+    const allowed = ["name","firstName","lastName","email","city","street","buildingNum","apartmentNum","termsAcceptedAt"];
     for (const key of allowed) {
       if (fields[key] != null) user[key] = fields[key];
     }
     save(_db);
   }
   return user;
+}
+
+// SECURITY (P0, audit 2026-05-23): atomic phone-claim for the email-signup
+// → profile-fill flow. Two simultaneous PATCH /api/auth/profile calls with
+// the same phone would both pass a pre-write getUserByPhone(null) check at
+// the route layer, then both updateUser(...) → two rows share a phone, the
+// second user is locked out of OTP login forever.
+//
+// This helper runs the uniqueness check + write inside the _mutate critical
+// section, which is synchronous: no other mutator can interleave. Returns:
+//   { ok: true, user }                if claim succeeded
+//   { ok: false, reason: "taken" }    another user already owns this phone
+//   { ok: false, reason: "has_phone" } caller already has a phone set
+//   { ok: false, reason: "not_found" } caller id doesn't exist
+export function claimUserPhone(userId, normalizedPhone) {
+  if (!normalizedPhone) return { ok: false, reason: "missing" };
+  return _mutate(db => {
+    const me = db.users.find(u => u.id === userId);
+    if (!me) return { ok: false, reason: "not_found" };
+    if (me.phone) return { ok: false, reason: "has_phone" };
+    const taken = db.users.some(u => u.id !== userId && u.phone === normalizedPhone);
+    if (taken) return { ok: false, reason: "taken" };
+    me.phone = normalizedPhone;
+    return { ok: true, user: me };
+  });
 }
 
 // ── OTPs ────────────────────────────────────────────────────────

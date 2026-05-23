@@ -98,7 +98,7 @@ if (BEHIND_VITE) {
 }
 
 // ── Optional packages, load gracefully so server starts even before npm install ──
-let jwt, upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
+let jwt, upsertUser, createUserByEmail, claimUserPhone, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
 let listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest, seedPersonalRequestsIfEmpty;
 let listDealBids, getDealBids, addDealBid, cancelDealBid;
 let getSupplierProfile, upsertSupplierProfile;
@@ -120,7 +120,7 @@ try {
   jwt = jwtMod.default;
   const db        = await import("./db.js");
   ({
-    upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
+    upsertUser, createUserByEmail, claimUserPhone, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
     listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest,
     seedPersonalRequestsIfEmpty,
     listDealBids, getDealBids, addDealBid, cancelDealBid,
@@ -323,7 +323,7 @@ import { logActivity, getRecentActivities, getActivityStats, tgSendMessage } fro
 import {
   wafFilter, bodyLimit, requestTimeout, originGuard, honeypot,
   revokeJwt, isJwtRevoked, suspiciousIpGuard, recordSuspicious,
-  markFreshAuth, requireFreshAuth, setSecureSessionCookie, clearSessionCookie,
+  markFreshAuth, clearFreshAuth, requireFreshAuth, setSecureSessionCookie, clearSessionCookie,
   randomToken, logServerErrors, userRateLimit, preventHpp,
 } from "./security-extras.js";
 
@@ -659,23 +659,56 @@ function _isTrustedPaymentHost(host) {
   return !!host && TRUSTED_PAYMENT_HOSTS.has(host);
 }
 
+// SECURITY: validate a URL is safe to fetch (public host, http/https only).
+// Returns false on reject, true on accept. Use _resolveSafeRemoteUrl when
+// you also need the resolved IP so you can pin DNS against rebinding.
 async function _isSafeRemoteUrl(u) {
+  const r = await _resolveSafeRemoteUrl(u);
+  return r.ok;
+}
+
+// SECURITY (P0, audit 2026-05-23): the previous _isSafeRemoteUrl resolved
+// the hostname ONCE for validation, then axios resolved it AGAIN at connect
+// time, opening a DNS-rebinding window where the second resolution could
+// return 169.254.169.254 / 127.0.0.1 / 10.x. This helper closes that gap:
+// it returns the validated IP, and callers must pin axios to that IP via
+// the agent's `lookup:` hook so the connect-time DNS is bypassed entirely.
+async function _resolveSafeRemoteUrl(u) {
   let parsed;
-  try { parsed = new URL(u); } catch { return false; }
-  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+  try { parsed = new URL(u); } catch { return { ok: false, reason: "invalid-url" }; }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return { ok: false, reason: "bad-protocol" };
   const host = parsed.hostname;
-  // Block obviously local hostnames before we even DNS-resolve.
-  if (/^(localhost|127\.|0\.0\.0\.0|::1|fe80:|fd[0-9a-f]{2}:)/i.test(host)) return false;
-  if (/\.(local|internal|localhost)$/i.test(host)) return false;
+  if (/^(localhost|127\.|0\.0\.0\.0|::1|fe80:|fd[0-9a-f]{2}:)/i.test(host)) return { ok: false, reason: "local-host" };
+  if (/\.(local|internal|localhost)$/i.test(host)) return { ok: false, reason: "local-tld" };
+  let address, family;
   try {
-    const { address } = await _dnsLookup(host);
-    // IPv4 private + loopback + link-local
-    if (/^(10\.|127\.|169\.254\.|192\.168\.|0\.)/.test(address)) return false;
-    if (/^172\.(1[6-9]|2\d|3[01])\./.test(address)) return false;
-    // IPv6 private/loopback
-    if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168)/i.test(address)) return false;
-  } catch { return false; /* unresolvable → reject */ }
-  return true;
+    const r = await _dnsLookup(host);
+    address = r.address; family = r.family;
+  } catch { return { ok: false, reason: "dns-fail" }; }
+  if (/^(10\.|127\.|169\.254\.|192\.168\.|0\.)/.test(address)) return { ok: false, reason: "private-v4" };
+  if (/^172\.(1[6-9]|2\d|3[01])\./.test(address))               return { ok: false, reason: "private-v4" };
+  if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168)/i.test(address)) return { ok: false, reason: "private-v6" };
+  return { ok: true, address, family, hostname: host, protocol: parsed.protocol };
+}
+
+// Build an axios config that pins DNS to a pre-validated IP. The hostname
+// in the URL stays the same so SNI/TLS validation works; only the IP the
+// agent connects to is forced. Use _safeAxiosGet for the simple case.
+function _makePinnedAgent(safeInfo) {
+  const lookup = (_host, _opts, cb) => cb(null, safeInfo.address, safeInfo.family);
+  return new https.Agent({ lookup, keepAlive: false });
+}
+async function _safeAxiosGet(u, axiosOpts = {}) {
+  const safe = await _resolveSafeRemoteUrl(u);
+  if (!safe.ok) throw new Error(`URL not allowed (${safe.reason})`);
+  const agent = _makePinnedAgent(safe);
+  return axios.get(u, {
+    ...axiosOpts,
+    // Pin DNS for HTTPS; HTTP is rare for us and short-circuited above.
+    httpsAgent: agent,
+    // Redirects can target a different host the agent isn't pinned to.
+    maxRedirects: 0,
+  });
 }
 const _hcDistPath = process.cwd() + "/dist/index.html";
 app.get("/api/health", (_req, res) => {
@@ -10433,6 +10466,10 @@ function authMiddleware(req, res, next) {
 // POST /api/auth/logout, revoke current JWT so it can't be reused
 app.post("/api/auth/logout", authMiddleware, (req, res) => {
   if (req.user?.jti) revokeJwt(req.user.jti, req.user.exp);
+  // SECURITY (P0, audit 2026-05-23): drop the fresh-auth marker so a token
+  // re-issued for the same user within the 30-min window cannot inherit
+  // the previous "recently authenticated" state without re-auth.
+  if (req.user?.id != null) { try { clearFreshAuth?.(String(req.user.id)); } catch (_) {} }
   res.json({ ok: true });
 });
 
@@ -10472,6 +10509,11 @@ function adminMiddleware(req, res, next) {
 // jti so a stolen/leaked admin token can be invalidated before its 4h TTL.
 app.post("/api/admin/logout", adminMiddleware, (req, res) => {
   if (req.admin?.jti) revokeJwt(req.admin.jti, req.admin.exp);
+  // SECURITY (P0, audit 2026-05-23): same fresh-auth cleanup as the
+  // customer logout path, plus the synthetic id:0 used by the legacy
+  // /api/admin/login flow.
+  if (req.admin?.id != null) { try { clearFreshAuth?.(String(req.admin.id)); } catch (_) {} }
+  try { clearFreshAuth?.("0"); } catch (_) {}
   audit("ADMIN_LOGOUT", req);
   res.json({ ok: true });
 });
@@ -11399,36 +11441,56 @@ app.patch("/api/auth/profile", authMiddleware, AUTH_READY ? (req, res) => {
   // ONLY when the user has no phone yet (so existing accounts can't change
   // their phone here, mirroring the email rule). Phone uniqueness is enforced
   // across all users to prevent duplicate accounts.
+  //
+  // SECURITY (P0, audit 2026-05-23): the previous flow did a separate
+  // getUserByPhone check, then updateUser. Two simultaneous requests could
+  // both pass the check and both write, creating duplicate-phone rows. The
+  // new claimUserPhone helper does the uniqueness check + write inside the
+  // db._mutate critical section, which is synchronous so no interleaving.
+  let phoneClaim = null;
   if (body.phone !== undefined) {
-    const me = getUserByPhone ? null : null; // me already on req.user
-    const current = req.user;
-    // Re-fetch fresh user record to know if phone is null right now.
-    const _fresh = (typeof getUserByPhone === "function" && current?.phone) ? getUserByPhone(current.phone) : null;
+    if (!validatePhone(body.phone)) {
+      return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
+    }
+    phoneClaim = normalizePhone(body.phone);
+    // Pre-flight: tell the user about "phone already set on your own account"
+    // before we run the atomic claim, the claim itself returns the same
+    // signal but with a less specific error. Best-effort, not authoritative.
+    const _fresh = (typeof getUserByPhone === "function" && req.user?.phone)
+      ? getUserByPhone(req.user.phone) : null;
     if (_fresh && _fresh.phone) {
       return res.status(403).json({
         error: "Phone cannot be changed via profile. Contact support to update your registered phone.",
       });
     }
-    if (!validatePhone(body.phone)) {
-      return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
-    }
-    const normalized = normalizePhone(body.phone);
-    // Cross-user uniqueness check: no two accounts may share a phone.
-    const otherUser = getUserByPhone ? getUserByPhone(normalized) : null;
-    if (otherUser && otherUser.id !== current.id) {
-      return res.status(409).json({
-        error: "מספר הטלפון כבר רשום במערכת תחת חשבון אחר. אנא השתמש במספר אחר.",
-      });
-    }
-    safe.phone = normalized;
   }
   if (safe.name && (typeof safe.name !== "string" || safe.name.length > 100)) {
     return res.status(400).json({ error: "Name too long" });
   }
-  if (Object.keys(safe).length === 0) {
+  if (Object.keys(safe).length === 0 && !phoneClaim) {
     return res.status(400).json({ error: "No allowed fields to update" });
   }
-  const user = updateUser(req.user.id, safe);
+  // Phone claim is atomic; do it FIRST so a collision aborts before we
+  // commit any other profile fields.
+  if (phoneClaim) {
+    const c = (typeof claimUserPhone === "function")
+      ? claimUserPhone(req.user.id, phoneClaim)
+      : { ok: false, reason: "no_helper" };
+    if (!c.ok) {
+      if (c.reason === "taken") {
+        return res.status(409).json({
+          error: "מספר הטלפון כבר רשום במערכת תחת חשבון אחר. אנא השתמש במספר אחר.",
+        });
+      }
+      if (c.reason === "has_phone") {
+        return res.status(403).json({
+          error: "Phone cannot be changed via profile. Contact support to update your registered phone.",
+        });
+      }
+      return res.status(500).json({ error: "Phone claim failed: " + c.reason });
+    }
+  }
+  const user = Object.keys(safe).length > 0 ? updateUser(req.user.id, safe) : req.user;
   res.json({ ok: true, user });
 } : notReady);
 
@@ -12365,6 +12427,29 @@ app.post("/api/deals/:dealId/bids",
   if (!Number.isFinite(amt) || amt <= 0 || amt > 10_000_000) {
     return res.status(400).json({ error: "Invalid amount" });
   }
+  // SECURITY (P0, audit 2026-05-23): enforce the deal's priceFloor server-side.
+  // The UI's lowestPlausibleBid filter blocked typo-low bids in the supplier
+  // dashboard, but a direct `curl -d '{"amount":1,...}'` would bypass the UI
+  // and end up as the winning bid at deal-close, costing the supplier their
+  // margin and poisoning the displayed lowest-bid for every other customer.
+  // Floor = explicit deal.priceFloor when set, else 40% of marketMin/Max as a
+  // reasonable lower bound (a real supplier cannot beat 60%-off retail).
+  if (typeof getDeal === "function") {
+    try {
+      const _deal = getDeal(dealId);
+      if (_deal) {
+        const _ref = Number(_deal.marketMin) || Number(_deal.marketMax) || 0;
+        const _floor = Number(_deal.priceFloor) || (_ref > 0 ? Math.round(_ref * 0.4) : 0);
+        if (_floor > 0 && amt < _floor) {
+          audit("BID_BELOW_FLOOR", req, { dealId, amt, floor: _floor });
+          return res.status(400).json({
+            error:      "המחיר שהוצע נמוך מהמינימום הסביר עבור המוצר. אנא הצע מחיר ריאלי.",
+            priceFloor: _floor,
+          });
+        }
+      }
+    } catch (_) { /* getDeal failure shouldn't block legitimate bids */ }
+  }
   if (!supplierId)                       return res.status(400).json({ error: "Missing supplierId" });
   // SECURITY (red-team round 2, C-R2-3): the previous "verification" was a
   // tautology, header and body are both attacker-controlled, and the
@@ -12477,7 +12562,13 @@ function runAutoBidEvaluator({ dealId, dealMeta = {}, currentLow, excludeSupplie
       // The proposed counter (low - undercut) must be ≥ 1 and ≤ rule.maxPrice
       .filter(r => {
         const proposed = low - (r.undercut || 50);
-        return proposed > 0 && proposed <= (r.maxPrice || Infinity);
+        // SECURITY (P0, audit 2026-05-23): treat maxPrice 0/missing/negative
+        // as "rule disabled". The old `r.maxPrice || Infinity` accepted 0 as
+        // truthy-falsy (since 0 || Infinity → Infinity), letting a misconfigured
+        // rule auto-counter-bid at ANY price including ₪1, leaving the supplier
+        // bound to break-even/below-cost deals they never approved.
+        const cap = Number(r.maxPrice) > 0 ? Number(r.maxPrice) : 0;
+        return cap > 0 && proposed > 0 && proposed <= cap;
       })
       // Pick the rule with the lowest proposed price
       .sort((a, b) => (low - (a.undercut || 50)) - (low - (b.undercut || 50)));
@@ -13124,21 +13215,22 @@ function _parseFeedXml(text) {
 }
 
 async function _fetchAndParseFeed(url, formatHint) {
-  // SSRF guard, reuse the same helper we built for scraper images
-  if (typeof _isSafeRemoteUrl === "function") {
-    if (!(await _isSafeRemoteUrl(url))) {
-      return { ok: false, error: "URL not allowed (private/internal)" };
-    }
-  }
+  // SECURITY (P0, audit 2026-05-23): use the DNS-pinned safe fetch helper
+  // so a low-TTL DNS rebinding attack can't redirect the connect to a
+  // private IP between our safety check and axios's own DNS lookup.
+  let r;
   try {
-    const r = await axios.get(url, {
+    r = await _safeAxiosGet(url, {
       timeout: 20000,
       maxContentLength: 10 * 1024 * 1024,
       responseType: "text",
       headers: { "User-Agent": "BundlyFeedFetcher/1.0", Accept: "*/*" },
       validateStatus: s => s < 500,
-      maxRedirects: 0,   // don't follow redirects, a 302 could bypass the SSRF IP check
     });
+  } catch (e) {
+    return { ok: false, error: e.message || "fetch failed" };
+  }
+  try {
     if (r.status >= 400) return { ok: false, error: `HTTP ${r.status}` };
     const text = typeof r.data === "string" ? r.data : JSON.stringify(r.data);
     const fmt = formatHint && formatHint !== "auto"
