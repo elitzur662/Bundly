@@ -2654,7 +2654,7 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
@@ -2779,11 +2779,13 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             </>
           )}
           {!isSupplierMode && (
-            <button id="navbar-cart-target" onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="השמורים שלי">
-              <ShoppingCart className="w-5 h-5 text-gray-600" />
-              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm">
-                {savedCount}
-              </span>
+            <button id="navbar-cart-target" onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="המוצרים שלי">
+              <Users className="w-5 h-5 text-gray-600" />
+              {myProductsCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-indigo-600 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
+                  {myProductsCount}
+                </span>
+              )}
             </button>
           )}
           <div className="hidden sm:block"><LangSelector lang={lang} setLang={setLang} /></div>
@@ -5351,29 +5353,66 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               Renders nothing when there are no (plausible) bids. */}
         {!priceHidden && <BidFeed deal={deal} />}
 
-        {/* ══ 1c. PRICE-REDUCTION OPTIONS, prominent, right under the price ══ */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
-          <PriceReductionOptions
-            heading="אפשרויות הוזלת מחיר"
-            joinTitle="הוסיפו לקבוצת רכישה כללית"
-            joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
-            onJoinGroup={deal.catIdx != null ? () => {
-              // Open the demand-pool picker, the user sees similar buying
-              // groups in this category and can join one (or add this product
-              // as a new entry, prefilled). Was a silent counter bump that
-              // looked like "nothing happened".
-              const pname = deal.name.he || deal.name.en;
-              if (onJoinDemandPool) onJoinDemandPool(deal.catIdx, pname);
-              else if (onAddToPool) onAddToPool(deal.catIdx, pname);
-              else onDirectJoinPool?.(deal.catIdx, pname);
-            } : undefined}
-            onRequestSupplierPrice={onRequestSupplierPrice}
-            requestProduct={deal.name.en || deal.name.he}
-            requestCategory={deal.name.he || deal.name.en}
-            requestImage={deal.image || null}
-            currentLowestPrice={bestBid?.amount || deal.groupOffer || null}
-          />
-        </div>
+        {/* ══ 1c. SIMILAR MODELS, always-on recommendation strip ══
+              Surfaces other deals in the same category and price band so the
+              user can join more buying groups (more demand = better prices).
+              Hidden entirely when no comparable models exist. */}
+        {(() => {
+          if (deal.catIdx == null) return null;
+          const basePrice = Number(deal.marketMin) || Number(deal.marketMax) || Number(deal.groupOffer) || 0;
+          if (!basePrice) return null;
+          const similar = (allDeals || [])
+            .filter(d => d && d.id !== deal.id && d.catIdx === deal.catIdx)
+            .filter(d => {
+              const dp = Number(d.marketMin) || Number(d.marketMax) || 0;
+              if (!dp) return false;
+              return Math.abs(dp - basePrice) / basePrice <= 0.2;
+            })
+            .sort((a, b) => (Number(b.participants) || 0) - (Number(a.participants) || 0))
+            .slice(0, 3);
+          if (similar.length === 0) return null;
+          return (
+            <div className="bg-white rounded-2xl border border-indigo-100 shadow-md p-5">
+              <h3 className="text-sm font-black text-gray-900 mb-1 flex items-center gap-2">
+                <span className="text-base">💡</span>
+                <span className="bg-gradient-to-r from-indigo-700 to-violet-700 bg-clip-text text-transparent">דגמים דומים שאולי יעניינו אותך</span>
+              </h3>
+              <p className="text-[11px] text-gray-500 mb-4">באותו טווח מחיר, יותר קונים = הצעות מחיר טובות יותר</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {similar.map(d => {
+                  const dName = (d.name && (d.name[lang] || d.name.he || d.name.en)) || "";
+                  const dPrice = Number(d.marketMin) || Number(d.marketMax) || Number(d.groupOffer) || 0;
+                  return (
+                    <div
+                      key={d.id}
+                      onClick={() => onJoin?.(d.id)}
+                      className="rounded-2xl border border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer overflow-hidden bg-white"
+                    >
+                      <div className="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
+                        <ProductImage
+                          query={d.name?.en || dName}
+                          fallback={d.image}
+                          alt={dName}
+                          className="w-full h-full"
+                          imgClassName="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-indigo-700 transition">{dName}</p>
+                        {dPrice > 0 && (
+                          <p className="text-sm font-black text-indigo-700 mt-1">₪{dPrice.toLocaleString()}</p>
+                        )}
+                        <span className="inline-flex items-center gap-1 mt-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full px-2 py-0.5 text-[10px] font-bold">
+                          👥 {Number(d.participants) || 0} בקבוצה
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ══ 2. HOW IT WORKS, "איך זה עובד?" ══ */}
         <div className="bg-gradient-to-br from-indigo-50/80 to-violet-50/50 border border-indigo-100 rounded-2xl p-5">
@@ -10721,7 +10760,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 //  MY PRODUCTS PAGE, "העגלה שלי" / "המוצרים שלי"
 // ─────────────────────────────────────────────────────────────────
-function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
+function MyProductsPage({ myProducts, onRemove, onBack, onProductClick, demandPools = {} }) {
   const TIER_META = {
     committed:  { emoji: "📝", label: "בקבוצה",        color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
     interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
@@ -10757,6 +10796,11 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
             const catIcon = CAT_ICONS[p.catIdx] || "📦";
             const catName = CATEGORIES.he[p.catIdx] || "";
             const visual = CATEGORY_VISUAL_MAP[catName] || CATEGORY_VISUAL_MAP._default;
+            // Total members in the broader category demand pool. Sums every
+            // model's count under p.catIdx so the chip reflects category-wide
+            // buying-group leverage, not just this exact product.
+            const pool = (p.catIdx != null && demandPools && demandPools[p.catIdx]) || null;
+            const poolCount = pool ? Object.values(pool).reduce((s, n) => s + (Number(n) || 0), 0) : 0;
             // Per user feedback 2026-05-15: ProductImage was re-querying the
             // image API for every saved product and sometimes replacing the
             // correct stored thumbnail with a wrong one (the API matches by
@@ -10799,6 +10843,11 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
                   <p className="text-sm font-black text-gray-900 leading-snug line-clamp-2 mb-1.5">{p.name || p.productName || "מוצר"}</p>
                   {p.price > 0 && (
                     <p className="text-base font-black text-indigo-700 mb-1">₪{p.price.toLocaleString()}</p>
+                  )}
+                  {p.catIdx != null && poolCount > 0 && (
+                    <span className="inline-flex items-center gap-1 mb-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full px-2 py-0.5 text-[10px] font-bold">
+                      👥 {poolCount} בקבוצה
+                    </span>
                   )}
                   <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-medium">
                     <span>{catIcon}</span>
@@ -22577,7 +22626,12 @@ export default function App() {
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
     addToMyProducts({ name: result.productName, image: result.image, tier: result._joinTier || "committed", action: "created_deal", catIdx: newDeal.catIdx, price: result.groupPrice || result.marketMin }, result);
-    notify("✅ דיל חדש נפתח!");
+    // Auto-enroll in the broader category demand pool so the user benefits
+    // from group leverage on similar models, not just this exact one.
+    if (newDeal.catIdx != null) {
+      try { joinDemandPool(newDeal.catIdx, result.productName); } catch {}
+    }
+    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
 
     // Persist server-side and reconcile with the canonical deal (server id +
     // dedupe). Resilient: any failure leaves the optimistic client deal in
@@ -22653,6 +22707,31 @@ export default function App() {
       /* offline / server down → keep the optimistic client-only deal */
     }
   };
+
+  // Shared handler when the user joins an EXISTING deal from the search modal.
+  // Mirrors handleAddDealFromSearch side-effects: drop the user into the deal
+  // page, auto-enroll them in the broader category demand pool, and add the
+  // product to "המוצרים שלי" so it surfaces in their cart the same way a
+  // newly-created deal would.
+  const handleJoinExistingDeal = (d) => {
+    if (!d) return;
+    setSelectedDeal(d);
+    setSearchResult(null);
+    const modelName = (d.name && (d.name.en || d.name.he)) || d.name || "";
+    if (d.catIdx != null && modelName) {
+      try { joinDemandPool(d.catIdx, modelName); } catch {}
+    }
+    addToMyProducts({
+      name: modelName,
+      image: d.image || "",
+      tier: "interested",
+      action: "joined_pool",
+      catIdx: d.catIdx,
+      price: Number(d.groupOffer) || Number(d.marketMin) || 0,
+    });
+    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
+  };
+
   // Add a product from the search page to the community "want list"
   const handleAddCommunity = (product) => {
     setCommunityProducts(prev => {
@@ -23105,7 +23184,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
 
   // ── Query disambiguation: some generic queries have sub-categories ──
   // No longer a blocking modal. Each option carries a self-contained `match`
@@ -23346,7 +23425,7 @@ export default function App() {
             onClose={() => setSearchResult(null)}
             onAddDeal={handleAddDealFromSearch}
             deals={deals}
-            onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); setCategoryQuery(null); }}
+            onJoinDeal={d => { handleJoinExistingDeal(d); setCategoryQuery(null); }}
             onBack={() => setSearchResult(null)}
             onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
             onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
@@ -23495,7 +23574,7 @@ export default function App() {
           onClose={() => { setSearchResult(null); setFinderInitialState(null); }}
           onAddDeal={handleAddDealFromSearch}
           deals={deals}
-          onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
+          onJoinDeal={d => handleJoinExistingDeal(d)}
           onBack={null}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
           onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
@@ -23987,6 +24066,7 @@ export default function App() {
           <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
             <MyProductsPage
               myProducts={myProducts}
+              demandPools={demandPools}
               onRemove={(p) => setMyProducts(prev => prev.filter(x => x.addedAt !== p.addedAt))}
               onBack={() => setMode("home")}
               onProductClick={(p) => {
@@ -24026,7 +24106,7 @@ export default function App() {
               onClose={() => setSearchResult(null)}
               onAddDeal={handleAddDealFromSearch}
               deals={deals}
-              onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
+              onJoinDeal={d => handleJoinExistingDeal(d)}
               onBack={() => setSearchResult(null)}
               onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
               onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
