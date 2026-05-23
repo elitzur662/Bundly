@@ -1877,6 +1877,10 @@ function AuthModal({ t, onSuccess, onClose }) {
   // or OTP to email. Phone is the default because every account has one;
   // email login only works for users who already have an email on file.
   const [loginMethod, setLoginMethod] = useState("phone"); // "phone" | "email"
+  // Same toggle in the new-user signup flow. Independent state because a
+  // user might prefer a different verification channel for signup vs login.
+  const [signupMethod, setSignupMethod] = useState("phone"); // "phone" | "email"
+  const [signupEmail, setSignupEmail]   = useState("");
   const [phone, setPhone]     = useState("");
   const [otp, setOtp]         = useState("");
   const [devCode, setDevCode] = useState(""); // shown only when Twilio not configured
@@ -1954,8 +1958,29 @@ function AuthModal({ t, onSuccess, onClose }) {
     finally { setLoading(false); }
   };
 
-  // ── New user: send OTP ───────────────────────────────────────
+  // ── New user: send OTP via SMS (phone signup) or Email (email signup) ─
   const handleNewSendOtp = async () => {
+    if (signupMethod === "email") {
+      if (!signupEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupEmail.trim())) {
+        setError("הכנס כתובת אימייל תקינה"); return;
+      }
+      if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return; }
+      setError(""); setLoading(true);
+      try {
+        // intent:"register" tells the server to deliver an OTP even for a
+        // fresh email. The "already registered" feedback is given at
+        // verify-time (after the user proves email ownership), so an
+        // attacker still cannot enumerate accounts pre-OTP.
+        const res = await fetch("/api/auth/send-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ email: signupEmail.trim(), intent: "register", captchaToken }) });
+        const data = await res.json();
+        if (!res.ok) { resetCaptcha(); throw new Error(data.error || "שגיאה בשליחה"); }
+        if (data.devCode) setDevCode(data.devCode);
+        setStep("otp");
+      } catch(e) { setError(e.message); }
+      finally { setLoading(false); }
+      return;
+    }
+    // Phone signup, legacy default
     if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
     if (HCAPTCHA_SITE_KEY && !captchaToken) { setError("אם אתה רובוט תודה בזה, אם לא תסמן 🤖"); return; }
     setError(""); setLoading(true);
@@ -1974,12 +1999,18 @@ function AuthModal({ t, onSuccess, onClose }) {
     if (otp.length < 6) { setError("הכנס קוד בן 6 ספרות"); return; }
     setError(""); setLoading(true);
     try {
-      // For email-method existing-user login we identify the account by
-      // email, not phone. Everything downstream (admin role, customer
-      // session) follows the same JWT shape returned by the server.
-      const body = (authMode === "existing" && loginMethod === "email")
-        ? { email: loginEmail.trim(), code: otp }
-        : { phone, code: otp };
+      // 3-way branch:
+      //  - existing user + login via email → { email, code }, server logs in
+      //  - new user + signup via email     → { email, code, intent:"register" }, server creates account
+      //  - everything else (default)        → { phone, code }
+      let body;
+      if (authMode === "existing" && loginMethod === "email") {
+        body = { email: loginEmail.trim(), code: otp };
+      } else if (authMode === "new" && signupMethod === "email") {
+        body = { email: signupEmail.trim(), code: otp, intent: "register" };
+      } else {
+        body = { phone, code: otp };
+      }
       const res  = await fetch("/api/auth/verify-otp", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body) });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "קוד שגוי");
@@ -2034,11 +2065,21 @@ function AuthModal({ t, onSuccess, onClose }) {
   };
 
   // ── Save profile (new users / incomplete profiles) ───────────
+  // Two paths converge here:
+  //  • Phone-signup users: phone is already set on the JWT, profile collects
+  //    EMAIL + name + address.
+  //  • Email-signup users: email is already set on the user record, profile
+  //    collects PHONE (required for SMS notifications) + name + address.
   const handleSaveProfile = async () => {
+    const isEmailSignup = authMode === "new" && signupMethod === "email";
     if (!firstName.trim()) { setError("הכנס שם פרטי"); return; }
     if (!lastName.trim()) { setError("הכנס שם משפחה"); return; }
-    if (!email.trim()) { setError("הכנס כתובת אימייל"); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError("כתובת אימייל לא תקינה"); return; }
+    if (isEmailSignup) {
+      if (!phone || phone.replace(/\D/g,"").length < 9) { setError("הכנס מספר נייד תקין"); return; }
+    } else {
+      if (!email.trim()) { setError("הכנס כתובת אימייל"); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError("כתובת אימייל לא תקינה"); return; }
+    }
     if (!city.trim()) { setError("בחר עיר"); return; }
     if (!street.trim()) { setError("בחר רחוב"); return; }
     if (!buildingNum.trim()) { setError("הכנס מספר בית"); return; }
@@ -2046,12 +2087,25 @@ function AuthModal({ t, onSuccess, onClose }) {
     setError(""); setLoading(true);
     const name = `${firstName.trim()} ${lastName.trim()}`;
     try {
+      // Body intentionally varies by signup path. We never send `email` for
+      // email-signups (it's already set; the server refuses email changes).
+      // We never send `phone` for phone-signups (already set on the user).
+      const body = {
+        name,
+        firstName: firstName.trim(),
+        lastName:  lastName.trim(),
+        city, street, buildingNum, apartmentNum,
+        termsAcceptedAt: new Date().toISOString(),
+      };
+      if (isEmailSignup) body.phone = phone;
+      else               body.email = email;
       const res = await fetch("/api/auth/profile", {
         method: "PATCH",
         headers: { "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
-        body: JSON.stringify({ name, firstName: firstName.trim(), lastName: lastName.trim(), email, city, street, buildingNum, apartmentNum, termsAcceptedAt: new Date().toISOString() })
+        body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error("Failed to save profile");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "שמירת הפרופיל נכשלה");
       setStep("prefs");
     } catch(e) { setError(e.message); }
     finally { setLoading(false); }
@@ -2237,30 +2291,65 @@ function AuthModal({ t, onSuccess, onClose }) {
           </div>
         )}
 
-        {/* ── New user: Phone entry ── */}
+        {/* ── New user: Phone OR Email entry (signupMethod toggle) ── */}
         {step === "phone" && (
           <div className="space-y-4">
             <div className="text-center mb-2">
               <div className="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Phone className="w-7 h-7 text-indigo-600" />
+                {signupMethod === "email" ? <Mail className="w-7 h-7 text-indigo-600" /> : <Phone className="w-7 h-7 text-indigo-600" />}
               </div>
-              <p className="text-gray-600 text-sm">הכנס את מספר הנייד שלך<br/>נשלח אליך קוד אימות ב-SMS</p>
+              <p className="text-gray-600 text-sm">בחר איך לקבל את קוד האימות</p>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">מספר נייד <span className="text-red-400">*</span></label>
-              <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center text-lg font-mono tracking-widest"
-                onKeyDown={e => e.key==="Enter" && handleNewSendOtp()} />
+            {/* Method toggle. Phone is the default because SMS notifications
+                (order updates, deal closed) require it; users who chose
+                email at signup fill in their phone later in the profile step. */}
+            <div className="bg-gray-50 rounded-xl p-1 flex gap-1">
+              <button
+                type="button"
+                onClick={() => { setSignupMethod("phone"); setError(""); }}
+                className={`flex-1 text-xs font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 ${signupMethod==="phone" ? "bg-white text-indigo-700 shadow-sm" : "text-gray-500"}`}
+              >
+                <Phone className="w-3.5 h-3.5" />טלפון (SMS)
+              </button>
+              <button
+                type="button"
+                onClick={() => { setSignupMethod("email"); setError(""); }}
+                className={`flex-1 text-xs font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 ${signupMethod==="email" ? "bg-white text-indigo-700 shadow-sm" : "text-gray-500"}`}
+              >
+                <Mail className="w-3.5 h-3.5" />מייל
+              </button>
             </div>
+
+            {signupMethod === "phone" ? (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">מספר נייד <span className="text-red-400">*</span></label>
+                <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center text-lg font-mono tracking-widest"
+                  onKeyDown={e => e.key==="Enter" && handleNewSendOtp()} />
+                <p className="text-[11px] text-gray-400 mt-1.5">נשלח לך SMS עם קוד בן 6 ספרות. את המייל נבקש בשלב הבא.</p>
+              </div>
+            ) : (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">כתובת אימייל <span className="text-red-400">*</span></label>
+                <input value={signupEmail} onChange={e => setSignupEmail(e.target.value)} type="email" placeholder="israel@example.com"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center" dir="ltr"
+                  onKeyDown={e => e.key==="Enter" && handleNewSendOtp()} />
+                <p className="text-[11px] text-gray-400 mt-1.5">נשלח לך מייל עם קוד בן 6 ספרות. את הטלפון נבקש בשלב הבא (לעדכוני SMS על הזמנות).</p>
+              </div>
+            )}
+
             {HCAPTCHA_SITE_KEY && (
               <div className="flex justify-center">
                 <HCaptcha ref={captchaRef} sitekey={HCAPTCHA_SITE_KEY} onVerify={setCaptchaToken} onExpire={() => setCaptchaToken("")} />
               </div>
             )}
             <Btn onClick={handleNewSendOtp} disabled={loading} className="w-full" size="lg">
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Phone className="w-4 h-4" />שלח קוד SMS</>}
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> :
+                signupMethod === "email"
+                  ? <><Mail className="w-4 h-4" />שלח קוד למייל</>
+                  : <><Phone className="w-4 h-4" />שלח קוד SMS</>}
             </Btn>
-            <button onClick={() => { setStep("welcome"); setPhone(""); setError(""); }}
+            <button onClick={() => { setStep("welcome"); setPhone(""); setSignupEmail(""); setError(""); }}
               className="w-full text-center text-xs text-indigo-500 hover:underline">חזרה</button>
           </div>
         )}
@@ -2269,12 +2358,22 @@ function AuthModal({ t, onSuccess, onClose }) {
         {step === "otp" && (
           <div className="space-y-4">
             <div className="bg-indigo-50 rounded-xl p-4 text-center">
-              {(authMode === "existing" && loginMethod === "email")
-                ? <Mail className="w-5 h-5 text-indigo-500 mx-auto mb-1" />
-                : <Phone className="w-5 h-5 text-indigo-500 mx-auto mb-1" />}
-              <p className="text-sm font-semibold text-indigo-800">
-                קוד נשלח ל-{(authMode === "existing" && loginMethod === "email") ? loginEmail : phone}
-              </p>
+              {(() => {
+                const isEmailFlow =
+                  (authMode === "existing" && loginMethod === "email") ||
+                  (authMode === "new"      && signupMethod === "email");
+                const target = isEmailFlow
+                  ? ((authMode === "new") ? signupEmail : loginEmail)
+                  : phone;
+                return (
+                  <>
+                    {isEmailFlow
+                      ? <Mail className="w-5 h-5 text-indigo-500 mx-auto mb-1" />
+                      : <Phone className="w-5 h-5 text-indigo-500 mx-auto mb-1" />}
+                    <p className="text-sm font-semibold text-indigo-800">קוד נשלח ל-{target}</p>
+                  </>
+                );
+              })()}
               <p className="text-xs text-indigo-400 mt-0.5">תקף ל-5 דקות</p>
             </div>
             {devCode && (
@@ -2324,12 +2423,23 @@ function AuthModal({ t, onSuccess, onClose }) {
               </div>
             </div>
 
-            {/* Email */}
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">אימייל <span className="text-red-400">*</span></label>
-              <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="israel@example.com"
-                className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" dir="ltr" />
-            </div>
+            {/* Email OR Phone, depending on which one was used for OTP verify.
+                Phone-OTP signups already have phone, ask for email here.
+                Email-OTP signups already have email, ask for phone here. */}
+            {authMode === "new" && signupMethod === "email" ? (
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">מספר נייד <span className="text-red-400">*</span></label>
+                <input value={phone} onChange={e => setPhone(e.target.value)} type="tel" placeholder="05X-XXXXXXX"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center font-mono tracking-widest" />
+                <p className="text-[11px] text-gray-400 mt-1">נדרש לעדכוני SMS על הזמנות וסגירת קבוצות. הטלפון ייחודי, לא ניתן לרשום את אותו מספר פעמיים.</p>
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">אימייל <span className="text-red-400">*</span></label>
+                <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="israel@example.com"
+                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" dir="ltr" />
+              </div>
+            )}
 
             {/* Address section */}
             <div>

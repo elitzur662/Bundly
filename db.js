@@ -188,6 +188,24 @@ export function upsertUser({ phone, name, email }) {
   return user;
 }
 
+// Create a user identified by EMAIL when a phone is not yet available
+// (email-OTP registration path). Phone is filled in later at the profile
+// step. Caller MUST check getUserByEmail first to enforce email uniqueness.
+export function createUserByEmail({ email, name }) {
+  _db = load();
+  const user = {
+    id:         nextId(_db.users),
+    phone:      null,
+    name:       name  || null,
+    email:      email ? String(email).trim().toLowerCase() : null,
+    created_at: new Date().toISOString(),
+    last_login: new Date().toISOString(),
+  };
+  _db.users.push(user);
+  save(_db);
+  return user;
+}
+
 export function getUserByPhone(phone) {
   _db = load();
   return _db.users.find(u => u.phone === phone) || null;

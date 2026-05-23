@@ -98,7 +98,7 @@ if (BEHIND_VITE) {
 }
 
 // ── Optional packages, load gracefully so server starts even before npm install ──
-let jwt, upsertUser, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
+let jwt, upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs;
 let listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest, seedPersonalRequestsIfEmpty;
 let listDealBids, getDealBids, addDealBid, cancelDealBid;
 let getSupplierProfile, upsertSupplierProfile;
@@ -120,7 +120,7 @@ try {
   jwt = jwtMod.default;
   const db        = await import("./db.js");
   ({
-    upsertUser, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
+    upsertUser, createUserByEmail, getUserByPhone, getUserByEmail, updateUser, saveOtp, verifyOtp, getPrefs, upsertPrefs,
     listPersonalRequests, createPersonalRequest, updatePersonalRequest, getPersonalRequest,
     seedPersonalRequestsIfEmpty,
     listDealBids, getDealBids, addDealBid, cancelDealBid,
@@ -10658,7 +10658,13 @@ app.post("/api/auth/check-existing",
 app.post("/api/auth/send-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-send" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, email, captchaToken } = req.body || {};
+  const { phone, email, captchaToken, intent } = req.body || {};
+  // `intent` is "login" (default) or "register". The email path treats
+  // them differently: login silently no-ops for unknown emails; register
+  // always sends so a new user can claim a fresh email. The "already
+  // registered" feedback is given only AFTER successful OTP verify, so
+  // an attacker still can't enumerate accounts at send-time.
+  const isRegister = String(intent || "").toLowerCase() === "register";
   if (!phone && !email) return res.status(400).json({ error: "Phone or email required" });
   // CAPTCHA check (only enforced if HCAPTCHA_SECRET is set in .env)
   const captcha = await verifyCaptcha(captchaToken, req.ip);
@@ -10683,12 +10689,14 @@ app.post("/api/auth/send-otp",
       return res.status(429).json({ error: "יותר מדי בקשות, נסה שוב בעוד שעה" });
     }
     const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
-    if (!existing) {
+    // REGISTER intent: send OTP regardless of existence. The "already
+    // exists" feedback is given only after successful OTP verify so the
+    // attacker still cannot enumerate accounts via /send-otp alone.
+    // LOGIN intent (default): silent no-op for unknown emails.
+    if (!existing && !isRegister) {
       // Anti-enumeration: act EXACTLY like success. Save a dummy OTP so
       // an attacker can't distinguish known/unknown emails by observing
-      // rate-limit state (e.g., the per-key send counter) on subsequent
-      // requests. No mail is sent. The dummy code is unrecoverable by
-      // the attacker (CSPRNG), so a later /verify-otp can't succeed.
+      // rate-limit state on subsequent requests. No mail is sent.
       const dummy = String(_secureRandomInt(100000, 1_000_000));
       saveOtp(otpKey, dummy);
       audit("OTP_SEND_UNKNOWN_EMAIL", req, { email: otpKey });
@@ -10865,16 +10873,17 @@ async function _isOtpLocked(phone) {
 app.post("/api/auth/verify-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-verify" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, email: loginEmail, code, name, email } = req.body || {};
+  const { phone, email: loginEmail, code, name, email, intent } = req.body || {};
   // BUG FIX: body-less request crashed previously. Accept either phone or email.
   // `loginEmail` is the email used as the login identifier (when phone is not
   // supplied). `email` keeps its legacy meaning for upsertUser, the address
   // saved on a new profile. They CAN be the same address.
+  const isRegister = String(intent || "").toLowerCase() === "register";
   if ((!phone && !loginEmail) || !code) return res.status(400).json({ error: "Phone/email and code required" });
 
-  // Branch: EMAIL-OTP login path. Lookup the user by email; if not found we
-  // reject (email-only login is for EXISTING accounts, new users still
-  // register via phone). Admin login stays phone-only (BUNDLY_ADMIN_PHONE).
+  // Branch: EMAIL-OTP path. For login (default), look up existing user; for
+  // register, create a new user with the verified email. Admin login stays
+  // phone-only (BUNDLY_ADMIN_PHONE) regardless of intent.
   if (loginEmail && !phone) {
     if (!validateEmail(loginEmail)) return res.status(400).json({ error: "כתובת אימייל לא תקינה" });
     const otpKey = String(loginEmail).trim().toLowerCase();
@@ -10897,22 +10906,41 @@ app.post("/api/auth/verify-otp",
       });
     }
     const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
+
+    // REGISTER intent: create the new user (or refuse if email already exists).
+    // We surface "already registered" here, not at /send-otp, so an attacker
+    // can't enumerate accounts pre-OTP, only after proving control of the email.
+    if (isRegister) {
+      if (existing) {
+        await _clearOtpFailures(otpKey);
+        return res.status(409).json({ error: "כתובת המייל כבר רשומה. אנא התחבר במקום." });
+      }
+      await _clearOtpFailures(otpKey);
+      const created = createUserByEmail({ email: otpKey, name });
+      try { logActivity("customer_register_email", { user_id: created.id, email: otpKey, ip: req.ip }); } catch (_) {}
+      const _tokenPayload = { id: created.id, phone: created.phone || null };
+      const token = _signToken(_tokenPayload, { expiresIn: "30d", algorithm: "HS256" });
+      return res.json({
+        ok: true,
+        token,
+        user: { id: created.id, name: created.name, firstName: null, lastName: null, phone: null, email: created.email, city: null, street: null, buildingNum: null, apartmentNum: null },
+        isNew: true,
+      });
+    }
+
+    // LOGIN intent (default): existing user only.
     if (!existing) {
-      // SECURITY (P0, audit 2026-05-23): respond identically to "wrong
-      // code" so an attacker can't enumerate registered emails by checking
-      // for a 404 vs a 400 here. Also count the attempt against the
-      // lockout so brute-forcing the OTP space for unknown emails costs
-      // the same as for known ones (no oracle via lockout state).
+      // SECURITY (P0): respond identically to "wrong code" so an attacker
+      // can't enumerate registered emails by checking for a 404 vs a 400.
+      // Also count the attempt against the lockout so brute-forcing the OTP
+      // space for unknown emails costs the same as for known ones.
       await _trackOtpFailure(otpKey);
       audit("OTP_FAIL_UNKNOWN_EMAIL", req, { email: otpKey });
       return res.status(400).json({ error: "קוד שגוי" });
     }
-    // SECURITY (P1, audit 2026-05-23): the OTP-admin identity is locked
-    // to the phone channel (BUNDLY_ADMIN_PHONE). If the user behind this
-    // email IS the admin, refuse the email-OTP login and force them to
-    // use phone-OTP, so a compromised personal email can't be used as a
-    // foothold against the admin account (no admin escalation here, but
-    // still locks the admin to one channel).
+    // SECURITY (P1): the OTP-admin identity is locked to the phone channel
+    // (BUNDLY_ADMIN_PHONE). If the user behind this email IS the admin,
+    // refuse the email-OTP login and force them to use phone-OTP.
     const _adminPhone = normalizePhone(process.env.BUNDLY_ADMIN_PHONE || "");
     if (_adminPhone && existing.phone && normalizePhone(existing.phone) === _adminPhone) {
       audit("ADMIN_EMAIL_LOGIN_BLOCKED", req, { email: otpKey });
@@ -11351,6 +11379,8 @@ const PROFILE_ALLOWED_FIELDS = new Set([
   "name", "firstName", "lastName",
   "city", "street", "buildingNum", "apartmentNum", "zip",
   "preferences",
+  "phone", // first-time fill only, enforced inside the handler
+  "termsAcceptedAt", // ISO date when the user accepted the consumer terms
 ]);
 app.patch("/api/auth/profile", authMiddleware, AUTH_READY ? (req, res) => {
   const body = req.body || {};
@@ -11364,6 +11394,33 @@ app.patch("/api/auth/profile", authMiddleware, AUTH_READY ? (req, res) => {
     return res.status(403).json({
       error: "Email cannot be changed via profile. Contact support to update your registered email.",
     });
+  }
+  // First-time phone fill for email-OTP-registered users. We accept `phone`
+  // ONLY when the user has no phone yet (so existing accounts can't change
+  // their phone here, mirroring the email rule). Phone uniqueness is enforced
+  // across all users to prevent duplicate accounts.
+  if (body.phone !== undefined) {
+    const me = getUserByPhone ? null : null; // me already on req.user
+    const current = req.user;
+    // Re-fetch fresh user record to know if phone is null right now.
+    const _fresh = (typeof getUserByPhone === "function" && current?.phone) ? getUserByPhone(current.phone) : null;
+    if (_fresh && _fresh.phone) {
+      return res.status(403).json({
+        error: "Phone cannot be changed via profile. Contact support to update your registered phone.",
+      });
+    }
+    if (!validatePhone(body.phone)) {
+      return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
+    }
+    const normalized = normalizePhone(body.phone);
+    // Cross-user uniqueness check: no two accounts may share a phone.
+    const otherUser = getUserByPhone ? getUserByPhone(normalized) : null;
+    if (otherUser && otherUser.id !== current.id) {
+      return res.status(409).json({
+        error: "מספר הטלפון כבר רשום במערכת תחת חשבון אחר. אנא השתמש במספר אחר.",
+      });
+    }
+    safe.phone = normalized;
   }
   if (safe.name && (typeof safe.name !== "string" || safe.name.length > 100)) {
     return res.status(400).json({ error: "Name too long" });
