@@ -12117,9 +12117,15 @@ app.post("/api/deals",
     return res.status(400).json({ error: "Implausible price, deal not created" });
   }
   try {
-    // createDeal() itself dedupes by productKey and returns the existing
-    // deal when one is found, no duplicate is ever created.
+    // createDeal() now dedupes by productKey AND name (db.js); on a
+    // productKey collision with a different name it creates a fresh deal
+    // and logs a warning so we can spot upstream key reuse.
     const deal = createDeal({ ...body, productKey });
+    // DIAGNOSTIC LOG (TV routing bug): show what came in vs what we returned.
+    const _incomingName = (body.name && (typeof body.name === "string" ? body.name : body.name.he || body.name.en)) || "";
+    const _outgoingName = (deal && deal.name && (typeof deal.name === "string" ? deal.name : deal.name.he || deal.name.en)) || "";
+    const _wasExisting = !!(deal && deal.createdAt && (Date.now() - new Date(deal.createdAt).getTime()) > 5000);
+    console.log(`[POST /api/deals] in: productKey=${productKey} name="${_incomingName.slice(0,50)}" → out: id=${deal?.id} name="${_outgoingName.slice(0,50)}" ${_wasExisting ? "(DEDUP HIT, existing)" : "(NEW)"}`);
     return res.json({ ok: true, deal });
   } catch (e) {
     console.error("[deals] create failed:", e.message);
