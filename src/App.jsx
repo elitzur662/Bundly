@@ -5371,6 +5371,17 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
   };
   const handleDepositSuccess = (tier) => {
     setDepositInfo(null);
+    // SECURITY/UX (P0, audit 2026-05-23): re-check that the user is still
+    // authenticated before claiming a successful join. If the JWT expired
+    // while the deposit modal was open (e.g. 30-day token rollover, or
+    // user logged out in another tab triggering bundly:auth-expired), the
+    // parent's onJoin would silently no-op while the modal still showed
+    // "joined", UI lies while DB has no row.
+    if (!user) {
+      if (notify) notify("הסשן פג, התחבר שוב כדי להשלים את ההצטרפות");
+      onLoginPrompt?.();
+      return;
+    }
     onJoin(deal.id, tier);
     setJoinedTier(tier);
     if (notify) notify("✅ הצטרפת לקבוצה! הכרטיס אומת, ללא חיוב.");
@@ -11556,9 +11567,13 @@ function AuthGate({ token, onBack, onLoginClick, title = "צריך להתחבר"
 }
 
 function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }) {
-  if (!token) return <AuthGate token={token} onBack={onBack} onLoginClick={onLoginClick} title="ההצעות שלי" />;
+  // SECURITY/STABILITY (P0, audit 2026-05-23): all hooks MUST be called
+  // before any conditional return. The old code early-returned <AuthGate>
+  // when !token, so on logout (token: string → null) React saw a different
+  // hook count between renders and the whole SPA crashed with "Rendered
+  // fewer hooks than expected".
   const [offers, setOffers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!token);
   const [selectedOffer, setSelectedOffer] = useState(null);
 
   useEffect(() => {
@@ -11569,6 +11584,8 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [token]);
+
+  if (!token) return <AuthGate token={token} onBack={onBack} onLoginClick={onLoginClick} title="ההצעות שלי" />;
 
   return (
     <div className="max-w-3xl mx-auto pb-10">
@@ -11692,6 +11709,14 @@ function DepositModal({ deal, tier, depositAmount, token, onClose, onSuccess }) 
       //    without charging. Returns the PaymentMethod id.
       const confirm = await cardRef.current.confirm(data.clientSecret, { stub: data.stub, mode: "setup" });
       if (!confirm?.ok) throw new Error(confirm?.error || "שמירת הכרטיס נכשלה");
+      // SECURITY (P0, audit 2026-05-23): if Stripe.js / publishable key is
+      // missing in prod (config drift), the StripeCardSection returns a
+      // stub:true success without any real card. Refuse the join in prod
+      // so we never tell a customer "כרטיס אומת" without one. Dev/test
+      // builds keep the stub path so QA can complete the flow locally.
+      if (confirm.stub && import.meta.env.PROD) {
+        throw new Error("שירות התשלום אינו זמין כרגע, ההצטרפות נכשלה. אנא נסה שוב בעוד מספר דקות.");
+      }
       // 3) Tell the server which PaymentMethod was verified, recorded on the
       //    join row for reference only. Bundly never charges this card.
       if (confirm.paymentMethodId && token) {
@@ -11943,9 +11968,10 @@ function OfferAcceptModal({ offer, token, onClose, onAccepted, onRejected }) {
 //  ORDERS PAGE, all orders with status tracker
 // ─────────────────────────────────────────────────────────────────
 function OrdersPage({ token, onBack, onLoginClick }) {
-  if (!token) return <AuthGate token={token} onBack={onBack} onLoginClick={onLoginClick} title="ההזמנות שלי" />;
+  // SECURITY/STABILITY (P0, audit 2026-05-23): hooks BEFORE conditional
+  // return. See OffersInboxPage above for the same fix and rationale.
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!token);
 
   useEffect(() => {
     if (!token) { setLoading(false); return; }
@@ -11954,6 +11980,8 @@ function OrdersPage({ token, onBack, onLoginClick }) {
       .then(d => { if (d?.ok) setOrders(d.orders || []); })
       .finally(() => setLoading(false));
   }, [token]);
+
+  if (!token) return <AuthGate token={token} onBack={onBack} onLoginClick={onLoginClick} title="ההזמנות שלי" />;
 
   const STATUS_META = {
     placed:    { label: "בוצעה", color: "bg-blue-100 text-blue-700", step: 1 },
@@ -23273,14 +23301,29 @@ export default function App() {
     // MyProductsPage. Repeated clicks here are silent no-ops, not a
     // quantity increment, because clicks come from many flows (search,
     // similar-strip, deal page) and would surprise the user.
-    const key = (product.name || product.productName || "").toLowerCase();
+    // Normalised dedup key: lowercase + collapsed whitespace.
+    const key = String(product.name || product.productName || "").toLowerCase().trim().replace(/\s+/g, " ");
     let alreadySaved = false;
     setMyProducts(prev => {
-      if (prev.some(p => (p.name || p.productName || "").toLowerCase() === key)) {
+      const idx = prev.findIndex(p =>
+        String(p.name || p.productName || "").toLowerCase().trim().replace(/\s+/g, " ") === key
+      );
+      if (idx >= 0) {
         alreadySaved = true;
+        // Tier UPGRADE: if the new tier is "higher" than the saved one,
+        // update the row in place so the UI badge reflects the user's
+        // actual commitment level. Order: interested < placeholder < committed.
+        const RANK = { interested: 1, placeholder: 2, committed: 3 };
+        const oldRank = RANK[prev[idx].tier] || 0;
+        const newRank = RANK[product.tier] || 0;
+        if (newRank > oldRank) {
+          const updated = [...prev];
+          updated[idx] = { ...updated[idx], tier: product.tier, action: product.action || updated[idx].action };
+          return updated;
+        }
         return prev;
       }
-      return [...prev, { ...product, quantity: Number(product.quantity) || 1, addedAt: Date.now(), _cachedResult: fullResult || null }];
+      return [...prev, { ...product, quantity: Number(product.quantity) || 1, addedAt: Date.now(), uid: Math.random().toString(36).slice(2, 10), _cachedResult: fullResult || null }];
     });
     // Visual fly-to-cart feedback, only when the product is newly added and
     // we have a source element to fly from. Purely decorative, never blocks.
@@ -23619,12 +23662,12 @@ export default function App() {
     // Optimistic insert so the UI responds instantly.
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
-    addToMyProducts({ name: result.productName, image: result.image, tier: result._joinTier || "committed", action: "created_deal", catIdx: newDeal.catIdx, price: result.groupPrice || result.marketMin }, result);
-    // Open the tier picker, the user must pick interested / placeholder /
-    // committed before we write anything to "המוצרים שלי" or the demand
-    // pool. The committed path also requires card validation first.
-    // For the search-modal flow we have already created the optimistic
-    // newDeal client-side; the tier picker proceeds from there.
+    // SECURITY/UX (P0, audit 2026-05-23): do NOT write to "המוצרים שלי" yet.
+    // The previous addToMyProducts call here was a premature write that
+    // tagged the row with whatever _joinTier was on the search result,
+    // ignoring the user's actual tier choice from TierPickerModal. The row
+    // now happens inside finalizeJoin after the user has picked a tier
+    // (and, for committed, validated their card).
     if (!user) {
       pendingTierRef.current = { d: newDeal, isNewDeal: true, result };
       notify("עליך להתחבר קודם");
@@ -23777,9 +23820,23 @@ export default function App() {
   // Called when the user picks a tier in the TierPickerModal. For the
   // free tiers we fire celebration immediately; for "committed" we route
   // through DepositModal so the card is validated BEFORE the join lands.
+  //
+  // SECURITY/UX (P0, audit 2026-05-23): double-click guard. Without the
+  // ref, a janky mobile tap or assistive-tech double-dispatch fires the
+  // handler twice in one React tick. Both invocations read the same
+  // tierPicker via closure, both setTierPicker(null) (idempotent), both
+  // call finalizeJoin → joinDemandPool fires twice → supplier-facing
+  // demand pool inflates by 2 for one real user, misleading suppliers.
+  const tierPickingRef = useRef(false);
   const onTierPicked = (tier) => {
+    if (tierPickingRef.current) return;       // already processing a pick
+    tierPickingRef.current = true;
     const ctx = tierPicker;
     setTierPicker(null);
+    // Release the lock on the next frame so a subsequent legitimate
+    // re-open of the picker (e.g. user picks again on a different deal)
+    // is not blocked.
+    setTimeout(() => { tierPickingRef.current = false; }, 100);
     if (!ctx) return;
     if (tier === "committed") {
       if (!user) {
@@ -23971,6 +24028,28 @@ export default function App() {
       const ok = await resolveSupplierForCurrentUser();
       if (ok) return; // routed to dashboard; skip the generic welcome toast
     }
+    // SECURITY (P0, audit 2026-05-23): resume a pending join intent. When a
+    // logged-out user clicked Join on a deal, handleJoinExistingDeal /
+    // handleAddDealFromSearch stashed {d, isNewDeal?, result?, tier?} into
+    // pendingTierRef and triggered the auth modal. Without this consumer
+    // the intent was silently dropped after login and the user had to
+    // manually click Join again. We replay it now.
+    const pending = pendingTierRef.current;
+    if (pending && pending.d) {
+      pendingTierRef.current = null;
+      // Defer to next tick so React has flushed setUser/setShowAuth and the
+      // tier-picker mount sees the logged-in state.
+      setTimeout(() => {
+        if (pending.tier === "committed") {
+          // User had already chosen "בפנים" before being asked to log in,
+          // skip the picker and go straight to card validation.
+          setJoinDeposit({ deal: pending.d, isNewDeal: !!pending.isNewDeal, result: pending.result });
+        } else {
+          setTierPicker({ deal: pending.d, isNewDeal: !!pending.isNewDeal, result: pending.result });
+        }
+      }, 0);
+      return;
+    }
     notify(t.welcome);
   }, [pendingSupplierLogin, resolveSupplierForCurrentUser, notify, t.welcome]);
 
@@ -24122,7 +24201,29 @@ export default function App() {
       if (!r.ok) throw new Error("lookup failed");
       const data = await r.json();
       if (!data || !data.productName) throw new Error("not found");
-      handleAddDealFromSearch({ ...data, productKey: key });
+      // SECURITY (P0, audit 2026-05-23): deep-linked /product/<key> must be
+      // READ-ONLY navigation. The previous handleAddDealFromSearch call
+      // wrote to MyProducts AND posted to /api/deals on behalf of the
+      // recipient, so anyone who opened a shared WhatsApp link silently
+      // got a deal added to their saved cart with no consent. Now we just
+      // build an in-memory viewable deal and setSelectedDeal, the user
+      // must explicitly click Join, which routes through the tier picker
+      // like any other join.
+      const _viewDeal = {
+        id:          `view-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        productKey:  key,
+        name:        { he: data.productName, en: data.productNameEn || data.productName },
+        image:       data.image || "",
+        marketMin:   Number(data.marketMin) || 0,
+        marketMax:   Number(data.marketMax) || Number(data.marketMin) || 0,
+        groupOffer:  Number(data.groupPrice || data.marketMin) || 0,
+        participants: 0,
+        bids:        [],
+        catIdx:      data.catIdx ?? null,
+        _viewOnly:   true,  // marker so UI knows this is a freshly-resolved view
+      };
+      setSelectedDeal(_viewDeal);
+      bootProductPending.current = false;
     } catch {
       bootProductPending.current = false;
       notify("המוצר לא זמין כרגע, נסה לחפש אותו");
