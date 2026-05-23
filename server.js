@@ -10725,9 +10725,15 @@ app.post("/api/auth/verify-otp",
     }
   }
   const user  = upsertUser({ phone: normalized, name, email });
-  // Notify admin of new customer registration / returning login
+  // Admin-phone detection: if the verified phone matches BUNDLY_ADMIN_PHONE
+  // (env, normalized), this person is the site admin. Issue a JWT with
+  // role:"admin" baked in (short 4h TTL) and return role:"admin" in the
+  // response so the client routes straight to the admin dashboard. No
+  // separate admin login UI is exposed, the OTP itself is the gate.
+  const _adminPhone = normalizePhone(process.env.BUNDLY_ADMIN_PHONE || "");
+  const _isAdmin = !!_adminPhone && _adminPhone === normalized;
   try {
-    logActivity(isNew ? "customer_register" : "customer_login", {
+    logActivity(_isAdmin ? "admin_login" : (isNew ? "customer_register" : "customer_login"), {
       phone:      normalized,
       name:       name || "",
       email:      email || "",
@@ -10735,8 +10741,16 @@ app.post("/api/auth/verify-otp",
     });
   } catch (_) {}
   if (isNew && email) sendWelcomeEmail(email, name).catch(e => console.warn("Email error:", e.message));
-  const token = _signToken({ id: user.id, phone: user.phone }, { expiresIn: "30d", algorithm: "HS256" });
-  res.json({ ok: true, token, user: { id: user.id, name: user.name, firstName: user.firstName, lastName: user.lastName, phone: user.phone, email: user.email, city: user.city, street: user.street, buildingNum: user.buildingNum, apartmentNum: user.apartmentNum }, isNew });
+  const _tokenPayload = { id: user.id, phone: user.phone };
+  if (_isAdmin) _tokenPayload.role = "admin";
+  const token = _signToken(_tokenPayload, { expiresIn: _isAdmin ? "4h" : "30d", algorithm: "HS256" });
+  res.json({
+    ok: true,
+    token,
+    role: _isAdmin ? "admin" : undefined,
+    user: { id: user.id, name: user.name, firstName: user.firstName, lastName: user.lastName, phone: user.phone, email: user.email, city: user.city, street: user.street, buildingNum: user.buildingNum, apartmentNum: user.apartmentNum },
+    isNew,
+  });
 } : notReady);
 
 // LAUNCH HARDENING: /api/auth/test-login REMOVED. The previous "disabled
