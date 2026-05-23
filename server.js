@@ -308,7 +308,7 @@ import {
   preventPrototypePollution, preventTraversal, safeEqual, stripSensitive,
   safeErrorHandler, requestId, audit, trackFailedLogin, clearFailedLogins, isLocked,
   verifyCaptcha, validate, signUrl, verifySignedUrl,
-  safeId, sanitizeIdParam, ownsResource,
+  safeId, sanitizeIdParam, ownsResource, getRedisClient,
 } from "./security-middleware.js";
 
 import { logActivity, getRecentActivities, getActivityStats, tgSendMessage } from "./activity-log.js";
@@ -593,6 +593,8 @@ app.post("/api/client-error",
 //   3. JSON store responsive → reads aren't blocked
 // Any failure returns 503 so the LB rotates around the bad pod immediately.
 import { statSync as _hcStat } from "node:fs";
+// Sync fs helpers for the OTP-lockout persistence layer (audit F-03).
+import { existsSync as _otpExistsSync, readFileSync as _otpReadSync, writeFileSync as _otpWriteSync } from "node:fs";
 import * as _v8 from "node:v8";
 import { randomInt as _secureRandomInt } from "node:crypto";
 import { lookup as _dnsLookup } from "node:dns/promises";
@@ -611,6 +613,43 @@ function _isValidHttpUrl(u) {
   let parsed;
   try { parsed = new URL(u.trim()); } catch { return false; }
   return parsed.protocol === "http:" || parsed.protocol === "https:";
+}
+
+// SECURITY (audit F-06, P1): whitelist of payment-processor hostnames a
+// supplier may set as their direct paymentLink without manual review. Any
+// host outside this set is saved with paymentLinkApproved:false and the
+// admin is notified, the customer-facing flow then falls back to the
+// "supplier will contact you" message until the link is approved.
+// Includes the Israeli payment gateways suppliers actually use (Cardcom,
+// PayPlus, Tranzila, iCount, GreenInvoice, Sumit) plus Stripe + Checkout.com.
+const TRUSTED_PAYMENT_HOSTS = new Set([
+  "checkout.stripe.com",
+  "pay.checkout.com",
+  "secure.cardcom.solutions",
+  "www.cardcom.solutions",
+  "secure.payplus.co.il",
+  "www.payplus.co.il",
+  "direct.tranzila.com",
+  "www.tranzila.com",
+  "secure.icount.co.il",
+  "www.icount.co.il",
+  "www.greeninvoice.co.il",
+  "app.greeninvoice.co.il",
+  "www.sumit.co.il",
+  "app.sumit.co.il",
+]);
+// Returns the lowercased hostname for a candidate paymentLink, or null when
+// the URL is unparseable or not http/https.
+function _paymentLinkHost(u) {
+  if (typeof u !== "string" || !u.trim()) return null;
+  try {
+    const p = new URL(u.trim());
+    if (p.protocol !== "http:" && p.protocol !== "https:") return null;
+    return (p.hostname || "").toLowerCase();
+  } catch { return null; }
+}
+function _isTrustedPaymentHost(host) {
+  return !!host && TRUSTED_PAYMENT_HOSTS.has(host);
 }
 
 async function _isSafeRemoteUrl(u) {
@@ -10657,9 +10696,79 @@ app.post("/api/auth/send-otp",
 // Defense-in-depth: per-IP rate limit + per-phone failure counter +
 // account lockout. Without per-phone tracking a botnet could iterate
 // the 1M OTP space in minutes by rotating IPs.
+//
+// SECURITY (audit F-03, P1): the counter MUST survive process restart.
+// Previously the in-memory Map was wiped on every deploy/crash, so an
+// attacker who could trigger (or wait for) a restart recycled their
+// 3-attempt budget indefinitely. Now: Redis when REDIS_URL is configured,
+// else a small JSON file next to jwt-revoked.json. Entries are
+// auto-purged once they're older than the lockout window.
+const OTP_LOCK_WINDOW_MS = 30 * 60 * 1000; // keep matching the lock duration
 const _otpFailures = new Map(); // phone → { count, lockedUntil }
-function _trackOtpFailure(phone) {
+const _OTP_LOCKOUT_FILE = (process.env.DATA_DIR || process.cwd()) + "/otp-lockouts.json";
+// Load persisted state on boot (best-effort, swallow errors).
+try {
+  if (_otpExistsSync(_OTP_LOCKOUT_FILE)) {
+    const raw = JSON.parse(_otpReadSync(_OTP_LOCKOUT_FILE, "utf8"));
+    const now = Date.now();
+    for (const [phone, rec] of Object.entries(raw || {})) {
+      if (rec && typeof rec === "object"
+          && Number(rec.lockedUntil || 0) + OTP_LOCK_WINDOW_MS > now) {
+        _otpFailures.set(phone, {
+          count:       Number(rec.count) || 0,
+          lockedUntil: Number(rec.lockedUntil) || 0,
+        });
+      }
+    }
+  }
+} catch (_) {}
+let _otpLockDirty = false;
+function _persistOtpLockouts() {
+  if (!_otpLockDirty) return;
+  _otpLockDirty = false;
+  try {
+    const now = Date.now();
+    const out = {};
+    for (const [phone, rec] of _otpFailures.entries()) {
+      // Keep until lockedUntil + window, then expire (matches load filter).
+      if (Number(rec.lockedUntil || 0) + OTP_LOCK_WINDOW_MS > now) {
+        out[phone] = { count: rec.count, lockedUntil: rec.lockedUntil };
+      } else {
+        _otpFailures.delete(phone);
+      }
+    }
+    _otpWriteSync(_OTP_LOCKOUT_FILE, JSON.stringify(out), "utf8");
+  } catch (_) {}
+}
+// Debounced flush, identical pattern to the JWT-revocation persister.
+setInterval(_persistOtpLockouts, 2000).unref?.();
+
+function _redisOtpKey(phone) { return `bundly:otp-lock:${phone}`; }
+async function _trackOtpFailure(phone) {
   const now = Date.now();
+  const redis = (typeof getRedisClient === "function") ? getRedisClient() : null;
+  if (redis) {
+    try {
+      const recRaw = await redis.get(_redisOtpKey(phone));
+      const rec = recRaw ? JSON.parse(recRaw) : { count: 0, lockedUntil: 0 };
+      if (Number(rec.lockedUntil) > now) return { locked: true };
+      rec.count = (Number(rec.count) || 0) + 1;
+      if (rec.count >= 3) {
+        rec.lockedUntil = now + OTP_LOCK_WINDOW_MS;
+        await redis.set(_redisOtpKey(phone), JSON.stringify(rec),
+          { PX: OTP_LOCK_WINDOW_MS });
+        return { locked: true };
+      }
+      // Keep the count for the full lockout window so a slow brute-force
+      // (one attempt every few minutes) still trips the lockout.
+      await redis.set(_redisOtpKey(phone), JSON.stringify(rec),
+        { PX: OTP_LOCK_WINDOW_MS });
+      return { locked: false };
+    } catch (_) {
+      // Redis hiccup, fall through to the in-memory + file path so the
+      // throttle is never silently disabled.
+    }
+  }
   const rec = _otpFailures.get(phone) || { count: 0, lockedUntil: 0 };
   if (rec.lockedUntil > now) return { locked: true };
   rec.count++;
@@ -10667,17 +10776,35 @@ function _trackOtpFailure(phone) {
   // when the lock expires, repeated abuse keeps the account locked, while a
   // legitimate user who mistypes once or twice still has attempts left.
   if (rec.count >= 3) {
-    rec.lockedUntil = now + 30 * 60 * 1000; // 30-min lockout per phone
+    rec.lockedUntil = now + OTP_LOCK_WINDOW_MS; // 30-min lockout per phone
     _otpFailures.set(phone, rec);
+    _otpLockDirty = true;
     return { locked: true };
   }
   _otpFailures.set(phone, rec);
+  _otpLockDirty = true;
   return { locked: false };
 }
-function _clearOtpFailures(phone) { _otpFailures.delete(phone); }
-function _isOtpLocked(phone) {
+async function _clearOtpFailures(phone) {
+  const redis = (typeof getRedisClient === "function") ? getRedisClient() : null;
+  if (redis) {
+    try { await redis.del(_redisOtpKey(phone)); } catch (_) {}
+  }
+  _otpFailures.delete(phone);
+  _otpLockDirty = true;
+}
+async function _isOtpLocked(phone) {
+  const redis = (typeof getRedisClient === "function") ? getRedisClient() : null;
+  if (redis) {
+    try {
+      const recRaw = await redis.get(_redisOtpKey(phone));
+      if (!recRaw) return false;
+      const rec = JSON.parse(recRaw);
+      return rec && Number(rec.lockedUntil) > Date.now();
+    } catch (_) { /* fall through to memory */ }
+  }
   const rec = _otpFailures.get(phone);
-  return rec && rec.lockedUntil > Date.now();
+  return !!(rec && rec.lockedUntil > Date.now());
 }
 
 app.post("/api/auth/verify-otp",
@@ -10686,29 +10813,29 @@ app.post("/api/auth/verify-otp",
   const { phone, code, name, email } = req.body || {};  // BUG FIX: body-less request crashed
   if (!phone || !code) return res.status(400).json({ error: "Phone and code required" });
   const normalized = normalizePhone(phone);
-  if (_isOtpLocked(normalized)) {
+  if (await _isOtpLocked(normalized)) {
     audit("OTP_LOCKED", req, { phone: normalized });
     recordSuspicious(req.ip, "auth");
     return res.status(429).json({ error: "החשבון ננעל זמנית עקב ריבוי ניסיונות" });
   }
   // OTP code must be exactly 6 digits, reject obvious garbage early
   // SECURITY (red-team round 2, M-R2-1): OTPs are issued as exactly 6
-  // digits. Accepting 4–8 burns lockout budget on shorter brute-force
+  // digits. Accepting 4-8 burns lockout budget on shorter brute-force
   // inputs and would weaken future shorter test/override codes.
   if (typeof code !== "string" || !/^\d{6}$/.test(code)) {
-    _trackOtpFailure(normalized);
+    await _trackOtpFailure(normalized);
     return res.status(400).json({ error: "קוד שגוי" });
   }
   const check = verifyOtp(normalized, code);
   if (!check.ok) {
-    const lock = _trackOtpFailure(normalized);
+    const lock = await _trackOtpFailure(normalized);
     audit("OTP_FAIL", req, { phone: normalized, reason: check.reason });
     recordSuspicious(req.ip, "auth");
     return res.status(400).json({
       error: check.reason === "expired" ? "קוד פג תוקף" : (lock.locked ? "ננעל זמנית" : "קוד שגוי"),
     });
   }
-  _clearOtpFailures(normalized);
+  await _clearOtpFailures(normalized);
   const isNew = !getUserByPhone(normalized);
   // Reject if the supplied email is already attached to a DIFFERENT phone.
   // Without this, two accounts could share an email, confusing for support,
@@ -10730,6 +10857,11 @@ app.post("/api/auth/verify-otp",
   // role:"admin" baked in (short 4h TTL) and return role:"admin" in the
   // response so the client routes straight to the admin dashboard. No
   // separate admin login UI is exposed, the OTP itself is the gate.
+  //
+  // BUNDLY_ADMIN_PHONE is the SINGLE source of truth for admin identity in
+  // the OTP flow (see render.yaml + .env.example). Setting any Israeli
+  // format (0501234567 / +972501234567 / 972501234567) is fine because
+  // normalizePhone() canonicalises both sides before comparison.
   const _adminPhone = normalizePhone(process.env.BUNDLY_ADMIN_PHONE || "");
   const _isAdmin = !!_adminPhone && _adminPhone === normalized;
   try {
@@ -10744,6 +10876,14 @@ app.post("/api/auth/verify-otp",
   const _tokenPayload = { id: user.id, phone: user.phone };
   if (_isAdmin) _tokenPayload.role = "admin";
   const token = _signToken(_tokenPayload, { expiresIn: _isAdmin ? "4h" : "30d", algorithm: "HS256" });
+  // SECURITY (audit F-04, P1): the OTP-admin branch must mark fresh-auth
+  // keyed by the same id type requireFreshAuth uses (String(req.user.id)).
+  // Without this, OwnerDashboard actions gated by adminFreshAuth (KYC
+  // PATCH, dispute PATCH, capture pre-auth) 401 immediately after OTP
+  // login because no fresh-auth timestamp exists for `user.id`. The legacy
+  // /api/admin/login path already calls markFreshAuth(0) for its synthetic
+  // id:0 token, this matches that pattern for the OTP-issued id:user.id.
+  if (_isAdmin) markFreshAuth(String(user.id));
   res.json({
     ok: true,
     token,
@@ -10994,26 +11134,26 @@ app.post("/api/auth/supplier-login/verify",
       return res.status(401).json({ error: GENERIC });
     }
     // Per-contact lockout, reuse the customer OTP failure tracker.
-    if (_isOtpLocked(target.otpKey)) {
+    if (await _isOtpLocked(target.otpKey)) {
       audit("SUPPLIER_LOGIN_LOCKED", req, { supplierId: target.supplier.id });
       recordSuspicious(req.ip, "auth");
       return res.status(429).json({ error: "החשבון ננעל זמנית עקב ריבוי ניסיונות" });
     }
     // OTPs are issued as exactly 6 digits.
     if (typeof otp !== "string" || !/^\d{6}$/.test(otp)) {
-      _trackOtpFailure(target.otpKey);
+      await _trackOtpFailure(target.otpKey);
       return res.status(400).json({ error: "קוד שגוי" });
     }
     const check = verifyOtp(target.otpKey, otp);
     if (!check.ok) {
-      const lock = _trackOtpFailure(target.otpKey);
+      const lock = await _trackOtpFailure(target.otpKey);
       audit("SUPPLIER_LOGIN_OTP_FAIL", req, { supplierId: target.supplier.id, reason: check.reason });
       recordSuspicious(req.ip, "auth");
       return res.status(400).json({
         error: check.reason === "expired" ? "הקוד פג תוקף, בקש קוד חדש" : (lock.locked ? "החשבון ננעל זמנית" : "קוד שגוי"),
       });
     }
-    _clearOtpFailures(target.otpKey);
+    await _clearOtpFailures(target.otpKey);
 
     // OTP proven. Re-read the supplier (fresh) and enforce KYC approval.
     const supplier = _prodDb.getSupplier
@@ -11230,6 +11370,7 @@ function _checkPersonalReqDaily(ip) {
 }
 app.post("/api/personal-requests",
   rateLimit({ windowMs: 60_000, max: 3, label: "personal-request-create" }),
+  authMiddleware,
   AUTH_READY ? (req, res) => {
   try {
     if (!_checkPersonalReqDaily(req.ip || "unknown")) {
@@ -11242,18 +11383,36 @@ app.post("/api/personal-requests",
     }
     if (String(b.product).length > 200) return res.status(400).json({ error: "Product name too long" });
     if (b.desc && String(b.desc).length > 1000) return res.status(400).json({ error: "Description too long" });
+    // SECURITY (audit F-01, P0): user identity MUST come from the verified
+    // JWT, not from request body. The previous unauth route accepted
+    // attacker-supplied userId/phone/email/name, so when a supplier later
+    // submitted an offer the SMS/email was delivered to the attacker
+    // (impersonation + Twilio/Gmail abuse + reputation damage). Now: pin
+    // contact details from the authenticated user's DB row, ignore body.
+    const _trustedUser = (req.user?.phone && getUserByPhone)
+      ? getUserByPhone(req.user.phone)
+      : null;
+    if (!_trustedUser || Number(_trustedUser.id) !== Number(req.user.id)) {
+      audit("PERSONAL_REQ_USER_MISMATCH", req, { tokenId: req.user?.id });
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const _trustedName  = (_trustedUser.name
+                          || [_trustedUser.firstName, _trustedUser.lastName].filter(Boolean).join(" ").trim()
+                          || "משתמש").slice(0, 100);
+    const _trustedPhone = String(_trustedUser.phone || "").slice(0, 30);
+    const _trustedEmail = String(_trustedUser.email || "").slice(0, 200);
     const row = createPersonalRequest({
       product:            String(b.product).trim().slice(0, 200),
       category:           String(b.category || "אחר").slice(0, 80),
       budget:             b.budget != null ? String(b.budget).slice(0, 20) : "",
       desc:               String(b.desc || "").slice(0, 1000),
-      name:               String(b.name  || "משתמש אנונימי").slice(0, 100),
-      phone:              String(b.phone || "").slice(0, 30),
-      email:              String(b.email || "").slice(0, 200),
+      name:               _trustedName,
+      phone:              _trustedPhone,
+      email:              _trustedEmail,
       currentLowestPrice: b.currentLowestPrice != null ? Number(b.currentLowestPrice) : null,
       isSpecificModel:    !!b.isSpecificModel,
       productImage:       b.productImage ? String(b.productImage).slice(0, 500) : null,
-      userId:             b.userId || null,
+      userId:             _trustedUser.id,
     });
     try {
       logActivity("personal_request", {
@@ -11614,17 +11773,29 @@ app.post("/api/user/offers/:id/accept", authMiddleware, AUTH_READY ? async (req,
     const supplierId = request.offerSupplierId || request.offerSupplier || null;
     // The payment link is edited by suppliers via the profile endpoint, so
     // it lives in the supplier-profile store; fall back to the registry.
+    //
+    // SECURITY (audit F-06, P1): only surface the link to the customer when
+    // paymentLinkApproved === true. Without this gate, a KYC-approved
+    // supplier could redirect customers to a phishing page. The fallback
+    // Hebrew message handles the unapproved case gracefully.
     let supplierPaymentLink = "";
+    let _supplierLinkApproved = false;
     try {
       const prof = supplierId && _prodDb.getSupplierProfile
         ? _prodDb.getSupplierProfile(supplierId) : null;
-      if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
+      if (prof?.paymentLink) {
+        supplierPaymentLink = prof.paymentLink;
+        _supplierLinkApproved = prof.paymentLinkApproved === true;
+      }
       if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
         const reg = _prodDb.getSupplier(supplierId);
-        if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
+        if (reg?.paymentLink) {
+          supplierPaymentLink = reg.paymentLink;
+          _supplierLinkApproved = reg.paymentLinkApproved === true;
+        }
       }
     } catch (_) {}
-    if (!_isValidHttpUrl(supplierPaymentLink)) supplierPaymentLink = "";
+    if (!_isValidHttpUrl(supplierPaymentLink) || !_supplierLinkApproved) supplierPaymentLink = "";
 
     const order = _prodDb.createOrder({
       userId:       req.user.id,
@@ -12430,6 +12601,9 @@ app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.js
     "bankAccount","bankBranch","bankNumber",
     "primaryCategories","shippingZones","logoUrl","payoutDay","website","contactEmail",
     "paymentLink"];
+  // SECURITY (audit F-06, P1): the supplier MUST NOT be able to set
+  // paymentLinkApproved themselves. We strip it from the body before the
+  // whitelist copy and compute it server-side based on the trusted host set.
   const fields = {};
   for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
   // Validate the direct-payment link: must be a syntactically valid http(s)
@@ -12437,6 +12611,35 @@ app.patch("/api/suppliers/:supplierId/profile", requireSupplierMatch, express.js
   if (typeof fields.paymentLink === "string" && fields.paymentLink.trim() !== ""
       && !_isValidHttpUrl(fields.paymentLink)) {
     return res.status(400).json({ error: "קישור התשלום אינו תקין, חובה כתובת http(s) מלאה" });
+  }
+  // Decide approval status server-side. Trusted host → auto-approve.
+  // Any other host → save the link but mark unapproved and alert the admin
+  // via logActivity (which fires the Telegram notifier in activity-log.js).
+  // The customer-facing resolvers (in /api/user/offers/:id/accept and the
+  // /api/deals/:id/supplier-payment-link route) only return the link when
+  // paymentLinkApproved === true, so the customer is never redirected to a
+  // phishing host until the admin reviews and approves it.
+  if (typeof fields.paymentLink === "string") {
+    const trimmed = fields.paymentLink.trim();
+    if (trimmed === "") {
+      // Clearing the link, also clear the approval flag so a future re-add
+      // is re-evaluated. upsertSupplierProfile drops keys with "" values,
+      // so we must explicitly null this one out for it to be removed.
+      fields.paymentLinkApproved = null;
+    } else {
+      const host = _paymentLinkHost(trimmed);
+      const trusted = _isTrustedPaymentHost(host);
+      fields.paymentLinkApproved = trusted;
+      if (!trusted) {
+        try {
+          logActivity("payment_link_review_needed", {
+            supplier_id: req.params.supplierId,
+            host:        host || "(unparseable)",
+            link:        trimmed.slice(0, 300),
+          });
+        } catch (_) {}
+      }
+    }
   }
   // logoUrl is rendered into <img src> on public pages, validate it the same
   // way. An empty string clears it (handled by upsertSupplierProfile).
@@ -13575,12 +13778,28 @@ app.post("/api/deals/:id/charge-confirmed", authMiddleware, AUTH_READY ? async (
 // Resolves the payment page of the supplier behind the deal's winning bid,
 // so the deal page can send a customer of a closed group straight to the
 // supplier to pay in full. Bundly never processes the payment itself.
-app.get("/api/deals/:id/supplier-payment-link", AUTH_READY ? async (req, res) => {
+//
+// SECURITY (audit F-02, P1): authMiddleware + deal-membership check. The
+// previous anonymous route let any attacker enumerate deal ids and harvest
+// supplier payment URLs (useful for phishing pivots). Now: only an
+// authenticated user who actually joined the deal can resolve the link.
+app.get("/api/deals/:id/supplier-payment-link", authMiddleware, AUTH_READY ? async (req, res) => {
   try {
     const dealId = req.params.id;
     const snap = _prodDb.load();
     const deal = (snap.deals || []).find(d => String(d.id) === String(dealId));
     if (!deal) return res.status(404).json({ ok: false, error: "הקבוצה לא נמצאה" });
+
+    // Defense-in-depth: requester must be a member of this deal. Without
+    // this check, any logged-in account could harvest supplier payment URLs.
+    const _joined = _prodDb.listJoinedDeals
+      ? (_prodDb.listJoinedDeals(req.user.id) || [])
+      : [];
+    const _isMember = _joined.some(j => String(j.dealId) === String(dealId));
+    if (!_isMember) {
+      audit("DEAL_PAYMENT_LINK_NON_MEMBER", req, { dealId });
+      return res.status(403).json({ ok: false, error: "אינך חבר בקבוצה זו" });
+    }
 
     // Find the supplier behind the lowest plausible bid.
     const marketRef = Number(deal.marketMax) || Number(deal.marketMin)
@@ -13594,18 +13813,30 @@ app.get("/api/deals/:id/supplier-payment-link", AUTH_READY ? async (req, res) =>
 
     let supplierPaymentLink = "";
     let supplierName = winning?.supplierName || "הספק";
+    // SECURITY (audit F-06, P1): only return the paymentLink if it has been
+    // approved (host is in TRUSTED_PAYMENT_HOSTS, or admin manually approved
+    // a non-trusted host). Otherwise fall through to the empty-string
+    // fallback, the existing customer flow displays the "supplier will
+    // contact you" message in Hebrew.
+    let _linkApproved = false;
     try {
       const prof = supplierId && _prodDb.getSupplierProfile
         ? _prodDb.getSupplierProfile(supplierId) : null;
-      if (prof?.paymentLink) supplierPaymentLink = prof.paymentLink;
+      if (prof?.paymentLink) {
+        supplierPaymentLink = prof.paymentLink;
+        _linkApproved = prof.paymentLinkApproved === true;
+      }
       if (!supplierPaymentLink && supplierId && _prodDb.getSupplier) {
         const reg = _prodDb.getSupplier(supplierId);
-        if (reg?.paymentLink) supplierPaymentLink = reg.paymentLink;
+        if (reg?.paymentLink) {
+          supplierPaymentLink = reg.paymentLink;
+          _linkApproved = reg.paymentLinkApproved === true;
+        }
         if (reg?.name) supplierName = reg.name;
       }
     } catch (_) {}
 
-    if (!_isValidHttpUrl(supplierPaymentLink)) {
+    if (!_isValidHttpUrl(supplierPaymentLink) || !_linkApproved) {
       return res.json({ ok: true, supplierPaymentLink: "", supplierName });
     }
     return res.json({ ok: true, supplierPaymentLink, supplierName });
@@ -13757,6 +13988,37 @@ app.patch("/api/admin/suppliers/:id/kyc", adminMiddleware, adminFreshAuth, AUTH_
       }).catch(() => {});
     }
     res.json({ ok: true, supplier });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// PATCH /api/admin/suppliers/:id/payment-link-approval
+// SECURITY (audit F-06, P1): admin gate for non-whitelisted paymentLink
+// hosts. When a supplier saves a paymentLink whose hostname is not in
+// TRUSTED_PAYMENT_HOSTS, the profile is stored with paymentLinkApproved:
+// false and the customer-facing resolvers refuse to surface the URL until
+// an admin flips this flag. Body: { approved: true | false }.
+app.patch("/api/admin/suppliers/:id/payment-link-approval", adminMiddleware, adminFreshAuth, AUTH_READY ? (req, res) => {
+  try {
+    const { approved } = req.body || {};
+    if (typeof approved !== "boolean") {
+      return res.status(400).json({ error: "Body must include approved:true|false" });
+    }
+    const supplierId = req.params.id;
+    // The supplier-profile store is the authoritative location for
+    // paymentLink + paymentLinkApproved. (updateSupplier's allowed-fields
+    // list doesn't include payment-link metadata, so the registry mirror
+    // would be a no-op anyway, profile is the source of truth.)
+    let profile = null;
+    if (_prodDb.upsertSupplierProfile) {
+      profile = _prodDb.upsertSupplierProfile(supplierId, { paymentLinkApproved: approved });
+    }
+    try {
+      logActivity("payment_link_approval_changed", {
+        supplier_id: supplierId,
+        approved:    approved ? "true" : "false",
+      });
+    } catch (_) {}
+    res.json({ ok: true, profile });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 

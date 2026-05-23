@@ -5461,7 +5461,13 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
                     <button
                       onClick={async () => {
                         try {
-                          const r = await fetch(`/api/deals/${deal.id}/supplier-payment-link`);
+                          // SECURITY (audit F-02, P1): route now requires a
+                          // Bearer token and verifies the user is a member
+                          // of the deal. Attach the JWT or the request 401s.
+                          const _tok = _getToken() || "";
+                          const r = await fetch(`/api/deals/${deal.id}/supplier-payment-link`, {
+                            headers: _tok ? { Authorization: `Bearer ${_tok}` } : {},
+                          });
                           const d = await r.json();
                           if (d?.ok && d.supplierPaymentLink) {
                             window.open(d.supplierPaymentLink, "_blank", "noopener");
@@ -22586,9 +22592,18 @@ export default function App() {
     setPersonalRequests(prev => [optimistic, ...prev]);
     notify(`✅ בקשתך נשלחה לספקים! נעדכן אותך כשיגיעו הצעות.`);
     try {
+      // SECURITY (audit F-01, P0): the POST route now requires a Bearer
+      // JWT and reads identity from the trusted DB row, so we MUST attach
+      // the token. Without a token the request 401s and the optimistic row
+      // stays orphaned.
+      const _tok = _getToken() || "";
+      if (!_tok) {
+        console.warn("[personal-requests] POST aborted: no auth token");
+        return;
+      }
       const res = await fetch("/api/personal-requests", {
         method:  "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${_tok}` },
         body:    JSON.stringify(payload),
       });
       const data = await res.json();

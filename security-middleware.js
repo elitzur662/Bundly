@@ -39,6 +39,12 @@ if (process.env.REDIS_URL) {
   }
 }
 
+// SECURITY (audit F-03, P1): export the (possibly-null) redisClient so other
+// modules in server.js can persist counters (e.g. OTP per-phone lockouts) to
+// Redis when configured. The export is read-only; consumers should treat
+// `null` as "no Redis, fall back to disk".
+export function getRedisClient() { return redisClient; }
+
 // ── Centralized audit log ─────────────────────────────────────────
 // Suspicious requests get logged to security.log (rotated by pm2 / logrotate).
 // Defense: sanitize EVERY string field — replace CR/LF/escape sequences so an

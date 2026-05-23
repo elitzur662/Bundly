@@ -117,6 +117,11 @@ services:
         sync: false
       - key: HCAPTCHA_SECRET
         sync: false
+      # Single source of admin identity for the OTP-based admin login at
+      # /api/auth/verify-otp. Any Israeli phone format works (normalised
+      # server-side). Leave unset to disable OTP-based admin login.
+      - key: BUNDLY_ADMIN_PHONE
+        sync: false
       - key: ALLOWED_ORIGINS
         value: https://bundly.co,https://www.bundly.co
       - key: BUNDLY_SUPPORT_EMAIL
