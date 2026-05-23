@@ -1,20 +1,113 @@
 /**
- * Bundly, Email Service (Nodemailer + Gmail)
- * Requires: EMAIL_USER and EMAIL_PASS (Gmail App Password) in .env
+ * Bundly, Email Service (Resend)
+ * Requires: RESEND_API_KEY in .env
+ * Optional: EMAIL_FROM (defaults to "Bundly <onboarding@resend.dev>",
+ *           which is Resend's sandbox sender and ONLY delivers to the
+ *           account-owner's email until you verify a real domain).
+ *
+ * Switched from nodemailer+Gmail to Resend on 2026-05-23 because Google
+ * removed App Passwords for accounts without 2FA / for Workspace-managed
+ * accounts, leaving the entire pipeline silently disabled. Resend uses
+ * a single API key, surfaces per-email delivery status in a dashboard,
+ * and has a generous free tier (3,000 mails/mo).
+ *
+ * To send from bundly.co@bundly.co in production:
+ *   1. resend.com → Domains → Add Domain → bundly.co
+ *   2. Add the SPF + DKIM TXT records Resend shows to your DNS
+ *   3. Set EMAIL_FROM="Bundly <bundly.co@bundly.co>" in env
+ *   Until the domain is verified, every send is forced to fall back to
+ *   the sandbox sender, which only delivers to the account owner.
  */
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Google App Password (not your regular password)
-  },
-});
+import { Resend } from "resend";
 
 const BRAND_COLOR = "#4F46E5"; // indigo-600
 const BRAND_NAME  = "Bundly";
 const BRAND_LOGO  = "🛒";
+
+// Lazily instantiate the client. If RESEND_API_KEY is missing every
+// send becomes a no-op (helpers early-return on `!resend`) and the
+// status endpoint reports configured=false.
+const _apiKey = process.env.RESEND_API_KEY || "";
+const resend  = _apiKey ? new Resend(_apiKey) : null;
+
+// Sender, must be on a verified domain in Resend. Sandbox fallback
+// works only for the account owner's own inbox during initial testing.
+function _from() {
+  return process.env.EMAIL_FROM || `${BRAND_NAME} <onboarding@resend.dev>`;
+}
+
+// Track whether the Resend API key has been verified at boot. Exposed
+// via `getStatus` so the admin dashboard can show "Email: OK / down".
+const _status = { ready: false, lastError: "", verifiedAt: null };
+
+export function getStatus() {
+  return {
+    configured: !!_apiKey,
+    sender:     _from(),
+    ready:      _status.ready,
+    lastError:  _status.lastError,
+    verifiedAt: _status.verifiedAt,
+  };
+}
+
+// Best-effort handshake at boot. Calls a cheap Resend endpoint
+// (domains.list) to confirm the API key is valid. Doesn't throw.
+export async function verifyTransport() {
+  if (!resend) {
+    _status.ready = false;
+    _status.lastError = "RESEND_API_KEY not set in env";
+    _status.verifiedAt = new Date().toISOString();
+    console.warn("[Email] disabled, RESEND_API_KEY not set");
+    return false;
+  }
+  try {
+    const r = await resend.domains.list();
+    if (r?.error) throw new Error(r.error.message || JSON.stringify(r.error));
+    _status.ready = true;
+    _status.lastError = "";
+    _status.verifiedAt = new Date().toISOString();
+    console.log(`[Email] Resend OK, sender=${_from()}`);
+    return true;
+  } catch (e) {
+    _status.ready = false;
+    _status.lastError = e.message || String(e);
+    _status.verifiedAt = new Date().toISOString();
+    console.warn(`[Email] Resend verify failed: ${_status.lastError}`);
+    return false;
+  }
+}
+
+// Single send helper, all the templated wrappers below delegate to this.
+// Throws on failure so callers can decide whether to swallow (best-effort
+// notifications) or bubble (the admin test-email endpoint).
+async function _send({ to, subject, html }) {
+  if (!resend) throw new Error("RESEND_API_KEY not set");
+  if (!to)     throw new Error("Recipient missing");
+  const r = await resend.emails.send({
+    from: _from(),
+    to:   Array.isArray(to) ? to : [to],
+    subject,
+    html,
+  });
+  if (r?.error) throw new Error(r.error.message || JSON.stringify(r.error));
+  return r?.data?.id || true;
+}
+
+// Generic sender used by the admin test-email endpoint. Returns true on
+// success, throws on failure (so the endpoint can 5xx with the reason).
+export async function sendTestEmail(to) {
+  await _send({
+    to,
+    subject: `📨 בדיקת שירות אימייל, ${BRAND_NAME}`,
+    html: baseTemplate(`
+      <h2>📨 בדיקת שירות אימייל</h2>
+      <p>שלום,</p>
+      <p>זוהי הודעת בדיקה שנשלחה משירות האימייל של ${BRAND_NAME}. אם קיבלת אותה, כל המנגנון פועל כשורה (OTP, KYC, סטטוסי הזמנה, התראות על הצעות).</p>
+      <div class="highlight"><p style="margin:0">שולח: ${_esc(_from())}<br/>ספק: Resend<br/>זמן: ${_esc(new Date().toLocaleString("he-IL"))}</p></div>
+    `),
+  });
+  return true;
+}
 
 // SECURITY (audit M-NEW-1): every user-controlled string interpolated into
 // our email/invoice HTML MUST go through this helper. Order/product/supplier
@@ -81,10 +174,9 @@ function baseTemplate(content) {
 
 // ── OTP Email ──────────────────────────────────────────────────────
 export async function sendOtpEmail(to, code) {
-  if (!process.env.EMAIL_USER) return;
+  if (!resend) return;
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: `${code}, קוד האימות שלך ב-${BRAND_NAME}`,
       html: baseTemplate(`
@@ -99,10 +191,9 @@ export async function sendOtpEmail(to, code) {
 
 // ── Welcome Email ──────────────────────────────────────────────────
 export async function sendWelcomeEmail(to, name) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   try {
-  await transporter.sendMail({
-    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+  await _send({
     to,
     subject: `ברוכים הבאים ל-${BRAND_NAME}! 🎉`,
     html: baseTemplate(`
@@ -126,12 +217,11 @@ export async function sendWelcomeEmail(to, name) {
 
 // ── Price Drop Alert ───────────────────────────────────────────────
 export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, link }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   const saving = oldPrice - newPrice;
   const pct = Math.round((saving / oldPrice) * 100);
   try {
-  await transporter.sendMail({
-    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+  await _send({
     to,
     subject: `📉 ירידת מחיר! ${_esc(productName)}, עכשיו ₪${newPrice.toLocaleString()}`,
     html: baseTemplate(`
@@ -152,15 +242,14 @@ export async function sendPriceDropEmail(to, { productName, oldPrice, newPrice, 
 // ── Supplier Offer Alert ───────────────────────────────────────────
 // Fired when a supplier submits an offer on a customer's personal request.
 export async function sendSupplierOfferEmail(to, { productName, offerPrice, supplierName, isCounterOffer, previousLowest, productImage }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   const savingsBlock = isCounterOffer && previousLowest
     ? `<p style="margin:0;text-decoration:line-through;color:#9ca3af;font-size:13px">₪${previousLowest.toLocaleString()}</p>
        <span class="badge">חיסכון ₪${(previousLowest - offerPrice).toLocaleString()}</span>`
     : "";
   const header = isCounterOffer ? "🎯 הצעת נגד התקבלה" : "💰 הצעה חדשה מספק";
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: `${header}, ${_esc(productName)} ₪${Number(offerPrice).toLocaleString()}`,
       html: baseTemplate(`
@@ -184,7 +273,7 @@ export async function sendSupplierOfferEmail(to, { productName, offerPrice, supp
 
 // ── Order Status Notifications ─────────────────────────────────────
 export async function sendOrderStatusEmail(to, { orderId, productName, status, trackingNumber }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   const STATUS_META = {
     confirmed: { emoji: "✅", title: "ההזמנה שלך אושרה!",       body: "קיבלנו את התשלום. הספק מתחיל להכין את ההזמנה." },
     shipped:   { emoji: "📦", title: "ההזמנה שלך נשלחה!",       body: "ההזמנה יצאה לדרך. תוכל/י לעקוב דרך האפליקציה." },
@@ -193,8 +282,7 @@ export async function sendOrderStatusEmail(to, { orderId, productName, status, t
   };
   const meta = STATUS_META[status] || STATUS_META.confirmed;
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: `${meta.emoji} ${meta.title}, הזמנה #${_esc(orderId)}`,
       html: baseTemplate(`
@@ -213,10 +301,9 @@ export async function sendOrderStatusEmail(to, { orderId, productName, status, t
 
 // ── KYC approval/rejection notifications ──────────────────────────
 export async function sendKycDecisionEmail(to, { businessName, approved, rejectReason }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: approved ? `✅ החשבון שלך ב-Bundly אושר!` : `⚠️ בקשת ההצטרפות שלך נדחתה`,
       html: baseTemplate(
@@ -235,17 +322,44 @@ export async function sendKycDecisionEmail(to, { businessName, approved, rejectR
   } catch (e) { console.warn("[Email] KYC decision failed:", e.message); }
 }
 
+// ── Documents request to supplier (post-signup, pre-approval) ─────
+// Sent by an admin from the pending-suppliers card. The admin picks
+// which items to request (license, ID copy, bank details, certificates)
+// and can add a free-text note. We render a clean Hebrew checklist so
+// the supplier knows exactly what to send back by reply.
+export async function sendSupplierDocsRequestEmail(to, { businessName, items = [], note = "" }) {
+  if (!resend || !to) return;
+  const list = (items || []).filter(Boolean);
+  const listHtml = list.length
+    ? `<ul style="padding-right:18px;margin:8px 0">${list.map(i => `<li>${_esc(i)}</li>`).join("")}</ul>`
+    : "";
+  try {
+    await _send({
+      to,
+      subject: `📋 דרושים מסמכים להשלמת ההצטרפות ל-Bundly`,
+      html: baseTemplate(`
+        <h2>📋 דרושים מסמכים נוספים</h2>
+        <p>שלום ${_esc(businessName || "")},</p>
+        <p>תודה שנרשמת ל-Bundly. כדי שנוכל לאשר את החשבון, נשמח לקבל את הפריטים הבאים בתשובה למייל זה:</p>
+        ${listHtml}
+        ${note ? `<div class="highlight"><strong>הערה:</strong> ${_esc(note)}</div>` : ""}
+        <p>נשלח אליך עדכון מיד לאחר הבדיקה. תודה!</p>
+      `),
+    });
+    console.log(`[Email] supplier docs request sent to ${to}`);
+  } catch (e) { console.warn("[Email] supplier docs request failed:", e.message); }
+}
+
 // ── Dispute resolution notification ────────────────────────────────
 export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resolution }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   const msg = {
     refunded: "קיבלנו את הבקשה שלך והחזר כספי מלא בוצע. הכסף יחזור לאמצעי התשלום תוך 7 ימי עסקים.",
     replaced: "קיבלנו את הבקשה שלך. הספק יחליף לך את המוצר, נעדכן כשהמוצר החדש יצא לדרך.",
     rejected: "לאחר בדיקה, הבקשה שלך נדחתה. אם יש לך שאלות, ניתן ליצור קשר עם התמיכה.",
   };
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: `תיק תמיכה #${_esc(disputeId)}, עודכן`,
       html: baseTemplate(`
@@ -261,10 +375,9 @@ export async function sendDisputeResolutionEmail(to, { disputeId, orderId, resol
 
 // ── Deal Activated Alert ───────────────────────────────────────────
 export async function sendDealActivatedEmail(to, { productName, price, participants, link }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject: `✅ הדיל הופעל! ${_esc(productName)}`,
       html: baseTemplate(`
@@ -290,7 +403,7 @@ export async function sendDealMemberJoinedEmail(to, {
   targetCount,       // min size needed to activate the deal
   link,
 }) {
-  if (!process.env.EMAIL_USER || !to) return;
+  if (!resend || !to) return;
   const remaining = targetCount && currentCount < targetCount
     ? Math.max(0, targetCount - currentCount)
     : 0;
@@ -316,8 +429,7 @@ export async function sendDealMemberJoinedEmail(to, {
     ? `<p style="font-size:15px;margin-top:14px">עוד <strong>${remaining}</strong> משתתפים ונפעיל מחיר קבוצתי נמוך יותר. שתפו עם חברים, כל מצטרף מקרב את כולם להנחה.</p>`
     : `<p style="font-size:15px;margin-top:14px">הקבוצה כבר מספיק גדולה כדי להפעיל מחיר נמוך, אנחנו ניצור קשר ברגע שהסבב נסגר.</p>`;
   try {
-    await transporter.sendMail({
-      from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    await _send({
       to,
       subject,
       html: baseTemplate(`

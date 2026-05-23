@@ -8,7 +8,8 @@ import {
   Package, Bell, UserPlus, Tag, Star, AlertCircle, Zap, ShieldCheck,
   BadgeCheck, Banknote, ThumbsUp, Loader2, ExternalLink, Plus, LogOut, LogIn, User,
   SlidersHorizontal, ChevronRight, ChevronLeft, RotateCcw, ShoppingCart, Menu, Home,
-  RefreshCw, Inbox, MessageSquare, Activity, ClipboardList
+  RefreshCw, Inbox, MessageSquare, Activity, ClipboardList,
+  FileText, Edit2
 } from "lucide-react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { findDealForProduct, productNamesMatch } from "./dealMatch.js";
@@ -2654,7 +2655,7 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
@@ -2779,11 +2780,13 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
             </>
           )}
           {!isSupplierMode && (
-            <button id="navbar-cart-target" onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="השמורים שלי">
-              <ShoppingCart className="w-5 h-5 text-gray-600" />
-              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm">
-                {savedCount}
-              </span>
+            <button id="navbar-cart-target" onClick={onMyProducts} className="relative p-2 hover:bg-gray-100 rounded-xl transition" title="המוצרים שלי">
+              <Users className="w-5 h-5 text-gray-600" />
+              {myProductsCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 bg-indigo-600 text-white text-[10px] font-black rounded-full flex items-center justify-center shadow-sm ring-2 ring-white">
+                  {myProductsCount}
+                </span>
+              )}
             </button>
           )}
           <div className="hidden sm:block"><LangSelector lang={lang} setLang={setLang} /></div>
@@ -5351,29 +5354,66 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, user, onLogi
               Renders nothing when there are no (plausible) bids. */}
         {!priceHidden && <BidFeed deal={deal} />}
 
-        {/* ══ 1c. PRICE-REDUCTION OPTIONS, prominent, right under the price ══ */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
-          <PriceReductionOptions
-            heading="אפשרויות הוזלת מחיר"
-            joinTitle="הוסיפו לקבוצת רכישה כללית"
-            joinSubtitle="הצטרפו לקונים נוספים בקטגוריה, יותר ביקוש = הצעות מחיר טובות יותר"
-            onJoinGroup={deal.catIdx != null ? () => {
-              // Open the demand-pool picker, the user sees similar buying
-              // groups in this category and can join one (or add this product
-              // as a new entry, prefilled). Was a silent counter bump that
-              // looked like "nothing happened".
-              const pname = deal.name.he || deal.name.en;
-              if (onJoinDemandPool) onJoinDemandPool(deal.catIdx, pname);
-              else if (onAddToPool) onAddToPool(deal.catIdx, pname);
-              else onDirectJoinPool?.(deal.catIdx, pname);
-            } : undefined}
-            onRequestSupplierPrice={onRequestSupplierPrice}
-            requestProduct={deal.name.en || deal.name.he}
-            requestCategory={deal.name.he || deal.name.en}
-            requestImage={deal.image || null}
-            currentLowestPrice={bestBid?.amount || deal.groupOffer || null}
-          />
-        </div>
+        {/* ══ 1c. SIMILAR MODELS, always-on recommendation strip ══
+              Surfaces other deals in the same category and price band so the
+              user can join more buying groups (more demand = better prices).
+              Hidden entirely when no comparable models exist. */}
+        {(() => {
+          if (deal.catIdx == null) return null;
+          const basePrice = Number(deal.marketMin) || Number(deal.marketMax) || Number(deal.groupOffer) || 0;
+          if (!basePrice) return null;
+          const similar = (allDeals || [])
+            .filter(d => d && d.id !== deal.id && d.catIdx === deal.catIdx)
+            .filter(d => {
+              const dp = Number(d.marketMin) || Number(d.marketMax) || 0;
+              if (!dp) return false;
+              return Math.abs(dp - basePrice) / basePrice <= 0.2;
+            })
+            .sort((a, b) => (Number(b.participants) || 0) - (Number(a.participants) || 0))
+            .slice(0, 3);
+          if (similar.length === 0) return null;
+          return (
+            <div className="bg-white rounded-2xl border border-indigo-100 shadow-md p-5">
+              <h3 className="text-sm font-black text-gray-900 mb-1 flex items-center gap-2">
+                <span className="text-base">💡</span>
+                <span className="bg-gradient-to-r from-indigo-700 to-violet-700 bg-clip-text text-transparent">דגמים דומים שאולי יעניינו אותך</span>
+              </h3>
+              <p className="text-[11px] text-gray-500 mb-4">באותו טווח מחיר, יותר קונים = הצעות מחיר טובות יותר</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {similar.map(d => {
+                  const dName = (d.name && (d.name[lang] || d.name.he || d.name.en)) || "";
+                  const dPrice = Number(d.marketMin) || Number(d.marketMax) || Number(d.groupOffer) || 0;
+                  return (
+                    <div
+                      key={d.id}
+                      onClick={() => onJoin?.(d.id)}
+                      className="rounded-2xl border border-gray-100 hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer overflow-hidden bg-white"
+                    >
+                      <div className="aspect-square bg-gray-50 flex items-center justify-center overflow-hidden">
+                        <ProductImage
+                          query={d.name?.en || dName}
+                          fallback={d.image}
+                          alt={dName}
+                          className="w-full h-full"
+                          imgClassName="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                      <div className="p-2.5">
+                        <p className="text-xs font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-indigo-700 transition">{dName}</p>
+                        {dPrice > 0 && (
+                          <p className="text-sm font-black text-indigo-700 mt-1">₪{dPrice.toLocaleString()}</p>
+                        )}
+                        <span className="inline-flex items-center gap-1 mt-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full px-2 py-0.5 text-[10px] font-bold">
+                          👥 {Number(d.participants) || 0} בקבוצה
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ══ 2. HOW IT WORKS, "איך זה עובד?" ══ */}
         <div className="bg-gradient-to-br from-indigo-50/80 to-violet-50/50 border border-indigo-100 rounded-2xl p-5">
@@ -6114,6 +6154,208 @@ function OwnerDashboard({ t, deals, requests, pendingSuppliers, onSendOffer, onA
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  ADMIN SUPPLIER MODAL, view full details / fill in details on behalf
+//  of the supplier ("הקם ספק") / request additional documents by email.
+//  Used by the AdminDashboard pending-suppliers card. Single component,
+//  3 modes selectable via top tabs (mode=view|edit|docs).
+// ─────────────────────────────────────────────────────────────────
+function SupplierAdminModal({ supplierId, initialMode = "view", onClose, onSaved }) {
+  const [mode, setMode]       = useState(initialMode);
+  const [supplier, setSupplier] = useState(null);
+  const [profile, setProfile]   = useState(null);
+  const [loading, setLoading]   = useState(true);
+  const [saving, setSaving]     = useState(false);
+  const [error, setError]       = useState("");
+  const [okMsg, setOkMsg]       = useState("");
+  // Editable form state, populated after fetch.
+  const [form, setForm] = useState({
+    businessName: "", businessNumber: "", ownerName: "", email: "", phone: "",
+    address: "", category: "", description: "", bankAccount: "",
+  });
+  // Docs-request state.
+  const DOC_OPTIONS = [
+    "תעודת עוסק מורשה / רישיון עסק",
+    "צילום ת.ז. של בעל העסק",
+    "אישור ניהול חשבון בנק",
+    "אישור ניכוי מס במקור",
+    "אישור ביטוח אחריות מקצועית",
+    "קטלוג מוצרים / רשימת מחירים",
+  ];
+  const [docsSel, setDocsSel] = useState({});
+  const [docsNote, setDocsNote] = useState("");
+
+  const authHeaders = () => {
+    const tok = _safeLS("bundly_admin_token");
+    return tok ? { Authorization: `Bearer ${tok}` } : {};
+  };
+  const adminJson = () => ({ "Content-Type": "application/json", ...authHeaders() });
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true); setError("");
+      try {
+        const r = await fetch(`/api/admin/suppliers/${supplierId}`, { headers: authHeaders() });
+        const d = await r.json();
+        if (cancelled) return;
+        if (!r.ok || !d.ok) throw new Error(d.error || "טעינה נכשלה");
+        setSupplier(d.supplier);
+        setProfile(d.profile || null);
+        setForm({
+          businessName:   d.supplier.businessName   || "",
+          businessNumber: d.supplier.businessNumber || "",
+          ownerName:      d.supplier.ownerName      || "",
+          email:          d.supplier.email          || "",
+          phone:          d.supplier.phone          || "",
+          address:        d.supplier.address        || "",
+          category:       d.supplier.category       || "",
+          description:    d.supplier.description    || "",
+          bankAccount:    typeof d.supplier.bankAccount === "string" ? d.supplier.bankAccount : "",
+        });
+      } catch (e) { if (!cancelled) setError(e.message); }
+      finally { if (!cancelled) setLoading(false); }
+    })();
+    return () => { cancelled = true; };
+  }, [supplierId]);
+
+  const upd = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
+
+  const save = async () => {
+    setSaving(true); setError(""); setOkMsg("");
+    try {
+      const r = await fetch(`/api/admin/suppliers/${supplierId}`, {
+        method: "PATCH", headers: adminJson(),
+        body: JSON.stringify(form),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
+      setSupplier(d.supplier);
+      setOkMsg("✓ הפרטים נשמרו");
+      onSaved?.(d.supplier);
+      setTimeout(() => setOkMsg(""), 2500);
+    } catch (e) { setError(e.message); }
+    finally { setSaving(false); }
+  };
+
+  const sendDocsRequest = async () => {
+    const items = DOC_OPTIONS.filter(o => docsSel[o]);
+    if (items.length === 0 && !docsNote.trim()) {
+      setError("בחר לפחות פריט אחד או הוסף הערה"); return;
+    }
+    setSaving(true); setError(""); setOkMsg("");
+    try {
+      const r = await fetch(`/api/admin/suppliers/${supplierId}/request-documents`, {
+        method: "POST", headers: adminJson(),
+        body: JSON.stringify({ items, note: docsNote.trim() }),
+      });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שליחה נכשלה");
+      setOkMsg("✓ נשלחה בקשה למסמכים");
+      setDocsSel({}); setDocsNote("");
+      setTimeout(() => { setOkMsg(""); }, 2500);
+    } catch (e) { setError(e.message); }
+    finally { setSaving(false); }
+  };
+
+  const TABS = [
+    { k: "view", label: "פרטים" },
+    { k: "edit", label: "הקם ספק" },
+    { k: "docs", label: "דרוש מסמכים" },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 p-4" dir="rtl">
+      <div className="bg-white w-full max-w-2xl rounded-3xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="min-w-0">
+            <h3 className="font-black text-gray-900 truncate">{supplier?.businessName || "ספק"}</h3>
+            <p className="text-[11px] text-gray-500 mt-0.5">{supplier?.email || ""} {supplier?.phone ? `· ${supplier.phone}` : ""}</p>
+          </div>
+          <button onClick={onClose} aria-label="סגור" className="text-gray-400 hover:text-gray-600 min-w-[44px] min-h-[44px] flex items-center justify-center"><X className="w-5 h-5" /></button>
+        </div>
+        <div className="flex gap-1 px-5 pt-3 border-b border-gray-100">
+          {TABS.map(tb => (
+            <button key={tb.k} onClick={() => { setMode(tb.k); setError(""); setOkMsg(""); }}
+              className={`px-3 py-2 text-xs font-bold rounded-t-lg transition ${mode===tb.k ? "bg-purple-50 text-purple-700 border-b-2 border-purple-600" : "text-gray-500 hover:text-gray-700"}`}>
+              {tb.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex-1 overflow-y-auto p-5 space-y-3">
+          {loading && <p className="text-sm text-gray-500 text-center py-6">טוען...</p>}
+          {error && <div className="bg-red-50 text-red-700 rounded-xl p-3 text-xs">{error}</div>}
+          {okMsg && <div className="bg-emerald-50 text-emerald-700 rounded-xl p-3 text-xs">{okMsg}</div>}
+
+          {/* ── VIEW MODE ── */}
+          {!loading && mode === "view" && supplier && (
+            <div className="space-y-2">
+              {[
+                ["שם העסק",       supplier.businessName],
+                ["ח.פ / ע.מ",     supplier.businessNumber],
+                ["שם בעל העסק",   supplier.ownerName],
+                ["מייל",          supplier.email],
+                ["טלפון",         supplier.phone],
+                ["כתובת",         supplier.address],
+                ["קטגוריה",       supplier.category],
+                ["תיאור העסק",    supplier.description],
+                ["חשבון בנק",     typeof supplier.bankAccount === "string" ? supplier.bankAccount : (supplier.bankAccount ? `${supplier.bankAccount.bank || ""} / ${supplier.bankAccount.branch || ""} / ${supplier.bankAccount.accountNumber || ""}` : "")],
+                ["מסמך רישיון",   supplier.hasLicenseDoc ? "✓ קיים" : "× לא הועלה"],
+                ["סטטוס KYC",     supplier.kycStatus],
+                ["נרשם בתאריך",   supplier.createdAt ? new Date(supplier.createdAt).toLocaleString("he-IL") : ""],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-start justify-between gap-3 py-2 border-b border-gray-50">
+                  <span className="text-[11px] font-bold text-gray-500 w-32 shrink-0">{k}</span>
+                  <span className="text-xs text-gray-900 text-right break-all">{v || "-"}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── EDIT MODE ── */}
+          {!loading && mode === "edit" && (
+            <div className="space-y-3">
+              <p className="text-[11px] text-gray-500">השלם או תקן את פרטי הספק לפני האישור. השדות נשמרים ברישום הספק.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div><label className="text-[10px] font-bold text-gray-500">שם העסק</label><input value={form.businessName} onChange={upd("businessName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">ח.פ / ע.מ</label><input value={form.businessNumber} onChange={upd("businessNumber")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">שם בעל העסק</label><input value={form.ownerName} onChange={upd("ownerName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">מייל</label><input type="email" value={form.email} onChange={upd("email")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">טלפון</label><input value={form.phone} onChange={upd("phone")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div><label className="text-[10px] font-bold text-gray-500">קטגוריה</label><input value={form.category} onChange={upd("category")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">כתובת</label><input value={form.address} onChange={upd("address")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">תיאור העסק</label><textarea rows={2} value={form.description} onChange={upd("description")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+                <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">חשבון בנק (לתשלומים עתידיים)</label><input value={form.bankAccount} onChange={upd("bankAccount")} placeholder='לדוגמה: "לאומי / סניף 800 / חשבון 12345"' className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
+              </div>
+              <Btn onClick={save} disabled={saving} size="sm" variant="primary"><CheckCircle className="w-3.5 h-3.5" />{saving ? "שומר..." : "שמור פרטים"}</Btn>
+            </div>
+          )}
+
+          {/* ── REQUEST DOCS MODE ── */}
+          {!loading && mode === "docs" && (
+            <div className="space-y-3">
+              <p className="text-[11px] text-gray-500">סמן אילו מסמכים נדרשים. הספק יקבל מייל בעברית עם רשימת הפריטים והערה אופציונלית, ישלח אותם בתשובה למייל.</p>
+              <div className="space-y-1.5">
+                {DOC_OPTIONS.map(opt => (
+                  <label key={opt} className="flex items-center gap-2 text-xs text-gray-700 cursor-pointer hover:bg-gray-50 rounded-lg p-2">
+                    <input type="checkbox" checked={!!docsSel[opt]} onChange={e => setDocsSel(p => ({ ...p, [opt]: e.target.checked }))} className="rounded" />
+                    <span>{opt}</span>
+                  </label>
+                ))}
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-gray-500">הערה לספק (אופציונלי)</label>
+                <textarea rows={3} value={docsNote} onChange={e => setDocsNote(e.target.value)} placeholder="לדוגמה: אנא שלחו בקובץ PDF בלבד" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" />
+              </div>
+              <Btn onClick={sendDocsRequest} disabled={saving} size="sm" variant="primary"><Send className="w-3.5 h-3.5" />{saving ? "שולח..." : "שלח בקשה לספק"}</Btn>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  ADMIN DASHBOARD, unified founder/admin control panel.
 //
 //  Rendered when the AuthModal returns role:"admin" (unified login via
@@ -6143,6 +6385,14 @@ function AdminDashboard({ onLogout }) {
   const [ticketStatusFilter, setTicketStatusFilter] = useState("open");
   const [replyDrafts, setReplyDrafts] = useState({});
   const [error, setError]       = useState("");
+  // Per-supplier admin modal: { id, mode } where mode = view|edit|docs.
+  // Surfaces "פרטים / הקם ספק / דרוש מסמכים" on each pending-supplier card.
+  const [supplierModal, setSupplierModal] = useState(null);
+  // Email-service health strip + admin test-send.
+  const [emailStatus, setEmailStatus]  = useState(null);
+  const [testEmailTo, setTestEmailTo]  = useState("");
+  const [testEmailMsg, setTestEmailMsg] = useState("");
+  const [testEmailBusy, setTestEmailBusy] = useState(false);
 
   const authHeaders = () => {
     const tok = _safeLS("bundly_admin_token");
@@ -6218,6 +6468,31 @@ function AdminDashboard({ onLogout }) {
     finally { setBusy("activity", false); }
   }, []);
 
+  // Email-service status (configured + SMTP-reachable). Fetched once on
+  // mount, refreshable via the "רענן סטטוס" button in the email strip.
+  const loadEmailStatus = useCallback(async () => {
+    try {
+      const r = await fetch("/api/admin/email/status", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setEmailStatus(d);
+    } catch { /* leave null, the strip just shows "טוען..." */ }
+  }, []);
+  const sendTestEmail = async () => {
+    const to = (testEmailTo || "").trim();
+    if (!/^\S+@\S+\.\S+$/.test(to)) { setTestEmailMsg("✗ כתובת מייל לא תקינה"); return; }
+    setTestEmailBusy(true); setTestEmailMsg("");
+    try {
+      const r = await fetch("/api/admin/email/test", { method: "POST", headers: adminJson(), body: JSON.stringify({ to }) });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שליחה נכשלה");
+      setTestEmailMsg(`✓ נשלח ל-${to}`);
+      // Refresh status, transporter.verify() might have flipped after a
+      // successful real send if it was previously down.
+      loadEmailStatus();
+    } catch (e) { setTestEmailMsg(`✗ ${e.message}`); }
+    finally { setTestEmailBusy(false); }
+  };
+
   // Initial load: pull everything so counts / badges are accurate from the start.
   useEffect(() => {
     loadSuppliers();
@@ -6226,7 +6501,8 @@ function AdminDashboard({ onLogout }) {
     loadOrders();
     loadTransactions();
     loadActivity();
-  }, [loadSuppliers, loadTickets, loadPersonalReqs, loadOrders, loadTransactions, loadActivity]);
+    loadEmailStatus();
+  }, [loadSuppliers, loadTickets, loadPersonalReqs, loadOrders, loadTransactions, loadActivity, loadEmailStatus]);
 
   // Re-fetch tickets when the status filter changes.
   useEffect(() => { loadTickets(); }, [ticketStatusFilter, loadTickets]);
@@ -6321,6 +6597,55 @@ function AdminDashboard({ onLogout }) {
         </div>
       </div>
 
+      {/* Email-service health strip */}
+      <div className={`rounded-2xl border p-3 mb-4 ${
+        !emailStatus ? "bg-gray-50 border-gray-200" :
+        emailStatus.ready ? "bg-emerald-50 border-emerald-200" :
+        emailStatus.configured ? "bg-amber-50 border-amber-200" :
+        "bg-red-50 border-red-200"
+      }`}>
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <Mail className={`w-4 h-4 ${
+              !emailStatus ? "text-gray-400" :
+              emailStatus.ready ? "text-emerald-700" :
+              emailStatus.configured ? "text-amber-700" : "text-red-700"
+            }`} />
+            <div className="min-w-0">
+              <p className="text-xs font-black text-gray-900">
+                שירות אימייל,{" "}
+                {!emailStatus ? "טוען..." :
+                  emailStatus.ready ? "פעיל" :
+                  emailStatus.configured ? "מוגדר אך לא מאומת" : "לא מוגדר"}
+              </p>
+              <p className="text-[10px] text-gray-500 mt-0.5 truncate">
+                {emailStatus?.sender ? `שולח: ${emailStatus.sender}` : "RESEND_API_KEY ריק ב-env"}
+                {emailStatus?.lastError ? ` · ${emailStatus.lastError}` : ""}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <input
+              type="email"
+              value={testEmailTo}
+              onChange={e => setTestEmailTo(e.target.value)}
+              placeholder="כתובת מייל לבדיקה"
+              className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs w-48 focus:outline-none focus:ring-2 focus:ring-purple-300"
+              onKeyDown={e => e.key === "Enter" && !testEmailBusy && sendTestEmail()}
+            />
+            <Btn onClick={sendTestEmail} size="sm" variant="primary" disabled={testEmailBusy}>
+              <Send className="w-3.5 h-3.5" />{testEmailBusy ? "שולח..." : "שלח בדיקה"}
+            </Btn>
+            <Btn onClick={loadEmailStatus} size="sm" variant="ghost">
+              <RefreshCw className="w-3.5 h-3.5" />רענן
+            </Btn>
+          </div>
+        </div>
+        {testEmailMsg && (
+          <p className={`text-[11px] font-bold mt-2 ${testEmailMsg.startsWith("✓") ? "text-emerald-700" : "text-red-700"}`}>{testEmailMsg}</p>
+        )}
+      </div>
+
       {/* Stat strip */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-5">
         {SECTIONS.map(s => {
@@ -6380,7 +6705,10 @@ function AdminDashboard({ onLogout }) {
                   </div>
                   <span className="shrink-0 text-[11px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">{s.kycStatus || "pending"}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "view" })} variant="ghost"   size="sm"><Eye className="w-3.5 h-3.5" />פרטים</Btn>
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "docs" })} variant="ghost"   size="sm"><FileText className="w-3.5 h-3.5" />דרוש מסמכים</Btn>
+                  <Btn onClick={() => setSupplierModal({ id: s.id, mode: "edit" })} variant="primary" size="sm"><Edit2 className="w-3.5 h-3.5" />הקם ספק</Btn>
                   <Btn onClick={() => approveSupplier(s.id)} variant="success" size="sm"><CheckCircle className="w-3.5 h-3.5" />אשר</Btn>
                   <Btn onClick={() => rejectSupplier(s.id)} variant="danger"  size="sm"><X className="w-3.5 h-3.5" />דחה</Btn>
                 </div>
@@ -6599,6 +6927,18 @@ function AdminDashboard({ onLogout }) {
           </div>
         )}
       </div>
+
+      {/* Per-supplier admin modal: view / edit / request-docs. Mounted at
+          the AdminDashboard level so it stays accessible regardless of
+          which tab is active. */}
+      {supplierModal && (
+        <SupplierAdminModal
+          supplierId={supplierModal.id}
+          initialMode={supplierModal.mode}
+          onClose={() => setSupplierModal(null)}
+          onSaved={() => { loadSuppliers(); }}
+        />
+      )}
     </div>
   );
 }
@@ -10721,7 +11061,7 @@ function WishlistPage({ deals, lang, t, wishlist, onDealClick, onWishlist, onBac
 // ─────────────────────────────────────────────────────────────────
 //  MY PRODUCTS PAGE, "העגלה שלי" / "המוצרים שלי"
 // ─────────────────────────────────────────────────────────────────
-function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
+function MyProductsPage({ myProducts, onRemove, onBack, onProductClick, demandPools = {} }) {
   const TIER_META = {
     committed:  { emoji: "📝", label: "בקבוצה",        color: "bg-indigo-100 text-indigo-700 border-indigo-200" },
     interested: { emoji: "📬", label: "רשום לעדכונים", color: "bg-gray-100 text-gray-700 border-gray-200" },
@@ -10757,6 +11097,11 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
             const catIcon = CAT_ICONS[p.catIdx] || "📦";
             const catName = CATEGORIES.he[p.catIdx] || "";
             const visual = CATEGORY_VISUAL_MAP[catName] || CATEGORY_VISUAL_MAP._default;
+            // Total members in the broader category demand pool. Sums every
+            // model's count under p.catIdx so the chip reflects category-wide
+            // buying-group leverage, not just this exact product.
+            const pool = (p.catIdx != null && demandPools && demandPools[p.catIdx]) || null;
+            const poolCount = pool ? Object.values(pool).reduce((s, n) => s + (Number(n) || 0), 0) : 0;
             // Per user feedback 2026-05-15: ProductImage was re-querying the
             // image API for every saved product and sometimes replacing the
             // correct stored thumbnail with a wrong one (the API matches by
@@ -10799,6 +11144,11 @@ function MyProductsPage({ myProducts, onRemove, onBack, onProductClick }) {
                   <p className="text-sm font-black text-gray-900 leading-snug line-clamp-2 mb-1.5">{p.name || p.productName || "מוצר"}</p>
                   {p.price > 0 && (
                     <p className="text-base font-black text-indigo-700 mb-1">₪{p.price.toLocaleString()}</p>
+                  )}
+                  {p.catIdx != null && poolCount > 0 && (
+                    <span className="inline-flex items-center gap-1 mb-1.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full px-2 py-0.5 text-[10px] font-bold">
+                      👥 {poolCount} בקבוצה
+                    </span>
                   )}
                   <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-medium">
                     <span>{catIcon}</span>
@@ -11500,17 +11850,18 @@ function DisputeButton({ order, token }) {
 //  owner dashboard's local pending-suppliers list stays in sync.
 // ─────────────────────────────────────────────────────────────────
 function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
+  // Bank details are intentionally NOT collected here. They're requested
+  // later (only if needed) after the supplier is approved, to keep the
+  // signup form short and reduce friction for new suppliers.
   const [form, setForm] = useState({
     businessName: "", businessNumber: "", ownerName: "",
     email: "", phone: "", address: "",
     category: "", description: "",
-    bankAccount: { bank: "", branch: "", accountNumber: "" },
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const upd = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
-  const updBank = k => e => setForm(p => ({ ...p, bankAccount: { ...p.bankAccount, [k]: e.target.value } }));
 
   // BUG FIX (audit round 4 P0): the FIRST supplier-registration modal
   // (SupplierModal) got the hCaptcha widget last round, but this second
@@ -11620,16 +11971,8 @@ function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
             <label className="text-xs text-gray-500 font-bold">תיאור העסק (אופציונלי)</label>
             <textarea value={form.description} onChange={upd("description")} rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300" />
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-            <p className="text-xs font-bold text-gray-700 mb-2">פרטי בנק (לתשלומים עתידיים)</p>
-            <div className="grid grid-cols-3 gap-2">
-              <input placeholder="בנק" value={form.bankAccount.bank} onChange={updBank("bank")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-              <input placeholder="סניף" value={form.bankAccount.branch} onChange={updBank("branch")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-              <input placeholder="חשבון" value={form.bankAccount.accountNumber} onChange={updBank("accountNumber")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-            </div>
-          </div>
           <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800 leading-relaxed">
-            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) מתבצע מול הצוות שלנו במייל, אין צורך להעלות קבצים כאן.
+            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) ופרטי בנק להעברה (במידת הצורך) מתבצעים מול הצוות שלנו במייל, אין צורך להעלות קבצים כאן.
           </div>
           {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
           {HCAPTCHA_SITE_KEY && (
@@ -22577,7 +22920,12 @@ export default function App() {
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
     addToMyProducts({ name: result.productName, image: result.image, tier: result._joinTier || "committed", action: "created_deal", catIdx: newDeal.catIdx, price: result.groupPrice || result.marketMin }, result);
-    notify("✅ דיל חדש נפתח!");
+    // Auto-enroll in the broader category demand pool so the user benefits
+    // from group leverage on similar models, not just this exact one.
+    if (newDeal.catIdx != null) {
+      try { joinDemandPool(newDeal.catIdx, result.productName); } catch {}
+    }
+    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
 
     // Persist server-side and reconcile with the canonical deal (server id +
     // dedupe). Resilient: any failure leaves the optimistic client deal in
@@ -22653,6 +23001,31 @@ export default function App() {
       /* offline / server down → keep the optimistic client-only deal */
     }
   };
+
+  // Shared handler when the user joins an EXISTING deal from the search modal.
+  // Mirrors handleAddDealFromSearch side-effects: drop the user into the deal
+  // page, auto-enroll them in the broader category demand pool, and add the
+  // product to "המוצרים שלי" so it surfaces in their cart the same way a
+  // newly-created deal would.
+  const handleJoinExistingDeal = (d) => {
+    if (!d) return;
+    setSelectedDeal(d);
+    setSearchResult(null);
+    const modelName = (d.name && (d.name.en || d.name.he)) || d.name || "";
+    if (d.catIdx != null && modelName) {
+      try { joinDemandPool(d.catIdx, modelName); } catch {}
+    }
+    addToMyProducts({
+      name: modelName,
+      image: d.image || "",
+      tier: "interested",
+      action: "joined_pool",
+      catIdx: d.catIdx,
+      price: Number(d.groupOffer) || Number(d.marketMin) || 0,
+    });
+    notify("✓ הצטרפת לקבוצה, נעדכן ב-SMS כשתגיע הצעת מחיר טובה");
+  };
+
   // Add a product from the search page to the community "want list"
   const handleAddCommunity = (product) => {
     setCommunityProducts(prev => {
@@ -23105,7 +23478,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
 
   // ── Query disambiguation: some generic queries have sub-categories ──
   // No longer a blocking modal. Each option carries a self-contained `match`
@@ -23346,7 +23719,7 @@ export default function App() {
             onClose={() => setSearchResult(null)}
             onAddDeal={handleAddDealFromSearch}
             deals={deals}
-            onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); setCategoryQuery(null); }}
+            onJoinDeal={d => { handleJoinExistingDeal(d); setCategoryQuery(null); }}
             onBack={() => setSearchResult(null)}
             onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
             onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
@@ -23495,7 +23868,7 @@ export default function App() {
           onClose={() => { setSearchResult(null); setFinderInitialState(null); }}
           onAddDeal={handleAddDealFromSearch}
           deals={deals}
-          onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
+          onJoinDeal={d => handleJoinExistingDeal(d)}
           onBack={null}
           onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
           onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}
@@ -23987,6 +24360,7 @@ export default function App() {
           <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
             <MyProductsPage
               myProducts={myProducts}
+              demandPools={demandPools}
               onRemove={(p) => setMyProducts(prev => prev.filter(x => x.addedAt !== p.addedAt))}
               onBack={() => setMode("home")}
               onProductClick={(p) => {
@@ -24026,7 +24400,7 @@ export default function App() {
               onClose={() => setSearchResult(null)}
               onAddDeal={handleAddDealFromSearch}
               deals={deals}
-              onJoinDeal={d => { setSelectedDeal(d); setSearchResult(null); }}
+              onJoinDeal={d => handleJoinExistingDeal(d)}
               onBack={() => setSearchResult(null)}
               onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })}
               onDirectJoinPool={(catIdx, modelName, sourceEl) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }, null, sourceEl); notify(`✅ נוספת לקבוצת רכישה כללית!`); }}

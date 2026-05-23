@@ -11,8 +11,8 @@
  */
 
 // dotenv MUST load before any other import that reads process.env at
-// module-init time (activity-log.js TG_TOKEN, email-service.js transporter,
-// payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
+// module-init time (activity-log.js TG_TOKEN, email-service.js Resend
+// client, payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
 // top of the file, so a later `dotenv.config()` call runs AFTER those modules
 // have already snapshotted env vars as "". Side-effect import runs first.
 import "dotenv/config";
@@ -143,10 +143,18 @@ try {
   globalThis._notif = {
     sendOrderStatusEmail:        emailMod.sendOrderStatusEmail,
     sendKycDecisionEmail:        emailMod.sendKycDecisionEmail,
+    sendSupplierDocsRequestEmail:emailMod.sendSupplierDocsRequestEmail,
     sendDisputeResolutionEmail:  emailMod.sendDisputeResolutionEmail,
     sendDealMemberJoinedEmail:   emailMod.sendDealMemberJoinedEmail,
+    sendDealActivatedEmail:      emailMod.sendDealActivatedEmail,
+    sendPriceDropEmail:          emailMod.sendPriceDropEmail,
+    sendTestEmail:               emailMod.sendTestEmail,
+    getEmailStatus:              emailMod.getStatus,
     sendOrderStatusSms:          smsMod.sendOrderStatusSms,
   };
+  // Best-effort SMTP handshake. Result shows up at /api/admin/email/status
+  // and in server logs (Email SMTP OK / verify failed).
+  emailMod.verifyTransport?.().catch(() => {});
   AUTH_READY = true;
   console.log("✅ Auth/DB modules loaded");
 } catch (e) {
@@ -239,8 +247,7 @@ if (process.env.NODE_ENV === "production") {
   ];
   const SOFT_REQUIRED = [
     "STRIPE_WEBHOOK_SECRET",   // webhook handler already returns 503 if missing
-    "EMAIL_USER",              // welcome / order-status / dispute emails won't send
-    "EMAIL_PASS",
+    "RESEND_API_KEY",          // welcome / OTP / KYC / order-status emails won't send
   ];
   const hardMissing = HARD_REQUIRED.filter(k => !process.env[k]);
   if (hardMissing.length > 0) {
@@ -256,8 +263,8 @@ if (process.env.NODE_ENV === "production") {
     if (softMissing.includes("STRIPE_WEBHOOK_SECRET")) {
       console.warn(`     • STRIPE_WEBHOOK_SECRET missing → Stripe webhooks rejected (503)`);
     }
-    if (softMissing.includes("EMAIL_USER") || softMissing.includes("EMAIL_PASS")) {
-      console.warn(`     • EMAIL_USER/PASS missing → no welcome / order-status / dispute emails`);
+    if (softMissing.includes("RESEND_API_KEY")) {
+      console.warn(`     • RESEND_API_KEY missing → no welcome / OTP / KYC / order-status emails`);
     }
     console.warn(`   Add them in Render → Environment when ready (no redeploy needed for env-only edits).`);
   }
@@ -11096,7 +11103,7 @@ app.post("/api/auth/supplier-login/start",
           return res.status(502).json({ error: "שגיאה בשליחת SMS, נסה/י שוב" });
         }
       } else {
-        if (!process.env.EMAIL_USER) {
+        if (!process.env.RESEND_API_KEY) {
           if (process.env.NODE_ENV === "production") {
             return res.status(503).json({ error: "Email service unavailable" });
           }
@@ -13997,6 +14004,92 @@ app.patch("/api/admin/suppliers/:id/kyc", adminMiddleware, adminFreshAuth, AUTH_
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
+// GET /api/admin/email/status
+// Returns SMTP-transport readiness so the dashboard can show "Email: OK"
+// or surface the boot-time error (e.g. wrong app-password). Cheap, no
+// network call, just the cached verify-result from startup.
+app.get("/api/admin/email/status", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const status = globalThis._notif?.getEmailStatus?.() || { configured: false, ready: false };
+    res.json({ ok: true, ...status });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/admin/email/test
+// Body: { to: string }. Sends a templated Hebrew test email so the admin
+// can verify the end-to-end pipeline (SMTP creds + DNS + Gmail accept)
+// without waiting for a real OTP / KYC event. Returns the SMTP error
+// message verbatim on failure so the admin can fix it (bad App Password,
+// 2FA off, etc.).
+app.post("/api/admin/email/test", adminMiddleware, adminFreshAuth, express.json({ limit: "4kb" }), AUTH_READY ? async (req, res) => {
+  try {
+    const to = String(req.body?.to || "").trim();
+    if (!to || !/^\S+@\S+\.\S+$/.test(to)) return res.status(400).json({ error: "כתובת מייל לא תקינה" });
+    await globalThis._notif?.sendTestEmail?.(to);
+    try { logActivity("admin_email_test_sent", { to }); } catch (_) {}
+    res.json({ ok: true, message: `נשלח מייל בדיקה ל-${to}` });
+  } catch (e) { res.status(500).json({ error: e.message || "שליחה נכשלה" }); }
+} : notReady);
+
+// GET /api/admin/suppliers/:id
+// Full supplier record (registry + profile), UNMASKED bankAccount.
+// Used by the admin "פרטים" / "הקם ספק" modal to view all supplier data.
+app.get("/api/admin/suppliers/:id", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const supplier = _prodDb.getSupplier(req.params.id);
+    if (!supplier) return res.status(404).json({ error: "Supplier not found" });
+    // Strip the binary licenseDoc from the response but expose its presence.
+    const { licenseDoc, ...rest } = supplier;
+    const profile = (typeof getSupplierProfile === "function")
+      ? (getSupplierProfile(supplier.id) || null)
+      : null;
+    res.json({ ok: true, supplier: { ...rest, hasLicenseDoc: !!licenseDoc }, profile });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// PATCH /api/admin/suppliers/:id
+// Admin-side onboarding: fill in/correct supplier registry fields on
+// behalf of the supplier ("הקם ספק"). Whitelisted to avoid letting an
+// admin accidentally bypass KYC by patching kycStatus through here, use
+// the dedicated /kyc endpoint for that.
+app.patch("/api/admin/suppliers/:id", adminMiddleware, adminFreshAuth, express.json({ limit: "32kb" }), AUTH_READY ? (req, res) => {
+  try {
+    const ALLOWED = ["businessName","businessNumber","ownerName","email","phone",
+                     "address","category","description","bankAccount"];
+    const fields = {};
+    for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
+    if (Object.keys(fields).length === 0) {
+      return res.status(400).json({ error: "אין שדות לעדכון" });
+    }
+    const updated = _prodDb.updateSupplier(req.params.id, fields);
+    if (!updated) return res.status(404).json({ error: "Supplier not found" });
+    try { logActivity("admin_supplier_updated", { supplier_id: req.params.id, fields: Object.keys(fields).join(",") }); } catch (_) {}
+    res.json({ ok: true, supplier: updated });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/admin/suppliers/:id/request-documents
+// Body: { items: string[], note?: string }
+// Sends a Hebrew email to the supplier listing what they need to send
+// back. Used from the pending-suppliers card "דרוש מסמכים" button.
+app.post("/api/admin/suppliers/:id/request-documents", adminMiddleware, adminFreshAuth, express.json({ limit: "8kb" }), AUTH_READY ? async (req, res) => {
+  try {
+    const { items = [], note = "" } = req.body || {};
+    if (!Array.isArray(items) || (items.length === 0 && !String(note || "").trim())) {
+      return res.status(400).json({ error: "בחר לפחות פריט אחד או הוסף הערה" });
+    }
+    const supplier = _prodDb.getSupplier(req.params.id);
+    if (!supplier) return res.status(404).json({ error: "Supplier not found" });
+    if (!supplier.email) return res.status(400).json({ error: "אין מייל לספק זה" });
+    await globalThis._notif?.sendSupplierDocsRequestEmail?.(supplier.email, {
+      businessName: supplier.businessName,
+      items, note,
+    });
+    try { logActivity("admin_supplier_docs_requested", { supplier_id: req.params.id, items_count: items.length }); } catch (_) {}
+    res.json({ ok: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
 // PATCH /api/admin/suppliers/:id/payment-link-approval
 // SECURITY (audit F-06, P1): admin gate for non-whitelisted paymentLink
 // hosts. When a supplier saves a paymentLink whose hostname is not in
@@ -16190,7 +16283,7 @@ const server = app.listen(PORT, () => {
   console.log(`   SerpAPI key:  ${process.env.SERP_API_KEY   ? "✅" : "❌ missing"}`);
   console.log(`   OpenAI key:   ${process.env.OPENAI_API_KEY ? "✅" : "❌ missing"}`);
   console.log(`   Twilio SMS:   ${process.env.TWILIO_SID     ? "✅" : "⚠️  not configured (OTP shown in console)"}`);
-  console.log(`   Email (Gmail):${process.env.EMAIL_USER     ? "✅" : "⚠️  not configured (emails disabled)"}`);
+  console.log(`   Email (Resend):${process.env.RESEND_API_KEY ? "✅" : "⚠️  not configured (emails disabled)"}`);
   // ZAP scraping mode, visible at-a-glance so you know if proxies are
   // configured. Direct mode often works on Render's static IP; locally it
   // tends to get CF-rate-limited but is the only fallback when the Webshare

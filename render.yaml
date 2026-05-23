@@ -111,9 +111,9 @@ services:
         sync: false
       - key: TWILIO_FROM
         sync: false
-      - key: EMAIL_USER
+      - key: RESEND_API_KEY
         sync: false
-      - key: EMAIL_PASS
+      - key: EMAIL_FROM
         sync: false
       - key: HCAPTCHA_SECRET
         sync: false
