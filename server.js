@@ -10652,12 +10652,14 @@ app.post("/api/auth/check-existing",
 } : notReady);
 
 // POST /api/auth/send-otp
+// Accepts either { phone } or { email }. SMS-via-Twilio for phone,
+// email-via-Resend for email. Customer login only, admin/supplier
+// flows still use their dedicated endpoints.
 app.post("/api/auth/send-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-send" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, captchaToken } = req.body || {};  // BUG FIX: body-less curl crashed handler
-  if (!phone) return res.status(400).json({ error: "Phone required" });
-  if (!validatePhone(phone)) return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
+  const { phone, email, captchaToken } = req.body || {};
+  if (!phone && !email) return res.status(400).json({ error: "Phone or email required" });
   // CAPTCHA check (only enforced if HCAPTCHA_SECRET is set in .env)
   const captcha = await verifyCaptcha(captchaToken, req.ip);
   if (!captcha.ok) {
@@ -10665,6 +10667,49 @@ app.post("/api/auth/send-otp",
     recordSuspicious(req.ip, "captcha");
     return res.status(403).json({ error: "אישור אנטי-בוטים נדרש", needCaptcha: true });
   }
+
+  // Branch: email path. Used when the user opted to receive the OTP by email.
+  // The OTP key is the lowercased email, matching the verify-otp lookup.
+  //
+  // SECURITY: only send if the email is attached to an existing account.
+  // Otherwise this endpoint is (a) an account-enumeration oracle and
+  // (b) an open relay for sending OTP-styled mail to arbitrary inboxes.
+  // To preserve indistinguishability we ALWAYS return the same success
+  // shape, the actual send is silently skipped for unknown emails.
+  if (email) {
+    if (!validateEmail(email)) return res.status(400).json({ error: "כתובת אימייל לא תקינה" });
+    const otpKey = String(email).trim().toLowerCase();
+    if (!checkOtpRateLimit(otpKey, req.ip)) {
+      return res.status(429).json({ error: "יותר מדי בקשות, נסה שוב בעוד שעה" });
+    }
+    const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
+    if (!existing) {
+      // Anti-enumeration: act exactly like success. No OTP is saved, no
+      // mail is sent. A subsequent /verify-otp call with any code will
+      // fail like a normal wrong-code, indistinguishable from a real
+      // miss. Logged so we can spot abuse patterns.
+      audit("OTP_SEND_UNKNOWN_EMAIL", req, { email: otpKey });
+      return res.json({ ok: true, channel: "email" });
+    }
+    const code = String(_secureRandomInt(100000, 1_000_000));
+    saveOtp(otpKey, code);
+    if (!process.env.RESEND_API_KEY) {
+      if (process.env.NODE_ENV === "production") {
+        return res.status(503).json({ error: "Email service unavailable" });
+      }
+      return res.json({ ok: true, channel: "email", devCode: code });
+    }
+    try {
+      await sendOtpEmail(otpKey, code);
+    } catch (e) {
+      console.warn("[send-otp/email] failed:", e.message);
+      return res.status(502).json({ error: "שגיאה בשליחת המייל, נסה/י שוב" });
+    }
+    return res.json({ ok: true, channel: "email" });
+  }
+
+  // Branch: phone path (legacy default, unchanged behaviour).
+  if (!validatePhone(phone)) return res.status(400).json({ error: "מספר טלפון לא תקין (05X-XXXXXXX)" });
   const normalized = normalizePhone(phone);
   // Rate limit: max 3 OTP requests per phone per hour
   if (!checkOtpRateLimit(normalized, req.ip)) {
@@ -10687,7 +10732,7 @@ app.post("/api/auth/send-otp",
       // exited), but if env was unset post-boot, refuse to leak code.
       return res.status(503).json({ error: "SMS service unavailable" });
     }
-    return res.json({ ok: true, devCode: code });
+    return res.json({ ok: true, channel: "sms", devCode: code });
   }
 
   // Twilio configured → send real SMS. Surface ANY failure to the caller
@@ -10696,7 +10741,7 @@ app.post("/api/auth/send-otp",
   if (!result || result.ok !== true) {
     return res.status(502).json({ error: "שגיאה בשליחת SMS, נסה/י שוב" });
   }
-  res.json({ ok: true });
+  res.json({ ok: true, channel: "sms" });
 } : notReady);
 
 // POST /api/auth/verify-otp
@@ -10817,8 +10862,60 @@ async function _isOtpLocked(phone) {
 app.post("/api/auth/verify-otp",
   rateLimit({ windowMs: 60_000, max: 5, label: "auth-otp-verify" }),
   AUTH_READY ? async (req, res) => {
-  const { phone, code, name, email } = req.body || {};  // BUG FIX: body-less request crashed
-  if (!phone || !code) return res.status(400).json({ error: "Phone and code required" });
+  const { phone, email: loginEmail, code, name, email } = req.body || {};
+  // BUG FIX: body-less request crashed previously. Accept either phone or email.
+  // `loginEmail` is the email used as the login identifier (when phone is not
+  // supplied). `email` keeps its legacy meaning for upsertUser, the address
+  // saved on a new profile. They CAN be the same address.
+  if ((!phone && !loginEmail) || !code) return res.status(400).json({ error: "Phone/email and code required" });
+
+  // Branch: EMAIL-OTP login path. Lookup the user by email; if not found we
+  // reject (email-only login is for EXISTING accounts, new users still
+  // register via phone). Admin login stays phone-only (BUNDLY_ADMIN_PHONE).
+  if (loginEmail && !phone) {
+    if (!validateEmail(loginEmail)) return res.status(400).json({ error: "כתובת אימייל לא תקינה" });
+    const otpKey = String(loginEmail).trim().toLowerCase();
+    if (await _isOtpLocked(otpKey)) {
+      audit("OTP_LOCKED", req, { email: otpKey });
+      recordSuspicious(req.ip, "auth");
+      return res.status(429).json({ error: "החשבון ננעל זמנית עקב ריבוי ניסיונות" });
+    }
+    if (typeof code !== "string" || !/^\d{6}$/.test(code)) {
+      await _trackOtpFailure(otpKey);
+      return res.status(400).json({ error: "קוד שגוי" });
+    }
+    const check = verifyOtp(otpKey, code);
+    if (!check.ok) {
+      const lock = await _trackOtpFailure(otpKey);
+      audit("OTP_FAIL", req, { email: otpKey, reason: check.reason });
+      recordSuspicious(req.ip, "auth");
+      return res.status(400).json({
+        error: check.reason === "expired" ? "קוד פג תוקף" : (lock.locked ? "ננעל זמנית" : "קוד שגוי"),
+      });
+    }
+    await _clearOtpFailures(otpKey);
+    const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
+    if (!existing) {
+      // Email-only login refuses to create a new account. Account creation
+      // path is still phone-OTP because we need a phone for SMS/payment SMS.
+      return res.status(404).json({
+        error: "כתובת המייל לא רשומה. אם חשבון חדש, התחבר עם הטלפון.",
+      });
+    }
+    try {
+      logActivity("customer_login_email", { user_id: existing.id, email: otpKey, ip: req.ip });
+    } catch (_) {}
+    const _tokenPayload = { id: existing.id, phone: existing.phone };
+    const token = _signToken(_tokenPayload, { expiresIn: "30d", algorithm: "HS256" });
+    return res.json({
+      ok: true,
+      token,
+      user: { id: existing.id, name: existing.name, firstName: existing.firstName, lastName: existing.lastName, phone: existing.phone, email: existing.email, city: existing.city, street: existing.street, buildingNum: existing.buildingNum, apartmentNum: existing.apartmentNum },
+      isNew: false,
+    });
+  }
+
+  // Branch: PHONE-OTP login (legacy path, unchanged behaviour).
   const normalized = normalizePhone(phone);
   if (await _isOtpLocked(normalized)) {
     audit("OTP_LOCKED", req, { phone: normalized });
