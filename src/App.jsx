@@ -22545,6 +22545,24 @@ export default function App() {
       // productKey, catIdx) MUST stay client-side. If the server somehow
       // deduped/returned a different product, we keep the user on what they
       // clicked instead of silently swapping the deal's TV for another one.
+      //
+      // BUG FIX (TV-routing convergence): if the server's deduped serverDeal
+      // came back with a DIFFERENT productKey than what we posted, the server
+      // collapsed our request onto an unrelated existing deal. In that case
+      // we keep the optimistic newDeal as a CLIENT-ONLY row (with its own
+      // temp id), do NOT overwrite the existing serverDeal's identity, so
+      // both products stay distinct in the local list. This is the last-mile
+      // guard against "every TV routes to one TV", even if some upstream
+      // layer reintroduces a productKey collision in the future.
+      const _serverPk = serverDeal.productKey ? String(serverDeal.productKey) : "";
+      const _clientPk = newDeal.productKey    ? String(newDeal.productKey)    : "";
+      const _pkMatches = _serverPk && _clientPk && _serverPk === _clientPk;
+      if (!_pkMatches) {
+        console.warn("[handleAddDealFromSearch] SERVER DEDUP COLLAPSED ONTO A DIFFERENT productKey, keeping the optimistic client deal so the user stays on the TV they clicked");
+        // Keep the optimistic newDeal in place, no merge. selectedDeal
+        // already points at it.
+        return;
+      }
       const merged = {
         ...serverDeal,
         // client-authoritative identity, never let server override
@@ -22555,7 +22573,16 @@ export default function App() {
         _preloadedImage: newDeal._preloadedImage,
       };
       setDeals(prev => {
-        const withoutTemp = prev.filter(d => d.id !== newDeal.id && d.id !== serverDeal.id);
+        // Remove the optimistic temp id. Also coalesce any pre-existing row
+        // with the same server id (the second-click-same-product case)
+        // because they refer to the SAME deal and we want a single row.
+        // Crucially, we DON'T remove rows with a DIFFERENT productKey, so a
+        // server-side dedup misfire cannot wipe out an unrelated existing
+        // deal from the local list.
+        const withoutTemp = prev.filter(d =>
+          d.id !== newDeal.id &&
+          !(d.id === serverDeal.id && String(d.productKey || "") === _clientPk)
+        );
         return [merged, ...withoutTemp];
       });
       setSelectedDeal(sd => (sd && sd.id === newDeal.id) ? merged : sd);

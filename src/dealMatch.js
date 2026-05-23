@@ -32,6 +32,27 @@
 //   - Apple chip identifiers (M1, M2, M3, M4)
 const VERSION_TOKEN_RE = /^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i;
 
+// BUG FIX (TV-routing convergence): A "model code" is an alphanumeric token
+// that mixes letters AND digits and is at least 4 chars long, e.g.
+// "QE65Q60D", "UE55U8000F", "OLED65C56LA", "FX607VJB-RL144W", "WW8ST5543AT".
+// It is the single most discriminating feature for consumer electronics:
+// two TVs of the same brand + size + year are different products iff their
+// model codes differ. Previously rule-2's 80% word overlap could merge them
+// when the only differing token was the model code itself (e.g. "Samsung
+// QE65Q60D" vs "Samsung QE65Q8F" share טלוויזיה+Samsung+4k+65+אינטש = 5 of
+// 6 significant words = 83%, above the 80% gate). Treat the model code as
+// a HARD identity field, equality required on both sides.
+function _extractModelCodes(tokens) {
+  return tokens.filter(t => {
+    if (t.length < 4) return false;
+    if (!/[a-z]/.test(t)) return false;  // must contain a letter
+    if (!/\d/.test(t))    return false;  // must contain a digit
+    // Drop pure storage/size tokens we already handle as version tokens
+    if (VERSION_TOKEN_RE.test(t))    return false;
+    return true;
+  });
+}
+
 // Internal: are these two product names "the same product"?
 function strictNameMatch(productName, dealName) {
   const p = (productName || "").toLowerCase().trim();
@@ -42,7 +63,7 @@ function strictNameMatch(productName, dealName) {
   const dTokens = d.split(/\s+/);
 
   // Rule 0: reject single-significant-token product names. A product called
-  // just "Samsung" or "Sony" (brand-only — common in scraped product-db
+  // just "Samsung" or "Sony" (brand-only, common in scraped product-db
   // entries) would trivially pass the 80% overlap rule against EVERY deal
   // containing that brand, routing every card on a TV listing to the same
   // demo deal. Require at least 2 long tokens before matching, so brand-
@@ -56,8 +77,37 @@ function strictNameMatch(productName, dealName) {
     return false;
   }
 
-  // Rule 2: ≥80% overlap of significant words.
-  const overlap = pWords.filter(w => d.includes(w)).length;
+  // BUG FIX (TV-routing convergence): Rule 1.5, model-code identity gate.
+  // If either name carries a model code (alphanumeric token mixing letters
+  // and digits, e.g. "QE65Q60D"), it MUST appear verbatim in the OTHER
+  // name. This is the strongest signal in consumer electronics, two TVs
+  // are the SAME product iff their model code is the same, and a different
+  // model code means a different product regardless of brand/size overlap.
+  // Without this gate, "Samsung QE65Q60D" and "Samsung QE65Q8F" overlap at
+  // 83% by significant words (brand + 4k + 65 + אינטש + טלוויזיה + סמסונג)
+  // and the previous rule-2 alone (80% threshold) collapsed them into the
+  // same deal, which routed every TV click to the first-created TV's deal.
+  const pCodes = _extractModelCodes(pTokens);
+  const dCodes = _extractModelCodes(dTokens);
+  if (pCodes.length > 0 || dCodes.length > 0) {
+    // At least one side carries a model code; require exact equality of at
+    // least one code on each side. Equality is checked both as full-token
+    // (a in dTokens) AND prefix (handles "QE65Q60D" vs "QE65Q60D-2024"),
+    // but never via loose substring across unrelated tokens.
+    const dCodeSet = new Set(dCodes);
+    const pCodeSet = new Set(pCodes);
+    const anyShared =
+      pCodes.some(pc => dCodeSet.has(pc)) ||
+      dCodes.some(dc => pCodeSet.has(dc));
+    if (!anyShared) return false;
+  }
+
+  // Rule 2: ≥80% overlap of significant words. Tokenised match (a word
+  // counts only when it appears as a whole token in the deal name), not
+  // substring, so "65" can never count as "found in qe65q60d" and brand
+  // tokens never accidentally match a longer compound.
+  const dWordSet = new Set(dTokens);
+  const overlap = pWords.filter(w => dWordSet.has(w)).length;
   return overlap / pWords.length >= 0.8;
 }
 
