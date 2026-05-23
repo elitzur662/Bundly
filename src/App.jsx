@@ -13759,17 +13759,38 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         const rawMaxes = grp.map(g => g.priceMax || g.priceMin || 0).filter(v => v > 0);
         const minMed = _median(rawMins);
         const maxMed = _median(rawMaxes);
+        // BUG FIX: the previous 0.5 floor accidentally dropped genuinely-low
+        // catalog prices (e.g. ₪1,495 for a TV when the median across 43
+        // store listings is ₪5,000). The card then showed ₪5,150 while the
+        // modal, which reads the catalog directly, still showed ₪1,495.
+        // Tighten the threshold so we only drop egregious typos (₪859 on
+        // a TV whose median is ₪5,000 is 17% → still filtered) but keep
+        // legitimately-low listings (₪1,495 is 30% → kept).
         const prices = (rawMins.length >= 3 && minMed > 0)
-          ? rawMins.filter(v => v >= minMed * 0.5 && v <= minMed * 2.5)
+          ? rawMins.filter(v => v >= minMed * 0.25 && v <= minMed * 2.5)
           : rawMins;
         const maxes = (rawMaxes.length >= 3 && maxMed > 0)
-          ? rawMaxes.filter(v => v >= maxMed * 0.4 && v <= maxMed * 3.0)
+          ? rawMaxes.filter(v => v >= maxMed * 0.2 && v <= maxMed * 3.0)
           : rawMaxes;
+        // BUG FIX: if any listing in the group is the catalog source
+        // (numeric _streamKey = a direct cache hit on product-db), prefer
+        // ITS price, the catalog is curated and authoritative. Live store
+        // scrapes can be inflated by stale prices or off-brand resellers.
+        const _catalogListing = grp.find(g => g.priceMin > 0
+          && /^\d+$/.test(String(g._streamKey || "")));
+        const _catalogMin = _catalogListing?.priceMin || 0;
+        const _catalogMax = _catalogListing?.priceMax || _catalogMin || 0;
         deduped.push({
           ...rep,
           image:      bestImg,
-          priceMin:   prices.length ? Math.min(...prices) : (rep.priceMin || 0),
-          priceMax:   maxes.length  ? Math.max(...maxes)  : (rep.priceMax || 0),
+          // Catalog price wins (matches the modal's /api/zap-model fetch).
+          // Falls back to the median-filtered stream aggregation otherwise.
+          priceMin:   _catalogMin > 0
+            ? _catalogMin
+            : (prices.length ? Math.min(...prices) : (rep.priceMin || 0)),
+          priceMax:   _catalogMax > 0
+            ? Math.max(_catalogMax, maxes.length ? Math.max(...maxes) : 0)
+            : (maxes.length  ? Math.max(...maxes)  : (rep.priceMax || 0)),
           storeCount: Math.max(rep.storeCount || 0, grp.length),
           _dupCount:  grp.length,
         });
