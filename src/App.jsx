@@ -14528,26 +14528,46 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
       const cardTok = tok(cardName);
       const dataSet = new Set(tok(data.productName));
       const overlap = cardTok.length ? cardTok.filter(w => dataSet.has(w)).length / cardTok.length : 1;
-      const sameProduct = overlap >= 0.5;
+      // BUG FIX (wrong-product-on-click): also require model-code identity
+      // if the card name carries one. Otherwise an overlap of ≥50% across
+      // generic words ("טלוויזיה samsung 55") matched a totally different
+      // product (Sony, LG) and leaked its image / specs into the modal.
+      const _extractModelCodes = (toks) => toks.filter(t =>
+        t.length >= 4 && /[a-z]/.test(t) && /\d/.test(t)
+        && !/^(\d{1,3}|\d{1,4}gb|\d{1,2}tb|m\d)$/i.test(t)
+      );
+      const _cardCodes = _extractModelCodes(cardTok);
+      const _dataCodes = _extractModelCodes(tok(data.productName));
+      const _codeMatches = _cardCodes.length === 0 || _dataCodes.length === 0
+        || _cardCodes.some(c => _dataCodes.includes(c));
+      const sameProduct = overlap >= 0.7 && _codeMatches;
 
-      const result = {
+      const result = sameProduct ? {
+        // Same product, take server fields, but identity stays the card's.
         ...data,
-        // identity, always the clicked card
         productName:   cardName || data.productName,
         productNameEn: product.nameEn || cardName || data.productNameEn,
         image:         product.image || data.image || null,
-        // prices/suppliers, only when the server described THIS product;
-        // otherwise fall back to the card's own cached numbers
-        suppliers:  sameProduct ? (data.suppliers || []) : [],
-        marketMin:  sameProduct ? (data.marketMin || product.priceMin || 0) : (product.priceMin || 0),
-        marketMax:  sameProduct ? (data.marketMax || product.priceMax || 0) : (product.priceMax || 0),
-        groupPrice: sameProduct ? (data.groupPrice || 0) : 0,
-        _priceUnavailable: sameProduct ? data._priceUnavailable : !(product.priceMin > 0),
-        _zapModelId: /^\d+$/.test(String(product._streamKey || "")) ? String(product._streamKey) : data._zapModelId,
-        _pageSog: pageSog,
-        // Stable, re-resolvable key for the permanent /product/<key> URL —
-        // derived from the CARD, never from the (possibly drifted) reply.
-        productKey: productKeyFrom({ ...product, productName: cardName || data.productName }),
+        _zapModelId:   /^\d+$/.test(String(product._streamKey || "")) ? String(product._streamKey) : data._zapModelId,
+        _pageSog:      pageSog,
+        productKey:    productKeyFrom({ ...product, productName: cardName || data.productName }),
+      } : {
+        // Different product, the server reply does NOT describe the card the
+        // user clicked. Keep ONLY card identity, no server-data leaks (no
+        // image, specs, description, or _zapModelId from a wrong product).
+        productName:       cardName,
+        productNameEn:     product.nameEn || cardName,
+        image:             product.image || null,
+        suppliers:         [],
+        marketMin:         product.priceMin || 0,
+        marketMax:         product.priceMax || 0,
+        groupPrice:        0,
+        specs:             product.specs || [],
+        description:       "",
+        _priceUnavailable: !(product.priceMin > 0),
+        _zapModelId:       /^\d+$/.test(String(product._streamKey || "")) ? String(product._streamKey) : null,
+        _pageSog:          pageSog,
+        productKey:        productKeyFrom({ ...product, productName: cardName }),
       };
       onResult(result);
     } catch (e) {
@@ -22250,7 +22270,9 @@ export default function App() {
 
   useEffect(() => { if (selectedDeal) window.scrollTo({ top: 0 }); }, [selectedDeal]);
   useEffect(() => { if (categoryQuery) window.scrollTo({ top: 0 }); }, [categoryQuery]);
-  useEffect(() => { if (searchResult) window.scrollTo({ top: 0 }); }, [searchResult]);
+  // BUG FIX: opening the SearchResultModal as an overlay no longer scrolls
+  // the underlying page to the top. The modal is position:fixed, the user
+  // returns to where they were on the category grid when they close it.
   useEffect(() => { document.documentElement.dir = t.dir; document.documentElement.lang = lang; }, [lang, t.dir]);
   // Push toast onto stack with a unique id; auto-dismiss after 3.5s.
   // De-dupe: if the same message is already on the stack, don't add it again.
