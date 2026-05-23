@@ -105,9 +105,16 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+      # TWILIO_SID can be an "AC..." Account SID (with TWILIO_TOKEN = Auth
+      # Token) OR an "SK..." API Key SID (with TWILIO_TOKEN = API Key Secret
+      # AND TWILIO_ACCOUNT_SID = the parent AC... ID). API Keys are the
+      # recommended posture, they can be revoked without rotating the
+      # account-wide auth token.
       - key: TWILIO_SID
         sync: false
       - key: TWILIO_TOKEN
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
         sync: false
       - key: TWILIO_FROM
         sync: false

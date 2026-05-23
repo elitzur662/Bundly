@@ -1,10 +1,18 @@
 /**
- * Bundly — SMS Service (Twilio)
+ * Bundly, SMS Service (Twilio)
  * Requires: TWILIO_SID, TWILIO_TOKEN, TWILIO_FROM in .env
+ *
+ * Twilio credentials come in TWO flavours:
+ *   1. Account SID (starts with "AC...") + Auth Token: legacy, full access
+ *   2. API Key SID (starts with "SK...") + API Key Secret: scoped, recommended
+ *      Requires TWILIO_ACCOUNT_SID (the parent AC... ID) alongside the SK key
+ *
+ * getClient() auto-detects which one is set and constructs the SDK
+ * accordingly, so the operator can rotate to API keys without code change.
  *
  * LAUNCH HARDENING:
  *   - Never print OTPs in production. Dev mode shows a masked preview only.
- *   - Never log full phone numbers — mask the middle digits.
+ *   - Never log full phone numbers, mask the middle digits.
  *   - In production, getClient() returning null is a hard error (caller
  *     decides whether to throw or return failure). The previous "silent
  *     skip" behavior would have let users register without ever receiving
@@ -30,8 +38,23 @@ function _maskPhone(phone) {
 }
 
 function getClient() {
-  if (!process.env.TWILIO_SID || !process.env.TWILIO_TOKEN) return null;
-  return twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+  const sid   = process.env.TWILIO_SID || "";
+  const token = process.env.TWILIO_TOKEN || "";
+  if (!sid || !token) return null;
+  // API Key flow: TWILIO_SID is an "SK..." API Key SID, TWILIO_TOKEN is its
+  // secret. The SDK needs the parent Account SID separately in the options
+  // object, otherwise it tries to use the SK key as the account ID for the
+  // REST API URL and Twilio returns 401.
+  if (sid.startsWith("SK")) {
+    const accountSid = process.env.TWILIO_ACCOUNT_SID || "";
+    if (!accountSid || !accountSid.startsWith("AC")) {
+      console.error("[SMS] TWILIO_SID is an API Key (SK...) but TWILIO_ACCOUNT_SID (AC...) is not set in env. Add it from twilio.com/console.");
+      return null;
+    }
+    return twilio(sid, token, { accountSid });
+  }
+  // Account SID flow: TWILIO_SID is "AC..." and TWILIO_TOKEN is the Auth Token.
+  return twilio(sid, token);
 }
 
 // ── Send OTP ───────────────────────────────────────────────────────
