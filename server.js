@@ -146,8 +146,15 @@ try {
     sendSupplierDocsRequestEmail:emailMod.sendSupplierDocsRequestEmail,
     sendDisputeResolutionEmail:  emailMod.sendDisputeResolutionEmail,
     sendDealMemberJoinedEmail:   emailMod.sendDealMemberJoinedEmail,
+    sendDealActivatedEmail:      emailMod.sendDealActivatedEmail,
+    sendPriceDropEmail:          emailMod.sendPriceDropEmail,
+    sendTestEmail:               emailMod.sendTestEmail,
+    getEmailStatus:              emailMod.getStatus,
     sendOrderStatusSms:          smsMod.sendOrderStatusSms,
   };
+  // Best-effort SMTP handshake. Result shows up at /api/admin/email/status
+  // and in server logs (Email SMTP OK / verify failed).
+  emailMod.verifyTransport?.().catch(() => {});
   AUTH_READY = true;
   console.log("✅ Auth/DB modules loaded");
 } catch (e) {
@@ -13996,6 +14003,33 @@ app.patch("/api/admin/suppliers/:id/kyc", adminMiddleware, adminFreshAuth, AUTH_
     }
     res.json({ ok: true, supplier });
   } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// GET /api/admin/email/status
+// Returns SMTP-transport readiness so the dashboard can show "Email: OK"
+// or surface the boot-time error (e.g. wrong app-password). Cheap, no
+// network call, just the cached verify-result from startup.
+app.get("/api/admin/email/status", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const status = globalThis._notif?.getEmailStatus?.() || { configured: false, ready: false };
+    res.json({ ok: true, ...status });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// POST /api/admin/email/test
+// Body: { to: string }. Sends a templated Hebrew test email so the admin
+// can verify the end-to-end pipeline (SMTP creds + DNS + Gmail accept)
+// without waiting for a real OTP / KYC event. Returns the SMTP error
+// message verbatim on failure so the admin can fix it (bad App Password,
+// 2FA off, etc.).
+app.post("/api/admin/email/test", adminMiddleware, adminFreshAuth, express.json({ limit: "4kb" }), AUTH_READY ? async (req, res) => {
+  try {
+    const to = String(req.body?.to || "").trim();
+    if (!to || !/^\S+@\S+\.\S+$/.test(to)) return res.status(400).json({ error: "כתובת מייל לא תקינה" });
+    await globalThis._notif?.sendTestEmail?.(to);
+    try { logActivity("admin_email_test_sent", { to }); } catch (_) {}
+    res.json({ ok: true, message: `נשלח מייל בדיקה ל-${to}` });
+  } catch (e) { res.status(500).json({ error: e.message || "שליחה נכשלה" }); }
 } : notReady);
 
 // GET /api/admin/suppliers/:id

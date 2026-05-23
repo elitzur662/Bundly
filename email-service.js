@@ -12,6 +12,65 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Track whether the SMTP transport is reachable. Exposed via `getStatus`
+// so the admin dashboard can show "Email: OK / down" and the test-email
+// endpoint can return an actionable error instead of failing silently.
+const _status = { ready: false, lastError: "", verifiedAt: null };
+
+export function getStatus() {
+  return {
+    configured: !!(process.env.EMAIL_USER && process.env.EMAIL_PASS),
+    sender:     process.env.EMAIL_USER || "",
+    ready:      _status.ready,
+    lastError:  _status.lastError,
+    verifiedAt: _status.verifiedAt,
+  };
+}
+
+// Best-effort SMTP handshake at boot. Doesn't throw, just records status.
+// Called from server.js right after the email module is imported.
+export async function verifyTransport() {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    _status.ready = false;
+    _status.lastError = "EMAIL_USER / EMAIL_PASS not set in env";
+    _status.verifiedAt = new Date().toISOString();
+    console.warn("[Email] disabled, EMAIL_USER / EMAIL_PASS not set");
+    return false;
+  }
+  try {
+    await transporter.verify();
+    _status.ready = true;
+    _status.lastError = "";
+    _status.verifiedAt = new Date().toISOString();
+    console.log(`[Email] SMTP OK, sender=${process.env.EMAIL_USER}`);
+    return true;
+  } catch (e) {
+    _status.ready = false;
+    _status.lastError = e.message || String(e);
+    _status.verifiedAt = new Date().toISOString();
+    console.warn(`[Email] SMTP verify failed: ${_status.lastError}`);
+    return false;
+  }
+}
+
+// Generic sender used by the admin test-email endpoint. Returns true on
+// success, throws on failure (so the endpoint can 5xx with the reason).
+export async function sendTestEmail(to) {
+  if (!process.env.EMAIL_USER) throw new Error("EMAIL_USER not set");
+  await transporter.sendMail({
+    from: `"${BRAND_NAME}" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: `📨 בדיקת שירות אימייל, ${BRAND_NAME}`,
+    html: baseTemplate(`
+      <h2>📨 בדיקת שירות אימייל</h2>
+      <p>שלום,</p>
+      <p>זוהי הודעת בדיקה שנשלחה משירות האימייל של ${BRAND_NAME}. אם קיבלת אותה, כל המנגנון פועל כשורה (OTP, KYC, סטטוסי הזמנה, התראות על הצעות).</p>
+      <div class="highlight"><p style="margin:0">שולח: ${_esc(process.env.EMAIL_USER || "")}<br/>זמן: ${_esc(new Date().toLocaleString("he-IL"))}</p></div>
+    `),
+  });
+  return true;
+}
+
 const BRAND_COLOR = "#4F46E5"; // indigo-600
 const BRAND_NAME  = "Bundly";
 const BRAND_LOGO  = "🛒";

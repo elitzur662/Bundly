@@ -6388,6 +6388,11 @@ function AdminDashboard({ onLogout }) {
   // Per-supplier admin modal: { id, mode } where mode = view|edit|docs.
   // Surfaces "פרטים / הקם ספק / דרוש מסמכים" on each pending-supplier card.
   const [supplierModal, setSupplierModal] = useState(null);
+  // Email-service health strip + admin test-send.
+  const [emailStatus, setEmailStatus]  = useState(null);
+  const [testEmailTo, setTestEmailTo]  = useState("");
+  const [testEmailMsg, setTestEmailMsg] = useState("");
+  const [testEmailBusy, setTestEmailBusy] = useState(false);
 
   const authHeaders = () => {
     const tok = _safeLS("bundly_admin_token");
@@ -6463,6 +6468,31 @@ function AdminDashboard({ onLogout }) {
     finally { setBusy("activity", false); }
   }, []);
 
+  // Email-service status (configured + SMTP-reachable). Fetched once on
+  // mount, refreshable via the "רענן סטטוס" button in the email strip.
+  const loadEmailStatus = useCallback(async () => {
+    try {
+      const r = await fetch("/api/admin/email/status", { headers: authHeaders() });
+      const d = await r.json();
+      if (d?.ok) setEmailStatus(d);
+    } catch { /* leave null, the strip just shows "טוען..." */ }
+  }, []);
+  const sendTestEmail = async () => {
+    const to = (testEmailTo || "").trim();
+    if (!/^\S+@\S+\.\S+$/.test(to)) { setTestEmailMsg("✗ כתובת מייל לא תקינה"); return; }
+    setTestEmailBusy(true); setTestEmailMsg("");
+    try {
+      const r = await fetch("/api/admin/email/test", { method: "POST", headers: adminJson(), body: JSON.stringify({ to }) });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || "שליחה נכשלה");
+      setTestEmailMsg(`✓ נשלח ל-${to}`);
+      // Refresh status, transporter.verify() might have flipped after a
+      // successful real send if it was previously down.
+      loadEmailStatus();
+    } catch (e) { setTestEmailMsg(`✗ ${e.message}`); }
+    finally { setTestEmailBusy(false); }
+  };
+
   // Initial load: pull everything so counts / badges are accurate from the start.
   useEffect(() => {
     loadSuppliers();
@@ -6471,7 +6501,8 @@ function AdminDashboard({ onLogout }) {
     loadOrders();
     loadTransactions();
     loadActivity();
-  }, [loadSuppliers, loadTickets, loadPersonalReqs, loadOrders, loadTransactions, loadActivity]);
+    loadEmailStatus();
+  }, [loadSuppliers, loadTickets, loadPersonalReqs, loadOrders, loadTransactions, loadActivity, loadEmailStatus]);
 
   // Re-fetch tickets when the status filter changes.
   useEffect(() => { loadTickets(); }, [ticketStatusFilter, loadTickets]);
@@ -6564,6 +6595,55 @@ function AdminDashboard({ onLogout }) {
             יציאה
           </Btn>
         </div>
+      </div>
+
+      {/* Email-service health strip */}
+      <div className={`rounded-2xl border p-3 mb-4 ${
+        !emailStatus ? "bg-gray-50 border-gray-200" :
+        emailStatus.ready ? "bg-emerald-50 border-emerald-200" :
+        emailStatus.configured ? "bg-amber-50 border-amber-200" :
+        "bg-red-50 border-red-200"
+      }`}>
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <Mail className={`w-4 h-4 ${
+              !emailStatus ? "text-gray-400" :
+              emailStatus.ready ? "text-emerald-700" :
+              emailStatus.configured ? "text-amber-700" : "text-red-700"
+            }`} />
+            <div className="min-w-0">
+              <p className="text-xs font-black text-gray-900">
+                שירות אימייל,{" "}
+                {!emailStatus ? "טוען..." :
+                  emailStatus.ready ? "פעיל" :
+                  emailStatus.configured ? "מוגדר אך לא מאומת" : "לא מוגדר"}
+              </p>
+              <p className="text-[10px] text-gray-500 mt-0.5 truncate">
+                {emailStatus?.sender ? `שולח: ${emailStatus.sender}` : "EMAIL_USER ריק ב-env"}
+                {emailStatus?.lastError ? ` · ${emailStatus.lastError}` : ""}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <input
+              type="email"
+              value={testEmailTo}
+              onChange={e => setTestEmailTo(e.target.value)}
+              placeholder="כתובת מייל לבדיקה"
+              className="border border-gray-200 rounded-lg px-2 py-1.5 text-xs w-48 focus:outline-none focus:ring-2 focus:ring-purple-300"
+              onKeyDown={e => e.key === "Enter" && !testEmailBusy && sendTestEmail()}
+            />
+            <Btn onClick={sendTestEmail} size="sm" variant="primary" disabled={testEmailBusy}>
+              <Send className="w-3.5 h-3.5" />{testEmailBusy ? "שולח..." : "שלח בדיקה"}
+            </Btn>
+            <Btn onClick={loadEmailStatus} size="sm" variant="ghost">
+              <RefreshCw className="w-3.5 h-3.5" />רענן
+            </Btn>
+          </div>
+        </div>
+        {testEmailMsg && (
+          <p className={`text-[11px] font-bold mt-2 ${testEmailMsg.startsWith("✓") ? "text-emerald-700" : "text-red-700"}`}>{testEmailMsg}</p>
+        )}
       </div>
 
       {/* Stat strip */}
