@@ -576,7 +576,7 @@ export function createSupplier({ businessName, businessNumber, ownerName, email,
     licenseDoc,                   // path to uploaded business license PDF
     bankAccount,                  // { bank, branch, accountNumber }, for payouts
     paymentLink: "",              // supplier's own payment URL, used when a customer picks "pay supplier directly"
-    commissionRate: 8,            // percent, Bundly commission billed to the supplier later
+    commissionRate: 3,            // percent, Bundly commission billed to the supplier (first-year rate per supplier agreement)
     kycStatus: "pending",         // pending | approved | rejected
     kycReviewedAt: null,
     kycReviewedBy: null,
