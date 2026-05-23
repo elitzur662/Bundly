@@ -10684,10 +10684,13 @@ app.post("/api/auth/send-otp",
     }
     const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
     if (!existing) {
-      // Anti-enumeration: act exactly like success. No OTP is saved, no
-      // mail is sent. A subsequent /verify-otp call with any code will
-      // fail like a normal wrong-code, indistinguishable from a real
-      // miss. Logged so we can spot abuse patterns.
+      // Anti-enumeration: act EXACTLY like success. Save a dummy OTP so
+      // an attacker can't distinguish known/unknown emails by observing
+      // rate-limit state (e.g., the per-key send counter) on subsequent
+      // requests. No mail is sent. The dummy code is unrecoverable by
+      // the attacker (CSPRNG), so a later /verify-otp can't succeed.
+      const dummy = String(_secureRandomInt(100000, 1_000_000));
+      saveOtp(otpKey, dummy);
       audit("OTP_SEND_UNKNOWN_EMAIL", req, { email: otpKey });
       return res.json({ ok: true, channel: "email" });
     }
@@ -10893,15 +10896,29 @@ app.post("/api/auth/verify-otp",
         error: check.reason === "expired" ? "קוד פג תוקף" : (lock.locked ? "ננעל זמנית" : "קוד שגוי"),
       });
     }
-    await _clearOtpFailures(otpKey);
     const existing = getUserByEmail ? getUserByEmail(otpKey) : null;
     if (!existing) {
-      // Email-only login refuses to create a new account. Account creation
-      // path is still phone-OTP because we need a phone for SMS/payment SMS.
-      return res.status(404).json({
-        error: "כתובת המייל לא רשומה. אם חשבון חדש, התחבר עם הטלפון.",
-      });
+      // SECURITY (P0, audit 2026-05-23): respond identically to "wrong
+      // code" so an attacker can't enumerate registered emails by checking
+      // for a 404 vs a 400 here. Also count the attempt against the
+      // lockout so brute-forcing the OTP space for unknown emails costs
+      // the same as for known ones (no oracle via lockout state).
+      await _trackOtpFailure(otpKey);
+      audit("OTP_FAIL_UNKNOWN_EMAIL", req, { email: otpKey });
+      return res.status(400).json({ error: "קוד שגוי" });
     }
+    // SECURITY (P1, audit 2026-05-23): the OTP-admin identity is locked
+    // to the phone channel (BUNDLY_ADMIN_PHONE). If the user behind this
+    // email IS the admin, refuse the email-OTP login and force them to
+    // use phone-OTP, so a compromised personal email can't be used as a
+    // foothold against the admin account (no admin escalation here, but
+    // still locks the admin to one channel).
+    const _adminPhone = normalizePhone(process.env.BUNDLY_ADMIN_PHONE || "");
+    if (_adminPhone && existing.phone && normalizePhone(existing.phone) === _adminPhone) {
+      audit("ADMIN_EMAIL_LOGIN_BLOCKED", req, { email: otpKey });
+      return res.status(403).json({ error: "אנא התחבר עם הטלפון, חשבון זה דורש כניסה דרך הטלפון בלבד." });
+    }
+    await _clearOtpFailures(otpKey);
     try {
       logActivity("customer_login_email", { user_id: existing.id, email: otpKey, ip: req.ip });
     } catch (_) {}
@@ -14118,12 +14135,17 @@ app.get("/api/admin/email/status", adminMiddleware, AUTH_READY ? (req, res) => {
 // without waiting for a real OTP / KYC event. Returns the SMTP error
 // message verbatim on failure so the admin can fix it (bad App Password,
 // 2FA off, etc.).
-app.post("/api/admin/email/test", adminMiddleware, adminFreshAuth, express.json({ limit: "4kb" }), AUTH_READY ? async (req, res) => {
+app.post("/api/admin/email/test",
+  // SECURITY (P1, audit 2026-05-23): cap to 5/hr per admin token. Without
+  // this, a leaked admin token = unlimited spam relay (verified domain,
+  // high deliverability) which would torch the Resend domain reputation.
+  rateLimit({ windowMs: 60 * 60_000, max: 5, label: "admin-email-test" }),
+  adminMiddleware, adminFreshAuth, express.json({ limit: "4kb" }), AUTH_READY ? async (req, res) => {
   try {
     const to = String(req.body?.to || "").trim();
     if (!to || !/^\S+@\S+\.\S+$/.test(to)) return res.status(400).json({ error: "כתובת מייל לא תקינה" });
     await globalThis._notif?.sendTestEmail?.(to);
-    try { logActivity("admin_email_test_sent", { to }); } catch (_) {}
+    try { logActivity("admin_email_test_sent", { to, admin_id: req.user?.id || 0 }); } catch (_) {}
     res.json({ ok: true, message: `נשלח מייל בדיקה ל-${to}` });
   } catch (e) { res.status(500).json({ error: e.message || "שליחה נכשלה" }); }
 } : notReady);
@@ -14151,12 +14173,26 @@ app.get("/api/admin/suppliers/:id", adminMiddleware, AUTH_READY ? (req, res) => 
 // the dedicated /kyc endpoint for that.
 app.patch("/api/admin/suppliers/:id", adminMiddleware, adminFreshAuth, express.json({ limit: "32kb" }), AUTH_READY ? (req, res) => {
   try {
-    const ALLOWED = ["businessName","businessNumber","ownerName","email","phone",
+    // SECURITY (P0, audit 2026-05-23): email and phone deliberately EXCLUDED.
+    // Letting an admin overwrite a supplier's contact channels enables a
+    // hijack scenario (rogue/compromised admin redirects supplier login to
+    // an attacker-controlled email or phone, then logs in as the supplier).
+    // The supplier must change those themselves via /api/suppliers/:id/profile,
+    // which goes through their own OTP-verified session.
+    const ALLOWED = ["businessName","businessNumber","ownerName",
                      "address","category","description","bankAccount"];
     const fields = {};
     for (const k of ALLOWED) if (k in (req.body || {})) fields[k] = req.body[k];
+    // Audit-log any attempt to set email/phone via this endpoint so we can
+    // spot a compromised admin trying to hijack via a tooling change.
+    if (("email" in (req.body || {})) || ("phone" in (req.body || {}))) {
+      audit("ADMIN_SUPPLIER_PATCH_BLOCKED_FIELD", req, {
+        supplier_id: req.params.id,
+        attempted: ("email" in req.body ? "email" : "") + ("phone" in req.body ? ",phone" : ""),
+      });
+    }
     if (Object.keys(fields).length === 0) {
-      return res.status(400).json({ error: "אין שדות לעדכון" });
+      return res.status(400).json({ error: "אין שדות לעדכון. שינוי מייל / טלפון של ספק נעשה על ידי הספק עצמו דרך הפרופיל." });
     }
     const updated = _prodDb.updateSupplier(req.params.id, fields);
     if (!updated) return res.status(404).json({ error: "Supplier not found" });
@@ -14169,7 +14205,12 @@ app.patch("/api/admin/suppliers/:id", adminMiddleware, adminFreshAuth, express.j
 // Body: { items: string[], note?: string }
 // Sends a Hebrew email to the supplier listing what they need to send
 // back. Used from the pending-suppliers card "דרוש מסמכים" button.
-app.post("/api/admin/suppliers/:id/request-documents", adminMiddleware, adminFreshAuth, express.json({ limit: "8kb" }), AUTH_READY ? async (req, res) => {
+app.post("/api/admin/suppliers/:id/request-documents",
+  // SECURITY (P1, audit 2026-05-23): cap to 10/hr per admin token to
+  // prevent a leaked admin token from harassing a supplier (or many
+  // suppliers) via repeated docs-request emails.
+  rateLimit({ windowMs: 60 * 60_000, max: 10, label: "admin-supplier-docs" }),
+  adminMiddleware, adminFreshAuth, express.json({ limit: "8kb" }), AUTH_READY ? async (req, res) => {
   try {
     const { items = [], note = "" } = req.body || {};
     if (!Array.isArray(items) || (items.length === 0 && !String(note || "").trim())) {

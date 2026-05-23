@@ -91,10 +91,15 @@ export async function verifyTransport() {
       console.log(`[Email] Resend OK (send-only key), sender=${_from()}`);
       return true;
     }
+    // SECURITY (P1, audit 2026-05-23): scrub the API key prefix from any
+    // error string before storing or surfacing it via /admin/email/status.
+    // The SDK sometimes echoes the key in auth-failure messages, and the
+    // status endpoint is reachable by anyone with an admin JWT.
+    const scrubbed = msg.replace(/re_[A-Za-z0-9_]+/g, "re_***");
     _status.ready = false;
-    _status.lastError = msg;
+    _status.lastError = scrubbed;
     _status.verifiedAt = new Date().toISOString();
-    console.warn(`[Email] Resend verify failed: ${msg}`);
+    console.warn(`[Email] Resend verify failed: ${scrubbed}`);
     return false;
   }
 }

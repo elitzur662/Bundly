@@ -6292,9 +6292,13 @@ function SupplierAdminModal({ supplierId, initialMode = "view", onClose, onSaved
   const save = async () => {
     setSaving(true); setError(""); setOkMsg("");
     try {
+      // Strip email/phone from the payload, the server rejects them via
+      // whitelist (admin contact-channel hijack mitigation). Sending them
+      // anyway would trigger the audit log noise without effect.
+      const { email: _e, phone: _p, ...payload } = form;
       const r = await fetch(`/api/admin/suppliers/${supplierId}`, {
         method: "PATCH", headers: adminJson(),
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const d = await r.json();
       if (!r.ok || !d.ok) throw new Error(d.error || "שמירה נכשלה");
@@ -6383,13 +6387,11 @@ function SupplierAdminModal({ supplierId, initialMode = "view", onClose, onSaved
           {/* ── EDIT MODE ── */}
           {!loading && mode === "edit" && (
             <div className="space-y-3">
-              <p className="text-[11px] text-gray-500">השלם או תקן את פרטי הספק לפני האישור. השדות נשמרים ברישום הספק.</p>
+              <p className="text-[11px] text-gray-500">השלם או תקן את פרטי הספק לפני האישור. מייל וטלפון לא נערכים כאן, הספק משנה אותם בעצמו דרך הפרופיל (לאבטחה).</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div><label className="text-[10px] font-bold text-gray-500">שם העסק</label><input value={form.businessName} onChange={upd("businessName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
                 <div><label className="text-[10px] font-bold text-gray-500">ח.פ / ע.מ</label><input value={form.businessNumber} onChange={upd("businessNumber")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
                 <div><label className="text-[10px] font-bold text-gray-500">שם בעל העסק</label><input value={form.ownerName} onChange={upd("ownerName")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
-                <div><label className="text-[10px] font-bold text-gray-500">מייל</label><input type="email" value={form.email} onChange={upd("email")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
-                <div><label className="text-[10px] font-bold text-gray-500">טלפון</label><input value={form.phone} onChange={upd("phone")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
                 <div><label className="text-[10px] font-bold text-gray-500">קטגוריה</label><input value={form.category} onChange={upd("category")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
                 <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">כתובת</label><input value={form.address} onChange={upd("address")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
                 <div className="sm:col-span-2"><label className="text-[10px] font-bold text-gray-500">תיאור העסק</label><textarea rows={2} value={form.description} onChange={upd("description")} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mt-1" /></div>
