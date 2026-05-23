@@ -995,11 +995,20 @@ export function addSavedProduct(userId, product) {
 // catIdxFilter: optional array of catIdx values the supplier serves; only
 // rows matching these are returned (suppliers only see demand in their
 // own categories).
-export function aggregateCustomerInterests({ catIdxFilter = null, limit = 50 } = {}) {
+export function aggregateCustomerInterests({ catIdxFilter = null, limit = 50, excludeUserIds = null } = {}) {
   _db = load();
   const buckets = new Map();
+  // SECURITY (P1, audit 2026-05-23): suppliers testing the platform as
+  // customers (e.g. saving a product to their own wishlist) used to show
+  // up in their OWN "מתעניינים" tile as a phantom customer. excludeUserIds
+  // lets the supplier-side endpoint filter out the supplier's own user
+  // account(s), giving a clean demand signal.
+  const _exclude = Array.isArray(excludeUserIds) && excludeUserIds.length > 0
+    ? new Set(excludeUserIds.map(n => Number(n)))
+    : null;
   for (const row of (_db.savedProducts || [])) {
     if (!row || !row.name) continue;
+    if (_exclude && _exclude.has(Number(row.userId))) continue;
     if (Array.isArray(catIdxFilter) && catIdxFilter.length > 0
         && (row.catIdx == null || !catIdxFilter.includes(row.catIdx))) continue;
     const key = String(row.name).trim().toLowerCase();

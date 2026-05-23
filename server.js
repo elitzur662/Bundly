@@ -256,6 +256,16 @@ if (process.env.NODE_ENV === "production") {
     console.error(`   Set them in Render → Environment.`);
     process.exit(1);
   }
+  // SECURITY (P1, audit 2026-05-23): ALLOW_DEMO_SUPPLIER lets any anonymous
+  // caller get a 1h JWT bound to a KYC-approved supplier. It exists for
+  // sales-demo meetings on a dev/staging instance and MUST NEVER be true
+  // in production. A single typo in Render env would silently bypass the
+  // entire supplier authorization model, so we refuse to boot.
+  if (process.env.ALLOW_DEMO_SUPPLIER === "true") {
+    console.error(`❌ FATAL: ALLOW_DEMO_SUPPLIER=true is not allowed in production.`);
+    console.error(`   This env var bypasses supplier KYC; remove it from Render → Environment.`);
+    process.exit(1);
+  }
   const softMissing = SOFT_REQUIRED.filter(k => !process.env[k]);
   if (softMissing.length > 0) {
     console.warn(`⚠️  PROD WARNING, non-critical env vars missing: ${softMissing.join(", ")}`);
@@ -11230,19 +11240,27 @@ function _resolveSupplierLoginTarget(businessNumber, contact) {
   if (!supplier) return { generic: true };
 
   // Does `contact` match the supplier's registered email or phone?
+  // SECURITY (P1, audit 2026-05-23): the OTP key is prefixed "sup:" so the
+  // supplier-login namespace never collides with the customer-login one
+  // (server.js:saveOtp keys by string). Previously, a supplier and a
+  // customer sharing an email/phone (common case, founder uses business
+  // email for personal account too) would race the same OTP slot:
+  // whoever called second overwrote the first, breaking the other login.
+  // It also let an attacker who knew a supplier's phone DoS the supplier
+  // by repeatedly issuing customer-login OTPs to that phone.
   const isEmail = c.includes("@");
   if (isEmail) {
     if (!validateEmail(c)) return { generic: true };
     const supEmail = String(supplier.email || "").trim().toLowerCase();
     if (!supEmail || supEmail !== c.toLowerCase()) return { generic: true };
-    return { supplier, channel: "email", otpKey: c.toLowerCase(), display: c };
+    return { supplier, channel: "email", otpKey: "sup:" + c.toLowerCase(), display: c };
   }
   // Otherwise treat as a phone number.
   if (!validatePhone(c)) return { generic: true };
   const normalized = normalizePhone(c);
   const supPhone = supplier.phone ? normalizePhone(supplier.phone) : "";
   if (!supPhone || supPhone !== normalized) return { generic: true };
-  return { supplier, channel: "sms", otpKey: normalized, display: normalized };
+  return { supplier, channel: "sms", otpKey: "sup:" + normalized, display: normalized };
 }
 
 // POST /api/auth/supplier-login/start, body { businessNumber, contact }.
@@ -12335,6 +12353,11 @@ const _depositInFlight = new Set();
 // ─────────────────────────────────────────────────────────────────
 app.post("/api/deals",
   rateLimit({ windowMs: 60_000, max: 20, label: "deal-create" }),
+  // SECURITY (P1, audit 2026-05-23): require auth so anonymous bots can't
+  // spam-create unique productKeys (each draws OpenAI quota on first
+  // wizard-question fetch, dollar-loss DoS). authMiddleware sets req.user
+  // on success; rate limit above caps loud single-user abuse.
+  authMiddleware,
   express.json({ limit: "16kb" }), (req, res) => {
   if (!createDeal) return res.status(503).json({ error: "DB not ready" });
   const body = req.body || {};
@@ -12891,7 +12914,18 @@ app.get("/api/suppliers/:supplierId/customer-interests", requireSupplierMatch, (
       if (numeric.length > 0) catIdxFilter = numeric;
     }
     const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 30));
-    const interests = _prodDb.aggregateCustomerInterests({ catIdxFilter, limit });
+    // SECURITY (P1, audit 2026-05-23): exclude the supplier's own user
+    // account(s) so testing the platform as a customer doesn't pollute
+    // the supplier's demand signals with phantom self-interest.
+    let excludeUserIds = null;
+    try {
+      const supplier = _prodDb.getSupplier?.(req.params.supplierId);
+      if (supplier?.email && typeof getUserByEmail === "function") {
+        const u = getUserByEmail(supplier.email);
+        if (u?.id != null) excludeUserIds = [u.id];
+      }
+    } catch (_) { /* best-effort */ }
+    const interests = _prodDb.aggregateCustomerInterests({ catIdxFilter, limit, excludeUserIds });
     res.json({ ok: true, interests });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
@@ -13560,6 +13594,23 @@ app.post("/api/deals/:dealId/questions/:qId/answer", express.json({ limit: "8kb"
   }
   const { answer } = req.body || {};
   if (!answer || String(answer).trim().length < 2) return res.status(400).json({ error: "Answer too short" });
+  // SECURITY (P1, audit 2026-05-23): only the supplier currently LEADING
+  // the deal (i.e. holding the lowest plausible bid) may answer questions
+  // on it. Without this gate, an unrelated supplier could answer with
+  // their own pitch + contact info, hijacking a competitor's customer
+  // conversation. Admins keep their override.
+  if (!ident.admin) {
+    try {
+      const _bids = (typeof getDealBids === "function") ? getDealBids(req.params.dealId) : [];
+      const _myBids = _bids.filter(b => String(b.supplierId) === String(ident.supplier.id));
+      const _lowest = _bids.reduce((m, b) => (Number(b.amount) || Infinity) < (Number(m.amount) || Infinity) ? b : m, { amount: Infinity });
+      const _isLeader = _myBids.some(b => Number(b.amount) === Number(_lowest.amount));
+      if (!_isLeader) {
+        audit("QA_ANSWER_BLOCKED", req, { dealId: req.params.dealId, supplierId: ident.supplier.id, reason: "not-leader" });
+        return res.status(403).json({ error: "רק הספק המוביל בקבוצה רשאי לענות לשאלות. שלח הצעה תחרותית כדי להוביל." });
+      }
+    } catch (_) { /* DB lookup failure shouldn't block answers from a legitimate leader */ }
+  }
   const verifiedBy = ident.admin
     ? "Bundly Admin"
     : (ident.supplier.businessName || ident.supplier.email || ident.supplier.id);

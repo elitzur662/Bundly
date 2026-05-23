@@ -23680,9 +23680,13 @@ export default function App() {
     // dedupe). Resilient: any failure leaves the optimistic client deal in
     // place so the user never hits a hard break.
     try {
+      // SECURITY (P1, audit 2026-05-23): /api/deals now requires auth so
+      // anonymous bots can't spam-create deals (each one burns OpenAI quota
+      // on first wizard-question fetch). Send the token if we have it.
+      const _tok = user?.token || _getToken();
       const r = await fetch("/api/deals", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(_tok ? { Authorization: `Bearer ${_tok}` } : {}) },
         body: JSON.stringify(newDeal),
       });
       if (!r.ok) return;
