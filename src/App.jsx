@@ -11578,7 +11578,10 @@ function OffersInboxPage({ token, onBack, onOrderCreated, notify, onLoginClick }
 
   useEffect(() => {
     if (!token) { setLoading(false); return; }
-    fetch("/api/user/offers", { headers: { Authorization: `Bearer ${token}` } })
+    // P1 (audit 2026-05-23): fetchWithAuth handles 401 → token-refresh,
+    // and dispatches bundly:auth-expired if refresh fails. Direct fetch
+    // would show a generic error toast and leave the user stuck.
+    fetchWithAuth("/api/user/offers")
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d?.ok) setOffers(d.offers || []); })
       .catch(() => {})
@@ -11975,7 +11978,8 @@ function OrdersPage({ token, onBack, onLoginClick }) {
 
   useEffect(() => {
     if (!token) { setLoading(false); return; }
-    fetch("/api/orders", { headers: { Authorization: `Bearer ${token}` } })
+    // P1 (audit 2026-05-23): fetchWithAuth handles 401 → token refresh.
+    fetchWithAuth("/api/orders")
       .then(r => r.ok ? r.json() : null)
       .then(d => { if (d?.ok) setOrders(d.orders || []); })
       .finally(() => setLoading(false));
@@ -23620,7 +23624,11 @@ export default function App() {
         fallback: catMap[result.category] ?? 0 }
     );
     const newDeal = {
-      id: Date.now(),
+      // P1 (audit 2026-05-23): two rapid clicks in the same millisecond used
+      // to produce two deals sharing the same id → React key collision,
+      // setDeals state corruption. Use a uuid-style suffix so even same-ms
+      // clicks differ. The server-side dedup by productKey still consolidates.
+      id: `tmp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       // Stable, re-resolvable key, powers the permanent /product/<key> URL.
       productKey: result.productKey || productKeyFrom(result),
       name: { he: result.productName, en: result.productNameEn || result.productName, ar: result.productName, ru: result.productName },

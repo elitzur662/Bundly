@@ -2518,6 +2518,17 @@ app.get("/api/wizard-questions",
   // ── 3. New OpenAI call, share the promise for concurrent requests ──────
   const promise = _generateWizardQuestions(q)
     .then(data => {
+      // SECURITY (P1, audit 2026-05-23): cap the cache to bound disk +
+      // memory growth. Without this, an attacker scripting unique queries
+      // (each one ~$0.001 of OpenAI quota) burns money AND inflates the
+      // on-disk JSON until the persist write spikes the event loop.
+      const WIZARD_CACHE_MAX = 5000;
+      if (_wizardCache.size >= WIZARD_CACHE_MAX) {
+        // Evict the OLDEST entry. Map iteration order is insertion order
+        // (per spec), so the first key is the oldest. O(1) drop.
+        const oldest = _wizardCache.keys().next().value;
+        if (oldest) _wizardCache.delete(oldest);
+      }
       _wizardCache.set(qKey, { category: data.category || "", questions: data.questions || [], ts: Date.now() });
       _saveWizardCache();
       console.log(`  ↳ ${data.questions?.length || 0} wizard questions for "${q}" (category: ${data.category})`);
