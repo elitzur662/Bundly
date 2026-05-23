@@ -690,7 +690,12 @@ export function updateSupplier(id, fields) {
   _db = load();
   const s = _db.suppliersRegistry.find(x => x.id === Number(id));
   if (!s) return null;
-  const allowed = ["businessName","businessNumber","ownerName","email","phone","address","category","description","licenseDoc","bankAccount","kycStatus","kycReviewedAt","kycReviewedBy","kycRejectReason","rating","totalOrders","totalRevenue"];
+  const allowed = ["businessName","businessNumber","ownerName","email","phone","address","category","description","licenseDoc","bankAccount","kycStatus","kycReviewedAt","kycReviewedBy","kycRejectReason","rating","totalOrders","totalRevenue",
+    // Feed-fetch metadata (P1 fix 2026-05-23): without these in the
+    // whitelist, PUT /api/suppliers/:id/feed-url silently no-op'd, the
+    // 6h cron found no feedUrl, and supplier inventory drifted out of
+    // sync with their actual stock → oversold deals + cancellations.
+    "feedUrl","feedFormat","feedLastSync","feedLastSyncCount","feedLastError"];
   for (const k of allowed) {
     if (fields[k] !== undefined) s[k] = fields[k];
   }
@@ -1519,10 +1524,22 @@ export function updateSupplierListing(listingId, supplierId, fields) {
   const list = _db.supplierListings || [];
   const idx  = list.findIndex(l => l.id === listingId && l.supplierId === String(supplierId));
   if (idx === -1) return null;
-  // Only mutate whitelisted fields, never source/supplierId/createdAt
+  // Only mutate whitelisted fields, never source/supplierId/createdAt.
+  // SECURITY (P1, audit 2026-05-23): coerce numeric fields and reject
+  // negative/NaN values. Without this a PATCH with basePrice:-100,
+  // qty:-9999, active:"javascript:" stored verbatim, public listing
+  // then rendered ₪-100 and stayed active because "string" is truthy.
   const ALLOWED = ["name","image","category","brand","basePrice","qty","description","active"];
   const merged = { ...list[idx] };
-  for (const k of ALLOWED) if (k in fields) merged[k] = fields[k];
+  for (const k of ALLOWED) {
+    if (!(k in fields)) continue;
+    let v = fields[k];
+    if (k === "basePrice") v = Math.max(0, Number(v) || 0);
+    else if (k === "qty")  v = Math.max(0, Math.floor(Number(v) || 0));
+    else if (k === "active") v = v === true || v === "true" || v === 1;
+    else if (typeof v === "string") v = v.slice(0, 500);
+    merged[k] = v;
+  }
   merged.updatedAt = new Date().toISOString();
   list[idx] = merged;
   save(_db);

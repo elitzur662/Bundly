@@ -2232,7 +2232,7 @@ function AuthModal({ t, onSuccess, onClose }) {
               <>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">מספר נייד <span className="text-red-400">*</span></label>
-                  <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel"
+                  <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel" dir="ltr" maxLength={20}
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center text-lg font-mono tracking-widest" />
                 </div>
                 <div>
@@ -2323,7 +2323,7 @@ function AuthModal({ t, onSuccess, onClose }) {
             {signupMethod === "phone" ? (
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">מספר נייד <span className="text-red-400">*</span></label>
-                <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel"
+                <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="05X-XXXXXXX" type="tel" dir="ltr" maxLength={20}
                   className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center text-lg font-mono tracking-widest"
                   onKeyDown={e => e.key==="Enter" && handleNewSendOtp()} />
                 <p className="text-[11px] text-gray-400 mt-1.5">נשלח לך SMS עם קוד בן 6 ספרות. את המייל נבקש בשלב הבא.</p>
@@ -2413,12 +2413,12 @@ function AuthModal({ t, onSuccess, onClose }) {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">שם פרטי <span className="text-red-400">*</span></label>
-                <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="ישראל"
+                <input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="ישראל" maxLength={80}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">שם משפחה <span className="text-red-400">*</span></label>
-                <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="ישראלי"
+                <input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="ישראלי" maxLength={80}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
               </div>
             </div>
@@ -2429,7 +2429,7 @@ function AuthModal({ t, onSuccess, onClose }) {
             {authMode === "new" && signupMethod === "email" ? (
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">מספר נייד <span className="text-red-400">*</span></label>
-                <input value={phone} onChange={e => setPhone(e.target.value)} type="tel" placeholder="05X-XXXXXXX"
+                <input value={phone} onChange={e => setPhone(e.target.value)} type="tel" placeholder="05X-XXXXXXX" dir="ltr" maxLength={20}
                   className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 text-center font-mono tracking-widest" />
                 <p className="text-[11px] text-gray-400 mt-1">נדרש לעדכוני SMS על הזמנות וסגירת קבוצות. הטלפון ייחודי, לא ניתן לרשום את אותו מספר פעמיים.</p>
               </div>
@@ -2472,12 +2472,12 @@ function AuthModal({ t, onSuccess, onClose }) {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">מס' בית <span className="text-red-400">*</span></label>
-                    <input value={buildingNum} onChange={e => setBuildingNum(e.target.value)} placeholder="12"
+                    <input value={buildingNum} onChange={e => setBuildingNum(e.target.value)} placeholder="12" maxLength={10}
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">מס' דירה <span className="text-gray-400 text-xs">(אופציונלי)</span></label>
-                    <input value={apartmentNum} onChange={e => setApartmentNum(e.target.value)} placeholder="5"
+                    <input value={apartmentNum} onChange={e => setApartmentNum(e.target.value)} placeholder="5" maxLength={10}
                       className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400" />
                   </div>
                 </div>
