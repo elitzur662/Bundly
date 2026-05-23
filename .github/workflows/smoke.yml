@@ -88,8 +88,8 @@ jobs:
           TWILIO_TOKEN: ci_smoke_twilio_token_dummy_never_used_xxxxxxxxxx
           TWILIO_FROM: "+15555550100"
           HCAPTCHA_SECRET: ci_smoke_hcaptcha_dummy_never_used
-          EMAIL_USER: ci-smoke@example.invalid
-          EMAIL_PASS: ci_smoke_email_pass_dummy_never_used
+          RESEND_API_KEY: re_ci_smoke_dummy_never_used
+          EMAIL_FROM: "Bundly <ci-smoke@example.invalid>"
           ALLOWED_ORIGINS: "http://127.0.0.1:3100"
           PORT: 3100
         run: |

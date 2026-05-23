@@ -6619,7 +6619,7 @@ function AdminDashboard({ onLogout }) {
                   emailStatus.configured ? "מוגדר אך לא מאומת" : "לא מוגדר"}
               </p>
               <p className="text-[10px] text-gray-500 mt-0.5 truncate">
-                {emailStatus?.sender ? `שולח: ${emailStatus.sender}` : "EMAIL_USER ריק ב-env"}
+                {emailStatus?.sender ? `שולח: ${emailStatus.sender}` : "RESEND_API_KEY ריק ב-env"}
                 {emailStatus?.lastError ? ` · ${emailStatus.lastError}` : ""}
               </p>
             </div>

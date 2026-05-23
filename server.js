@@ -11,8 +11,8 @@
  */
 
 // dotenv MUST load before any other import that reads process.env at
-// module-init time (activity-log.js TG_TOKEN, email-service.js transporter,
-// payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
+// module-init time (activity-log.js TG_TOKEN, email-service.js Resend
+// client, payment-service.js STRIPE_READY). ES modules hoist all `import`s to the
 // top of the file, so a later `dotenv.config()` call runs AFTER those modules
 // have already snapshotted env vars as "". Side-effect import runs first.
 import "dotenv/config";
@@ -247,8 +247,7 @@ if (process.env.NODE_ENV === "production") {
   ];
   const SOFT_REQUIRED = [
     "STRIPE_WEBHOOK_SECRET",   // webhook handler already returns 503 if missing
-    "EMAIL_USER",              // welcome / order-status / dispute emails won't send
-    "EMAIL_PASS",
+    "RESEND_API_KEY",          // welcome / OTP / KYC / order-status emails won't send
   ];
   const hardMissing = HARD_REQUIRED.filter(k => !process.env[k]);
   if (hardMissing.length > 0) {
@@ -264,8 +263,8 @@ if (process.env.NODE_ENV === "production") {
     if (softMissing.includes("STRIPE_WEBHOOK_SECRET")) {
       console.warn(`     • STRIPE_WEBHOOK_SECRET missing → Stripe webhooks rejected (503)`);
     }
-    if (softMissing.includes("EMAIL_USER") || softMissing.includes("EMAIL_PASS")) {
-      console.warn(`     • EMAIL_USER/PASS missing → no welcome / order-status / dispute emails`);
+    if (softMissing.includes("RESEND_API_KEY")) {
+      console.warn(`     • RESEND_API_KEY missing → no welcome / OTP / KYC / order-status emails`);
     }
     console.warn(`   Add them in Render → Environment when ready (no redeploy needed for env-only edits).`);
   }
@@ -11104,7 +11103,7 @@ app.post("/api/auth/supplier-login/start",
           return res.status(502).json({ error: "שגיאה בשליחת SMS, נסה/י שוב" });
         }
       } else {
-        if (!process.env.EMAIL_USER) {
+        if (!process.env.RESEND_API_KEY) {
           if (process.env.NODE_ENV === "production") {
             return res.status(503).json({ error: "Email service unavailable" });
           }
@@ -16284,7 +16283,7 @@ const server = app.listen(PORT, () => {
   console.log(`   SerpAPI key:  ${process.env.SERP_API_KEY   ? "✅" : "❌ missing"}`);
   console.log(`   OpenAI key:   ${process.env.OPENAI_API_KEY ? "✅" : "❌ missing"}`);
   console.log(`   Twilio SMS:   ${process.env.TWILIO_SID     ? "✅" : "⚠️  not configured (OTP shown in console)"}`);
-  console.log(`   Email (Gmail):${process.env.EMAIL_USER     ? "✅" : "⚠️  not configured (emails disabled)"}`);
+  console.log(`   Email (Resend):${process.env.RESEND_API_KEY ? "✅" : "⚠️  not configured (emails disabled)"}`);
   // ZAP scraping mode, visible at-a-glance so you know if proxies are
   // configured. Direct mode often works on Render's static IP; locally it
   // tends to get CF-rate-limited but is the only fallback when the Webshare
