@@ -1,0 +1,43 @@
+{
+  "name": "Bundly, בנדלי",
+  "short_name": "Bundly",
+  "description": "קנייה קבוצתית בישראל. מצטרפים לקבוצות, חוסכים יחד.",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#4f46e5",
+  "background_color": "#ffffff",
+  "dir": "rtl",
+  "lang": "he",
+  "categories": ["shopping", "lifestyle", "business"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "המוצרים שלי",
+      "short_name": "המוצרים",
+      "url": "/?mode=my-products",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "חיפוש",
+      "short_name": "חיפוש",
+      "url": "/?focus=search",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
+    }
+  ]
+}

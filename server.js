@@ -11971,6 +11971,49 @@ app.delete("/api/user/joined-deals/:dealId", authMiddleware, AUTH_READY ? (req, 
   catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 
+// ── Web Push subscriptions ─────────────────────────────────────
+// The PWA subscribes via PushManager on the service worker, then POSTs
+// the subscription here. The actual push send-fan-out requires the
+// web-push npm package + VAPID keys (set VAPID_PUBLIC_KEY +
+// VAPID_PRIVATE_KEY in env; generate with `web-push generate-vapid-keys`).
+// This endpoint persists the subscription regardless, so once you wire
+// the fan-out side later, every previously-subscribed user will be reached.
+app.post("/api/push/subscribe", express.json({ limit: "8kb" }), (req, res) => {
+  try {
+    if (!_prodDb?.savePushSubscription) return res.status(503).json({ error: "DB not ready" });
+    const sub = req.body || {};
+    if (!sub.endpoint || !sub.keys?.p256dh || !sub.keys?.auth) {
+      return res.status(400).json({ error: "Invalid subscription shape" });
+    }
+    // Auth is optional; anonymous users CAN receive push (e.g. for a deal
+    // they're tracking) but we record the user id when available so the
+    // unsubscribe / per-user notification routing works.
+    let userId = null;
+    try {
+      const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+      if (tok && AUTH_READY) {
+        const payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS);
+        if (payload?.id != null) userId = payload.id;
+      }
+    } catch (_) { /* anonymous push is allowed */ }
+    const saved = _prodDb.savePushSubscription(userId, sub);
+    res.json({ ok: true, savedAt: saved?.updatedAt });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+app.post("/api/push/unsubscribe", express.json({ limit: "4kb" }), (req, res) => {
+  try {
+    if (!_prodDb?.removePushSubscription) return res.status(503).json({ error: "DB not ready" });
+    const { endpoint } = req.body || {};
+    if (!endpoint) return res.status(400).json({ error: "Missing endpoint" });
+    const removed = _prodDb.removePushSubscription(endpoint);
+    res.json({ ok: true, removed });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+// Expose VAPID public key to the SPA so it can call PushManager.subscribe.
+app.get("/api/push/public-key", (_req, res) => {
+  res.json({ publicKey: process.env.VAPID_PUBLIC_KEY || "" });
+});
+
 // ── Saved Products (cart) ───────────────────────────────────────
 app.get("/api/user/saved-products", authMiddleware, AUTH_READY ? (req, res) => {
   try { res.json({ ok: true, products: _prodDb.listSavedProducts(req.user.id) }); }

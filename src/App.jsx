@@ -2394,7 +2394,9 @@ function AuthModal({ t, onSuccess, onClose }) {
             </Btn>
             <button onClick={() => { setStep(authMode === "existing" ? "login-phone" : "phone"); setOtp(""); setDevCode(""); setError(""); }}
               className="w-full text-center text-xs text-indigo-500 hover:underline">
-              {(authMode === "existing" && loginMethod === "email") ? "שנה כתובת מייל" : "שנה מספר נייד"}
+              {((authMode === "existing" && loginMethod === "email") || (authMode === "new" && signupMethod === "email"))
+                ? "שנה כתובת מייל"
+                : "שנה מספר נייד"}
             </button>
           </div>
         )}
@@ -5584,6 +5586,19 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
           ) : null
         )}
 
+        {/* ══ TIER SELECTOR, moved here per user feedback 2026-05-23 so the
+              join CTA sits right under the product summary, not buried below
+              4 other sections. ══ */}
+        <div ref={tierRef}>
+          {deal.participants >= deal.maxParticipants ? (
+            <div className="text-center py-3 bg-gray-100 rounded-2xl text-gray-500 text-sm font-medium">{t.groupFull}</div>
+          ) : (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-4">
+              <SilentJoinSelector deal={deal} joinedTier={joinedTier} onSelectTier={handleSelectTier} />
+            </div>
+          )}
+        </div>
+
         {/* ══ 1. PRICE COMPARISON, "המחיר בשוק vs מחיר Bundly" ══ */}
         {!priceHidden && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
@@ -5694,17 +5709,6 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
               </div>
             ))}
           </div>
-        </div>
-
-        {/* ══ 3. TIER SELECTOR, "בחר רמת הצטרפות" (anchor for sticky) ══ */}
-        <div ref={tierRef}>
-          {deal.participants >= deal.maxParticipants ? (
-            <div className="text-center py-3 bg-gray-100 rounded-2xl text-gray-500 text-sm font-medium">{t.groupFull}</div>
-          ) : (
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-md p-4">
-              <SilentJoinSelector deal={deal} joinedTier={joinedTier} onSelectTier={handleSelectTier} />
-            </div>
-          )}
         </div>
 
         {/* ══ 4. GROUP ACTIVITY, "כמה אנשים כבר בקבוצה" ══ */}
@@ -8545,11 +8549,35 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                       </div>
                       <button
                         type="button"
-                        onClick={() => { setActiveTab("listings"); }}
+                        onClick={() => {
+                          // Per user feedback 2026-05-23: "השב" used to open
+                          // the catalog-upload tab, which wasn't actually
+                          // "responding" to anything. New flow: find the
+                          // active deal for this product name and open the
+                          // bid modal so the supplier sends a real offer.
+                          const _norm = (s) => String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
+                          const target = _norm(it.name);
+                          const matchDeal = (deals || []).find(d => {
+                            const dName = (d?.name?.he || d?.name?.en || "");
+                            return _norm(dName) === target;
+                          });
+                          if (matchDeal) {
+                            const cp = lowestPlausibleBid(matchDeal) ?? matchDeal.groupOffer ?? matchDeal.marketMin ?? 0;
+                            const mp = matchDeal.marketMin || matchDeal.marketMax || 0;
+                            const myExisting = (matchDeal.bids || []).find(b => String(b.supplierId) === String(supplier?.id));
+                            setBidDeal({ deal: matchDeal, currentPrice: cp, marketPrice: mp, previousBid: myExisting });
+                          } else {
+                            // No active deal yet, route the supplier to
+                            // create a listing for this product so they
+                            // can auto-bid once a customer joins.
+                            onNotify?.("אין קבוצה פעילה למוצר זה עדיין. צור מוצר/מלאי כדי שתופיע אוטומטית בקבוצות עתידיות.");
+                            setActiveTab("listings");
+                          }
+                        }}
                         className="text-[11px] font-black text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg px-3 py-1.5 flex-shrink-0 transition"
-                        title="עבור ליצירת הצעה / מוצר"
+                        title="שלח הצעת מחיר על המוצר הזה"
                       >
-                        השב ←
+                        שלח הצעה ←
                       </button>
                     </div>
                   );
@@ -18835,7 +18863,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
       icon: "💳",
       title: "כל קונה מאמת כרטיס מראש",
       sub: "פרטי כרטיס נשמרים, חיוב אוטומטי בסגירה",
-      desc: "לפני שאתה משקיע במלאי או באריזה, הקונים כבר אישרו כרטיס תקף ב-Stripe. הקבוצה נסגרת? הסליקה רצה אוטומטית באותו רגע, בלי \"שלחתי בקשת תשלום ולא ענו\". לא נסגרת? אין חיוב, אין חוב פתוח.",
+      desc: "לפני שאתה משקיע במלאי או באריזה, הקונים כבר אישרו ש-יש להם כרטיס תקף (אימות בלבד, ללא חיוב). הקבוצה נסגרת? הלקוח עובר לעמוד התשלום שלך ומשלם לך ישירות. לא נסגרת? אין חיוב, אין חוב פתוח, וכרטיס הלקוח לעולם לא חויב על ידי Bundly.",
       badge: "אמיתי",
       badgeColor: "bg-blue-100 text-blue-600",
     },
@@ -18917,14 +18945,14 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
     { num: "01", title: "נרשם בחינם", desc: "תקופת ניסיון ראשונית ללא עמלה. הגדרת פרופיל ממותג תוך 10 דקות, ללא כרטיס אשראי." },
     { num: "02", title: "מקבל קונים מאומתים", desc: "לקוחות שכבר אישרו כרטיס תקף ב-Stripe מחפשים את המוצרים שלך. אתה לא צריך לרדוף, הם מגיעים אליך מוכנים לקנות." },
     { num: "03", title: "קובע מחיר לקבוצות רכישה", desc: "אתה מציע מחיר לפי גודל הקבוצה. הצעות תחרותיות מספקים אחרים, אתה תמיד יכול להוריד את שלך, רק להיטיב." },
-    { num: "04", title: "מקבל תשלום מאובטח", desc: "הקבוצה נסגרת → הסליקה אוטומטית → התשלום מועבר תוך 21 ימי עסקים מאספקה. בלי גבייה ידנית, בלי חיובים חוזרים." },
+    { num: "04", title: "מקבל תשלום ישירות", desc: "הקבוצה נסגרת → הלקוח נשלח לעמוד הסליקה שלך (Stripe / PayPal / Cardcom) ומשלם לך ישירות. Bundly לא מחזיקה כספים, לא מחייבת כרטיסים ולא לוקחת תשלום באמצע, רק העמלה המוסכמת בסוף החודש." },
   ];
 
   const faqs = [
     { q: "איך מודל התשלום עובד?", a: "מודל מבוסס הצלחה: בלי דמי הקמה, בלי תשלום על חשיפה, בלי דמי שיווק. תשלום רק על עסקאות שנסגרו בפועל, ותקופת ניסיון ראשונית ללא עמלה. התנאים המלאים, כולל אחוזי העמלה, נסקרים יחד אתכם במפגש ההכרות אחרי אישור החשבון." },
-    { q: "מתי מקבלים את הכסף?", a: "התשלום מועבר תוך עד 21 ימי עסקים מאספקה ללקוח. הסליקה אוטומטית, בלי גבייה ידנית, בלי חיובים חוזרים." },
+    { q: "מתי מקבלים את הכסף?", a: "כשהקבוצה נסגרת, הלקוח מועבר לעמוד הסליקה שלך (Stripe / PayPal / Cardcom וכו') ומשלם לך ישירות. הכסף נכנס אליך לפי תנאי שירות הסליקה שאתה משתמש בו (בדרך כלל 2-7 ימי עסקים)." },
     { q: "מה קורה אם הקבוצה לא מגיעה למינימום?", a: "הקבוצה לא נסגרת, אין חיוב לאף לקוח, ואין התחייבות לאף ספק. הצעת המחיר שלך פשוט נמחקת. אתה יכול להגיש הצעה חדשה בקבוצה הבאה." },
-    { q: "מי מטפל בגבייה ובביטולים?", a: "הפלטפורמה מנהלת את הסליקה (Stripe), מדיניות הביטולים (14 יום לפי חוק הגנת הצרכן), ומעבירה לך תשלום מרוכז. אתה רק שולח את הסחורה." },
+    { q: "מי מטפל בגבייה ובביטולים?", a: "הסליקה היא ישירות בינך לבין הלקוח דרך עמוד התשלום שלך (Stripe / PayPal / Cardcom). Bundly לא מחזיקה כספים. ביטולים והחזרים מטופלים על פי חוק הגנת הצרכן (14 יום) בינך לבין הלקוח, ו-Bundly משמשת כפלטפורמת התיווך והתמיכה במקרה של מחלוקת." },
     { q: "האם אני יכול למכור רק באזורים מסוימים?", a: "כן. אתה בוחר, כל הארץ, אזורים ספציפיים, איסוף עצמי, או שילוב. הלוגיסטיקה שלך, הכללים שלך." },
     { q: "כמה מהר אפשר להתחיל?", a: "הפרופיל יכול להיות חי תוך 10 דקות. ההצעה הראשונה לקבוצה פתוחה, מיד אחרי אימות העסק. עסקה ראשונה, תלוי בגודל הקבוצה ובמחיר שתציע." },
   ];
@@ -18965,7 +18993,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-2xl">
-              לא עוד פרסום שמבזבז תקציב. Bundly מרכזת עבורכם ביקוש אמיתי, מנהלת גבייה, ומשלמת לכם, אתם רק שולחים את הסחורה.
+              לא עוד פרסום שמבזבז תקציב. Bundly מרכזת עבורכם ביקוש אמיתי ומתאמת מולכם את הלקוחות. את התשלום אתם מקבלים ישירות מהלקוח דרך עמוד הסליקה שלכם, Bundly לא מחייבת ולא מחזיקה כספים.
             </p>
             <div className="flex flex-wrap gap-4">
               <button type="button" onClick={onJoin}
@@ -19067,7 +19095,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
                 <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-lg">🚀</div>
                 <h3 className="font-black text-indigo-700">Bundly</h3>
               </div>
-              {["עמלה רק על עסקה שנסגרה","קונים עם כוונת רכישה","גבייה מסודרת אוטומטית","דשבורד עם דאטה בזמן אמת","ביקוש מרוכז, לא מפוזר"].map((item, i) => (
+              {["עמלה רק על עסקה שנסגרה","קונים עם כוונת רכישה","סליקה ישירה אליך, ללא תיווך כספי","דשבורד עם דאטה בזמן אמת","ביקוש מרוכז, לא מפוזר"].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5 py-2.5 border-b border-indigo-100/50 last:border-0">
                   <CheckCircle className="w-4 h-4 text-indigo-500 flex-shrink-0" />
                   <span className="text-sm text-indigo-700 font-semibold">{item}</span>
@@ -22664,10 +22692,108 @@ function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0
 // ─────────────────────────────────────────────────────────────────
 //  APP ROOT
 // ─────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────
+//  PWA install prompt + Web Push subscription helpers
+//
+//  installPromptRef holds the beforeinstallprompt event so we can fire
+//  it later when the user clicks our in-app "התקן אפליקציה" button.
+//  Browsers only let us call .prompt() in direct response to user
+//  interaction, so we capture-then-replay.
+//
+//  Web Push: subscribePush() requests permission, registers with the
+//  SW, and POSTs the subscription to /api/push/subscribe so the server
+//  can fan out deal-closed / new-offer notifications.
+// ─────────────────────────────────────────────────────────────────
+const _installPromptRef = { current: null };
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    // Stop Chrome's default mini-info bar; we surface our own button.
+    e.preventDefault();
+    _installPromptRef.current = e;
+    // Notify the App so the install button can appear.
+    window.dispatchEvent(new CustomEvent("bundly:install-available"));
+  });
+}
+
+async function tryInstallApp() {
+  const ev = _installPromptRef.current;
+  if (!ev) return { ok: false, reason: "not-available" };
+  try {
+    ev.prompt();
+    const choice = await ev.userChoice;
+    _installPromptRef.current = null;
+    return { ok: choice && choice.outcome === "accepted", reason: choice?.outcome };
+  } catch (e) {
+    return { ok: false, reason: e.message };
+  }
+}
+
+async function subscribePush(serverPublicKey) {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+    return { ok: false, reason: "unsupported" };
+  }
+  let permission = Notification.permission;
+  if (permission === "default") {
+    permission = await Notification.requestPermission();
+  }
+  if (permission !== "granted") return { ok: false, reason: "denied" };
+  const reg = await navigator.serviceWorker.ready;
+  // VAPID public key, base64url → Uint8Array
+  const _urlBase64ToUint8 = (s) => {
+    const pad = "=".repeat((4 - (s.length % 4)) % 4);
+    const b64 = (s + pad).replace(/-/g, "+").replace(/_/g, "/");
+    const raw = atob(b64);
+    const out = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  };
+  let sub = await reg.pushManager.getSubscription();
+  if (!sub) {
+    if (!serverPublicKey) return { ok: false, reason: "no-vapid-key" };
+    try {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: _urlBase64ToUint8(serverPublicKey),
+      });
+    } catch (e) { return { ok: false, reason: e.message }; }
+  }
+  // POST to the server so it can send pushes to this user later.
+  try {
+    const tok = _getToken();
+    await fetch("/api/push/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...(tok ? { Authorization: `Bearer ${tok}` } : {}) },
+      body: JSON.stringify(sub),
+    });
+  } catch { /* best-effort */ }
+  return { ok: true, subscription: sub };
+}
+
 export default function App() {
   const [lang, setLang] = useState("he");
   const t = T[lang];
   const cats = CATEGORIES[lang];
+
+  // PWA install prompt availability. Flipped to true when the browser
+  // fires beforeinstallprompt; back to false after the user accepts.
+  const [canInstallApp, setCanInstallApp] = useState(false);
+  useEffect(() => {
+    const onAvail = () => setCanInstallApp(true);
+    const onInstalled = () => setCanInstallApp(false);
+    window.addEventListener("bundly:install-available", onAvail);
+    window.addEventListener("appinstalled", onInstalled);
+    // If the event fired before this effect mounted (race on cold load),
+    // surface the button immediately.
+    if (_installPromptRef.current) setCanInstallApp(true);
+    return () => {
+      window.removeEventListener("bundly:install-available", onAvail);
+      window.removeEventListener("appinstalled", onInstalled);
+    };
+  }, []);
+  const handleInstallApp = async () => {
+    const r = await tryInstallApp();
+    if (r.ok) setCanInstallApp(false);
+  };
 
   const [mode, setMode] = useState(() => {
     // Seed from the URL so a deep link / refresh lands on the right page
@@ -23003,7 +23129,13 @@ export default function App() {
   // in the unified "URL ROUTER" block further down, it is placed there
   // because it depends on handleAddDealFromSearch (defined below).
 
-  // Restore session from localStorage on first load
+  // Restore session from localStorage on first load.
+  // Per user feedback 2026-05-23: do NOT auto-open the auth modal even if
+  // the profile is incomplete. Forcing it on every page load was hostile.
+  // The user can complete their profile later via the profile modal or
+  // when they try to checkout / submit something that needs the missing
+  // fields. We always set the user, the SPA gracefully handles partial
+  // profiles in the join/order flows.
   useEffect(() => {
     const token = _getToken();
     if (!token) return;
@@ -23013,14 +23145,7 @@ export default function App() {
         try {
           if (text) {
             const d = JSON.parse(text);
-            if (d?.user) {
-              // If profile incomplete, force the user to complete it
-              if (!d.user.firstName || !d.user.lastName) {
-                setShowAuth(true);
-              } else {
-                setUser({ ...d.user, token });
-              }
-            }
+            if (d?.user) setUser({ ...d.user, token });
           }
         } catch(_) {}
       })
@@ -23717,19 +23842,17 @@ export default function App() {
     // Optimistic insert so the UI responds instantly.
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
-    // SECURITY/UX (P0, audit 2026-05-23): do NOT write to "המוצרים שלי" yet.
-    // The previous addToMyProducts call here was a premature write that
-    // tagged the row with whatever _joinTier was on the search result,
-    // ignoring the user's actual tier choice from TierPickerModal. The row
-    // now happens inside finalizeJoin after the user has picked a tier
-    // (and, for committed, validated their card).
+    // Per user feedback 2026-05-23: don't auto-open the tier picker; the
+    // user first sees the deal page (product details, similar models, Q&A)
+    // and picks a tier from the in-page SilentJoinSelector when ready.
+    // We only stash the pending-login intent so handleAuthSuccess can
+    // resume if the user is logged out and chooses to log in.
     if (!user) {
       pendingTierRef.current = { d: newDeal, isNewDeal: true, result };
       notify("עליך להתחבר קודם");
       setShowAuth(true);
       return;
     }
-    setTierPicker({ deal: newDeal, isNewDeal: true, result });
 
     // Persist server-side and reconcile with the canonical deal (server id +
     // dedupe). Resilient: any failure leaves the optimistic client deal in
@@ -23838,10 +23961,10 @@ export default function App() {
       setShowAuth(true);
       return;
     }
-    // Open the tier picker. The actual join + celebration happens inside
-    // finalizeJoin once the user picks a tier and (for committed) their
-    // card is validated via DepositModal.
-    setTierPicker({ deal: d, isNewDeal: false });
+    // Per user feedback 2026-05-23: don't auto-open the tier picker.
+    // Customer first lands on the deal page (product details, bids, Q&A,
+    // similar models), then picks a tier from the in-page SilentJoinSelector.
+    // The bare setSelectedDeal navigation already happened above; no modal.
   };
 
   // Ref to remember a join intent across the auth modal flow (login first,
@@ -24087,24 +24210,19 @@ export default function App() {
       const ok = await resolveSupplierForCurrentUser();
       if (ok) return; // routed to dashboard; skip the generic welcome toast
     }
-    // SECURITY (P0, audit 2026-05-23): resume a pending join intent. When a
-    // logged-out user clicked Join on a deal, handleJoinExistingDeal /
-    // handleAddDealFromSearch stashed {d, isNewDeal?, result?, tier?} into
-    // pendingTierRef and triggered the auth modal. Without this consumer
-    // the intent was silently dropped after login and the user had to
-    // manually click Join again. We replay it now.
+    // Resume a pending join intent after login. We don't auto-open the
+    // tier picker any more; we just route the user to the deal page so
+    // they see the product details and pick a tier when ready (per user
+    // feedback 2026-05-23). If they had already chosen "בפנים" before
+    // logging in, we DO go straight to card validation since they
+    // pre-committed.
     const pending = pendingTierRef.current;
     if (pending && pending.d) {
       pendingTierRef.current = null;
-      // Defer to next tick so React has flushed setUser/setShowAuth and the
-      // tier-picker mount sees the logged-in state.
       setTimeout(() => {
+        setSelectedDeal(pending.d);
         if (pending.tier === "committed") {
-          // User had already chosen "בפנים" before being asked to log in,
-          // skip the picker and go straight to card validation.
           setJoinDeposit({ deal: pending.d, isNewDeal: !!pending.isNewDeal, result: pending.result });
-        } else {
-          setTierPicker({ deal: pending.d, isNewDeal: !!pending.isNewDeal, result: pending.result });
         }
       }, 0);
       return;
@@ -25498,6 +25616,30 @@ export default function App() {
         onSearchProduct={(q, filters) => { openCategory(q, { filters }); }}
       />
       {universalBackBtn}
+
+      {/* PWA install CTA. Appears on Android Chrome / desktop Chrome when
+          the browser fires beforeinstallprompt (installability criteria met:
+          manifest + service worker + served over HTTPS + visited a few times).
+          iOS Safari has no API so users add via Share → "Add to Home Screen"
+          manually, the banner copy hints at that on iOS. */}
+      {canInstallApp && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[55] bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-3 max-w-[92vw]" dir="rtl">
+          <span className="text-xl">📱</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-black">התקן את האפליקציה</p>
+            <p className="text-[10px] text-white/80 leading-tight">גישה מהירה, התראות, פעילות גם בלי אינטרנט</p>
+          </div>
+          <button onClick={handleInstallApp}
+            className="text-xs font-black bg-white text-indigo-700 rounded-xl px-3 py-1.5 hover:bg-indigo-50 transition">
+            התקן
+          </button>
+          <button onClick={() => setCanInstallApp(false)} aria-label="סגור"
+            className="text-white/70 hover:text-white p-1">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Accessibility menu, global, always-on-top floating widget.
           Mounted last so it sits above modals + the chat advisor. */}
       <AccessibilityWidget />

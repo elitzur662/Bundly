@@ -952,6 +952,42 @@ export function listReviews(supplierId) {
     .slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
+// ── Web Push subscriptions ─────────────────────────────────────
+// Each entry: { endpoint, keys: { p256dh, auth }, userId?, createdAt }
+// The endpoint is the unique key (one device per push service URL).
+export function savePushSubscription(userId, sub) {
+  if (!sub || !sub.endpoint) return null;
+  return _mutate(db => {
+    if (!Array.isArray(db.pushSubscriptions)) db.pushSubscriptions = [];
+    // Dedup by endpoint; refresh userId on re-subscribe.
+    const idx = db.pushSubscriptions.findIndex(s => s.endpoint === sub.endpoint);
+    const row = {
+      endpoint:  sub.endpoint,
+      keys:      sub.keys || {},
+      userId:    Number(userId) || null,
+      createdAt: idx >= 0 ? db.pushSubscriptions[idx].createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    if (idx >= 0) db.pushSubscriptions[idx] = row;
+    else db.pushSubscriptions.push(row);
+    return row;
+  });
+}
+export function removePushSubscription(endpoint) {
+  if (!endpoint) return false;
+  return _mutate(db => {
+    const before = (db.pushSubscriptions || []).length;
+    db.pushSubscriptions = (db.pushSubscriptions || []).filter(s => s.endpoint !== endpoint);
+    return db.pushSubscriptions.length < before;
+  });
+}
+export function listPushSubscriptions(filter = {}) {
+  _db = load();
+  let rows = _db.pushSubscriptions || [];
+  if (filter.userId != null) rows = rows.filter(s => Number(s.userId) === Number(filter.userId));
+  return rows;
+}
+
 // ── Saved Products (cart) ───────────────────────────────────────
 export function listSavedProducts(userId) {
   _db = load();
