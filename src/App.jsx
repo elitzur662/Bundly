@@ -13742,9 +13742,29 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         for (const [img, n] of imgCounts) {
           if (n > bestN) { bestN = n; bestImg = img; }
         }
-        // Lowest in-budget price across all duplicate listings, widest range.
-        const prices = grp.map(g => g.priceMin || 0).filter(v => v > 0);
-        const maxes  = grp.map(g => g.priceMax || g.priceMin || 0).filter(v => v > 0);
+        // BUG FIX (card → modal price mismatch): a single store typo
+        // (e.g. ₪859 listed for a ₪1,500 TV, or ₪89,000 for ₪8,900) used
+        // to win Math.min/Math.max and the card showed an impossible price
+        // while the modal re-fetch showed the catalog's real price, two
+        // numbers that don't agree breaks user trust. Drop outliers that
+        // are far below or far above the group's median before computing
+        // the displayed range. Robust on 3+ listings, no-op on 1-2.
+        const _median = (arr) => {
+          if (!arr.length) return 0;
+          const s = [...arr].sort((a, b) => a - b);
+          const m = Math.floor(s.length / 2);
+          return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+        };
+        const rawMins = grp.map(g => g.priceMin || 0).filter(v => v > 0);
+        const rawMaxes = grp.map(g => g.priceMax || g.priceMin || 0).filter(v => v > 0);
+        const minMed = _median(rawMins);
+        const maxMed = _median(rawMaxes);
+        const prices = (rawMins.length >= 3 && minMed > 0)
+          ? rawMins.filter(v => v >= minMed * 0.5 && v <= minMed * 2.5)
+          : rawMins;
+        const maxes = (rawMaxes.length >= 3 && maxMed > 0)
+          ? rawMaxes.filter(v => v >= maxMed * 0.4 && v <= maxMed * 3.0)
+          : rawMaxes;
         deduped.push({
           ...rep,
           image:      bestImg,
