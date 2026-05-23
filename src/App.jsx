@@ -4833,14 +4833,12 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
   const maxParticipants  = deal.maxParticipants || 0;
   const interestedCount  = deal.interested || 0;
   const daysLeft         = deal.daysLeft ?? 0;
-  // Bell-jingle state, fires the bellRing CSS animation once per click on
-  // the "updates only" button. Resets after ~700ms (animation duration) so
-  // repeated clicks each trigger a fresh ring.
+  // Bell-jingle state for the "מתעניין" CTA. Resets after the CSS animation.
   const [bellRinging, setBellRinging] = useState(false);
-  const ringBellAndJoin = () => {
+  const ringAndPick = (tier) => () => {
     setBellRinging(true);
     setTimeout(() => setBellRinging(false), 720);
-    onSelectTier("interested");
+    onSelectTier(tier);
   };
 
   // ── Compact mode (sticky header), minimal indicator ──
@@ -4848,41 +4846,56 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
     if (joinedTier === "committed") {
       return (
         <div className="flex items-center gap-2 rounded-xl bg-indigo-50 border border-indigo-300 px-3 py-1.5">
-          <span className="text-sm">✓</span>
+          <span className="text-sm">🛡️</span>
           <span className="text-xs font-bold text-indigo-800">אתם בקבוצה</span>
+        </div>
+      );
+    }
+    if (joinedTier === "placeholder") {
+      return (
+        <div className="flex items-center gap-2 rounded-xl bg-amber-50 border border-amber-300 px-3 py-1.5">
+          <span className="text-sm">📬</span>
+          <span className="text-xs font-bold text-amber-800">שומר/ת מקום</span>
         </div>
       );
     }
     if (joinedTier) {
       return (
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-200 px-3 py-1.5">
-          <span className="text-sm">📬</span>
-          <span className="text-xs font-bold text-gray-700">רשום/ה לעדכונים</span>
+          <span className="text-sm">👀</span>
+          <span className="text-xs font-bold text-gray-700">ברשימת מעקב</span>
         </div>
       );
     }
     return (
-      <div className="flex items-center gap-2">
+      <div className="grid grid-cols-3 gap-1.5">
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
-          className="flex-1 px-3 py-2 rounded-xl bg-indigo-600 text-white text-[12px] font-black hover:bg-indigo-700 active:scale-95 transition-all shadow-md">
-          אני בפנים, הצטרפו לקבוצה
+          title="אישור כרטיס, ללא חיוב"
+          className="px-2 py-2 rounded-xl bg-gradient-to-l from-indigo-600 to-violet-600 text-white text-[11px] font-black hover:from-indigo-700 hover:to-violet-700 active:scale-95 transition-all shadow-md flex items-center justify-center gap-1">
+          🛡️ בפנים
+        </button>
+        <button onClick={(e) => onSelectTier("placeholder", e.currentTarget)}
+          title="SMS על שינויי מחיר וסגירת קבוצה, ללא כרטיס"
+          className="px-2 py-2 rounded-xl bg-amber-100 text-amber-800 text-[11px] font-black hover:bg-amber-200 active:scale-95 transition-all flex items-center justify-center gap-1">
+          📬 שומר מקום
         </button>
         <button onClick={(e) => onSelectTier("interested", e.currentTarget)}
-          className="px-3 py-2 rounded-xl bg-white border border-gray-200 text-gray-600 text-[11px] font-medium hover:bg-gray-50 transition-all">
-          עדכונים
+          title="רישום ברשימת המעקב, ללא SMS"
+          className="px-2 py-2 rounded-xl bg-gray-100 text-gray-700 text-[11px] font-bold hover:bg-gray-200 active:scale-95 transition-all flex items-center justify-center gap-1">
+          👀 מתעניין
         </button>
       </div>
     );
   }
 
-  // ── Already joined ──
+  // ── Already joined: per-tier status card + upgrade options ──
   if (joinedTier === "committed") {
     return (
       <div className="space-y-3">
         <div className="rounded-2xl border-2 border-indigo-300 bg-gradient-to-br from-indigo-50 to-violet-50 p-5">
           <div className="flex items-start gap-3">
-            <div className="w-11 h-11 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-md">
-              <span className="text-white text-xl">✓</span>
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center flex-shrink-0 shadow-md">
+              <span className="text-white text-xl">🛡️</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-black text-sm text-indigo-900">אתם בקבוצה</p>
@@ -4899,34 +4912,61 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
       </div>
     );
   }
-  if (joinedTier) {
-    // interested → renders as "registered for updates"
+  if (joinedTier === "placeholder") {
     return (
       <div className="space-y-3">
-        <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-slate-50 to-gray-100 p-4">
+        <div className="rounded-2xl border-2 border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center flex-shrink-0 shadow-sm">
               <span className="text-white text-lg">📬</span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-black text-sm text-gray-800">נרשמתם לעדכונים</p>
-              <p className="text-gray-500 text-[11px] mt-1">תקבלו הודעה כשהקבוצה נסגרת או כשהמחיר משתנה.</p>
+              <p className="font-black text-sm text-amber-900">שמרתם מקום</p>
+              <p className="text-amber-700/80 text-[11px] mt-1">תקבלו SMS כשהקבוצה גדלה, המחיר משתנה, או כשהיא נסגרת.</p>
             </div>
           </div>
         </div>
-        {/* Upgrade to formal order */}
         <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
           className="w-full rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-3 px-4 flex items-center justify-center gap-2 text-xs font-bold text-indigo-700 hover:bg-indigo-50 hover:shadow-sm transition-all group">
-          <span>אני בפנים, הצטרפו לקבוצה</span>
-          <span className="text-[10px] text-gray-400 font-normal mr-1">(אימות כרטיס, אפס חיוב)</span>
+          <span>🛡️ שדרג ל-"בפנים", אישור כרטיס</span>
+          <span className="text-[10px] text-gray-400 font-normal mr-1">(ללא חיוב)</span>
           <span className="group-hover:translate-x-0.5 transition-transform text-gray-400">←</span>
         </button>
         <DemandForecast deal={deal} />
       </div>
     );
   }
+  if (joinedTier) {
+    // interested → registered for soft updates
+    return (
+      <div className="space-y-3">
+        <div className="rounded-2xl border-2 border-gray-300 bg-gradient-to-br from-slate-50 to-gray-100 p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gray-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <span className="text-white text-lg">👀</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-black text-sm text-gray-800">ברשימת מעקב</p>
+              <p className="text-gray-500 text-[11px] mt-1">המוצר נשמר ב-"המוצרים שלי". עדכון רך כשמשהו משתפר.</p>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <button onClick={(e) => onSelectTier("placeholder", e.currentTarget)}
+            className="rounded-xl border-2 border-dashed border-amber-300 bg-amber-50/40 py-2.5 px-3 flex items-center justify-center gap-1.5 text-[12px] font-bold text-amber-700 hover:bg-amber-50 transition group">
+            <span>📬 שדרג ל-"שומר מקום"</span>
+          </button>
+          <button onClick={(e) => onSelectTier("committed", e.currentTarget)}
+            className="rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 py-2.5 px-3 flex items-center justify-center gap-1.5 text-[12px] font-bold text-indigo-700 hover:bg-indigo-50 transition group">
+            <span>🛡️ שדרג ל-"בפנים"</span>
+          </button>
+        </div>
+        <DemandForecast deal={deal} />
+      </div>
+    );
+  }
 
-  // ── Default: tender header + primary submit + small updates link ──
+  // ── Default: tender header + 3-tier ladder ──
   return (
     <div className="space-y-4">
       {/* Tender header */}
@@ -4952,39 +4992,66 @@ function SilentJoinSelector({ deal, joinedTier, onSelectTier, compact = false })
         </div>
       </div>
 
-      {/* Primary action, formal submission */}
+      {/* Tier ladder header */}
+      <div className="text-center">
+        <p className="text-[11px] font-black text-gray-500 tracking-widest uppercase">איך אתם רוצים להצטרף?</p>
+      </div>
+
+      {/* Tier 1, committed (primary CTA, featured) */}
       <button
         onClick={(e) => onSelectTier("committed", e.currentTarget)}
-        className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex flex-col items-center gap-1"
+        className="w-full rounded-2xl bg-gradient-to-l from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-4 px-5 shadow-lg hover:shadow-xl active:scale-[0.99] transition-all flex items-center gap-3 group"
       >
-        <span className="text-[15px] font-black">אני בפנים, הצטרפו לקבוצה</span>
-        <span className="text-[11px] font-medium text-white/85">
-          אימות כרטיס בלבד, בנדלי לא מחייבת אתכם
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0 text-2xl shadow-sm">🛡️</div>
+        <div className="flex-1 text-right">
+          <div className="flex items-center gap-2 mb-0.5">
+            <span className="text-[15px] font-black">בפנים</span>
+            <span className="text-[9px] font-black bg-white/20 rounded-full px-2 py-0.5 uppercase tracking-wide">מומלץ</span>
+          </div>
+          <p className="text-[11px] font-medium text-white/85 leading-snug">
+            אישור כרטיס לוודא רצינות, בנדלי לא מחייבת. מקבלים קדימות.
+          </p>
+        </div>
+        <ChevronLeft className="w-5 h-5 text-white/60 group-hover:text-white transition self-center flex-shrink-0" />
       </button>
 
-      {/* Reassurance, cancel-anytime guarantee under the join button.
-          Per user feedback: customers hesitate because they think saving
-          a card commits them. The green check + concise copy converts. */}
+      {/* Tier 2, placeholder (SMS, no card) */}
+      <button
+        onClick={(e) => onSelectTier("placeholder", e.currentTarget)}
+        className="w-full rounded-2xl border-2 border-amber-200 bg-gradient-to-l from-amber-50 via-yellow-50 to-pink-50 hover:from-amber-100 hover:via-yellow-100 hover:to-pink-100 hover:border-amber-300 text-gray-800 py-3.5 px-4 flex items-center gap-3 transition-all active:scale-[0.99] shadow-sm group"
+      >
+        <div className="w-11 h-11 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0 text-xl shadow-sm">
+          <Bell className={`w-5 h-5 text-amber-600 ${bellRinging ? "bell-ring" : ""}`} fill="currentColor" />
+        </div>
+        <div className="flex-1 text-right">
+          <p className="text-[14px] font-black text-amber-900">שומר מקום</p>
+          <p className="text-[11px] font-medium text-amber-800/80 leading-snug">
+            SMS על שינויי מחיר וסגירת הקבוצה, בלי כרטיס, בלי התחייבות.
+          </p>
+        </div>
+        <ChevronLeft className="w-5 h-5 text-amber-400 group-hover:text-amber-600 transition self-center flex-shrink-0" />
+      </button>
+
+      {/* Tier 3, interested (no card, no SMS) */}
+      <button
+        onClick={ringAndPick("interested")}
+        className="w-full rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 text-gray-800 py-3 px-4 flex items-center gap-3 transition-all active:scale-[0.99] group"
+      >
+        <div className="w-10 h-10 rounded-2xl bg-gray-100 flex items-center justify-center flex-shrink-0 text-lg">👀</div>
+        <div className="flex-1 text-right">
+          <p className="text-[13px] font-black text-gray-700">מתעניין</p>
+          <p className="text-[11px] font-medium text-gray-500 leading-snug">
+            רישום ברשימת המעקב, עדכון רך כשמשהו משתפר. {interestedCount > 0 && <span className="text-gray-400">({interestedCount} רשומים)</span>}
+          </p>
+        </div>
+        <ChevronLeft className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition self-center flex-shrink-0" />
+      </button>
+
+      {/* Reassurance, cancel-anytime guarantee */}
       <div className="flex items-center justify-center gap-1.5 text-[12px] font-semibold text-emerald-700">
         <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
         <span>ניתן לבטל בכל עת</span>
       </div>
-
-      {/* Secondary action, colourful bell pill, jingles on click */}
-      <button
-        onClick={ringBellAndJoin}
-        className="w-full rounded-2xl border-2 border-amber-200 bg-gradient-to-l from-amber-50 via-yellow-50 to-pink-50 hover:from-amber-100 hover:via-yellow-100 hover:to-pink-100 hover:border-amber-300 text-gray-800 py-2.5 px-4 flex items-center justify-center gap-2 text-[13px] font-bold transition-all active:scale-[0.99] shadow-sm"
-      >
-        <Bell
-          className={`w-5 h-5 text-amber-500 drop-shadow-sm ${bellRinging ? "bell-ring" : ""}`}
-          fill="currentColor"
-        />
-        <span>רק עדכנו אותי, בלי להתחייב</span>
-        {interestedCount > 0 && (
-          <span className="text-[11px] font-medium text-amber-600/80">({interestedCount} רשומים)</span>
-        )}
-      </button>
 
       {/* Footnote, explains the SetupIntent (no-charge) flow */}
       <p className="text-center text-[10px] text-gray-400 leading-relaxed">
@@ -5287,7 +5354,9 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
       onLoginPrompt?.();
       return;
     }
-    if (tier === "interested") {
+    // Free tiers, no card validation. interested = soft register;
+    // placeholder = soft register + opt-in to SMS notifications.
+    if (tier === "interested" || tier === "placeholder") {
       onJoin(deal.id, tier, sourceEl);
       setJoinedTier(tier);
       return;
