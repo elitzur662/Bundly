@@ -11549,17 +11549,18 @@ function DisputeButton({ order, token }) {
 //  owner dashboard's local pending-suppliers list stays in sync.
 // ─────────────────────────────────────────────────────────────────
 function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
+  // Bank details are intentionally NOT collected here. They're requested
+  // later (only if needed) after the supplier is approved, to keep the
+  // signup form short and reduce friction for new suppliers.
   const [form, setForm] = useState({
     businessName: "", businessNumber: "", ownerName: "",
     email: "", phone: "", address: "",
     category: "", description: "",
-    bankAccount: { bank: "", branch: "", accountNumber: "" },
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const upd = k => e => setForm(p => ({ ...p, [k]: e.target.value }));
-  const updBank = k => e => setForm(p => ({ ...p, bankAccount: { ...p.bankAccount, [k]: e.target.value } }));
 
   // BUG FIX (audit round 4 P0): the FIRST supplier-registration modal
   // (SupplierModal) got the hCaptcha widget last round, but this second
@@ -11669,16 +11670,8 @@ function SupplierKYCModal({ onClose, onSuccess, onRegistered }) {
             <label className="text-xs text-gray-500 font-bold">תיאור העסק (אופציונלי)</label>
             <textarea value={form.description} onChange={upd("description")} rows={2} className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-300" />
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-            <p className="text-xs font-bold text-gray-700 mb-2">פרטי בנק (לתשלומים עתידיים)</p>
-            <div className="grid grid-cols-3 gap-2">
-              <input placeholder="בנק" value={form.bankAccount.bank} onChange={updBank("bank")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-              <input placeholder="סניף" value={form.bankAccount.branch} onChange={updBank("branch")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-              <input placeholder="חשבון" value={form.bankAccount.accountNumber} onChange={updBank("accountNumber")} className="border border-gray-200 rounded-lg px-2 py-2 text-xs" />
-            </div>
-          </div>
           <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-800 leading-relaxed">
-            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) מתבצע מול הצוות שלנו במייל, אין צורך להעלות קבצים כאן.
+            ⚠️ הבקשה תעבור בדיקה תוך 24-48 שעות. לאחר אישור ראשוני, אימות המסמכים (רישיון עסק / תעודת עוסק) ופרטי בנק להעברה (במידת הצורך) מתבצעים מול הצוות שלנו במייל, אין צורך להעלות קבצים כאן.
           </div>
           {error && <p className="text-xs text-red-500 font-semibold">{error}</p>}
           {HCAPTCHA_SITE_KEY && (
