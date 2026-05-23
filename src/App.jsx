@@ -14245,7 +14245,14 @@ function CategoryResultsPage({ query, deals, t, onResult, onBack, onNavbar, onFo
         samsung:  ["samsung", "galaxy"],
         google:   ["google", "pixel", "nest"],
         xiaomi:   ["xiaomi", "redmi", "poco", "mi "],
-        huawei:   ["huawei", "honor"],
+        huawei:   ["huawei"],     // split out Honor below for accurate per-brand filtering
+        honor:    ["honor"],
+        oneplus:  ["oneplus", "one plus"],
+        oppo:     ["oppo"],
+        vivo:     ["vivo"],
+        realme:   ["realme"],
+        motorola: ["motorola", "moto "],
+        nothing:  ["nothing phone", "nothing"],
         sony:     ["sony", "playstation", "bravia", "wh-", "wf-"],
         asus:     ["asus", "rog ", "tuf ", "zenbook", "vivobook", "proart"],
         "אסוס":  ["asus", "rog ", "tuf ", "zenbook", "vivobook", "proart"],
@@ -21641,25 +21648,54 @@ const _CHAT_CATEGORY_RX = [
   { rx: /מכונת.*קפה/,                                           q: "מכונת קפה",     type: "coffee" },
   { rx: /קולט.*אדים/,                                           q: "קולט אדים",     type: "hood" },
 ];
+// Brand keyword → brand name. Apple is expanded to cover product-line
+// nicknames the user types instead of the brand ("אייפון", "מקבוק",
+// "iPad", "AirPods" etc.) because the chat-intent matcher should detect
+// brand FROM the same string that also matched the category, eg
+// "אייפון עד 5000" → category=phone + brand=Apple (previously was missed
+// because אייפון doesn't contain אפל).
 const _CHAT_BRAND_RX = [
-  { rx: /samsung|סמסונג/i,         name: "Samsung" },
-  { rx: /\bapple\b|אפל/i,           name: "Apple" },
-  { rx: /\blg\b|אל.?ג.?י/i,         name: "LG" },
-  { rx: /\bsony\b|סוני/i,           name: "Sony" },
-  { rx: /xiaomi|שיאומי|redmi/i,     name: "Xiaomi" },
-  { rx: /hisense|הייסנס/i,          name: "Hisense" },
-  { rx: /philips|פיליפס/i,          name: "Philips" },
-  { rx: /\btcl\b/i,                 name: "TCL" },
-  { rx: /huawei|הואווי/i,           name: "Huawei" },
+  { rx: /samsung|סמסונג|galaxy|גלקסי/i,                                                 name: "Samsung" },
+  { rx: /\bapple\b|אפל|\biphone\b|אייפון|\bipad\b|אייפד|\bmacbook\b|מקבוק|\bimac\b|airpods/i, name: "Apple" },
+  { rx: /\blg\b|אל.?ג.?י/i,                                                             name: "LG" },
+  { rx: /\bsony\b|סוני/i,                                                               name: "Sony" },
+  { rx: /xiaomi|שיאומי|redmi|רדמי/i,                                                    name: "Xiaomi" },
+  { rx: /hisense|הייסנס/i,                                                              name: "Hisense" },
+  { rx: /philips|פיליפס/i,                                                              name: "Philips" },
+  { rx: /\btcl\b/i,                                                                     name: "TCL" },
+  { rx: /huawei|הואווי/i,                                                               name: "Huawei" },
+  { rx: /honor|הונור/i,                                                                 name: "Honor" },
+  { rx: /\bgoogle\b|pixel|פיקסל/i,                                                      name: "Google" },
+  { rx: /oneplus|ואן.?פלוס/i,                                                           name: "OnePlus" },
+  { rx: /\boppo\b|אופו/i,                                                               name: "Oppo" },
+  { rx: /\bvivo\b|ויוו/i,                                                               name: "Vivo" },
+  { rx: /realme|ריאלמי/i,                                                               name: "Realme" },
+  { rx: /motorola|moto\b|מוטורולה/i,                                                    name: "Motorola" },
+  { rx: /nothing\s*phone/i,                                                             name: "Nothing" },
   // \b alone doesn't recognise Hebrew word boundaries, so "דל" was matching
   // inside "גודל". Require Hebrew-letter lookbehind/lookahead to be empty.
-  { rx: /\bdell\b|(?<![א-ת])דל(?![א-ת])/i, name: "Dell" },
-  { rx: /\bhp\b|אייץ.?פי/i,         name: "HP" },
-  { rx: /lenovo|לנובו/i,            name: "Lenovo" },
-  { rx: /\basus\b|אסוס/i,           name: "Asus" },
-  { rx: /bosch|בוש/i,               name: "Bosch" },
-  { rx: /siemens|סימנס/i,           name: "Siemens" },
-  { rx: /electra|אלקטרה/i,          name: "Electra" },
+  { rx: /\bdell\b|(?<![א-ת])דל(?![א-ת])/i,                                              name: "Dell" },
+  { rx: /\bhp\b|אייץ.?פי/i,                                                             name: "HP" },
+  { rx: /lenovo|לנובו/i,                                                                name: "Lenovo" },
+  { rx: /\basus\b|אסוס/i,                                                               name: "Asus" },
+  { rx: /bosch|בוש/i,                                                                   name: "Bosch" },
+  { rx: /siemens|סימנס/i,                                                               name: "Siemens" },
+  { rx: /electra|אלקטרה/i,                                                              name: "Electra" },
+];
+
+// OS-keyword detection. "אנדרואיד" / "android" / "אייפון" / "אפל" / "ios"
+// resolve to a brand allowlist that we MERGE into filters.brands. This is
+// what fixes the user's complaint: "אנדרואיד עד 2000" used to only set the
+// price filter and ignore the OS preference entirely.
+const _CHAT_OS_RX = [
+  {
+    rx: /\bandroid\b|אנדרואיד/i,
+    brands: ["Samsung", "Xiaomi", "Google", "OnePlus", "Oppo", "Vivo", "Realme", "Motorola", "Honor", "Huawei", "Nothing"],
+  },
+  {
+    rx: /\bios\b|אי.?או.?אס|אייפון|\biphone\b|אפל/i,
+    brands: ["Apple"],
+  },
 ];
 function parseChatIntent(text) {
   const raw = (text || "").trim();
@@ -21751,6 +21787,17 @@ function parseChatIntent(text) {
   const brands = [];
   for (const b of _CHAT_BRAND_RX) {
     if (b.rx.test(raw)) brands.push(b.name);
+  }
+  // ── OS keywords → brand allowlist ─────────────────────────────
+  // "אנדרואיד" / "iPhone" / "אפל" / "ios" map to brand sets. Without this,
+  // the chat parser used to see "אנדרואיד עד 2000" and only pick up the
+  // price filter, ignoring the OS preference. We MERGE rather than replace
+  // so "אנדרואיד xiaomi" both pulls in the Xiaomi explicit brand AND
+  // doesn't accidentally drop other Android brands.
+  for (const o of _CHAT_OS_RX) {
+    if (o.rx.test(raw)) {
+      for (const b of o.brands) if (!brands.includes(b)) brands.push(b);
+    }
   }
 
   // ── Storage (for phones / tablets / laptops) ───────────────────
