@@ -22229,6 +22229,108 @@ function buildPath({ mode, productKey }) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+//  TIER PICKER MODAL, the user explicitly chooses their commitment level
+//  BEFORE we either save the product (interested/placeholder) or trigger
+//  card validation (committed). Restored 2026-05-23 after a brief period
+//  of auto-join: until we accumulate critical mass, an explicit ladder
+//  is the honest way to surface real intent to suppliers.
+//
+//  3 tiers, in ascending commitment:
+//    interested  → "מתעניין", just save to my list, gentle email updates
+//    placeholder → "שומר מקום", save spot + SMS updates on price/closing
+//    committed   → "בפנים", card validated (no charge), full commitment
+//
+//  Props:
+//    deal:        the deal being joined (for name/image in the header)
+//    onPick(tier): caller decides what to do per tier (open DepositModal
+//                  for committed, fire celebration for the rest)
+//    onClose:     dismiss
+// ─────────────────────────────────────────────────────────────────
+function TierPickerModal({ deal, lang = "he", onPick, onClose }) {
+  const dealName = (deal?.name && (deal.name[lang] || deal.name.he || deal.name.en)) || "";
+  const TIERS = [
+    {
+      key: "interested",
+      title: "מתעניין",
+      desc: "אוסיף לרשימת המעקב שלי. אקבל עדכון רך כשמשהו משתפר.",
+      hint: "בלי כרטיס, בלי SMS",
+      icon: "👀",
+      iconBg: "bg-gray-100 text-gray-700",
+      borderActive: "hover:border-gray-300",
+    },
+    {
+      key: "placeholder",
+      title: "שומר מקום",
+      desc: "מבטיח שלא אחמיץ. אקבל SMS כשהקבוצה גדלה או נסגרת.",
+      hint: "בלי כרטיס, עם SMS",
+      icon: "📬",
+      iconBg: "bg-amber-100 text-amber-700",
+      borderActive: "hover:border-amber-300",
+    },
+    {
+      key: "committed",
+      title: "בפנים",
+      desc: "אישור כרטיס לוודא רצינות (בנדלי לא מחייבת). מקבל קדימות.",
+      hint: "אישור כרטיס, ללא חיוב",
+      icon: "🛡️",
+      iconBg: "bg-indigo-100 text-indigo-700",
+      borderActive: "hover:border-indigo-400 hover:shadow-md",
+      featured: true,
+    },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-black/60 p-3 sm:p-4" dir="rtl" onClick={onClose}>
+      <div
+        className="bg-white w-full max-w-md rounded-3xl overflow-hidden max-h-[92vh] flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-300"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative px-5 pt-5 pb-4 border-b border-gray-100">
+          <button onClick={onClose} aria-label="סגור"
+            className="absolute top-3 left-3 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+            <X className="w-4 h-4 text-gray-600" />
+          </button>
+          <p className="text-[11px] font-bold text-indigo-600 tracking-widest uppercase mb-1">איך אתם רוצים להצטרף?</p>
+          <h2 className="text-lg font-black text-gray-900 line-clamp-2 leading-snug">{dealName}</h2>
+        </div>
+
+        <div className="p-4 space-y-2.5 overflow-y-auto">
+          {TIERS.map(tier => (
+            <button
+              key={tier.key}
+              type="button"
+              onClick={() => onPick(tier.key)}
+              className={`w-full text-right p-4 rounded-2xl border-2 border-gray-100 ${tier.borderActive} ${tier.featured ? "bg-gradient-to-br from-indigo-50/40 to-violet-50/40" : "bg-white"} transition-all flex items-start gap-3 group active:scale-[0.99]`}
+            >
+              <div className={`w-12 h-12 rounded-2xl ${tier.iconBg} flex items-center justify-center flex-shrink-0 text-2xl shadow-sm`}>
+                {tier.icon}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <p className={`font-black text-base ${tier.featured ? "text-indigo-900" : "text-gray-900"}`}>{tier.title}</p>
+                  {tier.featured && (
+                    <span className="text-[9px] font-black text-white bg-gradient-to-r from-indigo-600 to-violet-600 rounded-full px-2 py-0.5 uppercase tracking-wide">מומלץ</span>
+                  )}
+                </div>
+                <p className="text-[12px] text-gray-600 leading-snug">{tier.desc}</p>
+                <p className="text-[10px] font-bold text-gray-400 mt-1.5 tracking-wide">{tier.hint}</p>
+              </div>
+              <ChevronLeft className="w-5 h-5 text-gray-300 group-hover:text-indigo-500 transition self-center flex-shrink-0" />
+            </button>
+          ))}
+        </div>
+
+        <div className="px-5 pb-4 pt-2 text-center">
+          <p className="text-[10px] text-gray-400 leading-relaxed">
+            ניתן לבטל בכל עת. הכרטיס נבדק רק כדי לוודא תקפות, ללא חיוב. התשלום תמיד ישירות מול הספק.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 //  GROUP-JOIN CELEBRATION, the "wow" moment after a user joins a deal.
 //  Replaces the bare toast with an interactive modal: animated count,
 //  perks list, similar groups for cross-pollination, share CTA.
@@ -22243,7 +22345,15 @@ function buildPath({ mode, productKey }) {
 //    onBackHome:     close and route back to home
 //    onClose:        light dismiss (clicking outside / X)
 // ─────────────────────────────────────────────────────────────────
-function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0, similarDeals = [], lang = "he", onContinue, onBackHome, onClose, onJoinSimilar }) {
+function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0, similarDeals = [], lang = "he", tier = "committed", onContinue, onBackHome, onClose, onJoinSimilar }) {
+  // Per-tier hero copy. "Committed" = full member (card validated), the
+  // others express softer commitment in the title so the user understands
+  // exactly what they just signed up for.
+  const HERO = tier === "interested"
+    ? { emoji: "👀", title: "נוספת לרשימת המעקב" }
+    : tier === "placeholder"
+      ? { emoji: "📬", title: "שמרת לעצמך מקום" }
+      : { emoji: "🎉", title: "אתה בקבוצה" };
   // Animate the participant count from prev → new over 700ms. Pure visual,
   // the actual value is already committed in App state.
   const [displayCount, setDisplayCount] = useState(prevCount);
@@ -22302,8 +22412,8 @@ function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0
             className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition">
             <X className="w-4 h-4" />
           </button>
-          <div className="text-5xl mb-2 animate-bounce" style={{ animationDuration: "2s" }}>🎉</div>
-          <h2 className="text-xl font-black mb-1">הצטרפת לקבוצה!</h2>
+          <div className="text-5xl mb-2 animate-bounce" style={{ animationDuration: "2s" }}>{HERO.emoji}</div>
+          <h2 className="text-xl font-black mb-1">{HERO.title}!</h2>
           <p className="text-sm text-white/80 line-clamp-1">{dealName}</p>
         </div>
 
@@ -22514,11 +22624,17 @@ export default function App() {
   const [showCreateBundle, setShowCreateBundle] = useState(false);
   const [savedBundles, setSavedBundles] = useState([]); // array of bundle ids
   const [selectedDeal, setSelectedDeal] = useState(null);
-  // Group-join celebration state. Set by handleAddDealFromSearch /
-  // handleJoinExistingDeal right after the user joins; the GroupJoinCelebration
-  // modal renders at App root level and reads from here.
-  // Shape: { deal, prevCount, newCount } | null
+  // Group-join celebration state. Set AFTER tier picked and (if committed)
+  // card validated; the GroupJoinCelebration modal portal-renders to body.
+  // Shape: { deal, prevCount, newCount, tier } | null
   const [joinCelebration, setJoinCelebration] = useState(null);
+  // Tier picker modal state. Opens BEFORE any state mutation, the user
+  // must explicitly choose interested / placeholder / committed.
+  // Shape: { deal, isNewDeal, result } | null
+  const [tierPicker, setTierPicker] = useState(null);
+  // Card-validation modal state for the "committed" tier path.
+  // Shape: { deal, isNewDeal, result } | null while open; cleared on close.
+  const [joinDeposit, setJoinDeposit] = useState(null);
   const [catFilter, setCatFilter] = useState(null);
   const [searchQ, setSearchQ] = useState("");
 
@@ -23435,18 +23551,18 @@ export default function App() {
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
     addToMyProducts({ name: result.productName, image: result.image, tier: result._joinTier || "committed", action: "created_deal", catIdx: newDeal.catIdx, price: result.groupPrice || result.marketMin }, result);
-    // Auto-enroll in the broader category demand pool so the user benefits
-    // from group leverage on similar models, not just this exact one.
-    if (newDeal.catIdx != null) {
-      try { joinDemandPool(newDeal.catIdx, result.productName); } catch {}
+    // Open the tier picker, the user must pick interested / placeholder /
+    // committed before we write anything to "המוצרים שלי" or the demand
+    // pool. The committed path also requires card validation first.
+    // For the search-modal flow we have already created the optimistic
+    // newDeal client-side; the tier picker proceeds from there.
+    if (!user) {
+      pendingTierRef.current = { d: newDeal, isNewDeal: true, result };
+      notify("עליך להתחבר קודם");
+      setShowAuth(true);
+      return;
     }
-    // Surface a celebration modal instead of a bare toast, with live
-    // participant count, perks, and similar groups to keep the user engaged.
-    setJoinCelebration({
-      deal: newDeal,
-      prevCount: Math.max(0, (Number(newDeal.participants) || 1) - 1),
-      newCount:  Number(newDeal.participants) || 1,
-    });
+    setTierPicker({ deal: newDeal, isNewDeal: true, result });
 
     // Persist server-side and reconcile with the canonical deal (server id +
     // dedupe). Resilient: any failure leaves the optimistic client deal in
@@ -23535,10 +23651,7 @@ export default function App() {
     const modelName = (d.name && (d.name.en || d.name.he)) || d.name || "";
     const normName = String(modelName).toLowerCase();
     // Idempotency: if the user already joined this product, don't inflate
-    // the demand pool or "המוצרים שלי" with a phantom second join. We
-    // route them to the deal page silently, and surface a small toast so
-    // they know nothing was added. Inflating the pool from N click-throughs
-    // would mislead suppliers about real demand.
+    // the demand pool or "המוצרים שלי" with a phantom second join.
     const alreadyJoined = myProducts.some(p =>
       String(p.name || p.productName || "").toLowerCase() === normName
     );
@@ -23546,26 +23659,70 @@ export default function App() {
       notify("כבר חבר/ה בקבוצה הזו, שינוי כמות אפשרי ב'המוצרים שלי'");
       return;
     }
+    // Require login before any join action so we can persist the choice
+    // server-side and (for committed tier) attach the card to a real user.
+    if (!user) {
+      pendingTierRef.current = { d };
+      notify("עליך להתחבר קודם");
+      setShowAuth(true);
+      return;
+    }
+    // Open the tier picker. The actual join + celebration happens inside
+    // finalizeJoin once the user picks a tier and (for committed) their
+    // card is validated via DepositModal.
+    setTierPicker({ deal: d, isNewDeal: false });
+  };
+
+  // Ref to remember a join intent across the auth modal flow (login first,
+  // then resume the tier picker for the deal the user originally clicked).
+  const pendingTierRef = useRef(null);
+
+  // Shared finalization: writes the join to state + opens the celebration.
+  // Called from the tier picker for interested/placeholder, and from the
+  // DepositModal success handler for committed (after card validation).
+  const finalizeJoin = (ctx, tier) => {
+    const { deal: d, isNewDeal } = ctx || {};
+    if (!d) return;
+    const modelName = (d.name && (d.name[lang] || d.name.he || d.name.en)) || d.name || "";
     if (d.catIdx != null && modelName) {
       try { joinDemandPool(d.catIdx, modelName); } catch {}
     }
     addToMyProducts({
       name: modelName,
       image: d.image || "",
-      tier: "interested",
-      action: "joined_pool",
+      tier,
+      action: tier === "committed" ? "joined_deal" : "joined_pool",
       catIdx: d.catIdx,
       price: Number(d.groupOffer) || Number(d.marketMin) || 0,
     });
-    // Celebration modal instead of a bare toast. prevCount is the deal's
-    // current participants count BEFORE this join (server will increment
-    // it next time deals refresh); we simulate +1 for the animation.
     const _curr = Number(d.participants) || 0;
     setJoinCelebration({
       deal: d,
+      tier,
+      isNewDeal: !!isNewDeal,
       prevCount: _curr,
-      newCount:  _curr + 1,
+      newCount:  tier === "committed" ? _curr + 1 : _curr,
     });
+  };
+
+  // Called when the user picks a tier in the TierPickerModal. For the
+  // free tiers we fire celebration immediately; for "committed" we route
+  // through DepositModal so the card is validated BEFORE the join lands.
+  const onTierPicked = (tier) => {
+    const ctx = tierPicker;
+    setTierPicker(null);
+    if (!ctx) return;
+    if (tier === "committed") {
+      if (!user) {
+        pendingTierRef.current = { d: ctx.deal, tier };
+        notify("עליך להתחבר קודם לאימות כרטיס");
+        setShowAuth(true);
+        return;
+      }
+      setJoinDeposit(ctx);
+      return;
+    }
+    finalizeJoin(ctx, tier);
   };
 
   // Add a product from the search page to the community "want list"
@@ -24183,6 +24340,82 @@ export default function App() {
   };
   const closeCategory = () => { setCategoryQuery(null); setSearchResult(null); setCategoryInitialFilters(null); setCategoryDisambig(null); };
 
+  // Shared join-flow overlays. The App has 3 early-return branches
+  // (deal-details / category / default), each renders its own JSX tree.
+  // The tier picker + deposit modal + celebration must show on top of
+  // ALL of them, so we define the overlays once here and include the
+  // expression in each branch's return. Each modal uses fixed-position
+  // styling so it sits above whatever mode is rendering.
+  const joinFlowOverlays = (
+    <>
+      {tierPicker && (
+        <TierPickerModal
+          deal={tierPicker.deal}
+          lang={lang}
+          onPick={onTierPicked}
+          onClose={() => setTierPicker(null)}
+        />
+      )}
+      {joinDeposit && user && (
+        <DepositModal
+          deal={joinDeposit.deal}
+          tier="committed"
+          depositAmount={
+            // Card-validation flow uses a small representative amount
+            // for the Stripe SetupIntent UI; the SetupIntent itself
+            // never charges. We mirror the existing 25% derivation
+            // from the deal page so the UI feels consistent.
+            Math.round(((Number(joinDeposit.deal?.groupOffer) || Number(joinDeposit.deal?.marketMin) || 0) * 0.25))
+          }
+          token={user.token || _getToken()}
+          onClose={() => setJoinDeposit(null)}
+          onSuccess={() => {
+            const ctx = joinDeposit;
+            setJoinDeposit(null);
+            finalizeJoin(ctx, "committed");
+          }}
+        />
+      )}
+      {joinCelebration && joinCelebration.deal && (() => {
+        const d = joinCelebration.deal;
+        const basePrice = Number(d.marketMin) || Number(d.marketMax) || Number(d.groupOffer) || 0;
+        const similar = (d.catIdx != null && basePrice > 0)
+          ? (deals || [])
+              .filter(x => x && x.id !== d.id && x.catIdx === d.catIdx)
+              .filter(x => {
+                const dp = Number(x.marketMin) || Number(x.marketMax) || 0;
+                return dp > 0 && Math.abs(dp - basePrice) / basePrice <= 0.2;
+              })
+              .sort((a, b) => (Number(b.participants) || 0) - (Number(a.participants) || 0))
+              .slice(0, 3)
+          : [];
+        const poolCount = (d.catIdx != null && demandPools && demandPools[d.catIdx])
+          ? Object.values(demandPools[d.catIdx]).reduce((s, n) => s + (Number(n) || 0), 0)
+          : 0;
+        return (
+          <GroupJoinCelebration
+            deal={d}
+            lang={lang}
+            tier={joinCelebration.tier}
+            prevCount={joinCelebration.prevCount}
+            newCount={joinCelebration.newCount}
+            poolCount={poolCount}
+            similarDeals={similar}
+            onContinue={() => { setJoinCelebration(null); }}
+            onBackHome={() => { setJoinCelebration(null); setSelectedDeal(null); setMode("home"); }}
+            onClose={() => setJoinCelebration(null)}
+            onJoinSimilar={(otherId) => {
+              const other = (deals || []).find(x => x.id === otherId);
+              if (!other) return;
+              setJoinCelebration(null);
+              setSelectedDeal(other);
+            }}
+          />
+        );
+      })()}
+    </>
+  );
+
   if (selectedDeal) {
     // Prefer reference match first (handles the case where two deals briefly
     // share an id, e.g. during a setDeals insertion race). Falls back to
@@ -24217,6 +24450,7 @@ export default function App() {
             prefillModel={joinPoolModal.prefillModel || null}
           />
         )}
+        {joinFlowOverlays}
         {universalBackBtn}
       </div>
     );
@@ -24272,6 +24506,7 @@ export default function App() {
         )}
         {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
+        {joinFlowOverlays}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} onCategoryBrowse={() => { closeCategory(); setShowCategoryBrowse(true); }} />
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={d => { closeCategory(); openDeal(d); }} onSearchProduct={(q, filters) => { closeCategory(); openCategory(q, { filters }); }} />
         {universalBackBtn}
@@ -24353,49 +24588,10 @@ export default function App() {
         </div>
       )}
 
-      {/* Group-join celebration: the "wow" moment after joining a deal.
-          Mounted once at App root so it overlays whatever mode the user is in.
-          Computes similar deals on the fly from the live deals list. */}
-      {joinCelebration && joinCelebration.deal && (() => {
-        const d = joinCelebration.deal;
-        const basePrice = Number(d.marketMin) || Number(d.marketMax) || Number(d.groupOffer) || 0;
-        const similar = (d.catIdx != null && basePrice > 0)
-          ? (deals || [])
-              .filter(x => x && x.id !== d.id && x.catIdx === d.catIdx)
-              .filter(x => {
-                const dp = Number(x.marketMin) || Number(x.marketMax) || 0;
-                return dp > 0 && Math.abs(dp - basePrice) / basePrice <= 0.2;
-              })
-              .sort((a, b) => (Number(b.participants) || 0) - (Number(a.participants) || 0))
-              .slice(0, 3)
-          : [];
-        const poolCount = (d.catIdx != null && demandPools && demandPools[d.catIdx])
-          ? Object.values(demandPools[d.catIdx]).reduce((s, n) => s + (Number(n) || 0), 0)
-          : 0;
-        return (
-          <GroupJoinCelebration
-            deal={d}
-            lang={lang}
-            prevCount={joinCelebration.prevCount}
-            newCount={joinCelebration.newCount}
-            poolCount={poolCount}
-            similarDeals={similar}
-            onContinue={() => { setJoinCelebration(null); }}
-            onBackHome={() => { setJoinCelebration(null); setSelectedDeal(null); setMode("home"); }}
-            onClose={() => setJoinCelebration(null)}
-            onJoinSimilar={(otherId) => {
-              // Per user feedback 2026-05-23: clicking a similar product
-              // should NOT auto-join, the user wants to see the alternative
-              // first and decide. Close the celebration and navigate to
-              // that deal's detail page; they'll join from there explicitly.
-              const other = (deals || []).find(x => x.id === otherId);
-              if (!other) return;
-              setJoinCelebration(null);
-              setSelectedDeal(other);
-            }}
-          />
-        );
-      })()}
+      {/* Join-flow overlays: tier picker → card validation → celebration.
+          Shared expression declared at App top so it shows on all 3
+          render branches (selectedDeal / categoryQuery / default). */}
+      {joinFlowOverlays}
 
       {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
