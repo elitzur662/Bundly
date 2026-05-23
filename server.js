@@ -18,6 +18,7 @@
 import "dotenv/config";
 
 import express from "express";
+import bcrypt from "bcryptjs";
 // import cors from "cors"; // replaced by strictCors in security-middleware.js
 import axios from "axios";
 import * as cheerio from "cheerio";
@@ -199,7 +200,23 @@ function _assertStrongSecret(name, value, minLen = 32) {
 // env is missing/weak, _assertStrongSecret below exits before any token is signed.
 _assertStrongSecret("JWT_SECRET", process.env.JWT_SECRET, 32);
 _assertStrongSecret("URL_SIGN_SECRET", process.env.URL_SIGN_SECRET, 32);
-_assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
+// Admin auth, two supported modes (either is fine):
+//   1) Legacy: ADMIN_PASSWORD (plain) compared via constant-time equals.
+//   2) New:    BUNDLY_ADMIN_EMAIL + BUNDLY_ADMIN_PASSWORD_HASH (bcrypt), used
+//      by the unified email+password login from the customer auth modal.
+// At least one mode must be configured. The hash itself is not a secret string
+// in the FORBIDDEN_SECRETS sense (it's a bcrypt $2... hash), so we only assert
+// it is non-empty and looks bcrypt-shaped.
+if (process.env.ADMIN_PASSWORD) {
+  _assertStrongSecret("ADMIN_PASSWORD", process.env.ADMIN_PASSWORD, 12);
+} else if (!process.env.BUNDLY_ADMIN_PASSWORD_HASH) {
+  console.error("❌ FATAL: neither ADMIN_PASSWORD nor BUNDLY_ADMIN_PASSWORD_HASH is set. Generate a hash via: node scripts/hash-admin-password.mjs <password>");
+  process.exit(1);
+}
+if (process.env.BUNDLY_ADMIN_PASSWORD_HASH && !/^\$2[aby]?\$\d{2}\$/.test(process.env.BUNDLY_ADMIN_PASSWORD_HASH)) {
+  console.error("❌ FATAL: BUNDLY_ADMIN_PASSWORD_HASH does not look like a bcrypt hash. Generate via: node scripts/hash-admin-password.mjs <password>");
+  process.exit(1);
+}
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // LAUNCH HARDENING, in production:
@@ -10150,7 +10167,7 @@ function requireSupplierMatch(req, res, next) {
   if (!supplierIdParam) return res.status(400).json({ error: "Missing supplierId in path" });
   const wantedLower = String(supplierIdParam).toLowerCase();
   if (wantedLower === "guest-supplier") {
-    return res.status(403).json({ error: "Demo supplier removed, sign up at bundly.co.shop@gmail.com" });
+    return res.status(403).json({ error: "Demo supplier removed, sign up at bundly.co@bundly.co" });
   }
 
   // ── Parse Bearer JWT ───────────────────────────────────────────────────
@@ -10447,24 +10464,48 @@ function _clearAdminGlobalFailures() {
   _adminGlobalLock.lockedUntil = 0;
 }
 
+// Admin email used by the unified email+password login. Defaults to the
+// business support address so the founder can log in immediately after
+// setting BUNDLY_ADMIN_PASSWORD_HASH without an extra env var.
+const BUNDLY_ADMIN_EMAIL = (process.env.BUNDLY_ADMIN_EMAIL || "bundly.co@bundly.co").toLowerCase();
+
 app.post("/api/admin/login",
   rateLimit({ windowMs: 15 * 60_000, max: 10, label: "admin-login" }),
   AUTH_READY ? async (req, res) => {
-    const { password } = req.body || {};
-    const envPw = process.env.ADMIN_PASSWORD;
-    if (!envPw) return res.status(503).json({ error: "ADMIN_PASSWORD not configured" });
-    // Account-lockout check (Redis or in-memory), per-IP …
+    const { password, email } = req.body || {};
+    const envPw   = process.env.ADMIN_PASSWORD;
+    const envHash = process.env.BUNDLY_ADMIN_PASSWORD_HASH;
+    if (!envPw && !envHash) return res.status(503).json({ error: "Admin auth not configured" });
+    // Account-lockout check (Redis or in-memory), per-IP.
     if (await isLocked(req.ip)) {
       audit("ADMIN_LOCKED", req);
       return res.status(429).json({ error: "יותר מדי ניסיונות כושלים, נסה/י שוב בעוד 30 דקות" });
     }
-    // … and global per-account (defeats IP rotation).
+    // Global per-account (defeats IP rotation).
     if (_isAdminGloballyLocked()) {
       audit("ADMIN_LOCKED_GLOBAL", req);
       return res.status(429).json({ error: "יותר מדי ניסיונות כושלים, נסה/י שוב בעוד 30 דקות" });
     }
-    // Constant-time compare (prevents timing attacks that reveal prefix)
-    if (!password || typeof password !== "string" || !safeEqual(password, envPw)) {
+    let ok = false;
+    if (typeof password === "string" && password.length > 0) {
+      // Mode A: email + bcrypt hash (preferred, used by the unified AuthModal).
+      if (email && envHash) {
+        const emailLc = String(email).trim().toLowerCase();
+        if (emailLc === BUNDLY_ADMIN_EMAIL) {
+          try { ok = await bcrypt.compare(password, envHash); } catch { ok = false; }
+        } else {
+          // Always run a dummy compare to keep response time uniform, so we
+          // don't leak the admin email via timing.
+          try { await bcrypt.compare(password, "$2a$10$abcdefghijklmnopqrstuu1234567890123456789012345678901a"); } catch {}
+          ok = false;
+        }
+      }
+      // Mode B (legacy): plain ADMIN_PASSWORD (back-compat with OwnerLoginModal).
+      if (!ok && !email && envPw) {
+        ok = safeEqual(password, envPw);
+      }
+    }
+    if (!ok) {
       const { locked } = await trackFailedLogin(req.ip);
       const globalLocked = _trackAdminGlobalFailure();
       audit("ADMIN_FAIL", req);
@@ -10475,7 +10516,7 @@ app.post("/api/admin/login",
     const token = _signToken({ role: "admin", id: 0 }, { expiresIn: "4h", algorithm: "HS256" });
     markFreshAuth(0);
     audit("ADMIN_LOGIN", req);
-    res.json({ ok: true, token });
+    res.json({ ok: true, token, role: "admin" });
   } : notReady);
 
 // ── Token refresh ──────────────────────────────────────────────
@@ -13988,6 +14029,41 @@ app.post("/api/admin/tickets/:id/reply", adminMiddleware, AUTH_READY ? async (re
     }
     try { logActivity("ticket_admin_reply", { ticketId: t.id, adminId: req.user.id, isCanned }); } catch (_) {}
     res.json({ ok: true, message: msg, ticket: _prodDb.getDispute(t.id) });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin: personal price-quote requests (customer → suppliers) ──
+// Used by the unified AdminDashboard to surface "בקשות הצעת מחיר אישיות".
+app.get("/api/admin/personal-requests", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const limit = Math.max(1, Math.min(500, Number(req.query.limit) || 100));
+    const status = req.query.status ? String(req.query.status) : null;
+    let all = _prodDb.listPersonalRequests() || [];
+    if (status) all = all.filter(r => r.status === status);
+    // Newest first (these are pushed in id order, so reverse is enough).
+    all = all.slice().reverse().slice(0, limit);
+    res.json({ ok: true, requests: all, total: all.length });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+} : notReady);
+
+// ── Admin: recent orders across all customers/suppliers ──────────
+// Listed for the "הזמנות אחרונות" tab.
+app.get("/api/admin/orders", adminMiddleware, AUTH_READY ? (req, res) => {
+  try {
+    const limit = Math.max(1, Math.min(500, Number(req.query.limit) || 100));
+    const offset = Math.max(0, Number(req.query.offset) || 0);
+    const status = req.query.status ? String(req.query.status) : null;
+    let all = _prodDb.listOrders() || [];
+    if (status) all = all.filter(o => o.status === status);
+    // Newest first by createdAt if present, otherwise by id.
+    all.sort((a, b) => {
+      const ta = a?.createdAt ? Date.parse(a.createdAt) : 0;
+      const tb = b?.createdAt ? Date.parse(b.createdAt) : 0;
+      if (tb !== ta) return tb - ta;
+      return (Number(b?.id) || 0) - (Number(a?.id) || 0);
+    });
+    const page = all.slice(offset, offset + limit);
+    res.json({ ok: true, orders: page, total: all.length, limit, offset });
   } catch (e) { res.status(500).json({ error: e.message }); }
 } : notReady);
 

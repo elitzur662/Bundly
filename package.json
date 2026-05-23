@@ -22,13 +22,15 @@
     "preproduction": "npm run audit && npm run security:lint",
     "prestart": "node -e \"require('child_process').spawnSync('npm',['run','preproduction'],{stdio:'inherit',shell:true})\"",
     "smoke": "node scripts/smoke-test.mjs",
-    "verify": "npm run build && npm run smoke"
+    "verify": "npm run build && npm run smoke",
+    "hash-admin-password": "node scripts/hash-admin-password.mjs"
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@stripe/react-stripe-js": "^6.3.0",
     "@stripe/stripe-js": "^9.4.0",
     "axios": "^1.7.2",
+    "bcryptjs": "^3.0.3",
     "cheerio": "^1.0.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.6",
