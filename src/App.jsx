@@ -12322,6 +12322,15 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
   // "אפשרויות הוזלת מחיר" section lives).
   const handleJoinGroup = () => {
     const loadedImg = allImages[imgIdx] || allImages[0] || result.image;
+    // DIAGNOSTIC LOG (TV routing bug): if existingDeal is set we route to it,
+    // bypassing the "new deal" flow entirely. If many different TVs all see
+    // the same existingDeal here, findDealForProduct is over-matching.
+    const _eName = existingDeal && existingDeal.name && (typeof existingDeal.name === "string" ? existingDeal.name : existingDeal.name.he || existingDeal.name.en) || "";
+    console.log("[SearchResultModal handleJoinGroup] result.productName=", result.productName,
+                "existingDeal?", !!existingDeal,
+                "existingDeal.name=", _eName,
+                "existingDeal.id=", existingDeal?.id,
+                "existingDeal.productKey=", existingDeal?.productKey);
     if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
     else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
   };
@@ -22494,6 +22503,13 @@ export default function App() {
         }))
         .filter(b => b.amount > 0),
     };
+    // DIAGNOSTIC LOG (TV routing bug investigation): see exactly which
+    // product the user is opening and what productKey is being sent.
+    console.log("[handleAddDealFromSearch] result.productName=", result.productName,
+                "result.productKey=", result.productKey,
+                "newDeal.productKey=", newDeal.productKey,
+                "newDeal.id=", newDeal.id);
+
     // Optimistic insert so the UI responds instantly.
     setDeals(prev => [newDeal, ...prev]);
     setSelectedDeal(newDeal);
@@ -22513,19 +22529,36 @@ export default function App() {
       const data = await r.json();
       const serverDeal = data && data.deal;
       if (!serverDeal || !serverDeal.id) return;
-      // Replace the optimistic temp-id deal with the server's row. If the
-      // server deduped to an existing deal, this also collapses our temp
-      // deal onto the shared one, no duplicate remains in state.
+      // DIAGNOSTIC LOG (TV routing bug): if the server returned a deal whose
+      // name differs from what we posted, the merge would visually swap the
+      // user's TV for the existing colliding deal's TV. Surface it loudly.
+      const _clientName = (newDeal.name && (typeof newDeal.name === "string" ? newDeal.name : newDeal.name.he || newDeal.name.en)) || "";
+      const _serverName = (serverDeal.name && (typeof serverDeal.name === "string" ? serverDeal.name : serverDeal.name.he || serverDeal.name.en)) || "";
+      const _nameMatches = _clientName.trim().toLowerCase() === _serverName.trim().toLowerCase();
+      console.log("[handleAddDealFromSearch] server returned id=", serverDeal.id,
+                  "server name=", _serverName, "name match=", _nameMatches);
+      if (!_nameMatches) {
+        console.warn("[handleAddDealFromSearch] SERVER RETURNED A DIFFERENT PRODUCT, preserving CLIENT name/image/productKey to keep the user on the TV they clicked");
+      }
+      // Replace the optimistic temp-id deal with the server's row. Server is
+      // authoritative for id + persistence fields, but identity (name, image,
+      // productKey, catIdx) MUST stay client-side. If the server somehow
+      // deduped/returned a different product, we keep the user on what they
+      // clicked instead of silently swapping the deal's TV for another one.
+      const merged = {
+        ...serverDeal,
+        // client-authoritative identity, never let server override
+        name:        newDeal.name,
+        image:       newDeal.image,
+        productKey:  newDeal.productKey,
+        catIdx:      newDeal.catIdx,
+        _preloadedImage: newDeal._preloadedImage,
+      };
       setDeals(prev => {
         const withoutTemp = prev.filter(d => d.id !== newDeal.id && d.id !== serverDeal.id);
-        // Preserve client-only display fields the server doesn't store,
-        // but let the server be authoritative for id + persisted fields.
-        const merged = { ...newDeal, ...serverDeal };
         return [merged, ...withoutTemp];
       });
-      setSelectedDeal(sd => (sd && sd.id === newDeal.id)
-        ? { ...newDeal, ...serverDeal }
-        : sd);
+      setSelectedDeal(sd => (sd && sd.id === newDeal.id) ? merged : sd);
     } catch {
       /* offline / server down → keep the optimistic client-only deal */
     }
