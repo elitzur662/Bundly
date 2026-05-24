@@ -8573,8 +8573,13 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                           const _norm = (s) => String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
                           const target = _norm(it.name);
                           const matchDeal = (deals || []).find(d => {
-                            const dName = (d?.name?.he || d?.name?.en || "");
-                            return _norm(dName) === target;
+                            // Round 2 audit P1: also fall back to d.productName
+                            // for deals server-imported without {he,en} name shape.
+                            // Filter active-status only so we don't try to bid
+                            // on closed deals (server would 409 anyway).
+                            const dName = d?.name?.he || d?.name?.en || d?.productName || "";
+                            const _status = String(d?.status || "active").toLowerCase();
+                            return _status === "active" && _norm(dName) === target;
                           });
                           if (matchDeal) {
                             const cp = lowestPlausibleBid(matchDeal) ?? matchDeal.groupOffer ?? matchDeal.marketMin ?? 0;
@@ -21730,7 +21735,10 @@ const _CHAT_OS_RX = [
     brands: ["Samsung", "Xiaomi", "Google", "OnePlus", "Oppo", "Vivo", "Realme", "Motorola", "Honor", "Huawei", "Nothing"],
   },
   {
-    rx: /\bios\b|אי.?או.?אס|אייפון|\biphone\b|אפל/i,
+    // Round 2 audit P1: "אפל" used to match inside אפלייה/אפלטון/אפלולית.
+    // Hebrew has no \b; require non-Hebrew-letter lookarounds so the word
+    // boundary is real. Same trick as the Dell brand regex.
+    rx: /\bios\b|אי.?או.?אס|אייפון|\biphone\b|(?<![א-ת])אפל(?![א-ת])/i,
     brands: ["Apple"],
   },
 ];
@@ -22730,9 +22738,14 @@ async function tryInstallApp() {
   try {
     ev.prompt();
     const choice = await ev.userChoice;
+    // Per W3C, the same BeforeInstallPromptEvent can't be re-prompted, so
+    // we ALWAYS consume the ref (was: only on accept). The caller's banner
+    // also dismisses regardless of outcome so a dismissed prompt doesn't
+    // leave a useless banner pinned on the screen forever.
     _installPromptRef.current = null;
     return { ok: choice && choice.outcome === "accepted", reason: choice?.outcome };
   } catch (e) {
+    _installPromptRef.current = null;
     return { ok: false, reason: e.message };
   }
 }
@@ -22746,7 +22759,19 @@ async function subscribePush(serverPublicKey) {
     permission = await Notification.requestPermission();
   }
   if (permission !== "granted") return { ok: false, reason: "denied" };
-  const reg = await navigator.serviceWorker.ready;
+  // Round 2 audit P1: serviceWorker.ready can hang forever if the SW
+  // registration is broken (bad scope, HTTPS misconfig). Cap with a 5s
+  // race so we don't leave the caller awaiting indefinitely after the
+  // permission dialog has already nagged the user.
+  let reg;
+  try {
+    reg = await Promise.race([
+      navigator.serviceWorker.ready,
+      new Promise((_r, rej) => setTimeout(() => rej(new Error("sw-timeout")), 5000)),
+    ]);
+  } catch (e) {
+    return { ok: false, reason: e.message || "sw-timeout" };
+  }
   // VAPID public key, base64url → Uint8Array
   const _urlBase64ToUint8 = (s) => {
     const pad = "=".repeat((4 - (s.length % 4)) % 4);
@@ -22800,8 +22825,10 @@ export default function App() {
     };
   }, []);
   const handleInstallApp = async () => {
-    const r = await tryInstallApp();
-    if (r.ok) setCanInstallApp(false);
+    await tryInstallApp();
+    // Always dismiss the banner after the prompt fires, regardless of
+    // accept/dismiss. The prompt event can't be re-fired anyway.
+    setCanInstallApp(false);
   };
 
   const [mode, setMode] = useState(() => {
@@ -23859,12 +23886,15 @@ export default function App() {
         }))
         .filter(b => b.amount > 0),
     };
-    // DIAGNOSTIC LOG (TV routing bug investigation): see exactly which
-    // product the user is opening and what productKey is being sent.
-    console.log("[handleAddDealFromSearch] result.productName=", result.productName,
-                "result.productKey=", result.productKey,
-                "newDeal.productKey=", newDeal.productKey,
-                "newDeal.id=", newDeal.id);
+    // DIAGNOSTIC LOG (TV routing bug investigation), gated to dev only so
+    // production users don't see noisy console output. Toggle via
+    // VITE_DEV / import.meta.env.DEV in vite.
+    if (import.meta.env.DEV) {
+      console.log("[handleAddDealFromSearch] result.productName=", result.productName,
+                  "result.productKey=", result.productKey,
+                  "newDeal.productKey=", newDeal.productKey,
+                  "newDeal.id=", newDeal.id);
+    }
 
     // Optimistic insert so the UI responds instantly.
     setDeals(prev => [newDeal, ...prev]);
@@ -23904,10 +23934,12 @@ export default function App() {
       const _clientName = (newDeal.name && (typeof newDeal.name === "string" ? newDeal.name : newDeal.name.he || newDeal.name.en)) || "";
       const _serverName = (serverDeal.name && (typeof serverDeal.name === "string" ? serverDeal.name : serverDeal.name.he || serverDeal.name.en)) || "";
       const _nameMatches = _clientName.trim().toLowerCase() === _serverName.trim().toLowerCase();
-      console.log("[handleAddDealFromSearch] server returned id=", serverDeal.id,
-                  "server name=", _serverName, "name match=", _nameMatches);
-      if (!_nameMatches) {
-        console.warn("[handleAddDealFromSearch] SERVER RETURNED A DIFFERENT PRODUCT, preserving CLIENT name/image/productKey to keep the user on the TV they clicked");
+      if (import.meta.env.DEV) {
+        console.log("[handleAddDealFromSearch] server returned id=", serverDeal.id,
+                    "server name=", _serverName, "name match=", _nameMatches);
+        if (!_nameMatches) {
+          console.warn("[handleAddDealFromSearch] SERVER RETURNED A DIFFERENT PRODUCT, preserving CLIENT name/image/productKey");
+        }
       }
       // Replace the optimistic temp-id deal with the server's row. Server is
       // authoritative for id + persistence fields, but identity (name, image,
@@ -25650,7 +25682,10 @@ export default function App() {
           iOS Safari has no API so users add via Share → "Add to Home Screen"
           manually, the banner copy hints at that on iOS. */}
       {canInstallApp && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[55] bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-3 max-w-[92vw]" dir="rtl">
+        // Round 2 audit P1: was bottom-20 + max-w-[92vw], overlapped the
+        // BundlyFab chat bubble on narrow phones. Lifted to bottom-36 and
+        // narrowed so the FAB stays visible to the right.
+        <div className="fixed bottom-36 left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:max-w-md z-[55] bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-3" role="dialog" aria-label="התקנת אפליקציה" dir="rtl">
           <span className="text-xl">📱</span>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-black">התקן את האפליקציה</p>
