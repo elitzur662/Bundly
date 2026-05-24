@@ -22722,6 +22722,11 @@ function GroupJoinCelebration({ deal, prevCount = 0, newCount = 1, poolCount = 0
 //  can fan out deal-closed / new-offer notifications.
 // ─────────────────────────────────────────────────────────────────
 const _installPromptRef = { current: null };
+// P0 round 3 (audit 2026-05-23): handleJoin double-click guard must live
+// in module scope so it survives every App re-render. Previously it was a
+// function property on a function that's recreated each render → Set was
+// always empty → guard never fired.
+const _handleJoinInflight = new Set();
 if (typeof window !== "undefined") {
   window.addEventListener("beforeinstallprompt", (e) => {
     // Stop Chrome's default mini-info bar; we surface our own button.
@@ -23626,19 +23631,15 @@ export default function App() {
       setShowAuth(true);
       return;
     }
-    // P0 round 2 fix (audit 2026-05-23): double-click guard for the free
-    // tiers (interested / placeholder). A rapid double-tap on the in-page
-    // SilentJoinSelector fires this handler twice in one React tick; both
-    // calls re-read the same `deals` state via closure and the optimistic
-    // setDeals updater runs twice, inflating the participants/interested
-    // count by +1 per extra tap. The committed tier is protected by the
-    // DepositModal latency (modal opens, blocks repeat). The free tiers
-    // were wide open.
+    // P0 round 3 fix (audit 2026-05-23): the round-2 guard used
+    // `handleJoin._inflight` as a function property, but handleJoin is
+    // redefined on every App render, so the Set was a fresh empty one on
+    // every render and the guard never actually fired. Now it uses the
+    // module-scope _handleJoinInflight Set which survives re-renders.
     const _joinKey = `${id}:${tier}`;
-    if (!handleJoin._inflight) handleJoin._inflight = new Set();
-    if (handleJoin._inflight.has(_joinKey)) return;
-    handleJoin._inflight.add(_joinKey);
-    setTimeout(() => handleJoin._inflight.delete(_joinKey), 1500);
+    if (_handleJoinInflight.has(_joinKey)) return;
+    _handleJoinInflight.add(_joinKey);
+    setTimeout(() => _handleJoinInflight.delete(_joinKey), 1500);
     setDeals(p => p.map(d => {
       if (d.id !== id) return d;
       return {

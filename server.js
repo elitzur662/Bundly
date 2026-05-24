@@ -12026,15 +12026,20 @@ app.post("/api/push/subscribe",
         if (payload?.id != null) userId = payload.id;
       }
     } catch (_) { /* anonymous push is allowed */ }
-    // Prevent re-binding hijack: if this endpoint already belongs to ANOTHER
-    // authenticated user, refuse. New endpoints + same-user refreshes pass.
+    // Prevent re-binding hijack. The round-2 fix only blocked auth → different-
+    // auth re-bind; round 3 audit caught the easier path: an anonymous POST
+    // for an endpoint OWNED BY an authenticated user would orphan the row
+    // (set userId=null) and any subsequent unsubscribe could DOS the legit
+    // user's notifications. Block ALL re-bindings to a different identity.
     try {
       const _existing = _prodDb.listPushSubscriptions
         ? _prodDb.listPushSubscriptions().find(s => s.endpoint === sub.endpoint)
         : null;
-      if (_existing && _existing.userId != null && userId != null
-          && Number(_existing.userId) !== Number(userId)) {
-        return res.status(403).json({ error: "Endpoint already bound to another account" });
+      if (_existing) {
+        const sameOwner = Number(_existing.userId || 0) === Number(userId || 0);
+        if (!sameOwner) {
+          return res.status(403).json({ error: "Endpoint already bound to another account" });
+        }
       }
     } catch (_) {}
     const saved = _prodDb.savePushSubscription(userId, sub);

@@ -369,9 +369,15 @@ export function verifyWebhookSignature(rawBody, signature) {
     if (event.id && _seenWebhookIds.has(event.id)) {
       return { ok: false, error: "Webhook replay rejected", replay: true, eventId: event.id };
     }
-    // 2) Freshness window — events >5min old likely captured-and-replayed
+    // 2) Freshness window. Round-3 audit P0: the 5-min cap rejected every
+    // Stripe-retried webhook during a Bundly outage (Stripe retries up to
+    // 3 days). Our actual replay protection is the event.id dedupe in
+    // step 3 below; the freshness window adds little security and created
+    // a major reliability hazard (stuck orders). Widened to 3 days +
+    // 5 minutes of clock skew tolerance.
     const eventAgeMs = Date.now() - (event.created * 1000);
-    if (eventAgeMs > 5 * 60 * 1000) {
+    const FRESH_WINDOW_MS = 3 * 24 * 60 * 60 * 1000 + 5 * 60 * 1000;
+    if (eventAgeMs > FRESH_WINDOW_MS) {
       return { ok: false, error: "Webhook event too old", stale: true, ageMs: eventAgeMs };
     }
     // 3) Mark as seen
