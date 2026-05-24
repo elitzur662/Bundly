@@ -11989,16 +11989,35 @@ app.delete("/api/user/joined-deals/:dealId", authMiddleware, AUTH_READY ? (req, 
 // VAPID_PRIVATE_KEY in env; generate with `web-push generate-vapid-keys`).
 // This endpoint persists the subscription regardless, so once you wire
 // the fan-out side later, every previously-subscribed user will be reached.
-app.post("/api/push/subscribe", express.json({ limit: "8kb" }), (req, res) => {
+// SECURITY (P1 round 2 audit 2026-05-23): the previous push endpoints had
+// no rate limit, no URL validation on the endpoint, and unsubscribe had
+// no auth. An attacker could spam thousands of fake subscriptions to
+// bloat bundly-db.json, OR re-bind a known endpoint to their own JWT to
+// harvest future push payloads (the row's userId was overwritten on
+// re-subscribe). All three are now closed:
+const _TRUSTED_PUSH_HOSTS = /(^|\.)fcm\.googleapis\.com$|(^|\.)push\.apple\.com$|(^|\.)notify\.windows\.com$|^updates\.push\.services\.mozilla\.com$/;
+function _isValidPushEndpoint(u) {
+  try {
+    const p = new URL(u);
+    if (p.protocol !== "https:") return false;
+    return _TRUSTED_PUSH_HOSTS.test(p.hostname);
+  } catch { return false; }
+}
+app.post("/api/push/subscribe",
+  rateLimit({ windowMs: 60_000, max: 5, label: "push-subscribe" }),
+  express.json({ limit: "8kb" }),
+  (req, res) => {
   try {
     if (!_prodDb?.savePushSubscription) return res.status(503).json({ error: "DB not ready" });
     const sub = req.body || {};
     if (!sub.endpoint || !sub.keys?.p256dh || !sub.keys?.auth) {
       return res.status(400).json({ error: "Invalid subscription shape" });
     }
+    if (!_isValidPushEndpoint(sub.endpoint)) {
+      return res.status(400).json({ error: "Endpoint must be a known push-service https URL" });
+    }
     // Auth is optional; anonymous users CAN receive push (e.g. for a deal
-    // they're tracking) but we record the user id when available so the
-    // unsubscribe / per-user notification routing works.
+    // they're tracking) but we record the user id when available.
     let userId = null;
     try {
       const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
@@ -12007,15 +12026,49 @@ app.post("/api/push/subscribe", express.json({ limit: "8kb" }), (req, res) => {
         if (payload?.id != null) userId = payload.id;
       }
     } catch (_) { /* anonymous push is allowed */ }
+    // Prevent re-binding hijack: if this endpoint already belongs to ANOTHER
+    // authenticated user, refuse. New endpoints + same-user refreshes pass.
+    try {
+      const _existing = _prodDb.listPushSubscriptions
+        ? _prodDb.listPushSubscriptions().find(s => s.endpoint === sub.endpoint)
+        : null;
+      if (_existing && _existing.userId != null && userId != null
+          && Number(_existing.userId) !== Number(userId)) {
+        return res.status(403).json({ error: "Endpoint already bound to another account" });
+      }
+    } catch (_) {}
     const saved = _prodDb.savePushSubscription(userId, sub);
     res.json({ ok: true, savedAt: saved?.updatedAt });
   } catch (e) { res.status(500).json({ error: e.message }); }
 });
-app.post("/api/push/unsubscribe", express.json({ limit: "4kb" }), (req, res) => {
+app.post("/api/push/unsubscribe",
+  rateLimit({ windowMs: 60_000, max: 10, label: "push-unsubscribe" }),
+  express.json({ limit: "4kb" }),
+  (req, res) => {
   try {
     if (!_prodDb?.removePushSubscription) return res.status(503).json({ error: "DB not ready" });
     const { endpoint } = req.body || {};
     if (!endpoint) return res.status(400).json({ error: "Missing endpoint" });
+    // Require auth: only the OWNING user (or an anonymous owner) can
+    // unsubscribe. Without this, anyone who saw the endpoint string in
+    // a log/devtools could DOS another user's notifications.
+    let callerId = null;
+    try {
+      const tok = (req.headers.authorization || "").replace(/^Bearer\s+/i, "").trim();
+      if (tok && AUTH_READY) {
+        const payload = jwt.verify(tok, JWT_SECRET, JWT_OPTS);
+        if (payload?.id != null) callerId = payload.id;
+      }
+    } catch (_) {}
+    try {
+      const _existing = _prodDb.listPushSubscriptions
+        ? _prodDb.listPushSubscriptions().find(s => s.endpoint === endpoint)
+        : null;
+      if (_existing && _existing.userId != null
+          && (callerId == null || Number(_existing.userId) !== Number(callerId))) {
+        return res.status(403).json({ error: "Not your subscription" });
+      }
+    } catch (_) {}
     const removed = _prodDb.removePushSubscription(endpoint);
     res.json({ ok: true, removed });
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -12515,40 +12568,49 @@ app.post("/api/deals/:dealId/bids",
   if (!Number.isFinite(amt) || amt <= 0 || amt > 10_000_000) {
     return res.status(400).json({ error: "Invalid amount" });
   }
-  // SECURITY (P0, audit 2026-05-23): enforce the deal's priceFloor server-side.
-  // The UI's lowestPlausibleBid filter blocked typo-low bids in the supplier
-  // dashboard, but a direct `curl -d '{"amount":1,...}'` would bypass the UI
-  // and end up as the winning bid at deal-close, costing the supplier their
-  // margin and poisoning the displayed lowest-bid for every other customer.
-  // Floor = explicit deal.priceFloor when set, else 40% of marketMin/Max as a
-  // reasonable lower bound (a real supplier cannot beat 60%-off retail).
-  if (typeof getDeal === "function") {
-    try {
-      const _deal = getDeal(dealId);
-      if (_deal) {
-        const _ref = Number(_deal.marketMin) || Number(_deal.marketMax) || 0;
-        const _floor = Number(_deal.priceFloor) || (_ref > 0 ? Math.round(_ref * 0.4) : 0);
-        if (_floor > 0 && amt < _floor) {
-          audit("BID_BELOW_FLOOR", req, { dealId, amt, floor: _floor });
-          return res.status(400).json({
-            error:      "המחיר שהוצע נמוך מהמינימום הסביר עבור המוצר. אנא הצע מחיר ריאלי.",
-            priceFloor: _floor,
-          });
-        }
-      }
-    } catch (_) { /* getDeal failure shouldn't block legitimate bids */ }
-  }
   if (!supplierId)                       return res.status(400).json({ error: "Missing supplierId" });
-  // SECURITY (red-team round 2, C-R2-3): the previous "verification" was a
-  // tautology, header and body are both attacker-controlled, and the
-  // `guest-supplier` literal acted as an unconditional bypass that let
-  // anonymous callers inject ₪1 bids and corrupt the deal-close winner.
-  // Now require a real Bearer JWT, resolve the supplier from it, and PIN
-  // `supplierId` from the verified record, body value is ignored.
+  // SECURITY (round 2 audit P1): require auth BEFORE we look up the deal
+  // for the priceFloor check. Previously, the floor block ran first and
+  // leaked deal.priceFloor in the 400 response body to unauthenticated
+  // callers, enabling enumeration of every deal's hidden floor.
   const ident = _resolveVerifiedSupplier(req);
   if (ident.error) {
     audit("IDOR_BLOCKED", req, { endpoint: "bid-create", reason: ident.error });
     return res.status(ident.code || 401).json({ error: ident.error });
+  }
+  // SECURITY (round 2 audit P1): reject bids on non-existent deals. Without
+  // this, addDealBid would create a fresh `db.dealBids["fake-id"]` array,
+  // polluting the JSON store with orphan rows indefinitely.
+  let _deal = null;
+  if (typeof getDeal === "function") {
+    try { _deal = getDeal(dealId); } catch (_) {}
+  }
+  if (!_deal) {
+    return res.status(404).json({ error: "Deal not found" });
+  }
+  // SECURITY (round 2 audit P1): block bids on closed/cancelled deals.
+  // The status check stops a supplier from poisoning historical data
+  // post-close (which would also re-trigger "competitor undercut" notif).
+  const _dealStatus = String(_deal.status || "").toLowerCase();
+  if (_dealStatus === "closed" || _dealStatus === "cancelled") {
+    return res.status(409).json({ error: "הקבוצה סגורה, לא ניתן להגיש הצעות נוספות" });
+  }
+  // SECURITY (P0, audit 2026-05-23): enforce priceFloor server-side.
+  // Round 1: ignored deals without a market reference. Round 2 fix:
+  // apply an absolute minimum (₪50) when no explicit floor + no market
+  // ref so a ₪1 bid is still rejected on free-listing / scraper-miss deals.
+  const _ref   = Number(_deal.marketMin) || Number(_deal.marketMax) || 0;
+  const _floor = Math.max(
+    Number(_deal.priceFloor) || 0,
+    _ref > 0 ? Math.round(_ref * 0.4) : 0,
+    50  // absolute minimum, no real supplier offer falls below this
+  );
+  if (amt < _floor) {
+    audit("BID_BELOW_FLOOR", req, { dealId, amt, floor: _floor, supplierId: ident.supplier?.id });
+    return res.status(400).json({
+      error:      "המחיר שהוצע נמוך מהמינימום הסביר עבור המוצר. אנא הצע מחיר ריאלי.",
+      priceFloor: _floor,
+    });
   }
   let resolvedSupplierId = supplierId;
   let resolvedSupplierName = supplierName;
@@ -12981,15 +13043,21 @@ app.get("/api/suppliers/:supplierId/customer-interests", requireSupplierMatch, (
     const limit = Math.max(1, Math.min(100, Number(req.query.limit) || 30));
     // SECURITY (P1, audit 2026-05-23): exclude the supplier's own user
     // account(s) so testing the platform as a customer doesn't pollute
-    // the supplier's demand signals with phantom self-interest.
-    let excludeUserIds = null;
+    // the supplier's demand signals. Round 2 fix: ALSO look up by phone
+    // (a supplier registered phone-only had no self-exclude path before).
+    const excludeSet = new Set();
     try {
       const supplier = _prodDb.getSupplier?.(req.params.supplierId);
       if (supplier?.email && typeof getUserByEmail === "function") {
         const u = getUserByEmail(supplier.email);
-        if (u?.id != null) excludeUserIds = [u.id];
+        if (u?.id != null) excludeSet.add(u.id);
+      }
+      if (supplier?.phone && typeof getUserByPhone === "function" && typeof normalizePhone === "function") {
+        const u = getUserByPhone(normalizePhone(supplier.phone));
+        if (u?.id != null) excludeSet.add(u.id);
       }
     } catch (_) { /* best-effort */ }
+    const excludeUserIds = excludeSet.size > 0 ? Array.from(excludeSet) : null;
     const interests = _prodDb.aggregateCustomerInterests({ catIdxFilter, limit, excludeUserIds });
     res.json({ ok: true, interests });
   } catch (e) { res.status(500).json({ error: e.message }); }
@@ -13667,14 +13735,27 @@ app.post("/api/deals/:dealId/questions/:qId/answer", express.json({ limit: "8kb"
   if (!ident.admin) {
     try {
       const _bids = (typeof getDealBids === "function") ? getDealBids(req.params.dealId) : [];
-      const _myBids = _bids.filter(b => String(b.supplierId) === String(ident.supplier.id));
-      const _lowest = _bids.reduce((m, b) => (Number(b.amount) || Infinity) < (Number(m.amount) || Infinity) ? b : m, { amount: Infinity });
-      const _isLeader = _myBids.some(b => Number(b.amount) === Number(_lowest.amount));
-      if (!_isLeader) {
-        audit("QA_ANSWER_BLOCKED", req, { dealId: req.params.dealId, supplierId: ident.supplier.id, reason: "not-leader" });
-        return res.status(403).json({ error: "רק הספק המוביל בקבוצה רשאי לענות לשאלות. שלח הצעה תחרותית כדי להוביל." });
+      // Round 2 audit P1: if NO bids exist yet, allow any KYC-approved
+      // supplier to answer. Without this the very first customer question
+      // sat forever because no one could lead a deal with 0 bids → no one
+      // could respond → customer thinks platform is dead.
+      if (_bids.length === 0) {
+        // Fall through, answer is allowed.
+      } else {
+        const _myBids = _bids.filter(b => String(b.supplierId) === String(ident.supplier.id));
+        const _lowest = _bids.reduce((m, b) => (Number(b.amount) || Infinity) < (Number(m.amount) || Infinity) ? b : m, { amount: Infinity });
+        const _isLeader = _myBids.some(b => Number(b.amount) === Number(_lowest.amount));
+        if (!_isLeader) {
+          audit("QA_ANSWER_BLOCKED", req, { dealId: req.params.dealId, supplierId: ident.supplier.id, reason: "not-leader" });
+          return res.status(403).json({ error: "רק הספק המוביל בקבוצה רשאי לענות לשאלות. שלח הצעה תחרותית כדי להוביל." });
+        }
       }
-    } catch (_) { /* DB lookup failure shouldn't block answers from a legitimate leader */ }
+    } catch (_e) {
+      // Round 2 audit P2: was fail-open; switch to fail-closed so a
+      // transient DB error doesn't accidentally open a hijack window.
+      audit("QA_ANSWER_BLOCKED", req, { reason: "db-error", err: _e.message });
+      return res.status(503).json({ error: "השירות זמנית לא זמין, נסה שוב מאוחר יותר" });
+    }
   }
   const verifiedBy = ident.admin
     ? "Bundly Admin"

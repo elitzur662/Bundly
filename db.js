@@ -274,6 +274,10 @@ export function claimUserPhone(userId, normalizedPhone) {
   return _mutate(db => {
     const me = db.users.find(u => u.id === userId);
     if (!me) return { ok: false, reason: "not_found" };
+    // Round 2 audit P1: idempotency. If the user already owns THIS exact
+    // phone (legitimate retry on a flaky network), treat as success
+    // rather than 403'ing. Only block when the user has a DIFFERENT phone.
+    if (me.phone === normalizedPhone) return { ok: true, user: me, idempotent: true };
     if (me.phone) return { ok: false, reason: "has_phone" };
     const taken = db.users.some(u => u.id !== userId && u.phone === normalizedPhone);
     if (taken) return { ok: false, reason: "taken" };
@@ -1573,6 +1577,13 @@ export function updateSupplierListing(listingId, supplierId, fields) {
     if (k === "basePrice") v = Math.max(0, Number(v) || 0);
     else if (k === "qty")  v = Math.max(0, Math.floor(Number(v) || 0));
     else if (k === "active") v = v === true || v === "true" || v === 1;
+    else if (k === "image") {
+      // Round 2 audit P1: createSupplierListing already validates image
+      // as http(s); the update path was missing the same check, letting a
+      // supplier PATCH `javascript:` or `data:text/html,...` into a public
+      // listing. Keep the previous value when the incoming URL is not http(s).
+      v = (typeof v === "string" && /^https?:\/\//i.test(v)) ? v.slice(0, 500) : merged[k];
+    }
     else if (typeof v === "string") v = v.slice(0, 500);
     merged[k] = v;
   }
