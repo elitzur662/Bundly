@@ -632,16 +632,20 @@ export function updateTransaction(id, fields) {
 // Persistent supplier accounts with KYC verification
 export function createSupplier({ businessName, businessNumber, ownerName, email, phone, address, category, description, licenseDoc = null, bankAccount = null }) {
   _db = load();
+  // Round 3 audit P1: cap every supplier-supplied string at sane length +
+  // sanitise. Without this a registration form with a 100KB ownerName
+  // bloats the JSON store every read/save and the field is rendered raw
+  // in the admin KYC queue (XSS surface, though admin-only).
   const supplier = {
     id: nextId(_db.suppliersRegistry),
-    businessName: businessName || "",
-    businessNumber: businessNumber || "",
-    ownerName: ownerName || "",
-    email: email || "",
-    phone: phone || "",
-    address: address || "",
-    category: category || "",
-    description: description || "",
+    businessName:   _sanitiseStored(businessName || "").slice(0, 200),
+    businessNumber: _sanitiseStored(businessNumber || "").slice(0, 50),
+    ownerName:      _sanitiseStored(ownerName || "").slice(0, 120),
+    email:          _sanitiseStored(email || "").slice(0, 200),
+    phone:          _sanitiseStored(phone || "").slice(0, 30),
+    address:        _sanitiseStored(address || "").slice(0, 300),
+    category:       _sanitiseStored(category || "").slice(0, 80),
+    description:    _sanitiseStored(description || "").slice(0, 2000),
     licenseDoc,                   // path to uploaded business license PDF
     bankAccount,                  // { bank, branch, accountNumber }, for payouts
     paymentLink: "",              // supplier's own payment URL, used when a customer picks "pay supplier directly"
@@ -1309,18 +1313,42 @@ export function listAllActiveAutoBidRules() {
   _db = load();
   return (_db.autoBidRules || []).filter(r => r.active);
 }
+// Round 3 audit P1: clamp all numeric/string inputs. Without bounds a
+// supplier could create a rule with maxPrice = -1 (would auto-undercut to
+// 0 and steal every join), maxPrice = Infinity (would auto-win every
+// deal at any markup), or a 1MB modelMatch regex string that bloats the
+// store on every save.
+const _AUTOBID_MAX_PRICE_CAP    = 10_000_000;   // ₪10M, well above any real product
+const _AUTOBID_MAX_UNDERCUT_CAP = 1_000_000;
+function _clampAutoBidFields(fields) {
+  const out = {};
+  if (fields.category   !== undefined) out.category   = String(fields.category   || "").trim().slice(0, 80);
+  if (fields.brand      !== undefined) out.brand      = String(fields.brand      || "").trim().slice(0, 80);
+  if (fields.modelMatch !== undefined) out.modelMatch = String(fields.modelMatch || "").trim().slice(0, 200);
+  if (fields.maxPrice   !== undefined) {
+    const n = Number(fields.maxPrice);
+    out.maxPrice = Number.isFinite(n) ? Math.min(_AUTOBID_MAX_PRICE_CAP, Math.max(0, n)) : 0;
+  }
+  if (fields.undercut   !== undefined) {
+    const n = Number(fields.undercut);
+    out.undercut = Number.isFinite(n) ? Math.min(_AUTOBID_MAX_UNDERCUT_CAP, Math.max(0, n)) : 0;
+  }
+  if (fields.active     !== undefined) out.active = fields.active !== false && fields.active !== "false";
+  return out;
+}
 export function createAutoBidRule(supplierId, rule) {
   _db = load();
   if (!Array.isArray(_db.autoBidRules)) _db.autoBidRules = [];
+  const clamped = _clampAutoBidFields(rule || {});
   const newRule = {
     id:           `r${Date.now()}_${Math.random().toString(36).slice(2,6)}`,
     supplierId:   String(supplierId),
-    category:     String(rule.category || "").trim(),
-    brand:        String(rule.brand || "").trim(),
-    modelMatch:   String(rule.modelMatch || "").trim(),
-    maxPrice:     Number(rule.maxPrice) || 0,
-    undercut:     Math.max(0, Number(rule.undercut) || 0),
-    active:       rule.active !== false,
+    category:     clamped.category   ?? "",
+    brand:        clamped.brand      ?? "",
+    modelMatch:   clamped.modelMatch ?? "",
+    maxPrice:     clamped.maxPrice   ?? 0,
+    undercut:     clamped.undercut   ?? 0,
+    active:       clamped.active !== undefined ? clamped.active : true,
     createdAt:    new Date().toISOString(),
   };
   _db.autoBidRules.push(newRule);
@@ -1332,7 +1360,10 @@ export function updateAutoBidRule(ruleId, supplierId, fields) {
   const rules = _db.autoBidRules || [];
   const idx = rules.findIndex(r => r.id === ruleId && r.supplierId === String(supplierId));
   if (idx === -1) return null;
-  rules[idx] = { ...rules[idx], ...fields, updatedAt: new Date().toISOString() };
+  // Round 3 audit P1: clamp PATCH fields too. The original `...fields` spread
+  // accepted any client-supplied shape including {maxPrice: -1}, NaN, etc.
+  const clamped = _clampAutoBidFields(fields || {});
+  rules[idx] = { ...rules[idx], ...clamped, updatedAt: new Date().toISOString() };
   save(_db);
   return rules[idx];
 }
@@ -1584,6 +1615,14 @@ export function updateSupplierListing(listingId, supplierId, fields) {
       // listing. Keep the previous value when the incoming URL is not http(s).
       v = (typeof v === "string" && /^https?:\/\//i.test(v)) ? v.slice(0, 500) : merged[k];
     }
+    // Round 3 audit P1: createSupplierListing runs _sanitiseStored on
+    // name/category/brand/description but the PATCH path was only doing
+    // a length cap, so a supplier could update an existing listing with
+    // HTML/javascript: payload that would have been stripped on create.
+    else if (k === "name")        v = _sanitiseStored(v).slice(0, 200);
+    else if (k === "category")    v = _sanitiseStored(v).slice(0, 80);
+    else if (k === "brand")       v = _sanitiseStored(v).slice(0, 80);
+    else if (k === "description") v = _sanitiseStored(v).slice(0, 1000);
     else if (typeof v === "string") v = v.slice(0, 500);
     merged[k] = v;
   }

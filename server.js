@@ -249,6 +249,10 @@ if (process.env.NODE_ENV === "production") {
   const SOFT_REQUIRED = [
     "STRIPE_WEBHOOK_SECRET",   // webhook handler already returns 503 if missing
     "RESEND_API_KEY",          // welcome / OTP / KYC / order-status emails won't send
+    // Round 3 audit P1: VAPID_PRIVATE_KEY pairs with VITE_VAPID_PUBLIC_KEY
+    // (HARD_REQUIRED). Without the private key /api/push/send-* silently
+    // no-ops and customers never receive price-drop / deal-activated push.
+    "VAPID_PRIVATE_KEY",
   ];
   const hardMissing = HARD_REQUIRED.filter(k => !process.env[k]);
   if (hardMissing.length > 0) {
@@ -276,6 +280,9 @@ if (process.env.NODE_ENV === "production") {
     }
     if (softMissing.includes("RESEND_API_KEY")) {
       console.warn(`     • RESEND_API_KEY missing → no welcome / OTP / KYC / order-status emails`);
+    }
+    if (softMissing.includes("VAPID_PRIVATE_KEY")) {
+      console.warn(`     • VAPID_PRIVATE_KEY missing → push notifications (price-drop, deal-activated) silently no-op`);
     }
     console.warn(`   Add them in Render → Environment when ready (no redeploy needed for env-only edits).`);
   }
@@ -698,7 +705,14 @@ async function _resolveSafeRemoteUrl(u) {
   } catch { return { ok: false, reason: "dns-fail" }; }
   if (/^(10\.|127\.|169\.254\.|192\.168\.|0\.)/.test(address)) return { ok: false, reason: "private-v4" };
   if (/^172\.(1[6-9]|2\d|3[01])\./.test(address))               return { ok: false, reason: "private-v4" };
-  if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168)/i.test(address)) return { ok: false, reason: "private-v6" };
+  // Round 3 audit P1: also block the carrier-grade NAT range (100.64/10),
+  // the multicast / reserved class D+E range (224.0.0.0/4), the link-local
+  // (169.254 — already covered above) and IPv4-mapped IPv6 form of the
+  // private 172.16/12 range. Without these, the SSRF block list missed
+  // common cloud-internal addresses (AWS metadata IPv4-mapped, GCP CGNAT).
+  if (/^100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\./.test(address)) return { ok: false, reason: "private-v4-cgnat" };
+  if (/^(22[4-9]|23\d|24\d|25[0-5])\./.test(address))            return { ok: false, reason: "multicast-reserved" };
+  if (/^(::1$|fc|fd|fe[89ab]|::ffff:127\.|::ffff:10\.|::ffff:192\.168|::ffff:169\.254|::ffff:172\.(1[6-9]|2\d|3[01])|::ffff:100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7]))/i.test(address)) return { ok: false, reason: "private-v6" };
   return { ok: true, address, family, hostname: host, protocol: parsed.protocol };
 }
 
@@ -13576,12 +13590,20 @@ app.post("/api/suppliers/:supplierId/listings",
     res.json({ ok: true, listing });
   });
 
-app.patch("/api/suppliers/:supplierId/listings/:listingId", requireSupplierMatch, express.json({ limit: "32kb" }), (req, res) => {
-  if (!updateSupplierListing) return res.status(503).json({ error: "DB not ready" });
-  const listing = updateSupplierListing(req.params.listingId, req.params.supplierId, req.body || {});
-  if (!listing) return res.status(404).json({ error: "Listing not found" });
-  res.json({ ok: true, listing });
-});
+app.patch("/api/suppliers/:supplierId/listings/:listingId",
+  requireSupplierMatch,
+  // Round 3 audit P1: the PATCH path had no rate limit, so a hostile (or
+  // buggy) supplier client could storm the DB with thousands of writes/sec
+  // and pin the JSON-store mutex. 30/min is well above any legitimate
+  // inline-edit flow.
+  rateLimit({ windowMs: 60_000, max: 30, label: "listing-patch" }),
+  express.json({ limit: "32kb" }),
+  (req, res) => {
+    if (!updateSupplierListing) return res.status(503).json({ error: "DB not ready" });
+    const listing = updateSupplierListing(req.params.listingId, req.params.supplierId, req.body || {});
+    if (!listing) return res.status(404).json({ error: "Listing not found" });
+    res.json({ ok: true, listing });
+  });
 
 app.delete("/api/suppliers/:supplierId/listings/:listingId", requireSupplierMatch, (req, res) => {
   if (!deleteSupplierListing) return res.status(503).json({ error: "DB not ready" });
@@ -13715,7 +13737,12 @@ app.post("/api/deals/:dealId/questions",
   // Notify the deal owner (we can't always resolve owner here cheaply, skip for now)
   res.json({ ok: true, question: entry });
 });
-app.post("/api/deals/:dealId/questions/:qId/answer", express.json({ limit: "8kb" }), (req, res) => {
+app.post("/api/deals/:dealId/questions/:qId/answer",
+  // Round 3 audit P1: the answer endpoint had no rate limit; an authenticated
+  // supplier could flood every open question with junk answers and pin the
+  // JSON-store mutex. 10/min is plenty for a real human answering Q&A.
+  rateLimit({ windowMs: 60_000, max: 10, label: "qa-answer" }),
+  express.json({ limit: "8kb" }), (req, res) => {
   if (!answerDealQuestion) return res.status(503).json({ error: "DB not ready" });
   // Auth: only an authenticated supplier (or admin) may answer. The
   // `answeredBy` stored on the question is set from the verified identity,

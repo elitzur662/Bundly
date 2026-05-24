@@ -328,8 +328,21 @@ const ALLOWED_BOT_PATHS = new Set(["/robots.txt", "/sitemap.xml", "/favicon.ico"
 export function blockBots(req, res, next) {
   if (ALLOWED_BOT_PATHS.has(req.path)) return next();
   const ua = req.headers["user-agent"] || "";
-  // Allow API calls with valid auth token (real clients)
-  if (req.headers.authorization?.startsWith("Bearer ")) return next();
+  // Round 3 audit P1: the original bypass `startsWith("Bearer ")` let any
+  // bot through by sending `Authorization: Bearer x` — no token format check,
+  // no length check. Require a JWT-shaped Bearer token (3 base64url segments
+  // joined by dots) and minimum length. Real auth still happens in
+  // authMiddleware, this is just gate-keeping that bots can't trivially fake.
+  const authz = req.headers.authorization || "";
+  if (authz.startsWith("Bearer ")) {
+    const tok = authz.slice(7).trim();
+    // JWT is header.payload.signature, each part is non-empty base64url.
+    // 20 chars is well below any real JWT (typical is 100+) but blocks "Bearer x".
+    if (tok.length >= 20 && /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/.test(tok)) {
+      return next();
+    }
+    // Fall through to UA check; if UA also looks like a bot, block.
+  }
   if (!ua || ua.length < 20 || BOT_UA_REGEX.test(ua)) {
     audit("BOT_BLOCKED", req, { ua: ua.slice(0, 80) });
     return res.status(403).json({ error: "Forbidden" });
@@ -531,7 +544,19 @@ export async function isLocked(ip, identity = null) {
 // snatches a URL out of one user's history cannot replay it against another
 // account when a session is present (see /invoices/:filename verifier — if
 // the request carries Authorization, req.user.id MUST equal aud).
-const URL_SIGN_SECRET = process.env.URL_SIGN_SECRET || process.env.JWT_SECRET || "bundly-fallback-signing";
+// Round 3 audit P1: the previous fallback to the literal string
+// "bundly-fallback-signing" meant that if BOTH URL_SIGN_SECRET and
+// JWT_SECRET were unset (unlikely but possible in a broken env), every
+// signed invoice URL was forgeable, the secret was checked into the
+// repo. server.js boot already calls _assertStrongSecret on
+// URL_SIGN_SECRET + JWT_SECRET in production, so by the time this
+// module loads in prod, at least one is set. In dev, fall back to a
+// random per-process secret instead, signed URLs from a previous boot
+// won't verify (acceptable for dev), but the secret is NEVER known to
+// an attacker.
+const URL_SIGN_SECRET = process.env.URL_SIGN_SECRET
+  || process.env.JWT_SECRET
+  || randomBytes(32).toString("hex");
 export function signUrl(path, ttlSeconds = 300, audUserId = null) {
   const exp = Math.floor(Date.now() / 1000) + ttlSeconds;
   const aud = audUserId == null ? "" : String(audUserId);

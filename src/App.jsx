@@ -13120,11 +13120,13 @@ function SearchResultModal({ result, t, onClose, onAddDeal, deals, onJoinDeal, o
     // bypassing the "new deal" flow entirely. If many different TVs all see
     // the same existingDeal here, findDealForProduct is over-matching.
     const _eName = existingDeal && existingDeal.name && (typeof existingDeal.name === "string" ? existingDeal.name : existingDeal.name.he || existingDeal.name.en) || "";
-    console.log("[SearchResultModal handleJoinGroup] result.productName=", result.productName,
-                "existingDeal?", !!existingDeal,
-                "existingDeal.name=", _eName,
-                "existingDeal.id=", existingDeal?.id,
-                "existingDeal.productKey=", existingDeal?.productKey);
+    if (import.meta.env.DEV) {
+      console.log("[SearchResultModal handleJoinGroup] result.productName=", result.productName,
+                  "existingDeal?", !!existingDeal,
+                  "existingDeal.name=", _eName,
+                  "existingDeal.id=", existingDeal?.id,
+                  "existingDeal.productKey=", existingDeal?.productKey);
+    }
     if (existingDeal) { onJoinDeal?.({ ...existingDeal, _preloadedImage: loadedImg }); }
     else { onAddDeal({ ...result, _joinTier: "interested", _preloadedImage: loadedImg }); }
   };
@@ -21698,7 +21700,7 @@ const _CHAT_CATEGORY_RX = [
 // because אייפון doesn't contain אפל).
 const _CHAT_BRAND_RX = [
   { rx: /samsung|סמסונג|galaxy|גלקסי/i,                                                 name: "Samsung" },
-  { rx: /\bapple\b|אפל|\biphone\b|אייפון|\bipad\b|אייפד|\bmacbook\b|מקבוק|\bimac\b|airpods/i, name: "Apple" },
+  { rx: /\bapple\b|(?<![א-ת])אפל(?![א-ת])|\biphone\b|אייפון|\bipad\b|אייפד|\bmacbook\b|מקבוק|\bimac\b|airpods/i, name: "Apple" },
   { rx: /\blg\b|אל.?ג.?י/i,                                                             name: "LG" },
   { rx: /\bsony\b|סוני/i,                                                               name: "Sony" },
   { rx: /xiaomi|שיאומי|redmi|רדמי/i,                                                    name: "Xiaomi" },
@@ -22764,19 +22766,22 @@ async function subscribePush(serverPublicKey) {
     permission = await Notification.requestPermission();
   }
   if (permission !== "granted") return { ok: false, reason: "denied" };
-  // Round 2 audit P1: serviceWorker.ready can hang forever if the SW
-  // registration is broken (bad scope, HTTPS misconfig). Cap with a 5s
-  // race so we don't leave the caller awaiting indefinitely after the
-  // permission dialog has already nagged the user.
-  let reg;
+  // Round 2 audit P1 + round 3: serviceWorker.ready can hang forever if
+  // the SW registration is broken. Cap with a 5s race so the caller
+  // doesn't hang after the permission dialog. Round 3 audit P1: capture
+  // the timer id and clear it in finally so a fast SW.ready doesn't
+  // leave a dangling setTimeout that delays mobile tab suspension.
+  let reg, _timeoutId;
   try {
-    reg = await Promise.race([
-      navigator.serviceWorker.ready,
-      new Promise((_r, rej) => setTimeout(() => rej(new Error("sw-timeout")), 5000)),
-    ]);
+    reg = await new Promise((resolve, reject) => {
+      _timeoutId = setTimeout(() => reject(new Error("sw-timeout")), 5000);
+      navigator.serviceWorker.ready.then(resolve, reject);
+    });
   } catch (e) {
+    if (_timeoutId) clearTimeout(_timeoutId);
     return { ok: false, reason: e.message || "sw-timeout" };
   }
+  if (_timeoutId) clearTimeout(_timeoutId);
   // VAPID public key, base64url → Uint8Array
   const _urlBase64ToUint8 = (s) => {
     const pad = "=".repeat((4 - (s.length % 4)) % 4);
@@ -24331,6 +24336,11 @@ export default function App() {
     setPersonalRequests([]);
     setSavedBundles([]);
     setMode("home");
+    // Round 3 audit P1: a logged-out user must not inherit the previous
+    // user's pending join intent. Without this, user A clicks "בפנים" → logs
+    // out before card validation → user B logs in on the same device and the
+    // join silently resumes against B's account.
+    pendingTierRef.current = null;
     // Force a soft reload via state changes, user-specific fetches will re-run
     // when a new user logs in.
   };
@@ -24839,7 +24849,7 @@ export default function App() {
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />
-        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
+        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);pendingTierRef.current=null;}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         <BundlyAdvisor deals={deals} lang={lang} t={t} onNavigateToDeal={openDeal} onSearchProduct={(q, filters) => { setSelectedDeal(null); openCategory(q, { filters }); }} />
         {/* Demand-pool picker, also rendered here so it works when triggered
@@ -24911,7 +24921,7 @@ export default function App() {
             onGoHome={goHome}
           />
         )}
-        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
+        {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);pendingTierRef.current=null;}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
         {joinFlowOverlays}
         <MobileBottomNav t={t} mode={mode} setMode={m => { closeCategory(); setMode(m); }} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={() => setShowAuth(true)} onCategoryBrowse={() => { closeCategory(); setShowCategoryBrowse(true); }} />
@@ -25000,7 +25010,7 @@ export default function App() {
           render branches (selectedDeal / categoryQuery / default). */}
       {joinFlowOverlays}
 
-      {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);}} />}
+      {showAuth && <AuthModal t={t} onSuccess={handleAuthSuccess} onClose={()=>{setShowAuth(false);setPendingSupplierLogin(false);pendingTierRef.current=null;}} />}
         {showProfile && user && <ProfileModal user={user} token={user.token || _getToken()} onClose={()=>setShowProfile(false)} onUpdate={u=>setUser(prev=>({...prev,...u}))} onNotify={notify} onLogout={handleLogout} />}
       {showSupplier && <SupplierKYCModal
         onRegistered={s=>{setPendingSuppliers(p=>[s,...p]);}}
