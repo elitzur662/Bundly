@@ -5245,7 +5245,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
 // ─────────────────────────────────────────────────────────────────
 //  DEAL DETAILS PAGE
 // ─────────────────────────────────────────────────────────────────
-function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimilar, user, onLoginPrompt, onJoinDemandPool, notify, onRequestSupplierPrice, demandPools, onAddToPool, onDirectJoinPool }) {
+function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimilar, onJoinComplete, user, onLoginPrompt, onJoinDemandPool, notify, onRequestSupplierPrice, demandPools, onAddToPool, onDirectJoinPool }) {
   const name = cleanName(deal.name[lang] || deal.name.en);
   const desc = deal.desc[lang] || deal.desc.en;
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
@@ -5359,8 +5359,15 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
     // Free tiers, no card validation. interested = soft register;
     // placeholder = soft register + opt-in to SMS notifications.
     if (tier === "interested" || tier === "placeholder") {
+      const _prevCount = Number(deal.participants) || 0;
       onJoin(deal.id, tier, sourceEl);
       setJoinedTier(tier);
+      // P0 round 2 fix (audit 2026-05-23): the celebration modal was dead
+      // code, no path triggered it from the deal page. Now fires for all
+      // 3 tiers after a successful join. The hero copy is per-tier.
+      if (typeof onJoinComplete === "function") {
+        onJoinComplete(deal, tier, _prevCount);
+      }
       return;
     }
     // Committed → show deposit modal first.
@@ -5384,9 +5391,17 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
       onLoginPrompt?.();
       return;
     }
+    const _prevCount = Number(deal.participants) || 0;
     onJoin(deal.id, tier);
     setJoinedTier(tier);
-    if (notify) notify("✅ הצטרפת לקבוצה! הכרטיס אומת, ללא חיוב.");
+    // P0 round 2 fix: trigger the App-level celebration so the user gets
+    // the "wow moment" after card validation. Without this, only a toast
+    // appeared and the celebration modal was dead code.
+    if (typeof onJoinComplete === "function") {
+      onJoinComplete(deal, tier, _prevCount);
+    } else if (notify) {
+      notify("✅ הצטרפת לקבוצה! הכרטיס אומת, ללא חיוב.");
+    }
   };
   const handleWhatsApp = () => {
     // Stable product URL, /product/<key> re-resolves on the recipient's
@@ -18965,7 +18980,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
     { num: "חינם", label: "תקופת ניסיון ראשונית" },
     { num: "10 דק׳", label: "להקמת פרופיל ספק" },
     { num: "חדש", label: "פלטפורמה, היו מהראשונים" },
-    { num: "אוטומטי", label: "גבייה ותשלום מרוכז" },
+    { num: "ישירות", label: "תשלום ישירות מהלקוח לעמוד הסליקה שלך" },
   ];
 
   return (
@@ -19071,7 +19086,7 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
               <span className="text-indigo-600">הם מחפשים מנוע מכירות.</span>
             </h2>
             <p className="text-gray-500 text-lg max-w-2xl mx-auto">
-              במקום לשלם על פרסום ולחכות, אתה מקבל כאן קונים עם כוונת רכישה, גבייה מסודרת, ותשלום מרוכז.
+              במקום לשלם על פרסום ולחכות, אתה מקבל כאן קונים עם כוונת רכישה. הם משלמים ישירות לעמוד הסליקה שלך כשהקבוצה נסגרת, ללא תיווך כספי של Bundly.
             </p>
           </div>
 
@@ -19192,32 +19207,26 @@ function SupplierLandingPage({ t, onJoin, onLogin, setMode, onDemoLogin }) {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ────────────────────────────────── */}
+      {/* ── WHY BUNDLY ────────────────────────────────────
+            Was a testimonials section with fabricated metrics, removed
+            2026-05-23 per audit (consumer-protection risk on a brand-new
+            platform). Replaced with honest value-prop cards. */}
       <section className="py-16 px-4" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 100%)" }}>
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black text-gray-900 text-center mb-10">מה ספקים אומרים</h2>
+          <h2 className="text-3xl font-black text-gray-900 text-center mb-3">למה ספקים בוחרים ב-Bundly</h2>
+          <p className="text-center text-gray-500 mb-10 max-w-xl mx-auto">
+            פלטפורמה חדשה בעלת ארכיטקטורת קנייה קבוצתית, המתאימה במיוחד ליצרנים ויבואנים שמחפשים גישה ישירה לקונים מתעניינים.
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { name: "אמיר כ.", role: "יבואן אלקטרוניקה", stars: 5, text: "מכרתי 340 יחידות של שואב שעמד לי ב-warehouse 3 חודשים. בשבוע. עם רווח. בלי לרוץ אחרי אף אחד." },
-              { name: "שירה מ.", role: "בעלת מותג מטבח", stars: 5, text: "נרשמתי ב-10 דקות, הוספתי 3 מוצרים, ותוך יומיים קיבלתי 67 הזמנות מקבוצה שנפתחה אוטומטית." },
-              { name: "יוסי ל.", role: "סיטונאי מוצרי ניקיון", stars: 5, text: "הדשבורד שלהם ממש טוב. אני רואה כמה אנשים מסתכלים על המוצר שלי ומתי כדאי לי לפתוח קבוצה." },
-            ].map((t2, i) => (
-              <div key={i} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(t2.stars)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
-                <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t2.text}"</p>
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-black text-sm">
-                    {t2.name[0]}
-                  </div>
-                  <div>
-                    <div className="font-bold text-gray-900 text-sm">{t2.name}</div>
-                    <div className="text-xs text-gray-400">{t2.role}</div>
-                  </div>
-                </div>
+              { icon: "🎯", title: "ביקוש מוכן", desc: "ניגש לקונים שכבר אישרו עניין במוצר, לא לצופים אקראיים. מוצר מתאים לקטגוריה שלך = הצעת מחיר אחת והלאה." },
+              { icon: "💳", title: "תשלום ישירות אליך", desc: "הלקוח משלם דרך עמוד הסליקה שלך (Stripe / PayPal / Cardcom). Bundly אינה מתווכת בכספים ואינה מחזיקה כספים." },
+              { icon: "📊", title: "דאטה בזמן אמת", desc: "ראה כמה צופים, כמה הצטרפו, מה מחיר המתחרים, ומתי כדאי לפתוח קבוצה חדשה. בלי לנחש." },
+            ].map((v, i) => (
+              <div key={i} className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:border-violet-200 transition">
+                <div className="text-3xl mb-3">{v.icon}</div>
+                <h3 className="font-black text-gray-900 mb-2 text-base">{v.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -23479,26 +23488,31 @@ export default function App() {
     // similar-strip, deal page) and would surprise the user.
     // Normalised dedup key: lowercase + collapsed whitespace.
     const key = String(product.name || product.productName || "").toLowerCase().trim().replace(/\s+/g, " ");
+    const RANK = { interested: 1, placeholder: 2, committed: 3 };
     let alreadySaved = false;
+    // Track whether the local state change is a real UPGRADE (or a fresh add).
+    // The server POST is gated on this so a downgrade attempt (e.g. user
+    // clicks "interested" after already being "committed") doesn't trip the
+    // server to write the lower tier and silently regress on next reload.
+    // P0 round 2 fix, audit 2026-05-23.
+    let shouldSyncServer = false;
     setMyProducts(prev => {
       const idx = prev.findIndex(p =>
         String(p.name || p.productName || "").toLowerCase().trim().replace(/\s+/g, " ") === key
       );
       if (idx >= 0) {
         alreadySaved = true;
-        // Tier UPGRADE: if the new tier is "higher" than the saved one,
-        // update the row in place so the UI badge reflects the user's
-        // actual commitment level. Order: interested < placeholder < committed.
-        const RANK = { interested: 1, placeholder: 2, committed: 3 };
         const oldRank = RANK[prev[idx].tier] || 0;
         const newRank = RANK[product.tier] || 0;
         if (newRank > oldRank) {
+          shouldSyncServer = true;
           const updated = [...prev];
           updated[idx] = { ...updated[idx], tier: product.tier, action: product.action || updated[idx].action };
           return updated;
         }
         return prev;
       }
+      shouldSyncServer = true;
       return [...prev, { ...product, quantity: Number(product.quantity) || 1, addedAt: Date.now(), uid: Math.random().toString(36).slice(2, 10), _cachedResult: fullResult || null }];
     });
     // Visual fly-to-cart feedback, only when the product is newly added and
@@ -23506,9 +23520,9 @@ export default function App() {
     if (sourceEl && !alreadySaved) {
       try { flyToCart(sourceEl); } catch {}
     }
-    // Sync to server if logged in
+    // Sync to server only when this is a real add or tier UPGRADE.
     const token = user?.token || _getToken();
-    if (!token) return;
+    if (!token || !shouldSyncServer) return;
     try {
       await fetch("/api/user/saved-products", {
         method: "POST",
@@ -23585,6 +23599,19 @@ export default function App() {
       setShowAuth(true);
       return;
     }
+    // P0 round 2 fix (audit 2026-05-23): double-click guard for the free
+    // tiers (interested / placeholder). A rapid double-tap on the in-page
+    // SilentJoinSelector fires this handler twice in one React tick; both
+    // calls re-read the same `deals` state via closure and the optimistic
+    // setDeals updater runs twice, inflating the participants/interested
+    // count by +1 per extra tap. The committed tier is protected by the
+    // DepositModal latency (modal opens, blocks repeat). The free tiers
+    // were wide open.
+    const _joinKey = `${id}:${tier}`;
+    if (!handleJoin._inflight) handleJoin._inflight = new Set();
+    if (handleJoin._inflight.has(_joinKey)) return;
+    handleJoin._inflight.add(_joinKey);
+    setTimeout(() => handleJoin._inflight.delete(_joinKey), 1500);
     setDeals(p => p.map(d => {
       if (d.id !== id) return d;
       return {
@@ -24775,7 +24802,7 @@ export default function App() {
       <div dir={t.dir} className="min-h-screen" style={{ background: "linear-gradient(160deg, #f8f7ff 0%, #f3f4f6 50%, #faf5ff 100%)" }}>
         <Navbar {...navProps} setMode={m=>{setSelectedDeal(null);setMode(m);}} />
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} onViewSimilar={(d) => setSelectedDeal(d)} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
+          <DealDetailsPage deal={live} lang={lang} t={t} allDeals={deals} onBack={()=>setSelectedDeal(null)} onJoin={handleJoin} onViewSimilar={(d) => setSelectedDeal(d)} onJoinComplete={(d, tier, prevCount) => { setJoinCelebration({ deal: d, tier, prevCount, newCount: tier === "committed" ? prevCount + 1 : prevCount }); }} user={user} onLoginPrompt={()=>setShowAuth(true)} onJoinDemandPool={(catIdx, prefillModel) => setJoinPoolModal({ catIdx, mode: null, prefillModel: prefillModel || null })} notify={notify} onRequestSupplierPrice={handleRequestSupplierPrice} demandPools={demandPools} onAddToPool={(catIdx, modelName) => setJoinPoolModal({ catIdx, mode: "add", prefillModel: modelName })} onDirectJoinPool={(catIdx, modelName) => { joinDemandPool(catIdx, modelName); addToMyProducts({ name: modelName, image: "", tier: "interested", action: "joined_pool", catIdx, price: 0 }); notify("✅ נוספת לקבוצת רכישה כללית!"); }} />
         </main>
         <Footer t={t} setMode={m=>{setSelectedDeal(null);setMode(m);}} onEnterSupplier={enterSupplierArea} />
         <MobileBottomNav t={t} mode={mode} setMode={m=>{setSelectedDeal(null);setMode(m);}} wishlistCount={wishlist.length} myProductsCount={myProducts.length} onLoginClick={()=>setShowAuth(true)} onCategoryBrowse={() => { setSelectedDeal(null); setShowCategoryBrowse(true); }} />

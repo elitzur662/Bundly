@@ -24,6 +24,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import OpenAI from "openai";
 import https from "https";
+import http  from "http";
 import _httpsProxyAgentPkg from "https-proxy-agent";
 const { HttpsProxyAgent } = _httpsProxyAgentPkg;
 
@@ -704,20 +705,27 @@ async function _resolveSafeRemoteUrl(u) {
 // Build an axios config that pins DNS to a pre-validated IP. The hostname
 // in the URL stays the same so SNI/TLS validation works; only the IP the
 // agent connects to is forced. Use _safeAxiosGet for the simple case.
-function _makePinnedAgent(safeInfo) {
+function _makePinnedAgents(safeInfo) {
   const lookup = (_host, _opts, cb) => cb(null, safeInfo.address, safeInfo.family);
-  return new https.Agent({ lookup, keepAlive: false });
+  return {
+    https: new https.Agent({ lookup, keepAlive: false }),
+    // SECURITY (P0 round 2, audit 2026-05-23): http:// callers must also be
+    // DNS-pinned. The previous version only attached httpsAgent, so an
+    // http:// URL falling through to the default http module would do its
+    // own DNS lookup and could land on a private IP between our check and
+    // the connect.
+    http:  new http.Agent({ lookup, keepAlive: false }),
+  };
 }
 async function _safeAxiosGet(u, axiosOpts = {}) {
   const safe = await _resolveSafeRemoteUrl(u);
   if (!safe.ok) throw new Error(`URL not allowed (${safe.reason})`);
-  const agent = _makePinnedAgent(safe);
+  const agents = _makePinnedAgents(safe);
   return axios.get(u, {
     ...axiosOpts,
-    // Pin DNS for HTTPS; HTTP is rare for us and short-circuited above.
-    httpsAgent: agent,
-    // Redirects can target a different host the agent isn't pinned to.
-    maxRedirects: 0,
+    httpsAgent: agents.https,
+    httpAgent:  agents.http,
+    maxRedirects: 0,   // a redirect could target a different host the agent isn't pinned to
   });
 }
 const _hcDistPath = process.cwd() + "/dist/index.html";
@@ -1661,14 +1669,17 @@ app.get("/api/product-images",
         // M4 (audit): SSRF guard, DataForSEO could (today or via account
         // compromise / provider swap) return URLs pointing at internal
         // infrastructure (AWS metadata 169.254.169.254, local Redis on
-        // localhost, internal admin endpoints). Filter scheme + resolved IP.
-        if (!(await _isSafeRemoteUrl(remoteUrls[i]))) continue;
-        const resp = await axios.get(remoteUrls[i], {
-          responseType: "arraybuffer", timeout: 8000,
-          headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
-          maxContentLength: 10 * 1024 * 1024,
-          maxRedirects: 0,   // don't follow redirects, those bypass the IP check
-        });
+        // localhost, internal admin endpoints). DNS-pinned via _safeAxiosGet
+        // so a low-TTL DNS rebind between our check and connect can't slip a
+        // private IP through. P0 round 2 fix, 2026-05-23.
+        let resp;
+        try {
+          resp = await _safeAxiosGet(remoteUrls[i], {
+            responseType: "arraybuffer", timeout: 8000,
+            headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
+            maxContentLength: 10 * 1024 * 1024,
+          });
+        } catch (_e) { continue; }
         const buf = Buffer.from(resp.data);
         const isImg = buf.length > 5000 && (
           (buf[0]===0xFF && buf[1]===0xD8) || (buf[0]===0x89 && buf[1]===0x50) ||
@@ -8877,13 +8888,15 @@ async function _downloadImagesForProducts(slug, products) {
       // SECURITY (audit scrapers #1): SSRF guard on scraped imageUrl. The URL
       // comes from third-party HTML, a poisoned listing could point at
       // http://169.254.169.254 (AWS metadata) or http://localhost:6379
-      // (Redis). Skip anything that doesn't resolve to a public address.
-      if (!(await _isSafeRemoteUrl(p.imageUrl))) continue;
+      // (Redis). DNS-pinned via _safeAxiosGet. P0 round 2, 2026-05-23.
       const ext = (p.imageUrl.match(/\.(gif|jpg|jpeg|png|webp)(\?|$)/i)?.[1] || "jpg").toLowerCase();
       const localPath = `images/${p.id}.${ext}`;
       const localFull = join(_PRODUCT_DB_DIR, slug, localPath);
       if (existsSync(localFull)) { p.image = localPath; dirty = true; continue; }
-      const r = await axios.get(p.imageUrl, { responseType: "arraybuffer", timeout: 8000, validateStatus: s => s < 500, maxContentLength: 5 * 1024 * 1024, maxRedirects: 0 });
+      let r;
+      try {
+        r = await _safeAxiosGet(p.imageUrl, { responseType: "arraybuffer", timeout: 8000, validateStatus: s => s < 500, maxContentLength: 5 * 1024 * 1024 });
+      } catch (_e) { continue; }
       if (r.status === 200 && r.data) {
         writeFileSync(localFull, Buffer.from(r.data));
         // Reflect in main array
@@ -9836,13 +9849,11 @@ ${resultsSummary}
 async function fetchOgImage(url) {
   if (!url) return null;
   // SSRF guard, url is externally-influenced (store link from /api/search).
-  // Validate scheme + resolved IP before fetching; never follow redirects.
-  if (typeof _isSafeRemoteUrl === "function" && !(await _isSafeRemoteUrl(url))) return null;
+  // DNS-pinned via _safeAxiosGet. P0 round 2 fix, 2026-05-23.
   try {
-    const { data: html } = await axios.get(url, {
+    const { data: html } = await _safeAxiosGet(url, {
       timeout: 10000,
       headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124" },
-      maxRedirects: 0,
     });
     // Match og:image in either attribute order
     const m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i)
