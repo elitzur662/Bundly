@@ -8979,6 +8979,7 @@ function findProductById(modelId) {
 function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
   setInterval(() => {
     try {
+    let changed = 0;
     for (const slug of Object.keys(_PRODUCT_DB_SOG_MAP)) {
       const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
       if (!existsSync(pFile)) continue;
@@ -9020,12 +9021,41 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
 
         PRODUCT_MEM.set(slug, { products: newProducts, mtime: diskMtime,
                                 pricesTs: meta.pricesTs || 0, catalogTs: meta.catalogTs || 0 });
-        // Also refresh ZAP_CAT_CACHE so search results stay in sync
-        loadProductDbIntoCache();
-        _suggestIndex = null;
+        // ZAP_CAT_CACHE has to follow, but NOT here — see the hoist below.
+        changed++;
       } catch(e) {
         console.warn(`[ProductMem] refresh error ${slug}: ${e.message}`);
       }
+    }
+
+    // ── ONCE, not once per category ────────────────────────────────────────
+    //
+    // `loadProductDbIntoCache()` re-reads and re-parses EVERY category from
+    // disk — all 79 of them, 31,554 products — and builds a fresh candidates
+    // array for each. Measured: 57 ms and 14 MB of heap per call.
+    //
+    // It used to sit inside the loop above, so it ran once per CHANGED
+    // category. That is fine when a human edits one file. It is not fine
+    // against the price trickle, which writes a category's products.json every
+    // time it finds a price and so dirties dozens of categories between one
+    // three-minute tick and the next:
+    //
+    //     10 categories changed →   0.6 s blocked,   137 MB allocated
+    //     40 categories changed →   2.3 s blocked,   548 MB allocated
+    //     79 categories changed →   4.5 s blocked, 1,082 MB allocated
+    //
+    // Production's V8 heap cap is 1,048 MB (/api/health reports it). One tick
+    // could therefore allocate more than the entire heap limit, which is what
+    // drove RSS to 3.78 GB locally with a 4 GB cap and stalled the trickle at
+    // 88% heap — and it is the likeliest reason render.yaml records that the
+    // 512 MB plan "consistently OOM'd". The 4.5 s is just as bad in its own
+    // way: it is a synchronous read of 1.5 GB of JSON on the event loop, so
+    // the server answers nothing while it runs.
+    //
+    // Hoisted, a tick costs one pass no matter how many categories moved.
+    if (changed > 0) {
+      loadProductDbIntoCache();
+      _suggestIndex = null;
     }
     } catch (outerErr) {
       // Defensive, outer try ensures the setInterval keeps firing even if
