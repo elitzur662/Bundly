@@ -136,6 +136,9 @@ try {
     listSupplierListings, listAllActiveListings, createSupplierListing, updateSupplierListing, deleteSupplierListing,
     createDeal, getDeal, getDealByProductKey, listDeals, updateDeal,
   } = db);
+  // Backfill closingDate on deals written before createDeal set one. Without a
+  // closing date a deal is immortal — see the note in db.js createDeal.
+  try { db.migrateDeals?.(); } catch (e) { console.warn("[db] deal migration skipped:", e.message); }
   const emailMod  = await import("./email-service.js");
   ({ sendWelcomeEmail, sendSupplierOfferEmail, sendOtpEmail } = emailMod);
   const smsMod    = await import("./sms-service.js");
@@ -2091,8 +2094,17 @@ app.get("/api/search",
       confidence: lowConfidence ? 25 : Math.min(95, 60 + top40.length * 1.5),
       lowConfidence,
       groupPrice: Math.round(marketMin * 0.95), // 5% below cheapest
-      discount:   marketMax > 0
-        ? Math.round((marketMax - Math.round(marketMin * 0.95)) / marketMax * 100) : 0,
+      // MEASURED AGAINST THE CHEAPEST SHOP, NOT THE DEAREST.
+      //
+      // This used to divide by marketMax. groupPrice is pinned at 5% under
+      // marketMin, so the published percentage had nothing to do with what the
+      // customer actually saves — it tracked how wide the price spread was.
+      // On the live site every one of the 29 deals advertised 25%–51% off while
+      // the real saving against the cheapest shop was 5% in every single case:
+      // a ₪2,109 robot vacuum offered at ₪2,004 was billed as "-43%, חוסך
+      // ₪1,506". The saving is ₪105.
+      discount:   marketMin > 0 && Math.round(marketMin * 0.95) < marketMin
+        ? Math.round((marketMin - Math.round(marketMin * 0.95)) / marketMin * 100) : 0,
     };
 
     console.log(`  ✅ ${productName} | ₪${marketMin}–₪${marketMax} (avg ₪${marketAvg}) | ${top40.length} stores total, showing top 5`);
@@ -2290,8 +2302,9 @@ app.get("/api/zap-model",
       category:   "אלקטרוניקה",
       confidence: 99,
       groupPrice: Math.round(marketMin * 0.95), // 5% below cheapest
-      discount:   marketMax > 0
-        ? Math.round((marketMax - Math.round(marketMin * 0.95)) / marketMax * 100) : 0,
+      // Against the cheapest shop — see the note on /api/search above.
+      discount:   marketMin > 0 && Math.round(marketMin * 0.95) < marketMin
+        ? Math.round((marketMin - Math.round(marketMin * 0.95)) / marketMin * 100) : 0,
       _zapModelId: modelId,
     };
 
@@ -8354,6 +8367,14 @@ async function fetchAndCacheModelPrices(modelId, fallbackName) {
 // added by DBSync and re-attempt anything that failed last pass.
 const PRICE_TRICKLE_INTERVAL_MS = 20_000;
 const PRICE_TRICKLE_REFRESH_MS  = 60 * 60_000; // 1h
+// How long a price from a non-ZAP source (KSP/Ivory/Bug) is treated as current
+// before the trickle will look at that product again. Seven days is a
+// compromise: appliance prices do not move hourly, and at one fetch per 20s the
+// queue must not be swamped by re-checks. Anything is better than the previous
+// behaviour, which was "never" — see buildPriceTrickleQueue.
+const PRICE_TRICKLE_ALT_TTL_MS  = 7 * 24 * 60 * 60_000; // 7 days
+// Refreshes of already-priced products rank below every never-priced product.
+const PRICE_TRICKLE_REFRESH_TIER = 4;
 let _priceTrickleQueue = [];      // [{ modelId, name, slug }]
 let _priceTrickleTs    = 0;
 let _priceTrickleStats = { fetched: 0, success: 0, skipped: 0 };
@@ -8390,10 +8411,33 @@ function buildPriceTrickleQueue() {
         ZAP_PRICES_CACHE.set(id, l2); // promote L2→L1 while we're scanning
         continue;
       }
-      // Skip if Ivory/KSP/Bug already supplied a price, those are valid
-      // alternative sources and the trickle is for ZAP gap-filling only.
-      if (p.prices?.ivory > 0 || p.prices?.ksp > 0 || p.prices?.bug > 0) continue;
-      queue.push({ modelId: id, name: p.name || "", slug, tier: PRICE_TRICKLE_TIER[slug] || 3 });
+      // Ivory/KSP/Bug prices are valid alternative sources and the trickle is
+      // for ZAP gap-filling — but "has a price" is not "has a CURRENT price".
+      //
+      // This used to `continue` on any non-zero alternative price, permanently.
+      // A product priced once by KSP was then never looked at again, so nine
+      // whole categories — chargers, cpus, routers, smartwatches,
+      // security-cameras, hot-plates, kitchen-pots, phone-cases, hair-removers,
+      // every one of them KSP-priced and ZAP-less — sat at a pricesTs 103 days
+      // old while the site presented those figures as today's prices. They also
+      // could never acquire a ZAP price, so they could never join the set of
+      // products comparable across two sources, which is the whole proposition.
+      //
+      // A stale alternative price now re-enters the queue, at a tier below
+      // everything unpriced so it can never starve a product that has no price
+      // at all.
+      const altPrice = Math.max(
+        Number(p.prices?.ivory) || 0,
+        Number(p.prices?.ksp)   || 0,
+        Number(p.prices?.bug)   || 0,
+      );
+      let tier = PRICE_TRICKLE_TIER[slug] || 3;
+      if (altPrice > 0) {
+        const age = Date.now() - (Number(p.prices?.updated) || 0);
+        if (age < PRICE_TRICKLE_ALT_TTL_MS) continue;
+        tier = PRICE_TRICKLE_REFRESH_TIER;
+      }
+      queue.push({ modelId: id, name: p.name || "", slug, tier });
     }
   }
   // Step 1: shuffle for fairness within a tier so slow/fast slugs intermix
@@ -8410,7 +8454,8 @@ function buildPriceTrickleQueue() {
   const t1 = queue.filter(q => q.tier === 1).length;
   const t2 = queue.filter(q => q.tier === 2).length;
   const t3 = queue.filter(q => q.tier === 3).length;
-  console.log(`💧 Price trickle: queue rebuilt, ${queue.length} models missing ZAP price (T1=${t1}, T2=${t2}, T3=${t3})`);
+  const t4 = queue.filter(q => q.tier === PRICE_TRICKLE_REFRESH_TIER).length;
+  console.log(`💧 Price trickle: queue rebuilt, ${queue.length} models queued (T1=${t1}, T2=${t2}, T3=${t3}, stale-refresh=${t4})`);
 }
 
 // KSP fuzzy-match fallback. Called when ZAP returns nothing for a model:
@@ -9878,8 +9923,9 @@ ${resultsSummary}
 
   // groupPrice = 5% below cheapest found price, the group buying target.
   result.groupPrice = result.marketMin > 0 ? Math.round(result.marketMin * 0.95) : 0;
-  result.discount = result.marketMax > 0
-    ? Math.round((result.marketMax - result.groupPrice) / result.marketMax * 100) : 0;
+  // Against the cheapest shop — see the note on /api/search above.
+  result.discount = result.marketMin > 0 && result.groupPrice > 0 && result.groupPrice < result.marketMin
+    ? Math.round((result.marketMin - result.groupPrice) / result.marketMin * 100) : 0;
 
   console.log(`  ↳ AI result: ${result.productName} | cheapest: ₪${result.marketMin} | max: ₪${result.marketMax} | suppliers: ${result.suppliers?.length ?? 0}`);
   return result;

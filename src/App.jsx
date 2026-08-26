@@ -16,7 +16,6 @@ import { findDealForProduct, productNamesMatch } from "./dealMatch.js";
 import { T, LANGS } from "./data/i18n.js";
 import { IMG } from "./data/images.js";
 import { CATEGORIES, CAT_ICONS, SEARCH_CATEGORIES } from "./data/categories.js";
-import { INITIAL_PENDING_SUPPLIERS, INITIAL_DEALS } from "./data/initial-deals.js";
 import { CATEGORY_VISUAL_MAP } from "./data/category-visuals.js";
 import { CATEGORY_TREE, CATEGORY_VARIANT_CHIPS } from "./data/category-tree.js";
 import { localizeStripeError } from "./lib/stripeError.js";
@@ -363,6 +362,58 @@ function dealDisplayPrice(deal) {
     ?? positive(deal?.marketMin)
     ?? positive(deal?.marketMax)
     ?? 0;
+}
+
+/**
+ * The price the customer would OTHERWISE PAY — the cheapest shop we found.
+ *
+ * Every savings claim on the site used to be measured against `marketMax`, the
+ * most EXPENSIVE listing. Since groupOffer is fixed at 5% under marketMin, that
+ * turned a real ₪105 saving into "-43%, חוסך ₪1,506" on the live home page, and
+ * did it to all 29 deals at once: 25%–51% advertised, 5% actually true.
+ *
+ * The baseline for a savings claim has to be the buyer's real alternative. If
+ * they can have it for ₪2,109 down the road, the saving is measured from
+ * ₪2,109 — not from the worst price on the market.
+ *
+ * marketMax is still the right number for "shops charge X–Y" and is still shown
+ * as range context. It is simply not a baseline.
+ */
+function dealReferencePrice(deal) {
+  const positive = (v) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; };
+  return positive(deal?.marketMin) ?? positive(deal?.marketMax) ?? 0;
+}
+
+/** Shekels saved against the cheapest shop. 0 when there is nothing to claim. */
+function dealSaving(deal) {
+  const ref = dealReferencePrice(deal);
+  const shown = dealDisplayPrice(deal);
+  if (ref <= 0 || shown <= 0 || shown >= ref) return 0;
+  return ref - shown;
+}
+
+/** Honest discount percentage against the cheapest shop. 0 when none. */
+function dealDiscountPct(deal) {
+  const ref = dealReferencePrice(deal);
+  const saving = dealSaving(deal);
+  return ref > 0 && saving > 0 ? Math.round((saving / ref) * 100) : 0;
+}
+
+/**
+ * Same rule for the /api/search and /api/zap-model result shape, which carries
+ * `groupPrice` rather than `groupOffer`. Falls back through marketAvg to
+ * marketMax because a few call sites (CommunityProductCard) are handed results
+ * assembled without a marketMin.
+ */
+function resultReferencePrice(result) {
+  const positive = (v) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; };
+  return positive(result?.marketMin) ?? positive(result?.marketAvg) ?? positive(result?.marketMax) ?? 0;
+}
+
+function resultDiscountPct(result) {
+  const ref = resultReferencePrice(result);
+  const group = Number(result?.groupPrice) || 0;
+  return ref > 0 && group > 0 && group < ref ? Math.round(((ref - group) / ref) * 100) : 0;
 }
 
 
@@ -862,10 +913,12 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
     ? bestPlausible
     : (deal.groupOffer || deal.marketMin || 0);
   const _bestPrice = Number.isFinite(bestPrice) && bestPrice > 0 ? bestPrice : (deal.marketMin || 0);
-  const marketMax = Number(deal.marketMax) || _bestPrice;
-  const discount  = Number(deal.discount)  || (marketMax > _bestPrice ? Math.round((1 - _bestPrice / marketMax) * 100) : 0);
-  const tiers = makeTiers(deal.marketMin || _bestPrice);
-  const next = nextTier(tiers, deal.participants || 0);
+  // Struck-through reference is the CHEAPEST shop, not the dearest — see
+  // dealReferencePrice. marketMax stays available for range context only.
+  const refPrice  = dealReferencePrice(deal) || _bestPrice;
+  const discount  = dealDiscountPct({ ...deal, groupOffer: _bestPrice });
+  const tiers = makeTiers(deal.marketMin || _bestPrice, _bestPrice);
+  const next = nextTier(tiers, deal.participants || 0, _bestPrice);
   const toNext = next ? next.people - (deal.participants || 0) : 0;
 
   return (
@@ -899,10 +952,12 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
             <h3 className="text-base sm:text-lg font-black mb-1 leading-tight" style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", wordBreak: "break-word" }}>{name}</h3>
             <div className="flex items-baseline gap-2 mb-2.5 sm:mb-3 flex-wrap">
               <span className="text-2xl sm:text-3xl font-black">₪{_bestPrice.toLocaleString()}</span>
-              <span className="text-xs sm:text-sm line-through opacity-60">₪{marketMax.toLocaleString()}</span>
-              <span className="bg-white/25 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
-                חיסכון {discount}%
-              </span>
+              <span className="text-xs sm:text-sm line-through opacity-60">₪{refPrice.toLocaleString()}</span>
+              {discount > 0 && (
+                <span className="bg-white/25 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full">
+                  חיסכון {discount}%
+                </span>
+              )}
             </div>
 
             {/* Next tier teaser */}
@@ -946,9 +1001,41 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
 
 
 // ─────────────────────────────────────────────────────────────────
-//  SUPPLIER / PROTECTION FIELDS, augment INITIAL_DEALS at startup
+//  DEMO SEED SWITCH
 // ─────────────────────────────────────────────────────────────────
-{
+// Launch hardening gated INITIAL_DEALS behind this condition and left the
+// other four seeds ungated. INITIAL_DEMAND_POOLS was the expensive miss: a
+// one-time effect promotes every pool entry with >= 3 interested people into a
+// real-looking deal, so nine invented groups were minted in the browser on
+// every page load in production — with invented participant counts (11, 9, 8,
+// 7...) and placeholder round-number prices from CATEGORY_DEFAULT_PRICES. The
+// one with the most "buyers" wins the Deal of the Day slot, which is how the
+// home page came to headline a Galaxy S25 Ultra at ₪2,850 with 11 buyers — a
+// product and a price that exist nowhere in /api/deals.
+//
+// One constant now, so a fifth seed cannot be added and forgotten.
+//
+// It is declared HERE, above its first use, for two reasons: the augmentation
+// block below reads it (a const is in its temporal dead zone before this
+// line), and folding `false` this early lets the bundler drop every demo
+// payload — none of this fiction is shipped to a real visitor at all.
+const DEMO_SEEDS_ENABLED =
+  import.meta.env.DEV && import.meta.env.VITE_HIDE_DEMO_DEALS !== "true";
+
+// ─────────────────────────────────────────────────────────────────
+//  DEMO SEEDS, loaded on demand and never in a production bundle
+// ─────────────────────────────────────────────────────────────────
+// The demo fixtures live behind a dynamic import rather than a static one.
+// Gating their USE was not enough: `initial-deals.js` stayed in the entry
+// chunk regardless, so every real visitor still downloaded eighteen invented
+// deals, six "ספק רשמי" supplier names and their fake bid histories. A dynamic
+// import makes that a separate chunk which production simply never requests.
+//
+// Returns already-augmented copies. The augmentation (supplier attribution,
+// protected price floor, and closing dates relative to today so the fixture
+// never goes stale) used to run at module load in production for nothing.
+async function loadDemoSeeds() {
+  const { INITIAL_DEALS, INITIAL_PENDING_SUPPLIERS } = await import("./data/initial-deals.js");
   const DEAL_SUPPLIER = {
     1:"sup1",3:"sup1",7:"sup1",13:"sup1",
     2:"sup2",8:"sup2",11:"sup2",16:"sup2",
@@ -961,35 +1048,30 @@ function DealOfTheDayBanner({ deals, lang, t, onDealClick }) {
     sup1:"ספק רשמי 01", sup2:"ספק רשמי 02", sup3:"ספק רשמי 03",
     sup4:"ספק רשמי 04", sup5:"ספק רשמי 05", sup6:"ספק רשמי 06",
   };
-  // BASE is "today", relative dates so demo never goes stale.
-  // Each deal's closingDate is set to today + d.daysLeft, so deals stay "active"
-  // for d.daysLeft days from whenever the page is loaded.
   const BASE = new Date();
   BASE.setHours(12, 0, 0, 0);
-  INITIAL_DEALS.forEach(d => {
+  const dayAfter = (n) => { const d = new Date(BASE); d.setDate(d.getDate() + n); return d.toISOString(); };
+
+  const deals = INITIAL_DEALS.map(d => {
     const sid = DEAL_SUPPLIER[d.id] || "sup1";
-    d.supplierId   = sid;
-    d.supplierName = SUP_NAMES[sid];
-    d.hiddenPrice  = true;                                  // default: hidden from guests
-    d.priceFloor   = Math.round(d.groupOffer * 0.94 / 10) * 10; // supplier's protected minimum
-    const closing  = new Date(BASE);
-    closing.setDate(closing.getDate() + Math.max(1, d.daysLeft || 5));
-    d.closingDate  = closing.toISOString();
+    return {
+      ...d,
+      _demo:        true,
+      supplierId:   sid,
+      supplierName: SUP_NAMES[sid],
+      hiddenPrice:  true,                                     // hidden from guests
+      priceFloor:   Math.round(d.groupOffer * 0.94 / 10) * 10, // supplier's protected minimum
+      closingDate:  dayAfter(Math.max(1, d.daysLeft || 5)),
+    };
   });
-  // One demo deal is already past closing with insufficient participants (auto-cancelled)
-  const cancelled = INITIAL_DEALS.find(d => d.id === 10);
-  if (cancelled) {
-    const past = new Date(BASE); past.setDate(past.getDate() - 2);
-    cancelled.closingDate = past.toISOString(); // 2 days ago (relative to today)
-    cancelled.participants = 4; // below minParticipants:6
-  }
-  // One deal is fully filled (success)
-  const filled = INITIAL_DEALS.find(d => d.id === 18);
-  if (filled) {
-    const yesterday = new Date(BASE); yesterday.setDate(yesterday.getDate() - 1);
-    filled.closingDate = yesterday.toISOString(); // yesterday (relative to today)
-    filled.participants = filled.maxParticipants; // exactly full
-  }
+  // One fixture is past closing with too few participants (auto-cancelled),
+  // and one is exactly full (success), so both states are reachable in dev.
+  const cancelled = deals.find(d => d.id === 10);
+  if (cancelled) { cancelled.closingDate = dayAfter(-2); cancelled.participants = 4; }
+  const filled = deals.find(d => d.id === 18);
+  if (filled) { filled.closingDate = dayAfter(-1); filled.participants = filled.maxParticipants; }
+
+  return { deals, pendingSuppliers: INITIAL_PENDING_SUPPLIERS };
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -5113,7 +5195,8 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
   // `bestBid?.amount || deal.groupOffer` landed on 0 for a deal with no bids
   // and `groupOffer: 0`, and the saving below then became the whole market price.
   const shownPrice = dealDisplayPrice(deal);
-  const savings = Math.max(0, (Number(deal.marketMax) || 0) - shownPrice);
+  const savings = dealSaving(deal);
+  const discountPct = dealDiscountPct(deal);
   const dealStatus = getDealStatus(deal);
   const priceHidden = deal.hiddenPrice && !user;
   return (
@@ -5153,11 +5236,13 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
           </div>
         )}
         {/* Discount badge */}
-        <div className="absolute top-3 left-3">
-          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-sm">
-            -{deal.discount}%
-          </span>
-        </div>
+        {discountPct > 0 && (
+          <div className="absolute top-3 left-3">
+            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-sm">
+              -{discountPct}%
+            </span>
+          </div>
+        )}
         {/* Status badges */}
         {deal.hot && !closingSoon && (
           <div className="absolute bottom-3 left-3">
@@ -5196,14 +5281,16 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
               <span className="text-2xl font-black text-indigo-700 leading-none">
                 ₪{shownPrice.toLocaleString()}
               </span>
-              <span className="text-xs text-gray-400 line-through pb-0.5">
-                ₪{Number(deal.marketMax || 0).toLocaleString()}
-              </span>
+              {dealReferencePrice(deal) > shownPrice && (
+                <span className="text-xs text-gray-400 line-through pb-0.5">
+                  ₪{dealReferencePrice(deal).toLocaleString()}
+                </span>
+              )}
             </>
           )}
         </div>
         <div className="flex items-center gap-2 mb-4">
-          {!priceHidden && (
+          {!priceHidden && savings > 0 && (
             <span className="text-[11px] text-emerald-600 font-bold bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
               חוסך ₪{savings.toLocaleString()}
             </span>
@@ -5250,8 +5337,8 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
 
         {/* Tier teaser */}
         {(() => {
-          const tiers = makeTiers(deal.marketMin);
-          const next = nextTier(tiers, deal.participants);
+          const tiers = makeTiers(deal.marketMin, shownPrice);
+          const next = nextTier(tiers, deal.participants, shownPrice);
           const toNext = next ? next.people - deal.participants : 0;
           return next && toNext > 0 ? (
             <p className="text-[11px] text-amber-700 font-bold bg-amber-50 border border-amber-100 px-2.5 py-1.5 rounded-xl mb-3 text-center">
@@ -5560,7 +5647,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
                   margin) so they never overlap the product title below.   */}
             <div className="absolute bottom-3 left-3 z-10">
               <span className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg ring-2 ring-white/50">
-                -{deal.discount}% מחיר קבוצה
+                -{dealDiscountPct(deal)}% מחיר קבוצה
               </span>
             </div>
             <div className="absolute bottom-3 right-3 z-10 flex gap-2">
@@ -5657,17 +5744,19 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
             </h3>
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-gray-50 rounded-xl p-4 text-center border border-gray-100">
-                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">מחיר בשוק</p>
-                <p className="text-xl font-black text-gray-400 line-through">₪{Number(deal.marketMax || 0).toLocaleString()}</p>
-                <p className="text-[11px] text-gray-400 mt-1">₪{Number(deal.marketMin || 0).toLocaleString()}, ₪{Number(deal.marketMax || 0).toLocaleString()}</p>
+                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">הזול ביותר בשוק</p>
+                <p className="text-xl font-black text-gray-400 line-through">₪{dealReferencePrice(deal).toLocaleString()}</p>
+                <p className="text-[11px] text-gray-400 mt-1">טווח בחנויות: ₪{Number(deal.marketMin || 0).toLocaleString()}, ₪{Number(deal.marketMax || 0).toLocaleString()}</p>
               </div>
               <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl p-4 text-center shadow-lg relative overflow-hidden">
                 <div className="absolute -top-3 -right-3 w-16 h-16 bg-white/10 rounded-full blur-lg" />
                 <p className="text-[10px] text-indigo-200 font-bold uppercase mb-1 relative">מחיר קבוצת Bundly</p>
                 <p className="text-2xl font-black text-white relative">₪{(bestBid?.amount||deal.groupOffer).toLocaleString()}</p>
-                <span className="inline-block mt-1 bg-emerald-400/25 border border-emerald-400/40 text-emerald-200 text-[11px] font-bold px-2 py-0.5 rounded-full relative">
-                  חיסכון {deal.discount}%
-                </span>
+                {dealDiscountPct(deal) > 0 && (
+                  <span className="inline-block mt-1 bg-emerald-400/25 border border-emerald-400/40 text-emerald-200 text-[11px] font-bold px-2 py-0.5 rounded-full relative">
+                    חיסכון {dealDiscountPct(deal)}%
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -5852,14 +5941,18 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
 
         {/* ══ 5. TIER LADDER, "מחיר יורד ככל שמצטרפים" ══ */}
         {!priceHidden && (() => {
-          const tiers = makeTiers(deal.marketMin);
-          const active = activeTier(tiers, deal.participants);
-          const next = nextTier(tiers, deal.participants);
-          const toNext = next ? next.people - deal.participants : 0;
-          // Loss-aversion: how much MORE the customer pays if they don't join
-          const marketPrice = deal.marketMax || deal.marketMin;
+          // currentGroupPrice must be known BEFORE the ladder is built: it is
+          // the ladder's first rung. Deriving rung 1 from a hardcoded 0.97 of
+          // marketMin instead is what made "עוד 4 קונים → ₪2,046" appear under
+          // a ₪2,004 headline, with a negative "additional saving" beneath it.
           const currentGroupPrice = bestBid?.amount || deal.groupOffer;
-          const lossIfMissed = marketPrice - currentGroupPrice;
+          const tiers = makeTiers(deal.marketMin, currentGroupPrice);
+          const active = activeTier(tiers, deal.participants);
+          const next = nextTier(tiers, deal.participants, currentGroupPrice);
+          const toNext = next ? next.people - deal.participants : 0;
+          // What the buyer would otherwise pay: the cheapest shop, not the
+          // dearest. See dealReferencePrice.
+          const marketPrice = dealReferencePrice(deal);
           // Hours left until closing (urgency)
           const hoursLeft = deal.closingDate ? Math.max(0, Math.floor((new Date(deal.closingDate) - Date.now()) / 3600000)) : null;
           return (
@@ -5919,7 +6012,8 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
               {next && (
                 <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3">
                   <p className="text-xs text-amber-700 font-bold mb-2">
-                    🎯 עוד <span className="text-base">{toNext}</span> אנשים והמחיר יורד ל-₪{next.price.toLocaleString()} (חיסכון נוסף ₪{(currentGroupPrice - next.price).toLocaleString()})
+                    🎯 עוד <span className="text-base">{toNext}</span> אנשים והמחיר יורד ל-₪{next.price.toLocaleString()}
+                    {currentGroupPrice > next.price && ` (חיסכון נוסף ₪${(currentGroupPrice - next.price).toLocaleString()})`}
                   </p>
                   <div className="w-full bg-amber-100 rounded-full h-2 overflow-hidden">
                     <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all" style={{ width: `${Math.round((deal.participants / next.people) * 100)}%` }} />
@@ -5932,7 +6026,7 @@ function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimila
               {/* Closing warning */}
               <div className="bg-red-50 border border-red-100 rounded-xl p-3">
                 <p className="text-xs text-red-700 font-bold leading-snug">
-                  ⚠️ אחרי סגירת הקבוצה, המחיר חוזר ל-₪{marketPrice.toLocaleString()} בחנויות. את ההצעה הזו לא תוכל לקבל בחזרה.
+                  ⚠️ אחרי סגירת הקבוצה, המחיר חוזר ל-₪{marketPrice.toLocaleString()} בחנויות, המחיר הזול ביותר שמצאנו. את ההצעה הזו לא תוכל לקבל בחזרה.
                 </p>
               </div>
 
@@ -9144,7 +9238,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                 {filtered.map(d => {
                   const best = [...(d.bids || [])].sort((a, b) => a.amount - b.amount)[0];
                   const currentPrice = best?.amount || d.groupOffer || d.marketMin || 0;
-                  const marketPrice = d.marketMax || d.marketMin || currentPrice;
+                  const marketPrice = dealReferencePrice(d) || currentPrice;
                   const savings = Math.max(0, marketPrice - currentPrice);
                   const isMine = d.supplierId === supplier.id;
                   const hasBidLower = best && best.amount < currentPrice;
@@ -12493,8 +12587,12 @@ function CommunityProductCard({ product, t, user, onJoin, onOpenDeal }) {
           <h3 className="font-bold text-gray-900 text-sm leading-tight">{product.productName}</h3>
           <div className="flex items-center gap-2 mt-1">
             <span className="text-indigo-600 font-black text-base">₪{product.groupPrice?.toLocaleString()}</span>
-            <span className="text-gray-300 text-xs line-through">₪{(product.marketAvg || product.marketMax)?.toLocaleString()}</span>
-            <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-1.5 py-0.5 rounded-full">-{product.discount}%</span>
+            {resultReferencePrice(product) > (Number(product.groupPrice) || 0) && (
+              <span className="text-gray-300 text-xs line-through">₪{resultReferencePrice(product).toLocaleString()}</span>
+            )}
+            {resultDiscountPct(product) > 0 && (
+              <span className="bg-emerald-100 text-emerald-700 text-xs font-bold px-1.5 py-0.5 rounded-full">-{resultDiscountPct(product)}%</span>
+            )}
           </div>
         </div>
 
@@ -12837,7 +12935,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
 
   // ── STEP: Results ───────────────────────────────────────────────
   if (step === "results" && result) {
-    const saving = (result.marketMax || 0) - (result.groupPrice || 0);
+    const saving = Math.max(0, (result.marketMin || 0) - (result.groupPrice || 0));
     const competitors = getCompetitors(result.productName, modelQuery);
     return (
       <div className="max-w-3xl mx-auto pb-24 md:pb-8">
@@ -12966,7 +13064,7 @@ function ProductSearchPage({ t, user, communityProducts, onAddCommunity, onJoinC
               {/* Market range context */}
               <div className="flex justify-between text-xs text-gray-400 px-1">
                 <span>טווח: <strong className="text-gray-600">₪{result.marketMin?.toLocaleString()}, ₪{result.marketMax?.toLocaleString()}</strong></span>
-                <span>חיסכון פוטנציאלי: <strong className="text-emerald-600">עד {result.discount}%</strong></span>
+                <span>חיסכון מהזול ביותר: <strong className="text-emerald-600">{resultDiscountPct(result)}%</strong></span>
               </div>
 
               {/* CTA: Add note */}
@@ -22889,11 +22987,23 @@ export default function App() {
   // Previously demo deals leaked into prod whenever VITE_HIDE_DEMO_DEALS
   // wasn't set, which was easy to miss. Real deals come from the server
   // (GET /api/deals) and are hydrated separately.
-  const [deals, setDeals] = useState(() => {
-    if (!import.meta.env.DEV) return [];
-    if (import.meta.env.VITE_HIDE_DEMO_DEALS === "true") return [];
-    return INITIAL_DEALS.map(d => ({ ...d, _demo: true }));
-  });
+  const [deals, setDeals] = useState([]);
+
+  // Pull in the demo fixtures, in dev only. Merged rather than assigned so it
+  // does not matter whether this or the server hydration below lands first.
+  useEffect(() => {
+    if (!DEMO_SEEDS_ENABLED) return;
+    let cancelled = false;
+    loadDemoSeeds().then(seed => {
+      if (cancelled) return;
+      setDeals(prev => {
+        const seen = new Set(prev.map(d => String(d.id)));
+        return [...prev, ...seed.deals.filter(d => !seen.has(String(d.id)))];
+      });
+      setPendingSuppliers(prev => (prev.length ? prev : seed.pendingSuppliers));
+    }).catch(e => console.warn("demo seeds unavailable:", e.message));
+    return () => { cancelled = true; };
+  }, []);
 
   // Hydrate persisted DEALS from the server on boot. Deals now live in the
   // server-side `deals` collection (GET /api/deals). We merge them into the
@@ -22974,7 +23084,8 @@ export default function App() {
     })();
     return () => { cancelled = true; };
   }, []);
-  const [bundles, setBundles] = useState(INITIAL_BUNDLES);
+  // Hardcoded participant counts (52/80, 67/100, 44/60 ...) — demo only.
+  const [bundles, setBundles] = useState(DEMO_SEEDS_ENABLED ? INITIAL_BUNDLES : []);
   const [selectedBundle, setSelectedBundle] = useState(null);
   const [showCreateBundle, setShowCreateBundle] = useState(false);
   const [savedBundles, setSavedBundles] = useState([]); // array of bundle ids
@@ -23251,7 +23362,8 @@ export default function App() {
   // once a specific model has POOL_GRADUATION_THRESHOLD or more interested
   // buyers, it leaves the generic pool and becomes a standalone group-buy.
   const POOL_GRADUATION_THRESHOLD = 3;
-  const [demandPools, setDemandPools] = useState(INITIAL_DEMAND_POOLS);
+  // See DEMO_SEEDS_ENABLED — these graduate into fabricated deals in prod.
+  const [demandPools, setDemandPools] = useState(DEMO_SEEDS_ENABLED ? INITIAL_DEMAND_POOLS : {});
   const [joinPoolModal, setJoinPoolModal] = useState(null); // { catIdx, mode? } or null
   const [selectedPool, setSelectedPool] = useState(null); // { catIdx } or null, for DemandPoolPage
   const joinDemandPool = (catIdx, modelName) => {
@@ -23283,7 +23395,7 @@ export default function App() {
         marketMin: fb.min,
         marketMax: fb.max,
         groupOffer: seedGroup,
-        discount: Math.round((fb.max - seedGroup) / fb.max * 100),
+        discount: Math.max(0, Math.round((fb.min - seedGroup) / fb.min * 100)),
         participants: graduated.count, watching: 0, interested: 0,
         maxParticipants: Math.max(20, graduated.count * 4),
         minParticipants: 5,
@@ -23334,7 +23446,8 @@ export default function App() {
     const apply = (min, max, stores, image, source) => {
       if (!min || min <= 0) return false;
       const group = Math.round(min * 0.95);
-      const discount = max > 0 ? Math.round((max - group) / max * 100) : 0;
+      // Against the CHEAPEST shop, which is what the buyer's alternative costs.
+      const discount = min > 0 && group < min ? Math.round((min - group) / min * 100) : 0;
       setDeals(prev => prev.map(x => x.id === dealId ? {
         ...x,
         marketMin: min,
@@ -23400,7 +23513,7 @@ export default function App() {
         marketMin: fb.min,
         marketMax: fb.max,
         groupOffer: group,
-        discount: Math.round((fb.max - group) / fb.max * 100),
+        discount: Math.max(0, Math.round((fb.min - group) / fb.min * 100)),
         priceFloor: Math.round(group * 0.94 / 10) * 10,
         image: x.image || catalogImage || "",
         _priceFallback: true,
@@ -23451,7 +23564,7 @@ export default function App() {
             marketMin: fb.min,
             marketMax: fb.max,
             groupOffer: seedGroup,
-            discount: Math.round((fb.max - seedGroup) / fb.max * 100),
+            discount: Math.max(0, Math.round((fb.min - seedGroup) / fb.min * 100)),
             participants: p.count, watching: 0, interested: 0,
             maxParticipants: Math.max(20, p.count * 4),
             minParticipants: 5,
@@ -23476,7 +23589,8 @@ export default function App() {
     idsToEnrich.forEach(item => enrichDealPrices(item.id, item.modelName));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [personalRequests, setPersonalRequests] = useState(INITIAL_PERSONAL_REQUESTS);
+  // Sample customer requests with invented names/phones — demo only.
+  const [personalRequests, setPersonalRequests] = useState(DEMO_SEEDS_ENABLED ? INITIAL_PERSONAL_REQUESTS : []);
 
   // Fetch authoritative personal requests from server on mount.
   // Server-seeded + customer-submitted requests are shared across all
@@ -23522,7 +23636,8 @@ export default function App() {
     return () => clearInterval(iv);
   }, [mode, fetchPersonalRequests]);
 
-  const [pendingSuppliers, setPendingSuppliers] = useState(INITIAL_PENDING_SUPPLIERS);
+  // Fake supplier applications in the admin queue — demo only, see loadDemoSeeds.
+  const [pendingSuppliers, setPendingSuppliers] = useState([]);
   // Wishlist persists in localStorage so users don't lose saves on refresh.
   // Cleared on logout via handleLogout's localStorage.removeItem chain.
   const [wishlist, setWishlist] = useState(() => {
@@ -23906,11 +24021,15 @@ export default function App() {
       marketMin: result.marketMin || 0,
       marketMax: result.marketMax || 0,
       groupOffer: result.groupPrice || 0,
-      discount: result.discount || 0,
+      discount: resultDiscountPct(result),
       participants: 1,
       maxParticipants: 50,
       minParticipants: 10,
       daysLeft: 14,
+      // Without this a deal can never close — getDealStatus compared against
+      // Invalid Date and returned "active" forever. See db.js for the
+      // server-side default that backfills rows created before this.
+      closingDate: new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString(),
       specs: result.specs || [],
       hot: false,
       // BUG FIX (round 3 P1): coerce price to Number. /api/search results

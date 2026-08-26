@@ -1811,6 +1811,15 @@ export function createDeal(data = {}) {
       maxParticipants: Number.isFinite(Number(data.maxParticipants)) ? Number(data.maxParticipants) : 50,
       minParticipants: Number.isFinite(Number(data.minParticipants)) ? Number(data.minParticipants) : 10,
       daysLeft:        Number.isFinite(Number(data.daysLeft)) ? Number(data.daysLeft) : 14,
+      // WITHOUT THIS A DEAL CAN NEVER CLOSE. `closingDate` was written nowhere
+      // in this file or server.js, so the client's getDealStatus() compared
+      // `new Date() > new Date(undefined)` — a comparison against Invalid Date,
+      // which is always false. Every server-persisted deal therefore reported
+      // "active" forever: the 29 deals live on bundly.co were created in May,
+      // still advertised "14 days left" in late August, and could never fill,
+      // cancel, or refund a deposit.
+      closingDate:     data.closingDate
+                         || new Date(Date.now() + (Number.isFinite(Number(data.daysLeft)) ? Number(data.daysLeft) : 14) * 86400000).toISOString(),
       specs:           Array.isArray(data.specs) ? data.specs : [],
       // SECURITY: a new deal ALWAYS starts with zero bids. Bids may only be
       // added by the supplier-authenticated POST /api/deals/:id/bids endpoint
@@ -1823,6 +1832,42 @@ export function createDeal(data = {}) {
     };
     db.deals.unshift(deal);
     return deal;
+  });
+}
+
+/**
+ * Give every pre-existing deal a closing date.
+ *
+ * Deals written before createDeal set `closingDate` have none, and a deal with
+ * no closing date is immortal (see the note in createDeal). This measures the
+ * window from NOW rather than from createdAt on purpose: backfilling
+ * createdAt + daysLeft would retroactively expire all 29 live deals the instant
+ * this ships and empty the storefront without anyone deciding to. They instead
+ * get their nominal window starting today, and from here on they age normally.
+ *
+ * Expiring the old seeded rows deliberately is a separate, product-level call.
+ */
+function _ensureClosingDates(db) {
+  if (!Array.isArray(db.deals)) return false;
+  let changed = false;
+  for (const deal of db.deals) {
+    if (deal.closingDate && Number.isFinite(Date.parse(deal.closingDate))) continue;
+    const days = Number.isFinite(Number(deal.daysLeft)) && Number(deal.daysLeft) > 0
+      ? Number(deal.daysLeft)
+      : 14;
+    deal.closingDate = new Date(Date.now() + days * 86400000).toISOString();
+    changed = true;
+  }
+  return changed;
+}
+
+/** Run the backfill once at startup. Safe to call repeatedly, it is a no-op
+ *  after the first pass because every deal then carries a closingDate. */
+export function migrateDeals() {
+  return _mutate(db => {
+    const changed = _ensureClosingDates(db);
+    if (changed) console.log("[db] backfilled closingDate on deals missing one");
+    return changed;
   });
 }
 
@@ -1854,7 +1899,7 @@ export function updateDeal(id, patch = {}) {
     const allowed = [
       "name", "desc", "image", "catIdx", "marketMin", "marketMax",
       "groupOffer", "discount", "participants", "maxParticipants",
-      "minParticipants", "daysLeft", "specs", "bids", "status",
+      "minParticipants", "daysLeft", "specs", "bids", "status", "closingDate",
     ];
     for (const k of allowed) {
       if (patch[k] !== undefined) deal[k] = patch[k];
