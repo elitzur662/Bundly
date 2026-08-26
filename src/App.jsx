@@ -5368,10 +5368,22 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
 //  DEAL DETAILS PAGE
 // ─────────────────────────────────────────────────────────────────
 function DealDetailsPage({ deal, lang, t, allDeals, onBack, onJoin, onViewSimilar, onJoinComplete, user, onLoginPrompt, onJoinDemandPool, notify, onRequestSupplierPrice, demandPools, onAddToPool, onDirectJoinPool }) {
-  const name = cleanName(deal.name[lang] || deal.name.en);
-  const desc = deal.desc[lang] || deal.desc.en;
-  const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
-  const criticalMass = deal.participants >= deal.minParticipants;
+  // These two used to be `deal.name[lang]` and `deal.desc[lang]` unguarded.
+  // resolveProductKey builds a deal with no `desc` at all, so every shared
+  // /product/<key> link threw "Cannot read properties of undefined (reading
+  // 'he')" and the error boundary swallowed the whole app: the recipient of a
+  // WhatsApp share got a blank page. A deal arriving without a translated
+  // field is a rendering detail, never a reason to lose the page.
+  const pick = (field) => {
+    const v = deal?.[field];
+    if (typeof v === "string") return v;
+    return (v && (v[lang] || v.he || v.en)) || "";
+  };
+  const name = cleanName(pick("name"));
+  const desc = pick("desc") || deal?.description || "";
+  const maxP = Number(deal?.maxParticipants) || 0;
+  const pct = maxP > 0 ? Math.round((Number(deal?.participants) || 0) / maxP * 100) : 0;
+  const criticalMass = (Number(deal?.participants) || 0) >= (Number(deal?.minParticipants) || 0);
   const alternatives = getAlternatives(deal, allDeals, lang).slice(0, 4);
   // Drop implausibly-low (typo) bids before picking the displayed price, so
   // a single mistyped supplier offer can't poison the product page price.
@@ -24593,6 +24605,22 @@ export default function App() {
     if (selectedDeal && (selectedDeal.productKey === key || String(selectedDeal.id) === key)) return;
     const local = deals.find(d => (d.productKey && d.productKey === key) || String(d.id) === key);
     if (local) { setSelectedDeal(local); return; }
+    // `deals` is empty on a cold boot — the router runs before /api/deals has
+    // hydrated, and the effect that calls this captured the callback at mount,
+    // so the local lookup above can never match for someone arriving on a
+    // shared link. Ask the server directly. A link to a real group should open
+    // THAT group, with its bids, participants and closing date, rather than a
+    // thin stand-in synthesised from a price lookup.
+    try {
+      const rd = await fetch("/api/deals");
+      if (rd.ok) {
+        const serverDeals = await rd.json();
+        const match = Array.isArray(serverDeals) && serverDeals.find(
+          d => (d.productKey && String(d.productKey) === key) || String(d.id) === key
+        );
+        if (match) { setSelectedDeal(match); bootProductPending.current = false; return; }
+      }
+    } catch { /* fall through to the price lookup below */ }
     try {
       const isModelId = /^\d+$/.test(key);
       const url = isModelId
@@ -24610,15 +24638,31 @@ export default function App() {
       // build an in-memory viewable deal and setSelectedDeal, the user
       // must explicitly click Join, which routes through the tier picker
       // like any other join.
+      // Every field DealDetailsPage reads. The original object carried ten of
+      // them and the page reads twenty-one, which is why it crashed on `desc`
+      // and would have divided by an undefined maxParticipants right after.
+      const _marketMin = Number(data.marketMin) || 0;
+      const _group = Number(data.groupPrice || data.marketMin) || 0;
       const _viewDeal = {
         id:          `view-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
         productKey:  key,
         name:        { he: data.productName, en: data.productNameEn || data.productName },
+        desc:        { he: data.description || "", en: data.description || "" },
         image:       data.image || "",
-        marketMin:   Number(data.marketMin) || 0,
-        marketMax:   Number(data.marketMax) || Number(data.marketMin) || 0,
-        groupOffer:  Number(data.groupPrice || data.marketMin) || 0,
+        marketMin:   _marketMin,
+        marketMax:   Number(data.marketMax) || _marketMin,
+        groupOffer:  _group,
+        discount:    _marketMin > 0 && _group > 0 && _group < _marketMin
+                       ? Math.round((_marketMin - _group) / _marketMin * 100) : 0,
+        specs:       Array.isArray(data.specs) ? data.specs : [],
         participants: 0,
+        maxParticipants: 50,
+        minParticipants: 10,
+        daysLeft:    14,
+        closingDate: new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString(),
+        status:      "active",
+        hiddenPrice: false,
+        interested:  0,
         bids:        [],
         catIdx:      data.catIdx ?? null,
         _viewOnly:   true,  // marker so UI knows this is a freshly-resolved view
