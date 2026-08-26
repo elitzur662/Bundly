@@ -331,6 +331,40 @@ function lowestPlausibleBid(deal) {
   return amounts.length ? Math.min(...amounts) : null;
 }
 
+/**
+ * The price a deal SHOWS, from the best evidence it actually has.
+ *
+ * FOUND ON THE LIVE HOME PAGE. A Smeg CPF9GMX oven rendered as "₪0 · -0% ·
+ * חוסך ₪17,897" — a free oven with a full-price saving. One field explains all
+ * three numbers: the deal carries `groupOffer: 0` and no bids, and `DealCard`
+ * priced it as `bestBid?.amount || deal.groupOffer`, which is `undefined || 0`.
+ * The saving then computed as `marketMax - 0`, i.e. the entire market price.
+ *
+ * A ZERO IS NOT A PRICE, AND IT IS NOT AN ABSENCE EITHER. That is why this
+ * exists as one function rather than a fourth hand-written fallback chain.
+ * There were already three idioms in this file, agreeing on the easy case and
+ * disagreeing on exactly this one:
+ *
+ *   deal.groupOffer || deal.marketMin || 0     correct — 0 is falsy, so it falls through
+ *   bestBid?.amount || deal.groupOffer         DealCard — no marketMin at all, so it lands on 0
+ *   lowestPlausibleBid(d) ?? d.groupOffer ?? … the supplier bid modal — `??` does NOT
+ *                                              catch 0, so it hands a supplier "current
+ *                                              price ₪0" to undercut
+ *
+ * Each step is taken only when it yields a POSITIVE, finite number, so a zero
+ * anywhere in the chain is treated as "not known" and the next source is tried.
+ * Returns 0 only when the deal genuinely carries no usable figure — and a caller
+ * that gets 0 should say nothing rather than print it.
+ */
+function dealDisplayPrice(deal) {
+  const positive = (v) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; };
+  return positive(lowestPlausibleBid(deal))
+    ?? positive(deal?.groupOffer)
+    ?? positive(deal?.marketMin)
+    ?? positive(deal?.marketMax)
+    ?? 0;
+}
+
 
 
 // ─────────────────────────────────────────────────────────────────
@@ -5071,14 +5105,15 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
   const name = cleanName(deal.name[lang] || deal.name.en);
   const pct = Math.round((deal.participants / deal.maxParticipants) * 100);
   const criticalMass = deal.participants >= deal.minParticipants;
-  // Drop implausibly-low (typo) bids before picking the displayed price, so
-  // a single mistyped supplier offer can't poison the card's group price.
-  const sortedBids = [...(deal.bids || [])]
-    .filter(b => !isImplausibleBid(b.amount, deal))
-    .sort((a,b) => a.amount - b.amount);
-  const bestBid = sortedBids[0];
+  // The typo-bid filter that used to live here moved into lowestPlausibleBid,
+  // which dealDisplayPrice calls — so sorting the bids again here would be the
+  // same rule written twice, which is how the three fallback idioms happened.
   const closingSoon = deal.daysLeft <= 2;
-  const savings = deal.marketMax - (bestBid?.amount || deal.groupOffer);
+  // `dealDisplayPrice` is the single definition — see its header. The old
+  // `bestBid?.amount || deal.groupOffer` landed on 0 for a deal with no bids
+  // and `groupOffer: 0`, and the saving below then became the whole market price.
+  const shownPrice = dealDisplayPrice(deal);
+  const savings = Math.max(0, (Number(deal.marketMax) || 0) - shownPrice);
   const dealStatus = getDealStatus(deal);
   const priceHidden = deal.hiddenPrice && !user;
   return (
@@ -5159,7 +5194,7 @@ function DealCard({ deal, lang, t, onClick, wishlisted, onWishlist, user, onAddT
           ) : (
             <>
               <span className="text-2xl font-black text-indigo-700 leading-none">
-                ₪{(bestBid?.amount || deal.groupOffer).toLocaleString()}
+                ₪{shownPrice.toLocaleString()}
               </span>
               <span className="text-xs text-gray-400 line-through pb-0.5">
                 ₪{Number(deal.marketMax || 0).toLocaleString()}
@@ -8582,7 +8617,7 @@ function SupplierDashboard({ deals, supplier, onLogout, demandPools = {}, person
                             return _status === "active" && _norm(dName) === target;
                           });
                           if (matchDeal) {
-                            const cp = lowestPlausibleBid(matchDeal) ?? matchDeal.groupOffer ?? matchDeal.marketMin ?? 0;
+                            const cp = dealDisplayPrice(matchDeal);   // `??` let a 0 groupOffer through as the price to undercut
                             const mp = matchDeal.marketMin || matchDeal.marketMax || 0;
                             const myExisting = (matchDeal.bids || []).find(b => String(b.supplierId) === String(supplier?.id));
                             setBidDeal({ deal: matchDeal, currentPrice: cp, marketPrice: mp, previousBid: myExisting });
