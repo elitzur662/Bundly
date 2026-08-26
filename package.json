@@ -26,6 +26,9 @@
     "hash-admin-password": "node scripts/hash-admin-password.mjs"
   },
   "dependencies": {
+    "@capacitor/android": "^8.3.4",
+    "@capacitor/cli": "^8.3.4",
+    "@capacitor/core": "^8.3.4",
     "@hcaptcha/react-hcaptcha": "^2.0.2",
     "@stripe/react-stripe-js": "^6.3.0",
     "@stripe/stripe-js": "^9.4.0",

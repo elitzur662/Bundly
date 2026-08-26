@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bundly</string>
+    <string name="title_activity_main">Bundly</string>
+    <string name="package_name">co.bundly.app</string>
+    <string name="custom_url_scheme">co.bundly.app</string>
+</resources>

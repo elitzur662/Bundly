@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bundly-http",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--config", "vite.config.preview.mjs"],
+      "port": 3010
+    }
+  ]
+}
