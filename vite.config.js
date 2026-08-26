@@ -92,12 +92,47 @@ function expressPlugin() {
   }
 }
 
+// ── Plugin: refuse to emit a "production" build that is secretly a dev build ──
+//
+// Vite reads NODE_ENV out of .env (as VITE_USER_NODE_ENV) and lets it outrank
+// `--mode production`. With NODE_ENV=development sitting in .env, `vite build`
+// happily reported "building for production" while emitting a bundle whose
+// import.meta.env.DEV was TRUE and PROD was FALSE. Every DEV/PROD guard in
+// src/ shipped inverted, which is how demo seed data reached real visitors and
+// how the Stripe stub guard in App.jsx (a P0 from the 2026-05-23 audit) came to
+// be disarmed in the one build where it mattered.
+//
+// Nothing about that failure is visible in the build output, so it gets an
+// assertion rather than a comment.
+function assertProductionEnv() {
+  return {
+    name: "bundly-assert-production-env",
+    apply: "build",
+    configResolved(config) {
+      if (config.mode === "production" && !config.isProduction) {
+        throw new Error(
+          "Refusing to build.\n" +
+          "  mode is \"production\" but isProduction is false, so the bundle would\n" +
+          "  ship with import.meta.env.DEV === true and PROD === false. Every\n" +
+          "  DEV/PROD guard in src/ would be inverted: demo seed data would render\n" +
+          "  to real visitors, dev diagnostics would log in production, and the\n" +
+          "  \"confirm.stub && import.meta.env.PROD\" payment guard in App.jsx would\n" +
+          "  be disabled.\n" +
+          "  Cause: NODE_ENV is set to something other than \"production\" in a .env\n" +
+          "  file Vite loads. Remove NODE_ENV from .env — production hosts should\n" +
+          "  set it as a real environment variable instead."
+        );
+      }
+    },
+  };
+}
+
 export default defineConfig({
   // basicSsl auto-generates a self-signed cert so the dev server runs on
   // https://localhost:3000. Required so Chrome enables credit-card autofill
   // on Stripe Elements (autofill is blocked on plain http even on localhost).
   // First load shows a "not private" warning — click "Advanced → Proceed".
-  plugins: [react(), basicSsl(), expressPlugin()],
+  plugins: [assertProductionEnv(), react(), basicSsl(), expressPlugin()],
   // Production hardening:
   //   - sourcemap:false → no .js.map files exposing original source structure
   //   - drop console/debugger → reverse-engineering harder, smaller bundle
