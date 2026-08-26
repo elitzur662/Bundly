@@ -6,7 +6,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/0/4/2/92582403c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630888
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -17,7 +17,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/8/5/4/95084583c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630888
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -29,7 +29,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/0/9/94419037c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630888,
+      "updated": 1787741339057,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/379595"
     },
@@ -43,7 +43,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/8/4/9/76959481c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 239,
       "kspUrl": "https://ksp.co.il/web/item/379595"
     },
@@ -57,11 +57,9 @@
     "imageUrl": "https://img.zap.co.il/pics/1/1/6/9/56619611c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 169,
-      "kspUrl": "https://ksp.co.il/web/item/106959",
-      "bug": 239,
-      "bugUrl": "https://www.bug.co.il/brand/xiaomi/mi/tv/stick/4k/tv/stick"
+      "kspUrl": "https://ksp.co.il/web/item/106959"
     },
     "filterTags": {}
   },
@@ -73,7 +71,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/0/0/74850040c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -85,11 +83,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/3/2/5/74965237c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 169,
-      "kspUrl": "https://ksp.co.il/web/item/106959",
-      "bug": 239,
-      "bugUrl": "https://www.bug.co.il/brand/xiaomi/mi/tv/stick/4k/tv/stick"
+      "kspUrl": "https://ksp.co.il/web/item/106959"
     },
     "filterTags": {}
   },
@@ -101,7 +97,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/0/0/74850041c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -113,7 +109,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/9/6/5/95615698c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -125,7 +121,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/5/2/86712589c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 219,
       "kspUrl": "https://ksp.co.il/web/item/385546"
     },
@@ -139,7 +135,7 @@
     "imageUrl": "https://img.zap.co.il/pics/1/4/7/3/90503741c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -151,7 +147,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/2/2/1/76541225c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -163,7 +159,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/7/5/3/70683570c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 1630,
       "kspUrl": "https://ksp.co.il/web/item/386310"
     },
@@ -177,11 +173,9 @@
     "imageUrl": "https://img.zap.co.il/pics/6/0/8/9/45329806c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 599,
-      "kspUrl": "https://ksp.co.il/web/item/231111",
-      "bug": 239,
-      "bugUrl": "https://www.bug.co.il/brand/xiaomi/mi/tv/stick/4k/tv/stick"
+      "kspUrl": "https://ksp.co.il/web/item/231111"
     },
     "filterTags": {}
   },
@@ -193,7 +187,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/8/7/41957867c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -202,10 +196,10 @@
     "name": "סטרימר Xiaomi Mi Box S",
     "image": "images/999912.gif",
     "manufacturer": "Xiaomi",
-    "imageUrl": "https://img.zap.co.il/pics/1/8/6/3/48603681c.gif",
+    "imageUrl": "https://img.zap.co.il/pics/1/8/6/3/48603681b.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 169,
       "kspUrl": "https://ksp.co.il/web/item/106959"
     },
@@ -219,7 +213,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/111161435365c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -231,7 +225,7 @@
     "imageUrl": "https://img.zap.co.il/pics/2/9/7/7/91827792c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -243,7 +237,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/1/4/77284187c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -255,7 +249,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/3/7/9/79709730c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -267,7 +261,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/6/5/8/53258560c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -279,11 +273,9 @@
     "imageUrl": "https://img.zap.co.il/pics/7/6/4/1/45601467c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 599,
-      "kspUrl": "https://ksp.co.il/web/item/231111",
-      "bug": 239,
-      "bugUrl": "https://www.bug.co.il/brand/xiaomi/mi/tv/stick/4k/tv/stick"
+      "kspUrl": "https://ksp.co.il/web/item/231111"
     },
     "filterTags": {}
   },
@@ -295,7 +287,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/8/6/8/85508687c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -307,7 +299,7 @@
     "imageUrl": "https://img.zap.co.il/pics/5/4/0/0/88410045c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 2965,
       "kspUrl": "https://ksp.co.il/web/item/279000"
     },
@@ -321,7 +313,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/7/0/6/59966073c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -333,7 +325,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/2/5/9/51729520c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -345,7 +337,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/8/5/0/70100589c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 519,
       "kspUrl": "https://ksp.co.il/web/item/456441"
     },
@@ -359,7 +351,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/2/4/0/38330424c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -371,7 +363,7 @@
     "imageUrl": "https://img.zap.co.il/pics/6/1/1/1/92351116c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 2815,
       "kspUrl": "https://ksp.co.il/web/item/278811"
     },
@@ -385,7 +377,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/8/1/5/38705188c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -397,7 +389,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/4/0/0/88410044c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -409,7 +401,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/4/1/8/70208140c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -421,7 +413,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/9/9/4/84794999c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -433,7 +425,7 @@
     "imageUrl": "https://img.zap.co.il/pics/new/232105359608c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -445,7 +437,7 @@
     "imageUrl": "https://img.zap.co.il/pics/9/3/3/4/56644339c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -457,7 +449,7 @@
     "imageUrl": "https://img.zap.co.il/pics/8/6/9/3/92733968c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     },
     "filterTags": {}
   },
@@ -469,7 +461,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/0/2/5/93615207c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     }
   },
   {
@@ -480,7 +472,7 @@
     "imageUrl": "https://img.zap.co.il/pics/0/8/3/9/96769380c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889,
+      "updated": 1787741339057,
       "ksp": 1690,
       "kspUrl": "https://ksp.co.il/web/item/304021"
     }
@@ -493,7 +485,7 @@
     "imageUrl": "https://img.zap.co.il/pics/7/7/0/6/96856077c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339057
     }
   },
   {
@@ -504,7 +496,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/6/9/4/95764964c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339058
     }
   },
   {
@@ -515,7 +507,7 @@
     "imageUrl": "https://img.zap.co.il/pics/4/5/7/6/96616754c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339058
     }
   },
   {
@@ -526,7 +518,7 @@
     "imageUrl": "https://img.zap.co.il/pics/3/5/4/9/96769453c.gif",
     "prices": {
       "zap": 0,
-      "updated": 1779452630889
+      "updated": 1787741339058
     }
   }
 ]
