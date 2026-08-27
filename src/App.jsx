@@ -2952,7 +2952,7 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null, ownerLoggedIn = false, onAdminDashClick }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null, ownerLoggedIn = false, onAdminDashClick, onAdminLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
@@ -3124,6 +3124,39 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                 <LogOut className="w-3.5 h-3.5" />{t.logout}
               </button>
             </div>
+          ) : ownerLoggedIn ? (
+            /* Signed in as admin, with no customer session on this browser.
+               Showing the plain "התחבר" button here was the whole complaint:
+               the app had just said "ברוכים, מנהל" and was granting access to
+               the dashboard while the header still read as logged out.
+               `user` stays null on purpose — the admin token is not a customer
+               account and server.js 403s it on customer routes — so the header
+               states the identity it actually has instead of denying it. */
+            <div className="flex items-center gap-2">
+              <span
+                title="מחובר כמנהל"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black"
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">מחובר כמנהל</span>
+              </span>
+              {/* The two sessions are independent, so an admin can also hold a
+                  normal customer session and see the site as a customer does. */}
+              <button
+                onClick={onLoginClick}
+                className="hidden md:inline text-xs text-gray-500 hover:text-indigo-600 transition px-2 py-1.5 rounded-xl hover:bg-indigo-50"
+              >
+                התחבר כלקוח
+              </button>
+              <button
+                onClick={onAdminLogout}
+                title="יציאה מאזור הניהול"
+                className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-500 transition px-2 py-1.5 rounded-xl hover:bg-red-50"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">יציאה</span>
+              </button>
+            </div>
           ) : (
             <Btn onClick={onLoginClick} variant="secondary" size="sm">{t.login}</Btn>
           )}
@@ -3256,10 +3289,20 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
               </div>
             </nav>
             {ownerLoggedIn && (
-              <div className="p-3 border-t border-gray-100">
+              <div className="p-3 border-t border-gray-100 space-y-2">
                 <button onClick={() => { closeMenu(); onAdminDashClick?.(); }}
                   className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100 min-h-[44px]">
                   <ShieldCheck className="w-4 h-4" />דשבורד ניהול
+                </button>
+                {!user && (
+                  <button onClick={() => { closeMenu(); onLoginClick?.(); }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 min-h-[44px]">
+                    התחבר כלקוח
+                  </button>
+                )}
+                <button onClick={() => { closeMenu(); onAdminLogout?.(); }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-red-600 hover:bg-red-50 min-h-[44px]">
+                  <LogOut className="w-4 h-4" />יציאה מאזור הניהול
                 </button>
               </div>
             )}
@@ -24499,6 +24542,21 @@ export default function App() {
     notify(t.welcome);
   }, [pendingSupplierLogin, resolveSupplierForCurrentUser, notify, t.welcome]);
 
+  // Leaving the admin session. Lives here rather than inline in the dashboard
+  // because the header needs the same button now that it shows the identity.
+  const handleAdminLogout = useCallback(async () => {
+    const tok = _safeLS("bundly_admin_token");
+    if (tok) {
+      try {
+        await fetch("/api/admin/logout", { method: "POST", headers: { Authorization: `Bearer ${tok}` } });
+      } catch { /* server-side revoke is best-effort; the local token goes either way */ }
+    }
+    _safeLSRemove("bundly_admin_token");
+    setOwnerLoggedIn(false);
+    setMode(m => (m === "admin" || m === "owner" ? "home" : m));
+    notify("יצאת מאזור הניהול");
+  }, [notify]);
+
   // Navbar "supplier dashboard" click, same path as the landing-page
   // login CTA so both entry points behave identically.
   const handleSupplierDashClick = () =>
@@ -24830,7 +24888,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier, ownerLoggedIn, onAdminDashClick:()=>setMode("admin") };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier, ownerLoggedIn, onAdminDashClick:()=>setMode("admin"), onAdminLogout:handleAdminLogout };
 
   // ── Query disambiguation: some generic queries have sub-categories ──
   // No longer a blocking modal. Each option carries a self-contained `match`
@@ -25725,16 +25783,7 @@ export default function App() {
           legacy mode="owner" (OwnerDashboard via OwnerLoginModal). */}
       {mode === "admin" && ownerLoggedIn && (
         <main className="max-w-6xl mx-auto px-4 py-8 pb-24 md:pb-8">
-          <AdminDashboard onLogout={async () => {
-            const tok = _safeLS("bundly_admin_token");
-            if (tok) {
-              try { await fetch("/api/admin/logout", { method: "POST", headers: { Authorization: `Bearer ${tok}` } }); } catch {}
-            }
-            _safeLSRemove("bundly_admin_token");
-            setOwnerLoggedIn(false);
-            setMode("home");
-            notify("יצאת מאזור הניהול");
-          }} />
+          <AdminDashboard onLogout={handleAdminLogout} />
         </main>
       )}
 
