@@ -32,6 +32,7 @@
 import { spawn, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import os from "node:os";
+import v8 from "node:v8";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -57,7 +58,31 @@ function cgroupLimitBytes() {
   return null;
 }
 
-/** The flag to pass, or [] when we cannot work out a trustworthy number. */
+/**
+ * The flag to pass, or [] to leave V8 alone.
+ *
+ * THIS FUNCTION MAY ONLY LOWER THE CAP. The first version took 80% of the
+ * container and passed it unconditionally, which on the 2 GB plan raised
+ * old-space from V8's default 1,048 MB to 1,662 MB — and Render OOM-killed the
+ * instance within the hour.
+ *
+ * That is not a surprise in hindsight, it is what the flag does. V8 defers hard
+ * GC until it approaches the cap, so raising the cap raises real usage. And the
+ * cap governs the heap, while the kernel kills on RSS: heap plus everything
+ * that never appears in the heap number — Buffers, the http parser, native
+ * allocations, the JSON held during a catalogue sync. Measured on this service,
+ * that overhead runs 90 MB idle and 218 MB under load. 1,662 + overhead sits
+ * against a 2,078 MB ceiling. 1,048 + overhead does not, which is why the
+ * default had been stable for months.
+ *
+ * The real risk this was meant to address was always the opposite one, and
+ * render.yaml says so: V8's default is generous enough to exceed a SMALL
+ * container (the 512 MB starter plan "consistently OOM'd"). So the rule is to
+ * take the smaller of the two — the safe fraction of this container, and
+ * whatever V8 would have chosen anyway. On a big container that is V8's own
+ * number and nothing changes. On a small one it clamps down. It cannot
+ * reintroduce the failure it just caused.
+ */
 function heapFlag() {
   try {
     if ((process.env.NODE_OPTIONS || "").includes("--max-old-space-size")) {
@@ -68,14 +93,30 @@ function heapFlag() {
     const bytes = limit ?? os.totalmem();
     if (!Number.isFinite(bytes) || bytes <= 0) return [];
     const totalMB = Math.floor(bytes / 1024 / 1024);
-    // 80% of the container. The remainder is not slack: it covers the RSS that
-    // never appears in the heap number — Buffers, the http parser, native
-    // allocations, and the JSON read off disk during a catalogue sync.
-    // Floor so a misread cannot strangle the process; ceiling because V8 will
-    // not treat old-space as much larger than 4 GB anyway.
-    const cap = Math.max(256, Math.min(Math.floor(totalMB * 0.8), 4096));
-    console.log(`🧠 heap cap: ${cap} MB (80% of ${totalMB} MB, from ${limit ? "cgroup limit" : "os.totalmem()"})`);
-    return [`--max-old-space-size=${cap}`];
+
+    // What V8 would pick on its own, read from this process — the child gets
+    // the same default because it is the same binary on the same machine.
+    const v8DefaultMB = Math.round((v8.getHeapStatistics().heap_size_limit || 0) / 1024 / 1024);
+
+    // Reserve for the RSS that is not heap, generously: the measured 218 MB
+    // under load is a sample, not a bound, and being wrong upwards costs a
+    // SIGKILL while being wrong downwards costs some GC.
+    const reserveMB = Math.max(384, Math.floor(totalMB * 0.30));
+    const safeMB = Math.max(256, Math.min(totalMB - reserveMB, 4096));
+
+    if (!v8DefaultMB || safeMB >= v8DefaultMB) {
+      console.log(
+        `🧠 heap cap: leaving V8's default (${v8DefaultMB || "unknown"} MB). ` +
+        `Container ${totalMB} MB, safe ceiling ${safeMB} MB — no reason to lower it.`
+      );
+      return [];
+    }
+    console.log(
+      `🧠 heap cap: ${safeMB} MB, lowered from V8's default ${v8DefaultMB} MB ` +
+      `(container ${totalMB} MB from ${limit ? "cgroup limit" : "os.totalmem()"}, ` +
+      `reserving ${reserveMB} MB for non-heap RSS).`
+    );
+    return [`--max-old-space-size=${safeMB}`];
   } catch (e) {
     console.warn(`🧠 heap cap: could not size it (${e.message}), using V8 defaults`);
     return [];
