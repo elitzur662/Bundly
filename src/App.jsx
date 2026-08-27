@@ -2952,7 +2952,7 @@ function LangSelector({ lang, setLang }) {
 // ─────────────────────────────────────────────────────────────────
 //  NAVBAR
 // ─────────────────────────────────────────────────────────────────
-function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null }) {
+function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplierClick, onOwnerClick, onSupplierDashClick, onLogout, wishlistCount, savedCount = 0, myProductsCount = 0, onMyProducts, onProfileClick, onGoHome, onEnterSupplier, unreadOffersCount = 0, activeOrdersCount = 0, currentSupplier = null, ownerLoggedIn = false, onAdminDashClick }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeMenu = () => setMobileMenuOpen(false);
   // Detect supplier-mode = the supplier dashboard only. The /לספקים
@@ -3084,6 +3084,23 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                   {myProductsCount}
                 </span>
               )}
+            </button>
+          )}
+          {/* Admin entry. Deliberately OUTSIDE the `user` ternary below: the
+              admin session and the customer session are independent, so this
+              shows whether or not a customer is logged in on the same browser. */}
+          {ownerLoggedIn && (
+            <button
+              onClick={onAdminDashClick}
+              title="דשבורד ניהול"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition ${
+                mode === "admin"
+                  ? "bg-amber-500 text-white shadow-sm"
+                  : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
+              }`}
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">ניהול</span>
             </button>
           )}
           <div className="hidden sm:block"><LangSelector lang={lang} setLang={setLang} /></div>
@@ -3238,6 +3255,14 @@ function Navbar({ lang, setLang, t, user, mode, setMode, onLoginClick, onSupplie
                 ))}
               </div>
             </nav>
+            {ownerLoggedIn && (
+              <div className="p-3 border-t border-gray-100">
+                <button onClick={() => { closeMenu(); onAdminDashClick?.(); }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-amber-700 bg-amber-50 border border-amber-200 hover:bg-amber-100 min-h-[44px]">
+                  <ShieldCheck className="w-4 h-4" />דשבורד ניהול
+                </button>
+              </div>
+            )}
             {user && (
               <div className="p-3 border-t border-gray-100">
                 <button onClick={() => { closeMenu(); onLogout?.(); }}
@@ -24428,10 +24453,23 @@ export default function App() {
   // dashboard and DO NOT touch the regular user/customer session.
   const handleAuthSuccess = useCallback(async (u) => {
     if (u && u.role === "admin") {
+      // The admin identity is NOT a customer account: the token is signed as
+      // { role:"admin", id:0 } and server.js rejects it on every customer route
+      // with "Wrong token type". So `user` is deliberately left alone here —
+      // setting it would render a logged-in header over a session that 403s on
+      // orders, offers and profile.
+      //
+      // What was missing is that nothing then told you an admin session existed.
+      // The app said "ברוכים, מנהל", jumped to the dashboard, and left "התחבר"
+      // sitting in the header — logged in and logged out at the same time.
+      //
+      // Now the two sessions run side by side: the admin session lights up an
+      // entry in the navbar, and the site stays browsable underneath it, so the
+      // same browser can also hold a normal customer login and see exactly what
+      // a customer sees.
       setShowAuth(false);
       setOwnerLoggedIn(true);
-      setMode("admin");
-      notify("ברוכים, מנהל");
+      notify("ברוכים, מנהל. הכניסה לניהול בסרגל העליון");
       return;
     }
     setUser(u);
@@ -24792,7 +24830,7 @@ export default function App() {
     return () => clearInterval(iv);
   }, [user?.id]);
 
-  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier };
+  const navProps = { lang, setLang, t, user, mode, setMode, onLoginClick:()=>setShowAuth(true), onSupplierClick:()=>setShowSupplier(true), onOwnerClick:handleOwnerClick, onSupplierDashClick:handleSupplierDashClick, onLogout:handleLogout, wishlistCount:wishlist.length, savedCount: myProducts.length + wishlist.length, myProductsCount: myProducts.length, onMyProducts:goToMyProducts, onProfileClick:()=>setShowProfile(true), onGoHome:goHome, onEnterSupplier:enterSupplierArea, unreadOffersCount, activeOrdersCount, currentSupplier, ownerLoggedIn, onAdminDashClick:()=>setMode("admin") };
 
   // ── Query disambiguation: some generic queries have sub-categories ──
   // No longer a blocking modal. Each option carries a self-contained `match`
