@@ -1861,13 +1861,46 @@ function _ensureClosingDates(db) {
   return changed;
 }
 
-/** Run the backfill once at startup. Safe to call repeatedly, it is a no-op
- *  after the first pass because every deal then carries a closingDate. */
+/**
+ * Rewrite `discount` on stored deals so it means what it says.
+ *
+ * Rows written before the pricing fix divided by marketMax, the DEAREST
+ * listing, while groupOffer sits 5% under marketMin — so the field recorded how
+ * wide the price spread was, not what anyone saves. The 29 live rows carry
+ * values from 21 to 51 for deals whose real saving is 5%.
+ *
+ * The site itself is already honest: the client recomputes from marketMin and
+ * ignores this field, which is why the pages read -5%. But the field is served
+ * verbatim by GET /api/deals, so anything reading the API directly — an export,
+ * a mail template, a partner — still gets the inflated number. A wrong number
+ * sitting in the database is a wrong number waiting for a second reader.
+ */
+function _ensureHonestDiscounts(db) {
+  if (!Array.isArray(db.deals)) return 0;
+  let fixed = 0;
+  for (const deal of db.deals) {
+    const min   = Number(deal.marketMin)  || 0;
+    const offer = Number(deal.groupOffer) || 0;
+    const honest = min > 0 && offer > 0 && offer < min
+      ? Math.round(((min - offer) / min) * 100)
+      : 0;
+    if (Number(deal.discount) !== honest) {
+      deal.discount = honest;
+      fixed++;
+    }
+  }
+  return fixed;
+}
+
+/** Run the backfills once at startup. Safe to call repeatedly: both passes are
+ *  idempotent, so after the first run they find nothing to do. */
 export function migrateDeals() {
   return _mutate(db => {
-    const changed = _ensureClosingDates(db);
-    if (changed) console.log("[db] backfilled closingDate on deals missing one");
-    return changed;
+    const dated = _ensureClosingDates(db);
+    if (dated) console.log("[db] backfilled closingDate on deals missing one");
+    const fixed = _ensureHonestDiscounts(db);
+    if (fixed) console.log(`[db] recomputed discount on ${fixed} deal(s) against marketMin`);
+    return dated || fixed > 0;
   });
 }
 

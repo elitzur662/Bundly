@@ -17,6 +17,12 @@ services:
     # 62K-street autocomplete pushed V8 past the container limit and the
     # kernel SIGKILL'd the process. 2GB gives ~8x headroom for organic growth.
     plan: standard
+    # NOTE: the LIVE service does not run here. Its DNS resolves to
+    # gcp-us-west1-1.origin.onrender.com, i.e. Oregon, which adds a round trip
+    # of roughly 150-200ms for Israeli users on every uncached request. This
+    # line applies to a service created FROM this blueprint; the existing one
+    # was created another way and a region cannot be changed in place — moving
+    # it means creating a new service and migrating the persistent disk.
     region: frankfurt        # closest Render region to Israel; lowest latency.
     branch: main
     autoDeploy: true
@@ -70,18 +76,25 @@ services:
         value: 10000          # Render's default. Internal only — public goes through 443.
       - key: DATA_DIR
         value: /var/data
-      # Cap Node heap below container RAM ceiling so V8 GCs aggressively
-      # before the kernel OOM-kills the process. Without this, V8 thinks
-      # it can use ~1.7GB (its default), runs full speed past the 512MB
-      # container limit, then SIGKILLs mid-request — no graceful error,
-      # no GC pressure signal. With this cap, V8 starts compacting at
-      # ~400MB and surfaces clean OOM stack traces if memory is truly
-      # exhausted. Recommended on Render starter (512MB) / standard (2GB).
-      # standard plan = 2GB RAM. Cap V8 at 1700MB so it GCs aggressively
-      # before approaching the container ceiling — gives clean OOM stack
-      # traces instead of SIGKILL surprises. Adjust together with `plan:`.
-      - key: NODE_OPTIONS
-        value: --max-old-space-size=1700
+      # NODE_OPTIONS IS DELIBERATELY NOT SET HERE ANY MORE.
+      #
+      # It used to carry --max-old-space-size=1700, and the reasoning was sound:
+      # V8's default lets the process run past the container ceiling and get
+      # SIGKILLed mid-request instead of GCing first. The problem was that it
+      # never took effect. The live service reported a 1,048 MB cap — V8's own
+      # default — because the running service was not created from this
+      # blueprint and never picked the variable up. A number that only exists in
+      # a file nobody applied is documentation, not configuration.
+      #
+      # scripts/start-prod.mjs now computes the cap at boot from the cgroup
+      # limit (the number the kernel actually enforces; os.totalmem() reports
+      # the host inside a container and would overshoot). It takes 80%, so the
+      # 2 GB standard plan gets ~1,638 MB, and it stays correct if the plan is
+      # resized without anyone remembering to edit this file.
+      #
+      # Setting NODE_OPTIONS here or in the dashboard still wins — the launcher
+      # checks for it first and steps aside. Do that only to override
+      # deliberately.
       # Generate strong secrets once on first deploy:
       - key: JWT_SECRET
         generateValue: true

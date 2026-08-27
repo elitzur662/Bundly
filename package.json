@@ -7,7 +7,7 @@
     "dev": "vite",
     "server": "node server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\"",
-    "start:prod": "node scripts/seed-product-db.mjs && NODE_ENV=production node server.js",
+    "start:prod": "node scripts/start-prod.mjs",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
     "preview": "vite preview",
@@ -23,7 +23,9 @@
     "prestart": "node -e \"require('child_process').spawnSync('npm',['run','preproduction'],{stdio:'inherit',shell:true})\"",
     "smoke": "node scripts/smoke-test.mjs",
     "verify": "npm run build && npm run smoke",
-    "hash-admin-password": "node scripts/hash-admin-password.mjs"
+    "hash-admin-password": "node scripts/hash-admin-password.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:status": "node scripts/deploy.mjs --status"
   },
   "dependencies": {
     "@capacitor/android": "^8.3.4",
