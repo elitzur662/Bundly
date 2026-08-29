@@ -8758,18 +8758,88 @@ function _sanitizeProductPrices(products, slug) {
   return products;
 }
 
-function loadProductDbIntoCache() {
+/**
+ * Refresh ZAP_CAT_CACHE from product-db.
+ *
+ * `slugs` limits the pass to specific categories. Pass them whenever you know
+ * which ones moved — a full pass is only right at boot, after the six-hourly
+ * bulk sync, and on the admin reload.
+ *
+ * THIS FUNCTION IS WHY THE SERVER ABORTED WITH SIGABRT ON 2026-08-29. It used
+ * to do three wasteful things on every call, and every call covered all 79
+ * categories:
+ *
+ *   1. Re-read and re-parse products.json from disk — ~1.5 GB of JSON — even
+ *      though PRODUCT_MEM already holds the same data, parsed, in memory.
+ *   2. Build the full candidates array for a category BEFORE deciding whether
+ *      to keep it, then throw it away when shouldOverwrite came back false.
+ *   3. Run for all 79 categories when one had changed.
+ *
+ * f696a34 measured the result at 1,082 MB allocated for a 79-category pass and
+ * noted that "one tick could allocate more than the entire heap limit". It then
+ * hoisted the call out of the per-category loop, which made a tick cost one
+ * pass instead of N — but one pass was already the problem. When the price
+ * trickle started dirtying most categories every three minutes, that ~1 GB
+ * allocation began firing continuously against a 1,048 MB heap.
+ *
+ * Now: products come from PRODUCT_MEM when it has them (no disk, no parse), the
+ * overwrite decision is made from cheap scalars before anything is allocated,
+ * and a scoped call touches only what moved. A one-category tick allocates one
+ * category's worth.
+ */
+function loadProductDbIntoCache(slugs = null) {
   let totalLoaded = 0;
   let slugsLoaded = 0;
-  for (const [slug, sog] of Object.entries(_PRODUCT_DB_SOG_MAP)) {
-    const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
-    const mFile = join(_PRODUCT_DB_DIR, slug, "meta.json");
-    if (!existsSync(pFile)) continue;
+  const entries = Array.isArray(slugs)
+    ? slugs.filter(s => _PRODUCT_DB_SOG_MAP[s]).map(s => [s, _PRODUCT_DB_SOG_MAP[s]])
+    : Object.entries(_PRODUCT_DB_SOG_MAP);
+  for (const [slug, sog] of entries) {
     try {
-      const products = _sanitizeProductPrices(
-        JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, "")), slug);
-      const meta     = existsSync(mFile) ? JSON.parse(readFileSync(mFile, "utf8").replace(/\0+$/g, "")) : {};
-      const ts       = meta.catalogTs || meta.pricesTs || Date.now();
+      // PRODUCT_MEM is authoritative and already sanitised — _loadSlugToMem and
+      // the background refresh both run _sanitizeProductPrices before storing.
+      // Falling back to disk matters at boot, where this runs before
+      // loadAllProductsToMem() has populated anything.
+      const mem = PRODUCT_MEM.get(slug);
+      let products, ts;
+      if (mem?.products) {
+        products = mem.products;
+        ts = mem.catalogTs || mem.pricesTs || Date.now();
+      } else {
+        const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
+        const mFile = join(_PRODUCT_DB_DIR, slug, "meta.json");
+        if (!existsSync(pFile)) continue;
+        products = _sanitizeProductPrices(
+          JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, "")), slug);
+        const meta = existsSync(mFile) ? JSON.parse(readFileSync(mFile, "utf8").replace(/\0+$/g, "")) : {};
+        ts = meta.catalogTs || meta.pricesTs || Date.now();
+      }
+      if (!Array.isArray(products)) continue;
+
+      // ── Decide BEFORE building. Every input below is a scalar or a scan, so
+      // a category that does not need refreshing costs no allocation at all. ──
+      let candidateCount = 0;
+      let newHasTags = false;
+      for (const p of products) {
+        if (!p.id || !p.name) continue;
+        candidateCount++;
+        if (!newHasTags && p.filterTags && Object.keys(p.filterTags).length > 0) newHasTags = true;
+      }
+      if (candidateCount === 0) continue;
+
+      const existing = ZAP_CAT_CACHE.get(sog);
+      // Overwrite L1 if our data is larger, newer, OR carries filterTags
+      // that the existing cached version is missing. The filterTags rule
+      // matters when the bulk tagger has just enriched product-db on
+      // disk: the catalog size is unchanged but the cached candidates
+      // are stale (no tags), so the size/ts check alone would never
+      // refresh them.
+      const existingHasTags = (existing?.candidates || []).some(c => c.filterTags && Object.keys(c.filterTags).length > 0);
+      const shouldOverwrite =
+        !existing
+        || candidateCount > (existing.candidates?.length || 0) * 2
+        || ts > (existing.ts || 0)
+        || (newHasTags && !existingHasTags);
+      if (!shouldOverwrite) continue;
 
       // Convert to candidates format expected by ZAP_CAT_CACHE
       const candidates = products
@@ -8802,29 +8872,11 @@ function loadProductDbIntoCache() {
           filterTags:   p.filterTags || null,
         }));
 
-      if (candidates.length > 0) {
-        const existing = ZAP_CAT_CACHE.get(sog);
-        // Overwrite L1 if our data is larger, newer, OR carries filterTags
-        // that the existing cached version is missing. The filterTags rule
-        // matters when the bulk tagger has just enriched product-db on
-        // disk: the catalog size is unchanged but the cached candidates
-        // are stale (no tags), so the size/ts check alone would never
-        // refresh them.
-        const newHasTags      = candidates.some(c => c.filterTags && Object.keys(c.filterTags).length > 0);
-        const existingHasTags = (existing?.candidates || []).some(c => c.filterTags && Object.keys(c.filterTags).length > 0);
-        const shouldOverwrite =
-          !existing
-          || candidates.length > (existing.candidates?.length || 0) * 2
-          || ts > (existing.ts || 0)
-          || (newHasTags && !existingHasTags);
-        if (shouldOverwrite) {
-          // saveZapCacheToDisk updates BOTH L1 in-memory AND L2 SQLite,
-          // ensuring the stream search's L2 lookup also hits the full catalog.
-          saveZapCacheToDisk(sog, candidates);
-          totalLoaded += candidates.length;
-          slugsLoaded++;
-        }
-      }
+      // saveZapCacheToDisk updates BOTH L1 in-memory AND L2 SQLite,
+      // ensuring the stream search's L2 lookup also hits the full catalog.
+      saveZapCacheToDisk(sog, candidates);
+      totalLoaded += candidates.length;
+      slugsLoaded++;
     } catch (e) {
       console.warn(`[ProductDB] Failed to load ${slug}: ${e.message}`);
     }
@@ -9047,6 +9099,7 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
   setInterval(() => {
     try {
     let changed = 0;
+    const changedSlugs = [];
     for (const slug of Object.keys(_PRODUCT_DB_SOG_MAP)) {
       const pFile = join(_PRODUCT_DB_DIR, slug, "products.json");
       if (!existsSync(pFile)) continue;
@@ -9055,8 +9108,12 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
         const existing  = PRODUCT_MEM.get(slug);
         if (existing && diskMtime <= existing.mtime) continue; // unchanged
 
-        // Reload from disk
-        const newProducts = JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, ""));
+        // Reload from disk. Sanitised exactly as _loadSlugToMem does — without
+        // this, PRODUCT_MEM held scrubbed prices at boot and unscrubbed ones
+        // after any background refresh, and the sub-floor prices that
+        // _sanitizeProductPrices exists to erase came back on their own.
+        const newProducts = _sanitizeProductPrices(
+          JSON.parse(readFileSync(pFile, "utf8").replace(/\0+$/g, "")), slug);
         const mFile = join(_PRODUCT_DB_DIR, slug, "meta.json");
         const meta  = existsSync(mFile) ? JSON.parse(readFileSync(mFile, "utf8").replace(/\0+$/g, "")) : {};
 
@@ -9090,6 +9147,7 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
                                 pricesTs: meta.pricesTs || 0, catalogTs: meta.catalogTs || 0 });
         // ZAP_CAT_CACHE has to follow, but NOT here — see the hoist below.
         changed++;
+        changedSlugs.push(slug);
       } catch(e) {
         console.warn(`[ProductMem] refresh error ${slug}: ${e.message}`);
       }
@@ -9121,7 +9179,9 @@ function _startProductMemRefresh(intervalMs = 3 * 60 * 1000) {
     //
     // Hoisted, a tick costs one pass no matter how many categories moved.
     if (changed > 0) {
-      loadProductDbIntoCache();
+      // Scoped to what actually moved. Passing nothing here re-read and
+      // re-mapped all 79 categories — see the note on loadProductDbIntoCache.
+      loadProductDbIntoCache(changedSlugs);
       _suggestIndex = null;
     }
     } catch (outerErr) {
