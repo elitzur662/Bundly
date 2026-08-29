@@ -8375,6 +8375,11 @@ const PRICE_TRICKLE_REFRESH_MS  = 60 * 60_000; // 1h
 const PRICE_TRICKLE_ALT_TTL_MS  = 7 * 24 * 60 * 60_000; // 7 days
 // Refreshes of already-priced products rank below every never-priced product.
 const PRICE_TRICKLE_REFRESH_TIER = 4;
+// Opt-in. See the long note in buildPriceTrickleQueue: enabling this made
+// almost every category dirty on every 3-minute tick, and the ProductMem
+// rebuild that follows allocates roughly a full heap. Set
+// PRICE_TRICKLE_REFRESH_STALE=true only once that rebuild is incremental.
+const PRICE_TRICKLE_REFRESH_STALE = process.env.PRICE_TRICKLE_REFRESH_STALE === "true";
 let _priceTrickleQueue = [];      // [{ modelId, name, slug }]
 let _priceTrickleTs    = 0;
 let _priceTrickleStats = { fetched: 0, success: 0, skipped: 0 };
@@ -8433,6 +8438,23 @@ function buildPriceTrickleQueue() {
       );
       let tier = PRICE_TRICKLE_TIER[slug] || 3;
       if (altPrice > 0) {
+        // OFF BY DEFAULT, AND THE REASON IS MEMORY, NOT THE IDEA.
+        //
+        // Re-queueing stale alternative prices is right — nine categories sat
+        // 103 days out of date and the site presented those figures as current.
+        // But the trickle rewrites a category's products.json every time it
+        // lands a price, and _startProductMemRefresh reloads every dirty
+        // category and then calls loadProductDbIntoCache(), which f696a34
+        // measured at 1,082 MB allocated for 79 categories. Skipping
+        // alternative-priced products kept the number of dirty categories per
+        // tick small. Re-queueing them made nearly every category dirty every
+        // three minutes, so that ~1 GB allocation started firing continuously
+        // against a 1,048 MB heap — and V8 aborted with SIGABRT (exit 134).
+        //
+        // The refresh cannot be enabled again until the rebuild stops costing
+        // a heap's worth of allocation per tick. Until then this stays off, and
+        // stale non-ZAP prices stay stale, which is the lesser problem.
+        if (!PRICE_TRICKLE_REFRESH_STALE) continue;
         const age = Date.now() - (Number(p.prices?.updated) || 0);
         if (age < PRICE_TRICKLE_ALT_TTL_MS) continue;
         tier = PRICE_TRICKLE_REFRESH_TIER;
