@@ -41,7 +41,7 @@ function loadJson(path) {
   return {};
 }
 
-function saveJson(path, data) {
+function saveJsonNow(path, data) {
   // Atomic write: write to a .tmp file first, then rename over the target.
   // This prevents a corrupt JSON file if the process crashes mid-write.
   const tmp = path + ".tmp";
@@ -53,6 +53,57 @@ function saveJson(path, data) {
     try { if (existsSync(tmp)) unlinkSync(tmp); } catch (_) {}
   }
 }
+
+/**
+ * Coalesced write. Marks the store dirty and flushes on a timer.
+ *
+ * saveJson used to serialise the WHOLE store on every call, and the callers
+ * are per-item: saveModelPricesToDB runs once per price the trickle lands,
+ * every 20 seconds, against a zap-prices.json that is 11.6 MB. That is roughly
+ * 35 MB of throwaway string per minute, about 2 GB an hour, against a 1,048 MB
+ * heap — continuous GC pressure that gets worse as the file grows, because
+ * every entry added makes every subsequent write more expensive.
+ *
+ * On 2026-08-29 the server aborted with SIGABRT, V8 out of heap. Re-queueing
+ * stale prices had raised how many fetches succeeded, so it raised how many
+ * full-store serialisations ran, and it grew the store being serialised.
+ *
+ * The in-memory object is still updated synchronously, so every read is
+ * immediately correct; only the disk copy lags. A crash can lose up to
+ * FLUSH_MS of scraped prices, which the trickle simply fetches again — these
+ * are caches, not records. Anything durable lives in db.js, which is untouched.
+ */
+const FLUSH_MS = 30_000;
+const _dirty = new Map();   // path -> the object to write
+let _flushTimer = null;
+
+function flushNow() {
+  if (_dirty.size === 0) return;
+  for (const [path, data] of _dirty) saveJsonNow(path, data);
+  _dirty.clear();
+}
+
+function saveJson(path, data) {
+  _dirty.set(path, data);
+  if (_flushTimer) return;
+  _flushTimer = setTimeout(() => { _flushTimer = null; flushNow(); }, FLUSH_MS);
+  _flushTimer.unref?.();   // never hold the process open for a cache write
+}
+
+// A pending flush must not be lost on shutdown. Render stops the service with
+// SIGTERM, and without this the last window of prices would be dropped on
+// every single deploy.
+let _exitHooked = false;
+if (!_exitHooked) {
+  _exitHooked = true;
+  const onExit = () => { try { flushNow(); } catch {} };
+  process.once("exit", onExit);
+  process.once("SIGTERM", () => { onExit(); process.exit(0); });
+  process.once("SIGINT",  () => { onExit(); process.exit(0); });
+}
+
+/** Force the pending writes out. Exported for shutdown paths and tests. */
+export function flushZapDb() { flushNow(); }
 
 // In-memory stores (write-through cache)
 let _cats   = loadJson(CAT_FILE);
